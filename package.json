@@ -1,0 +1,13 @@
+{
+  "name": "path-match-free",
+  "version": "1.0.0",
+  "description": "Path Match: static site plus a scheduled job collector that uses only free sources.",
+  "type": "module",
+  "scripts": {
+    "collect": "node scripts/collect.mjs",
+    "find": "node scripts/find-boards.mjs",
+    "test": "node test/collect.test.mjs",
+    "serve": "node scripts/serve.mjs"
+  },
+  "engines": { "node": ">=20" }
+}

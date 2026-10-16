@@ -1,0 +1,549 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Path Match</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+<style>
+html{color-scheme:light}
+/* Layout: sticky two-column tool. Left = CV intake + settings, right = ranked, explained list. Colour: ink-blue on cool grey, one teal accent, amber/red reserved for flags. */
+:root{--bg:#eef1f4;--panel:#fff;--ink:#14202b;--mute:#5a6978;--line:#d5dce3;--accent:#0b6e6e;--accent-soft:#d7eeee;--warn:#9a5b00;--warn-soft:#fbeccd;--bad:#a22a2a;--bad-soft:#f6dcdc;--ok:#1d6b3a;--ok-soft:#d9efdf;
+--f-disp:"Bricolage Grotesque","Helvetica Neue",Arial,sans-serif;--f-body:"IBM Plex Sans","Helvetica Neue",Arial,sans-serif;--f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e151c;--panel:#16212b;--ink:#e6edf3;--mute:#97a6b4;--line:#2a3846;--accent:#4fc3c3;--accent-soft:#12363a;--warn:#f0b659;--warn-soft:#3a2d12;--bad:#f08a8a;--bad-soft:#3d1c1c;--ok:#7fd49a;--ok-soft:#14321f;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0e151c;--panel:#16212b;--ink:#e6edf3;--mute:#97a6b4;--line:#2a3846;--accent:#4fc3c3;--accent-soft:#12363a;--warn:#f0b659;--warn-soft:#3a2d12;--bad:#f08a8a;--bad-soft:#3d1c1c;--ok:#7fd49a;--ok-soft:#14321f;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:14px;line-height:1.5;padding-inline:16px;padding-block:20px 48px}
+.wrap{max-width:1180px;margin:0 auto}
+h1,h2,h3{font-family:var(--f-disp);margin:0;text-wrap:balance;line-height:1.15}
+h1{font-size:30px;letter-spacing:-.01em}
+h2{font-size:18px}
+.sub{color:var(--mute);margin:6px 0 20px;max-width:62ch}
+.grid{display:grid;grid-template-columns:340px minmax(0,1fr);gap:20px;align-items:start}
+@media(max-width:860px){.grid{grid-template-columns:minmax(0,1fr)}}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:16px}
+.side{display:flex;flex-direction:column;gap:14px;position:sticky;top:12px}
+@media(max-width:860px){.side{position:static}}
+.drop{border:1.5px dashed var(--accent);border-radius:6px;padding:18px 12px;text-align:center;background:var(--accent-soft);cursor:pointer}
+.drop.over{background:var(--panel)}
+.drop strong{display:block;font-family:var(--f-disp);font-size:16px}
+.drop span{color:var(--mute);font-size:12px}
+label{display:block;font-size:12px;color:var(--mute);margin:10px 0 4px;text-transform:uppercase;letter-spacing:.06em}
+select,textarea,input[type=text]{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:4px;padding:7px 8px}
+textarea{min-height:90px;resize:vertical;font-family:var(--f-mono);font-size:12px}
+button{font:inherit;cursor:pointer;border-radius:4px;border:1px solid var(--line);background:var(--panel);color:var(--ink);padding:7px 11px}
+button.primary{background:var(--accent);color:var(--bg);border-color:var(--accent);font-weight:600}
+button:focus-visible,select:focus-visible,textarea:focus-visible,.drop:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.tabs{display:flex;gap:4px;flex-wrap:wrap;border-bottom:1px solid var(--line);margin-bottom:12px}
+.tab{border:0;border-bottom:3px solid transparent;border-radius:0;background:none;padding:8px 10px;color:var(--mute)}
+.tab[aria-selected=true]{color:var(--ink);border-color:var(--accent);font-weight:600}
+.bar{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:12px;color:var(--mute);font-size:13px}
+.bar select{width:auto}
+.job{border:1px solid var(--line);border-radius:6px;background:var(--panel);margin-bottom:10px}
+.job summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:56px minmax(0,1fr);gap:12px;padding:12px}
+.job summary::-webkit-details-marker{display:none}
+.score{font-family:var(--f-disp);font-size:26px;font-weight:700;line-height:1;text-align:center;padding-top:4px}
+.score small{display:block;font-family:var(--f-mono);font-size:10px;font-weight:400;color:var(--mute);margin-top:4px}
+.t{font-weight:600;font-size:15px;overflow-wrap:anywhere}
+.meta{color:var(--mute);font-size:12.5px;display:flex;flex-wrap:wrap;gap:4px 12px;margin-top:2px}
+.subs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:8px;max-width:420px}
+.sb{font-family:var(--f-mono);font-size:10.5px;color:var(--mute)}
+.sb i{display:block;height:5px;background:var(--line);border-radius:3px;margin-top:3px;overflow:hidden}
+.sb i b{display:block;height:100%;background:var(--accent)}
+.pill{display:inline-block;font-size:11.5px;padding:2px 7px;border-radius:10px;margin:6px 6px 0 0;background:var(--bg);border:1px solid var(--line)}
+.pill.w{background:var(--warn-soft);color:var(--warn);border-color:transparent}
+.pill.b{background:var(--bad-soft);color:var(--bad);border-color:transparent}
+.pill.g{background:var(--ok-soft);color:var(--ok);border-color:transparent}
+.pill.n{background:var(--accent-soft);color:var(--accent);border-color:transparent;font-weight:600}
+.det{padding:0 12px 14px 80px}
+@media(max-width:560px){.det{padding-left:12px}}
+.det h3{font-size:13px;margin:10px 0 4px;color:var(--mute);text-transform:uppercase;letter-spacing:.06em;font-family:var(--f-body)}
+.kw{display:flex;gap:6px;flex-wrap:wrap}
+.kw span{font-size:12px;padding:2px 8px;border-radius:4px;border:1px solid var(--line)}
+.kw .M{background:var(--ok-soft);color:var(--ok)}
+.kw .M::before{content:"✓ "}
+.kw .R{background:var(--warn-soft);color:var(--warn)}
+.kw .R::before{content:"~ "}
+.kw .G{background:var(--bad-soft);color:var(--bad)}
+.kw .G::before{content:"✗ "}
+.ev{font-size:12px;color:var(--mute);margin:3px 0;font-family:var(--f-mono);overflow-wrap:anywhere}
+a{color:var(--accent)}
+.inv{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px}
+.inv div{border:1px solid var(--line);border-radius:6px;padding:10px;background:var(--panel)}
+.inv h3{font-size:14px;margin-bottom:6px}
+.note{font-size:12.5px;color:var(--mute)}
+.empty{padding:36px 16px;text-align:center;color:var(--mute);border:1px dashed var(--line);border-radius:6px}
+.method li{margin:6px 0}
+.tabwrap{overflow-x:auto}
+.hdr{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:flex-start}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hdr">
+    <div>
+      <h1>Path Match</h1>
+      <p class="sub">Upload your CV. Get a ranked, explained list of Montreal internships, co-ops and part-time roles posted this week, with the reason for every score and every flag.</p>
+    </div>
+    <button id="theme" aria-label="Toggle theme">Theme</button>
+  </div>
+
+  <div class="grid">
+    <div class="side">
+      <div class="panel">
+        <h2>1. Your CV</h2>
+        <div class="drop" id="drop" tabindex="0" role="button" aria-label="Upload CV">
+          <strong>Drop your CV here</strong>
+          <span>PDF, Word (.docx) or text. It is read in your browser and never uploaded.</span>
+        </div>
+        <input type="file" id="file" accept=".pdf,.docx,.txt,.md" hidden>
+        <label for="paste">Or paste the text</label>
+        <textarea id="paste" placeholder="Paste your CV text here"></textarea>
+        <div class="row" style="margin-top:10px">
+          <button class="primary" id="go">Match my CV</button>
+          <button id="sample">Try a sample CV</button>
+        </div>
+        <p class="note" id="status" aria-live="polite"></p>
+      </div>
+      <div class="panel">
+        <h2>2. Your situation</h2>
+        <label for="permit">Work permit</label>
+        <select id="permit">
+          <option value="unknown">Unknown, flag it</option>
+          <option value="ok">I can work in Canada without sponsorship</option>
+          <option value="need">I need employer sponsorship</option>
+        </select>
+        <label for="term">Target term</label>
+        <select id="term">
+          <option value="winter 2027|hiver 2027">Winter 2027</option>
+          <option value="summer 2027|ete 2027">Summer 2027</option>
+          <option value="fall 2027|automne 2027">Fall 2027</option>
+        </select>
+        <label for="window">Posted</label>
+        <select id="window">
+          <option value="1">Last 24 hours</option>
+          <option value="7" selected>Last 7 days</option>
+          <option value="99">Everything collected</option>
+        </select>
+      </div>
+      <div class="panel">
+        <h2>3. Live postings</h2>
+        <p class="note" id="liveNote">Loading postings…</p>
+        <div id="liveLog" class="note" aria-live="polite"></div>
+      </div>
+      <div class="panel note">
+        <strong>Heuristic, not an ATS.</strong> Scores differ by 5 points or less are ties. Postings from employer job boards are scored from their full text. Adzuna postings come with a short snippet only. Snapshot rows are scored from titles only. Open the link and read the posting before you apply.
+      </div>
+    </div>
+
+    <div>
+      <div class="tabs" role="tablist" id="tabs">
+        <button class="tab" role="tab" aria-selected="true" data-t="main">Internships, co-ops &amp; part-time</button>
+        <button class="tab" role="tab" aria-selected="false" data-t="near">Near matches</button>
+        <button class="tab" role="tab" aria-selected="false" data-t="cv">Your CV keywords</button>
+        <button class="tab" role="tab" aria-selected="false" data-t="method">Method &amp; coverage</button>
+      </div>
+      <div id="view"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const TODAY="2026-10-11";
+const L="https://www.linkedin.com/jobs/view/";
+/* [company, title, location, date, type, source, link] collected 2026-10-11 via Apify (LinkedIn, Indeed, Job Bank) */
+const RAW=[
+["Bombardier","Intern, Manufacturing Engineering (Winter 2027)","Saint-Laurent","2026-10-08","Internship","Indeed","https://jobs.bombardier.com/job/St-Laurent-Intern%2C-Manufacturing-Engineering-%28Winter-2027%29-Qu%C3%A9b-H4R-1K2/1445755633/"],
+["Bombardier","Intern, Industrial Design (Winter 2027)","Dorval","2026-10-09","Internship","Indeed","https://jobs.bombardier.com/job/Dorval-Intern%2C-Industrial-Design-%28Winter-2027%29-Qu%C3%A9b-H4S-1Y9/1446251633/"],
+["Bombardier","Intern, Project Management (Winter 2027)","Saint-Laurent","2026-10-09","Internship","Indeed","https://jobs.bombardier.com/job/St-Laurent-Intern%2C-Project-Management-%28Winter-2027%29-Qu%C3%A9b-H4R-1K2/1446212433/"],
+["Bombardier","Intern, Industrialization (Winter 2027)","Saint-Laurent","2026-10-09","Internship","Indeed","https://jobs.bombardier.com/job/St-Laurent-Intern%2C-Industrialization-%28Winter-2027%29-Qu%C3%A9b-H4R-1K2/1446201233/"],
+["Bombardier","Intern, TRIM process deployment (Winter 2027)","Dorval","2026-10-09","Internship","Indeed","https://jobs.bombardier.com/job/Dorval-Intern%2C-TRIM-process-deployment-%28Winter-2027%29-Qu%C3%A9b-H4S-1Y9/1446247733/"],
+["Bombardier","Intern, Quality Analyst (Winter 2027)","Dorval","2026-10-08","Internship","Indeed","https://jobs.bombardier.com/job/Dorval-Intern%2C-Quality-Analyst-%28Winter-2027%29-Qu%C3%A9b-H4S-1Y9/1445821033/"],
+["Bombardier","Intern, Electromechanical EWIS Design (EWIS) (Winter 2027)","Dorval","2026-10-05","Internship","Indeed","https://jobs.bombardier.com/job/Dorval-Intern%2C-Electromechanical-EWIS-Design-%28EWIS%29-%28Winter-2027%29-Qu%C3%A9b-H4S-1Y9/1444341033/"],
+["Bombardier","Intern, Interior Design Intern (Winter 2027)","Dorval","2026-10-07","Internship","Indeed","https://jobs.bombardier.com/job/Dorval-Intern%2C-Interior-Design-Intern-%28Winter-2027%29-Qu%C3%A9b-H4S-2A3/1445382133/"],
+["Bombardier","Intern, Operational Excellence (Winter 2027)","Dorval","2026-10-09","Internship","Indeed","https://jobs.bombardier.com/job/Dorval-Intern%2C-Operational-Excellence-%28Winter-2027%29-Qu%C3%A9b-H4S-1Y9/1446252633/"],
+["Bombardier","Stagiaire, Analyste Qualité (Hiver 2027)","Dorval","2026-10-07","Internship","Indeed","https://jobs.bombardier.com/job/Dorval-Stagiaire%2C-Analyste-Qualit%C3%A9-%28Hiver-2027%29-Qu%C3%A9b-H4S-2A3/1445389633/"],
+["Bombardier","Intern, Business Process Optimization, Indirect Procurement (Winter 2027)","Dorval","2026-10-09","Internship","Indeed","https://jobs.bombardier.com/job/Dorval-Intern%2C-Business-Process-Optimization%2C-Indirect-Procurement-%28Winter-2027%29-Qu%C3%A9b-H4S-1Y9/1446178133/"],
+["Stantec","Electrical Engineering Intern (EIT) - Industrial Electrical","Montréal","2026-10-08","Internship","Indeed","https://rr.jobsyn.org/9D1018B3A5034EE1A27981C415119F571554"],
+["Molson Coors","Brewery Operations Intern","Longueuil","2026-10-05","Internship","Indeed","https://careers.molsoncoors.com/us/en/job/39890"],
+["Bombardier","Intern, Industrial Engineering and Operations Support (Winter 2027)","Pointe-Claire","2026-10-09","Internship","LinkedIn",L+"4477491954"],
+["Bombardier","Stagiaire, en excellence opérationnelle Bombardier (Hiver 2027)","Dorval","2026-10-10","Internship","LinkedIn",L+"4477891846"],
+["Bombardier","Intern, Manufacturing support - Assembly (Winter, 2027)","Montréal","2026-10-09","Internship","LinkedIn",L+"4477605296"],
+["Bombardier","Stagiaire, deploiement du processus TRIM (Hiver 2027)","Dorval","2026-10-10","Internship","LinkedIn",L+"4478005425"],
+["Bombardier","Stagiaire, Génie Industriel et Support Opérations (Hiver 2027)","Pointe-Claire","2026-10-09","Internship","LinkedIn",L+"4477606222"],
+["Bombardier","Stagiaire, Support Production - Assemblage (Hiver, 2027)","Montréal","2026-10-09","Internship","LinkedIn",L+"4477604269"],
+["Bombardier","Stagiaire, Industrialisation (Hiver 2027)","Montréal","2026-10-09","Internship","LinkedIn",L+"4477846379"],
+["Kruger Inc.","STAGIAIRE – Analyse industrielle visant la détermination de la capacité maximale de production","Montréal","2026-10-10","Internship","LinkedIn",L+"4469253179"],
+["Pratt & Whitney","Stage - Hiver 2027 - Amelioration de procedes a l'outillage / Internship - Winter 2027 - Tooling process improvements","Longueuil","2026-10-09","Internship","LinkedIn",L+"4460317605"],
+["Pratt & Whitney","Stage en gestion des processus d'affaires (BPM) - Hiver 2027 | Internship - Business Process Management (BPM) - Winter 2027","Longueuil","2026-10-06","Internship","LinkedIn",L+"4458704911"],
+["Pratt & Whitney","Stage - Hiver 2027 - Gestionnaire de projets et amélioration continue | Internship - Winter 2027 - Project Management and Continuous improvement","Longueuil","2026-10-05","Internship","LinkedIn",L+"4457812864"],
+["Pratt & Whitney","Stage - Responsable de la gestion du matériel - Hiver 2027 | Internship - Material Management Lead - Winter 2027","Longueuil","2026-10-05","Internship","LinkedIn",L+"4457823045"],
+["MDA Space","Engineering student - Industrial Engineering - Winter 2027","Sainte-Anne-de-Bellevue","2026-10-05","Internship","LinkedIn",L+"4474605115"],
+["MDA Space","Étudiant en ingénierie - Génie industriel - Hiver 2027","Sainte-Anne-de-Bellevue","2026-10-05","Internship","LinkedIn",L+"4475855515"],
+["Labatt","Stage - Chaîne d'approvisionnement","Montréal","2026-10-07","Internship","LinkedIn",L+"4458524682"],
+["Labatt","Stagiaire - Brasserie et Opérations","Montréal","2026-10-07","Internship","LinkedIn",L+"4458515919"],
+["ELYSIS","Stagiaire Industrialisation équipement de production / Industrialization Intern (Hiver 2027)","Montréal","2026-10-06","Internship","LinkedIn",L+"4475108993"],
+["Énergir","Stagiaire ingénierie SGSOP et procédés hiver 2027","Montréal","2026-10-09","Internship","LinkedIn",L+"4475241275"],
+["Énergir","Stagiaire ingénierie gestion actifs usine LSR hiver 2027","Montréal","2026-10-09","Internship","LinkedIn",L+"4475236550"],
+["Lassonde","Stage en ingénierie – Hiver 2027","Rougemont","2026-10-07","Internship","LinkedIn",L+"4467796061"],
+["Lassonde","Stage en ingénierie, Services techniques – Hiver 2027","Rougemont","2026-10-07","Internship","LinkedIn",L+"4467794052"],
+["Moderna","Co-Op, Supply Chain Planning","Laval","2026-10-08","Internship","LinkedIn",L+"4476201845"],
+["Moderna","Co-Op, Quality Assurance","Laval","2026-10-08","Internship","LinkedIn",L+"4476214407"],
+["Loto-Québec","Stage - amélioration continue et automatisation","Montréal","2026-10-10","Internship","LinkedIn",L+"4477191423"],
+["Loto-Québec","Stage - développement, IA et automatisation","Montréal","2026-10-10","Internship","LinkedIn",L+"4478044170"],
+["Héroux-Devtek","Methods Intern - Summer 2026","Longueuil","2026-10-05","Internship","LinkedIn",L+"4470606139"],
+["Héroux-Devtek","Stagiaire Laboratoire - Hiver 2027","Longueuil","2026-10-06","Internship","LinkedIn",L+"4471161613"],
+["EXP","Stagiaire universitaire Hiver 2027, Industrie","Longueuil","2026-10-07","Internship","LinkedIn",L+"4476775979"],
+["Agropur","Étudiant Technicien à la logistique","Saint-Hubert","2026-10-07","Part-time","LinkedIn",L+"4474475445"],
+["Sogefi Group","Stagiaire Chargé(e) de projets Qualité","Montréal","2026-10-09","Internship","LinkedIn",L+"4476801646"],
+["GE Vernova","Stagiaire Projet Qualité","Brossard","2026-10-09","Internship","LinkedIn",L+"4477893232"],
+["Hitachi Energy","Stagiaire Génie Électrique et Contrôle / Electrical and Controls Engineering Intern","Varennes","2026-10-08","Internship","LinkedIn",L+"4477411456"],
+["IPEX by Aliaxis","Stagiaire en conformité des produits, Hiver 2027 *** Product Compliance Intern, Winter 2027","Montréal","2026-10-10","Internship","LinkedIn",L+"4478030341"],
+["IPEX by Aliaxis","Étudiant(e) Co-op, Ingénierie de projets, Hiver 2027 *** Project Engineering Co-op Student, Winter 2027","Montréal","2026-10-09","Internship","LinkedIn",L+"4477632271"],
+["Halo Pharmaceutical","Stagiaire","Mirabel","2026-10-07","Internship","LinkedIn",L+"4476932673"],
+["Teledyne","Stagiaire en photochimie","Bromont","2026-10-06","Internship","LinkedIn",L+"4474008038"],
+["WSP in Canada","Stagiaire, Génie mécanique","Montréal","2026-10-06","Internship","LinkedIn",L+"4474998869"],
+["McKesson","Stagiaire développeur(se) en distribution pharmaceutique - Winter Intern","Montréal","2026-10-07","Internship","LinkedIn",L+"4476779676"],
+["BBA Consultants","Information Management Intern - Health, Safety and Environment Team (Winter 2027)","Montréal","2026-10-07","Internship","LinkedIn",L+"4459026262"],
+["Kiewit","Coordonnateur/ingénieur de terrain stagiaire - Région de l'Est du Canada - Hiver 2027","Laval","2026-10-06","Internship","LinkedIn",L+"4466101687"],
+["CAE","Stagiaire - Spécialiste de données-EN","Montréal","2026-10-06","Internship","LinkedIn",L+"4474081530"],
+["CAE","C-FIN-275 Software Engineering Intern, AI, Automation and Business Intelligence-EN","Montréal","2026-10-09","Internship","LinkedIn",L+"4475228967"],
+["JAMP Pharma","Stagiaire, Spécification - Assurance Qualité (Hiver 2027)","Boucherville","2026-10-07","Internship","LinkedIn",L+"4476785581"],
+["Jubilant Pharma","Stagiaire en santé, sécurité et environnement / Health, Safety and Environment Intern","Montréal","2026-10-10","Internship","LinkedIn",L+"4469247998"],
+["Boston Scientific","R&D Systems Intern / Stagiaire en systèmes de R-D","Montréal","2026-10-06","Internship","LinkedIn",L+"4474796707"],
+["Bell","2027 Intern Program, Business Transformation - Future Opportunities","Montréal","2026-10-06","Internship","LinkedIn",L+"4471150581"],
+["Ampliwork","Operations & Strategy Intern","Montréal","2026-10-11","Internship","LinkedIn",L+"4411156114"],
+["MNP","Analyste, Gaz à effet de serre (Stages hiver-été-automne 2027)","Montréal","2026-10-10","Internship","LinkedIn",L+"4458024454"],
+["CGI","Stage coopératif - Hiver 2027: Gestionnaire de projet (4 mois)","Montréal","2026-10-08","Internship","LinkedIn",L+"4476976573"],
+["DSV","Opérations, Stagiaire","Montréal","2026-10-05","Internship","LinkedIn",L+"4411784074"],
+["Scalia","Stagiaire Coordonnateur de projet & chantier (Hiver 2027) / Intern Project & Site Coordinator (Winter 2027)","Montréal","2026-10-07","Internship","LinkedIn",L+"4475458968"],
+["Frare Gallant","Stagiaire en coordination de projets de construction","Laval","2026-10-08","Internship","LinkedIn",L+"4477428549"],
+["Montoni","Stagiaire estimation, session hiver 2027","Laval","2026-10-07","Internship","LinkedIn",L+"4469059111"],
+["CSIS (federal)","Co-op: IT and Engineering","Montréal","2026-10-08","Internship","LinkedIn",L+"4475728210"],
+["Molson Coors","Manufacturing Associate","Longueuil","2026-10-08","Full-time","LinkedIn",L+"4474628676"],
+["VM Talent Partners","Agent(e) de méthodes","Greater Montréal","2026-10-08","Contract","LinkedIn",L+"4475979914"],
+["L'Oréal","Management Trainee - Environnement","Montréal","2026-10-09","Full-time","LinkedIn",L+"4476820401"],
+["UAP Inc.","Analyste logistique","Montréal","2026-10-08","Full-time","LinkedIn",L+"4468233489"],
+["PepsiCo","Programme de Leadership à la Chaîne d'Approvisionnement","Saint-Laurent","2026-10-11","Full-time","LinkedIn",L+"4403247524"],
+["PepsiCo","Nouveaux et nouvelles diplômé·es 2027 – Chaîne d'approvisionnement","Laval","2026-10-08","Full-time","LinkedIn",L+"4466240739"],
+["Cyient","Method Engineer","Longueuil","2026-10-07","Full-time","LinkedIn",L+"4474436999"],
+["Cyient","Bilingual (FR/EN) Methods Engineer","Longueuil","2026-10-09","Full-time","LinkedIn",L+"4475239934"],
+["Vention","Supply Chain Specialist / Spécialiste de la chaîne d'approvisionnement","Montréal","2026-10-08","Full-time","LinkedIn",L+"4458315380"],
+["ALSTOM","Mechanical engineer","Saint-Bruno","2026-10-01","Full-time","Job Bank","https://www.jobbank.gc.ca/jobsearch/jobposting/50402096"],
+["Groupe Sector Canada","Engineering manager","Montréal","2026-10-01","Full-time","Job Bank","https://www.jobbank.gc.ca/jobsearch/jobposting/50402074"],
+["Starview Packaging Machinery","Mechanical engineer","Dorval","2026-09-28","Full-time","Job Bank","https://www.jobbank.gc.ca/jobsearch/jobposting/50385585"],
+["Fed Manutech","Engineering service project manager","Dorval","2026-09-27","Full-time","Job Bank","https://www.jobbank.gc.ca/jobsearch/jobposting/50376787"],
+["Camfil Canada","Mechanical engineering technologist","Laval","2026-09-24","Full-time","Job Bank","https://www.jobbank.gc.ca/jobsearch/jobposting/50357101"],
+["Mécanique Bec","Mechanical engineer","Saint-Eustache","2026-10-01","Full-time","Job Bank","https://www.jobbank.gc.ca/jobsearch/jobposting/50403253"],
+["Université de Montréal","Mechanical engineering technician","Montréal","2026-10-08","Full-time","Job Bank","https://www.jobbank.gc.ca/jobsearch/jobposting/50452300"]
+];
+
+const norm=s=>(s||"").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/[\r\n\t]+/g," ").replace(/\s+/g," ");
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+/* Keyword dictionary: [name, family, regex over accent-stripped lowercase text] */
+const FAM={quality:"Quality & Lean",supply:"Supply chain & planning",ops:"Operations & manufacturing",eng:"Engineering & optimization",data:"Data & tools",pm:"Project management",mech:"Mechanical & design",elec:"Electrical & controls",hse:"Health, safety & compliance",soft:"Soft skills & languages"};
+const KW=[
+["Quality","quality",/\bquality|\bqualite/],["Quality assurance","quality",/quality assurance|assurance qualite|\bqa\b/],["SPC","quality",/\bspc\b|statistical process control|maitrise statistique/],["Six Sigma","quality",/six sigma/],["Lean","quality",/\blean\b/],["Kaizen","quality",/kaizen/],["5S","quality",/\b5s\b/],["Continuous improvement","quality",/continuous improvement|amelioration continue/],["Root cause","quality",/root.cause|cause (premiere|profonde)/],["FMEA","quality",/fmea|amdec/],["ISO / AS9100","quality",/\biso ?\d{4,5}|as9100/],
+["Supply chain","supply",/supply chain|chaine d.?approvisionnement/],["Logistics","supply",/logisti/],["Procurement","supply",/procurement|\bachats?\b|approvisionnement/],["Inventory","supply",/inventor|inventaire/],["Planning","supply",/\bplanning\b|planification|\bplanif/],["S&OP","supply",/s&op|sales and operations/],["Forecasting","supply",/forecast|prevision/],["ERP / SAP","supply",/\berp\b|\bsap\b|oracle|netsuite/],["MRP","supply",/\bmrp\b/],["Warehouse","supply",/warehous|entrepot/],["Material management","supply",/material management|gestion du materiel/],
+["Operations","ops",/\boperations?\b|operationnel|\bopérations\b/],["Operational excellence","ops",/operational excellence|excellence operationnelle/],["Manufacturing","ops",/manufactur|fabrication/],["Industrialization","ops",/industriali[sz]/],["Methods","ops",/\bmethods?\b|\bmethodes?\b/],["Production","ops",/production/],["Assembly","ops",/assembl/],["Process improvement","ops",/process improvement|amelioration (des )?proc|procedes?\b|\bprocess\b/],["Business process (BPM)","ops",/\bbpm\b|business process|processus d.affaires/],["Tooling","ops",/tooling|outillage/],["Facility layout","ops",/layout|amenagement/],["Time study","ops",/time stud|etude de temps|work measurement/],
+["Industrial engineering","eng",/industrial engineering|genie industriel/],["Engineering","eng",/engineer|ingenier/],["Simulation","eng",/simulation|flexsim|\barena\b|simio/],["Optimization","eng",/optimi[sz]/],["Operations research","eng",/operations research|recherche operationnelle/],["Reliability","eng",/reliab|fiabilite/],
+["Python","data",/\bpython\b/],["SQL","data",/\bsql\b/],["Excel","data",/\bexcel\b/],["Power BI / Tableau","data",/power ?bi|tableau/],["Data analysis","data",/\bdata\b|donnees|analytic|analyst|analyse/],["Automation","data",/automati/],["AI / machine learning","data",/\bai\b|\bia\b|artificial intelligence|intelligence artificielle|machine learning/],["Business intelligence","data",/business intelligence|intelligence d.affaires/],["Statistics","data",/statistic/],["Software","data",/software|logiciel/],
+["Project management","pm",/project management|gestion de projet|gestionnaire de projet|charge.? de projet|project coordinat|project engineer|ingenierie de projet|\bpmp\b|\bpmo\b/],["MS Project","pm",/ms project|microsoft project/],
+["CAD","mech",/\bcad\b|catia|solidworks|autocad|siemens nx|\bcreo\b/],["Mechanical","mech",/mechanic|mecanique/],["Design","mech",/\bdesign\b/],
+["Electrical","elec",/electri/],["Controls / PLC","elec",/\bplc\b|controls|controle|automate programmable/],
+["Health & safety","hse",/health,? safety|sante,? securite|\bhse\b|\bshe\b|environnement|environment\b/],["Compliance","hse",/compliance|conformite|regulat/],
+["Leadership","soft",/leadership|team lead|chef d.equipe/],["Bilingual EN/FR","soft",/bilingual|bilingue|francais|french|anglais|english/],["Communication","soft",/communicat|presentation/]
+];
+const TITLE_SKIP=new Set(["soft"]);
+
+let CV=null; // {text, hits:{name:{fam,snip}}, fam:{fam:count}}
+function parseCV(raw){
+  const t=norm(raw), hits={}, fam={};
+  for(const [n,f,re] of KW){
+    const m=re.exec(t);
+    if(m){const i=m.index;hits[n]={fam:f,snip:"…"+t.slice(Math.max(0,i-55),i+m[0].length+55)+"…"};fam[f]=(fam[f]||0)+1;}
+  }
+  return {text:t,hits,fam};
+}
+const strength=f=>CV.fam[f]?Math.min(0.9,0.3+0.1*CV.fam[f]):0;
+const GENERIC=new Set(["Engineering","Process improvement","Production","Data analysis","Operations","Design","Software","Quality"]);
+const wt=n=>GENERIC.has(n)?0.4:1;
+
+function titleKw(title){const t=norm(title),out=[];for(const [n,f,re] of KW){if(TITLE_SKIP.has(f))continue;if(re.test(t))out.push([n,f]);}return out;}
+
+const aero=/bombardier|cae|airbus|pratt|mda|heroux|csis|hitachi/;
+function fullMap(j){
+  const t=norm(j.title+" . "+j.desc), tt=norm(j.title);
+  const ix=re=>{const m=re.exec(t);return m?m.index:-1};
+  const sec={req:ix(/qualifications|requirements|requis|exigences|vous avez|you have|what you bring|profil recherche|skills/),pref:ix(/nice to have|preferred|an asset|atout|assets|un plus|souhait/),task:ix(/responsibilit|what you.ll do|your role|tasks|mandat|taches|responsabilites|vos fonctions|you will/)};
+  const tagAt=pos=>{let b=null,bp=-1;for(const k in sec){if(sec[k]>=0&&sec[k]<=pos&&sec[k]>bp){bp=sec[k];b=k}}return b==="req"?"Required":b==="pref"?"Preferred":"Task"};
+  const found=[];
+  for(const [n,f,re] of KW){
+    if(TITLE_SKIP.has(f))continue;
+    const g=new RegExp(re.source,"g");let m,c=0,first=-1;
+    while((m=g.exec(t))){c++;if(first<0)first=m.index;if(c>20)break;}
+    const inTitle=re.test(tt);
+    if(!c&&!inTitle)continue;
+    found.push({n,f,score:c*wt({n})+(inTitle?5:0),tag:inTitle?"Title":tagAt(first),pos:first,
+      snip:first>=0?"…"+t.slice(Math.max(0,first-40),first+60)+"…":""});
+  }
+  found.sort((a,b)=>b.score-a.score);
+  return found.slice(0,16).map(x=>{
+    const base={n:x.n,f:x.f,tag:x.tag,post:x.snip};
+    if(CV.hits[x.n])return{...base,s:"M",ev:CV.hits[x.n].snip};
+    if(CV.fam[x.f])return{...base,s:"R",ev:"Same area on your CV: "+Object.keys(CV.hits).filter(k=>CV.hits[k].fam===x.f).slice(0,3).join(", ")};
+    return{...base,s:"G",ev:"Nothing on your CV"};
+  });
+}
+function descFlags(j,flags){
+  const t=norm(j.desc);
+  const add=(c,msg)=>flags.push([c,msg]);
+  const sec=t.match(/security clearance|cote de securite|habilitation|controlled goods|marchandises controlees|\bitar\b|criminal (record|background)|verification des antecedents|casier judiciaire/);
+  if(sec)add("b","Security / background check in text ("+sec[0]+"): verify");
+  const cit=t.match(/canadian citizen|citoyen canadien|citoyennete canadienne|permanent resident|resident permanent|eligible to work in canada|authori[sz]ed to work in canada|autorise a travailler|permis de travail|work permit|legally entitled/);
+  if(cit)add("w","Work eligibility wording in text ("+cit[0]+"): verify");
+  const bil=/bilingual|bilingue|francais et anglais|french and english|fluent in (both|french)|courant en francais|maitrise du francais|francais.{0,20}requis|french.{0,20}required/.test(t);
+  if(bil)add("w","French/English requirement in text: check your level");
+  else if(/english only|anglais seulement/.test(t))add("g","English only");
+  if(/master|maitrise|graduate student|cycles? superieurs?/.test(t))add("n","Mentions master's / graduate level");
+  else if(/bachelor|baccalaureat|undergraduate|1er cycle|premier cycle/.test(t))add("w","Written for bachelor's students: confirm a master's is accepted");
+  if(/new grad|recent graduate|nouveau diplome|jeune diplome/.test(t)&&!/student|etudiant/.test(t))add("w","Aimed at new graduates, not current students");
+  const len=t.match(/(\d{1,2})[- ]?(?:month|mois)/);
+  if(len)add("","Length: "+len[1]+" months (your co-op runs to Apr 2027: check)");
+  const tools=[...new Set((t.match(/catia|ms project|microsoft project|siemens nx|flexsim|visio|solidworks|autocad|\bsap\b|power ?bi|tableau|minitab|simio|\barena\b|oracle|netsuite|\bpython\b|\bsql\b/g)||[]))];
+  if(tools.length)add("n","Tools named: "+tools.join(", "));
+}
+function scoreJob(j){
+  const T=norm(j.title+" "+j.type);
+  const kws=j.desc?null:titleKw(j.title);
+  const map=j.desc?fullMap(j):kws.map(([n,f])=>{
+    if(CV.hits[n])return{n,f,s:"M",ev:CV.hits[n].snip};
+    if(CV.fam[f])return{n,f,s:"R",ev:"Same area on your CV: "+Object.keys(CV.hits).filter(k=>CV.hits[k].fam===f).slice(0,3).join(", ")};
+    return{n,f,s:"G",ev:"Nothing on your CV"};
+  });
+  const wt2=x=>wt(x.n)*(x.tag==='Required'?1:x.tag==='Task'?0.7:x.tag==='Preferred'?0.4:1);
+  const W=map.reduce((a,x)=>a+wt2(x),0)||1;
+  const cred=map.reduce((a,x)=>a+wt2(x)*(x.s==="M"?1:x.s==="R"?0.5:0),0);
+  const cov=map.length?cred/W:0;
+  const overlap=Math.round(32*cov);
+  const roleStrength=map.length?map.reduce((a,x)=>a+wt2(x)*strength(x.f),0)/W:0;
+  const spec=Math.min(1,W/2.5);
+  const role=Math.round(40*(map.length?roleStrength*(0.6+0.4*spec):0.05));
+  // level / type fit
+  const intern=/intern|stage|stagiaire|co-?op|etudiant|student|stages/.test(T);
+  const flags=[];let level;
+  const past=/summer 2026|ete 2026/.test(T);
+  const tgt=new RegExp(document.getElementById("term").value).test(T);
+  const anyTerm=/(winter|hiver|summer|ete|fall|automne) 2027|2027/.test(T);
+  if(past){level=3;flags.push(["b","Term is in the past (Summer 2026)"]);}
+  else if(/management trainee|leadership program|programme de leadership|nouveaux|graduate|diplome/.test(T)&&!intern){level=8;flags.push(["w","New-graduate programme: may exclude current students"]);}
+  else if(j.type==="Part-time"){level=18;}
+  else if(intern){level=tgt?25:anyTerm?20:22;}
+  else if(/mid-senior|manager|senior/.test(T)||j.cat==="near"){level=/manager|senior/.test(T)?3:8;}
+  else level=8;
+  if(!past&&intern){
+    if(tgt)flags.push(["g","Term matches your target"]);
+    else if(anyTerm)flags.push(["w","Term differs from your target: check dates"]);
+    else flags.push(["w","Term not in title: verify dates"]);
+  }
+  // language
+  const fr=/\b(stage|stagiaire|ingenierie|etudiant|hiver|chaine|amelioration|analyste|agent|programme|nouveaux|gestion|conformite|laboratoire|photochimie|sante|securite)\b/.test(norm(j.title));
+  const bi=/\/|\*\*\*| \| |bilingual|\(fr\/en\)/i.test(j.title)||(fr&&/\b(intern|engineer|manager|student|winter)\b/.test(norm(j.title)));
+  if(bi)flags.push(["n","Bilingual title"]);else if(fr)flags.push(["w","French-language posting"]);else flags.push(["","English title: French may still be required, verify"]);
+  // eligibility
+  const p=document.getElementById("permit").value;
+  if(p==="unknown")flags.push(["w","Work permit: verify"]);
+  else if(p==="need")flags.push(["w","You need sponsorship: confirm the employer sponsors"]);
+  if(/csis/.test(norm(j.company)))flags.push(["b","Federal security clearance and citizenship rules likely: verify"]);
+  else if(aero.test(norm(j.company)))flags.push(["w","Aerospace employer: security screening or Controlled Goods may apply"]);
+  if(j.desc)descFlags(j,flags);
+  const total=role+level+overlap;
+  return{role,level,overlap,total,map,cov,flags,conf:j.desc?(j.partial?"Snippet":"Full text"):"Title only"};
+}
+
+/* merge duplicates across boards by company + title */
+function buildJobs(){
+  const m=new Map();
+  for(const [company,title,loc,date,type,src,url] of RAW){
+    const k=norm(company)+"|"+norm(title);
+    if(m.has(k)){const e=m.get(k);e.sources.push({src,url});if(date<e.date)e.date=date;continue;}
+    m.set(k,{company,title,loc,date,type,sources:[{src,url}]});
+  }
+  return [...m.values()];
+}
+const JOBS=buildJobs();
+JOBS.forEach(j=>{j.snap=true;j.cat=(/intern|stage|stagiaire|co-?op|etudiant|student/.test(norm(j.title))||j.type==="Part-time"||j.type==="Internship")?"main":"near";});
+const dayDiff=d=>Math.round((Date.parse(TODAY)-Date.parse(d))/864e5);
+const age=j=>j.ageH!=null?j.ageH:dayDiff(j.date)*24;
+
+let tab="main",RES=[];
+const $=id=>document.getElementById(id);
+
+function run(){
+  if(!CV){render();return;}
+  RES=JOBS.map(j=>({j,s:scoreJob(j)})).sort((a,b)=>b.s.total-a.s.total);
+  render();
+}
+function pill(c,t){return `<span class="pill ${c}">${esc(t)}</span>`}
+function jobHtml(r,rank){
+  const {j,s}=r,a=age(j),d=a<24?0:Math.floor(a/24);
+  const when=a<24?(j.ageH!=null?`Posted ${Math.max(1,Math.round(a))}h ago`:"Posted today"):d===1?"Posted 1 day ago":`Posted ${d} days ago`;
+  const links=j.sources.map(x=>`<a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.src)}</a>`).join(" · ");
+  const bar=(v,m,l)=>`<div class="sb">${l} ${v}/${m}<i><b style="width:${v/m*100}%"></b></i></div>`;
+  const kw=s.map.length?s.map.map(x=>`<span class="${x.s}" title="${esc(x.ev)}">${esc(x.n)}${x.tag&&x.tag!=="Title"?" · "+x.tag[0]:""}</span>`).join(""):'<span class="note">No recognisable skill terms in the title.</span>';
+  const ev=s.map.map(x=>`<div class="ev"><b>${x.s==="M"?"Match":x.s==="R"?"Related":"Gap"}</b> ${esc(x.n)}${x.tag?" ("+x.tag+")":""}: ${esc(x.ev)}${x.post?"<br>In posting: "+esc(x.post):""}</div>`).join("");
+  return `<details class="job"><summary>
+    <div class="score">${s.total}<small>#${rank}</small></div>
+    <div>
+      <div class="t">${esc(j.title)}</div>
+      <div class="meta"><span>${esc(j.company)}</span><span>${esc(j.loc)}</span><span>${when}${a<24?" · within 24h":""}</span><span>${links}</span></div>
+      <div class="subs">${bar(s.role,40,"Role")}${bar(s.level,25,"Level")}${bar(s.overlap,32,"Keywords")}</div>
+      <div>${s.flags.map(f=>pill(f[0]==="g"?"g":f[0],f[1])).join("")}${a<24?pill("n","24h"):""}${j.snap?pill("","Snapshot, not re-checked"):pill("g","Live")}</div>
+    </div></summary>
+    <div class="det">
+      <h3>${j.desc?"Posting keywords (R required, T task, P preferred) vs your CV":"Title keywords vs your CV"}</h3><div class="kw">${kw}</div>
+      <p class="note">Keyword coverage ${Math.round(s.cov*100)}% = (Match + 0.5 × Related) ÷ title keywords, with generic words such as Engineering or Operations counting 0.4. Confidence: ${s.conf}.</p>
+      ${ev}
+      <h3>Before you apply</h3>
+      <p class="note">Open the posting and read the full text. Required skills, security rules, degree level (bachelor's or master's) and exact dates are not visible from the title.</p>
+    </div></details>`;
+}
+function filtered(cat){
+  const w=+$("window").value;
+  return RES.filter(r=>r.j.cat===cat&&(w===99||age(r.j)<w*24));
+}
+function render(){
+  const v=$("view");
+  document.querySelectorAll(".tab").forEach(b=>b.setAttribute("aria-selected",b.dataset.t===tab));
+  if(!CV&&tab!=="method"){v.innerHTML=`<div class="empty"><strong>Add your CV to see your matches.</strong><br>${JOBS.length} postings from LinkedIn, Indeed and Job Bank are loaded and waiting. Use the sample CV to see how it works.</div>`;return;}
+  if(tab==="main"||tab==="near"){
+    const list=filtered(tab),min=+(window._min||0);
+    const shown=list.filter(r=>r.s.total>=min);
+    const n24=RES.filter(r=>r.j.cat===tab&&age(r.j)<24).length;
+    v.innerHTML=`<div class="bar"><span><b>${shown.length}</b> of ${list.length} postings</span><span>${n24} posted today</span>
+      <label style="margin:0">Min score <select id="min"><option value="0">All</option><option value="30">30+</option><option value="45">45+</option><option value="60">60+</option></select></label>
+      <button id="copy">Copy list</button></div>
+      ${tab==="near"?'<p class="note">Junior full-time roles that are close to your profile but are not internships. Level fit is capped low on purpose.</p>':""}
+      <div>${shown.map((r,i)=>jobHtml(r,i+1)).join("")||'<div class="empty">Nothing matches these filters. Widen the posted window or lower the minimum score.</div>'}</div>`;
+    $("min").value=String(min);
+    $("min").onchange=e=>{window._min=e.target.value;render();};
+    $("copy").onclick=()=>copyList(shown);
+  } else if(tab==="cv"){
+    const groups={};Object.entries(CV.hits).forEach(([n,h])=>{(groups[h.fam]=groups[h.fam]||[]).push([n,h.snip]);});
+    v.innerHTML=`<p class="note">Every keyword below appears literally in your CV text. Nothing is inferred. Your CV is the only source of truth.</p><div class="inv">${Object.keys(FAM).filter(f=>groups[f]).map(f=>`<div><h3>${FAM[f]}</h3>${groups[f].map(([n,s])=>`<div class="ev" style="border:0;padding:0"><b>${esc(n)}</b> ${esc(s)}</div>`).join("")}</div>`).join("")||'<div class="empty">No known keywords found. Check that the file text was read correctly.</div>'}</div>`;
+  } else {
+    const gaps={};RES.filter(r=>age(r.j)<168).slice(0,25).forEach(r=>r.s.map.filter(x=>x.s==="G").forEach(x=>gaps[x.n]=(gaps[x.n]||0)+1));
+    const g=Object.entries(gaps).sort((a,b)=>b[1]-a[1]).slice(0,8);
+    const by={};JOBS.forEach(j=>j.sources.forEach(s=>by[s.src]=(by[s.src]||0)+1));
+    v.innerHTML=`<div class="panel method"><h2>How the score works</h2><ul>
+      <li><b>Role fit (0–40):</b> how strongly your CV covers the skill area named in the job title.</li>
+      <li><b>Level / type fit (0–25):</b> internship or co-op scores highest; part-time lower; junior full-time lower again; a term that has already passed scores almost nothing.</li>
+      <li><b>Keyword overlap (0–32):</b> 32 × (Match + 0.5 × Related) ÷ keywords in the title; generic words count 0.4. Title-only scoring caps the total below 100. Match needs the same term on your CV.</li>
+      <li><b>Flags, not points:</b> language, work-permit, security and term are shown beside the score so a hidden rule never silently lowers or raises a rank.</li>
+      <li>This is a heuristic, not a real applicant tracking system. Differences of 5 points or less are ties.</li></ul></div>
+      <div class="panel method" style="margin-top:12px"><h2>Where the postings come from</h2><ul>
+      <li>Adzuna (a free job search service) for broad coverage of Montreal and the surrounding area, in English and French. Each posting carries a short snippet of its text.</li>
+      <li>The open job boards of employers that publish them through Greenhouse, Lever, Ashby and SmartRecruiters. These carry the full posting text. The line under "Live postings" shows how many of the listed employers answered.</li>
+      <li>Employers that use Workday, Taleo or SuccessFactors have no open feed, so they appear only if Adzuna lists them.</li>
+      <li>LinkedIn and Indeed are not used. Postings are filtered to Montreal-area locations and to titles related to engineering, operations, quality, supply chain, data and student roles.</li>
+      <li>A collection runs a few times a day, not instantly. A posting can close before the next run, so check that it is still open.</li></ul></div>
+      ${CV?`<div class="panel method" style="margin-top:12px"><h2>Skills that keep appearing in your top postings but not on your CV</h2><p class="note">${g.length?g.map(x=>esc(x[0])+" ("+x[1]+")").join(", "):"None in the top 25 recent postings."}</p></div>`:""}`;
+  }
+}
+function copyList(list){
+  const rows=["Rank\tScore\tCompany\tRole\tLocation\tPosted\tBoard\tLink\tFlags"].concat(list.map((r,i)=>[i+1,r.s.total,r.j.company,r.j.title,r.j.loc,r.j.date,r.j.sources[0].src,r.j.sources[0].url,r.s.flags.map(f=>f[1]).join("; ")].join("\t")));
+  const t=rows.join("\n");
+  const b=$("copy");
+  const ok=()=>{b.textContent="Copied";setTimeout(()=>b.textContent="Copy list",1500)};
+  try{navigator.clipboard.writeText(t).then(ok,()=>fallback(t,b))}catch(e){fallback(t,b)}
+}
+function fallback(t,b){const ta=document.createElement("textarea");ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand("copy");b.textContent="Copied"}catch(e){b.textContent="Select and copy manually"}ta.remove()}
+
+/* file reading */
+async function readFile(f){
+  const name=f.name.toLowerCase();
+  if(name.endsWith(".pdf")){
+    pdfjsLib.GlobalWorkerOptions.workerSrc="pdf.worker.min.js";
+    const doc=await pdfjsLib.getDocument({data:await f.arrayBuffer()}).promise;let out="";
+    for(let p=1;p<=doc.numPages;p++){const c=await(await doc.getPage(p)).getTextContent();out+=c.items.map(i=>i.str+(i.hasEOL?"\n":" ")).join("")+"\n";}
+    return out;
+  }
+  if(name.endsWith(".docx"))return (await mammoth.extractRawText({arrayBuffer:await f.arrayBuffer()})).value;
+  return await f.text();
+}
+async function handleFile(f){
+  $("status").textContent="Reading "+f.name+"…";
+  try{
+    const t=await readFile(f);
+    if(t.trim().length<80)throw new Error("short");
+    $("paste").value=t;$("status").textContent="Read "+f.name+" ("+t.length+" characters).";
+    go();
+  }catch(e){$("status").textContent="Could not read text from that file (a scanned PDF has no text). Paste the text instead.";}
+}
+function go(){
+  const t=$("paste").value;
+  if(t.trim().length<80){$("status").textContent="Add your CV first: upload a file or paste at least a few lines.";return;}
+  CV=parseCV(t);
+  const n=Object.keys(CV.hits).length;
+  $("status").textContent=n+" keywords found on your CV.";
+  run();
+}
+const SAMPLE=`SAMPLE CV (example only, not a real person)
+Alex Example, M.Eng. Industrial Engineering, Concordia University. Bilingual English and French.
+Experience: Operations intern, manufacturing plant. Led a Lean 5S and kaizen continuous improvement project that cut changeover time. Built a discrete-event simulation of the assembly line in Arena and FlexSim. Quality analyst co-op: root cause analysis, SPC charts, FMEA, ISO 9001 audits.
+Supply chain: inventory control, demand forecasting, S&OP, MRP in SAP, warehouse layout.
+Tools: Python, SQL, Excel, Power BI. Data analysis and automation of weekly KPI reports.
+Coursework: Operations research, optimization, production systems, statistics, project management.
+Certifications: Six Sigma Green Belt. Leadership: president of the industrial engineering student association.`;
+
+$("drop").onclick=()=>$("file").click();
+$("drop").onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();$("file").click();}};
+$("file").onchange=e=>e.target.files[0]&&handleFile(e.target.files[0]);
+["dragover","dragenter"].forEach(ev=>$("drop").addEventListener(ev,e=>{e.preventDefault();$("drop").classList.add("over")}));
+["dragleave","drop"].forEach(ev=>$("drop").addEventListener(ev,e=>{e.preventDefault();$("drop").classList.remove("over")}));
+$("drop").addEventListener("drop",e=>{const f=e.dataTransfer.files[0];if(f)handleFile(f)});
+$("go").onclick=go;
+$("sample").onclick=()=>{$("paste").value=SAMPLE;go();};
+["permit","term","window"].forEach(id=>$(id).onchange=()=>{CV?run():render()});
+$("tabs").onclick=e=>{const b=e.target.closest(".tab");if(b){tab=b.dataset.t;render();}};
+$("theme").onclick=()=>{const r=document.documentElement,d=r.dataset.theme==="dark"||(!r.dataset.theme&&matchMedia("(prefers-color-scheme:dark)").matches);r.dataset.theme=d?"light":"dark"};
+render();
+
+/* ---------- live postings from the server ---------- */
+let SERVER_AT=null;
+async function loadServer(){
+  const note=$("liveNote"),log=$("liveLog");
+  try{
+    const r=await fetch("jobs.json?t="+Date.now(),{cache:"no-store"});
+    if(!r.ok)throw new Error("HTTP "+r.status);
+    const d=await r.json();
+    if(!d.jobs||!d.jobs.length){note.textContent="No postings have been collected yet. Showing the built-in snapshot from "+TODAY+".";return;}
+    if(d.updatedAt===SERVER_AT)return;
+    SERVER_AT=d.updatedAt;
+    const at=Date.parse(d.updatedAt),m=new Map();
+    for(const x of d.jobs){
+      const k=norm(x.company)+"|"+norm(x.title);
+      if(m.has(k))continue;
+      m.set(k,{company:x.company,title:x.title,loc:x.loc,date:x.date,type:x.type||"",sources:x.sources,desc:x.desc||"",
+        ageH:x.ageH!=null?x.ageH+(Date.now()-at)/36e5:null,snap:!!d.mock,partial:!!x.partial});
+    }
+    JOBS.length=0;
+    for(const j of m.values()){j.cat=(/intern|stage|stagiaire|co-?op|etudiant|student/.test(norm(j.title))||j.type==="Part-time"||j.type==="Internship")?"main":"near";JOBS.push(j);}
+    const t=new Date(d.updatedAt).toLocaleString([], {month:"short",day:"numeric",hour:"2-digit",minute:"2-digit"});
+    note.textContent=(d.mock?"Demo data until the first scheduled collection runs. ":"")+JOBS.length+" postings, collected "+t+". The collector re-runs a few times a day and this page picks up each new collection on its own.";
+    log.textContent=Object.entries(d.sources||{}).map(([k,v])=>v.skipped?k+": not set up":v.boards!=null?k+": "+v.answered+" of "+v.boards+" boards answered, "+v.jobs+" postings":k+": "+v.jobs+" postings").join(" · ");
+    if(CV)run();else render();
+  }catch(e){
+    note.textContent="Could not reach the server. Showing the built-in snapshot from "+TODAY+".";
+  }
+}
+loadServer();
+setInterval(()=>{if(!document.hidden)loadServer();},5*60*1000);
+</script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+{
+  "adzuna": {
+    "country": "ca",
+    "where": "Montreal",
+    "distanceKm": 40,
+    "maxDaysOld": 7,
+    "pages": 1,
+    "resultsPerPage": 50,
+    "delayMs": 1500,
+    "queries": [
+      "intern industrial engineering",
+      "stagiaire génie industriel",
+      "co-op quality",
+      "stage chaîne d'approvisionnement",
+      "stage amélioration continue",
+      "part-time engineering student"
+    ]
+  }
+}
