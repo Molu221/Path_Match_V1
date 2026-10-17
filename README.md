@@ -1,5 +1,5 @@
 # Path Match (free version)
-
+**Link for the website:** https://molu221.github.io/Path_Match_V1/
 Upload a CV, get a ranked, explained list of Montreal internships, co-ops and part-time roles.
 
 - **The site** is one static page in `docs/`. It reads `docs/jobs.json` and scores each posting against the visitor's CV **in their browser**. CVs are never uploaded anywhere.
