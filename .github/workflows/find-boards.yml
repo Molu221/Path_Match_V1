@@ -1,0 +1,30 @@
+name: Find boards
+
+# Checks the employers in config/candidates.json against every open hiring system and writes reports/boards.json.
+# Add the slugs it finds to config/companies.json.
+on:
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  find:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Check every candidate against every system
+        run: node scripts/find-boards.mjs --file config/candidates.json
+      - name: Save the report
+        run: |
+          git config user.name "path-match-bot"
+          git config user.email "path-match-bot@users.noreply.github.com"
+          git add reports/boards.json
+          git diff --cached --quiet && echo "No changes" && exit 0
+          git commit -m "Find boards"
+          git pull --rebase origin main
+          git push

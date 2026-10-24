@@ -11,5 +11,17 @@
   ],
   "smartrecruiters": [
     "bosch","bosch-group","visa","ubisoft","ubisoft2","skechers","ikea","mcdonalds","sodexo","adecco","randstad","manpower","kellyservices","robert-half","kforce","aerotek","teksystems","staffmark","expressemployment","talentpartners","vmtalentpartners","cgi","capgemini","accenture","deloitte","kpmg","pwc","ey","bell","telus","rogers","videotron","hydroquebec","desjardins","nationalbank","rbc","td","bmo","cibc","manulife","sunlife","intact","lassonde","saputo","agropur","olymel","premiertechnologies","premiertech","bauer","cascades","camso","dynacast","magna","linamar","martinrea","nemak","cooperstandard","lear","adient","faurecia","forvia","valeo","denso","aptiv","continental","zf","schaeffler","mahle","hella","brp","bombardier","alstom","stadler","siemensmobility","wabtec","knorr-bremse","hitachienergy","hitachirail","ge","gevernova","ge-aerospace","safran","thales","airbus","aerospace","collinsaerospace","rtx","pratt-whitney","lockheedmartin","boeing","leonardo","northropgrumman","bae-systems","l3harris","textron","embraer","dassault","spiritaero","triumph","heroux-devtek","mecachrome","avcorp","mdacorp"
-  ]
+  ],
+  "workable": [],
+  "recruitee": [],
+  "breezy": [],
+  "bamboohr": [],
+  "personio": [],
+  "teamtailor": [],
+  "workday": [
+    {"name": "CAE", "host": "cae.wd3.myworkdayjobs.com", "tenant": "cae", "site": "career"},
+    {"name": "RTX (Pratt & Whitney Canada, Collins)", "host": "globalhr.wd5.myworkdayjobs.com", "tenant": "globalhr", "site": "REC_RTX_Ext_Gateway"},
+    {"name": "GE Vernova", "host": "gevernova.wd5.myworkdayjobs.com", "tenant": "gevernova", "site": "Vernova_ExternalSite"}
+  ],
+  "pages": []
 }

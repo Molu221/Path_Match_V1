@@ -15,5 +15,64 @@
       "stage amélioration continue",
       "part-time engineering student"
     ]
+  },
+  "jobbank": {
+    "_note": "Job Bank Canada (Government of Canada). robots.txt asks for 5 seconds between requests, so this source is slow on purpose.",
+    "where": "Montréal, QC",
+    "maxDaysOld": 14,
+    "maxDetails": 45,
+    "delayMs": 5000,
+    "queries": [
+      "intern",
+      "internship engineering",
+      "stagiaire",
+      "stage ingénierie",
+      "co-op",
+      "industrial engineer",
+      "ingénieur industriel",
+      "quality",
+      "qualité",
+      "supply chain",
+      "chaîne d'approvisionnement",
+      "amélioration continue",
+      "logistics",
+      "operations student",
+      "part-time engineering"
+    ]
+  },
+  "muse": {
+    "location": "Montreal, Canada",
+    "levels": [
+      "Internship",
+      "Entry Level"
+    ],
+    "pages": 4
+  },
+  "jooble": {
+    "_note": "Needs a free key from https://jooble.org/api/about. Add it as the repository secret JOOBLE_API_KEY.",
+    "where": "Montréal, QC",
+    "delayMs": 1000,
+    "queries": [
+      "intern industrial engineering",
+      "stagiaire génie industriel",
+      "co-op quality",
+      "stage chaîne d'approvisionnement",
+      "stage amélioration continue",
+      "part-time engineering student"
+    ]
+  },
+  "careerjet": {
+    "_note": "Needs a free key from https://www.careerjet.com/partners/api. Add it as the repository secret CAREERJET_API_KEY.",
+    "where": "Montréal, QC",
+    "locale": "en_CA",
+    "delayMs": 1000,
+    "queries": [
+      "intern industrial engineering",
+      "stagiaire génie industriel",
+      "co-op quality",
+      "stage chaîne d'approvisionnement",
+      "stage amélioration continue",
+      "part-time engineering student"
+    ]
   }
 }
