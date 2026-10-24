@@ -94,6 +94,743 @@
       "evidence": "- Are a team player"
     }
   },
+  "phrases_counted": 80,
+  "phrases_matched": 4,
+  "phrases_close": 5,
+  "phrase_coverage_pct": 5.0,
+  "phrase_coverage_with_close_pct": 8.1,
+  "phrases": [
+    {
+      "phrase": "material logsitics",
+      "count": 1,
+      "where": "-",
+      "status": "G",
+      "counted": true,
+      "cv_line": "",
+      "shared_words": []
+    },
+    {
+      "phrase": "bombardier",
+      "count": 3,
+      "where": "-",
+      "status": "G",
+      "counted": true,
+      "cv_line": "",
+      "shared_words": []
+    },
+    {
+      "phrase": "location",
+      "count": 2,
+      "where": "-",
+      "status": "G",
+      "counted": true,
+      "cv_line": "",
+      "shared_words": []
+    },
+    {
+      "phrase": "dorval",
+      "count": 1,
+      "where": "-",
+      "status": "G",
+      "counted": true,
+      "cv_line": "",
+      "shared_words": []
+    },
+    {
+      "phrase": "posted",
+      "count": 1,
+      "where": "-",
+      "status": "G",
+      "counted": true,
+      "cv_line": "",
+      "shared_words": []
+    },
+    {
+      "phrase": "source",
+      "count": 1,
+      "where": "-",
+      "status": "G",
+      "counted": true,
+      "cv_line": "",
+      "shared_words": []
+    },
+    {
+      "phrase": "linkedin",
+      "count": 2,
+      "where": "-",
+      "status": "G",
+      "counted": true,
+      "cv_line": "",
+      "shared_words": []
+    },
+    {
+      "phrase": "fetched",
+      "count": 1,
+      "where": "-",
+      "status": "G",
+      "counted": true,
+      "cv_line": "",
+      "shared_words": []
+    },
+    {
+      "phrase": "apify actor curious",
+      "count": 1,
+      "where": "-",
+      "status": "G",
+      "counted": true,
+      "cv_line": "",
+      "shared_words": []
+    },
+    {
+      "phrase": "coder",
+      "count": 1,
+      "where": "-",
+      "status": "G",
+      "counted": true,
+      "cv_line": "",
+      "shared_words": []
+    },
+    {
+      "phrase": "scraper",
+      "count": 1,
+      "where": "-",
+      "status": "G",
+      "counted": true,
+      "cv_line": "",
+      "shared_words": []
+    },
+    {
+      "phrase": "wording verbatim",
+      "count": 1,
+      "where": "-",
+      "status": "G",
+      "counted": true,
+      "cv_line": "",
+      "shared_words": []
+    },
+    {
+      "phrase": "original typos",
+      "count": 1,
+      "where": "-",
+      "status": "G",
+      "counted": true,
+      "cv_line": "",
+      "shared_words": []
+    },
+    {
+      "phrase": "short lists",
+      "count": 1,
+      "where": "-",
+      "status": "G",
+      "counted": true,
+      "cv_line": "",
+      "shared_words": []
+    },
+    {
+      "phrase": "boarding pass",
+      "count": 2,
+      "where": "-",
+      "status": "G",
+      "counted": true,
+      "cv_line": "",
+      "shared_words": []
+    },
+    {
+      "phrase": "re flowed",
+      "count": 1,
+      "where": "-",
+      "status": "G",
+      "counted": true,
+      "cv_line": "",
+      "shared_words": []
+    },
+    {
+      "phrase": "line",
+      "count": 1,
+      "where": "-",
+      "status": "M",
+      "counted": true,
+      "cv_line": "- drew process maps of the packing line with the supervisor",
+      "shared_words": []
+    },
+    {
+      "phrase": "innovation",
+      "count": 1,
+      "where": "-",
+      "status": "G",
+      "counted": true,
+      "cv_line": "",
+      "shared_words": []
+    },
+    {
+      "phrase": "dna",
+      "count": 1,
+      "where": "-",
+      "status": "G",
+      "counted": true,
+      "cv_line": "",
+      "shared_words": []
+    },
+    {
+      "phrase": "global leader",
+      "count": 1,
+      "where": "-",
+      "status": "G",
+      "counted": true,
+      "cv_line": "",
+      "shared_words": []
+    },
+    {
+      "phrase": "aviation",
+      "count": 1,
+      "where": "-",
+      "status": "G",
+      "counted": true,
+      "cv_line": "",
+      "shared_words": []
+    },
+    {
+      "phrase": "innovative",
+      "count": 1,
+      "where": "-",
+      "status": "G",
+      "counted": true,
+      "cv_line": "",
+      "shared_words": []
+    },
+    {
+      "phrase": "game changing planes",
+      "count": 1,
+      "where": "-",
+      "status": "G",
+      "counted": true,
+      "cv_line": "",
+      "shared_words": []
+    },
+    {
+      "phrase": "products",
+      "count": 1,
+      "where": "-",
+      "status": "G",
+      "counted": true,
+      "cv_line": "",
+      "shared_words": []
+    },
+    {
+      "phrase": "world class",
+      "count": 1,
+      "where": "-",
+      "status": "R",
+      "counted": true,
+      "cv_line": "- used minitab for statistical analysis and presented results to the class",
+      "shared_words": [
+        "class"
+      ]
+    },
+    {
+      "phrase": "set",
+      "count": 1,
+      "where": "-",
+      "status": "G",
+      "counted": true,
+      "cv_line": "",
+      "shared_words": []
+    },
+    {
+      "phrase": "standards",
+      "count": 1,
+      "where": "-",
+      "status": "G",
+      "counted": true,
+      "cv_line": "",
+      "shared_words": []
+    },
+    {
+      "phrase": "passenger comfort",
+      "count": 1,
+      "where": "-",
+      "status": "G",
+      "counted": true,
+      "cv_line": "",
+      "shared_words": []
+    },
+    {
+      "phrase": "energy efficiency",
+      "count": 1,
+      "where": "-",
+      "status": "G",
+      "counted": true,
+      "cv_line": "",
+      "shared_words": []
+    },
+    {
+      "phrase": "reliability",
+      "count": 1,
+      "where": "-",
+      "status": "G",
+      "counted": true,
+      "cv_line": "",
+      "shared_words": []
+    },
+    {
+      "phrase": "safety",
+      "count": 1,
+      "where": "-",
+      "status": "G",
+      "counted": true,
+      "cv_line": "",
+      "shared_words": []
+    },
+    {
+      "phrase": "global",
+      "count": 1,
+      "where": "-",
+      "status": "G",
+      "counted": true,
+      "cv_line": "",
+      "shared_words": []
+    },
+    {
+      "phrase": "focused",
+      "count": 1,
+      "where": "-",
+      "status": "G",
+      "counted": true,
+      "cv_line": "",
+      "shared_words": []
+    },
+    {
+      "phrase": "spirit",
+      "count": 1,
+      "where": "-",
+      "status": "G",
+      "counted": true,
+      "cv_line": "",
+      "shared_words": []
+    },
+    {
+      "phrase": "conferences",
+      "count": 1,
+      "where": "-",
+      "status": "G",
+      "counted": true,
+      "cv_line": "",
+      "shared_words": []
+    },
+    {
+      "phrase": "executive",
+      "count": 1,
+      "where": "-",
+      "status": "G",
+      "counted": true,
+      "cv_line": "",
+      "shared_words": []
+    },
+    {
+      "phrase": "women",
+      "count": 1,
+      "where": "-",
+      "status": "G",
+      "counted": true,
+      "cv_line": "",
+      "shared_words": []
+    },
+    {
+      "phrase": "flight",
+      "count": 1,
+      "where": "-",
+      "status": "G",
+      "counted": true,
+      "cv_line": "",
+      "shared_words": []
+    },
+    {
+      "phrase": "bombardier products conference",
+      "count": 1,
+      "where": "-",
+      "status": "G",
+      "counted": true,
+      "cv_line": "",
+      "shared_words": []
+    },
+    {
+      "phrase": "visits",
+      "count": 1,
+      "where": "-",
+      "status": "G",
+      "counted": true,
+      "cv_line": "",
+      "shared_words": []
+    },
+    {
+      "phrase": "bombardier sites",
+      "count": 1,
+      "where": "-",
+      "status": "G",
+      "counted": true,
+      "cv_line": "",
+      "shared_words": []
+    },
+    {
+      "phrase": "bombardier academy",
+      "count": 1,
+      "where": "-",
+      "status": "G",
+      "counted": true,
+      "cv_line": "",
+      "shared_words": []
+    },
+    {
+      "phrase": "social",
+      "count": 1,
+      "where": "-",
+      "status": "G",
+      "counted": true,
+      "cv_line": "",
+      "shared_words": []
+    },
+    {
+      "phrase": "networking",
+      "count": 2,
+      "where": "-",
+      "status": "G",
+      "counted": true,
+      "cv_line": "",
+      "shared_words": []
+    },
+    {
+      "phrase": "volunteering",
+      "count": 1,
+      "where": "-",
+      "status": "G",
+      "counted": true,
+      "cv_line": "",
+      "shared_words": []
+    },
+    {
+      "phrase": "potluck",
+      "count": 1,
+      "where": "-",
+      "status": "G",
+      "counted": true,
+      "cv_line": "",
+      "shared_words": []
+    },
+    {
+      "phrase": "contributions",
+      "count": 1,
+      "where": "Task",
+      "status": "G",
+      "counted": true,
+      "cv_line": "",
+      "shared_words": []
+    },
+    {
+      "phrase": "analyse",
+      "count": 1,
+      "where": "Task",
+      "status": "G",
+      "counted": true,
+      "cv_line": "",
+      "shared_words": []
+    },
+    {
+      "phrase": "datas quality",
+      "count": 1,
+      "where": "Task",
+      "status": "R",
+      "counted": true,
+      "cv_line": "master's student in industrial engineering. interested in operations, quality and process improvement. bilingual (english and french).",
+      "shared_words": [
+        "quality"
+      ]
+    },
+    {
+      "phrase": "internal process",
+      "count": 1,
+      "where": "Task",
+      "status": "R",
+      "counted": true,
+      "cv_line": "quality intern, abc manufacturing, summer 2023",
+      "shared_words": [
+        "internal"
+      ]
+    },
+    {
+      "phrase": "system integrity",
+      "count": 1,
+      "where": "Task",
+      "status": "G",
+      "counted": true,
+      "cv_line": "",
+      "shared_words": []
+    },
+    {
+      "phrase": "internal",
+      "count": 1,
+      "where": "Task",
+      "status": "R",
+      "counted": true,
+      "cv_line": "quality intern, abc manufacturing, summer 2023",
+      "shared_words": [
+        "internal"
+      ]
+    },
+    {
+      "phrase": "supply",
+      "count": 2,
+      "where": "Task",
+      "status": "G",
+      "counted": true,
+      "cv_line": "",
+      "shared_words": []
+    },
+    {
+      "phrase": "interact",
+      "count": 1,
+      "where": "Task",
+      "status": "G",
+      "counted": true,
+      "cv_line": "",
+      "shared_words": []
+    },
+    {
+      "phrase": "multifunctional",
+      "count": 1,
+      "where": "Task",
+      "status": "G",
+      "counted": true,
+      "cv_line": "",
+      "shared_words": []
+    },
+    {
+      "phrase": "methods",
+      "count": 1,
+      "where": "Task",
+      "status": "G",
+      "counted": true,
+      "cv_line": "",
+      "shared_words": []
+    },
+    {
+      "phrase": "quality",
+      "count": 1,
+      "where": "Task",
+      "status": "M",
+      "counted": true,
+      "cv_line": "master's student in industrial engineering. interested in operations, quality and process improvement. bilingual (english and french).",
+      "shared_words": []
+    },
+    {
+      "phrase": "tools implantation",
+      "count": 1,
+      "where": "Task",
+      "status": "G",
+      "counted": true,
+      "cv_line": "",
+      "shared_words": []
+    },
+    {
+      "phrase": "manufacturing system",
+      "count": 1,
+      "where": "Task",
+      "status": "R",
+      "counted": true,
+      "cv_line": "quality intern, abc manufacturing, summer 2023",
+      "shared_words": [
+        "manufacturing"
+      ]
+    },
+    {
+      "phrase": "thrive",
+      "count": 1,
+      "where": "Required",
+      "status": "G",
+      "counted": true,
+      "cv_line": "",
+      "shared_words": []
+    },
+    {
+      "phrase": "study",
+      "count": 1,
+      "where": "Required",
+      "status": "M",
+      "counted": true,
+      "cv_line": "warehouse layout study (capstone, team of 4)",
+      "shared_words": []
+    },
+    {
+      "phrase": "baa",
+      "count": 1,
+      "where": "Required",
+      "status": "G",
+      "counted": true,
+      "cv_line": "",
+      "shared_words": []
+    },
+    {
+      "phrase": "minimum",
+      "count": 1,
+      "where": "Required",
+      "status": "G",
+      "counted": true,
+      "cv_line": "",
+      "shared_words": []
+    },
+    {
+      "phrase": "program",
+      "count": 1,
+      "where": "Required",
+      "status": "G",
+      "counted": true,
+      "cv_line": "",
+      "shared_words": []
+    },
+    {
+      "phrase": "master",
+      "count": 1,
+      "where": "Required",
+      "status": "M",
+      "counted": true,
+      "cv_line": "master's student in industrial engineering. interested in operations, quality and process improvement. bilingual (english and french).",
+      "shared_words": []
+    },
+    {
+      "phrase": "office suite",
+      "count": 1,
+      "where": "Required",
+      "status": "G",
+      "counted": true,
+      "cv_line": "",
+      "shared_words": []
+    },
+    {
+      "phrase": "speak",
+      "count": 1,
+      "where": "Required",
+      "status": "G",
+      "counted": true,
+      "cv_line": "",
+      "shared_words": []
+    },
+    {
+      "phrase": "habilities",
+      "count": 1,
+      "where": "Required",
+      "status": "G",
+      "counted": true,
+      "cv_line": "",
+      "shared_words": []
+    },
+    {
+      "phrase": "god communicator",
+      "count": 1,
+      "where": "Required",
+      "status": "G",
+      "counted": true,
+      "cv_line": "",
+      "shared_words": []
+    },
+    {
+      "phrase": "boarding information",
+      "count": 1,
+      "where": "Required",
+      "status": "G",
+      "counted": true,
+      "cv_line": "",
+      "shared_words": []
+    },
+    {
+      "phrase": "completion center",
+      "count": 1,
+      "where": "Required",
+      "status": "G",
+      "counted": true,
+      "cv_line": "",
+      "shared_words": []
+    },
+    {
+      "phrase": "duration",
+      "count": 1,
+      "where": "Required",
+      "status": "G",
+      "counted": true,
+      "cv_line": "",
+      "shared_words": []
+    },
+    {
+      "phrase": "flexible workplace hybrid",
+      "count": 1,
+      "where": "Required",
+      "status": "G",
+      "counted": true,
+      "cv_line": "",
+      "shared_words": []
+    },
+    {
+      "phrase": "important",
+      "count": 1,
+      "where": "Required",
+      "status": "G",
+      "counted": true,
+      "cv_line": "",
+      "shared_words": []
+    },
+    {
+      "phrase": "note",
+      "count": 1,
+      "where": "Required",
+      "status": "G",
+      "counted": true,
+      "cv_line": "",
+      "shared_words": []
+    },
+    {
+      "phrase": "open",
+      "count": 1,
+      "where": "Required",
+      "status": "G",
+      "counted": true,
+      "cv_line": "",
+      "shared_words": []
+    },
+    {
+      "phrase": "graduates",
+      "count": 1,
+      "where": "Required",
+      "status": "G",
+      "counted": true,
+      "cv_line": "",
+      "shared_words": []
+    },
+    {
+      "phrase": "occasionally travel outside",
+      "count": 1,
+      "where": "Required",
+      "status": "G",
+      "counted": true,
+      "cv_line": "",
+      "shared_words": []
+    },
+    {
+      "phrase": "training",
+      "count": 1,
+      "where": "Required",
+      "status": "G",
+      "counted": true,
+      "cv_line": "",
+      "shared_words": []
+    },
+    {
+      "phrase": "purpose",
+      "count": 1,
+      "where": "Required",
+      "status": "G",
+      "counted": true,
+      "cv_line": "",
+      "shared_words": []
+    }
+  ],
   "oasis": {
     "loaded": true,
     "built": "2026-10-24"

@@ -10,6 +10,8 @@ const Matcher = sandbox.self.Matcher;
 const [dictPath, cvPath, ...posts] = process.argv.slice(2);
 const engine = Matcher.engine(JSON.parse(fs.readFileSync(dictPath, "utf8")));
 const cv = engine.findCv(fs.readFileSync(cvPath, "utf8"));
+const cvText = fs.readFileSync(cvPath, "utf8");
+const ix = engine.indexCv(cvText);
 const out = { cv: Object.keys(cv), cvSections: Object.fromEntries(Object.entries(cv).map(([k, v]) => [k, v.section])), posts: {} };
 for (const p of posts) {
   const full = fs.readFileSync(p, "utf8");
@@ -23,5 +25,10 @@ for (const p of posts) {
     links: r.links.map(l => [l.job, l.cv, l.label]),
     coveragePct: r.coveragePct, coverageWithRelatedPct: r.coverageWithRelatedPct
   };
+  const found = engine.terms(text), hits = engine.matchTerms(found, ix);
+  out.posts[path.basename(p)].terms = Object.fromEntries(Object.keys(found).map(k => [k, [found[k].count, hits[k].st, hits[k].shared || []]]));
+  const secsT = engine.sections(text);
+  out.posts[path.basename(p)].termTags = Object.fromEntries(Object.keys(found).map(k => [k, engine.tagOf(found[k], secsT)]));
+  out.posts[path.basename(p)].termSpansOk = Object.values(found).every(e => e.spans.length === e.count);
 }
 console.log(JSON.stringify(out));

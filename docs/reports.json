@@ -97,6 +97,743 @@
           "evidence": "- Are a team player"
         }
       },
+      "phrases_counted": 80,
+      "phrases_matched": 4,
+      "phrases_close": 5,
+      "phrase_coverage_pct": 5.0,
+      "phrase_coverage_with_close_pct": 8.1,
+      "phrases": [
+        {
+          "phrase": "material logsitics",
+          "count": 1,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "bombardier",
+          "count": 3,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "location",
+          "count": 2,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "dorval",
+          "count": 1,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "posted",
+          "count": 1,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "source",
+          "count": 1,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "linkedin",
+          "count": 2,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "fetched",
+          "count": 1,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "apify actor curious",
+          "count": 1,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "coder",
+          "count": 1,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "scraper",
+          "count": 1,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "wording verbatim",
+          "count": 1,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "original typos",
+          "count": 1,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "short lists",
+          "count": 1,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "boarding pass",
+          "count": 2,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "re flowed",
+          "count": 1,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "line",
+          "count": 1,
+          "where": "-",
+          "status": "M",
+          "counted": true,
+          "cv_line": "- drew process maps of the packing line with the supervisor",
+          "shared_words": []
+        },
+        {
+          "phrase": "innovation",
+          "count": 1,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "dna",
+          "count": 1,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "global leader",
+          "count": 1,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "aviation",
+          "count": 1,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "innovative",
+          "count": 1,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "game changing planes",
+          "count": 1,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "products",
+          "count": 1,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "world class",
+          "count": 1,
+          "where": "-",
+          "status": "R",
+          "counted": true,
+          "cv_line": "- used minitab for statistical analysis and presented results to the class",
+          "shared_words": [
+            "class"
+          ]
+        },
+        {
+          "phrase": "set",
+          "count": 1,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "standards",
+          "count": 1,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "passenger comfort",
+          "count": 1,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "energy efficiency",
+          "count": 1,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "reliability",
+          "count": 1,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "safety",
+          "count": 1,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "global",
+          "count": 1,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "focused",
+          "count": 1,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "spirit",
+          "count": 1,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "conferences",
+          "count": 1,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "executive",
+          "count": 1,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "women",
+          "count": 1,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "flight",
+          "count": 1,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "bombardier products conference",
+          "count": 1,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "visits",
+          "count": 1,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "bombardier sites",
+          "count": 1,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "bombardier academy",
+          "count": 1,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "social",
+          "count": 1,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "networking",
+          "count": 2,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "volunteering",
+          "count": 1,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "potluck",
+          "count": 1,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "contributions",
+          "count": 1,
+          "where": "Task",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "analyse",
+          "count": 1,
+          "where": "Task",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "datas quality",
+          "count": 1,
+          "where": "Task",
+          "status": "R",
+          "counted": true,
+          "cv_line": "master's student in industrial engineering. interested in operations, quality and process improvement. bilingual (english and french).",
+          "shared_words": [
+            "quality"
+          ]
+        },
+        {
+          "phrase": "internal process",
+          "count": 1,
+          "where": "Task",
+          "status": "R",
+          "counted": true,
+          "cv_line": "quality intern, abc manufacturing, summer 2023",
+          "shared_words": [
+            "internal"
+          ]
+        },
+        {
+          "phrase": "system integrity",
+          "count": 1,
+          "where": "Task",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "internal",
+          "count": 1,
+          "where": "Task",
+          "status": "R",
+          "counted": true,
+          "cv_line": "quality intern, abc manufacturing, summer 2023",
+          "shared_words": [
+            "internal"
+          ]
+        },
+        {
+          "phrase": "supply",
+          "count": 2,
+          "where": "Task",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "interact",
+          "count": 1,
+          "where": "Task",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "multifunctional",
+          "count": 1,
+          "where": "Task",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "methods",
+          "count": 1,
+          "where": "Task",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "quality",
+          "count": 1,
+          "where": "Task",
+          "status": "M",
+          "counted": true,
+          "cv_line": "master's student in industrial engineering. interested in operations, quality and process improvement. bilingual (english and french).",
+          "shared_words": []
+        },
+        {
+          "phrase": "tools implantation",
+          "count": 1,
+          "where": "Task",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "manufacturing system",
+          "count": 1,
+          "where": "Task",
+          "status": "R",
+          "counted": true,
+          "cv_line": "quality intern, abc manufacturing, summer 2023",
+          "shared_words": [
+            "manufacturing"
+          ]
+        },
+        {
+          "phrase": "thrive",
+          "count": 1,
+          "where": "Required",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "study",
+          "count": 1,
+          "where": "Required",
+          "status": "M",
+          "counted": true,
+          "cv_line": "warehouse layout study (capstone, team of 4)",
+          "shared_words": []
+        },
+        {
+          "phrase": "baa",
+          "count": 1,
+          "where": "Required",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "minimum",
+          "count": 1,
+          "where": "Required",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "program",
+          "count": 1,
+          "where": "Required",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "master",
+          "count": 1,
+          "where": "Required",
+          "status": "M",
+          "counted": true,
+          "cv_line": "master's student in industrial engineering. interested in operations, quality and process improvement. bilingual (english and french).",
+          "shared_words": []
+        },
+        {
+          "phrase": "office suite",
+          "count": 1,
+          "where": "Required",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "speak",
+          "count": 1,
+          "where": "Required",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "habilities",
+          "count": 1,
+          "where": "Required",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "god communicator",
+          "count": 1,
+          "where": "Required",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "boarding information",
+          "count": 1,
+          "where": "Required",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "completion center",
+          "count": 1,
+          "where": "Required",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "duration",
+          "count": 1,
+          "where": "Required",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "flexible workplace hybrid",
+          "count": 1,
+          "where": "Required",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "important",
+          "count": 1,
+          "where": "Required",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "note",
+          "count": 1,
+          "where": "Required",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "open",
+          "count": 1,
+          "where": "Required",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "graduates",
+          "count": 1,
+          "where": "Required",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "occasionally travel outside",
+          "count": 1,
+          "where": "Required",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "training",
+          "count": 1,
+          "where": "Required",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "purpose",
+          "count": 1,
+          "where": "Required",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        }
+      ],
       "oasis": {
         "loaded": true,
         "built": "2026-10-24"
@@ -291,6 +1028,471 @@
           "evidence": "- Bilingual (French and English)."
         }
       },
+      "phrases_counted": 50,
+      "phrases_matched": 7,
+      "phrases_close": 4,
+      "phrase_coverage_pct": 14.0,
+      "phrase_coverage_with_close_pct": 18.0,
+      "phrases": [
+        {
+          "phrase": "industrial",
+          "count": 1,
+          "where": "-",
+          "status": "M",
+          "counted": true,
+          "cv_line": "master's student in industrial engineering. interested in operations, quality and process improvement. bilingual (english and french).",
+          "shared_words": []
+        },
+        {
+          "phrase": "manufacturing engineering",
+          "count": 1,
+          "where": "-",
+          "status": "R",
+          "counted": true,
+          "cv_line": "master's student in industrial engineering. interested in operations, quality and process improvement. bilingual (english and french).",
+          "shared_words": [
+            "engineering"
+          ]
+        },
+        {
+          "phrase": "cae",
+          "count": 2,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "location",
+          "count": 2,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "posted",
+          "count": 1,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "source",
+          "count": 1,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "linkedin",
+          "count": 2,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "fetched",
+          "count": 1,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "apify actor curious",
+          "count": 1,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "coder",
+          "count": 1,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "scraper",
+          "count": 1,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "description",
+          "count": 1,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "verbatim",
+          "count": 1,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "manufacturing",
+          "count": 1,
+          "where": "-",
+          "status": "M",
+          "counted": true,
+          "cv_line": "quality intern, abc manufacturing, summer 2023",
+          "shared_words": []
+        },
+        {
+          "phrase": "hands",
+          "count": 1,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "strategic",
+          "count": 1,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "real impact",
+          "count": 1,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "lead",
+          "count": 1,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "projects",
+          "count": 2,
+          "where": "-",
+          "status": "M",
+          "counted": true,
+          "cv_line": "projects",
+          "shared_words": []
+        },
+        {
+          "phrase": "recognized methodologies",
+          "count": 1,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "large scale transformation projects",
+          "count": 1,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "optimizing processes",
+          "count": 1,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "inefficiencies",
+          "count": 1,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "improvement",
+          "count": 1,
+          "where": "-",
+          "status": "M",
+          "counted": true,
+          "cv_line": "master's student in industrial engineering. interested in operations, quality and process improvement. bilingual (english and french).",
+          "shared_words": []
+        },
+        {
+          "phrase": "workshops focused",
+          "count": 1,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "topics",
+          "count": 1,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "monitor",
+          "count": 1,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "report",
+          "count": 1,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "project progress",
+          "count": 1,
+          "where": "-",
+          "status": "R",
+          "counted": true,
+          "cv_line": "projects",
+          "shared_words": [
+            "project"
+          ]
+        },
+        {
+          "phrase": "track",
+          "count": 1,
+          "where": "-",
+          "status": "R",
+          "counted": true,
+          "cv_line": "- tracked defect rates in excel and built a weekly dashboard for the quality team",
+          "shared_words": [
+            "track"
+          ]
+        },
+        {
+          "phrase": "report impacts",
+          "count": 1,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "analytical",
+          "count": 1,
+          "where": "Required",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "field",
+          "count": 2,
+          "where": "Required",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "influence",
+          "count": 1,
+          "where": "Required",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "listen",
+          "count": 1,
+          "where": "Required",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "certification",
+          "count": 1,
+          "where": "Preferred",
+          "status": "M",
+          "counted": true,
+          "cv_line": "certifications",
+          "shared_words": []
+        },
+        {
+          "phrase": "education",
+          "count": 1,
+          "where": "Preferred",
+          "status": "M",
+          "counted": true,
+          "cv_line": "education",
+          "shared_words": []
+        },
+        {
+          "phrase": "university degree",
+          "count": 1,
+          "where": "Preferred",
+          "status": "R",
+          "counted": true,
+          "cv_line": "m.eng. industrial engineering, concordia university, 2025 - 2027 (expected)",
+          "shared_words": [
+            "university"
+          ]
+        },
+        {
+          "phrase": "master",
+          "count": 1,
+          "where": "Preferred",
+          "status": "M",
+          "counted": true,
+          "cv_line": "master's student in industrial engineering. interested in operations, quality and process improvement. bilingual (english and french).",
+          "shared_words": []
+        },
+        {
+          "phrase": "degree",
+          "count": 1,
+          "where": "Preferred",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "hybrid format",
+          "count": 1,
+          "where": "Preferred",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "site",
+          "count": 1,
+          "where": "Preferred",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "eligibility",
+          "count": 1,
+          "where": "Preferred",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "legally entitled",
+          "count": 1,
+          "where": "Preferred",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "controlled goods program",
+          "count": 1,
+          "where": "Preferred",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "cgp",
+          "count": 1,
+          "where": "Preferred",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "permit",
+          "count": 1,
+          "where": "Preferred",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "copy",
+          "count": 1,
+          "where": "Preferred",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "police clearance certificate",
+          "count": 1,
+          "where": "Preferred",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "country",
+          "count": 2,
+          "where": "Preferred",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        }
+      ],
       "oasis": {
         "loaded": true,
         "built": "2026-10-24"
@@ -491,6 +1693,952 @@
           "evidence": "-  French is required. English is also required to communicate with customers outside Quebec on a regular basis."
         }
       },
+      "phrases_counted": 99,
+      "phrases_matched": 6,
+      "phrases_close": 23,
+      "phrase_coverage_pct": 6.1,
+      "phrase_coverage_with_close_pct": 17.7,
+      "phrases": [
+        {
+          "phrase": "abb",
+          "count": 2,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "location",
+          "count": 1,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "dorval",
+          "count": 1,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "posted",
+          "count": 1,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "source",
+          "count": 1,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "linkedin",
+          "count": 2,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "fetched",
+          "count": 1,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "apify actor curious",
+          "count": 1,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "coder",
+          "count": 1,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "scraper",
+          "count": 1,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "verbatim",
+          "count": 1,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "statement",
+          "count": 1,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "industries run leaner",
+          "count": 1,
+          "where": "-",
+          "status": "R",
+          "counted": true,
+          "cv_line": "lean six sigma green belt, 2024",
+          "shared_words": [
+            "leaner"
+          ]
+        },
+        {
+          "phrase": "cleaner",
+          "count": 1,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "lead",
+          "count": 1,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "impact",
+          "count": 1,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "run",
+          "count": 2,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "world",
+          "count": 1,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "updating internal quality procedures",
+          "count": 1,
+          "where": "Task",
+          "status": "R",
+          "counted": true,
+          "cv_line": "quality intern, abc manufacturing, summer 2023",
+          "shared_words": [
+            "internal",
+            "quality"
+          ]
+        },
+        {
+          "phrase": "structure",
+          "count": 1,
+          "where": "Task",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "document internal procedures",
+          "count": 1,
+          "where": "Task",
+          "status": "R",
+          "counted": true,
+          "cv_line": "quality intern, abc manufacturing, summer 2023",
+          "shared_words": [
+            "internal"
+          ]
+        },
+        {
+          "phrase": "operational processes",
+          "count": 2,
+          "where": "Task",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "procedures accurately reflect",
+          "count": 1,
+          "where": "Task",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "actual operations",
+          "count": 1,
+          "where": "Task",
+          "status": "R",
+          "counted": true,
+          "cv_line": "master's student in industrial engineering. interested in operations, quality and process improvement. bilingual (english and french).",
+          "shared_words": [
+            "operation"
+          ]
+        },
+        {
+          "phrase": "comply",
+          "count": 2,
+          "where": "Task",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "regulatory",
+          "count": 1,
+          "where": "Task",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "internal",
+          "count": 1,
+          "where": "Task",
+          "status": "R",
+          "counted": true,
+          "cv_line": "quality intern, abc manufacturing, summer 2023",
+          "shared_words": [
+            "internal"
+          ]
+        },
+        {
+          "phrase": "production supervisors",
+          "count": 1,
+          "where": "Task",
+          "status": "R",
+          "counted": true,
+          "cv_line": "courses: production systems and inventory control, scheduling theory, quality control, simulation",
+          "shared_words": [
+            "production"
+          ]
+        },
+        {
+          "phrase": "engineers",
+          "count": 2,
+          "where": "Task",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "stakeholders",
+          "count": 1,
+          "where": "Task",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "accuracy",
+          "count": 1,
+          "where": "Task",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "documented processes",
+          "count": 1,
+          "where": "Task",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "design",
+          "count": 2,
+          "where": "Task",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "map",
+          "count": 1,
+          "where": "Task",
+          "status": "M",
+          "counted": true,
+          "cv_line": "- drew process maps of the packing line with the supervisor",
+          "shared_words": []
+        },
+        {
+          "phrase": "production",
+          "count": 4,
+          "where": "Task",
+          "status": "M",
+          "counted": true,
+          "cv_line": "courses: production systems and inventory control, scheduling theory, quality control, simulation",
+          "shared_words": []
+        },
+        {
+          "phrase": "quality",
+          "count": 2,
+          "where": "Task",
+          "status": "M",
+          "counted": true,
+          "cv_line": "master's student in industrial engineering. interested in operations, quality and process improvement. bilingual (english and french).",
+          "shared_words": []
+        },
+        {
+          "phrase": "engineering",
+          "count": 1,
+          "where": "Task",
+          "status": "M",
+          "counted": true,
+          "cv_line": "master's student in industrial engineering. interested in operations, quality and process improvement. bilingual (english and french).",
+          "shared_words": []
+        },
+        {
+          "phrase": "clear",
+          "count": 1,
+          "where": "Task",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "standardized diagrams",
+          "count": 1,
+          "where": "Task",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "best practices",
+          "count": 1,
+          "where": "Task",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "critical points",
+          "count": 1,
+          "where": "Task",
+          "status": "R",
+          "counted": true,
+          "cv_line": "- modelled stock levels and reorder points in python, compared two inventory policies",
+          "shared_words": [
+            "point"
+          ]
+        },
+        {
+          "phrase": "improvement",
+          "count": 1,
+          "where": "Task",
+          "status": "M",
+          "counted": true,
+          "cv_line": "master's student in industrial engineering. interested in operations, quality and process improvement. bilingual (english and french).",
+          "shared_words": []
+        },
+        {
+          "phrase": "flow analysis",
+          "count": 1,
+          "where": "Task",
+          "status": "R",
+          "counted": true,
+          "cv_line": "- supported 5s audits and ran a root cause analysis on a recurring packaging defect",
+          "shared_words": [
+            "analysis"
+          ]
+        },
+        {
+          "phrase": "centralized",
+          "count": 1,
+          "where": "Task",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "date library",
+          "count": 1,
+          "where": "Task",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "organizational charts",
+          "count": 1,
+          "where": "Task",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "production floor",
+          "count": 1,
+          "where": "Task",
+          "status": "R",
+          "counted": true,
+          "cv_line": "courses: production systems and inventory control, scheduling theory, quality control, simulation",
+          "shared_words": [
+            "production"
+          ]
+        },
+        {
+          "phrase": "observe",
+          "count": 1,
+          "where": "Task",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "inspections",
+          "count": 1,
+          "where": "Task",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "testing procedures",
+          "count": 1,
+          "where": "Task",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "compliance checks",
+          "count": 1,
+          "where": "Task",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "production lines",
+          "count": 1,
+          "where": "Task",
+          "status": "R",
+          "counted": true,
+          "cv_line": "courses: production systems and inventory control, scheduling theory, quality control, simulation",
+          "shared_words": [
+            "production"
+          ]
+        },
+        {
+          "phrase": "document quality issues",
+          "count": 1,
+          "where": "Task",
+          "status": "R",
+          "counted": true,
+          "cv_line": "master's student in industrial engineering. interested in operations, quality and process improvement. bilingual (english and french).",
+          "shared_words": [
+            "quality"
+          ]
+        },
+        {
+          "phrase": "gain hands",
+          "count": 1,
+          "where": "Task",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "equipment",
+          "count": 1,
+          "where": "Task",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "measurement techniques",
+          "count": 1,
+          "where": "Task",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "quality metrics",
+          "count": 1,
+          "where": "Task",
+          "status": "R",
+          "counted": true,
+          "cv_line": "master's student in industrial engineering. interested in operations, quality and process improvement. bilingual (english and french).",
+          "shared_words": [
+            "quality"
+          ]
+        },
+        {
+          "phrase": "reported",
+          "count": 1,
+          "where": "Task",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "quality decisions impact",
+          "count": 1,
+          "where": "Task",
+          "status": "R",
+          "counted": true,
+          "cv_line": "master's student in industrial engineering. interested in operations, quality and process improvement. bilingual (english and french).",
+          "shared_words": [
+            "quality"
+          ]
+        },
+        {
+          "phrase": "production schedules",
+          "count": 1,
+          "where": "Task",
+          "status": "R",
+          "counted": true,
+          "cv_line": "courses: production systems and inventory control, scheduling theory, quality control, simulation",
+          "shared_words": [
+            "production",
+            "schedule"
+          ]
+        },
+        {
+          "phrase": "quality supervisor",
+          "count": 1,
+          "where": "Task",
+          "status": "R",
+          "counted": true,
+          "cv_line": "master's student in industrial engineering. interested in operations, quality and process improvement. bilingual (english and french).",
+          "shared_words": [
+            "quality"
+          ]
+        },
+        {
+          "phrase": "resolve issues",
+          "count": 1,
+          "where": "Task",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "engineering project involvement",
+          "count": 1,
+          "where": "Task",
+          "status": "R",
+          "counted": true,
+          "cv_line": "master's student in industrial engineering. interested in operations, quality and process improvement. bilingual (english and french).",
+          "shared_words": [
+            "engineering"
+          ]
+        },
+        {
+          "phrase": "engineering projects",
+          "count": 1,
+          "where": "Task",
+          "status": "R",
+          "counted": true,
+          "cv_line": "master's student in industrial engineering. interested in operations, quality and process improvement. bilingual (english and french).",
+          "shared_words": [
+            "engineering"
+          ]
+        },
+        {
+          "phrase": "disciplines",
+          "count": 1,
+          "where": "Task",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "r&d",
+          "count": 1,
+          "where": "Task",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "manufacturing engineering",
+          "count": 1,
+          "where": "Task",
+          "status": "R",
+          "counted": true,
+          "cv_line": "master's student in industrial engineering. interested in operations, quality and process improvement. bilingual (english and french).",
+          "shared_words": [
+            "engineering"
+          ]
+        },
+        {
+          "phrase": "alongside multi disciplinary",
+          "count": 1,
+          "where": "Task",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "gain exposure",
+          "count": 1,
+          "where": "Task",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "functions",
+          "count": 1,
+          "where": "Task",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "product",
+          "count": 1,
+          "where": "Task",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "process development",
+          "count": 1,
+          "where": "Task",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "small sub projects",
+          "count": 1,
+          "where": "Task",
+          "status": "R",
+          "counted": true,
+          "cv_line": "projects",
+          "shared_words": [
+            "project"
+          ]
+        },
+        {
+          "phrase": "guidance",
+          "count": 1,
+          "where": "Task",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "senior engineers",
+          "count": 1,
+          "where": "Task",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "academic",
+          "count": 1,
+          "where": "Task",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "real engineering challenges",
+          "count": 1,
+          "where": "Task",
+          "status": "R",
+          "counted": true,
+          "cv_line": "master's student in industrial engineering. interested in operations, quality and process improvement. bilingual (english and french).",
+          "shared_words": [
+            "engineering"
+          ]
+        },
+        {
+          "phrase": "professional environment",
+          "count": 1,
+          "where": "Task",
+          "status": "R",
+          "counted": true,
+          "cv_line": "english (fluent), french (professional)",
+          "shared_words": [
+            "professional"
+          ]
+        },
+        {
+          "phrase": "meetings",
+          "count": 1,
+          "where": "Task",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "discussions",
+          "count": 1,
+          "where": "Task",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "engineering decisions",
+          "count": 1,
+          "where": "Task",
+          "status": "R",
+          "counted": true,
+          "cv_line": "master's student in industrial engineering. interested in operations, quality and process improvement. bilingual (english and french).",
+          "shared_words": [
+            "engineering"
+          ]
+        },
+        {
+          "phrase": "made",
+          "count": 1,
+          "where": "Task",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "product lifecycle",
+          "count": 1,
+          "where": "Task",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "bachelor",
+          "count": 1,
+          "where": "Required",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "degree program",
+          "count": 1,
+          "where": "Required",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "field",
+          "count": 1,
+          "where": "Required",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "electrical engineering",
+          "count": 1,
+          "where": "Required",
+          "status": "R",
+          "counted": true,
+          "cv_line": "master's student in industrial engineering. interested in operations, quality and process improvement. bilingual (english and french).",
+          "shared_words": [
+            "engineering"
+          ]
+        },
+        {
+          "phrase": "mandatory",
+          "count": 1,
+          "where": "Required",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "methods",
+          "count": 1,
+          "where": "Required",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "rigor",
+          "count": 2,
+          "where": "Required",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "motivated",
+          "count": 1,
+          "where": "Required",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "standardization",
+          "count": 1,
+          "where": "Required",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "challenges",
+          "count": 1,
+          "where": "Required",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "observation",
+          "count": 1,
+          "where": "Required",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "analytical mindset",
+          "count": 1,
+          "where": "Required",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "operators",
+          "count": 1,
+          "where": "Required",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "supervisors",
+          "count": 1,
+          "where": "Required",
+          "status": "M",
+          "counted": true,
+          "cv_line": "- drew process maps of the packing line with the supervisor",
+          "shared_words": []
+        },
+        {
+          "phrase": "customers outside",
+          "count": 1,
+          "where": "Required",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
+          "phrase": "basis",
+          "count": 1,
+          "where": "Required",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        }
+      ],
       "oasis": {
         "loaded": true,
         "built": "2026-10-24"

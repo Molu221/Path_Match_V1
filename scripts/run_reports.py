@@ -42,6 +42,13 @@ def main():
             "flags": kx.find_flags(text),
             "job_skills": job_kw,
         }
+        ts = kx.term_summary(text, cv_text)
+        row["phrases_counted"] = ts["counted"]
+        row["phrases_matched"] = ts["matched"]
+        row["phrases_close"] = ts["close"]
+        row["phrase_coverage_pct"] = ts["pct"]
+        row["phrase_coverage_with_close_pct"] = ts["pct_with_close"]
+        row["phrases"] = ts["phrases"]
         row.update(kx.oasis_report_data(text, cv_text, matched, missing, cv_kw, related, job_kw))
         rows.append(row)
         (ROOT / "reports" / (post.stem + ".json")).write_text(
@@ -51,9 +58,9 @@ def main():
            "note": "Heuristic keyword coverage = matched / job skills. Related skills are listed, not counted. Flags are to verify, not scored."}
     (ROOT / "docs" / "reports.json").write_text(json.dumps(out, indent=2, ensure_ascii=False), encoding="utf-8")
     md = ["# Keyword report", "", f"CV: `{cv_path.name}`", "",
-          "| Company | Role | Coverage | Matched | Missing | Flags to verify |", "|---|---|---|---|---|---|"]
+          "| Company | Role | Skill coverage | Matched | Missing | All-phrase coverage | Flags to verify |", "|---|---|---|---|---|---|---|"]
     for r in rows:
-        md.append(f"| {r['company']} | {r['title']} | {r['coverage_pct']}% | {len(r['matched'])} | {len(r['missing'])} | {', '.join(r['flags'])} |")
+        md.append(f"| {r['company']} | {r['title']} | {r['coverage_pct']}% | {len(r['matched'])} | {len(r['missing'])} | {r['phrase_coverage_pct']}% of {r['phrases_counted']} | {', '.join(r['flags'])} |")
     (ROOT / "reports" / "summary.md").write_text("\n".join(md) + "\n", encoding="utf-8")
     print("\n".join(md))
 

@@ -20,6 +20,7 @@ import pathlib
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))   # find oasis.py next to this file
 import oasis   # OaSIS helpers (python/oasis.py). Data file: python/oasis_data.json
+import terms   # keywords from the whole posting, with no skill list (python/terms.py)
 
 # ----------------------------------------------------------------------------
 # PART 1. THE SKILL LIST  (a "dictionary": official name -> other ways to write it)
@@ -310,6 +311,53 @@ def find_skills_in_line(line):
     return kept
 
 
+def kept_spans(line):
+    """Where the dictionary skills sit on an already folded line (nested ones left out, as in find_skills_in_line).
+    terms.py cuts these words out before it reads the other phrases."""
+    spans = {name: [m.span() for m in pat.finditer(line)] for name, pat in PATTERNS.items()}
+    spans = {n: s for n, s in spans.items() if s}
+    allsp = [(n, sp) for n, lst in spans.items() for sp in lst]
+    out = []
+    for name, own in spans.items():
+        if all(any(o != name and x <= a and b <= y and (y - x) > (b - a) for o, (x, y) in allsp) for a, b in own):
+            continue
+        out.extend(own)
+    return out
+
+
+def extract_terms(text):
+    """Every phrase of the text that is not one of the dictionary skills (see terms.py)."""
+    return terms.extract_terms(text, kept_spans)
+
+
+def term_report(job_text, cv_text):
+    """The phrases of a posting compared with the CV: {key: (status, info)}, status M / R / G."""
+    found = extract_terms(job_text)
+    return found, terms.match_terms(found, terms.index_cv(cv_text))
+
+
+def term_summary(job_text, cv_text):
+    """Every phrase of the posting (not only the dictionary skills) against the CV.
+    Phrases from the company / benefits part ("About") are listed but not counted.
+    Returns {"phrases": [...], "counted", "matched", "close", "pct", "pct_with_close"}."""
+    found, hits = term_report(job_text, cv_text)
+    tags = terms.line_tags(job_text)
+    rows = []
+    for key, e in found.items():
+        status, info = hits[key]
+        tag = terms.term_tag(e, tags)
+        rows.append({"phrase": e["name"], "count": e["count"], "where": tag or "-", "status": status,
+                     "counted": tag != "About",
+                     "cv_line": (info or {}).get("line", ""),
+                     "shared_words": (info or {}).get("shared", []) if status == "R" else []})
+    counted = [r for r in rows if r["counted"]]
+    m = sum(r["status"] == "M" for r in counted)
+    c = sum(r["status"] == "R" for r in counted)
+    n = len(counted)
+    pct = lambda v: round(100 * v / n, 1) if n else 0.0
+    return {"phrases": rows, "counted": n, "matched": m, "close": c, "pct": pct(m), "pct_with_close": pct(m + 0.5 * c)}
+
+
 def split_job_sections(job_text):
     """Walk through the job post line by line. When a line is a known heading,
     switch the 'current section'. Every other line belongs to the current section."""
@@ -472,6 +520,16 @@ def main(job_path, cv_path):
     cover = 100 * len(matched) / len(job_kw)
     print(f"  Coverage = {len(matched)} matched / {len(job_kw)} job skills = {cover:.0f}%\n")
 
+    print("STEP 5a EVERY OTHER PHRASE of the post (any field, no list needed; terms.py)")
+    ts = term_summary(job_text, cv_text)
+    for label, st in (("MATCH (same words on the CV)", "M"), ("CLOSE (not counted as a match)", "R"), ("GAP (not on the CV)", "G")):
+        names = [r["phrase"] + (f" x{r['count']}" if r["count"] > 1 else "") for r in ts["phrases"] if r["counted"] and r["status"] == st]
+        shown = ", ".join(names[:40]) + (f", ... (+{len(names) - 40} more, see results.json)" if len(names) > 40 else "")
+        print(f"  {label}: {len(names)}\n    {shown or 'none'}")
+    about = sum(not r["counted"] for r in ts["phrases"])
+    print(f"  Phrases from the company / benefits part, listed but not counted: {about}")
+    print(f"  Phrase coverage = {ts['matched']} matched / {ts['counted']} phrases = {ts['pct']}%   (with close at half credit: {ts['pct_with_close']}%)\n")
+
     print("STEP 5b OaSIS: occupations and inferred links (listed, never counted as matches)")
     extra_info = oasis_report(job_text, cv_text, matched, missing, cv_kw, related, job_kw)
     print()
@@ -482,7 +540,7 @@ def main(job_path, cv_path):
 
     out = {"job_skills": job_kw, "cv_skills": cv_kw, "matched": matched, "missing": missing,
            "extra": extra, "related_not_counted": related, "coverage_pct": round(cover, 1),
-           "flags": find_flags(job_text), **extra_info}
+           "flags": find_flags(job_text), "phrases": ts, **extra_info}
     with open("results.json", "w", encoding="utf-8") as f:
         json.dump(out, f, indent=2, ensure_ascii=False)
     print("\nSaved: results.json")

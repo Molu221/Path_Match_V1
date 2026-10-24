@@ -8,6 +8,7 @@ python/keyword_extractor.py does:
     cv_headings  lines of a CV that are only a heading ("Languages") and are not skills
     related   the hand-written "looks related, not the same word" pairs from the extractor, with a reason (why)
     flags     the things to check yourself (degree level, years of experience...), never scored
+    terms     the filler and broad words used by the open-vocabulary phrase finder (python/terms.py)
     inferred  for each skill, the skills that sit in many of the same OaSIS occupations
               (listed on the page, never counted as a match)
 
@@ -21,6 +22,7 @@ import sys
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "python"))
 import keyword_extractor as kx  # noqa: E402
+import terms  # noqa: E402
 import oasis  # noqa: E402
 
 KEEP_PER_SKILL = 60          # most similar skills kept for each skill (the page needs the top 2 present on a CV)
@@ -65,7 +67,8 @@ def build():
     return {"meta": meta, "skills": skills, "related": kx.RELATED, "inferred": inferred_table(kx.OASIS),
             "why": {f"{a}|{b}": reason for (a, b), reason in kx.RELATED_WHY.items()},
             "flags": [{"n": name, "p": pat} for name, pat in kx.FLAG_PATTERNS.items()],
-            "cv_headings": kx.CV_HEADINGS}
+            "cv_headings": kx.CV_HEADINGS,
+            "terms": {"stop": sorted(terms.STOP), "weak": sorted(terms.WEAK)}}
 
 
 def main():

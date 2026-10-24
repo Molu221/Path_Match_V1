@@ -85,6 +85,17 @@ a{color:var(--accent)}
 .sk-h{font-size:12.5px;color:var(--mute);margin-bottom:5px}
 .sk-h b{color:var(--ink)}
 .kw.sk span{font-size:11.5px;padding:1px 7px}
+.kw .t{border-style:dashed}
+.mapgrid .kw{max-height:200px;overflow:auto;align-content:flex-start}
+.mapscroll{max-height:460px;overflow:auto;border:1px solid var(--line);border-radius:6px}
+.mapscroll .maptab thead th{position:sticky;top:0;background:var(--panel);z-index:1}
+.mapfilter{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin:10px 0 4px;font-size:12.5px}
+.mapfilter button{font:inherit;padding:2px 10px;border:1px solid var(--line);border-radius:999px;background:var(--bg);color:var(--ink);cursor:pointer}
+.mapfilter button.on{background:var(--ink);color:var(--bg)}
+.mapbody[data-f="M"] tr.r-R,.mapbody[data-f="M"] tr.r-G,.mapbody[data-f="R"] tr.r-M,.mapbody[data-f="R"] tr.r-G,.mapbody[data-f="G"] tr.r-M,.mapbody[data-f="G"] tr.r-R{display:none}
+.mapbody[data-f="skill"] tr.k-term,.mapbody[data-f="term"] tr.k-skill{display:none}
+.kw .off{background:none;color:var(--mute)}
+.maptab tr.off td{color:var(--mute)}
 .kw .more{border-style:dashed;color:var(--mute);background:none}
 .kw .more::before{content:""}
 .mapnums{display:flex;gap:10px;flex-wrap:wrap;margin:6px 0 4px}
@@ -97,7 +108,7 @@ a{color:var(--accent)}
 .mapgrid .pair i{font-style:normal;color:var(--mute)}
 .maptab{width:100%;border-collapse:collapse;font-size:12.5px;min-width:700px}
 .maptab th,.maptab td{text-align:left;vertical-align:top;border-top:1px solid var(--line);padding:6px 8px;overflow-wrap:break-word}
-.maptab th:nth-child(1){width:16%;min-width:110px}.maptab th:nth-child(2){width:8%;min-width:70px}.maptab th:nth-child(3){width:30%}.maptab th:nth-child(4){width:32%}.maptab th:nth-child(5){width:14%;min-width:96px}
+.maptab th:nth-child(1){width:14%;min-width:110px}.maptab th:nth-child(2){width:7%;min-width:60px}.maptab th:nth-child(3){width:8%;min-width:70px}.maptab th:nth-child(4){width:28%}.maptab th:nth-child(5){width:28%}.maptab th:nth-child(6){min-width:96px}
 .srctab{min-width:640px}.srctab th:nth-child(n),.srctab th{width:auto}.srctab th:nth-child(1){width:15%;min-width:100px}.srctab th:nth-child(2){width:34%}.srctab th:nth-child(3){width:17%}.srctab th:nth-child(4){width:9%;min-width:60px}.srctab th:nth-child(5){width:25%}
 .maptab th{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--mute);border-top:0}
 .maptab td.sn{font-weight:600}
@@ -488,9 +499,13 @@ function sourceTable(){
 }
 let DICT=null;
 function cvFound(){if(!DICT||!CV)return null;if(!CV.py)CV.py=DICT.findCv(CV.raw);return CV.py;}
-const TAGW={Title:0,Required:1,Task:2,Preferred:3,"":4};
-/* One posting against the CV. Rows are the skills written in the posting (title + full text), each one
-   M = same skill on the CV, R = close but not the same word (not counted as a match), G = not on the CV. */
+function cvIx(){if(!DICT||!CV)return null;if(!CV.ix)CV.ix=DICT.indexCv(CV.raw);return CV.ix;}
+const TAGW={Title:0,Required:1,Task:2,Preferred:3,"":4,About:5};
+/* One posting against the CV. A row is a keyword written in the posting (title + full text):
+   kind "skill" = a skill of the dictionary (English and French names, with its close skills),
+   kind "term"  = any other phrase of the text, whatever the field (no list needed).
+   st: M = the same words are on the CV, R = close but not the same (not counted as a match), G = not on the CV.
+   Phrases from the company / benefits part of the posting are listed but not counted. */
 function mapData(j){
   if(!DICT||!CV)return null;
   if(j._map&&j._map.cv===CV&&j._map.dict===DICT)return j._map;
@@ -501,11 +516,21 @@ function mapData(j){
   const tl=j.title.length;
   const rows=Object.keys(job).map(n=>{
     const e=job[n];
-    return {n,e,st:cvf[n]?"M":links[n]?"R":"G",tag:e.first<tl?"Title":DICT.tagOf(e,secs),links:links[n]||[]};
+    return {n,e,kind:"skill",counted:true,st:cvf[n]?"M":links[n]?"R":"G",tag:e.first<tl?"Title":DICT.tagOf(e,secs),links:links[n]||[]};
+  });
+  const tf=DICT.terms(text),th=DICT.matchTerms(tf,cvIx());
+  Object.keys(tf).forEach(k=>{
+    const e=tf[k],h=th[k],tag=e.first<tl?"Title":DICT.tagOf(e,secs);
+    rows.push({n:e.name,e,kind:"term",counted:tag!=="About",st:h.st,tag,hit:h,
+      links:h.st==="R"?[{job:e.name,cv:h.shared.join(", "),label:"Shares words",why:h.cvWord?"same word stem: “"+h.cvWord+"” on your CV":"the CV has the word"+(h.shared.length>1?"s":"")+" “"+h.shared.join("”, “")+"” on one line"}]:[]});
   });
   const ord={M:0,R:1,G:2};
-  rows.sort((x,y)=>ord[x.st]-ord[y.st]||TAGW[x.tag]-TAGW[y.tag]||x.e.first-y.e.first);
-  return (j._map={cv:CV,dict:DICT,text,cvf,job,r,rows,fl,links});
+  rows.sort((x,y)=>ord[x.st]-ord[y.st]||TAGW[x.tag]-TAGW[y.tag]||(x.kind==="skill"?0:1)-(y.kind==="skill"?0:1)||((y.e.words||[]).length>1)-((x.e.words||[]).length>1)||x.e.first-y.e.first);
+  const cnt=rows.filter(x=>x.counted),M=cnt.filter(x=>x.st==="M").length,R=cnt.filter(x=>x.st==="R").length,N=cnt.length;
+  const pc=v=>N?Math.round(1000*v/N)/10:0;
+  const part=k=>{const c=cnt.filter(x=>x.kind===k);return {total:c.length,matched:c.filter(x=>x.st==="M").length};};
+  const tot={total:N,matched:M,close:R,pct:pc(M),pctRel:pc(M+0.5*R),skills:part("skill"),terms:part("term"),about:rows.length-N};
+  return (j._map={cv:CV,dict:DICT,text,cvf,job,r,rows,fl,links,tot});
 }
 /* the text around a match, with the matched words in bold (text is the original, not folded) */
 function snip(text,sp,n){
@@ -519,67 +544,79 @@ function snip(text,sp,n){
 }
 const SK_CLS={M:"M",R:"R",G:"G"};
 const half=x=>String(Math.round(x*10)/10);
-/* the skills row directly under the job title */
+/* the keywords row directly under the job title */
 function skillsRow(j){
-  if(!DICT)return '<div class="skills"><span class="note">Reading the skills…</span></div>';
-  const m=mapData(j),where=j.desc?"posting":"title";
-  if(!m.rows.length)return `<div class="skills"><span class="note">No dictionary skills are written in the ${where}.${j.desc&&!j.partial?"":" Only "+(j.desc?"a short snippet":"the title")+" is available: open the card and paste the full description."}</span></div>`;
-  const MAX=18,shown=m.rows.slice(0,MAX),more=m.rows.length-shown.length;
+  if(!DICT)return '<div class="skills"><span class="note">Reading the keywords…</span></div>';
+  const m=mapData(j),where=j.desc?"posting":"title",t=m.tot;
+  const need=j.desc&&!j.partial&&!j.pasted?"":" Only "+(j.desc?"a short snippet":"the title")+" is available: open the card and paste the full description.";
+  if(!m.rows.length)return `<div class="skills"><span class="note">No keywords were found in the ${where}.${need}</span></div>`;
+  const MAX=18,shown=m.rows.filter(x=>x.counted).slice(0,MAX),more=t.total-shown.length;
   const chips=shown.map(x=>{
-    const t=x.st==="M"?"On your CV: "+(m.cvf[x.n].evidence||""):x.st==="R"?"Close, not the same word: "+x.links.map(l=>l.cv+" ("+l.label+")").join(", ")+". Not counted as a match.":"Not written on your CV.";
-    return `<span class="${SK_CLS[x.st]}" title="${esc((x.tag?x.tag+": ":"")+t)}">${esc(x.n)}</span>`;
+    const t=x.st==="M"?"On your CV: "+(x.kind==="skill"?(m.cvf[x.n].evidence||""):(x.hit.line||"")):x.st==="R"?"Close, not the same words: "+x.links.map(l=>l.cv+" ("+l.label+")").join(", ")+". Not counted as a match.":"Not written on your CV.";
+    return `<span class="${SK_CLS[x.st]}${x.kind==="term"?" t":""}" title="${esc((x.tag?x.tag+": ":"")+t)}">${esc(x.n)}</span>`;
   }).join("");
-  const nL=m.r.linkedCount;
-  return `<div class="skills"><div class="sk-h"><b>${m.r.matched.length} of ${m.r.total}</b> skills ${j.desc?"in the posting":"in the title"} are on your CV · ${m.r.coveragePct}%${nL?` · ${nL} close, not counted`:""}${j.desc?(j.pasted?" · from the text you pasted":j.partial?" · short snippet only: open the card to paste the full text":""):" · title only: open the card to paste the full text"}</div>
-    <div class="kw sk">${chips}${more?`<span class="more">+${more} more, open the card</span>`:""}</div></div>`;
+  return `<div class="skills"><div class="sk-h"><b>${t.matched} of ${t.total}</b> keywords ${j.desc?"in the posting":"in the title"} are on your CV · ${t.pct}%${t.close?` · ${t.close} close, not counted`:""} · <span title="Skills of the dictionary, English and French">${t.skills.matched} of ${t.skills.total} skills</span> + <span title="Every other phrase of the text, any field">${t.terms.matched} of ${t.terms.total} other phrases</span>${j.desc?(j.pasted?" · from the text you pasted":j.partial?" · short snippet only: open the card to paste the full text":""):" · title only: open the card to paste the full text"}</div>
+    <div class="kw sk">${chips}${more>0?`<span class="more">+${more} more, open the card</span>`:""}</div></div>`;
 }
 /* the mapping panel inside the card */
 function pasteBox(j){
   if(j.desc&&!j.partial&&!j.pasted)return "";
   const k=esc(jkey(j));
-  const msg=j.pasted?"The skills below come from the full text you pasted.":j.desc?"Only a short snippet of this posting is available, so only some skills are listed.":"Only the title is available, so only skills written in the title are listed.";
+  const msg=j.pasted?"The keywords below come from the full text you pasted.":j.desc?"Only a short snippet of this posting is available, so only some keywords are listed.":"Only the title is available, so only the keywords of the title are listed.";
   return `<div class="paste"><b>${msg}</b>
     <div class="note" style="margin-top:6px">Paste the whole job description (from LinkedIn, Indeed or the employer's page).</div>
     <textarea aria-label="Full job description" data-pk="${k}" placeholder="Paste the full posting text here: tasks, requirements, assets, language and eligibility"></textarea>
-    <div class="row" style="margin-top:6px"><button class="primary" data-act="usepaste" data-pk="${k}">Extract skills from this text</button>${j.pasted?`<button data-act="clearpaste" data-pk="${k}">Remove the pasted text</button>`:""}<span class="note" data-msg="${k}">Stays in this browser only.</span></div></div>`;
+    <div class="row" style="margin-top:6px"><button class="primary" data-act="usepaste" data-pk="${k}">Extract keywords from this text</button>${j.pasted?`<button data-act="clearpaste" data-pk="${k}">Remove the pasted text</button>`:""}<span class="note" data-msg="${k}">Stays in this browser only.</span></div></div>`;
 }
 function mapPanel(j){
-  const head='<h3>Mapping: posting skills ↔ your CV</h3>'+pasteBox(j);
-  if(!DICT)return head+'<p class="note">The skill dictionary is loading…</p>';
-  const m=mapData(j),r=m.r,cv=m.cvf;
-  if(!m.rows.length)return head+`<p class="note">None of the dictionary skills are written in this posting's ${j.desc?"text":"title"}.</p>`;
-  const both=m.rows.filter(x=>x.st==="M"),near=m.rows.filter(x=>x.st==="R"),miss=m.rows.filter(x=>x.st==="G");
-  const chip=(x,c)=>`<span class="${c}" title="${esc(x.tag||"")}">${esc(x.n)}</span>`;
+  const head='<h3>Mapping: every keyword of the posting ↔ your CV</h3>'+pasteBox(j);
+  if(!DICT)return head+'<p class="note">The dictionary is loading…</p>';
+  const m=mapData(j),r=m.r,cv=m.cvf,t=m.tot;
+  if(!m.rows.length)return head+`<p class="note">No keywords were found in this posting's ${j.desc?"text":"title"}.</p>`;
+  const cnt=m.rows.filter(x=>x.counted),abt=m.rows.filter(x=>!x.counted);
+  const both=cnt.filter(x=>x.st==="M"),near=cnt.filter(x=>x.st==="R"),miss=cnt.filter(x=>x.st==="G");
+  const chip=(x,c)=>`<span class="${c}${x.kind==="term"?" t":""}" title="${esc(x.tag||"")}">${esc(x.n)}</span>`;
   const nearHtml=near.map(x=>`<div class="pair">post “${esc(x.n)}” <i>≈ CV</i> ${x.links.map(l=>`“${esc(l.cv)}” <i title="${esc(l.why)}">(${l.label})</i>`).join(", ")}</div>`).join("")||'<span class="note">None.</span>';
   const flHtml=m.fl.length?m.fl.map(f=>`<div class="pair">${esc(f.name)}</div>`).join(""):'<span class="note">None found in the text.</span>';
-  const withRel=r.matched.length+0.5*r.linkedCount;
-  const rows=m.rows.map(x=>{
+  const kindOf=x=>x.kind==="skill"?"Skill":"Phrase";
+  const rows=m.rows.filter(x=>x.counted).map(x=>{
     const inPost=snip(m.text,x.e.spans[0])+(x.e.count>1?` <i class="note">×${x.e.count}</i>`:"");
     let onCv,res;
-    if(x.st==="M"){const c=cv[x.n];onCv=snip(CV.raw,c.spans[0])+(c.section&&c.section!=="HEADER"?` <i class="note">· ${esc(c.section)}</i>`:"");res='<span class="pill g">Match</span>';}
-    else if(x.st==="R"){onCv=x.links.map(l=>{const c=cv[l.cv];return `≈ <b>${esc(l.cv)}</b> (${l.label}, ½): ${esc(l.why)}${c?`<br>${snip(CV.raw,c.spans[0],40)}`:""}`;}).join("<br>");res='<span class="pill w">Close ½, not a match</span>';}
-    else{onCv="Not written on your CV.";res='<span class="pill b">Gap</span>';}
-    return `<tr><td class="sn">${esc(x.n)}</td><td>${esc(x.tag||"—")}</td><td class="q">${inPost}</td><td class="q">${onCv}</td><td>${res}</td></tr>`;
+    if(x.st==="M"){
+      if(x.kind==="skill"){const c=cv[x.n];onCv=snip(CV.raw,c.spans[0])+(c.section&&c.section!=="HEADER"?` <i class="note">· ${esc(c.section)}</i>`:"");}
+      else onCv=snip(CV.raw,x.hit.spans[0]);
+      res='<span class="pill g">Match</span>';
+    }else if(x.st==="R"){
+      onCv=x.links.map(l=>{
+        if(x.kind==="skill"){const c=cv[l.cv];return `≈ <b>${esc(l.cv)}</b> (${l.label}, ½): ${esc(l.why)}${c?`<br>${snip(CV.raw,c.spans[0],40)}`:""}`;}
+        return `≈ <b>${esc(l.cv)}</b> (${l.label}, ½): ${esc(l.why)}<br>${snip(CV.raw,x.hit.spans[0],40)}`;
+      }).join("<br>");
+      res='<span class="pill w">Close ½, not a match</span>';
+    }else{onCv="Not written on your CV.";res='<span class="pill b">Gap</span>';}
+    return `<tr class="r-${x.st} k-${x.kind}"><td class="sn">${esc(x.n)}</td><td>${kindOf(x)}</td><td>${esc(x.tag||"—")}</td><td class="q">${inPost}</td><td class="q">${onCv}</td><td>${res}</td></tr>`;
   }).join("");
-  /* posting text: green = on the CV, amber = close, red = not on the CV, dotted = check yourself */
+  /* posting text: green = on the CV, amber = close, red = not on the CV, grey = company / benefits text, dotted = check yourself */
   const pm=[];
-  m.rows.forEach(x=>x.e.spans.forEach(([a,b])=>pm.push({a,b,cls:x.st==="M"?"m-ok":x.st==="R"?"m-near":"m-bad",title:x.n+(x.tag?" · "+x.tag:"")+(x.st==="M"?": on your CV":x.st==="R"?": close, not counted":": not on your CV")})));
+  m.rows.forEach(x=>x.e.spans.forEach(([a,b])=>pm.push({a,b,cls:!x.counted?"m-off":x.st==="M"?"m-ok":x.st==="R"?"m-near":"m-bad",title:x.n+(x.tag?" · "+x.tag:"")+(!x.counted?": company / benefits text, not counted":x.st==="M"?": on your CV":x.st==="R"?": close, not counted":": not on your CV")})));
   const sm=[];m.fl.forEach(f=>f.spans.forEach(([a,b])=>sm.push({a,b,cls:"m-chk",title:"Check yourself: "+f.name})));
   /* CV text: green = the posting asks for it, amber = close to something the posting asks for, grey = on the CV, not asked */
   const closeCv=new Set(m.r.links.map(l=>l.cv)),cm=[];
   Object.keys(cv).forEach(n=>cv[n].spans.forEach(([a,b])=>cm.push({a,b,cls:m.job[n]?"m-ok":closeCv.has(n)?"m-near":"m-off",title:n+(cv[n].section&&cv[n].section!=="HEADER"?" · "+cv[n].section:"")+(m.job[n]?": the posting asks for it":closeCv.has(n)?": close to a skill in the posting":": the posting does not ask for it")})));
-  return head+`<div class="mapnums"><div><b>${r.matched.length} of ${r.total} = ${r.coveragePct}%</b>exact words: the same skill is written on both</div>
-      <div><b>${half(withRel)} of ${r.total} = ${r.coverageWithRelatedPct}%</b>with close skills at half credit</div></div>
-    <p class="note">The 0–100 score above still uses its own keyword list; this panel is the dictionary view (Python list + OaSIS, English and French). A close skill is never shown as a match.</p>
+  m.rows.filter(x=>x.kind==="term"&&x.counted&&x.hit.spans).forEach(x=>x.hit.spans.forEach(([a,b])=>cm.push({a,b,cls:x.st==="M"?"m-ok":"m-near",title:x.n+(x.st==="M"?": the posting asks for it":": close to a phrase in the posting")})));
+  const aboutHtml=abt.length?`<details class="old"><summary>From the company / benefits part of the posting (${abt.length} phrases, listed but not counted)</summary><div class="kw" style="margin-top:6px;max-height:200px;overflow:auto">${abt.map(x=>`<span class="off${x.kind==="term"?" t":""}" title="${esc(x.st==="M"?"on your CV":x.st==="R"?"close to something on your CV":"not on your CV")}">${esc(x.n)}</span>`).join("")}</div></details>`:"";
+  return head+`<div class="mapbody" data-f="all" onclick="const b=event.target.closest('.mapfilter button');if(b){this.dataset.f=b.dataset.f;this.querySelectorAll('.mapfilter button').forEach(x=>x.classList.toggle('on',x===b));}"><div class="mapnums"><div><b>${t.matched} of ${t.total} = ${t.pct}%</b>exact words: the same keyword is written on both (${t.skills.matched} of ${t.skills.total} dictionary skills + ${t.terms.matched} of ${t.terms.total} other phrases)</div>
+      <div><b>${half(t.matched+0.5*t.close)} of ${t.total} = ${t.pctRel}%</b>with close keywords at half credit</div></div>
+    <p class="note">The 0–100 score above still uses its own title keyword list. This panel reads <b>every phrase of the posting</b>, in any field: the dictionary (Python list + OaSIS, English and French) names the skills it knows and every other phrase is taken as written. Filler words (the, experience, skills, benefits…) are never keywords. A close keyword is never shown as a match.</p>
     <div class="mapgrid">
       <div><h4>Found on both (${both.length})</h4><div class="kw">${both.map(x=>chip(x,"M")).join("")||'<span class="note">None.</span>'}</div></div>
       <div><h4>In the post, not on your CV (${miss.length})</h4><div class="kw">${miss.map(x=>chip(x,"G")).join("")||'<span class="note">None.</span>'}</div></div>
       <div><h4>Close, not counted (${near.length})</h4>${nearHtml}</div>
       <div><h4>Check yourself, not scored (${m.fl.length})</h4>${flHtml}</div>
-    </div>
-    <div class="tabwrap" style="margin-top:10px"><table class="maptab"><thead><tr><th>Skill</th><th>Where</th><th>In the posting</th><th>On your CV</th><th>Result</th></tr></thead><tbody>${rows}</tbody></table></div>
-    <div class="texts"><div><h4>The posting</h4><div class="legend"><mark class="m-ok">on your CV</mark><mark class="m-near">close, not counted</mark><mark class="m-bad">not on your CV</mark><mark class="m-chk">check yourself</mark></div><pre class="hl">${Matcher.highlight(m.text,pm,sm)}</pre></div>
-      <div><h4>Your CV</h4><div class="legend"><mark class="m-ok">in the post</mark><mark class="m-near">close, not counted</mark><mark class="m-off">not asked by this post</mark></div><pre class="hl">${Matcher.highlight(CV.raw,cm)}</pre></div></div>`;
+    </div>${aboutHtml}
+    <div class="mapfilter">Show: <button class="on" data-f="all">All ${cnt.length}</button><button data-f="M">Match ${both.length}</button><button data-f="R">Close ${near.length}</button><button data-f="G">Gap ${miss.length}</button><button data-f="skill">Skills ${t.skills.total}</button><button data-f="term">Other phrases ${t.terms.total}</button></div>
+    <div class="mapscroll"><table class="maptab"><thead><tr><th>Keyword</th><th>Type</th><th>Where</th><th>In the posting</th><th>On your CV</th><th>Result</th></tr></thead><tbody>${rows}</tbody></table></div>
+    <div class="texts"><div><h4>The posting</h4><div class="legend"><mark class="m-ok">on your CV</mark><mark class="m-near">close, not counted</mark><mark class="m-bad">not on your CV</mark><mark class="m-off">company / benefits</mark><mark class="m-chk">check yourself</mark></div><pre class="hl">${Matcher.highlight(m.text,pm,sm)}</pre></div>
+      <div><h4>Your CV</h4><div class="legend"><mark class="m-ok">in the post</mark><mark class="m-near">close, not counted</mark><mark class="m-off">not asked by this post</mark></div><pre class="hl">${Matcher.highlight(CV.raw,cm)}</pre></div></div></div>`;
 }
 
 let tab="main",RES=[];
@@ -653,16 +690,20 @@ function render(){
       <li><b>Keyword overlap (0–32):</b> 32 × (Match + 0.5 × Related) ÷ keywords in the title; generic words count 0.4. Title-only scoring caps the total below 100. Match needs the same term on your CV.</li>
       <li><b>Flags, not points:</b> language, work-permit, security and term are shown beside the score so a hidden rule never silently lowers or raises a rank.</li>
       <li>This is a heuristic, not a real applicant tracking system. Differences of 5 points or less are ties.</li></ul></div>
-      <div class="panel method" style="margin-top:12px"><h2>Skills and the mapping to your CV (Python list + OaSIS)</h2><ul>
-      <li><b>Under each job title</b> you see the skills written in that posting (its full text when we have it, otherwise only the title). <span class="kw" style="display:inline"><span class="M">green</span></span> = the same skill is written on your CV, <span class="kw" style="display:inline"><span class="R">amber</span></span> = close but not the same word (not counted), <span class="kw" style="display:inline"><span class="G">red</span></span> = not on your CV.</li>
-      <li>The skills are read from the <b>whole posting text</b>. Postings from the employers' open job boards carry their full text. A card that only has a title or a short snippet has a box where you can <b>paste the full description</b> (from LinkedIn, Indeed or the employer's page); the skills, the mapping and the score are then recalculated from that text. The pasted text stays in your browser.</li>
-      <li><b>Open a card</b> for the mapping: found on both, in the post but not on your CV, close (not counted), and things to check yourself (degree level, years of experience, work authorization, security, language). Each skill shows where it sits in the posting (Required, Task or Preferred, from the headings) and the exact words on your CV with their section. The posting and your CV are shown highlighted side by side.</li>
-      <li>Two figures per posting: <b>exact words</b> = matched ÷ skills in the posting, and <b>with close skills at half credit</b> = (matched + 0.5 × close) ÷ skills in the posting.</li>
-      <li>${DICT?`The dictionary has ${DICT.size} skills: the ${DICT.meta.curated} curated ones from <code>python/keyword_extractor.py</code> plus the English and French names of skills, abilities, knowledge areas, work activities and personal attributes from <b>${esc(DICT.meta.source||"OaSIS")}</b> (${DICT.meta.occupations||"?"} occupations, Open Government Licence - Canada). Built ${esc(DICT.meta.built||"")}.`:"The dictionary file could not be loaded."}</li>
-      <li>Accents and capitals do not matter, so "résolution de problèmes" and "problem solving" are the same skill. A skill that sits inside a longer skill's words is not counted twice.</li>
-      <li><b>Match</b> = the same skill is written on your CV. <b>Close</b> = a hand-written pair (Strong) or two skills that OaSIS rates high in many of the same occupations (Likely). Close skills are listed with the reason and count half in the second figure; they are never shown as matches. Flags are never scored.</li>
-      <li>The 0–100 score is unchanged and still uses its own keyword list; the older keyword detail sits in a collapsed section at the bottom of each card.</li>
-      <li>The same dictionary and rules run in <code>python/keyword_extractor.py</code> and in <a href="reports.html">the keyword reports</a>.</li></ul></div>
+      <div class="panel method" style="margin-top:12px"><h2>Keywords and the mapping to your CV (any field)</h2><ul>
+      <li><b>Every keyword of the posting is read, not only a fixed list.</b> The whole text (title and description) is cut into phrases at the filler words, so "root cause analysis", "génie informatique" or "vulnerability identification" are keywords even if no list contains them. This works for any job in any field, in English and French.</li>
+      <li>Two kinds of keyword appear, marked in the table: a <b>skill</b> is a name the dictionary knows (the ${DICT?DICT.meta.curated:"curated"} hand-written skills of <code>python/keyword_extractor.py</code> plus the English and French skill names of <b>${DICT?esc(DICT.meta.source||"OaSIS"):"OaSIS"}</b>, ${DICT?DICT.size:"?"} in all); an <b>other phrase</b> is any other run of words taken as written (dashed outline on the chips). The two are never counted twice.</li>
+      <li><b>Under each job title</b> you see the first keywords, with the count. <span class="kw" style="display:inline"><span class="M">green</span></span> = the same words are written on your CV, <span class="kw" style="display:inline"><span class="R">amber</span></span> = close but not the same (not counted), <span class="kw" style="display:inline"><span class="G">red</span></span> = not on your CV. Open the card for all of them, a filter (Match, Close, Gap, Skills, Other phrases), the exact lines of your CV and the posting highlighted next to your CV.</li>
+      <li><b>Match</b> = the same words, in the same order, are on your CV (plural and accents do not matter: "dashboards" = "dashboard", "qualité" = "qualite"). <b>Close</b> = not the same, but a single word with the same stem ("planning" / "planner"), or a phrase that shares its main word(s) with one line of your CV, or a hand-written / OaSIS-linked skill pair. A close keyword is shown with the reason, counts half in the second figure and is <b>never shown as a match</b>.</li>
+      <li>Each keyword shows where it sits in the posting (Title, Required, Task or Preferred, read from the headings; an "asset" line is Preferred). Phrases from the company, benefits, equal-opportunity and application parts of the posting are <b>listed but not counted</b>, so the employer's advertising does not lower your percentage.</li>
+      <li>Two figures per posting: <b>exact words</b> = matched ÷ keywords counted, and <b>with close keywords at half credit</b> = (matched + 0.5 × close) ÷ keywords counted. Because every phrase of the text is a keyword, these percentages are lower than a list-based count, and a long posting has more keywords. The split "skills + other phrases" is always shown.</li>
+      <li><b>Known limits.</b> No list of filler words is perfect, so a few ordinary words slip through as keywords (and a few real ones are dropped). The phrase cutting is mechanical, not a language model. A keyword that is written in the other language is never a match ("project" / "projet" is Close at best). The text you paste or the collected text can be cut short.</li>
+      <li><b>Postings from the employers' open job boards carry their full text.</b> A card that only has a title or a short snippet has a box where you can paste the full description (from LinkedIn, Indeed or the employer's page); the keywords, the mapping and the score are then recalculated. The pasted text stays in your browser.</li>
+      <li>Things to check yourself (degree level, years of experience, work authorization, security, language) are listed beside the mapping and are never scored.</li>
+      <li>The 0–100 score is unchanged and still uses its own title keyword list; the older keyword detail sits in a collapsed section at the bottom of each card. The same rules run in <code>python/keyword_extractor.py</code> (<code>python/terms.py</code>) and in <a href="reports.html">the keyword reports</a>.</li>
+      <li>${DICT?`Dictionary built ${esc(DICT.meta.built||"")} from ${DICT.meta.occupations||"?"} occupations (Open Government Licence - Canada).`:"The dictionary file could not be loaded."}</li></ul>
+      ${DICT&&DICT.stopWords&&DICT.stopWords.length?`<details class="old"><summary>The ${DICT.stopWords.length} filler words that cut phrases and are never keywords (English and French, accents removed)</summary><p class="note" style="margin:6px 0">Words like these end a phrase: articles, pronouns, verbs of the job-ad voice, benefits words, months, numbers. You can read them in <code>python/terms.py</code>.</p><div class="kw sk" style="max-height:220px;overflow:auto"><span class="off">${DICT.stopWords.map(esc).join('</span><span class="off">')}</span></div></details>
+      <details class="old"><summary>The ${DICT.weakWords.length} broad words that count only inside a longer phrase</summary><div class="kw sk" style="max-height:160px;overflow:auto"><span class="off">${DICT.weakWords.map(esc).join('</span><span class="off">')}</span></div></details>`:""}</div>
       <div class="panel method" style="margin-top:12px"><h2>Where the postings come from</h2>
       <p class="note">Every source below is free to read. Postings are kept only when the location is in the Montreal area and the title or opening text points to engineering, operations, quality, supply chain, data or a student role. This is the report of the last collection (${SRC_TIME}).</p>
       ${sourceTable()}

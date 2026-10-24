@@ -3,6 +3,7 @@ The files below are SYNTHETIC test data written to a temporary folder. They are 
 Run: python3 -m unittest test.test_oasis   (from the repository root)
 """
 import json
+import re
 import pathlib
 import shutil
 import subprocess
@@ -420,6 +421,22 @@ class MatcherParityTest(unittest.TestCase):
             self.assertTrue(got["spansOk"], post.name)
             self.assertAlmostEqual(got["coveragePct"], round(100 * len(matched) / len(job_kw), 1), places=1)
             self.assertAlmostEqual(got["coverageWithRelatedPct"], rep["coverage_with_related_pct"], places=1)
+            # open vocabulary: every phrase of the posting, with the same counts and the same Match / Close / Gap
+            body = "\n".join(l for l in text.split("\n") if not re.match(r"^(JOB|COMPANY|SOURCE):", l.strip()))
+            found, hits = kx.term_report(body, cv_text)
+            self.assertEqual(sorted(got["terms"]), sorted(found), post.name)
+            for key, (count, st, shared) in got["terms"].items():
+                self.assertEqual(count, found[key]["count"], (post.name, key))
+                self.assertEqual(st, hits[key][0], (post.name, key))
+                if st == "R":
+                    self.assertEqual(sorted(shared), sorted(hits[key][1]["shared"]), (post.name, key))
+            # where each phrase sits (Required / Task / Preferred / About), from the same headings
+            import terms as tm
+            ptags = tm.line_tags(body)
+            for key in found:
+                self.assertEqual(got["termTags"][key], tm.term_tag(found[key], ptags), (post.name, key))
+            self.assertTrue(got["termSpansOk"], post.name)
+            self.assertGreater(len(found), 5, post.name)
 
     def test_french_posting_and_cv(self):
         """A French posting and a French CV: same answers in Python and in the browser matcher, and the tags
@@ -584,6 +601,58 @@ class FoldTest(unittest.TestCase):
     def test_fold(self):
         self.assertEqual(oasis.fold("Qualité – Éducation"), "qualite - education")
         self.assertEqual(oasis.norm_title("Ingénieur(e) industriel"), "ingenieur e industriel")
+
+
+class OpenVocabularyTest(unittest.TestCase):
+    """Every phrase of a posting is a keyword, in any field; the company part is listed, not counted."""
+
+    def setUp(self):
+        import keyword_extractor as kx
+        self.kx = kx
+
+    POST = (
+        "Responsibilities\n"
+        "- Stainless steel pipes and ultrasonic testing of the welds\n"
+        "Requirements\n"
+        "- Knowledge of boiler code and pressure vessels\n"
+        "- Boiler inspection\n"
+        "About us\n"
+        "We offer a friendly culture and free coffee\n"
+    )
+    CV = "Pipe fitter apprentice. Stainless steel pipes. Read boiler code drawings.\n"
+
+    def test_phrases_come_from_the_text_not_from_a_list(self):
+        s = self.kx.term_summary(self.POST, self.CV)
+        names = {r["phrase"].lower(): r for r in s["phrases"]}
+        for phrase in ("stainless steel pipes", "ultrasonic testing", "pressure vessels", "boiler code"):
+            self.assertIn(phrase, names, phrase)
+
+    def test_match_close_and_gap(self):
+        s = self.kx.term_summary(self.POST, self.CV)
+        st = {r["phrase"].lower(): r["status"] for r in s["phrases"]}
+        self.assertEqual(st["stainless steel pipes"], "M")
+        self.assertEqual(st["boiler code"], "M")
+        self.assertEqual(st["ultrasonic testing"], "G")
+        self.assertEqual(st["pressure vessels"], "G")
+        # a close phrase (shares "boiler" with a CV line) is never reported as a match
+        self.assertEqual(st["boiler inspection"], "R")
+
+    def test_company_part_is_listed_but_not_counted(self):
+        s = self.kx.term_summary(self.POST, self.CV)
+        about = [r for r in s["phrases"] if not r["counted"]]
+        self.assertTrue(any("coffee" in r["phrase"].lower() for r in about))
+        self.assertEqual(s["counted"], len(s["phrases"]) - len(about))
+        self.assertLessEqual(s["pct"], s["pct_with_close"])
+
+    def test_filler_words_are_not_keywords(self):
+        s = self.kx.term_summary("Responsibilities\n- You will be able to work with the team and support our clients\n", self.CV)
+        for r in s["phrases"]:
+            self.assertNotIn(r["phrase"].lower(), ("you", "will", "the", "with", "and", "our", "able"))
+
+    def test_french_headings_set_the_section(self):
+        import terms
+        text = "À propos de nous\nTexte\nÀ quoi ressemblera votre quotidien ?\nCréer des tableaux\nQu'est-ce qu'il vous faut pour réussir ?\nExcel avancé\nAtouts: Enovia\n"
+        self.assertEqual(terms.line_tags(text)[:6], ["About", "About", "Task", "Task", "Required", "Required"])
 
 
 if __name__ == "__main__":

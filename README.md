@@ -83,6 +83,18 @@ npm run collect                # collect now (add ADZUNA_APP_ID=... ADZUNA_APP_K
 
 `scripts/run_reports.py` runs it on every file in `posts/` against a CV in `cv/` and writes `reports/` and `docs/reports.json`. The **Keyword report** workflow does this from the Actions tab, and `docs/reports.html` shows the result on the site. To add a posting, drop a `.txt` file in `posts/` in the same format as the examples.
 
+### Every keyword of the posting, in any field (`python/terms.py`)
+
+The dictionary only names skills it knows. To read **all** the keywords of a posting, whatever the field, `python/terms.py` also cuts the whole text (title and description) into phrases at the filler words (articles, pronouns, job-ad verbs, benefits words, months, numbers, English and French, about 870 words you can read in the file). "Root cause analysis", "génie informatique" or "boiler code" are keywords with no list needed. Skills of the dictionary are taken out first, so nothing is counted twice.
+
+- **Match**: the same words, in the same order, are on the CV (plural and accents do not matter).
+- **Close**: not the same, but a single word with the same stem, or a phrase that shares its main word(s) with one CV line. Never counted as a match; half credit in the second figure.
+- **Gap**: not on the CV.
+- Phrases under company, benefits, equal-opportunity and application headings are **listed but not counted**.
+- It is mechanical: a few ordinary words slip through and a few real keywords are cut. A keyword written in the other language is never a match.
+
+`python/keyword_extractor.py` prints it as step 5a and saves it in `results.json`; `docs/matcher.js` does the same in the browser (the filler list travels in `docs/skills.json`) and the tests check that both give the same phrases, counts, statuses and sections.
+
 ## OaSIS dictionary (all NOC occupations, English and French)
 
 `scripts/build_oasis_dictionary.py` downloads the official OaSIS **2025** CSV files ([open.canada.ca dataset](https://open.canada.ca/data/en/dataset/10ce43bd-fb58-4969-806b-4bffebc87bec); the same release the [ESDC OaSIS site](https://noc.esdc.gc.ca/OaSIS/) displays, which has web pages only) and builds:

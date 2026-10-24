@@ -19,6 +19,8 @@ fetch("reports.json",{cache:"no-store"}).then(r=>r.json()).then(d=>{
   document.getElementById("v").innerHTML=d.posts.map(p=>`<details><summary>${esc(p.coverage_pct)}% · ${esc(p.company)} · ${esc(p.title)}</summary>
    <p><b class="m">Matched:</b> ${esc(p.matched.join(", ")||"none")}</p>
    <p><b class="x">Missing:</b> ${esc(p.missing.join(", ")||"none")}</p>
+   <p><b>Every phrase of the posting (any field):</b> ${esc(p.phrases_matched)} of ${esc(p.phrases_counted)} = ${esc(p.phrase_coverage_pct)}% <span class="f">(close phrases at half credit: ${esc(p.phrase_coverage_with_close_pct)}%; company and benefits text is listed in the JSON, not counted)</span></p>
+   <p><b class="x">Phrases not on the CV:</b> ${esc((p.phrases||[]).filter(x=>x.counted&&x.status==="G").slice(0,40).map(x=>x.phrase).join(", ")||"none")}</p>
    <p><b>Coverage incl. related:</b> ${esc(p.coverage_with_related_pct)}% <span class="f">(matched + 0.5 × related)</span></p>
    <p><b>Inferred from OaSIS, not counted:</b> ${esc((p.inferred_related||[]).map(x=>x[0]+" ~ "+x[1]).join("; ")||(p.oasis&&p.oasis.loaded?"none":"OaSIS data not built yet"))}</p>
    <p><b>Same occupation in job and CV:</b> ${esc((p.occupation_alignment||[]).map(x=>x.code+" "+x.label).join("; ")||"none")}</p>
