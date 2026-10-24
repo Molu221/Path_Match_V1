@@ -1,189 +1,2014 @@
 {
- "probes": [
-  {
-   "name": "jobbank search en",
-   "url": "https://www.jobbank.gc.ca/jobsearch/jobsearch?searchstring=intern&locationstring=Montreal%2C+QC&sort=D&fage=7",
-   "links": "href=\"(/jobsearch/jobposting/\\d+[^\"]*)\"",
-   "rssLinks": true,
-   "followFirst": "href=\"(/jobsearch/jobposting/\\d+[^\"]*)\"",
-   "headChars": 900
-  },
-  {
-   "name": "jobbank search fr",
-   "url": "https://www.guichetemplois.gc.ca/jobsearch/jobsearch?searchstring=stagiaire&locationstring=Montr%C3%A9al%2C+QC&sort=D&fage=7",
-   "links": "href=\"(/jobsearch/jobposting/\\d+[^\"]*)\""
-  },
-  {
-   "name": "jobbank rss guess",
-   "url": "https://www.jobbank.gc.ca/jobsearch/feed/jobSearchRSSfeed?searchstring=intern&locationstring=Montreal%2C+QC&sort=D&rows=50"
-  },
-  {
-   "name": "jobbank rss guess 2",
-   "url": "https://www.jobbank.gc.ca/jobsearch/feed/jobSearchRSSfeed?fage=7&searchstring=intern&locationstring=Montreal&sort=D&rows=50&loc=Montreal"
-  },
-  {
-   "name": "muse internship montreal",
-   "url": "https://www.themuse.com/api/public/jobs?page=0&location=Montreal%2C%20Canada&level=Internship",
-   "headChars": 1500
-  },
-  {
-   "name": "muse engineering montreal",
-   "url": "https://www.themuse.com/api/public/jobs?page=0&location=Montreal%2C%20Canada&category=Engineering"
-  },
-  {
-   "name": "workday nvidia (shape)",
-   "method": "POST",
-   "url": "https://nvidia.wd5.myworkdayjobs.com/wday/cxs/nvidia/NVIDIAExternalCareerSite/jobs",
-   "body": {
-    "appliedFacets": {},
-    "limit": 20,
-    "offset": 0,
-    "searchText": "Montreal"
-   },
-   "headChars": 1200
-  },
-  {
-   "name": "workday rtx",
-   "method": "POST",
-   "url": "https://globalhr.wd5.myworkdayjobs.com/wday/cxs/globalhr/REC_RTX_Ext_Gateway/jobs",
-   "body": {
-    "appliedFacets": {},
-    "limit": 20,
-    "offset": 0,
-    "searchText": "Montreal"
-   }
-  },
-  {
-   "name": "workday cae",
-   "method": "POST",
-   "url": "https://cae.wd3.myworkdayjobs.com/wday/cxs/cae/career/jobs",
-   "body": {
-    "appliedFacets": {},
-    "limit": 20,
-    "offset": 0,
-    "searchText": "Montreal"
-   }
-  },
-  {
-   "name": "workday bombardier a",
-   "method": "POST",
-   "url": "https://bombardier.wd3.myworkdayjobs.com/wday/cxs/bombardier/Bombardier/jobs",
-   "body": {
-    "appliedFacets": {},
-    "limit": 20,
-    "offset": 0,
-    "searchText": "Montreal"
-   }
-  },
-  {
-   "name": "workday gevernova",
-   "method": "POST",
-   "url": "https://gevernova.wd5.myworkdayjobs.com/wday/cxs/gevernova/Vernova_ExternalSite/jobs",
-   "body": {
-    "appliedFacets": {},
-    "limit": 20,
-    "offset": 0,
-    "searchText": "Montreal"
-   }
-  },
-  {
-   "name": "workday honeywell",
-   "method": "POST",
-   "url": "https://honeywell.wd5.myworkdayjobs.com/wday/cxs/honeywell/Honeywell/jobs",
-   "body": {
-    "appliedFacets": {},
-    "limit": 20,
-    "offset": 0,
-    "searchText": "Montreal"
-   }
-  },
-  {
-   "name": "workday alstom",
-   "method": "POST",
-   "url": "https://alstom.wd3.myworkdayjobs.com/wday/cxs/alstom/Alstom_External_Career_Site/jobs",
-   "body": {
-    "appliedFacets": {},
-    "limit": 20,
-    "offset": 0,
-    "searchText": "Montreal"
-   }
-  },
-  {
-   "name": "workday cn",
-   "method": "POST",
-   "url": "https://cn.wd3.myworkdayjobs.com/wday/cxs/cn/CN_Careers/jobs",
-   "body": {
-    "appliedFacets": {},
-    "limit": 20,
-    "offset": 0,
-    "searchText": "Montreal"
-   }
-  },
-  {
-   "name": "workable widget",
-   "url": "https://apply.workable.com/api/v1/widget/accounts/workable?details=true"
-  },
-  {
-   "name": "recruitee",
-   "url": "https://recruitee.recruitee.com/api/offers/"
-  },
-  {
-   "name": "breezy",
-   "url": "https://breezy.breezy.hr/json"
-  },
-  {
-   "name": "bamboohr",
-   "url": "https://bamboohr.bamboohr.com/careers/list",
-   "accept": "application/json"
-  },
-  {
-   "name": "personio",
-   "url": "https://personio.jobs.personio.de/xml"
-  },
-  {
-   "name": "teamtailor",
-   "url": "https://teamtailor.teamtailor.com/jobs.rss"
-  },
-  {
-   "name": "talent.com search",
-   "url": "https://ca.talent.com/jobs?k=intern&l=Montreal%2C+QC",
-   "links": "href=\"([^\"]*(?:/view\\?id=|/jobs/[^\"]*id=)[^\"]*)\""
-  },
-  {
-   "name": "jobillico search",
-   "url": "https://www.jobillico.com/en/search-jobs?skwd=intern&scty=Montreal"
-  },
-  {
-   "name": "indeed ca (status only)",
-   "url": "https://ca.indeed.com/jobs?q=intern&l=Montreal&fromage=7"
-  },
-  {
-   "name": "linkedin guest (status only)",
-   "url": "https://www.linkedin.com/jobs-guest/jobs/api/seeMoreJobPostings/search?keywords=intern&location=Montreal&f_TPR=r604800&start=0"
-  },
-  {
-   "name": "glassdoor (status only)",
-   "url": "https://www.glassdoor.ca/Job/montreal-intern-jobs-SRCH_IL.0,8_IC2296722_KO9,15.htm"
-  },
-  {
-   "name": "monster ca (status only)",
-   "url": "https://www.monster.ca/jobs/search?q=intern&where=Montreal"
-  },
-  {
-   "name": "ziprecruiter ca (status only)",
-   "url": "https://www.ziprecruiter.ca/jobs-search?search=intern&location=Montreal"
-  },
-  {
-   "name": "remotive api",
-   "url": "https://remotive.com/api/remote-jobs?search=engineer&limit=3"
-  },
-  {
-   "name": "arbeitnow api",
-   "url": "https://www.arbeitnow.com/api/job-board-api"
-  },
-  {
-   "name": "gc jobs (status only)",
-   "url": "https://emploisfp-psjobs.cfp-psc.gc.ca/psrs-srfp/applicant/page1800?toggleLanguage=en"
-  }
- ]
+"probes": [
+{
+"name": "jobbank search en (saved)",
+"url": "https://www.jobbank.gc.ca/jobsearch/jobsearch?searchstring=intern&locationstring=Montreal%2C+QC&sort=D&fage=30",
+"save": "jobbank_search_en.html",
+"followFirst": "href=\"(/jobsearch/jobposting/\\d+[^\"]*)\"",
+"followSave": "jobbank_detail_en.html",
+"headChars": 300
+},
+{
+"name": "jobbank search term+loc (saved)",
+"url": "https://www.jobbank.gc.ca/jobsearch/jobsearch?term=stage&locationstring=Montr%C3%A9al%2C+QC&sort=D&fage=30&page=1",
+"save": "jobbank_search_term.html",
+"headChars": 300
+},
+{
+"name": "jobbank search fprov",
+"url": "https://www.jobbank.gc.ca/jobsearch/jobsearch?searchstring=engineering+intern&fprov=QC&sort=D&fage=30",
+"save": "jobbank_search_qc.html",
+"headChars": 300
+},
+{
+"name": "jobbank atom a",
+"url": "https://www.jobbank.gc.ca/jobsearch/feed/jobSearchRSSfeed?term=intern&fage=30&sort=D&rows=100",
+"headChars": 1500
+},
+{
+"name": "jobbank atom b",
+"url": "https://www.jobbank.gc.ca/jobsearch/feed/jobSearchRSSfeed?searchstring=intern&locationstring=Montreal&fage=30&sort=D&rows=100",
+"headChars": 1500
+},
+{
+"name": "jobbank atom c",
+"url": "https://www.jobbank.gc.ca/jobsearch/feed/jobSearchRSSfeed?term=intern&fprov=QC&fage=30&sort=D&rows=100",
+"headChars": 1500
+},
+{
+"name": "jobbank atom d",
+"url": "https://www.jobbank.gc.ca/jobsearch/feed/jobSearchRSSfeed?term=ingenieur&fprov=QC&fage=30&sort=D&rows=100",
+"headChars": 1500
+},
+{
+"name": "muse sample (saved)",
+"url": "https://www.themuse.com/api/public/jobs?page=0&location=Montreal%2C%20Canada&level=Internship",
+"save": "muse.json",
+"saveChars": 30000,
+"headChars": 200
+},
+{
+"name": "workday cae search intern",
+"method": "POST",
+"url": "https://cae.wd3.myworkdayjobs.com/wday/cxs/cae/career/jobs",
+"body": {
+"appliedFacets": {},
+"limit": 20,
+"offset": 0,
+"searchText": "intern"
+},
+"followFirst": "\"externalPath\":\"([^\"]+)\"",
+"followTemplate": "https://cae.wd3.myworkdayjobs.com/wday/cxs/cae/career{1}",
+"followAccept": "application/json",
+"followSave": "workday_detail.json",
+"headChars": 600
+},
+{
+"name": "talent.com view (saved)",
+"url": "https://ca.talent.com/jobs?k=intern&l=Montreal%2C+QC",
+"followFirst": "href=\"(/view\\?id=[^\"]+)\"",
+"followSave": "talent_view.html",
+"headChars": 200
+},
+{
+"name": "robots www.jobbank.gc.ca",
+"url": "https://www.jobbank.gc.ca/robots.txt",
+"headChars": 1500
+},
+{
+"name": "robots www.guichetemplois.gc.ca",
+"url": "https://www.guichetemplois.gc.ca/robots.txt",
+"headChars": 1500
+},
+{
+"name": "robots ca.talent.com",
+"url": "https://ca.talent.com/robots.txt",
+"headChars": 1500
+},
+{
+"name": "robots www.jobillico.com",
+"url": "https://www.jobillico.com/robots.txt",
+"headChars": 1500
+},
+{
+"name": "robots www.themuse.com",
+"url": "https://www.themuse.com/robots.txt",
+"headChars": 1500
+},
+{
+"name": "robots www.linkedin.com",
+"url": "https://www.linkedin.com/robots.txt",
+"headChars": 1500
+},
+{
+"name": "robots ca.indeed.com",
+"url": "https://ca.indeed.com/robots.txt",
+"headChars": 1500
+},
+{
+"name": "robots www.glassdoor.ca",
+"url": "https://www.glassdoor.ca/robots.txt",
+"headChars": 1500
+},
+{
+"name": "robots www.workopolis.com",
+"url": "https://www.workopolis.com/robots.txt",
+"headChars": 1500
+},
+{
+"name": "robots www.emploiquebec.gouv.qc.ca",
+"url": "https://www.emploiquebec.gouv.qc.ca/robots.txt",
+"headChars": 1500
+},
+{
+"name": "wd root bombardier wd3",
+"url": "https://bombardier.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root bombardier wd5",
+"url": "https://bombardier.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root bombardier wd1",
+"url": "https://bombardier.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root cae wd3",
+"url": "https://cae.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root cae wd5",
+"url": "https://cae.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root cae wd1",
+"url": "https://cae.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root alstom wd3",
+"url": "https://alstom.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root alstom wd5",
+"url": "https://alstom.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root alstom wd1",
+"url": "https://alstom.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root safran wd3",
+"url": "https://safran.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root safran wd5",
+"url": "https://safran.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root safran wd1",
+"url": "https://safran.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root airbus wd3",
+"url": "https://airbus.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root airbus wd5",
+"url": "https://airbus.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root airbus wd1",
+"url": "https://airbus.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root thales wd3",
+"url": "https://thales.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root thales wd5",
+"url": "https://thales.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root thales wd1",
+"url": "https://thales.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root textron wd3",
+"url": "https://textron.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root textron wd5",
+"url": "https://textron.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root textron wd1",
+"url": "https://textron.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root lockheedmartin wd3",
+"url": "https://lockheedmartin.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root lockheedmartin wd5",
+"url": "https://lockheedmartin.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root lockheedmartin wd1",
+"url": "https://lockheedmartin.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root boeing wd3",
+"url": "https://boeing.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root boeing wd5",
+"url": "https://boeing.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root boeing wd1",
+"url": "https://boeing.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root ge wd3",
+"url": "https://ge.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root ge wd5",
+"url": "https://ge.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root ge wd1",
+"url": "https://ge.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root geaerospace wd3",
+"url": "https://geaerospace.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root geaerospace wd5",
+"url": "https://geaerospace.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root geaerospace wd1",
+"url": "https://geaerospace.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root gevernova wd3",
+"url": "https://gevernova.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root gevernova wd5",
+"url": "https://gevernova.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root gevernova wd1",
+"url": "https://gevernova.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root honeywell wd3",
+"url": "https://honeywell.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root honeywell wd5",
+"url": "https://honeywell.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root honeywell wd1",
+"url": "https://honeywell.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root siemens wd3",
+"url": "https://siemens.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root siemens wd5",
+"url": "https://siemens.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root siemens wd1",
+"url": "https://siemens.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root abb wd3",
+"url": "https://abb.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root abb wd5",
+"url": "https://abb.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root abb wd1",
+"url": "https://abb.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root schneiderelectric wd3",
+"url": "https://schneiderelectric.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root schneiderelectric wd5",
+"url": "https://schneiderelectric.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root schneiderelectric wd1",
+"url": "https://schneiderelectric.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root schneider wd3",
+"url": "https://schneider.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root schneider wd5",
+"url": "https://schneider.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root schneider wd1",
+"url": "https://schneider.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root eaton wd3",
+"url": "https://eaton.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root eaton wd5",
+"url": "https://eaton.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root eaton wd1",
+"url": "https://eaton.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root emerson wd3",
+"url": "https://emerson.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root emerson wd5",
+"url": "https://emerson.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root emerson wd1",
+"url": "https://emerson.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root rockwellautomation wd3",
+"url": "https://rockwellautomation.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root rockwellautomation wd5",
+"url": "https://rockwellautomation.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root rockwellautomation wd1",
+"url": "https://rockwellautomation.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root 3m wd3",
+"url": "https://3m.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root 3m wd5",
+"url": "https://3m.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root 3m wd1",
+"url": "https://3m.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root cummins wd3",
+"url": "https://cummins.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root cummins wd5",
+"url": "https://cummins.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root cummins wd1",
+"url": "https://cummins.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root cat wd3",
+"url": "https://cat.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root cat wd5",
+"url": "https://cat.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root cat wd1",
+"url": "https://cat.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root johndeere wd3",
+"url": "https://johndeere.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root johndeere wd5",
+"url": "https://johndeere.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root johndeere wd1",
+"url": "https://johndeere.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root jci wd3",
+"url": "https://jci.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root jci wd5",
+"url": "https://jci.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root jci wd1",
+"url": "https://jci.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root carrier wd3",
+"url": "https://carrier.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root carrier wd5",
+"url": "https://carrier.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root carrier wd1",
+"url": "https://carrier.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root otis wd3",
+"url": "https://otis.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root otis wd5",
+"url": "https://otis.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root otis wd1",
+"url": "https://otis.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root whirlpool wd3",
+"url": "https://whirlpool.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root whirlpool wd5",
+"url": "https://whirlpool.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root whirlpool wd1",
+"url": "https://whirlpool.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root michelin wd3",
+"url": "https://michelin.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root michelin wd5",
+"url": "https://michelin.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root michelin wd1",
+"url": "https://michelin.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root cn wd3",
+"url": "https://cn.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root cn wd5",
+"url": "https://cn.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root cn wd1",
+"url": "https://cn.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root cpkc wd3",
+"url": "https://cpkc.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root cpkc wd5",
+"url": "https://cpkc.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root cpkc wd1",
+"url": "https://cpkc.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root cpr wd3",
+"url": "https://cpr.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root cpr wd5",
+"url": "https://cpr.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root cpr wd1",
+"url": "https://cpr.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root bell wd3",
+"url": "https://bell.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root bell wd5",
+"url": "https://bell.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root bell wd1",
+"url": "https://bell.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root telus wd3",
+"url": "https://telus.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root telus wd5",
+"url": "https://telus.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root telus wd1",
+"url": "https://telus.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root rogers wd3",
+"url": "https://rogers.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root rogers wd5",
+"url": "https://rogers.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root rogers wd1",
+"url": "https://rogers.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root desjardins wd3",
+"url": "https://desjardins.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root desjardins wd5",
+"url": "https://desjardins.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root desjardins wd1",
+"url": "https://desjardins.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root nbc wd3",
+"url": "https://nbc.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root nbc wd5",
+"url": "https://nbc.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root nbc wd1",
+"url": "https://nbc.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root bnc wd3",
+"url": "https://bnc.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root bnc wd5",
+"url": "https://bnc.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root bnc wd1",
+"url": "https://bnc.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root rbc wd3",
+"url": "https://rbc.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root rbc wd5",
+"url": "https://rbc.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root rbc wd1",
+"url": "https://rbc.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root bmo wd3",
+"url": "https://bmo.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root bmo wd5",
+"url": "https://bmo.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root bmo wd1",
+"url": "https://bmo.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root td wd3",
+"url": "https://td.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root td wd5",
+"url": "https://td.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root td wd1",
+"url": "https://td.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root cibc wd3",
+"url": "https://cibc.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root cibc wd5",
+"url": "https://cibc.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root cibc wd1",
+"url": "https://cibc.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root manulife wd3",
+"url": "https://manulife.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root manulife wd5",
+"url": "https://manulife.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root manulife wd1",
+"url": "https://manulife.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root sunlife wd3",
+"url": "https://sunlife.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root sunlife wd5",
+"url": "https://sunlife.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root sunlife wd1",
+"url": "https://sunlife.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root wsp wd3",
+"url": "https://wsp.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root wsp wd5",
+"url": "https://wsp.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root wsp wd1",
+"url": "https://wsp.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root snclavalin wd3",
+"url": "https://snclavalin.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root snclavalin wd5",
+"url": "https://snclavalin.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root snclavalin wd1",
+"url": "https://snclavalin.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root stantec wd3",
+"url": "https://stantec.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root stantec wd5",
+"url": "https://stantec.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root stantec wd1",
+"url": "https://stantec.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root hydroone wd3",
+"url": "https://hydroone.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root hydroone wd5",
+"url": "https://hydroone.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root hydroone wd1",
+"url": "https://hydroone.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root pfizer wd3",
+"url": "https://pfizer.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root pfizer wd5",
+"url": "https://pfizer.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root pfizer wd1",
+"url": "https://pfizer.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root sanofi wd3",
+"url": "https://sanofi.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root sanofi wd5",
+"url": "https://sanofi.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root sanofi wd1",
+"url": "https://sanofi.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root gsk wd3",
+"url": "https://gsk.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root gsk wd5",
+"url": "https://gsk.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root gsk wd1",
+"url": "https://gsk.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root abbvie wd3",
+"url": "https://abbvie.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root abbvie wd5",
+"url": "https://abbvie.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root abbvie wd1",
+"url": "https://abbvie.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root takeda wd3",
+"url": "https://takeda.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root takeda wd5",
+"url": "https://takeda.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root takeda wd1",
+"url": "https://takeda.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root astrazeneca wd3",
+"url": "https://astrazeneca.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root astrazeneca wd5",
+"url": "https://astrazeneca.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root astrazeneca wd1",
+"url": "https://astrazeneca.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root novartis wd3",
+"url": "https://novartis.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root novartis wd5",
+"url": "https://novartis.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root novartis wd1",
+"url": "https://novartis.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root merck wd3",
+"url": "https://merck.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root merck wd5",
+"url": "https://merck.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root merck wd1",
+"url": "https://merck.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root jnj wd3",
+"url": "https://jnj.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root jnj wd5",
+"url": "https://jnj.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root jnj wd1",
+"url": "https://jnj.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root medtronic wd3",
+"url": "https://medtronic.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root medtronic wd5",
+"url": "https://medtronic.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root medtronic wd1",
+"url": "https://medtronic.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root bausch wd3",
+"url": "https://bausch.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root bausch wd5",
+"url": "https://bausch.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root bausch wd1",
+"url": "https://bausch.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root teva wd3",
+"url": "https://teva.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root teva wd5",
+"url": "https://teva.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root teva wd1",
+"url": "https://teva.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root saputo wd3",
+"url": "https://saputo.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root saputo wd5",
+"url": "https://saputo.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root saputo wd1",
+"url": "https://saputo.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root lassonde wd3",
+"url": "https://lassonde.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root lassonde wd5",
+"url": "https://lassonde.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root lassonde wd1",
+"url": "https://lassonde.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root metro wd3",
+"url": "https://metro.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root metro wd5",
+"url": "https://metro.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root metro wd1",
+"url": "https://metro.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root couchetard wd3",
+"url": "https://couchetard.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root couchetard wd5",
+"url": "https://couchetard.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root couchetard wd1",
+"url": "https://couchetard.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root cascades wd3",
+"url": "https://cascades.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root cascades wd5",
+"url": "https://cascades.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root cascades wd1",
+"url": "https://cascades.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root kruger wd3",
+"url": "https://kruger.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root kruger wd5",
+"url": "https://kruger.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root kruger wd1",
+"url": "https://kruger.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root domtar wd3",
+"url": "https://domtar.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root domtar wd5",
+"url": "https://domtar.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root domtar wd1",
+"url": "https://domtar.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root resolutefp wd3",
+"url": "https://resolutefp.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root resolutefp wd5",
+"url": "https://resolutefp.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root resolutefp wd1",
+"url": "https://resolutefp.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root riotinto wd3",
+"url": "https://riotinto.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root riotinto wd5",
+"url": "https://riotinto.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root riotinto wd1",
+"url": "https://riotinto.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root arcelormittal wd3",
+"url": "https://arcelormittal.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root arcelormittal wd5",
+"url": "https://arcelormittal.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root arcelormittal wd1",
+"url": "https://arcelormittal.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root alcoa wd3",
+"url": "https://alcoa.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root alcoa wd5",
+"url": "https://alcoa.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root alcoa wd1",
+"url": "https://alcoa.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root nutrien wd3",
+"url": "https://nutrien.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root nutrien wd5",
+"url": "https://nutrien.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root nutrien wd1",
+"url": "https://nutrien.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root mcdonalds wd3",
+"url": "https://mcdonalds.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root mcdonalds wd5",
+"url": "https://mcdonalds.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root mcdonalds wd1",
+"url": "https://mcdonalds.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root pepsico wd3",
+"url": "https://pepsico.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root pepsico wd5",
+"url": "https://pepsico.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root pepsico wd1",
+"url": "https://pepsico.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root kraftheinz wd3",
+"url": "https://kraftheinz.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root kraftheinz wd5",
+"url": "https://kraftheinz.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root kraftheinz wd1",
+"url": "https://kraftheinz.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root mondelez wd3",
+"url": "https://mondelez.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root mondelez wd5",
+"url": "https://mondelez.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root mondelez wd1",
+"url": "https://mondelez.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root unilever wd3",
+"url": "https://unilever.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root unilever wd5",
+"url": "https://unilever.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root unilever wd1",
+"url": "https://unilever.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root loreal wd3",
+"url": "https://loreal.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root loreal wd5",
+"url": "https://loreal.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root loreal wd1",
+"url": "https://loreal.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root dollarama wd3",
+"url": "https://dollarama.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root dollarama wd5",
+"url": "https://dollarama.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root dollarama wd1",
+"url": "https://dollarama.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root canadiantire wd3",
+"url": "https://canadiantire.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root canadiantire wd5",
+"url": "https://canadiantire.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root canadiantire wd1",
+"url": "https://canadiantire.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root lowes wd3",
+"url": "https://lowes.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root lowes wd5",
+"url": "https://lowes.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root lowes wd1",
+"url": "https://lowes.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root homedepot wd3",
+"url": "https://homedepot.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root homedepot wd5",
+"url": "https://homedepot.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root homedepot wd1",
+"url": "https://homedepot.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root amazon wd3",
+"url": "https://amazon.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root amazon wd5",
+"url": "https://amazon.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root amazon wd1",
+"url": "https://amazon.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root walmart wd3",
+"url": "https://walmart.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root walmart wd5",
+"url": "https://walmart.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root walmart wd1",
+"url": "https://walmart.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root ubisoft wd3",
+"url": "https://ubisoft.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root ubisoft wd5",
+"url": "https://ubisoft.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root ubisoft wd1",
+"url": "https://ubisoft.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root ea wd3",
+"url": "https://ea.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root ea wd5",
+"url": "https://ea.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root ea wd1",
+"url": "https://ea.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root cgi wd3",
+"url": "https://cgi.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root cgi wd5",
+"url": "https://cgi.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root cgi wd1",
+"url": "https://cgi.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root ibm wd3",
+"url": "https://ibm.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root ibm wd5",
+"url": "https://ibm.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root ibm wd1",
+"url": "https://ibm.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root accenture wd3",
+"url": "https://accenture.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root accenture wd5",
+"url": "https://accenture.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root accenture wd1",
+"url": "https://accenture.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root deloitte wd3",
+"url": "https://deloitte.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root deloitte wd5",
+"url": "https://deloitte.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root deloitte wd1",
+"url": "https://deloitte.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root kpmg wd3",
+"url": "https://kpmg.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root kpmg wd5",
+"url": "https://kpmg.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root kpmg wd1",
+"url": "https://kpmg.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root pwc wd3",
+"url": "https://pwc.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root pwc wd5",
+"url": "https://pwc.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root pwc wd1",
+"url": "https://pwc.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root ey wd3",
+"url": "https://ey.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root ey wd5",
+"url": "https://ey.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root ey wd1",
+"url": "https://ey.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root bain wd3",
+"url": "https://bain.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root bain wd5",
+"url": "https://bain.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root bain wd1",
+"url": "https://bain.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root mckinsey wd3",
+"url": "https://mckinsey.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root mckinsey wd5",
+"url": "https://mckinsey.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root mckinsey wd1",
+"url": "https://mckinsey.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root lavalin wd3",
+"url": "https://lavalin.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root lavalin wd5",
+"url": "https://lavalin.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root lavalin wd1",
+"url": "https://lavalin.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root lionelectric wd3",
+"url": "https://lionelectric.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root lionelectric wd5",
+"url": "https://lionelectric.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root lionelectric wd1",
+"url": "https://lionelectric.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root northvolt wd3",
+"url": "https://northvolt.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root northvolt wd5",
+"url": "https://northvolt.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root northvolt wd1",
+"url": "https://northvolt.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root hydroquebec wd3",
+"url": "https://hydroquebec.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root hydroquebec wd5",
+"url": "https://hydroquebec.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root hydroquebec wd1",
+"url": "https://hydroquebec.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root stm wd3",
+"url": "https://stm.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root stm wd5",
+"url": "https://stm.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root stm wd1",
+"url": "https://stm.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root ville-montreal wd3",
+"url": "https://ville-montreal.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root ville-montreal wd5",
+"url": "https://ville-montreal.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root ville-montreal wd1",
+"url": "https://ville-montreal.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root concordia wd3",
+"url": "https://concordia.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root concordia wd5",
+"url": "https://concordia.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root concordia wd1",
+"url": "https://concordia.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root mcgill wd3",
+"url": "https://mcgill.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root mcgill wd5",
+"url": "https://mcgill.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root mcgill wd1",
+"url": "https://mcgill.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root udem wd3",
+"url": "https://udem.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root udem wd5",
+"url": "https://udem.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root udem wd1",
+"url": "https://udem.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root polymtl wd3",
+"url": "https://polymtl.wd3.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root polymtl wd5",
+"url": "https://polymtl.wd5.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+},
+{
+"name": "wd root polymtl wd1",
+"url": "https://polymtl.wd1.myworkdayjobs.com/",
+"headChars": 0,
+"discover": true
+}
+]
 }
