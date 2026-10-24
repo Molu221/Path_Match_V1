@@ -1,0 +1,713 @@
+{
+ "at": "2026-10-24T21:28:01.894Z",
+ "checked": 266,
+ "found": 93,
+ "hits": {
+  "Bombardier": {
+   "workable": [
+    "bombardier"
+   ]
+  },
+  "CAE": {
+   "workable": [
+    "cae"
+   ]
+  },
+  "Airbus Canada": {
+   "workable": [
+    "airbus"
+   ],
+   "bamboohr": [
+    "airbus"
+   ]
+  },
+  "Safran": {
+   "workable": [
+    "safran"
+   ]
+  },
+  "Thales Canada": {
+   "workable": [
+    "thales"
+   ],
+   "smartrecruiters": [
+    "thales"
+   ],
+   "teamtailor": [
+    "thales"
+   ]
+  },
+  "Collins Aerospace": {
+   "workable": [
+    "collins-aerospace",
+    "collins"
+   ],
+   "recruitee": [
+    "collins"
+   ]
+  },
+  "Rolls-Royce Canada": {
+   "workable": [
+    "rollsroyce"
+   ]
+  },
+  "Honeywell": {
+   "workable": [
+    "honeywell"
+   ]
+  },
+  "L3Harris": {
+   "workable": [
+    "l3harris"
+   ]
+  },
+  "Leonardo DRS": {
+   "smartrecruiters": [
+    "leonardodrs"
+   ],
+   "workable": [
+    "leonardo-drs",
+    "leonardo"
+   ]
+  },
+  "Lockheed Martin": {
+   "workable": [
+    "lockheedmartin",
+    "lockheed-martin",
+    "lockheed"
+   ]
+  },
+  "General Dynamics": {
+   "workable": [
+    "generaldynamics",
+    "general"
+   ],
+   "greenhouse": [
+    "general"
+   ]
+  },
+  "Magellan Aerospace": {
+   "smartrecruiters": [
+    "magellan"
+   ]
+  },
+  "Alstom": {
+   "workable": [
+    "alstom"
+   ]
+  },
+  "Siemens Mobility": {
+   "workable": [
+    "siemens-mobility",
+    "siemens"
+   ]
+  },
+  "Stadler": {
+   "workable": [
+    "stadler"
+   ],
+   "breezy": [
+    "stadler"
+   ]
+  },
+  "Taiga Motors": {
+   "workable": [
+    "taigamotors",
+    "taiga-motors",
+    "taiga"
+   ],
+   "bamboohr": [
+    "taigamotors"
+   ]
+  },
+  "Camso": {
+   "workable": [
+    "camso"
+   ]
+  },
+  "Michelin": {
+   "workable": [
+    "michelin"
+   ]
+  },
+  "Premier Tech": {
+   "workable": [
+    "premier-tech",
+    "premier"
+   ],
+   "breezy": [
+    "premier"
+   ]
+  },
+  "Rio Tinto": {
+   "workable": [
+    "riotinto",
+    "rio-tinto"
+   ]
+  },
+  "Alcoa": {
+   "workable": [
+    "alcoa"
+   ]
+  },
+  "ArcelorMittal": {
+   "workable": [
+    "arcelormittal"
+   ]
+  },
+  "Schneider Electric": {
+   "workable": [
+    "schneider-electric",
+    "schneider"
+   ],
+   "bamboohr": [
+    "schneider"
+   ]
+  },
+  "ABB": {
+   "workable": [
+    "abb"
+   ]
+  },
+  "Siemens": {
+   "workable": [
+    "siemens"
+   ]
+  },
+  "Eaton": {
+   "workable": [
+    "eaton"
+   ]
+  },
+  "Emerson": {
+   "workable": [
+    "emerson"
+   ]
+  },
+  "Rockwell Automation": {
+   "workable": [
+    "rockwell-automation",
+    "rockwell"
+   ],
+   "bamboohr": [
+    "rockwell"
+   ]
+  },
+  "Danfoss": {
+   "workable": [
+    "danfoss"
+   ]
+  },
+  "Domtar": {
+   "workable": [
+    "domtar"
+   ]
+  },
+  "Resolute Forest Products": {
+   "bamboohr": [
+    "resolute"
+   ]
+  },
+  "Agropur": {
+   "workable": [
+    "agropur"
+   ]
+  },
+  "Danone": {
+   "workable": [
+    "danone"
+   ]
+  },
+  "Nestle": {
+   "workable": [
+    "nestle"
+   ]
+  },
+  "Mondelez": {
+   "workable": [
+    "mondelez"
+   ]
+  },
+  "Unilever": {
+   "greenhouse": [
+    "unilever"
+   ],
+   "workable": [
+    "unilever"
+   ],
+   "breezy": [
+    "unilever"
+   ],
+   "bamboohr": [
+    "unilever"
+   ]
+  },
+  "Kraft Heinz": {
+   "workable": [
+    "kraftheinz",
+    "kraft-heinz",
+    "kraft"
+   ]
+  },
+  "Coca-Cola": {
+   "workable": [
+    "cocacola"
+   ]
+  },
+  "Metro Inc": {
+   "smartrecruiters": [
+    "metroinc"
+   ],
+   "greenhouse": [
+    "metro"
+   ]
+  },
+  "Merck": {
+   "breezy": [
+    "merck"
+   ]
+  },
+  "Charles River": {
+   "greenhouse": [
+    "charles"
+   ]
+  },
+  "FedEx": {
+   "breezy": [
+    "fedex"
+   ]
+  },
+  "DHL": {
+   "breezy": [
+    "dhl"
+   ]
+  },
+  "Maersk": {
+   "teamtailor": [
+    "maersk"
+   ]
+  },
+  "Groupe Robert": {
+   "teamtailor": [
+    "groupe"
+   ]
+  },
+  "Amazon": {
+   "breezy": [
+    "amazon"
+   ],
+   "personio": [
+    "amazon"
+   ]
+  },
+  "Walmart": {
+   "bamboohr": [
+    "walmart"
+   ]
+  },
+  "WSP": {
+   "breezy": [
+    "wsp"
+   ]
+  },
+  "Hatch": {
+   "ashby": [
+    "hatch"
+   ]
+  },
+  "Tetra Tech": {
+   "recruitee": [
+    "tetratech"
+   ],
+   "greenhouse": [
+    "tetra"
+   ]
+  },
+  "Mila": {
+   "breezy": [
+    "mila"
+   ],
+   "bamboohr": [
+    "mila"
+   ]
+  },
+  "Lightspeed": {
+   "ashby": [
+    "lightspeed"
+   ],
+   "bamboohr": [
+    "lightspeed"
+   ]
+  },
+  "Hopper": {
+   "ashby": [
+    "hopper"
+   ],
+   "bamboohr": [
+    "hopper"
+   ]
+  },
+  "IBM": {
+   "breezy": [
+    "ibm"
+   ]
+  },
+  "Google": {
+   "breezy": [
+    "google"
+   ],
+   "recruitee": [
+    "google"
+   ]
+  },
+  "Microsoft": {
+   "breezy": [
+    "microsoft"
+   ],
+   "bamboohr": [
+    "microsoft"
+   ]
+  },
+  "Oracle": {
+   "breezy": [
+    "oracle"
+   ]
+  },
+  "CGI": {
+   "bamboohr": [
+    "cgi"
+   ]
+  },
+  "Gameloft": {
+   "smartrecruiters": [
+    "gameloft"
+   ]
+  },
+  "Behaviour Interactive": {
+   "bamboohr": [
+    "behaviour"
+   ]
+  },
+  "Ludia": {
+   "bamboohr": [
+    "ludia"
+   ]
+  },
+  "Dassault Systemes": {
+   "breezy": [
+    "dassault-systemes"
+   ]
+  },
+  "Telus": {
+   "breezy": [
+    "telus"
+   ]
+  },
+  "Videotron": {
+   "smartrecruiters": [
+    "videotron"
+   ],
+   "bamboohr": [
+    "videotron"
+   ]
+  },
+  "National Bank": {
+   "bamboohr": [
+    "nationalbank"
+   ],
+   "greenhouse": [
+    "national"
+   ]
+  },
+  "RBC": {
+   "breezy": [
+    "rbc"
+   ]
+  },
+  "Porter Airlines": {
+   "greenhouse": [
+    "porter"
+   ],
+   "lever": [
+    "porter"
+   ],
+   "breezy": [
+    "porter"
+   ]
+  },
+  "Exo": {
+   "ashby": [
+    "exo"
+   ]
+  },
+  "Toyota": {
+   "teamtailor": [
+    "toyota"
+   ]
+  },
+  "3M": {
+   "breezy": [
+    "3m"
+   ]
+  },
+  "Dupont": {
+   "bamboohr": [
+    "dupont"
+   ]
+  },
+  "Maple Leaf Foods": {
+   "ashby": [
+    "maple"
+   ],
+   "bamboohr": [
+    "maple"
+   ]
+  },
+  "Canada Bread": {
+   "greenhouse": [
+    "canada"
+   ],
+   "breezy": [
+    "canada"
+   ]
+  },
+  "Bauer": {
+   "recruitee": [
+    "bauer"
+   ]
+  },
+  "CCM": {
+   "personio": [
+    "ccm"
+   ]
+  },
+  "Hasbro": {
+   "greenhouse": [
+    "hasbro"
+   ]
+  },
+  "Holcim": {
+   "teamtailor": [
+    "holcim"
+   ]
+  },
+  "CRH": {
+   "bamboohr": [
+    "crh"
+   ]
+  },
+  "Groupe Colabor": {
+   "teamtailor": [
+    "groupe"
+   ]
+  },
+  "Groupe Sutton": {
+   "teamtailor": [
+    "groupe"
+   ]
+  },
+  "Merkur": {
+   "recruitee": [
+    "merkur"
+   ]
+  },
+  "Optimal Solutions": {
+   "greenhouse": [
+    "optimal"
+   ]
+  },
+  "Lightspeed Commerce": {
+   "ashby": [
+    "lightspeed"
+   ],
+   "bamboohr": [
+    "lightspeed"
+   ]
+  },
+  "Mogo": {
+   "bamboohr": [
+    "mogo"
+   ]
+  },
+  "Genetec": {
+   "smartrecruiters": [
+    "genetec"
+   ]
+  },
+  "Sierra Wireless": {
+   "ashby": [
+    "sierra"
+   ]
+  },
+  "Intel": {
+   "breezy": [
+    "intel"
+   ]
+  },
+  "AMD": {
+   "bamboohr": [
+    "amd"
+   ]
+  },
+  "Analog Devices": {
+   "ashby": [
+    "analog"
+   ]
+  },
+  "Continental": {
+   "smartrecruiters": [
+    "continental"
+   ]
+  },
+  "Magna": {
+   "personio": [
+    "magna"
+   ]
+  },
+  "Webasto": {
+   "personio": [
+    "webasto"
+   ]
+  }
+ },
+ "slugsByKind": {
+  "workable": [
+   "abb",
+   "agropur",
+   "airbus",
+   "alcoa",
+   "alstom",
+   "arcelormittal",
+   "bombardier",
+   "cae",
+   "camso",
+   "cocacola",
+   "collins-aerospace",
+   "danfoss",
+   "danone",
+   "domtar",
+   "eaton",
+   "emerson",
+   "generaldynamics",
+   "honeywell",
+   "kraftheinz",
+   "l3harris",
+   "leonardo-drs",
+   "lockheedmartin",
+   "michelin",
+   "mondelez",
+   "nestle",
+   "premier-tech",
+   "riotinto",
+   "rockwell-automation",
+   "rollsroyce",
+   "safran",
+   "schneider-electric",
+   "siemens",
+   "siemens-mobility",
+   "stadler",
+   "taigamotors",
+   "thales",
+   "unilever"
+  ],
+  "bamboohr": [
+   "airbus",
+   "amd",
+   "behaviour",
+   "cgi",
+   "crh",
+   "dupont",
+   "hopper",
+   "lightspeed",
+   "ludia",
+   "maple",
+   "microsoft",
+   "mila",
+   "mogo",
+   "nationalbank",
+   "resolute",
+   "rockwell",
+   "schneider",
+   "taigamotors",
+   "unilever",
+   "videotron",
+   "walmart"
+  ],
+  "smartrecruiters": [
+   "continental",
+   "gameloft",
+   "genetec",
+   "leonardodrs",
+   "magellan",
+   "metroinc",
+   "thales",
+   "videotron"
+  ],
+  "teamtailor": [
+   "groupe",
+   "holcim",
+   "maersk",
+   "thales",
+   "toyota"
+  ],
+  "recruitee": [
+   "bauer",
+   "collins",
+   "google",
+   "merkur",
+   "tetratech"
+  ],
+  "greenhouse": [
+   "canada",
+   "charles",
+   "general",
+   "hasbro",
+   "metro",
+   "national",
+   "optimal",
+   "porter",
+   "tetra",
+   "unilever"
+  ],
+  "breezy": [
+   "3m",
+   "amazon",
+   "canada",
+   "dassault-systemes",
+   "dhl",
+   "fedex",
+   "google",
+   "ibm",
+   "intel",
+   "merck",
+   "microsoft",
+   "mila",
+   "oracle",
+   "porter",
+   "premier",
+   "rbc",
+   "stadler",
+   "telus",
+   "unilever",
+   "wsp"
+  ],
+  "personio": [
+   "amazon",
+   "ccm",
+   "magna",
+   "webasto"
+  ],
+  "ashby": [
+   "analog",
+   "exo",
+   "hatch",
+   "hopper",
+   "lightspeed",
+   "maple",
+   "sierra"
+  ],
+  "lever": [
+   "porter"
+  ]
+ }
+}
