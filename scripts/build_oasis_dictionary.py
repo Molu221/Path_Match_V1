@@ -25,6 +25,7 @@ like that, the script stops and prints the file's headers so the rules can be ad
 Standard library only.
 """
 import argparse
+import concurrent.futures
 import csv
 import datetime
 import io
@@ -95,18 +96,46 @@ STOP = {
 # --------------------------------------------------------------------------------------
 # reading the files
 # --------------------------------------------------------------------------------------
-def download(url, dest, tries=3):
+def download(url, dest, tries=3, deadline=90):
+    """Download one file. Each try is cut off after `deadline` seconds in total."""
     last = None
     for i in range(tries):
+        started = time.time()
         try:
-            req = urllib.request.Request(url, headers={"User-Agent": "path-match-oasis-builder"})
-            with urllib.request.urlopen(req, timeout=120) as r:
-                dest.write_bytes(r.read())
-            return
+            req = urllib.request.Request(url, headers={
+                "User-Agent": "Mozilla/5.0 (compatible; path-match-oasis-builder; +https://github.com/Molu221/Path_Match_V1)",
+                "Accept": "text/csv,*/*"})
+            with urllib.request.urlopen(req, timeout=30) as r:
+                chunks = []
+                while True:
+                    block = r.read(65536)
+                    if not block:
+                        break
+                    chunks.append(block)
+                    if time.time() - started > deadline:
+                        raise TimeoutError(f"slower than {deadline}s")
+                data = b"".join(chunks)
+                ctype = r.headers.get("Content-Type", "")
+            if data[:1] == b"<" or "html" in ctype.lower():
+                raise ValueError(f"got a web page instead of CSV ({ctype}): {data[:120]!r}")
+            dest.write_bytes(data)
+            return f"{len(data)} bytes in {time.time() - started:.1f}s"
         except Exception as e:  # noqa: BLE001 - report and retry
             last = e
+            print(f"  try {i + 1} failed for {dest.name}: {e}", flush=True)
             time.sleep(2 * (i + 1))
-    raise SystemExit(f"Could not download {url}: {last}")
+    raise RuntimeError(f"Could not download {url}: {last}")
+
+
+def peek(path):
+    """Print the first lines of a file, so a failed run shows what the file looks like."""
+    try:
+        raw = path.read_bytes()[:4000].decode("utf-8-sig", errors="replace")
+        lines = raw.splitlines()[:3]
+        for line in lines:
+            print("    | " + line[:240])
+    except Exception as e:  # noqa: BLE001
+        print(f"    (cannot read {path.name}: {e})")
 
 
 def read_rows(path):
@@ -162,6 +191,12 @@ class Table:
             if vals and sum(1 for v in vals if code_of(v)) / len(vals) >= 0.9:
                 self.code = i
                 break
+        if self.code is None:                      # fall back on a header that says "code"
+            for i, h in enumerate(self.header):
+                vals = col(i)
+                if re.search(r"code|noc|oasis|sipec", h, re.I) and vals and sum(1 for v in vals if re.search(r"\d", v)) / len(vals) >= 0.9:
+                    self.code = i
+                    break
         if self.code is None:
             raise SystemExit(f"{path.name}: no column of NOC/OaSIS codes found. Headers: {self.header}")
         self.num, self.text = [], []
@@ -307,20 +342,38 @@ def main():
     src_dir = pathlib.Path(args.local_dir or args.raw_dir)
     src_dir.mkdir(parents=True, exist_ok=True)
     if not args.local_dir:
-        for key, (_, en, fr) in RESOURCES.items():
-            for lang, rel in (("en", en), ("fr", fr)):
-                print(f"downloading {key}_{lang}")
-                download(BASE + rel, src_dir / f"{key}_{lang}.csv")
+        jobs = [(f"{key}_{lang}", BASE + rel) for key, (_, en, fr) in RESOURCES.items()
+                for lang, rel in (("en", en), ("fr", fr))]
+        print(f"downloading {len(jobs)} files", flush=True)
+        failed = []
+        with concurrent.futures.ThreadPoolExecutor(max_workers=6) as pool:
+            futures = {pool.submit(download, url, src_dir / f"{name}.csv"): name for name, url in jobs}
+            for fut in concurrent.futures.as_completed(futures):
+                name = futures[fut]
+                try:
+                    print(f"  {name}: {fut.result()}", flush=True)
+                except Exception as e:  # noqa: BLE001
+                    failed.append(name)
+                    print(f"  {name}: FAILED {e}", flush=True)
+        if failed:
+            raise SystemExit(f"{len(failed)} downloads failed: {', '.join(sorted(failed))}")
 
-    tables = {}
+    tables, problems = {}, []
     for key, (kind, _, _) in RESOURCES.items():
         for lang in ("en", "fr"):
             p = src_dir / f"{key}_{lang}.csv"
             if not p.exists():
                 raise SystemExit(f"missing file {p}")
-            t = Table(p)
+            print(f"{key}_{lang}:")
+            peek(p)
+            try:
+                t = Table(p)
+            except SystemExit as e:
+                problems.append(f"{key}_{lang}: {e}")
+                print(f"  SKIPPED: {e}")
+                continue
             tables[(key, lang)] = t
-            print(f"{key}_{lang}: {len(t.rows)} rows, code column '{t.header[t.code]}', "
+            print(f"  {len(t.rows)} rows, code column '{t.header[t.code]}', "
                   f"{len(t.text)} text and {len(t.num)} rating columns")
 
     # occupations, labels, titles, text per occupation
@@ -329,7 +382,7 @@ def main():
     codes = set()
     for lang in ("en", "fr"):
         for key, (kind, _, _) in RESOURCES.items():
-            if kind != "text":
+            if kind != "text" or (key, lang) not in tables:
                 continue
             by_code = text_by_code(tables[(key, lang)])
             codes.update(by_code)
@@ -342,17 +395,21 @@ def main():
                             norm = oasis.norm_title(title)
                             if 2 <= len(norm.split()) <= 8:
                                 titles.setdefault(norm, set()).add(code)
-        for code, label in labels_by_code(tables[("lead_statement", lang)]).items():
-            labels.setdefault(code, {})["label" if lang == "en" else "label_fr"] = label
+        if ("lead_statement", lang) in tables:
+            for code, label in labels_by_code(tables[("lead_statement", lang)]).items():
+                labels.setdefault(code, {})["label" if lang == "en" else "label_fr"] = label
     for code in codes:
         labels.setdefault(code, {})
+    if not codes:
+        raise SystemExit("No occupations could be read from any text file. Problems: " + "; ".join(problems))
 
     # descriptors (skills, abilities...), paired English <-> French by position
     desc, links = [], {}
     for key, (kind, _, _) in RESOURCES.items():
         if kind != "rating":
             continue
-        en, fr = descriptors(tables[(key, "en")]), descriptors(tables[(key, "fr")])
+        en = descriptors(tables[(key, "en")]) if (key, "en") in tables else []
+        fr = descriptors(tables[(key, "fr")]) if (key, "fr") in tables else []
         if len(en) == len(fr):
             pairs = [(a, b) for a, b in zip(en, fr)]
         else:
@@ -392,6 +449,8 @@ def main():
     }
     pathlib.Path(args.out).write_text(json.dumps(out, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
     n_vocab = write_vocab(args.vocab, corpus, len(codes))
+    if problems:
+        print("WARNING, files skipped: " + "; ".join(problems))
     print(f"built {args.out}: {len(codes)} occupations, {len(titles)} titles, {len(desc)} descriptors, "
           f"{len(skill_occ)} skills linked; {n_vocab} words and phrases in {args.vocab}")
 

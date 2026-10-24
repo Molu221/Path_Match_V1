@@ -21,14 +21,21 @@ jobs:
       - name: Offline tests
         run: python3 -m unittest test.test_oasis
       - name: Download OaSIS and build the dictionary
-        run: python3 scripts/build_oasis_dictionary.py
+        timeout-minutes: 10
+        run: |
+          set -o pipefail
+          python3 -u scripts/build_oasis_dictionary.py 2>&1 | tee oasis_build_log.txt
       - name: Re-run keyword reports with OaSIS
         run: python3 scripts/run_reports.py cv/sample_cv.txt
-      - name: Save results
+      - name: Save results and log
+        if: always()
         run: |
           git config user.name "path-match-bot"
           git config user.email "path-match-bot@users.noreply.github.com"
-          git add python/oasis_data.json python/oasis_vocab.csv reports docs/reports.json
+          for f in python/oasis_data.json python/oasis_vocab.csv oasis_build_log.txt reports docs/reports.json; do
+            [ -e "$f" ] && git add "$f"
+          done
           git diff --cached --quiet && echo "No changes" && exit 0
-          git commit -m "Build OaSIS dictionary"
+          git commit -m "Build OaSIS dictionary (log)"
+          git pull --rebase origin main
           git push
