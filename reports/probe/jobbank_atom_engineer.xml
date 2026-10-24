@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+	<title><![CDATA[engineer - Job Bank]]></title>
+	<id>https://www.jobbank.gc.ca/jobsearch/jobSearchRSSfeed</id>
+	<link rel="self" type="application/atom+xml" href="https://www.jobbank.gc.ca/jobsearch/jobSearchRSSfeed?searchstring=engineer&amp;locationstring=Montr%C3%A9al%2C+QC&amp;fage=30&amp;sort=D&amp;rows=100"/>
+	<updated>2026-10-24T17:15:52Z</updated>
+	<author><name>Job Bank</name></author>
+	<logo>/images/sig_eng.gif</logo>
+	<entry>
+		<title type="html"><![CDATA[computer engineer]]></title>
+		<link rel="alternate" type="text/html" href="https://www.jobbank.gc.ca/jobsearch/jobposting/50572642"/>
+		<id>https://www.jobbank.gc.ca/jobsearch/jobSearchRSSfeed?id=17645628</id>
+		<updated>2026-10-24T09:00:00Z</updated>
+		<summary type="html"><![CDATA[<strong>Job number:</strong> 17645628<br /><strong>Location:</strong> Toronto (ON)  <br /><strong>Employer:</strong> Blitz TI<br /><strong>Salary:</strong> $120,000.00 to $145,000.00 annually]]></summary>
+	</entry>
+	<entry>
+		<title type="html"><![CDATA[building systems engineer]]></title>
+		<link rel="alternate" type="text/html" href="https://www.jobbank.gc.ca/jobsearch/jobposting/50571550"/>
+		<id>https://www.jobbank.gc.ca/jobsearch/jobSearchRSSfeed?id=209924B1792832403</id>
+		<updated>2026-10-24T02:00:00Z</updated>
+		<summary type="html"><![CDATA[<strong>Job number:</strong> 209924B1792832403<br /><strong>Location:</strong> Montréal (QC)  <br /><strong>Employer:</strong> Société D'Habitation Et De Développement De Montréal .<br /><strong>Salary:</strong> $81,904.00 to $99,249.00 annually]]></summary>
+	</entry>
+	<entry>
+		<title type="html"><![CDATA[consulting industrial engineer]]></title>
+		<link rel="alternate" type="text/html" href="https://www.jobbank.gc.ca/jobsearch/jobposting/50571561"/>
+		<id>https://www.jobbank.gc.ca/jobsearch/jobSearchRSSfeed?id=306503B1792832403</id>
+		<updated>2026-10-24T02:00:00Z</updated>
+		<summary type="html"><![CDATA[<strong>Job number:</strong> 306503B1792832403<br /><strong>Location:</strong> Laval (QC)  <br /><strong>Employer:</strong> DPHV | Consultants en structure<br /><strong>Salary:</strong> $31.50 to $51.50 hourly]]></summary>
+	</entry>
+	<entry>
+		<title type="html"><![CDATA[engineer, manufacturing]]></title>
+		<link rel="alternate" type="text/html" href="https://www.jobbank.gc.ca/jobsearch/jobposting/50571564"/>
+		<id>https://www.jobbank.gc.ca/jobsearch/jobSearchRSSfeed?id=306504B1792832403</id>
+		<updated>2026-10-24T02:00:00Z</updated>
+		<summary type="html"><![CDATA[<strong>Job number:</strong> 306504B1792832403<br /><strong>Location:</strong> Laval (QC)  <br /><strong>Employer:</strong> DPHV | Consultants en structure<br /><strong>Salary:</strong> $22.00 to $32.00 hourly]]></summary>
+	</entry>
+	<entry>
+		<title type="html"><![CDATA[cybersecurity specialist]]></title>
+		<link rel="alternate" type="text/html" href="https://www.jobbank.gc.ca/jobsearch/jobposting/50571474"/>
+		<id>https://www.jobbank.gc.ca/jobsearch/jobSearchRSSfeed?id=3703895</id>
+		<updated>2026-10-24T00:07:00Z</updated>
+		<summary type="html"><![CDATA[<strong>Job number:</strong> 3703895<br /><strong>Location:</strong> Milton (ON)  <br /><strong>Employer:</strong> Silaris Solutions Inc<br /><strong>Salary:</strong> $44.00 hourly]]></summary>
+	</entry>
+	<entry>
+		<title type="html"><![CDATA[systems architect]]></title>
+		<link rel="alternate" type="text/html" href="https://www.jobbank.gc.ca/jobsearch/jobposting/50571004"/>
+		<id>https://www.jobbank.gc.ca/jobsearch/jobSearchRSSfeed?id=17311130</id>
+		<updated>2026-10-23T22:00:00Z</updated>
+		<summary type="html"><![CDATA[<strong>Job number:</strong> 17311130<br /><strong>Location:</strong> Sherbrooke (QC)  <br /><strong>Employer:</strong> Nord Quantique<br /><strong>Salary:</strong> $91,600.00 to $105,000.00 annually]]></summary>
+	</entry>
+	<entry>
+		<title type="html"><![CDATA[stationary operating engineer]]></title>
+		<link rel="alternate" type="text/html" href="https://www.jobbank.gc.ca/jobsearch/jobposting/50570770"/>
+		<id>https://www.jobbank.gc.ca/jobsearch/jobSearchRSSfeed?id=17555631</id>
+		<updated>2026-10-23T22:00:00Z</updated>
+		<summary type="html"><![CDATA[<strong>Job number:</strong> 17555631<br /><strong>Location:</strong> Drummondville (QC)  <br /><strong>Employer:</strong> Patio Drummond ltée<br /><strong>Salary:</strong> $26.75 to $39.50 hourly]]></summary>
+	</entry>
+	<entry>
+		<title type="html"><![CDATA[big data analyst]]></title>
+		<link rel="alternate" type="text/html" href="https://www.jobbank.gc.ca/jobsearch/jobposting/50569244"/>
+		<id>https://www.jobbank.gc.ca/jobsearch/jobSearchRSSfeed?id=1554719</id>
+		<updated>2026-10-23T15:00:00Z</updated>
+		<summary type="html"><![CDATA[<strong>Job number:</strong> 1554719<br /><strong>Location:</strong> Saskatoon (SK)  <br /><strong>Employer:</strong> Government of Saskatchewan<br /><strong>Salary:</strong> 36.70 - 45.99]]></summary>
+	</entry>
+	<entry>
+		<title type="html"><![CDATA[big data analyst]]></title>
+		<link rel="alternate" type="text/html" href="https://www.jobbank.gc.ca/jobsearch/jobposting/50569269"/>
+		<id>https://www.jobbank.gc.ca/jobsearch/jobSearchRSSfeed?id=1554717</id>
+		<updated>2026-10-23T15:00:00Z</updated>
+		<summary type="html"><![CDATA[<strong>Job number:</strong> 1554717<br /><strong>Location:</strong> Regina (SK)  <br /><strong>Employer:</strong> Government of Saskatchewan<br /><strong>Salary:</strong> 36.70 - 45.99]]></summary>
+	</entry>
+	<entry>
+		<title type="html"><![CDATA[systems engineer - manufacturing]]></title>
+		<link rel="alternate" type="text/html" href="https://www.jobbank.gc.ca/jobsearch/jobposting/50569233"/>
+		<id>https://www.jobbank.gc.ca/jobsearch/jobSearchRSSfeed?id=10305170431</id>
+		<updated>2026-10-23T15:00:00Z</updated>
+		<summary type="html"><![CDATA[<strong>Job number:</strong> 10305170431<br /><strong>Location:</strong> Surrey (BC)  <br /><strong>Employer:</strong> Robar Industries Ltd.<br /><strong>Salary:</strong> $80,000.00 to $90,000.00 annually]]></summary>
+	</entry>
+	<entry>
+		<title type="html"><![CDATA[audiovisual (AV) technician]]></title>
+		<link rel="alternate" type="text/html" href="https://www.jobbank.gc.ca/jobsearch/jobposting/50569210"/>
+		<id>https://www.jobbank.gc.ca/jobsearch/jobSearchRSSfeed?id=3703783</id>
+		<updated>2026-10-23T14:44:00Z</updated>
+		<summary type="html"><![CDATA[<strong>Job number:</strong> 3703783<br /><strong>Location:</strong> Winnipeg (MB)  <br /><strong>Employer:</strong> DJ William Inc.<br /><strong>Salary:</strong> $32.00 hourly]]></summary>
+	</entry>
+	<entry>
+		<title type="html"><![CDATA[mechanical engineer]]></title>
+		<link rel="alternate" type="text/html" href="https://www.jobbank.gc.ca/jobsearch/jobposting/50568907"/>
+		<id>https://www.jobbank.gc.ca/jobsearch/jobSearchRSSfeed?id=311375</id>
+		<updated>2026-10-23T14:00:00Z</updated>
+		<summary type="html"><![CDATA[<strong>Job number:</strong> 311375<br /><strong>Location:</strong> Saint-Laurent (QC)  <br /><strong>Employer:</strong> Origin<br /><strong>Salary:</strong> $70,000.00 to $95,000.00 annually]]></summary>
+	</entry>
+	<entry>
+		<title type="html"><![CDATA[mechanical engineer]]></title>
+		<link rel="alternate" type="text/html" href="https://www.jobbank.gc.ca/jobsearch/jobposting/50568915"/>
+		<id>https://www.jobbank.gc.ca/jobsearch/jobSearchRSSfeed?id=309316B1792778879</id>
+		<updated>2026-10-23T14:00:00Z</updated>
+		<summary type="html"><![CDATA[<strong>Job number:</strong> 309316B1792778879<br /><strong>Location:</strong> L'Ancienne-Lorette (QC)  <br /><strong>Employer:</strong> Origin<br /><strong>Salary:</strong> $70,000.00 to $90,000.00 annually]]></summary>
+	</entry>
+	<entry>
+		<title type="html"><![CDATA[cloud administrator]]></title>
+		<link rel="alternate" type="text/html" href="https://www.jobbank.gc.ca/jobsearch/jobposting/50568175"/>
+		<id>https://www.jobbank.gc.ca/jobsearch/jobSearchRSSfeed?id=10305005428</id>
+		<updated>2026-10-23T12:00:00Z</updated>
+		<summary type="html"><![CDATA[<strong>Job number:</strong> 10305005428<br /><strong>Location:</strong> Winnipeg (MB)  <br /><strong>Employer:</strong> Globe Property Management<br /><strong>Salary:</strong> $40,000.00 to $45,000.00 annually]]></summary>
+	</entry>
+	<entry>
+		<title type="html"><![CDATA[project engineer  - building systems]]></title>
+		<link rel="alternate" type="text/html" href="https://www.jobbank.gc.ca/jobsearch/jobposting/50567045"/>
+		<id>https://www.jobbank.gc.ca/jobsearch/jobSearchRSSfeed?id=1554617</id>
+		<updated>2026-10-23T09:00:00Z</updated>
+		<summary type="html"><![CDATA[<strong>Job number:</strong> 1554617<br /><strong>Location:</strong> Regina (SK)  <br /><strong>Employer:</strong> City of Regina<br /><strong>Salary:</strong> $45.76 - $57.14]]></summary>
+	</entry>
+	<entry>
+		<title type="html"><![CDATA[embedded software designer]]></title>
+		<link rel="alternate" type="text/html" href="https://www.jobbank.gc.ca/jobsearch/jobposting/50566461"/>
+		<id>https://www.jobbank.gc.ca/jobsearch/jobSearchRSSfeed?id=549167</id>
+		<updated>2026-10-23T08:00:00Z</updated>
+		<summary type="html"><![CDATA[<strong>Job number:</strong> 549167<br /><strong>Location:</strong> Beauharnois (QC)  <br /><strong>Employer:</strong> SERVICE ULTRATRONIC INC.<br /><strong>Salary:</strong> $27.50 hourly]]></summary>
+	</entry>
+	<entry>
+		<title type="html"><![CDATA[cloud engineer]]></title>
+		<link rel="alternate" type="text/html" href="https://www.jobbank.gc.ca/jobsearch/jobposting/50566856"/>
+		<id>https://www.jobbank.gc.ca/jobsearch/jobSearchRSSfeed?id=632352102610900613</id>
+		<updated>2026-10-23T08:00:00Z</updated>
+		<summary type="html"><![CDATA[<strong>Job number:</strong> 632352102610900613<br /><strong>Location:</strong> Toronto (ON)  <br /><strong>Employer:</strong> Source Code<br /><strong>Salary:</strong> $90.37 hourly]]></summary>
+	</entry>
+	<entry>
+		<title type="html"><![CDATA[aerospace engineer - design and development]]></title>
+		<link rel="alternate" type="text/html" href="https://www.jobbank.gc.ca/jobsearch/jobposting/50566416"/>
+		<id>https://www.jobbank.gc.ca/jobsearch/jobSearchRSSfeed?id=3703338</id>
+		<updated>2026-10-23T07:59:00Z</updated>
+		<summary type="html"><![CDATA[<strong>Job number:</strong> 3703338<br /><strong>Location:</strong> Laval (QC)  <br /><strong>Employer:</strong> M1 Composites Technologie<br /><strong>Salary:</strong> $85,000.00 to $120,000.00 annually (to be negotiated)]]></summary>
+	</entry>
+	<entry>
+		<title type="html"><![CDATA[mechanical engineering project manager]]></title>
+		<link rel="alternate" type="text/html" href="https://www.jobbank.gc.ca/jobsearch/jobposting/50565775"/>
+		<id>https://www.jobbank.gc.ca/jobsearch/jobSearchRSSfeed?id=553688</id>
+		<updated>2026-10-23T06:00:00Z</updated>
+		<summary type="html"><![CDATA[<strong>Job number:</strong> 553688<br /><strong>Location:</strong> Saint-Georges (QC)  <br /><strong>Employer:</strong> EBI ELECTRIC INC.<br /><strong>Salary:</strong> $25.00 hourly]]></summary>
+	</entry>
+	<entry>
+		<title type="html"><![CDATA[geotechnical engineer]]></title>
+		<link rel="alternate" type="text/html" href="https://www.jobbank.gc.ca/jobsearch/jobposting/50565946"/>
+		<id>https://www.jobbank.gc.ca/jobsearch/jobSearchRSSfeed?id=2232810</id>
+		<updated>2026-10-23T06:00:00Z</updated>
+		<summary type="html"><![CDATA[<strong>Job number:</strong> 2232810<br /><strong>Location:</strong> Toronto (ON)  <br /><strong>Employer:</strong> Englobe Corp.<br /><strong>Salary:</strong> $31.27 to $83.24 hourly]]></summary>
+	</entry>
+	<entry>
+		<title type="html"><![CDATA[stationary engineer]]></title>
+		<link rel="alternate" type="text/html" href="https://www.jobbank.gc.ca/jobsearch/jobposting/50565268"/>
+		<id>https://www.jobbank.gc.ca/jobsearch/jobSearchRSSfeed?id=3702741</id>
+		<updated>2026-10-23T04:25:00Z</updated>
+		<summary type="html"><![CDATA[<strong>Job number:</strong> 3702741<br /><strong>Location:</strong> Québec (QC)  <br /><strong>Employer:</strong> Société québécoise des infrastructures<br /><strong>Salary:</strong> $28.07 to $35.70 hourly (to be negotiated)]]></summary>
+	</entry>
+	<entry>
+		<title type="html"><![CDATA[cloud engineer]]></title>
+		<link rel="alternate" type="text/html" href="https://www.jobbank.gc.ca/jobsearch/jobposting/50565031"/>
+		<id>https://www.jobbank.gc.ca/jobsearch/jobSearchRSSfeed?id=642871790876688541</id>
+		<updated>2026-10-23T02:00:00Z</updated>
+		<summary type="html"><![CDATA[<strong>Job number:</strong> 642871790876688541<br /><strong>Location:</strong> Toronto (ON)  <br /><strong>Employer:</strong> Upstaff<br /><strong>Salary:</strong> $10,000.00 monthly]]></summary>
+	</entry>
+	<entry>
+		<title type="html"><![CDATA[mechanical engineer]]></title>
+		<link rel="alternate" type="text/html" href="https://www.jobbank.gc.ca/jobsearch/jobposting/50565060"/>
+		<id>https://www.jobbank.gc.ca/jobsearch/jobSearchRSSfeed?id=642864354621721891</id>
+		<updated>2026-10-23T02:00:00Z</updated>
+		<summary type="html"><![CDATA[<strong>Job number:</strong> 642864354621721891<br /><strong>Location:</strong> Vaughan (ON)  <br /><strong>Employer:</strong> Go2STAFFING<br /><strong>Salary:</strong> $110.00 to $130,000.00 daily]]></summary>
+	</entry>
+	<entry>
+		<title type="html"><![CDATA[site reliability engineer]]></title>
+		<link rel="alternate" type="text/html" href="https://www.jobbank.gc.ca/jobsearch/jobposting/50565074"/>
+		<id>https://www.jobbank.gc.ca/jobsearch/jobSearchRSSfeed?id=642864337207495971</id>
+		<updated>2026-10-23T02:00:00Z</updated>
+		<summary type="html"><![CDATA[<strong>Job number:</strong> 642864337207495971<br /><strong>Location:</strong> Fernie (BC)  <br /><strong>Employer:</strong> STACK IT Recruitment<br /><strong>Salary:</strong> $140,000.00 to $180,000.00 annually]]></summary>
+	</entry>
+	<entry>
+		<title type="html"><![CDATA[hardware engineer]]></title>
+		<link rel="alternate" type="text/html" href="https://www.jobbank.gc.ca/jobsearch/jobposting/50570723"/>
+		<id>https://www.jobbank.gc.ca/jobsearch/jobSearchRSSfeed?id=0ae7c1d2</id>
+		<updated>2026-10-22T20:00:00Z</updated>
+		<summary type="html"><![CDATA[<strong>Job number:</strong> 0ae7c1d2<br /><strong>Location:</strong> Hamilton (ON)  <br /><strong>Employer:</strong> Great Lakes Group<br /><strong>Salary:</strong> $49.05 hourly]]></summary>
+	</entry>
+	<entry>
+		<title type="html"><![CDATA[refrigeration and air conditioning mechanic (non-construction)]]></title>
+		<link rel="alternate" type="text/html" href="https://www.jobbank.gc.ca/jobsearch/jobposting/50560619"/>
+		<id>https://www.jobbank.gc.ca/jobsearch/jobSearchRSSfeed?id=44469B1792685242</id>
+		<updated>2026-10-22T14:00:00Z</updated>
+		<summary type="html"><![CDATA[<strong>Job number:</strong> 44469B1792685242<br /><strong>Location:</strong> Terrebonne (QC)  <br /><strong>Employer:</strong> G2Clim<br /><strong>Salary:</strong> $30.00 to $47.00 hourly]]></summary>
+	</entry>
+	<entry>
+		<title type="html"><![CDATA[public works engineer]]></title>
+		<link rel="alternate" type="text/html" href="https://www.jobbank.gc.ca/jobsearch/jobposting/50560661"/>
+		<id>https://www.jobbank.gc.ca/jobsearch/jobSearchRSSfeed?id=310751</id>
+		<updated>2026-10-22T14:00:00Z</updated>
+		<summary type="html"><![CDATA[<strong>Job number:</strong> 310751<br /><strong>Location:</strong> Québec (QC)  <br /><strong>Employer:</strong> Ville de Québec<br /><strong>Salary:</strong> $72,782.00 to $126,035.00 annually]]></summary>
+	</entry>
+	<entry>
+		<title type="html"><![CDATA[cloud engineer]]></title>
+		<link rel="alternate" type="text/html" href="https://www.jobbank.gc.ca/jobsearch/jobposting/50560760"/>
+		<id>https://www.jobbank.gc.ca/jobsearch/jobSearchRSSfeed?id=642853294587195368</id>
+		<updated>2026-10-22T14:00:00Z</updated>
+		<summary type="html"><![CDATA[<strong>Job number:</strong> 642853294587195368<br /><strong>Location:</strong> Toronto (ON)  <br /><strong>Employer:</strong> Maarut<br /><strong>Salary:</strong> $101.00 daily]]></summary>
+	</entry>
+</feed>
