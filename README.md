@@ -72,7 +72,7 @@ ADZUNA_APP_ID=... ADZUNA_APP_KEY=... npm run collect   # collect now
 
 ## OaSIS dictionary (all NOC occupations, English and French)
 
-`scripts/build_oasis_dictionary.py` downloads the official [OaSIS](https://open.canada.ca/data/en/dataset/eeb3e442-9f19-4d12-8b38-c488fe4f6e5e) CSV files (Open Government Licence - Canada) and builds:
+`scripts/build_oasis_dictionary.py` downloads the official OaSIS **2025** CSV files ([open.canada.ca dataset](https://open.canada.ca/data/en/dataset/10ce43bd-fb58-4969-806b-4bffebc87bec); the same release the [ESDC OaSIS site](https://noc.esdc.gc.ca/OaSIS/) displays, which has web pages only) and builds:
 
 - `python/oasis_data.json`: occupation labels, English and French job titles with their NOC/OaSIS codes, English and French names of skills, abilities, work activities and more, and which occupations each skill appears in.
 - `python/oasis_vocab.csv`: every word and phrase in the occupation texts, English and French, with the number of occupations it appears in, so the vocabulary can be reviewed.
@@ -83,4 +83,4 @@ ADZUNA_APP_ID=... ADZUNA_APP_KEY=... npm run collect   # collect now
 2. **Occupations.** If the job post and the CV mention titles from the same occupation, the report shows the code. It is not scored.
 3. **Inferred.** Skills that appear in many of the same occupations are listed as related. They are never counted as a match and never added to the CV. The report shows a second figure, coverage including related = (matched + 0.5 × related) ÷ job skills.
 
-Run it from the **Actions** tab (**Build OaSIS dictionary**), or locally with `python3 scripts/build_oasis_dictionary.py`. The column layout of the official files is detected from the data; if a file does not look as expected, the script stops and prints its headers. Offline tests use small made-up files: `python3 -m unittest test.test_oasis`. Tuning for the inferred links is at the top of `python/oasis.py`.
+Run it from the **Actions** tab (**Build OaSIS dictionary**, choose release 2025 or 2022), or locally with `python3 scripts/build_oasis_dictionary.py [--version 2022]`. The data is licensed under the Open Government Licence - Canada. The column layout of the official files is detected from the data; if a file does not look as expected, the script stops and prints its headers. Offline tests use small made-up files: `python3 -m unittest test.test_oasis`. Tuning for the inferred links is at the top of `python/oasis.py`.

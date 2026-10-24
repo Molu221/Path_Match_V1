@@ -2,8 +2,10 @@
 build_oasis_dictionary.py - turn the official OaSIS CSV files into python/oasis_data.json.
 
 OaSIS (Occupational and Skills Information System, ESDC) covers every NOC occupation.
-Licence: Open Government Licence - Canada. Dataset page:
-https://open.canada.ca/data/en/dataset/eeb3e442-9f19-4d12-8b38-c488fe4f6e5e
+Licence: Open Government Licence - Canada. Default release: OaSIS 2025 v1.0, the one shown at
+https://noc.esdc.gc.ca/OaSIS/ (that site has web pages only; the same data is published as CSV at
+https://open.canada.ca/data/en/dataset/10ce43bd-fb58-4969-806b-4bffebc87bec ).
+--version 2022 uses the older release, dataset eeb3e442-9f19-4d12-8b38-c488fe4f6e5e.
 
 WHAT IT BUILDS
     python/oasis_data.json   used by python/keyword_extractor.py
@@ -15,7 +17,8 @@ WHAT IT BUILDS
                              French, with the number of occupations it appears in (for review)
 
 HOW TO RUN
-    python3 scripts/build_oasis_dictionary.py                 # downloads, then builds
+    python3 scripts/build_oasis_dictionary.py                 # downloads OaSIS 2025, then builds
+    python3 scripts/build_oasis_dictionary.py --version 2022  # the older release
     python3 scripts/build_oasis_dictionary.py --local-dir DIR # use CSV files already on disk
                                                               # named <key>_en.csv / <key>_fr.csv
 
@@ -41,44 +44,106 @@ sys.path.insert(0, str(ROOT / "python"))
 import oasis  # noqa: E402
 import keyword_extractor as kx  # noqa: E402
 
-BASE = "https://open.canada.ca/data/dataset/eeb3e442-9f19-4d12-8b38-c488fe4f6e5e/resource/"
-# key: (kind, English file, French file). "text" files hold words; "rating" files hold skill ratings.
-RESOURCES = {
-    "lead_statement": ("text",
-        "f1b0b3c4-8982-4104-ba96-794044ad65e8/download/lead-statement_oasis_2022_v1.0.csv",
-        "c41c84ee-0df4-43ec-8690-bbd2424eed83/download/enonce-principal_sipec_2022_v1.0.csv"),
-    "example_titles": ("text",
-        "266f49d4-59ba-4c50-8171-bc7fde509eda/download/example-titles_oasis-2022_v1.0.csv",
-        "77e0f199-93c9-466c-9643-c52e7f62820e/download/exemples-dappellation-demploi_sipec_2022_v1.0.csv"),
-    "main_duties": ("text",
-        "7453d044-7b41-44cc-b9c6-1112e9e886b5/download/main-duties_oasis-2022_v1.0.csv",
-        "7f0337ed-aaab-46a9-a988-1c50286770c7/download/fonctions-principales_sipec_2022_v1.0.csv"),
-    "employment_requirements": ("text",
-        "b12666f4-cba7-405e-9610-f36318e0f7d5/download/employment-requirements_oasis_2022_v1.0.csv",
-        "1852cf7f-5c40-49ab-b2dc-5d1180545166/download/exigences-demploi_sipec_2022_v1.0.csv"),
-    "additional_information": ("text",
-        "0b56ac41-244f-40ca-8c52-a5e376d3e72a/download/additional-information_oasis_2022_v1.0.csv",
-        "c8813ce9-49d2-45fb-b903-bf89f29816d9/download/renseignements-supplementaires_sipec_2022_v1.0.csv"),
-    "workplaces_employers": ("text",
-        "c3e16f83-5d09-43be-b1b4-49526cc25ed8/download/workplaces-employers_oasis_2022_v1.0.csv",
-        "84ee84bb-90e8-41be-b9f5-b1807b895404/download/lieux-de-travail-employeurs_sipec_2022_v1.0.csv"),
-    "skills": ("rating",
-        "34eecbcc-c3aa-4568-8715-c946de99df33/download/skills_oasis_2022_v1.0.csv",
-        "9376bda5-2d80-4b0b-a34d-cf5d64d9b9a8/download/competences_sipec_2022_v1.0.csv"),
-    "abilities": ("rating",
-        "e1d0f684-4f3d-4f6a-adc8-b3a9d0e120fd/download/abilities_oasis_2022_v1.0.csv",
-        "2aed2904-4db4-45f5-8ca8-121de70d2815/download/habiletes_sipec_2022_v1.0.csv"),
-    "personal_attributes": ("rating",
-        "42a2b00e-94f3-4168-81c4-c8bf671e1562/download/personal-attributes_oasis_2022_v1.0.csv",
-        "be3b4321-a730-4d86-8004-29779282f02c/download/attributs-personnels_sipec_2022_v1.0.csv"),
-    "work_activities": ("rating",
-        "2315640d-6bb5-4914-9a46-e8226829e2c0/download/workactivities_oasis_2022_v1.0.csv",
-        "28a77959-c72e-4c55-82e7-9a8cdbae7ecd/download/activites-du-travail_sipec_2022_v1.0.csv"),
-    "work_context": ("rating",
-        "2eaf68a6-de91-4366-b3d0-d55f3732ec8c/download/workcontext_oasis_2022_v1.0.csv",
-        "8696d108-77a9-4eb1-a995-10bfd4905602/download/contexte-de-travail_sipec_2022_v1.0.csv"),
+# Two releases of the data exist on open.canada.ca. 2025 is the one the ESDC site
+# https://noc.esdc.gc.ca/OaSIS/ shows as "current"; 2022 is kept as a fallback.
+# Each entry: key: (kind, English file, French file), paths relative to the dataset's resource folder.
+# "text" files hold words; "rating" files hold skill ratings.
+DATASETS = {
+    "2025": {
+        "id": "10ce43bd-fb58-4969-806b-4bffebc87bec",
+        "source": "Occupational and Skills Information System (OaSIS) 2025 v1.0, ESDC",
+        "resources": {
+            "lead_statement": ("text",
+                "d2a00c9b-2b7d-458f-a41f-10011d8164c7/download/lead-statement_oasis_2025_v1.0.csv",
+                "6909fd40-e543-486f-a45d-b39061153de0/download/enonce-principal_sipec_2025_v1.0.csv"),
+            "labels": ("text",
+                "af53ca1d-5efc-4e52-ad42-9b858a4507c6/download/labels_oasis_2025_v1.1.csv",
+                "1e9192e1-8972-446f-9baa-2a6a4e1ebcc0/download/etiquettes_sipec_2025_v1.0.csv"),
+            "example_titles": ("text",
+                "3484364c-75a4-4e22-ae9a-d12ea72569d4/download/example-titles_oasis_2025_v1.0.csv",
+                "c66e5c70-6b73-4de2-88eb-b1ec4e887452/download/exemples-dappellation-demploi_sipec_2025_v1.0.csv"),
+            "main_duties": ("text",
+                "92e4107e-a804-4126-85ec-1fca23b82d81/download/main-duties_oasis-2025_v1.1.csv",
+                "46507c4c-9c75-46c4-8142-083564f568e6/download/fonctions-principales_sipec_2025_v1.1.csv"),
+            "employment_requirements": ("text",
+                "33b4ccb4-e725-4618-ab0b-f64c979ab9cc/download/employment-requirements_oasis_2025_v1.0.csv",
+                "5c8299fa-d972-4458-bc04-6fb6cf45fe1a/download/exigences-demploi_sipec_2025_v1.0.csv"),
+            "additional_information": ("text",
+                "4d3456b8-3370-4c07-a54f-d045738643b1/download/additional-information_oasis_2025_v1.0.csv",
+                "170bd5a0-bc03-4229-ab90-8553e0e19fe7/download/renseignements-supplementaires_sipec_2025_v1.0.csv"),
+            "workplaces_employers": ("text",
+                "198fe49d-db99-480c-8764-1d20ffb08b72/download/workplaces-employers_oasis_2025_v1.0.csv",
+                "65674d66-06b1-44fd-bebd-287f66e31d7a/download/lieux-de-travail-employeurs_sipec_2025_v1.0.csv"),
+            "skills": ("rating",
+                "bd9cf3f2-4cd5-47b1-ba74-ab68cd0a941b/download/skills_oasis_2025_v1.1.csv",
+                "768cabef-b0f7-4623-b606-659a5ca46ab2/download/competences_sipec_2025_v1.1.csv"),
+            "abilities": ("rating",
+                "f015095d-15e7-4ef7-97d1-e5fed3486e40/download/abilities_oasis_2025_v1.1.csv",
+                "21612372-ab66-4106-ae97-874372bab4f8/download/habilites_oasis_2025_v1.1.csv"),
+            "knowledge": ("rating",
+                "b5c3eb08-dda8-4929-ba5d-b90582db6c70/download/knowledge_oasis_2025_v.1.1.csv",
+                "521b2e57-d97c-4aa3-b1a1-53a1fe906e05/download/connaissance_sipec_2025_v.1.1.csv"),
+            "personal_attributes": ("rating",
+                "eb9a4dd9-16ae-4a41-a248-24a56d118a90/download/personal-attributes_oasis_2025_v1.1.csv",
+                "a0d2d725-6c1b-4e20-945f-1646da50eb60/download/attributs-personnels_sipec_2025_v1.1.csv"),
+            "work_activities": ("rating",
+                "44e666cc-f12d-4b3f-9369-6e0843d2bb48/download/work-activities_oasis_2025_v1.1.csv",
+                "1198dfcd-b3c2-4e67-8eb0-d84f13173187/download/activites-travail_sipec_2025_v1.1.csv"),
+            "work_context": ("rating",
+                "594cabeb-ebb8-4bfd-80a3-fa1c0bdb64f3/download/work-context_oasis_2025_v1.1.csv",
+                "397e62b4-fc4a-4f2a-aada-dadeb4b9e535/download/context-travail_sipec_2025_v1.1.csv"),
+        },
+        # files that can be missing without stopping the build (everything else is needed)
+        "optional": {"labels", "workplaces_employers", "additional_information", "work_context"},
+    },
+    "2022": {
+        "id": "eeb3e442-9f19-4d12-8b38-c488fe4f6e5e",
+        "source": "Occupational and Skills Information System (OaSIS) 2022 v1.0, ESDC",
+        "resources": {
+            "lead_statement": ("text",
+                "f1b0b3c4-8982-4104-ba96-794044ad65e8/download/lead-statement_oasis_2022_v1.0.csv",
+                "c41c84ee-0df4-43ec-8690-bbd2424eed83/download/enonce-principal_sipec_2022_v1.0.csv"),
+            "example_titles": ("text",
+                "266f49d4-59ba-4c50-8171-bc7fde509eda/download/example-titles_oasis-2022_v1.0.csv",
+                "77e0f199-93c9-466c-9643-c52e7f62820e/download/exemples-dappellation-demploi_sipec_2022_v1.0.csv"),
+            "main_duties": ("text",
+                "7453d044-7b41-44cc-b9c6-1112e9e886b5/download/main-duties_oasis-2022_v1.0.csv",
+                "7f0337ed-aaab-46a9-a988-1c50286770c7/download/fonctions-principales_sipec_2022_v1.0.csv"),
+            "employment_requirements": ("text",
+                "b12666f4-cba7-405e-9610-f36318e0f7d5/download/employment-requirements_oasis_2022_v1.0.csv",
+                "1852cf7f-5c40-49ab-b2dc-5d1180545166/download/exigences-demploi_sipec_2022_v1.0.csv"),
+            "additional_information": ("text",
+                "0b56ac41-244f-40ca-8c52-a5e376d3e72a/download/additional-information_oasis_2022_v1.0.csv",
+                "c8813ce9-49d2-45fb-b903-bf89f29816d9/download/renseignements-supplementaires_sipec_2022_v1.0.csv"),
+            "workplaces_employers": ("text",
+                "c3e16f83-5d09-43be-b1b4-49526cc25ed8/download/workplaces-employers_oasis_2022_v1.0.csv",
+                "84ee84bb-90e8-41be-b9f5-b1807b895404/download/lieux-de-travail-employeurs_sipec_2022_v1.0.csv"),
+            "skills": ("rating",
+                "34eecbcc-c3aa-4568-8715-c946de99df33/download/skills_oasis_2022_v1.0.csv",
+                "9376bda5-2d80-4b0b-a34d-cf5d64d9b9a8/download/competences_sipec_2022_v1.0.csv"),
+            "abilities": ("rating",
+                "e1d0f684-4f3d-4f6a-adc8-b3a9d0e120fd/download/abilities_oasis_2022_v1.0.csv",
+                "2aed2904-4db4-45f5-8ca8-121de70d2815/download/habiletes_sipec_2022_v1.0.csv"),
+            "personal_attributes": ("rating",
+                "42a2b00e-94f3-4168-81c4-c8bf671e1562/download/personal-attributes_oasis_2022_v1.0.csv",
+                "be3b4321-a730-4d86-8004-29779282f02c/download/attributs-personnels_sipec_2022_v1.0.csv"),
+            "work_activities": ("rating",
+                "2315640d-6bb5-4914-9a46-e8226829e2c0/download/workactivities_oasis_2022_v1.0.csv",
+                "28a77959-c72e-4c55-82e7-9a8cdbae7ecd/download/activites-du-travail_sipec_2022_v1.0.csv"),
+            "work_context": ("rating",
+                "2eaf68a6-de91-4366-b3d0-d55f3732ec8c/download/workcontext_oasis_2022_v1.0.csv",
+                "8696d108-77a9-4eb1-a995-10bfd4905602/download/contexte-de-travail_sipec_2022_v1.0.csv"),
+        },
+        "optional": {"workplaces_employers", "additional_information", "work_context"},
+    },
 }
+DEFAULT_VERSION = "2025"
+SITE = "https://open.canada.ca/data/dataset/"
+API = "https://open.canada.ca/data/api/3/action/package_show?id="
+# Filled in by main(): the dataset chosen with --version.
+RESOURCES = DATASETS[DEFAULT_VERSION]["resources"]
 
+UA = "Mozilla/5.0 (compatible; path-match-oasis-builder; +https://github.com/Molu221/Path_Match_V1)"
 CODE_RE = re.compile(r"\d{5}(?:\.\d{2})?")
 LABEL_RE = re.compile(r"label|libell|profile|profil|occupation|nom\b", re.I)
 RATING_CUTOFF = 0.6        # a skill is linked to an occupation when its rating >= 60% of the file maximum
@@ -96,17 +161,32 @@ STOP = {
 # --------------------------------------------------------------------------------------
 # reading the files
 # --------------------------------------------------------------------------------------
-def download(url, dest, tries=5, deadline=240):
-    """Download one file. Each try is cut off after `deadline` seconds in total."""
+def api_urls(dataset_id):
+    """{resource id: file URL} as the portal itself lists them (CKAN API), or {} if it cannot be read."""
+    try:
+        req = urllib.request.Request(API + dataset_id, headers={"User-Agent": UA, "Accept": "application/json"})
+        with urllib.request.urlopen(req, timeout=60) as r:
+            package = json.load(r)["result"]
+        found = {res["id"]: res.get("url", "") for res in package.get("resources", [])}
+        print(f"portal lists {len(found)} resources for dataset {dataset_id}", flush=True)
+        return found
+    except Exception as e:  # noqa: BLE001 - the fixed addresses below still work
+        print(f"portal listing not available ({e}); using the fixed addresses", flush=True)
+        return {}
+
+
+def download(urls, dest, tries=5, deadline=240):
+    """Download one file. `urls` is one address or a list tried in turn (the portal's own address
+    first, then the fixed one). Each try is cut off after `deadline` seconds in total."""
     if dest.exists() and dest.stat().st_size > 0:        # already downloaded in an earlier run
         return f"cached, {dest.stat().st_size} bytes"
+    urls = [urls] if isinstance(urls, str) else [u for i, u in enumerate(urls) if u and u not in urls[:i]]
     last = None
     for i in range(tries):
+        url = urls[i % len(urls)]
         started = time.time()
         try:
-            req = urllib.request.Request(url, headers={
-                "User-Agent": "Mozilla/5.0 (compatible; path-match-oasis-builder; +https://github.com/Molu221/Path_Match_V1)",
-                "Accept": "text/csv,*/*"})
+            req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept": "text/csv,*/*"})
             with urllib.request.urlopen(req, timeout=60) as r:
                 chunks = []
                 while True:
@@ -124,7 +204,7 @@ def download(url, dest, tries=5, deadline=240):
             return f"{len(data)} bytes in {time.time() - started:.1f}s"
         except Exception as e:  # noqa: BLE001 - report and retry
             last = e
-            print(f"  try {i + 1} failed for {dest.name}: {e}", flush=True)
+            print(f"  try {i + 1} failed for {dest.name} ({url}): {e}", flush=True)
             time.sleep(5 * (i + 1))
     raise RuntimeError(f"Could not download {url}: {last}")
 
@@ -335,17 +415,27 @@ def write_vocab(path, corpus, total, cap=20000):
 # --------------------------------------------------------------------------------------
 def main():
     ap = argparse.ArgumentParser()
+    ap.add_argument("--version", choices=sorted(DATASETS), default=DEFAULT_VERSION,
+                    help="OaSIS release to download (default %(default)s, the current one)")
     ap.add_argument("--local-dir", help="folder with <key>_en.csv and <key>_fr.csv; skips the download")
-    ap.add_argument("--raw-dir", default=str(ROOT / "data" / "oasis_raw"))
+    ap.add_argument("--raw-dir", help="where downloaded files are kept (default data/oasis_raw/<version>)")
     ap.add_argument("--out", default=str(ROOT / "python" / "oasis_data.json"))
     ap.add_argument("--vocab", default=str(ROOT / "python" / "oasis_vocab.csv"))
     args = ap.parse_args()
 
-    src_dir = pathlib.Path(args.local_dir or args.raw_dir)
+    dataset = DATASETS[args.version]
+    resources, optional = dataset["resources"], dataset["optional"]
+    base = SITE + dataset["id"] + "/resource/"
+    src_dir = pathlib.Path(args.local_dir or args.raw_dir or ROOT / "data" / "oasis_raw" / args.version)
     src_dir.mkdir(parents=True, exist_ok=True)
+    print(f"OaSIS {args.version}: {dataset['source']}", flush=True)
     if not args.local_dir:
-        jobs = [(f"{key}_{lang}", BASE + rel) for key, (_, en, fr) in RESOURCES.items()
-                for lang, rel in (("en", en), ("fr", fr))]
+        listed = api_urls(dataset["id"])
+        jobs = []
+        for key, (_, en, fr) in resources.items():
+            for lang, rel in (("en", en), ("fr", fr)):
+                fixed = base + rel
+                jobs.append((f"{key}_{lang}", [listed.get(rel.split("/")[0]), fixed]))
         print(f"downloading {len(jobs)} files", flush=True)
         failed = []
         with concurrent.futures.ThreadPoolExecutor(max_workers=2) as pool:
@@ -361,15 +451,21 @@ def main():
             if (src_dir / f"{name}.csv").exists():
                 print(f"{name}:")
                 peek(src_dir / f"{name}.csv")
+        needed = [n for n in failed if n.rsplit("_", 1)[0] not in optional]
         if failed:
-            raise SystemExit(f"{len(failed)} downloads failed: {', '.join(sorted(failed))}. "
+            print(f"WARNING: {len(failed)} downloads failed: {', '.join(sorted(failed))}", flush=True)
+        if needed:
+            raise SystemExit(f"{len(needed)} needed downloads failed: {', '.join(sorted(needed))}. "
                              "Run the workflow again: files already downloaded are kept.")
 
     tables, problems = {}, []
-    for key, (kind, _, _) in RESOURCES.items():
+    for key, (kind, _, _) in resources.items():
         for lang in ("en", "fr"):
             p = src_dir / f"{key}_{lang}.csv"
             if not p.exists():
+                if key in optional:
+                    print(f"{key}_{lang}: not downloaded, skipped")
+                    continue
                 raise SystemExit(f"missing file {p}")
             print(f"{key}_{lang}:")
             peek(p)
@@ -388,7 +484,7 @@ def main():
     corpus = {"en": {}, "fr": {}}
     codes = set()
     for lang in ("en", "fr"):
-        for key, (kind, _, _) in RESOURCES.items():
+        for key, (kind, _, _) in resources.items():
             if kind != "text" or (key, lang) not in tables:
                 continue
             by_code = text_by_code(tables[(key, lang)])
@@ -402,9 +498,10 @@ def main():
                             norm = oasis.norm_title(title)
                             if 2 <= len(norm.split()) <= 8:
                                 titles.setdefault(norm, set()).add(code)
-        if ("lead_statement", lang) in tables:
-            for code, label in labels_by_code(tables[("lead_statement", lang)]).items():
-                labels.setdefault(code, {})["label" if lang == "en" else "label_fr"] = label
+        for key in ("labels", "lead_statement"):           # the occupation name, from whichever file has it
+            if (key, lang) in tables:
+                for code, label in labels_by_code(tables[(key, lang)]).items():
+                    labels.setdefault(code, {}).setdefault("label" if lang == "en" else "label_fr", label)
     for code in codes:
         labels.setdefault(code, {})
     if not codes:
@@ -412,7 +509,7 @@ def main():
 
     # descriptors (skills, abilities...), paired English <-> French by position
     desc, links = [], {}
-    for key, (kind, _, _) in RESOURCES.items():
+    for key, (kind, _, _) in resources.items():
         if kind != "rating":
             continue
         en = descriptors(tables[(key, "en")]) if (key, "en") in tables else []
@@ -442,7 +539,7 @@ def main():
 
     out = {
         "meta": {
-            "source": "Occupational and Skills Information System (OaSIS) 2022 v1.0, ESDC",
+            "source": dataset["source"],
             "licence": "Open Government Licence - Canada",
             "built": datetime.date.today().isoformat(),
             "occupations": len(codes),

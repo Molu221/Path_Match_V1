@@ -11,7 +11,9 @@ import unittest
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "python"))
+sys.path.insert(0, str(ROOT / "scripts"))
 import oasis  # noqa: E402
+import build_oasis_dictionary as build  # noqa: E402
 
 CODES = ["21321.00", "22302.00", "13201.00", "21301.00"]
 
@@ -44,6 +46,8 @@ def write_fixtures(d):
                            [[CODES[0], 5, 3, 5], [CODES[1], 4, 2, 4], [CODES[2], 3, 4, 3], [CODES[3], 4, 1, 5]]),
         "abilities": csv_text(["OaSIS code", "Deductive reasoning", "Oral comprehension", "Number facility"],
                               [[c, 3, 3, 3] for c in CODES]),
+        "knowledge": csv_text(["OaSIS code", "Engineering and technology", "Production and processing"],
+                              [[CODES[0], 5, 4], [CODES[1], 4, 4], [CODES[2], 1, 3], [CODES[3], 5, 2]]),
         "personal_attributes": csv_text(["OaSIS code", "Initiative", "Dependability", "Attention to detail"],
                                         [[c, 3, 3, 3] for c in CODES]),
         # long layout: one row per occupation and activity
@@ -74,6 +78,8 @@ def write_fixtures(d):
                            [[CODES[0], 5, 3, 5], [CODES[1], 4, 2, 4], [CODES[2], 3, 4, 3], [CODES[3], 4, 1, 5]]),
         "abilities": csv_text(["Code SIPEC", "Raisonnement déductif", "Compréhension orale", "Facilité avec les nombres"],
                               [[c, 3, 3, 3] for c in CODES]),
+        "knowledge": csv_text(["Code SIPEC", "Génie et technologie", "Production et transformation"],
+                              [[CODES[0], 5, 4], [CODES[1], 4, 4], [CODES[2], 1, 3], [CODES[3], 5, 2]]),
         "personal_attributes": csv_text(["Code SIPEC", "Initiative", "Fiabilité", "Souci du détail"],
                                         [[c, 3, 3, 3] for c in CODES]),
         "work_activities": csv_text(["Code SIPEC", "Activité de travail", "Niveau"],
@@ -122,6 +128,30 @@ class OasisTest(unittest.TestCase):
         self.assertIn(("Problem solving", "Résolution de problèmes"), pairs)
         self.assertIn(("Analyzing data", "Analyse de données"), pairs)
 
+    def test_knowledge_descriptors_read(self):
+        pairs = {(d["en"], d["fr"]) for d in self.data["descriptors"]}
+        self.assertIn(("Engineering and technology", "Génie et technologie"), pairs)
+
+    def test_missing_optional_files_do_not_stop_the_build(self):
+        # the fixtures have no "labels" file; the 2025 release lists it as optional
+        self.assertIn("labels_en: not downloaded, skipped", self.log)
+        self.assertIn("labels", build.DATASETS["2025"]["optional"])
+
+    def test_release_tables_are_well_formed(self):
+        for version, ds in build.DATASETS.items():
+            self.assertTrue(ds["optional"] <= set(ds["resources"]), version)
+            ids = []
+            for key, (kind, en, fr) in ds["resources"].items():
+                self.assertIn(kind, ("text", "rating"), key)
+                for rel in (en, fr):
+                    rid, mid, name = rel.split("/")
+                    self.assertEqual((len(rid), mid), (36, "download"), rel)
+                    self.assertTrue(name.endswith(".csv"), rel)
+                    ids.append(rid)
+            self.assertEqual(len(ids), len(set(ids)), f"{version}: a resource id is used twice")
+        for key in ("lead_statement", "example_titles", "skills", "knowledge"):
+            self.assertIn(key, build.DATASETS["2025"]["resources"])
+
     def test_skill_occupations_from_text(self):
         occ = self.data["skill_occupations"]
         self.assertEqual(set(occ["Quality control"]), set(CODES[:3]) | set())  # CODES[3] has none
@@ -152,6 +182,78 @@ class OasisTest(unittest.TestCase):
     def test_inferred_related_is_not_a_match(self):
         r = oasis.inferred_related(["Lean Manufacturing"], ["Quality control"], self.data)
         self.assertTrue(all(x[0] == "Lean Manufacturing" and x[1] == "Quality control" for x in r))
+
+
+class DownloadTest(unittest.TestCase):
+    """The downloader against a tiny local web server (no internet needed)."""
+
+    @classmethod
+    def setUpClass(cls):
+        import http.server
+        import threading
+
+        class Handler(http.server.BaseHTTPRequestHandler):
+            def do_GET(self):  # noqa: N802
+                if self.path.startswith("/good.csv"):
+                    body, ctype, code = b'"OaSIS code","x"\n"21321.00","a"\n', "text/csv", 200
+                elif self.path.startswith("/page.csv"):
+                    body, ctype, code = b"<html>maintenance</html>", "text/html", 200
+                elif self.path.startswith("/api"):
+                    body = json.dumps({"result": {"resources": [{"id": "r1", "url": "http://x/y.csv"}]}}).encode()
+                    ctype, code = "application/json", 200
+                else:
+                    body, ctype, code = b"bad gateway", "text/plain", 502
+                self.send_response(code)
+                self.send_header("Content-Type", ctype)
+                self.send_header("Content-Length", str(len(body)))
+                self.end_headers()
+                self.wfile.write(body)
+
+            def log_message(self, *a):
+                pass
+
+        cls.server = http.server.HTTPServer(("127.0.0.1", 0), Handler)
+        cls.base = f"http://127.0.0.1:{cls.server.server_port}"
+        threading.Thread(target=cls.server.serve_forever, daemon=True).start()
+        cls.tmp = tempfile.TemporaryDirectory()
+        build.time.sleep = lambda s: None            # do not wait between tries in tests
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.server.shutdown()
+        cls.tmp.cleanup()
+
+    def test_falls_back_to_second_address(self):
+        dest = pathlib.Path(self.tmp.name) / "a.csv"
+        build.download([self.base + "/missing.csv", self.base + "/good.csv"], dest, tries=3)
+        self.assertIn("21321.00", dest.read_text())
+
+    def test_web_page_is_not_saved_as_csv(self):
+        dest = pathlib.Path(self.tmp.name) / "b.csv"
+        with self.assertRaises(RuntimeError):
+            build.download(self.base + "/page.csv", dest, tries=2)
+        self.assertFalse(dest.exists())
+
+    def test_existing_file_is_kept(self):
+        dest = pathlib.Path(self.tmp.name) / "c.csv"
+        dest.write_text("kept")
+        self.assertIn("cached", build.download(self.base + "/missing.csv", dest, tries=1))
+
+    def test_portal_listing(self):
+        old = build.API
+        build.API = self.base + "/api?id="
+        try:
+            self.assertEqual(build.api_urls("whatever"), {"r1": "http://x/y.csv"})
+        finally:
+            build.API = old
+
+    def test_portal_listing_failure_is_not_fatal(self):
+        old = build.API
+        build.API = self.base + "/nothing?id="
+        try:
+            self.assertEqual(build.api_urls("whatever"), {})
+        finally:
+            build.API = old
 
 
 class FoldTest(unittest.TestCase):
