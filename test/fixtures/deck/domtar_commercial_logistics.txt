@@ -1,0 +1,42 @@
+JOB: Analyst, Commercial Logistics
+COMPANY: Domtar
+SOURCE: LinkedIn, Montreal QC, 2026-10-16 (from the progress presentation, trimmed)
+
+The location in Montreal, Quebec, Canada, is seeking talent to fill the position of Analyst, Commercial Logistics. This job is full-time permanent.
+Your challenges
+You will act as the go-to expert for tools, data, and analysis within the commercial logistics team. In this capacity, you will:
+Support specialists and the logistics manager in producing cost-benefit analysis
+Actively participate in identifying and implementing logistics chain optimization initiatives
+Ensure the availability, reliability, and integrity of logistics data used in commercial decisions
+Play a key role in transformation and improvement projects related to systems and analytical tools
+Key responsibilities
+More specifically, your focus will include the following:
+Produce and automate cost-benefit analyses to support commercial decisions (transportation, routing, contracts)
+Support logistics specialists in negotiations by providing reliable data and comparative scenarios
+Structure data to improve the speed and quality of decision-making
+Ensure data integrity, consistency, and availability across systems (ERP, analytical files)
+Implement and maintain data quality controls
+Be responsible for managing transportation rates and updating them in the relevant tools
+Review, standardize, and continuously improve analytical files and tools (Excel, Power BI, databases)
+Automate manual processes to improve operational efficiency
+Reduce risks related to errors and improve data traceability
+
+Lead or contribute to projects aimed at improving systems and analytical processes (3–5 month horizon)
+Act as a liaison between business teams and IT teams
+Identify and propose logistics chain optimization initiatives (costs, lead times, routing)
+Your team
+Reporting to the Commercial Logistics Manager, you will join a results-driven team where innovation, analytical rigor, and continuous improvement are highly valued.
+Your profile
+University degree in computer science, analytics, information systems, logistics, or a related field
+3 to 5 years of experience in data analysis, tool development, or systems improvement
+Good understanding of logistics operations (rail, truck, or marine transportation is a strong asset)
+Experience with ERP systems and analytical tools (advanced Excel, Power BI, SQL or equivalent)
+Strong interest in process optimization and automation
+Your skills
+Excellent analytical and data-driven mindset
+Ability to translate business needs into technical and analytical solutions
+High level of rigor in data management and validation
+Ability to manage multiple priorities and work under tight deadlines
+Strong ability to influence and collaborate with cross-functional teams
+Excellent communication skills (French and English)
+Initiative and leadership in transformation projects

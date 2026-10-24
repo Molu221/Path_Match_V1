@@ -30,46 +30,71 @@ SKILLS = {
     # quality and lean
     "Lean Six Sigma":            ["lean six sigma", "lss"],
     "Six Sigma Green/Black Belt": ["six sigma green belt", "green belt", "black belt"],
-    "Lean Manufacturing":        ["lean manufacturing"],
+    "Lean Manufacturing":        ["lean manufacturing", "production allegee", "fabrication allegee"],
     "PDCA":                      ["pdca", "plan-do-check-act"],
     "8D":                        ["8d"],
     "A3":                        ["a3"],
     "5S":                        ["5s"],
     "Kaizen":                    ["kaizen"],
     "BPM":                       ["bpm", "business process management"],
-    "Root cause analysis":       ["root cause analysis", "rca"],
-    "Process mapping":           ["process map", "process maps", "process mapping"],
-    "Gap analysis":              ["gap analysis", "gap analyses"],
-    "Continuous improvement":    ["continuous improvement"],
-    "Process improvement":       ["process improvement"],
-    "Operational excellence":    ["operational excellence"],
-    "Quality control":           ["quality control"],
-    "KPIs":                      ["kpi", "key performance indicator", "performance indicator"],
-    "Dashboards":                ["dashboard"],
-    "Action planning":           ["action plan"],
-    "Standard operating procedures": ["sop", "standard operating procedure"],
+    "Root cause analysis":       ["root cause analysis", "rca", "analyse des causes profondes", "analyse de cause racine",
+                                  "analyse des causes racines", "cause racine", "causes racines"],
+    "Process mapping":           ["process map", "process maps", "process mapping", "cartographie des processus",
+                                  "cartographie de processus", "cartographie des procedes"],
+    "Gap analysis":              ["gap analysis", "gap analyses", "analyse des ecarts", "analyse d'ecarts"],
+    "Continuous improvement":    ["continuous improvement", "amelioration continue"],
+    "Process improvement":       ["process improvement", "amelioration des processus", "amelioration de processus",
+                                  "amelioration des procedes", "amelioration de procedes"],
+    "Operational excellence":    ["operational excellence", "excellence operationnelle"],
+    "Quality control":           ["quality control", "controle de la qualite", "controle qualite"],
+    "KPIs":                      ["kpi", "key performance indicator", "performance indicator", "indicateur de performance",
+                                  "indicateurs de performance", "indicateurs cles de performance", "indicateurs cles"],
+    "Dashboards":                ["dashboard", "tableau de bord", "tableaux de bord"],
+    "Action planning":           ["action plan", "plan d'action", "plans d'action"],
+    "Standard operating procedures": ["sop", "standard operating procedure", "procedure operationnelle normalisee",
+                                  "procedures operationnelles normalisees", "methode de travail normalisee",
+                                  "methodes de travail normalisees"],
     "Flowcharts and process flows":  ["flow chart", "flow diagram", "process flow"],
-    "Bottleneck analysis":       ["bottleneck"],
-    "Non-conformance handling":  ["non-conformit"],
-    "Corrective action":         ["corrective action"],
-    "Quality assurance":         ["quality assurance"],
-    "Calibration":               ["calibration"],
-    "Technical writing":         ["technical writing"],
+    "Bottleneck analysis":       ["bottleneck", "goulot d'etranglement", "goulots d'etranglement"],
+    "Non-conformance handling":  ["non-conformance", "non-conformity", "non-conformities", "nonconformance",
+                                  "non-conformite", "non-conformites", "nonconformite",
+                                  "non-conforming", "nonconforming"],
+    "Corrective action":         ["corrective action", "action corrective", "actions correctives"],
+    "Quality assurance":         ["quality assurance", "assurance qualite", "assurance de la qualite"],
+    "Calibration":               ["calibration", "etalonnage"],
+    "Technical writing":         ["technical writing", "redaction technique"],
     "Documentation":             ["documentation", "documenting"],
     "Diagramming software":      ["diagram-creation software"],
-    "Facilitation":              ["facilitate", "facilitation"],
+    "Facilitation":              ["facilitate", "facilitating", "facilitation", "animation d'atelier", "animer des ateliers", "animer des rencontres"],
     # planning and engineering
-    "Industrial engineering":    ["industrial engineering"],
-    "Project management":        ["project management"],
+    "Industrial engineering":    ["industrial engineering", "genie industriel", "ingenierie industrielle"],
+    "Project management":        ["project management", "gestion de projet", "gestion des projets", "gestion de projets"],
     "PMP":                       ["pmp"],
-    "Inventory control":         ["inventory control", "inventory management"],
-    "Scheduling":                ["scheduling"],
+    "Inventory control":         ["inventory control", "inventory management", "gestion des stocks", "gestion de stock",
+                                  "gestion de l'inventaire", "gestion des inventaires", "controle des stocks", "controle d'inventaire"],
+    "Scheduling":                ["scheduling", "ordonnancement"],
     "Simulation":                ["simulation"],
-    "Statistical analysis":      ["statistical analysis", "statistics"],
-    "Mechanical engineering":    ["mechanical engineering"],
-    "Operations management":     ["operations management", "operation management"],
-    "Logistics":                 ["logistic"],
-    "Planning":                  ["planning"],
+    "Statistical analysis":      ["statistical analysis", "statistics", "analyse statistique", "statistique", "statistiques"],
+    "Mechanical engineering":    ["mechanical engineering", "genie mecanique", "ingenierie mecanique"],
+    "Operations management":     ["operations management", "operation management", "gestion des operations"],
+    "Logistics":                 ["logistic", "logistique"],
+    "Planning":                  ["planning", "planification"],
+    # the fields that role titles are made of (added so title-only and French postings show their skills too)
+    "Supply chain":              ["supply chain", "chaine d'approvisionnement", "chaine logistique", "chaine d approvisionnement"],
+    "Procurement":               ["procurement", "purchasing", "approvisionnement", "achats"],
+    "Demand forecasting":        ["demand forecast", "demand planning", "forecasting", "prevision de la demande",
+                                  "previsions de la demande", "planification de la demande"],
+    "Production planning":       ["production planning", "production scheduling", "planification de la production"],
+    "Warehouse operations":      ["warehouse operations", "warehousing", "warehouse management", "gestion d'entrepot",
+                                  "operations d'entrepot"],
+    "Quality engineering":       ["quality engineer", "quality engineering", "ingenieur qualite", "ingenieur en qualite",
+                                  "ingenieur de la qualite", "ingenierie de la qualite", "ingenierie qualite"],
+    "Methods engineering":       ["methods engineer", "method engineer", "methods engineering", "ingenieur methodes",
+                                  "ingenieur des methodes", "ingenierie des methodes"],
+    "Process engineering":       ["process engineer", "process engineering", "ingenieur procedes", "ingenieur de procedes",
+                                  "ingenierie des procedes", "ingenierie de procedes"],
+    "Maintenance and reliability": ["reliability engineering", "maintenance planning", "preventive maintenance",
+                                  "maintenance preventive", "fiabilite"],
     # tools
     "Excel":                     ["excel"],
     "Python":                    ["python"],
@@ -82,16 +107,56 @@ SKILLS = {
     "SAP":                       ["sap"],
     "ERP":                       ["erp"],
     "MS Project":                ["ms project", "microsoft project"],
+    # added after the progress presentation: terms a person sees in the posts that the first run missed
+    "Facility layout":           ["facility layout", "plant layout", "warehouse layout", "production layout", "layout",
+                                  "amenagement d'usine", "implantation d'usine", "amenagement des espaces de travail"],
+    "Workspace reconfiguration": ["workspace reconfiguration", "reconfiguration"],
+    "Industrialization":         ["industrialization", "industrialisation"],
+    "Implementation planning":   ["implementation plan", "implementation planning"],
+    "Capacity analysis":         ["capacity analysis", "production capacity", "capacity planning", "analyse de capacite",
+                                  "planification de la capacite"],
+    "Tooling":                   ["tooling", "outillage"],
+    "Business cases":            ["business case", "analyse de rentabilite", "dossier d'affaires"],
+    "Capital investment":        ["capital investment"],
+    "Process optimization":      ["optimize process", "optimize processes", "optimise process", "optimise processes",
+                                  "optimisation des processus", "optimisation de processus", "optimiser les processus"],
+    "Manufacturing experience":  ["manufacturing/production environment", "manufacturing environment",
+                                  "manufacturing experience"],
+    "Aerospace experience":      ["aerospace", "aerospatiale", "aeronautique"],
+    "Optimization":              ["optimization", "optimisation"],
+    "Automation":                ["automation", "automate", "automated", "automatisation", "automatiser"],
+    "Data analysis":             ["data analysis", "data analytics", "analyze data", "analyse data", "analyse de donnees",
+                                  "analyse des donnees", "analyser des donnees"],
+    "Data quality and integrity": ["data quality control", "data quality", "data integrity"],
+    "Cross-functional work":     ["cross-functional", "cross functional", "interfonctionnel", "multifonctionnel"],
+    "Failure analysis":          ["failure analysis", "failure and defect analysis", "defect analysis", "analyse de defaillance",
+                                  "analyse des defaillances", "analyse des defauts"],
+    "Technical specifications":  ["technical specification", "specifications techniques"],
+    "PowerPoint":                ["powerpoint"],
     # people skills and languages
-    "Problem solving":           ["problem solving", "problem-solving"],
-    "Analytical skills":         ["analytical skill"],
-    "Communication":             ["communication"],
-    "Teamwork":                  ["teamwork"],
-    "Collaboration":             ["collaborate", "collaboration"],
-    "Interpersonal skills":      ["interpersonal skill"],
-    "Bilingual (EN/FR)":         ["bilingual"],
-    "English":                   ["english"],
-    "French":                    ["french"],
+    "Leadership":                ["leadership"],
+    "Attention to detail":       ["attention to detail", "detail-oriented", "detail oriented", "souci du detail", "souci des details",
+                                  "sens du detail", "minutie"],
+    "Initiative":                ["initiative"],
+    "Autonomy":                  ["autonomy", "autonomous", "autonomie", "autonome"],
+    "Organizational skills":     ["organizational skill", "organisational skill", "sens de l'organisation", "esprit d'organisation",
+                                  "competences organisationnelles"],
+    "Explaining complex ideas":  ["simplify concept", "explain complex", "explaining complex", "vulgariser"],
+    "Patience":                  ["patience"],
+    "Perseverance":              ["perseverance"],
+    "Curiosity":                 ["curiosity", "curiosite"],
+    "Takes on challenges":       ["take on challenge", "taking on challenge", "relever des defis", "relever les defis"],
+    "Problem solving":           ["problem solving", "problem-solving", "resolution de problemes", "resolution de probleme"],
+    "Analytical skills":         ["analytical skill", "esprit d'analyse", "esprit analytique", "capacite d'analyse",
+                                  "sens de l'analyse", "competences analytiques"],
+    "Communication":             ["communication", "communicate", "communicating", "communiquer"],
+    "Teamwork":                  ["teamwork", "team work", "team player", "travail d'equipe", "travail en equipe", "esprit d'equipe"],
+    "Collaboration":             ["collaborate", "collaborating", "collaboration", "collaborer"],
+    "Interpersonal skills":      ["interpersonal skill", "competences interpersonnelles", "habiletes interpersonnelles",
+                                  "relations interpersonnelles"],
+    "Bilingual (EN/FR)":         ["bilingual", "bilingue"],
+    "English":                   ["english", "anglais"],
+    "French":                    ["french", "francais"],
 }
 
 # Words that mean "this skill is only a nice-to-have" on the line where they appear.
@@ -110,6 +175,14 @@ JOB_SECTIONS = {
     "what are your contributions to the team?": "TASK",
     "how to thrive in this role?":  "REQUIRED",
     "boarding information":         "TERMS",
+    # headings used by the Domtar and Rolls-Royce posts
+    "your challenges":              "TASK",
+    "key responsibilities":         "TASK",
+    "key accountabilities":         "TASK",
+    "your team":                    "ROLE",
+    "your profile":                 "REQUIRED",
+    "your skills":                  "REQUIRED",
+    "basic requirements":           "REQUIRED",
 }
 
 # Words that mean "check this yourself". Shown as flags, never scored.
@@ -120,10 +193,14 @@ FLAG_PATTERNS = {
     "Bilingual required":           r"bilingual",
     "Hybrid / on-site":             r"on-site|hybrid",
     "Students only, not new graduates": r"students only",
-    "Degree level / program stated": r"co-op bachelor|bachelor's degree|master's degree|study at baa",
+    "Degree level / program stated": r"co-op bachelor|bachelor'?s degree|master'?s degree|university degree|college diploma|degree in|study at baa",
     "Term and duration":            r"duration: \d+ months|winter 2027",
     "Travel outside Canada":        r"travel outside",
     "French required":              r"french is required",
+    "Years of experience stated":   r"\d+(?:\s*(?:to|-|–)\s*\d+)?\+?\s*years|minimum of \d+ years|years of experience",
+    "Citizen / permanent resident": r"canadian citizen|permanent resident|citoyen canadien|resident permanent",
+    "OIQ membership":               r"\boiq\b|order of engineers|ordre des ingenieurs",
+    "Security clearance":           r"security clearance|secret clearance|reliability status|cote de securite",
 }
 
 # Pairs that LOOK related but are different words. We list them, we do NOT count them.
@@ -137,6 +214,51 @@ RELATED = {
     "Planning":               ["Scheduling"],
     "Operations management":  ["Industrial engineering"],
     "Logistics":              ["Inventory control"],
+    "Tooling":                ["Facility layout"],
+    "Process optimization":   ["Process improvement"],
+    "Failure analysis":       ["Root cause analysis"],
+    "Workspace reconfiguration": ["Facility layout"],
+    "Supply chain":           ["Logistics", "Inventory control", "Procurement"],
+    "Quality engineering":    ["Quality control", "Quality assurance"],
+    "Methods engineering":    ["Industrial engineering", "Process improvement"],
+    "Process engineering":    ["Process improvement", "Industrial engineering"],
+    "Production planning":    ["Planning", "Scheduling"],
+    "Warehouse operations":   ["Inventory control", "Logistics"],
+    "Demand forecasting":     ["Planning"],
+}
+
+# Why a pair is "close". Shown next to the pair on the website. Pairs without a line get a generic reason.
+RELATED_WHY = {
+    ("Continuous improvement", "Kaizen"):               "Kaizen is a continuous improvement method",
+    ("Continuous improvement", "Lean Six Sigma"):       "Lean Six Sigma is a continuous improvement method",
+    ("Continuous improvement", "Process improvement"):  "process improvement is the same idea in other words",
+    ("Lean Manufacturing", "Lean Six Sigma"):           "Lean Six Sigma includes lean",
+    ("Lean Manufacturing", "5S"):                       "5S is a lean tool",
+    ("Quality assurance", "Quality control"):           "quality control is part of quality assurance",
+    ("Planning", "Scheduling"):                         "scheduling is a form of planning",
+    ("Logistics", "Inventory control"):                 "inventory control is part of logistics",
+    ("KPIs", "Dashboards"):                             "a dashboard is where KPIs are shown",
+    ("Flowcharts and process flows", "Process mapping"): "process mapping draws the flow",
+    ("Tooling", "Facility layout"):                     "layout work and tooling are both about equipment and space",
+    ("Process optimization", "Process improvement"):    "improving a process is optimizing it",
+    ("Failure analysis", "Root cause analysis"):        "root cause analysis is how a failure is analysed",
+    ("Workspace reconfiguration", "Facility layout"):   "a layout study is reconfiguration work",
+    ("Operations management", "Industrial engineering"): "industrial engineering covers operations",
+    ("Project management", "Industrial engineering"):   "industrial engineering includes project work",
+    ("Supply chain", "Logistics"):                      "logistics moves the goods along the supply chain",
+    ("Supply chain", "Inventory control"):              "inventory control is one part of a supply chain",
+    ("Supply chain", "Procurement"):                    "procurement is the buying end of a supply chain",
+    ("Quality engineering", "Quality control"):         "quality control is a core task of quality engineering",
+    ("Quality engineering", "Quality assurance"):       "quality assurance is a core task of quality engineering",
+    ("Methods engineering", "Industrial engineering"):  "methods engineering is a branch of industrial engineering",
+    ("Methods engineering", "Process improvement"):     "methods work is about improving how a task is done",
+    ("Process engineering", "Process improvement"):     "process engineering designs and improves processes",
+    ("Process engineering", "Industrial engineering"):  "industrial engineering covers process design",
+    ("Production planning", "Planning"):                "production planning is planning applied to production",
+    ("Production planning", "Scheduling"):              "scheduling sets the order of production",
+    ("Warehouse operations", "Inventory control"):      "inventory control is part of running a warehouse",
+    ("Warehouse operations", "Logistics"):              "warehouses are part of logistics",
+    ("Demand forecasting", "Planning"):                 "forecasts feed planning",
 }
 
 
@@ -170,9 +292,9 @@ def clean(text):
 
 def find_skills_in_line(line):
     """Return every skill from our list that is WRITTEN in this line.
-    A skill that came from OaSIS is not counted when every place it appears sits inside a longer
-    skill's words ('Writing' inside 'technical writing'), so one phrase is not counted twice.
-    Skills from our own curated list are never dropped."""
+    A skill is not counted when every place it appears sits inside a longer skill's words
+    ('Writing' inside 'technical writing', 'quality control' inside 'data quality controls'),
+    so one phrase is not counted twice."""
     line = clean(line)
     spans = {}
     for name, pat in PATTERNS.items():
@@ -181,10 +303,9 @@ def find_skills_in_line(line):
             spans[name] = found
     kept = []
     for name, own in spans.items():
-        if SKILL_SOURCE.get(name, "curated") != "curated":
-            others = [sp for other, lst in spans.items() if other != name for sp in lst]
-            if all(any(o[0] <= a and b <= o[1] and (o[1] - o[0]) > (b - a) for o in others) for a, b in own):
-                continue
+        others = [sp for other, lst in spans.items() if other != name for sp in lst]
+        if all(any(o[0] <= a and b <= o[1] and (o[1] - o[0]) > (b - a) for o in others) for a, b in own):
+            continue
         kept.append(name)
     return kept
 
@@ -207,7 +328,10 @@ def split_job_sections(job_text):
 
 
 CV_HEADINGS = ["summary", "education", "experience", "projects", "skills",
-               "certifications", "languages"]
+               "certifications", "languages", "patents and activities", "activities", "awards", "publications",
+               "work experience", "professional experience", "technical skills", "volunteer experience",
+               "sommaire", "profil", "formation", "experience professionnelle", "projets", "competences",
+               "langues", "certificats", "activites"]
 
 
 def split_cv_sections(cv_text):
@@ -218,7 +342,7 @@ def split_cv_sections(cv_text):
         line = raw.strip()
         if not line:
             continue
-        if line.lower() in CV_HEADINGS:
+        if oasis.fold(line).strip() in CV_HEADINGS:
             current = line.upper()
             continue
         result.append((current, line))

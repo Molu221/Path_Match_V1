@@ -341,6 +341,42 @@ class RealLayoutTest(unittest.TestCase):
         self.assertEqual(len(oasis.inferred_related(["C"], ["D"], data)), 1)        # 3 and 3, share 2: kept
 
 
+class DeckExamplesTest(unittest.TestCase):
+    """The three posts and the CV from the progress presentation. Every skill the presentation lists must be
+    found with the same status (on the CV or not). Extra skills may appear, but only from OaSIS."""
+
+    def test_skills_listed_in_the_presentation(self):
+        import keyword_extractor as kx
+        fx = ROOT / "test" / "fixtures" / "deck"
+        expected = json.loads((fx / "expected.json").read_text(encoding="utf-8"))
+        cv_kw = kx.extract_cv_keywords((fx / "maya_fontaine_cv.txt").read_text(encoding="utf-8"))
+        for name, want in expected.items():
+            if name.startswith("_"):
+                continue
+            text = (fx / name).read_text(encoding="utf-8")
+            job_kw = kx.extract_job_keywords(text)
+            matched, missing, extra, related = kx.compare(job_kw, cv_kw)
+            self.assertEqual(sorted(want["both"]), sorted(m for m in matched if kx.SKILL_SOURCE.get(m) == "curated"), name)
+            self.assertTrue(set(want["not_on_cv"]) <= set(missing), f"{name}: {set(want['not_on_cv']) - set(missing)}")
+            extras = (set(matched) | set(missing)) - set(want["both"]) - set(want["not_on_cv"])
+            self.assertTrue(all(kx.SKILL_SOURCE.get(x, "curated") != "curated" or name != "bombardier_manufacturing_engineering.txt"
+                                for x in extras), f"{name}: unexpected curated skills {extras}")
+            for pair in want["close"]:
+                self.assertIn(tuple(pair), related, name)
+            for flag in want["flags"]:
+                self.assertIn(flag, kx.find_flags(text), name)
+
+    def test_bombardier_counts_like_the_presentation(self):
+        import keyword_extractor as kx
+        fx = ROOT / "test" / "fixtures" / "deck"
+        cv_kw = kx.extract_cv_keywords((fx / "maya_fontaine_cv.txt").read_text(encoding="utf-8"))
+        job_kw = kx.extract_job_keywords((fx / "bombardier_manufacturing_engineering.txt").read_text(encoding="utf-8"))
+        matched, missing, _, _ = kx.compare(job_kw, cv_kw)
+        self.assertEqual(len(matched), 10)                   # 10 of 33 in the presentation
+        if kx.OASIS:                                          # OaSIS adds "Writing" (from "in writing")
+            self.assertLessEqual(len(job_kw), 34)
+
+
 @unittest.skipUnless(shutil.which("node") and (ROOT / "python" / "oasis_data.json").exists(),
                      "needs node and the built OaSIS data")
 class MatcherParityTest(unittest.TestCase):
@@ -355,13 +391,20 @@ class MatcherParityTest(unittest.TestCase):
             dict_path.write_text(json.dumps(site.build(), ensure_ascii=False), encoding="utf-8")
             cv_path = ROOT / "cv" / "sample_cv.txt"
             posts = sorted((ROOT / "posts").glob("*.txt"))
-            r = subprocess.run(["node", str(ROOT / "test" / "matcher_harness.cjs"), str(dict_path), str(cv_path)]
-                               + [str(p) for p in posts], capture_output=True, text=True)
-            self.assertEqual(r.returncode, 0, r.stderr)
-            js = json.loads(r.stdout)
+            self._compare(site, dict_path, cv_path, posts)
+            deck = ROOT / "test" / "fixtures" / "deck"
+            self._compare(site, dict_path, deck / "maya_fontaine_cv.txt", sorted(deck.glob("[bdr]*.txt")))
+
+    def _compare(self, site, dict_path, cv_path, posts):
+        import keyword_extractor as kx
+        r = subprocess.run(["node", str(ROOT / "test" / "matcher_harness.cjs"), str(dict_path), str(cv_path)]
+                           + [str(p) for p in posts], capture_output=True, text=True)
+        self.assertEqual(r.returncode, 0, r.stderr)
+        js = json.loads(r.stdout)
         cv_text = cv_path.read_text(encoding="utf-8")
         cv_kw = kx.extract_cv_keywords(cv_text)
         self.assertEqual(set(js["cv"]), set(cv_kw))
+        self.assertEqual(js["cvSections"], {k: v["section"] for k, v in cv_kw.items()})
         for post in posts:
             text = post.read_text(encoding="utf-8")
             job_kw = kx.extract_job_keywords(text)
@@ -373,8 +416,44 @@ class MatcherParityTest(unittest.TestCase):
             self.assertEqual(sorted(got["missing"]), sorted(missing), post.name)
             self.assertEqual(sorted(map(tuple, got["relatedCurated"])), sorted(related), post.name)
             self.assertEqual(sorted(map(tuple, got["inferred"])), sorted((a, b) for a, b, _, _ in rep["inferred_related"]), post.name)
+            self.assertEqual(sorted(got["flags"]), sorted(kx.find_flags(text)), post.name)
+            self.assertTrue(got["spansOk"], post.name)
             self.assertAlmostEqual(got["coveragePct"], round(100 * len(matched) / len(job_kw), 1), places=1)
             self.assertAlmostEqual(got["coverageWithRelatedPct"], rep["coverage_with_related_pct"], places=1)
+
+    def test_french_posting_and_cv(self):
+        """A French posting and a French CV: same answers in Python and in the browser matcher, and the tags
+        (Required / Task / Preferred) come from French headings."""
+        import keyword_extractor as kx
+        sys.path.insert(0, str(ROOT / "scripts"))
+        import build_site_dictionary as site
+        fr = ROOT / "test" / "fixtures" / "fr"
+        post = fr / "stagiaire_amelioration_continue.txt"
+        with tempfile.TemporaryDirectory() as tmp:
+            dict_path = pathlib.Path(tmp) / "skills.json"
+            dict_path.write_text(json.dumps(site.build(), ensure_ascii=False), encoding="utf-8")
+            self._compare(site, dict_path, fr / "cv_fr.txt", [post])
+            r = subprocess.run(["node", str(ROOT / "test" / "matcher_harness.cjs"), str(dict_path), str(fr / "cv_fr.txt"), str(post)],
+                               capture_output=True, text=True)
+            got = json.loads(r.stdout)["posts"][post.name]
+        for skill in ("Continuous improvement", "Industrial engineering", "Supply chain"):
+            self.assertEqual(skill in got["job"], skill != "Supply chain", skill)
+        self.assertEqual(got["tags"]["Dashboards"], "Task")
+        self.assertEqual(got["tags"]["Excel"], "Required")
+        self.assertEqual(got["tags"]["Lean Six Sigma"], "Preferred")
+        self.assertIn(["Continuous improvement", "Kaizen", "Strong"], got["links"])
+        self.assertIn("Citizen / permanent resident", got["flags"])
+
+    def test_titles_alone_show_their_skills(self):
+        import keyword_extractor as kx
+        want = {"Stagiaire en amélioration continue et qualité": ["Continuous improvement"],
+                "Stagiaire génie industriel": ["Industrial engineering"],
+                "Stage ingénierie - chaîne d'approvisionnement": ["Supply chain"],
+                "Quality Engineering Intern - Winter 2027": ["Quality engineering"],
+                "Ingénieur méthodes": ["Methods engineering"],
+                "Method Engineer": ["Methods engineering"]}
+        for title, skills in want.items():
+            self.assertEqual(kx.find_skills_in_line(title), skills, title)
 
     def test_french_and_accents(self):
         import keyword_extractor as kx
@@ -397,7 +476,7 @@ class MatcherParityTest(unittest.TestCase):
 
 
 class OverlapTest(unittest.TestCase):
-    """'Writing' (from OaSIS) must not be counted again inside 'technical writing' (curated)."""
+    """A skill is not counted again inside a longer skill's words ('Writing' in 'technical writing')."""
 
     def setUp(self):
         import keyword_extractor as kx
@@ -418,9 +497,15 @@ class OverlapTest(unittest.TestCase):
         self.assertEqual(self.kx.find_skills_in_line("Report writing; technical writing"),
                          ["Technical writing", "Writing"])
 
-    def test_curated_skills_are_never_dropped(self):
+    def test_a_curated_skill_inside_a_longer_skill_is_dropped_too(self):
         self.kx.SKILL_SOURCE["Writing"] = "curated"
-        self.assertEqual(self.kx.find_skills_in_line("technical writing"), ["Technical writing", "Writing"])
+        self.assertEqual(self.kx.find_skills_in_line("technical writing"), ["Technical writing"])
+
+    def test_overlapping_but_not_nested_skills_are_both_kept(self):
+        skills = {"Lean Six Sigma": ["lean six sigma"], "Green belt": ["six sigma green belt"]}
+        self.kx.PATTERNS = self.kx.build_patterns(skills)
+        self.kx.SKILL_SOURCE = {"Lean Six Sigma": "curated", "Green belt": "curated"}
+        self.assertEqual(self.kx.find_skills_in_line("Lean Six Sigma Green Belt"), ["Lean Six Sigma", "Green belt"])
 
 
 class DownloadTest(unittest.TestCase):

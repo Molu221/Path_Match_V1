@@ -1,0 +1,21 @@
+{
+  "_note": "Skill lists read from the progress presentation (INDU 6993, 22 Oct 2026): slides 6-11 and 15. The CV is the made-up Maya Fontaine. Bombardier is the improved run (97-skill dictionary); Domtar and Rolls-Royce are the first run, so the website may find MORE skills than listed, never fewer.",
+  "bombardier_manufacturing_engineering.txt": {
+    "both": ["Facility layout", "Kaizen", "5S", "Industrial engineering", "Excel", "PowerPoint", "AutoCAD", "Aerospace experience", "French", "English"],
+    "not_on_cv": ["Workspace reconfiguration", "Continuous improvement", "Industrialization", "Facilitation", "Implementation planning", "Capacity analysis", "Tooling", "Business cases", "Capital investment", "Process optimization", "Manufacturing experience", "Communication", "Explaining complex ideas", "Organizational skills", "Attention to detail", "Initiative", "Autonomy", "Teamwork", "Leadership", "Patience", "Perseverance", "Curiosity", "Takes on challenges"],
+    "close": [["Continuous improvement", "Process improvement"], ["Continuous improvement", "Lean Six Sigma"], ["Continuous improvement", "Kaizen"], ["Tooling", "Facility layout"], ["Process optimization", "Process improvement"]],
+    "flags": ["Degree level / program stated", "Years of experience stated"]
+  },
+  "domtar_commercial_logistics.txt": {
+    "both": ["Optimization", "Automation", "ERP", "Excel", "Power BI", "SQL", "French", "English"],
+    "not_on_cv": ["Logistics", "Data quality and integrity", "Continuous improvement", "Data analysis", "Collaboration", "Cross-functional work", "Communication", "Leadership"],
+    "close": [["Logistics", "Inventory control"], ["Continuous improvement", "Process improvement"], ["Continuous improvement", "Lean Six Sigma"], ["Continuous improvement", "Kaizen"]],
+    "flags": ["Degree level / program stated", "Years of experience stated"]
+  },
+  "rolls_royce_manufacturing_engineer.txt": {
+    "both": ["Aerospace experience", "Optimization", "Root cause analysis", "Non-conformance handling", "Mechanical engineering", "English", "French"],
+    "not_on_cv": ["Technical specifications", "Failure analysis"],
+    "close": [["Failure analysis", "Root cause analysis"]],
+    "flags": ["Degree level / program stated", "Years of experience stated", "Citizen / permanent resident", "OIQ membership"]
+  }
+}

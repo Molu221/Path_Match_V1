@@ -2,7 +2,7 @@
   "file": "cae_industrial_continuous_improvement_intern.txt",
   "title": "Industrial/Manufacturing Engineering and Continuous Improvement Intern",
   "company": "CAE",
-  "coverage_pct": 33.3,
+  "coverage_pct": 32.1,
   "matched": [
     "Industrial engineering",
     "Lean Six Sigma",
@@ -16,6 +16,7 @@
   ],
   "missing": [
     "Continuous improvement",
+    "Initiative",
     "PDCA",
     "8D",
     "A3",
@@ -23,6 +24,7 @@
     "Lean Manufacturing",
     "Gap analysis",
     "Action planning",
+    "Communication",
     "Facilitation",
     "Problem solving",
     "KPIs",
@@ -30,7 +32,6 @@
     "Project management",
     "Collaboration",
     "Interpersonal skills",
-    "Communication",
     "Teamwork",
     "PMP"
   ],
@@ -77,6 +78,10 @@
       "tag": "REQUIRED",
       "evidence": "- Previous internship experience in continuous improvement, operational excellence, industrial engineering, project management or a related field."
     },
+    "Initiative": {
+      "tag": "TASK",
+      "evidence": "- Monitor and report on project progress to help ensure the success of continuous improvement initiatives."
+    },
     "Lean Six Sigma": {
       "tag": "TASK",
       "evidence": "- Lead and support continuous improvement projects by applying recognized methodologies such as PDCA, 8D, A3, Lean Six Sigma and BPM (Business Process Management)."
@@ -112,6 +117,10 @@
     "Action planning": {
       "tag": "TASK",
       "evidence": "- Create and communicate action plans to implement solutions."
+    },
+    "Communication": {
+      "tag": "REQUIRED",
+      "evidence": "- Excellent communication and teamwork skills."
     },
     "Root cause analysis": {
       "tag": "TASK",
@@ -149,10 +158,6 @@
       "tag": "REQUIRED",
       "evidence": "- Excellent interpersonal skills, including the ability to influence, actively listen and collaborate."
     },
-    "Communication": {
-      "tag": "REQUIRED",
-      "evidence": "- Excellent communication and teamwork skills."
-    },
     "Teamwork": {
       "tag": "REQUIRED",
       "evidence": "- Excellent communication and teamwork skills."
@@ -185,5 +190,5 @@
   "skills_from_oasis": [],
   "inferred_related": [],
   "occupation_alignment": [],
-  "coverage_with_related_pct": 40.7
+  "coverage_with_related_pct": 39.3
 }

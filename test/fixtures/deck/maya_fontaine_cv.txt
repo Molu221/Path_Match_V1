@@ -1,0 +1,35 @@
+MAYA FONTAINE
+Montreal, QC | maya.fontaine@example.com | (514) 555-0142
+linkedin.com/in/maya-fontaine-sample
+SUMMARY
+Industrial engineer with 2 years in aerospace manufacturing (quality and process improvement) and two internships in lean operations and supply chain. Uses Lean Six Sigma and Python to cut defects, lead time and review effort. Bilingual (English and French).
+EXPERIENCE
+Quality Engineer, Aerodyne Components (aerospace supplier), Montreal, 2023 - 2025
+Led root cause analysis and 8D reports on supplier non-conformances, cutting repeat defects by 22%
+Built a Python tool that automated checks of supplier quality documents, saving about 10 hours of review per week
+Built a Power BI dashboard of quality KPIs and presented it in monthly reviews with plant management
+Wrote 12 standard operating procedures and trained 30 operators on them
+Process Improvement Co-op, Brightline Appliances, Longueuil, Summer 2022
+Mapped the assembly line with value stream maps and cut lead time by 18% through 5S and Kaizen events
+Prepared cost-benefit analyses for 3 equipment purchases, all approved by the plant manager
+Supply Chain Analyst Intern, Norvik Distribution, Summer 2021
+Used Excel and SAP ERP to track inventory in 4 warehouses and forecast demand, lowering stockouts by 12%
+Compared carrier rates and planned transportation routes in a weekly report
+EDUCATION
+M.Eng. Industrial Engineering (co-op), Concordia University, 2025 - 2027 (expected), GPA 4.1 / 4.3
+Courses: Production Systems and Inventory Control, Scheduling Theory, Quality Control, Simulation, Optimization
+B.Eng. Mechanical Engineering, Universite de Sherbrooke, 2019 - 2023
+PROJECTS
+Warehouse layout study (capstone, team of 4)
+Used Minitab for statistical analysis and Arena simulation to cut picking distance by 15%
+Inventory policy model (course project)
+Modelled reorder points in Python and compared two inventory policies on cost and service level
+SKILLS
+Python (Pandas, NumPy), SQL, Excel (advanced), PowerPoint, Power BI, Minitab, SAP ERP (basics), AutoCAD, Arena simulation, MS Project, generative AI tools (Claude, ChatGPT) for workflow automation
+CERTIFICATIONS
+Lean Six Sigma Green Belt, 2023
+PATENTS AND ACTIVITIES
+1 patent application (packaging line fixture redesign), co-inventor
+Vice-president, Industrial Engineering Student Association, Concordia, 2025 - present
+LANGUAGES
+English (fluent), French (professional)

@@ -2,7 +2,7 @@
   "file": "abb_quality_engineering_intern.txt",
   "title": "Quality Engineering Intern - Winter 2027",
   "company": "ABB",
-  "coverage_pct": 27.3,
+  "coverage_pct": 20.7,
   "matched": [
     "Quality control",
     "Industrial engineering",
@@ -15,24 +15,35 @@
     "Documentation",
     "Standard operating procedures",
     "Flowcharts and process flows",
+    "Supply chain",
     "Bottleneck analysis",
+    "Non-conformance handling",
     "Corrective action",
     "Quality assurance",
     "Calibration",
     "KPIs",
     "Collaboration",
+    "Cross-functional work",
     "Problem solving",
     "Operations management",
     "Continuous improvement",
     "Diagramming software",
     "Technical writing",
     "Analytical skills",
-    "Communication"
+    "Communication",
+    "Optimization",
+    "Autonomy",
+    "Organizational skills",
+    "Curiosity"
   ],
   "related_not_counted": [
     [
       "Flowcharts and process flows",
       "Process mapping"
+    ],
+    [
+      "Supply chain",
+      "Inventory control"
     ],
     [
       "Quality assurance",
@@ -73,6 +84,10 @@
       "tag": "TASK",
       "evidence": "-  Design of process flows and flow charts"
     },
+    "Supply chain": {
+      "tag": "TASK",
+      "evidence": "- Map all operational processes of the company (production, quality, supply chain, engineering, etc.)."
+    },
     "Bottleneck analysis": {
       "tag": "TASK",
       "evidence": "- Identify critical points, bottlenecks, and improvement opportunities through flow analysis."
@@ -80,6 +95,10 @@
     "Quality control": {
       "tag": "TASK",
       "evidence": "- Observe and participate in quality control inspections, testing procedures, and compliance checks across production lines."
+    },
+    "Non-conformance handling": {
+      "tag": "TASK",
+      "evidence": "- Learn to identify non-conformities, document quality issues, and understand corrective action processes."
     },
     "Corrective action": {
       "tag": "TASK",
@@ -100,6 +119,10 @@
     "Collaboration": {
       "tag": "REQUIRED",
       "evidence": "-  Ability to collaborate with operators, supervisors, and engineers."
+    },
+    "Cross-functional work": {
+      "tag": "TASK",
+      "evidence": "-  Engineering project involvement and cross-functional collaboration"
     },
     "Problem solving": {
       "tag": "TASK",
@@ -141,6 +164,22 @@
       "tag": "REQUIRED",
       "evidence": "-  Strong communication skills."
     },
+    "Optimization": {
+      "tag": "REQUIRED",
+      "evidence": "-  Motivated by standardization and optimization challenges."
+    },
+    "Autonomy": {
+      "tag": "REQUIRED",
+      "evidence": "-  Autonomy, curiosity, rigor, and strong organizational skills."
+    },
+    "Organizational skills": {
+      "tag": "REQUIRED",
+      "evidence": "-  Autonomy, curiosity, rigor, and strong organizational skills."
+    },
+    "Curiosity": {
+      "tag": "REQUIRED",
+      "evidence": "-  Autonomy, curiosity, rigor, and strong organizational skills."
+    },
     "English": {
       "tag": "REQUIRED",
       "evidence": "-  French is required. English is also required to communicate with customers outside Quebec on a regular basis."
@@ -164,5 +203,5 @@
     ]
   ],
   "occupation_alignment": [],
-  "coverage_with_related_pct": 38.6
+  "coverage_with_related_pct": 31.0
 }

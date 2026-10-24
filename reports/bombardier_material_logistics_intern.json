@@ -2,7 +2,7 @@
   "file": "bombardier_material_logistics_intern.txt",
   "title": "Intern, Material Logsitics (Winter 2027)",
   "company": "Bombardier",
-  "coverage_pct": 36.4,
+  "coverage_pct": 33.3,
   "matched": [
     "Industrial engineering",
     "Excel",
@@ -16,7 +16,8 @@
     "Logistics",
     "Operations management",
     "SAP",
-    "Planning"
+    "Planning",
+    "Teamwork"
   ],
   "related_not_counted": [
     [
@@ -87,6 +88,10 @@
     "Planning": {
       "tag": "REQUIRED",
       "evidence": "- Have great planning habilities"
+    },
+    "Teamwork": {
+      "tag": "REQUIRED",
+      "evidence": "- Are a team player"
     }
   },
   "oasis": {
@@ -96,5 +101,5 @@
   "skills_from_oasis": [],
   "inferred_related": [],
   "occupation_alignment": [],
-  "coverage_with_related_pct": 54.5
+  "coverage_with_related_pct": 50.0
 }

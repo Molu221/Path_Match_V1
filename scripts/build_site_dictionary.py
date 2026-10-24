@@ -6,7 +6,8 @@ python/keyword_extractor.py does:
     skills    every skill with its spellings: the curated list in the extractor plus the English and
               French OaSIS names (python/oasis_data.json, built by build_oasis_dictionary.py)
     cv_headings  lines of a CV that are only a heading ("Languages") and are not skills
-    related   the hand-written "looks related, not the same word" pairs from the extractor
+    related   the hand-written "looks related, not the same word" pairs from the extractor, with a reason (why)
+    flags     the things to check yourself (degree level, years of experience...), never scored
     inferred  for each skill, the skills that sit in many of the same OaSIS occupations
               (listed on the page, never counted as a match)
 
@@ -62,6 +63,8 @@ def build():
     else:
         meta["source"] = "curated list only (OaSIS data not built yet)"
     return {"meta": meta, "skills": skills, "related": kx.RELATED, "inferred": inferred_table(kx.OASIS),
+            "why": {f"{a}|{b}": reason for (a, b), reason in kx.RELATED_WHY.items()},
+            "flags": [{"n": name, "p": pat} for name, pat in kx.FLAG_PATTERNS.items()],
             "cv_headings": kx.CV_HEADINGS}
 
 
