@@ -38,7 +38,7 @@ async function one(p, urlOverride) {
 
 const results = [];
 const queue = probes.slice();
-await Promise.all(Array.from({ length: 1 }, async () => {
+await Promise.all(Array.from({ length: 6 }, async () => {
   while (queue.length) {
     const p = queue.shift();
     const r = await one(p);
@@ -51,7 +51,7 @@ await Promise.all(Array.from({ length: 1 }, async () => {
       }
     }
     delete r._text; results.push(r);
-    if (p.delay) await new Promise((res) => setTimeout(res, p.delay));
+    if (p.delay && !p.discover) await new Promise((res) => setTimeout(res, p.delay));
     console.log(`${r.status || "ERR"}\t${r.ms}ms\t${p.name}\t${r.error || ""}`);
   }
 }));
