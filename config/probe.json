@@ -1,76 +1,41 @@
 {
 "probes": [
 {
-"name": "robots builtin",
-"url": "https://builtinmontreal.com/robots.txt",
-"save": "r_builtin.txt",
-"headChars": 200,
-"saveChars": 20000
-},
-{
-"name": "robots iagora",
-"url": "https://www.iagora.com/robots.txt",
-"save": "r_iagora.txt",
-"headChars": 200,
-"saveChars": 20000
-},
-{
-"name": "robots randstad",
-"url": "https://www.randstad.ca/robots.txt",
-"save": "r_randstad.txt",
-"headChars": 200,
-"saveChars": 20000
-},
-{
-"name": "robots emplois qc",
-"url": "https://emplois.carrieres.gouv.qc.ca/robots.txt",
-"save": "r_emploisqc.txt",
-"headChars": 200,
-"saveChars": 20000
-},
-{
-"name": "builtin sitemap",
-"url": "https://builtinmontreal.com/sitemap.xml",
-"save": "builtin_sitemap.xml",
-"headChars": 200,
-"saveChars": 20000
-},
-{
-"name": "builtin internship list",
-"url": "https://builtinmontreal.com/jobs/internship",
-"save": "builtin_intern.html",
-"saveChars": 120000,
-"headChars": 200,
+"name": "builtin terms 0",
+"url": "https://builtin.com/terms-of-use",
+"save": "builtin_terms0.html",
+"saveChars": 200000,
+"headChars": 120,
 "headers": {
 "Accept": "text/html,application/xhtml+xml"
 }
 },
 {
-"name": "builtin search intern",
-"url": "https://builtinmontreal.com/jobs?search=intern",
-"save": "builtin_search.html",
-"saveChars": 120000,
-"headChars": 200,
+"name": "builtin terms 1",
+"url": "https://builtin.com/terms",
+"save": "builtin_terms1.html",
+"saveChars": 200000,
+"headChars": 120,
 "headers": {
 "Accept": "text/html,application/xhtml+xml"
 }
 },
 {
-"name": "builtin p2",
-"url": "https://builtinmontreal.com/jobs?page=2",
-"save": "builtin_p2.html",
-"saveChars": 120000,
-"headChars": 200,
+"name": "builtin terms 2",
+"url": "https://builtin.com/terms-service",
+"save": "builtin_terms2.html",
+"saveChars": 200000,
+"headChars": 120,
 "headers": {
 "Accept": "text/html,application/xhtml+xml"
 }
 },
 {
-"name": "emplois qc platform",
-"url": "https://emplois.carrieres.gouv.qc.ca/plateforme-emploi",
-"save": "emploisqc.html",
-"saveChars": 120000,
-"headChars": 200,
+"name": "builtin terms 3",
+"url": "https://builtinmontreal.com/terms-of-use",
+"save": "builtin_terms3.html",
+"saveChars": 200000,
+"headChars": 120,
 "headers": {
 "Accept": "text/html,application/xhtml+xml"
 }
