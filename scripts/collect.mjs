@@ -14,7 +14,7 @@ export const RELEVANT = /intern|stage|stagiaire|co-?op|student|etudiant|apprenti
 const norm = (s) => (s || "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/\s+/g, " ").trim();
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const pretty = (slug) => slug.replace(/[-_]+/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
-const MAX_DESC = 16000;   // the whole posting: requirements often come after the first 7000 characters
+const MAX_DESC = 30000;   // the whole posting: requirements often come after the first 7000 characters
 
 export function decode(s) {
   return String(s || "")
