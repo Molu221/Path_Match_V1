@@ -8,6 +8,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<link rel="stylesheet" href="account.css">
 <style>
 html{color-scheme:light}
 /* Layout: sticky two-column tool. Left = CV intake + settings, right = ranked, explained list. Colour: ink-blue on cool grey, one teal accent, amber/red reserved for flags. */
@@ -99,7 +102,7 @@ a{color:var(--accent)}
         <h2>1. Your CV</h2>
         <div class="drop" id="drop" tabindex="0" role="button" aria-label="Upload CV">
           <strong>Drop your CV here</strong>
-          <span>PDF, Word (.docx) or text. It is read in your browser and never uploaded.</span>
+          <span>PDF, Word (.docx) or text. It is read in your browser: the file itself is never uploaded.</span>
         </div>
         <input type="file" id="file" accept=".pdf,.docx,.txt,.md" hidden>
         <label for="paste">Or paste the text</label>
@@ -146,6 +149,7 @@ a{color:var(--accent)}
         <button class="tab" role="tab" aria-selected="true" data-t="main">Internships, co-ops &amp; part-time</button>
         <button class="tab" role="tab" aria-selected="false" data-t="near">Near matches</button>
         <button class="tab" role="tab" aria-selected="false" data-t="cv">Your CV keywords</button>
+        <button class="tab" role="tab" aria-selected="false" data-t="apps">My applications</button>
         <button class="tab" role="tab" aria-selected="false" data-t="method">Method &amp; coverage</button>
       </div>
       <div id="view"></div>
@@ -389,6 +393,7 @@ function run(){
   if(!CV){render();return;}
   RES=JOBS.map(j=>({j,s:scoreJob(j)})).sort((a,b)=>b.s.total-a.s.total);
   render();
+  if(window.PM_HOOKS&&PM_HOOKS.afterRun)PM_HOOKS.afterRun();
 }
 function pill(c,t){return `<span class="pill ${c}">${esc(t)}</span>`}
 function jobHtml(r,rank){
@@ -398,13 +403,14 @@ function jobHtml(r,rank){
   const bar=(v,m,l)=>`<div class="sb">${l} ${v}/${m}<i><b style="width:${v/m*100}%"></b></i></div>`;
   const kw=s.map.length?s.map.map(x=>`<span class="${x.s}" title="${esc(x.ev)}">${esc(x.n)}${x.tag&&x.tag!=="Title"?" · "+x.tag[0]:""}</span>`).join(""):'<span class="note">No recognisable skill terms in the title.</span>';
   const ev=s.map.map(x=>`<div class="ev"><b>${x.s==="M"?"Match":x.s==="R"?"Related":"Gap"}</b> ${esc(x.n)}${x.tag?" ("+x.tag+")":""}: ${esc(x.ev)}${x.post?"<br>In posting: "+esc(x.post):""}</div>`).join("");
-  return `<details class="job"><summary>
+  const hk=window.PM_HOOKS||{};
+  return `<details class="job" data-key="${esc(norm(j.company)+"|"+norm(j.title))}"><summary>
     <div class="score">${s.total}<small>#${rank}</small></div>
     <div>
       <div class="t">${esc(j.title)}</div>
       <div class="meta"><span>${esc(j.company)}</span><span>${esc(j.loc)}</span><span>${when}${a<24?" · within 24h":""}</span><span>${links}</span></div>
       <div class="subs">${bar(s.role,40,"Role")}${bar(s.level,25,"Level")}${bar(s.overlap,32,"Keywords")}</div>
-      <div>${s.flags.map(f=>pill(f[0]==="g"?"g":f[0],f[1])).join("")}${a<24?pill("n","24h"):""}${j.snap?pill("","Snapshot, not re-checked"):pill("g","Live")}</div>
+      <div>${s.flags.map(f=>pill(f[0]==="g"?"g":f[0],f[1])).join("")}${a<24?pill("n","24h"):""}${j.snap?pill("","Snapshot, not re-checked"):pill("g","Live")}${hk.jobPills?hk.jobPills(j):""}</div>
     </div></summary>
     <div class="det">
       <h3>${j.desc?"Posting keywords (R required, T task, P preferred) vs your CV":"Title keywords vs your CV"}</h3><div class="kw">${kw}</div>
@@ -412,15 +418,22 @@ function jobHtml(r,rank){
       ${ev}
       <h3>Before you apply</h3>
       <p class="note">Open the posting and read the full text. Required skills, security rules, degree level (bachelor's or master's) and exact dates are not visible from the title.</p>
+      ${hk.jobActions?hk.jobActions(j):""}
     </div></details>`;
 }
 function filtered(cat){
   const w=+$("window").value;
-  return RES.filter(r=>r.j.cat===cat&&(w===99||age(r.j)<w*24));
+  const blocked=window.PM_HOOKS&&PM_HOOKS.isBlocked;
+  return RES.filter(r=>r.j.cat===cat&&(w===99||age(r.j)<w*24)&&!(blocked&&blocked(r.j)));
 }
 function render(){
   const v=$("view");
   document.querySelectorAll(".tab").forEach(b=>b.setAttribute("aria-selected",b.dataset.t===tab));
+  if(tab==="apps"){
+    if(window.PM_HOOKS&&PM_HOOKS.renderApps)PM_HOOKS.renderApps(v);
+    else v.innerHTML='<div class="empty">Accounts are not switched on for this site.</div>';
+    return;
+  }
   if(!CV&&tab!=="method"){v.innerHTML=`<div class="empty"><strong>Add your CV to see your matches.</strong><br>${JOBS.length} postings from LinkedIn, Indeed and Job Bank are loaded and waiting. Use the sample CV to see how it works.</div>`;return;}
   if(tab==="main"||tab==="near"){
     const list=filtered(tab),min=+(window._min||0);
@@ -513,6 +526,19 @@ $("sample").onclick=()=>{$("paste").value=SAMPLE;go();};
 ["permit","term","window"].forEach(id=>$(id).onchange=()=>{CV?run():render()});
 $("tabs").onclick=e=>{const b=e.target.closest(".tab");if(b){tab=b.dataset.t;render();}};
 $("theme").onclick=()=>{const r=document.documentElement,d=r.dataset.theme==="dark"||(!r.dataset.theme&&matchMedia("(prefers-color-scheme:dark)").matches);r.dataset.theme=d?"light":"dark"};
+/* Small bridge used by account.js (optional private accounts). */
+window.PM_HOOKS=window.PM_HOOKS||{};
+window.PM={
+  get cv(){return CV}, setCV(v){CV=v},
+  results:()=>RES, jobs:()=>JOBS, tab:()=>tab, setTab(t){tab=t;render();},
+  jobKey:j=>norm(j.company)+"|"+norm(j.title), norm, esc, $, run, render,
+  settings:()=>({permit:$("permit").value,term:$("term").value}),
+  setSettings(s){
+    const has=(id,v)=>v&&[...$(id).options].some(o=>o.value===v);
+    if(has("permit",s.permit))$("permit").value=s.permit;
+    if(has("term",s.term))$("term").value=s.term;
+  }
+};
 render();
 
 /* ---------- live postings from the server ---------- */
@@ -546,5 +572,6 @@ async function loadServer(){
 loadServer();
 setInterval(()=>{if(!document.hidden)loadServer();},5*60*1000);
 </script>
+<script src="account.js"></script>
 </body>
 </html>

@@ -6,8 +6,12 @@
   "scripts": {
     "collect": "node scripts/collect.mjs",
     "find": "node scripts/find-boards.mjs",
-    "test": "node test/collect.test.mjs",
-    "serve": "node scripts/serve.mjs"
+    "test": "node test/collect.test.mjs && node test/classify.test.mjs && node test/match.test.mjs && node test/process.test.mjs && node test/inbound.test.mjs",
+    "serve": "node scripts/serve.mjs",
+    "test:ui": "node test/ui.test.mjs",
+    "test:sql": "bash test/run_sql_tests.sh"
   },
-  "engines": { "node": ">=20" }
+  "engines": {
+    "node": ">=20"
+  }
 }

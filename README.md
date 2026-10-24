@@ -3,7 +3,8 @@
 
 Upload a CV, get a ranked, explained list of Montreal internships, co-ops and part-time roles.
 
-- **The site** is one static page in `docs/`. It reads `docs/jobs.json` and scores each posting against the visitor's CV **in their browser**. CVs are never uploaded anywhere.
+- **The site** is one static page in `docs/`. It reads `docs/jobs.json` and scores each posting against the visitor's CV **in their browser**. The CV file is never uploaded anywhere.
+- **Private accounts (optional).** Sign in to save your CV profile and matches, mark jobs as applied, and track each application from its confirmation, interview and rejection emails. Off until you add Supabase keys; see [ACCOUNTS.md](ACCOUNTS.md).
 - **The collector** (`scripts/collect.mjs`) runs on a schedule in GitHub Actions, gathers postings from free sources and saves `docs/jobs.json`. No server is needed.
 - It is a heuristic, not an applicant tracking system. Score differences of 5 points or less are ties. Always read the posting before applying.
 
@@ -63,6 +64,8 @@ ADZUNA_APP_ID=... ADZUNA_APP_KEY=... npm run collect   # collect now
 - `config/companies.json`, `config/searches.json` what to collect
 - `.github/workflows/refresh.yml` the schedule
 - `test/collect.test.mjs` offline tests
+- `docs/config.js`, `docs/account.js`, `docs/account.css` optional accounts and application tracker (see [ACCOUNTS.md](ACCOUNTS.md))
+- `supabase/` database migration and the email-tracking functions (`inbound-email`, `paste-email`, `delete-account`)
 
 ## Keyword extractor (Python)
 

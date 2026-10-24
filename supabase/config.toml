@@ -1,0 +1,6 @@
+project_id = "path-match"
+
+# The inbound-email webhook is called by the email provider, not by a signed-in user.
+# It is protected by the INBOUND_SECRET query parameter instead of a JWT.
+[functions.inbound-email]
+verify_jwt = false
