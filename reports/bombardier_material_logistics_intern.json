@@ -88,5 +88,11 @@
       "tag": "REQUIRED",
       "evidence": "- Have great planning habilities"
     }
-  }
+  },
+  "oasis": {
+    "loaded": false
+  },
+  "inferred_related": [],
+  "occupation_alignment": [],
+  "coverage_with_related_pct": 54.5
 }

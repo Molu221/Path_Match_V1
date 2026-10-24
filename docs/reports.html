@@ -19,6 +19,9 @@ fetch("reports.json",{cache:"no-store"}).then(r=>r.json()).then(d=>{
   document.getElementById("v").innerHTML=d.posts.map(p=>`<details><summary>${esc(p.coverage_pct)}% · ${esc(p.company)} · ${esc(p.title)}</summary>
    <p><b class="m">Matched:</b> ${esc(p.matched.join(", ")||"none")}</p>
    <p><b class="x">Missing:</b> ${esc(p.missing.join(", ")||"none")}</p>
+   <p><b>Coverage incl. related:</b> ${esc(p.coverage_with_related_pct)}% <span class="f">(matched + 0.5 × related)</span></p>
+   <p><b>Inferred from OaSIS, not counted:</b> ${esc((p.inferred_related||[]).map(x=>x[0]+" ~ "+x[1]).join("; ")||(p.oasis&&p.oasis.loaded?"none":"OaSIS data not built yet"))}</p>
+   <p><b>Same occupation in job and CV:</b> ${esc((p.occupation_alignment||[]).map(x=>x.code+" "+x.label).join("; ")||"none")}</p>
    <p><b>Related, not counted:</b> ${esc(p.related_not_counted.map(x=>x[0]+" ~ "+x[1]).join("; ")||"none")}</p>
    <p class="f"><b>Verify:</b> ${esc(p.flags.join(", ")||"none")}</p></details>`).join("");
 }).catch(()=>{document.getElementById("n").textContent="No reports yet. Run the Keyword report workflow in the Actions tab."});

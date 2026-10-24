@@ -149,5 +149,11 @@
       "tag": "REQUIRED",
       "evidence": "-  French is required. English is also required to communicate with customers outside Quebec on a regular basis."
     }
-  }
+  },
+  "oasis": {
+    "loaded": false
+  },
+  "inferred_related": [],
+  "occupation_alignment": [],
+  "coverage_with_related_pct": 38.6
 }

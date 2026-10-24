@@ -1,0 +1,34 @@
+name: Build OaSIS dictionary
+
+# Downloads the official OaSIS CSV files (English and French, all occupations) from
+# open.canada.ca, builds python/oasis_data.json and python/oasis_vocab.csv, then
+# re-runs the keyword reports. Run it from the Actions tab.
+on:
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Offline tests
+        run: python3 -m unittest test.test_oasis
+      - name: Download OaSIS and build the dictionary
+        run: python3 scripts/build_oasis_dictionary.py
+      - name: Re-run keyword reports with OaSIS
+        run: python3 scripts/run_reports.py cv/sample_cv.txt
+      - name: Save results
+        run: |
+          git config user.name "path-match-bot"
+          git config user.email "path-match-bot@users.noreply.github.com"
+          git add python/oasis_data.json python/oasis_vocab.csv reports docs/reports.json
+          git diff --cached --quiet && echo "No changes" && exit 0
+          git commit -m "Build OaSIS dictionary"
+          git push

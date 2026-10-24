@@ -42,6 +42,7 @@ def main():
             "flags": kx.find_flags(text),
             "job_skills": job_kw,
         }
+        row.update(kx.oasis_report_data(text, cv_text, matched, missing, cv_kw, related, job_kw))
         rows.append(row)
         (ROOT / "reports" / (post.stem + ".json")).write_text(
             json.dumps(row, indent=2, ensure_ascii=False), encoding="utf-8")

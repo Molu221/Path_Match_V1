@@ -16,6 +16,10 @@ Only the Python standard library is used. Nothing to install.
 import re
 import sys
 import json
+import pathlib
+
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))   # find oasis.py next to this file
+import oasis   # OaSIS helpers (python/oasis.py). Data file: python/oasis_data.json
 
 # ----------------------------------------------------------------------------
 # PART 1. THE SKILL LIST  (a "dictionary": official name -> other ways to write it)
@@ -139,12 +143,12 @@ RELATED = {
 # ----------------------------------------------------------------------------
 # PART 2. THE TOOLS
 # ----------------------------------------------------------------------------
-def build_patterns():
+def build_patterns(skills=None):
     """Turn each alias into a 'regular expression' (a smart find).
     The (?<![a-z0-9]) and (?![a-z0-9]) parts mean: match whole words only,
     so 'sap' is not found inside 'sapphire' and 'a3' is not found inside 'a30'."""
     patterns = {}
-    for name, aliases in SKILLS.items():
+    for name, aliases in (SKILLS if skills is None else skills).items():
         parts = []
         for alias in aliases:
             alias = re.escape(alias).replace(r"\ ", r"[\s-]+")   # allow space or hyphen
@@ -153,13 +157,15 @@ def build_patterns():
     return patterns
 
 
-PATTERNS = build_patterns()
+# Add the English and French OaSIS names as extra spellings (if python/oasis_data.json was built).
+OASIS = oasis.load()
+SKILLS_ALL, SKILL_SOURCE = oasis.merge_skills(SKILLS, OASIS)
+PATTERNS = build_patterns(SKILLS_ALL)
 
 
 def clean(text):
     """Make the text easy to search: lowercase, fix fancy quotes, one space between words."""
-    text = text.lower().replace("\u2011", "-").replace("’", "'").replace("–", "-").replace("—", "-")
-    return text
+    return oasis.fold(text)      # lowercase, straight quotes and dashes, accents removed (qualité = qualite)
 
 
 def find_skills_in_line(line):
@@ -250,6 +256,45 @@ def compare(job_kw, cv_kw):
 # ----------------------------------------------------------------------------
 # PART 4. RUN EVERYTHING AND PRINT A REPORT
 # ----------------------------------------------------------------------------
+def related_coverage(matched, missing, related, inferred, total):
+    """(Match + 0.5 x Related) / total, the project formula. A missing skill counts once."""
+    linked = {a for a, _ in related} | {a for a, _, _, _ in inferred}
+    return round(100 * (len(matched) + 0.5 * len(linked & set(missing))) / total, 1) if total else 0.0
+
+
+def oasis_report_data(job_text, cv_text, matched, missing, cv_kw, related, job_kw):
+    """The OaSIS part of the report as data (no printing). Empty if the data is not built."""
+    total = len(job_kw)
+    if not OASIS:
+        return {"oasis": {"loaded": False}, "inferred_related": [], "occupation_alignment": [],
+                "coverage_with_related_pct": related_coverage(matched, missing, related, [], total)}
+    inferred = oasis.inferred_related(missing, list(cv_kw), OASIS, already=related)
+    from_oasis = sorted({k for k in list(job_kw) + list(cv_kw) if SKILL_SOURCE.get(k, "curated") != "curated"})
+    return {"oasis": {"loaded": True, "built": OASIS["meta"]["built"]},
+            "skills_from_oasis": from_oasis,
+            "inferred_related": [list(x) for x in inferred],
+            "occupation_alignment": oasis.occupation_alignment(job_text, cv_text, OASIS),
+            "coverage_with_related_pct": related_coverage(matched, missing, related, inferred, total)}
+
+
+def oasis_report(job_text, cv_text, matched, missing, cv_kw, related, job_kw):
+    """Print the OaSIS part of the report and return it as data for results.json."""
+    data = oasis_report_data(job_text, cv_text, matched, missing, cv_kw, related, job_kw)
+    if not OASIS:
+        print("  OaSIS data not built yet (python/oasis_data.json). Run the 'Build OaSIS dictionary'")
+        print("  workflow or: python3 scripts/build_oasis_dictionary.py")
+        return data
+    print(f"  data: {OASIS['meta']['source']} ({OASIS['meta']['occupations']} occupations)")
+    print("  Skills found through OaSIS names:", ", ".join(data["skills_from_oasis"]) or "none")
+    print("  Same occupation named in both:   ", "; ".join(
+        f"{a['code']} {a['label']} (job '{a['job_title']}', CV '{a['cv_title']}')"
+        for a in data["occupation_alignment"]) or "none")
+    print("  INFERRED, NOT COUNTED:           ", "; ".join(
+        f"job '{a}' ~ CV '{b}' ({n} shared occupations)" for a, b, _, n in data["inferred_related"]) or "none")
+    print(f"  Coverage incl. related = (matched + 0.5 x related) / job skills = {data['coverage_with_related_pct']}%")
+    return data
+
+
 def short(text, n=70):
     return text if len(text) <= n else text[: n - 1] + "…"
 
@@ -288,13 +333,17 @@ def main(job_path, cv_path):
     cover = 100 * len(matched) / len(job_kw)
     print(f"  Coverage = {len(matched)} matched / {len(job_kw)} job skills = {cover:.0f}%\n")
 
+    print("STEP 5b OaSIS: occupations and inferred links (listed, never counted as matches)")
+    extra_info = oasis_report(job_text, cv_text, matched, missing, cv_kw, related, job_kw)
+    print()
+
     print("STEP 6  Flags to VERIFY (not scored)")
     for f in find_flags(job_text):
         print("  -", f)
 
     out = {"job_skills": job_kw, "cv_skills": cv_kw, "matched": matched, "missing": missing,
            "extra": extra, "related_not_counted": related, "coverage_pct": round(cover, 1),
-           "flags": find_flags(job_text)}
+           "flags": find_flags(job_text), **extra_info}
     with open("results.json", "w", encoding="utf-8") as f:
         json.dump(out, f, indent=2, ensure_ascii=False)
     print("\nSaved: results.json")

@@ -69,3 +69,18 @@ ADZUNA_APP_ID=... ADZUNA_APP_KEY=... npm run collect   # collect now
 `python/keyword_extractor.py` reads one job post and one CV and lists matched, missing and related skills, plus flags to verify. Run it by hand with `python3 python/keyword_extractor.py posts/<post>.txt cv/sample_cv.txt`.
 
 `scripts/run_reports.py` runs it on every file in `posts/` against a CV in `cv/` and writes `reports/` and `docs/reports.json`. The **Keyword report** workflow does this from the Actions tab, and `docs/reports.html` shows the result on the site. To add a posting, drop a `.txt` file in `posts/` in the same format as the examples.
+
+## OaSIS dictionary (all NOC occupations, English and French)
+
+`scripts/build_oasis_dictionary.py` downloads the official [OaSIS](https://open.canada.ca/data/en/dataset/eeb3e442-9f19-4d12-8b38-c488fe4f6e5e) CSV files (Open Government Licence - Canada) and builds:
+
+- `python/oasis_data.json`: occupation labels, English and French job titles with their NOC/OaSIS codes, English and French names of skills, abilities, work activities and more, and which occupations each skill appears in.
+- `python/oasis_vocab.csv`: every word and phrase in the occupation texts, English and French, with the number of occupations it appears in, so the vocabulary can be reviewed.
+
+`python/keyword_extractor.py` uses it automatically when the file exists:
+
+1. **Aliases.** OaSIS English and French names become extra spellings of a skill. A skill written in either language is a normal match.
+2. **Occupations.** If the job post and the CV mention titles from the same occupation, the report shows the code. It is not scored.
+3. **Inferred.** Skills that appear in many of the same occupations are listed as related. They are never counted as a match and never added to the CV. The report shows a second figure, coverage including related = (matched + 0.5 × related) ÷ job skills.
+
+Run it from the **Actions** tab (**Build OaSIS dictionary**), or locally with `python3 scripts/build_oasis_dictionary.py`. The column layout of the official files is detected from the data; if a file does not look as expected, the script stops and prints its headers. Offline tests use small made-up files: `python3 -m unittest test.test_oasis`. Tuning for the inferred links is at the top of `python/oasis.py`.
