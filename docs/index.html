@@ -458,11 +458,17 @@ const SRC_INFO={
 const NOT_COVERED=[
   ["LinkedIn","its robots.txt and terms forbid automated reading, so it is not collected. Paste a LinkedIn description into any card and it is read the same way."],
   ["Indeed, Glassdoor, Monster, ZipRecruiter","they refuse automated requests (HTTP 403) and their terms do not allow it. Not bypassed."],
+  ["Built In Montréal","its terms of use forbid bots, spiders and scrapers, even though its robots.txt allows the pages."],
   ["Talent.com","its pages are marked noindex and nofollow and it has no public feed."],
+  ["iagora, Randstad and other agencies","iagora hides the employer behind a sign-up; staffing agencies post for unnamed clients. Not added."],
   ["Concordia CareerLink and other school boards","behind a student login."],
   ["Taleo, SuccessFactors, iCIMS, Oracle Recruiting","each employer needs its own set-up; only the Workday sites listed above are added so far."],
   ["Remote-only boards (Remotive, Arbeitnow and similar)","not Montreal on-site roles, so they would only add noise."],
   ["Jooble and Careerjet","built in, but they need a free key. They stay off until the key is saved as a repository secret."]
+];
+const POLITE=[
+  "Employer boards, The Muse and Workday are public interfaces that the employers' own career pages use; the collector asks for each page at most a few times a day.",
+  "<b>Job Bank:</b> its robots.txt allows crawling with a 5-second wait, and the collector keeps to that. Its job-seeker terms of use also say that scripts, robots and crawlers may not be used to access its services (in the account-registration section). It is switched on because you asked for it; to switch it off set <code>\"enabled\": false</code> under <code>jobbank</code> in <code>config/searches.json</code>."
 ];
 function sourceTable(){
   const names=[...new Set([...Object.keys(SRC_INFO),...Object.keys(SRC)])];
@@ -661,6 +667,7 @@ function render(){
       <p class="note">Every source below is free to read. Postings are kept only when the location is in the Montreal area and the title or opening text points to engineering, operations, quality, supply chain, data or a student role. This is the report of the last collection (${SRC_TIME}).</p>
       ${sourceTable()}
       <h3 style="margin-top:14px">Not covered, and why</h3><ul>${NOT_COVERED.map(x=>`<li><b>${x[0]}</b>: ${x[1]}</li>`).join("")}</ul>
+      <h3 style="margin-top:14px">Terms and politeness</h3><ul>${POLITE.map(x=>`<li>${x}</li>`).join("")}</ul>
       <ul><li>A collection runs once a day, not instantly. A posting can close before the next run, so check that it is still open.</li></ul></div>
       ${CV?`<div class="panel method" style="margin-top:12px"><h2>Skills that keep appearing in your top postings but not on your CV</h2><p class="note">${g.length?g.map(x=>esc(x[0])+" ("+x[1]+")").join(", "):"None in the top 25 recent postings."}</p></div>`:""}`;
   }

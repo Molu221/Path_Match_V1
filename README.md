@@ -16,15 +16,17 @@ Every source below is free to read. The collector keeps a posting only when its 
 | Job Bank Canada (English and French pages) | Full text of postings found by 15 English and French searches. Some posts only link to a partner site (shown as a snippet card with the partner link). Waits 5 seconds between requests, as its robots.txt asks. | Nothing |
 | The Muse | Internship and entry-level roles in Montreal, full text | Nothing (an optional free key `MUSE_API_KEY` raises its limit) |
 | Greenhouse, Lever, Ashby, SmartRecruiters, Workable, Recruitee, Breezy, BambooHR, Personio, Teamtailor | Full text from employers that publish an open board | Nothing. Employers are listed in `config/companies.json` |
-| Workday | Full text from the career sites of employers on Workday (CAE, RTX, GE Vernova so far) | Nothing. Add a site under `workday` in `config/companies.json` |
+| Workday | Full text from the career sites of employers on Workday (CAE, RTX, GE Vernova so far) | Nothing. To add an employer, paste its career-page address (for example `https://cae.wd3.myworkdayjobs.com/en-US/career`) into `workday` in `config/companies.json` |
 | Career pages | Any employer page that publishes schema.org `JobPosting` data | Nothing. List the page addresses under `pages` |
 | Adzuna | Broad Montreal coverage, short snippet per posting | A free key from https://developer.adzuna.com (`ADZUNA_APP_ID`, `ADZUNA_APP_KEY`) |
 | Jooble | Search service, short snippet | A free key from https://jooble.org/api/about (`JOOBLE_API_KEY`) |
 | Careerjet | Search service, short snippet | A free key from https://www.careerjet.com/partners/api (`CAREERJET_API_KEY`) |
 
+**Job Bank and its terms.** Job Bank's robots.txt allows crawling with a 5-second wait, and the collector keeps to that. Its job-seeker terms of use also say scripts, robots and crawlers may not be used to access its services (account-registration section). It is on because it was asked for; to switch it off set `"enabled": false` under `jobbank` in `config/searches.json`.
+
 A source whose key is not saved is skipped and shown as "off" in the report. A source that breaks does not stop the others.
 
-**Not collected, and why.** LinkedIn (its robots.txt and terms forbid automated reading; paste a description into a card instead), Indeed, Glassdoor, Monster and ZipRecruiter (they refuse automated requests with HTTP 403 and their terms do not allow it; not bypassed), Talent.com (pages are marked noindex and nofollow, no feed), Concordia CareerLink (student login), Taleo, SuccessFactors, iCIMS and Oracle Recruiting (each employer needs its own set-up), and remote-only boards (not Montreal on-site roles).
+**Not collected, and why.** LinkedIn (its robots.txt and terms forbid automated reading; paste a description into a card instead), Indeed, Glassdoor, Monster and ZipRecruiter (they refuse automated requests with HTTP 403 and their terms do not allow it; not bypassed), Built In Montréal (its terms of use forbid bots, spiders and scrapers even though robots.txt allows the pages), Talent.com (pages are marked noindex and nofollow, no feed), iagora and staffing agencies (employer hidden behind a sign-up or unnamed clients), Concordia CareerLink (student login), Taleo, SuccessFactors, iCIMS and Oracle Recruiting (each employer needs its own set-up), and remote-only boards (not Montreal on-site roles).
 
 **Finding employer boards.** `config/companies.json` is a long starter list. Names that do not exist on a system are skipped silently, and the report counts them as "not found". To look up one employer:
 

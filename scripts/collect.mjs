@@ -173,7 +173,7 @@ export function jsonLdJobs(html) {
     if (t === "JobPosting" || (Array.isArray(t) && t.includes("JobPosting"))) out.push(o);
     if (o["@graph"]) walk(o["@graph"]);
   };
-  for (const m of String(html).matchAll(/<script[^>]+application\/ld\+json[^>]*>([\s\S]*?)<\/script>/gi)) {
+  for (const m of String(html).matchAll(/<script[^>]+application\/ld(?:\+|&#x2B;|&#43;|&plus;)json[^>]*>([\s\S]*?)<\/script>/gi)) {   // some sites write the plus sign as an entity
     try { walk(JSON.parse(m[1].trim())); } catch { /* not valid JSON: skip this block */ }
   }
   return out;
@@ -274,6 +274,14 @@ export async function muse(cfg, nowMs, log) {
 }
 
 /* ---------- Workday career sites (the JSON behind every myworkdayjobs.com page, no login) ---------- */
+/* a Workday career page address (https://cae.wd3.myworkdayjobs.com/en-US/career) is enough: the tenant is the first part of the host */
+export function workdayFromUrl(url, name) {
+  const u = new URL(url);
+  const parts = u.pathname.split("/").filter(Boolean).filter((x) => !/^[a-z]{2}-[A-Z]{2}$/.test(x));
+  const tenant = u.hostname.split(".")[0];
+  if (!/\.myworkdayjobs\.com$/.test(u.hostname) || !parts[0]) throw new Error("not a Workday career page address: " + url);
+  return { name: name || pretty(tenant), host: u.hostname, tenant, site: parts[0] };
+}
 const WD_AGE = (t) => { const s = norm(t); if (/today|aujourd/.test(s)) return 8; if (/yesterday|hier/.test(s)) return 32; const m = /(\d+)\+?\s*(?:days?|jours?)/.exec(s); return m ? (+m[1]) * 24 + (/\+/.test(s) ? 24 : 12) : null; };
 export async function workday(b, nowMs, log) {
   const base = `https://${b.host}/wday/cxs/${b.tenant}/${b.site}`;
@@ -480,7 +488,7 @@ export async function main({ nowMs = Date.now(), log = console.log, write = true
   /* 2. Workday career sites: a few requests per employer */
   if ((companies.workday || []).length) {
     const s = sources.Workday = { boards: 0, answered: 0, jobs: 0 };
-    await pool(companies.workday, 3, async (b) => {
+    await pool(companies.workday.map((b) => (typeof b === "string" ? workdayFromUrl(b) : b)), 3, async (b) => {
       s.boards++;
       try { const jobs = await workday(b, nowMs, log); s.answered++; s.jobs += jobs.length; all.push(...jobs); }
       catch (e) { if (e.status === 404 || e.status === 422) notFound.push(`Workday:${b.tenant}/${b.site}`); else { note(s, e); log(`Workday ${b.tenant}: ${e.message}`); } }
@@ -497,6 +505,7 @@ export async function main({ nowMs = Date.now(), log = console.log, write = true
   /* 4. public search boards */
   const run = async (name, cfg, fn) => {
     if (!cfg) return;
+    if (cfg.enabled === false) { sources[name] = { skipped: 'switched off ("enabled": false in config/searches.json)' }; return; }
     try {
       const r = await fn();
       sources[name] = { requestsOk: r.ok, requestsFailed: r.failed, jobs: r.jobs.length, ...(r.listed != null ? { listed: r.listed, inMontreal: r.inArea } : {}) };

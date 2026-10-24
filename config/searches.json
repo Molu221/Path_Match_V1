@@ -17,7 +17,8 @@
     ]
   },
   "jobbank": {
-    "_note": "Job Bank Canada (Government of Canada). robots.txt asks for 5 seconds between requests, so this source is slow on purpose.",
+    "_note": "Job Bank Canada (Government of Canada). robots.txt asks for 5 seconds between requests, so this source is slow on purpose. Its job-seeker terms of use also forbid scripts, robots and crawlers (account-registration section): set \"enabled\": false to switch it off.",
+    "enabled": true,
     "where": "Montréal, QC",
     "maxDaysOld": 14,
     "maxDetails": 45,

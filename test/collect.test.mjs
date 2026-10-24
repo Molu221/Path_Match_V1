@@ -91,6 +91,7 @@ assert.equal(m.length, 2);
 assert.equal(c.breakHeadings("Intro. Requirements: Excel. Preferred Qualifications: Lean.").split("\n").filter(Boolean).length, 5);
 assert.equal(c.breakHeadings("a\nb\nc\nd\ne\nf\ng\nh\nRequirements: x"), "a\nb\nc\nd\ne\nf\ng\nh\nRequirements: x", "text that already has lines is left alone");
 assert.equal(c.jsonLdJobs('<script type="application/ld+json">{ not json</script>').length, 0);
+assert.equal(c.jsonLdJobs('<script type="application/ld&#x2B;json">{"@graph":[{"@type":"JobPosting","title":"T"}]}</script>').length, 1, "the plus sign may be written as an entity");
 
 // Job Bank: the feed lists, only Montreal-area relevant rows are opened; partner posts take their text from the French page
 const noPause = async () => {};
@@ -110,6 +111,10 @@ assert.equal(mu.jobs.length, 1); assert.equal(mu.jobs[0].type, "Internship"); as
 // Workday
 const wd = await c.workday({ name: "Acme", host: "acme.wd1.myworkdayjobs.com", tenant: "acme", site: "site", queries: [""] }, NOW, () => {});
 assert.equal(wd.length, 1); assert.equal(wd[0].company, "Acme"); assert.equal(wd[0].ageH, 12); assert.match(wd[0].desc, /Qualifications/);
+
+assert.deepEqual(c.workdayFromUrl("https://cae.wd3.myworkdayjobs.com/en-US/career/jobs?x=1", "CAE"), { name: "CAE", host: "cae.wd3.myworkdayjobs.com", tenant: "cae", site: "career" });
+assert.equal(c.workdayFromUrl("https://acme.wd1.myworkdayjobs.com/External_Site").site, "External_Site");
+assert.throws(() => c.workdayFromUrl("https://example.com/careers"));
 
 // the other open boards
 const wk = await c.workable("wk", NOW); assert.equal(wk[0].company, "WK"); assert.match(wk[0].desc, /FMEA/);
@@ -141,7 +146,7 @@ const out = await c.main({
   companies: {
     greenhouse: ["acme", "missing"], lever: ["globex"], ashby: ["initech"], smartrecruiters: ["umbrella"],
     workable: ["wk"], recruitee: ["wr", "nobody"], breezy: ["bz"], bamboohr: ["bh"], personio: ["pe"], teamtailor: ["tt"],
-    workday: [{ name: "Acme", host: "acme.wd1.myworkdayjobs.com", tenant: "acme", site: "site", queries: [""] }, { name: "Gone", host: "gone.wd1.myworkdayjobs.com", tenant: "gone", site: "site" }],
+    workday: [{ name: "Acme", host: "acme.wd1.myworkdayjobs.com", tenant: "acme", site: "site", queries: [""] }, "https://gone.wd1.myworkdayjobs.com/en-US/site"],
     pages: ["https://careers.example.com/jobs"],
   },
   searches: searchCfg,
@@ -153,6 +158,10 @@ assert.equal(out.sources.Workday.answered, 1); assert.equal(out.sources["Job Ban
 assert.equal(out.sources.Jooble.jobs, 1); assert.match(out.sources.Careerjet.skipped, /CAREERJET_API_KEY is not set/);
 assert.ok(out.sources.Adzuna.jobs >= 1);
 assert.equal(out.jobs.length, 17, "expected postings from every fake source, got " + out.jobs.length);
+
+// a source can be switched off in the config
+const off = await c.main({ nowMs: NOW, log: () => {}, write: false, env: {}, companies: {}, searches: { ...searchCfg, jobbank: { ...searchCfg.jobbank, enabled: false } } });
+assert.match(off.sources["Job Bank"].skipped, /switched off/);
 
 // a source that breaks does not stop the others, and the page is told why
 globalThis.fetch = async (url, opts) => (/themuse|jobbank/.test(String(url)) ? { ok: false, status: 503, text: async () => "", json: async () => ({}) } : fetchOk(url, opts));
