@@ -14,7 +14,7 @@ export const RELEVANT = /intern|stage|stagiaire|co-?op|student|etudiant|apprenti
 const norm = (s) => (s || "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/\s+/g, " ").trim();
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const pretty = (slug) => slug.replace(/[-_]+/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
-const MAX_DESC = 7000;
+const MAX_DESC = 16000;   // the whole posting: requirements often come after the first 7000 characters
 
 export function decode(s) {
   return String(s || "")
@@ -99,7 +99,7 @@ export async function smartrecruiters(slug, nowMs) {
     }
     if (items.length < 100) break;
   }
-  for (const j of out.slice(0, 40)) {
+  for (const j of out.slice(0, 80)) {
     try {
       const det = await fetchJson(j._ref);
       const s = (det.jobAd && det.jobAd.sections) || {};

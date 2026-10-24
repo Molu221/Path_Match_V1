@@ -113,6 +113,8 @@ mark.m-off{background:var(--bg);box-shadow:inset 0 -1px 0 var(--mute)}
 mark.m-chk{background:none;border-bottom:2px dotted var(--accent)}
 .legend{display:flex;gap:6px 14px;flex-wrap:wrap;font-size:12px;color:var(--mute);margin:6px 0}
 .legend mark{padding:0 6px}
+.paste{border:1px dashed var(--accent);border-radius:6px;padding:10px;margin:6px 0 10px;background:var(--accent-soft);font-size:12.5px}
+.paste textarea{min-height:110px;margin-top:4px}
 details.old{margin-top:12px;border-top:1px solid var(--line);padding-top:6px}
 details.old>summary{cursor:pointer;color:var(--mute);font-size:12.5px;display:block;padding:4px 0}
 details.old>summary::before{content:"▸ "}
@@ -416,7 +418,18 @@ function buildJobs(){
   return [...m.values()];
 }
 const JOBS=buildJobs();
-JOBS.forEach(j=>{j.snap=true;j.cat=(/intern|stage|stagiaire|co-?op|etudiant|student/.test(norm(j.title))||j.type==="Part-time"||j.type==="Internship")?"main":"near";});
+const jkey=j=>norm(j.company)+"|"+norm(j.title);
+/* full posting text the person pasted for a card that only has a title or a snippet; kept in this browser only */
+let PASTED={};try{PASTED=JSON.parse(localStorage.getItem("pm_pasted")||"{}");}catch(e){PASTED={};}
+function savePasted(){try{const k=Object.keys(PASTED);while(k.length>40)delete PASTED[k.shift()];localStorage.setItem("pm_pasted",JSON.stringify(PASTED));}catch(e){}}
+function applyPasted(j){
+  const t=PASTED[jkey(j)];
+  if(t){if(!j._orig)j._orig={desc:j.desc||"",partial:!!j.partial};j.desc=t;j.partial=false;j.pasted=true;}
+  else if(j.pasted&&j._orig){j.desc=j._orig.desc;j.partial=j._orig.partial;j.pasted=false;}
+  j._map=null;
+}
+const OPEN=new Set();
+JOBS.forEach(j=>{j.snap=true;j.cat=(/intern|stage|stagiaire|co-?op|etudiant|student/.test(norm(j.title))||j.type==="Part-time"||j.type==="Internship")?"main":"near";applyPasted(j);});
 const dayDiff=d=>Math.round((Date.parse(TODAY)-Date.parse(d))/864e5);
 const age=j=>j.ageH!=null?j.ageH:dayDiff(j.date)*24;
 
@@ -458,19 +471,28 @@ const half=x=>String(Math.round(x*10)/10);
 function skillsRow(j){
   if(!DICT)return '<div class="skills"><span class="note">Reading the skills…</span></div>';
   const m=mapData(j),where=j.desc?"posting":"title";
-  if(!m.rows.length)return `<div class="skills"><span class="note">No dictionary skills are written in the ${where}.${j.desc?"":" Only the title was available, so open the posting."}</span></div>`;
+  if(!m.rows.length)return `<div class="skills"><span class="note">No dictionary skills are written in the ${where}.${j.desc&&!j.partial?"":" Only "+(j.desc?"a short snippet":"the title")+" is available: open the card and paste the full description."}</span></div>`;
   const MAX=18,shown=m.rows.slice(0,MAX),more=m.rows.length-shown.length;
   const chips=shown.map(x=>{
     const t=x.st==="M"?"On your CV: "+(m.cvf[x.n].evidence||""):x.st==="R"?"Close, not the same word: "+x.links.map(l=>l.cv+" ("+l.label+")").join(", ")+". Not counted as a match.":"Not written on your CV.";
     return `<span class="${SK_CLS[x.st]}" title="${esc((x.tag?x.tag+": ":"")+t)}">${esc(x.n)}</span>`;
   }).join("");
   const nL=m.r.linkedCount;
-  return `<div class="skills"><div class="sk-h"><b>${m.r.matched.length} of ${m.r.total}</b> skills ${j.desc?"in the posting":"in the title"} are on your CV · ${m.r.coveragePct}%${nL?` · ${nL} close, not counted`:""}${j.desc?(j.partial?" · short snippet only":""):" · title only"}</div>
+  return `<div class="skills"><div class="sk-h"><b>${m.r.matched.length} of ${m.r.total}</b> skills ${j.desc?"in the posting":"in the title"} are on your CV · ${m.r.coveragePct}%${nL?` · ${nL} close, not counted`:""}${j.desc?(j.pasted?" · from the text you pasted":j.partial?" · short snippet only: open the card to paste the full text":""):" · title only: open the card to paste the full text"}</div>
     <div class="kw sk">${chips}${more?`<span class="more">+${more} more, open the card</span>`:""}</div></div>`;
 }
 /* the mapping panel inside the card */
+function pasteBox(j){
+  if(j.desc&&!j.partial&&!j.pasted)return "";
+  const k=esc(jkey(j));
+  const msg=j.pasted?"The skills below come from the full text you pasted.":j.desc?"Only a short snippet of this posting is available, so only some skills are listed.":"Only the title is available, so only skills written in the title are listed.";
+  return `<div class="paste"><b>${msg}</b>
+    <div class="note" style="margin-top:6px">Paste the whole job description (from LinkedIn, Indeed or the employer's page).</div>
+    <textarea aria-label="Full job description" data-pk="${k}" placeholder="Paste the full posting text here: tasks, requirements, assets, language and eligibility"></textarea>
+    <div class="row" style="margin-top:6px"><button class="primary" data-act="usepaste" data-pk="${k}">Extract skills from this text</button>${j.pasted?`<button data-act="clearpaste" data-pk="${k}">Remove the pasted text</button>`:""}<span class="note" data-msg="${k}">Stays in this browser only.</span></div></div>`;
+}
 function mapPanel(j){
-  const head='<h3>Mapping: posting skills ↔ your CV</h3>';
+  const head='<h3>Mapping: posting skills ↔ your CV</h3>'+pasteBox(j);
   if(!DICT)return head+'<p class="note">The skill dictionary is loading…</p>';
   const m=mapData(j),r=m.r,cv=m.cvf;
   if(!m.rows.length)return head+`<p class="note">None of the dictionary skills are written in this posting's ${j.desc?"text":"title"}.</p>`;
@@ -496,7 +518,7 @@ function mapPanel(j){
   Object.keys(cv).forEach(n=>cv[n].spans.forEach(([a,b])=>cm.push({a,b,cls:m.job[n]?"m-ok":closeCv.has(n)?"m-near":"m-off",title:n+(cv[n].section&&cv[n].section!=="HEADER"?" · "+cv[n].section:"")+(m.job[n]?": the posting asks for it":closeCv.has(n)?": close to a skill in the posting":": the posting does not ask for it")})));
   return head+`<div class="mapnums"><div><b>${r.matched.length} of ${r.total} = ${r.coveragePct}%</b>exact words: the same skill is written on both</div>
       <div><b>${half(withRel)} of ${r.total} = ${r.coverageWithRelatedPct}%</b>with close skills at half credit</div></div>
-    <p class="note">${j.desc?"":"Only the title was available, so only skills written in the title are compared. "}${j.partial?"This posting is a short snippet, so the list is incomplete. ":""}The 0–100 score above still uses its own keyword list; this panel is the dictionary view (Python list + OaSIS, English and French). A close skill is never shown as a match.</p>
+    <p class="note">The 0–100 score above still uses its own keyword list; this panel is the dictionary view (Python list + OaSIS, English and French). A close skill is never shown as a match.</p>
     <div class="mapgrid">
       <div><h4>Found on both (${both.length})</h4><div class="kw">${both.map(x=>chip(x,"M")).join("")||'<span class="note">None.</span>'}</div></div>
       <div><h4>In the post, not on your CV (${miss.length})</h4><div class="kw">${miss.map(x=>chip(x,"G")).join("")||'<span class="note">None.</span>'}</div></div>
@@ -524,7 +546,8 @@ function jobHtml(r,rank){
   const bar=(v,m,l)=>`<div class="sb">${l} ${v}/${m}<i><b style="width:${v/m*100}%"></b></i></div>`;
   const kw=s.map.length?s.map.map(x=>`<span class="${x.s}" title="${esc(x.ev)}">${esc(x.n)}${x.tag&&x.tag!=="Title"?" · "+x.tag[0]:""}</span>`).join(""):'<span class="note">No recognisable skill terms in the title.</span>';
   const ev=s.map.map(x=>`<div class="ev"><b>${x.s==="M"?"Match":x.s==="R"?"Related":"Gap"}</b> ${esc(x.n)}${x.tag?" ("+x.tag+")":""}: ${esc(x.ev)}${x.post?"<br>In posting: "+esc(x.post):""}</div>`).join("");
-  return `<details class="job"><summary>
+  const jk=jkey(j);
+  return `<details class="job" data-k="${esc(jk)}"${OPEN.has(jk)?" open":""}><summary>
     <div class="score">${s.total}<small>#${rank}</small></div>
     <div>
       <div class="t">${esc(j.title)}</div>
@@ -580,6 +603,7 @@ function render(){
       <li>This is a heuristic, not a real applicant tracking system. Differences of 5 points or less are ties.</li></ul></div>
       <div class="panel method" style="margin-top:12px"><h2>Skills and the mapping to your CV (Python list + OaSIS)</h2><ul>
       <li><b>Under each job title</b> you see the skills written in that posting (its full text when we have it, otherwise only the title). <span class="kw" style="display:inline"><span class="M">green</span></span> = the same skill is written on your CV, <span class="kw" style="display:inline"><span class="R">amber</span></span> = close but not the same word (not counted), <span class="kw" style="display:inline"><span class="G">red</span></span> = not on your CV.</li>
+      <li>The skills are read from the <b>whole posting text</b>. Postings from the employers' open job boards carry their full text. A card that only has a title or a short snippet has a box where you can <b>paste the full description</b> (from LinkedIn, Indeed or the employer's page); the skills, the mapping and the score are then recalculated from that text. The pasted text stays in your browser.</li>
       <li><b>Open a card</b> for the mapping: found on both, in the post but not on your CV, close (not counted), and things to check yourself (degree level, years of experience, work authorization, security, language). Each skill shows where it sits in the posting (Required, Task or Preferred, from the headings) and the exact words on your CV with their section. The posting and your CV are shown highlighted side by side.</li>
       <li>Two figures per posting: <b>exact words</b> = matched ÷ skills in the posting, and <b>with close skills at half credit</b> = (matched + 0.5 × close) ÷ skills in the posting.</li>
       <li>${DICT?`The dictionary has ${DICT.size} skills: the ${DICT.meta.curated} curated ones from <code>python/keyword_extractor.py</code> plus the English and French names of skills, abilities, knowledge areas, work activities and personal attributes from <b>${esc(DICT.meta.source||"OaSIS")}</b> (${DICT.meta.occupations||"?"} occupations, Open Government Licence - Canada). Built ${esc(DICT.meta.built||"")}.`:"The dictionary file could not be loaded."}</li>
@@ -651,6 +675,18 @@ $("drop").addEventListener("drop",e=>{const f=e.dataTransfer.files[0];if(f)handl
 $("go").onclick=go;
 $("sample").onclick=()=>{$("paste").value=SAMPLE;go();};
 ["permit","term","window"].forEach(id=>$(id).onchange=()=>{CV?run():render()});
+$("view").addEventListener("toggle",e=>{const d=e.target;if(d&&d.classList&&d.classList.contains("job")&&d.dataset.k){if(d.open)OPEN.add(d.dataset.k);else OPEN.delete(d.dataset.k);}},true);
+$("view").addEventListener("click",e=>{
+  const b=e.target.closest("[data-act]");if(!b)return;
+  const k=b.dataset.pk,card=b.closest("details.job");
+  if(b.dataset.act==="usepaste"){
+    const t=((card.querySelector("textarea[data-pk]")||{}).value||"").trim();
+    if(t.length<80){const m=card.querySelector("[data-msg]");if(m)m.textContent="Paste at least a few lines of the posting.";return;}
+    PASTED[k]=t.slice(0,30000);savePasted();
+  }else if(b.dataset.act==="clearpaste"){delete PASTED[k];savePasted();}
+  const j=JOBS.find(x=>jkey(x)===k);
+  if(j){applyPasted(j);OPEN.add(k);run();const el=[...document.querySelectorAll("details.job")].find(d=>d.dataset.k===k);if(el)el.scrollIntoView({block:"nearest"});}
+});
 $("tabs").onclick=e=>{const b=e.target.closest(".tab");if(b){tab=b.dataset.t;render();}};
 $("theme").onclick=()=>{const r=document.documentElement,d=r.dataset.theme==="dark"||(!r.dataset.theme&&matchMedia("(prefers-color-scheme:dark)").matches);r.dataset.theme=d?"light":"dark"};
 render();
@@ -674,7 +710,7 @@ async function loadServer(){
         ageH:x.ageH!=null?x.ageH+(Date.now()-at)/36e5:null,snap:!!d.mock,partial:!!x.partial});
     }
     JOBS.length=0;
-    for(const j of m.values()){j.cat=(/intern|stage|stagiaire|co-?op|etudiant|student/.test(norm(j.title))||j.type==="Part-time"||j.type==="Internship")?"main":"near";JOBS.push(j);}
+    for(const j of m.values()){j.cat=(/intern|stage|stagiaire|co-?op|etudiant|student/.test(norm(j.title))||j.type==="Part-time"||j.type==="Internship")?"main":"near";applyPasted(j);JOBS.push(j);}
     const t=new Date(d.updatedAt).toLocaleString([], {month:"short",day:"numeric",hour:"2-digit",minute:"2-digit"});
     note.textContent=(d.mock?"Demo data until the first scheduled collection runs. ":"")+JOBS.length+" postings, collected "+t+". The collector re-runs a few times a day and this page picks up each new collection on its own.";
     log.textContent=Object.entries(d.sources||{}).map(([k,v])=>v.skipped?k+": not set up":v.boards!=null?k+": "+v.answered+" of "+v.boards+" boards answered, "+v.jobs+" postings":k+": "+v.jobs+" postings").join(" · ");
