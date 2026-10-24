@@ -1,0 +1,60 @@
+downloading 22 files
+  try 1 failed for main_duties_en.csv: The read operation timed out  try 1 failed for example_titles_fr.csv: The read operation timed out
+  try 1 failed for example_titles_en.csv: The read operation timed out
+
+  try 1 failed for main_duties_fr.csv: The read operation timed out
+  try 1 failed for lead_statement_en.csv: The read operation timed out
+  try 1 failed for lead_statement_fr.csv: The read operation timed out
+  example_titles_en: 914150 bytes in 15.9s
+  lead_statement_en: 179340 bytes in 16.1s
+  try 2 failed for main_duties_fr.csv: The read operation timed out
+  try 2 failed for main_duties_en.csv: The read operation timed out
+  try 2 failed for lead_statement_fr.csv: The read operation timed out  try 2 failed for example_titles_fr.csv: The read operation timed out
+
+  try 1 failed for employment_requirements_en.csv: The read operation timed out
+  try 1 failed for employment_requirements_fr.csv: The read operation timed out
+  try 3 failed for main_duties_en.csv: HTTP Error 502: Bad Gateway
+  try 3 failed for lead_statement_fr.csv: HTTP Error 502: Bad Gateway
+  try 3 failed for example_titles_fr.csv: The read operation timed out  try 3 failed for main_duties_fr.csv: The read operation timed out
+
+  main_duties_en: FAILED Could not download https://open.canada.ca/data/dataset/eeb3e442-9f19-4d12-8b38-c488fe4f6e5e/resource/7453d044-7b41-44cc-b9c6-1112e9e886b5/download/main-duties_oasis-2022_v1.0.csv: HTTP Error 502: Bad Gateway
+  lead_statement_fr: FAILED Could not download https://open.canada.ca/data/dataset/eeb3e442-9f19-4d12-8b38-c488fe4f6e5e/resource/c41c84ee-0df4-43ec-8690-bbd2424eed83/download/enonce-principal_sipec_2022_v1.0.csv: HTTP Error 502: Bad Gateway
+  example_titles_fr: FAILED Could not download https://open.canada.ca/data/dataset/eeb3e442-9f19-4d12-8b38-c488fe4f6e5e/resource/77e0f199-93c9-466c-9643-c52e7f62820e/download/exemples-dappellation-demploi_sipec_2022_v1.0.csv: The read operation timed out
+  main_duties_fr: FAILED Could not download https://open.canada.ca/data/dataset/eeb3e442-9f19-4d12-8b38-c488fe4f6e5e/resource/7f0337ed-aaab-46a9-a988-1c50286770c7/download/fonctions-principales_sipec_2022_v1.0.csv: The read operation timed out
+  employment_requirements_en: 350463 bytes in 27.9s
+  try 2 failed for employment_requirements_fr.csv: The read operation timed out
+  try 1 failed for additional_information_en.csv: The read operation timed out
+  try 1 failed for additional_information_fr.csv: The read operation timed out
+  try 1 failed for workplaces_employers_en.csv: The read operation timed out
+  try 1 failed for workplaces_employers_fr.csv: The read operation timed out
+  try 1 failed for skills_en.csv: The read operation timed out
+  try 3 failed for employment_requirements_fr.csv: The read operation timed out
+  employment_requirements_fr: FAILED Could not download https://open.canada.ca/data/dataset/eeb3e442-9f19-4d12-8b38-c488fe4f6e5e/resource/1852cf7f-5c40-49ab-b2dc-5d1180545166/download/exigences-demploi_sipec_2022_v1.0.csv: The read operation timed out
+  try 2 failed for additional_information_en.csv: The read operation timed out
+  try 2 failed for additional_information_fr.csv: The read operation timed out
+  try 2 failed for workplaces_employers_en.csv: The read operation timed out
+  try 2 failed for workplaces_employers_fr.csv: The read operation timed out
+  try 2 failed for skills_en.csv: The read operation timed out
+  try 3 failed for workplaces_employers_fr.csv: HTTP Error 502: Bad Gateway
+  try 1 failed for skills_fr.csv: The read operation timed out
+  workplaces_employers_fr: FAILED Could not download https://open.canada.ca/data/dataset/eeb3e442-9f19-4d12-8b38-c488fe4f6e5e/resource/84ee84bb-90e8-41be-b9f5-b1807b895404/download/lieux-de-travail-employeurs_sipec_2022_v1.0.csv: HTTP Error 502: Bad Gateway
+  try 3 failed for additional_information_en.csv: The read operation timed out
+  try 3 failed for additional_information_fr.csv: The read operation timed out
+  try 3 failed for workplaces_employers_en.csv: The read operation timed out
+  additional_information_en: FAILED Could not download https://open.canada.ca/data/dataset/eeb3e442-9f19-4d12-8b38-c488fe4f6e5e/resource/0b56ac41-244f-40ca-8c52-a5e376d3e72a/download/additional-information_oasis_2022_v1.0.csv: The read operation timed out
+  abilities_fr: 146272 bytes in 0.4s
+  additional_information_fr: FAILED Could not download https://open.canada.ca/data/dataset/eeb3e442-9f19-4d12-8b38-c488fe4f6e5e/resource/c8813ce9-49d2-45fb-b903-bf89f29816d9/download/renseignements-supplementaires_sipec_2022_v1.0.csv: The read operation timed out
+  try 3 failed for skills_en.csv: The read operation timed out
+  workplaces_employers_en: FAILED Could not download https://open.canada.ca/data/dataset/eeb3e442-9f19-4d12-8b38-c488fe4f6e5e/resource/c3e16f83-5d09-43be-b1b4-49526cc25ed8/download/workplaces-employers_oasis_2022_v1.0.csv: The read operation timed out
+  work_activities_en: 109626 bytes in 0.4s
+  work_activities_fr: 129564 bytes in 0.4s
+  abilities_en: 126634 bytes in 25.0s
+  work_context_fr: 177136 bytes in 0.4s
+  skills_en: FAILED Could not download https://open.canada.ca/data/dataset/eeb3e442-9f19-4d12-8b38-c488fe4f6e5e/resource/34eecbcc-c3aa-4568-8715-c946de99df33/download/skills_oasis_2022_v1.0.csv: The read operation timed out
+  try 2 failed for skills_fr.csv: The read operation timed out
+  personal_attributes_en: 60875 bytes in 19.8s
+  personal_attributes_fr: 80539 bytes in 19.2s
+  work_context_en: 156980 bytes in 22.0s
+  try 3 failed for skills_fr.csv: The read operation timed out
+  skills_fr: FAILED Could not download https://open.canada.ca/data/dataset/eeb3e442-9f19-4d12-8b38-c488fe4f6e5e/resource/9376bda5-2d80-4b0b-a34d-cf5d64d9b9a8/download/competences_sipec_2022_v1.0.csv: The read operation timed out
+11 downloads failed: additional_information_en, additional_information_fr, employment_requirements_fr, example_titles_fr, lead_statement_fr, main_duties_en, main_duties_fr, skills_en, skills_fr, workplaces_employers_en, workplaces_employers_fr
