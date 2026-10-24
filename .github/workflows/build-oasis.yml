@@ -12,7 +12,7 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 40
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -20,11 +20,23 @@ jobs:
           python-version: "3.12"
       - name: Offline tests
         run: python3 -m unittest test.test_oasis
+      - name: Restore files downloaded in earlier runs
+        uses: actions/cache/restore@v4
+        with:
+          path: data/oasis_raw
+          key: oasis-raw-v1-none
+          restore-keys: oasis-raw-v1-
       - name: Download OaSIS and build the dictionary
-        timeout-minutes: 10
+        timeout-minutes: 25
         run: |
           set -o pipefail
           python3 -u scripts/build_oasis_dictionary.py 2>&1 | tee oasis_build_log.txt
+      - name: Keep downloaded files for the next run
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: data/oasis_raw
+          key: oasis-raw-v1-${{ github.run_id }}
       - name: Re-run keyword reports with OaSIS
         run: python3 scripts/run_reports.py cv/sample_cv.txt
       - name: Save results and log

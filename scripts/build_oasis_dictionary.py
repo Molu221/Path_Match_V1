@@ -96,8 +96,10 @@ STOP = {
 # --------------------------------------------------------------------------------------
 # reading the files
 # --------------------------------------------------------------------------------------
-def download(url, dest, tries=3, deadline=90):
+def download(url, dest, tries=5, deadline=240):
     """Download one file. Each try is cut off after `deadline` seconds in total."""
+    if dest.exists() and dest.stat().st_size > 0:        # already downloaded in an earlier run
+        return f"cached, {dest.stat().st_size} bytes"
     last = None
     for i in range(tries):
         started = time.time()
@@ -105,7 +107,7 @@ def download(url, dest, tries=3, deadline=90):
             req = urllib.request.Request(url, headers={
                 "User-Agent": "Mozilla/5.0 (compatible; path-match-oasis-builder; +https://github.com/Molu221/Path_Match_V1)",
                 "Accept": "text/csv,*/*"})
-            with urllib.request.urlopen(req, timeout=30) as r:
+            with urllib.request.urlopen(req, timeout=60) as r:
                 chunks = []
                 while True:
                     block = r.read(65536)
@@ -123,7 +125,7 @@ def download(url, dest, tries=3, deadline=90):
         except Exception as e:  # noqa: BLE001 - report and retry
             last = e
             print(f"  try {i + 1} failed for {dest.name}: {e}", flush=True)
-            time.sleep(2 * (i + 1))
+            time.sleep(5 * (i + 1))
     raise RuntimeError(f"Could not download {url}: {last}")
 
 
@@ -346,7 +348,7 @@ def main():
                 for lang, rel in (("en", en), ("fr", fr))]
         print(f"downloading {len(jobs)} files", flush=True)
         failed = []
-        with concurrent.futures.ThreadPoolExecutor(max_workers=6) as pool:
+        with concurrent.futures.ThreadPoolExecutor(max_workers=2) as pool:
             futures = {pool.submit(download, url, src_dir / f"{name}.csv"): name for name, url in jobs}
             for fut in concurrent.futures.as_completed(futures):
                 name = futures[fut]
@@ -355,8 +357,13 @@ def main():
                 except Exception as e:  # noqa: BLE001
                     failed.append(name)
                     print(f"  {name}: FAILED {e}", flush=True)
+        for name, _ in jobs:                       # show what the downloaded files look like
+            if (src_dir / f"{name}.csv").exists():
+                print(f"{name}:")
+                peek(src_dir / f"{name}.csv")
         if failed:
-            raise SystemExit(f"{len(failed)} downloads failed: {', '.join(sorted(failed))}")
+            raise SystemExit(f"{len(failed)} downloads failed: {', '.join(sorted(failed))}. "
+                             "Run the workflow again: files already downloaded are kept.")
 
     tables, problems = {}, []
     for key, (kind, _, _) in RESOURCES.items():
