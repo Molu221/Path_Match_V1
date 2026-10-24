@@ -26,6 +26,7 @@ async function one(p, urlOverride) {
     r.head = p.discover ? "" : flat(text, p.headChars || 700);
     if (p.discover) { r.title = (/<title>([^<]*)/i.exec(text) || [])[1]; text = ""; }
     r.jsonLdJobPostings = (text.match(/"@type"\s*:\s*"JobPosting"/g) || []).length;
+    if (p.count) r.count = (text.match(new RegExp(p.count, "g")) || []).length;
     if (p.links) r.links = [...new Set([...text.matchAll(new RegExp(p.links, "gi"))].map((m) => m[1] || m[0]))].slice(0, 8);
     if (p.rssLinks) r.rss = [...new Set([...text.matchAll(/href="([^"]*(?:rss|feed)[^"]*)"/gi)].map((m) => m[1]))].slice(0, 5);
     r._text = text;
