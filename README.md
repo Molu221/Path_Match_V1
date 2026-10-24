@@ -63,3 +63,9 @@ ADZUNA_APP_ID=... ADZUNA_APP_KEY=... npm run collect   # collect now
 - `config/companies.json`, `config/searches.json` what to collect
 - `.github/workflows/refresh.yml` the schedule
 - `test/collect.test.mjs` offline tests
+
+## Keyword extractor (Python)
+
+`python/keyword_extractor.py` reads one job post and one CV and lists matched, missing and related skills, plus flags to verify. Run it by hand with `python3 python/keyword_extractor.py posts/<post>.txt cv/sample_cv.txt`.
+
+`scripts/run_reports.py` runs it on every file in `posts/` against a CV in `cv/` and writes `reports/` and `docs/reports.json`. The **Keyword report** workflow does this from the Actions tab, and `docs/reports.html` shows the result on the site. To add a posting, drop a `.txt` file in `posts/` in the same format as the examples.

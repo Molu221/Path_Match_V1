@@ -1,0 +1,432 @@
+{
+  "cv": "sample_cv.txt",
+  "posts": [
+    {
+      "file": "bombardier_material_logistics_intern.txt",
+      "title": "Intern, Material Logsitics (Winter 2027)",
+      "company": "Bombardier",
+      "coverage_pct": 36.4,
+      "matched": [
+        "Industrial engineering",
+        "Excel",
+        "English",
+        "French"
+      ],
+      "missing": [
+        "ERP",
+        "KPIs",
+        "Action planning",
+        "Logistics",
+        "Operations management",
+        "SAP",
+        "Planning"
+      ],
+      "related_not_counted": [
+        [
+          "KPIs",
+          "Dashboards"
+        ],
+        [
+          "Logistics",
+          "Inventory control"
+        ],
+        [
+          "Operations management",
+          "Industrial engineering"
+        ],
+        [
+          "Planning",
+          "Scheduling"
+        ]
+      ],
+      "flags": [
+        "Hybrid / on-site",
+        "Students only, not new graduates",
+        "Degree level / program stated",
+        "Term and duration",
+        "Travel outside Canada"
+      ],
+      "job_skills": {
+        "ERP": {
+          "tag": "TASK",
+          "evidence": "- Analyse ERP’s datas quality"
+        },
+        "KPIs": {
+          "tag": "TASK",
+          "evidence": "- Define and maintain key performance indicators based on our ERP, and our internal process."
+        },
+        "Action planning": {
+          "tag": "TASK",
+          "evidence": "- Develop and participate t action plan with the internal logistic team and the supply team."
+        },
+        "Logistics": {
+          "tag": "REQUIRED",
+          "evidence": "- Study at BAA in logistic or operation management"
+        },
+        "Industrial engineering": {
+          "tag": "TASK",
+          "evidence": "- Interact with multifunctional teams (Logistic, supply, methods, Industrial Engineering, Quality)"
+        },
+        "Operations management": {
+          "tag": "REQUIRED",
+          "evidence": "- Study at BAA in logistic or operation management"
+        },
+        "Excel": {
+          "tag": "REQUIRED",
+          "evidence": "- Master SAP and office suite (Excel)"
+        },
+        "SAP": {
+          "tag": "REQUIRED",
+          "evidence": "- Master SAP and office suite (Excel)"
+        },
+        "English": {
+          "tag": "REQUIRED",
+          "evidence": "- Speak and write in french and english"
+        },
+        "French": {
+          "tag": "REQUIRED",
+          "evidence": "- Speak and write in french and english"
+        },
+        "Planning": {
+          "tag": "REQUIRED",
+          "evidence": "- Have great planning habilities"
+        }
+      }
+    },
+    {
+      "file": "cae_industrial_continuous_improvement_intern.txt",
+      "title": "Industrial/Manufacturing Engineering and Continuous Improvement Intern",
+      "company": "CAE",
+      "coverage_pct": 33.3,
+      "matched": [
+        "Industrial engineering",
+        "Lean Six Sigma",
+        "Process mapping",
+        "Root cause analysis",
+        "Dashboards",
+        "Six Sigma Green/Black Belt",
+        "Bilingual (EN/FR)",
+        "English",
+        "French"
+      ],
+      "missing": [
+        "Continuous improvement",
+        "PDCA",
+        "8D",
+        "A3",
+        "BPM",
+        "Lean Manufacturing",
+        "Gap analysis",
+        "Action planning",
+        "Facilitation",
+        "Problem solving",
+        "KPIs",
+        "Operational excellence",
+        "Project management",
+        "Collaboration",
+        "Interpersonal skills",
+        "Communication",
+        "Teamwork",
+        "PMP"
+      ],
+      "related_not_counted": [
+        [
+          "Continuous improvement",
+          "Process improvement"
+        ],
+        [
+          "Continuous improvement",
+          "Lean Six Sigma"
+        ],
+        [
+          "Lean Manufacturing",
+          "Lean Six Sigma"
+        ],
+        [
+          "Lean Manufacturing",
+          "5S"
+        ],
+        [
+          "KPIs",
+          "Dashboards"
+        ],
+        [
+          "Project management",
+          "Industrial engineering"
+        ]
+      ],
+      "flags": [
+        "Work authorization in Canada",
+        "Controlled Goods Program",
+        "Police clearance",
+        "Bilingual required",
+        "Hybrid / on-site",
+        "Degree level / program stated"
+      ],
+      "job_skills": {
+        "Continuous improvement": {
+          "tag": "REQUIRED",
+          "evidence": "- Previous internship experience in continuous improvement, operational excellence, industrial engineering, project management or a related field."
+        },
+        "Industrial engineering": {
+          "tag": "REQUIRED",
+          "evidence": "- Previous internship experience in continuous improvement, operational excellence, industrial engineering, project management or a related field."
+        },
+        "Lean Six Sigma": {
+          "tag": "TASK",
+          "evidence": "- Lead and support continuous improvement projects by applying recognized methodologies such as PDCA, 8D, A3, Lean Six Sigma and BPM (Business Process Management)."
+        },
+        "PDCA": {
+          "tag": "TASK",
+          "evidence": "- Lead and support continuous improvement projects by applying recognized methodologies such as PDCA, 8D, A3, Lean Six Sigma and BPM (Business Process Management)."
+        },
+        "8D": {
+          "tag": "TASK",
+          "evidence": "- Lead and support continuous improvement projects by applying recognized methodologies such as PDCA, 8D, A3, Lean Six Sigma and BPM (Business Process Management)."
+        },
+        "A3": {
+          "tag": "TASK",
+          "evidence": "- Lead and support continuous improvement projects by applying recognized methodologies such as PDCA, 8D, A3, Lean Six Sigma and BPM (Business Process Management)."
+        },
+        "BPM": {
+          "tag": "TASK",
+          "evidence": "- Lead and support continuous improvement projects by applying recognized methodologies such as PDCA, 8D, A3, Lean Six Sigma and BPM (Business Process Management)."
+        },
+        "Lean Manufacturing": {
+          "tag": "TASK",
+          "evidence": "- Contribute to Lean Manufacturing projects aimed at optimizing processes and ways of working."
+        },
+        "Process mapping": {
+          "tag": "TASK",
+          "evidence": "- Develop process maps and identify inefficiencies."
+        },
+        "Gap analysis": {
+          "tag": "TASK",
+          "evidence": "- Conduct gap analyses to identify improvement opportunities."
+        },
+        "Action planning": {
+          "tag": "TASK",
+          "evidence": "- Create and communicate action plans to implement solutions."
+        },
+        "Root cause analysis": {
+          "tag": "TASK",
+          "evidence": "- Organize and facilitate workshops focused on problem solving, root cause analysis, process mapping and other related topics."
+        },
+        "Facilitation": {
+          "tag": "TASK",
+          "evidence": "- Organize and facilitate workshops focused on problem solving, root cause analysis, process mapping and other related topics."
+        },
+        "Problem solving": {
+          "tag": "REQUIRED",
+          "evidence": "- Excellent analytical and problem-solving skills."
+        },
+        "KPIs": {
+          "tag": "TASK",
+          "evidence": "- Track and report impacts using key performance indicators (KPIs) and dashboards."
+        },
+        "Dashboards": {
+          "tag": "TASK",
+          "evidence": "- Track and report impacts using key performance indicators (KPIs) and dashboards."
+        },
+        "Operational excellence": {
+          "tag": "REQUIRED",
+          "evidence": "- Previous internship experience in continuous improvement, operational excellence, industrial engineering, project management or a related field."
+        },
+        "Project management": {
+          "tag": "REQUIRED",
+          "evidence": "- Previous internship experience in continuous improvement, operational excellence, industrial engineering, project management or a related field."
+        },
+        "Collaboration": {
+          "tag": "REQUIRED",
+          "evidence": "- Excellent interpersonal skills, including the ability to influence, actively listen and collaborate."
+        },
+        "Interpersonal skills": {
+          "tag": "REQUIRED",
+          "evidence": "- Excellent interpersonal skills, including the ability to influence, actively listen and collaborate."
+        },
+        "Communication": {
+          "tag": "REQUIRED",
+          "evidence": "- Excellent communication and teamwork skills."
+        },
+        "Teamwork": {
+          "tag": "REQUIRED",
+          "evidence": "- Excellent communication and teamwork skills."
+        },
+        "Six Sigma Green/Black Belt": {
+          "tag": "PREFERRED",
+          "evidence": "- Asset: Six Sigma Green Belt/Black Belt certification, PMP."
+        },
+        "PMP": {
+          "tag": "PREFERRED",
+          "evidence": "- Asset: Six Sigma Green Belt/Black Belt certification, PMP."
+        },
+        "Bilingual (EN/FR)": {
+          "tag": "REQUIRED",
+          "evidence": "- Bilingual (French and English)."
+        },
+        "English": {
+          "tag": "REQUIRED",
+          "evidence": "- Bilingual (French and English)."
+        },
+        "French": {
+          "tag": "REQUIRED",
+          "evidence": "- Bilingual (French and English)."
+        }
+      }
+    },
+    {
+      "file": "abb_quality_engineering_intern.txt",
+      "title": "Quality Engineering Intern - Winter 2027",
+      "company": "ABB",
+      "coverage_pct": 27.3,
+      "matched": [
+        "Quality control",
+        "Industrial engineering",
+        "Mechanical engineering",
+        "Lean Six Sigma",
+        "English",
+        "French"
+      ],
+      "missing": [
+        "Documentation",
+        "Standard operating procedures",
+        "Flowcharts and process flows",
+        "Bottleneck analysis",
+        "Corrective action",
+        "Quality assurance",
+        "Calibration",
+        "KPIs",
+        "Collaboration",
+        "Problem solving",
+        "Operations management",
+        "Continuous improvement",
+        "Diagramming software",
+        "Technical writing",
+        "Analytical skills",
+        "Communication"
+      ],
+      "related_not_counted": [
+        [
+          "Flowcharts and process flows",
+          "Process mapping"
+        ],
+        [
+          "Quality assurance",
+          "Quality control"
+        ],
+        [
+          "KPIs",
+          "Dashboards"
+        ],
+        [
+          "Operations management",
+          "Industrial engineering"
+        ],
+        [
+          "Continuous improvement",
+          "Process improvement"
+        ],
+        [
+          "Continuous improvement",
+          "Lean Six Sigma"
+        ]
+      ],
+      "flags": [
+        "Degree level / program stated",
+        "Term and duration",
+        "French required"
+      ],
+      "job_skills": {
+        "Documentation": {
+          "tag": "REQUIRED",
+          "evidence": "-  Strong analytical skills, technical writing skills, and documentation rigor."
+        },
+        "Standard operating procedures": {
+          "tag": "TASK",
+          "evidence": "- Develop, structure, and document internal procedures (SOP – Standard Operating Procedures) for all operational processes."
+        },
+        "Flowcharts and process flows": {
+          "tag": "TASK",
+          "evidence": "-  Design of process flows and flow charts"
+        },
+        "Bottleneck analysis": {
+          "tag": "TASK",
+          "evidence": "- Identify critical points, bottlenecks, and improvement opportunities through flow analysis."
+        },
+        "Quality control": {
+          "tag": "TASK",
+          "evidence": "- Observe and participate in quality control inspections, testing procedures, and compliance checks across production lines."
+        },
+        "Corrective action": {
+          "tag": "TASK",
+          "evidence": "- Learn to identify non-conformities, document quality issues, and understand corrective action processes."
+        },
+        "Quality assurance": {
+          "tag": "TASK",
+          "evidence": "- Gain hands-on experience with quality assurance tools, equipment calibration, and measurement techniques."
+        },
+        "Calibration": {
+          "tag": "TASK",
+          "evidence": "- Gain hands-on experience with quality assurance tools, equipment calibration, and measurement techniques."
+        },
+        "KPIs": {
+          "tag": "TASK",
+          "evidence": "- Understand key quality metrics, performance indicators, and how they are tracked and reported."
+        },
+        "Collaboration": {
+          "tag": "REQUIRED",
+          "evidence": "-  Ability to collaborate with operators, supervisors, and engineers."
+        },
+        "Problem solving": {
+          "tag": "TASK",
+          "evidence": "- Participate in cross-functional meetings and contribute to problem-solving discussions."
+        },
+        "Industrial engineering": {
+          "tag": "REQUIRED",
+          "evidence": "-  Must be currently enrolled in a co-op bachelor's degree program in Industrial Engineering or a related field, such as Mechanical Engineering, Electrical Engineering, or Operations Management. (Mandatory)"
+        },
+        "Mechanical engineering": {
+          "tag": "REQUIRED",
+          "evidence": "-  Must be currently enrolled in a co-op bachelor's degree program in Industrial Engineering or a related field, such as Mechanical Engineering, Electrical Engineering, or Operations Management. (Mandatory)"
+        },
+        "Operations management": {
+          "tag": "REQUIRED",
+          "evidence": "-  Must be currently enrolled in a co-op bachelor's degree program in Industrial Engineering or a related field, such as Mechanical Engineering, Electrical Engineering, or Operations Management. (Mandatory)"
+        },
+        "Lean Six Sigma": {
+          "tag": "REQUIRED",
+          "evidence": "-  Knowledge of Lean Six Sigma tools and continuous improvement methods."
+        },
+        "Continuous improvement": {
+          "tag": "REQUIRED",
+          "evidence": "-  Knowledge of Lean Six Sigma tools and continuous improvement methods."
+        },
+        "Diagramming software": {
+          "tag": "REQUIRED",
+          "evidence": "-  Proficiency with diagram‑creation software."
+        },
+        "Technical writing": {
+          "tag": "REQUIRED",
+          "evidence": "-  Strong analytical skills, technical writing skills, and documentation rigor."
+        },
+        "Analytical skills": {
+          "tag": "REQUIRED",
+          "evidence": "-  Strong analytical skills, technical writing skills, and documentation rigor."
+        },
+        "Communication": {
+          "tag": "REQUIRED",
+          "evidence": "-  Strong communication skills."
+        },
+        "English": {
+          "tag": "REQUIRED",
+          "evidence": "-  French is required. English is also required to communicate with customers outside Quebec on a regular basis."
+        },
+        "French": {
+          "tag": "REQUIRED",
+          "evidence": "-  French is required. English is also required to communicate with customers outside Quebec on a regular basis."
+        }
+      }
+    }
+  ],
+  "note": "Heuristic keyword coverage = matched / job skills. Related skills are listed, not counted. Flags are to verify, not scored."
+}

@@ -1,0 +1,40 @@
+JOB: Intern, Material Logsitics (Winter 2027)
+COMPANY: Bombardier | LOCATION: Dorval, Quebec, Canada | POSTED: 2026-10-16
+SOURCE: LinkedIn job 4471828082, fetched with the Apify actor curious_coder/linkedin-jobs-scraper (wording verbatim, including the original typos; the three short lists under 'Your boarding pass will include' are re-flowed into one line each)
+
+Innovation is in our DNA… is it in yours?
+
+Bombardier is a global leader in aviation, creating innovative and game-changing planes. Our products and services provide world-class experiences that set new standards in passenger comfort, energy efficiency, reliability and safety. We are a global organization focused on working together with a team spirit.
+
+Your boarding pass will include…
+
+- Several conferences, including: Meet An Executive, Women Taking Flight
+- Learning more about Bombardier, including: Bombardier Products conference, Visits of the Bombardier sites, Bombardier Academy of Learning
+- Many social/networking opportunities, including: Volunteering, Networking for Success, 5 à 7, Potluck, and much more!
+
+What are your contributions to the team?
+
+- Analyse ERP’s datas quality
+- Define and maintain key performance indicators based on our ERP, and our internal process.
+- Maintain system integrity.
+- Develop and participate t action plan with the internal logistic team and the supply team.
+- Interact with multifunctional teams (Logistic, supply, methods, Industrial Engineering, Quality)
+- Support new tools implantation in our manufacturing system
+
+How to thrive in this role?
+
+- Study at BAA in logistic or operation management
+- Have complete a minimum of 1 year in your program
+- Master SAP and office suite (Excel)
+- Speak and write in french and english
+- Have great planning habilities
+- Are a god communicator
+- Are a team player
+
+Boarding Information:
+
+- Location: Completion Center
+- Duration: 8 months
+- Flexible workplace-Hybrid
+
+It is important to note that our internship opportunities are open to students only, not new graduates. All our interns may be required to occasionally travel outside of Canada for training/work purpose.

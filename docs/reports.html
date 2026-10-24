@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Keyword reports</title>
+<style>
+:root{--bg:#fff;--ink:#1a1a1a;--mut:#666;--line:#ddd;--ok:#1b7f3b;--no:#b3261e}
+@media(prefers-color-scheme:dark){:root{--bg:#161616;--ink:#eee;--mut:#aaa;--line:#333;--ok:#6fcf8a;--no:#ff8a80}}
+body{margin:0;padding:16px;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,sans-serif;max-width:900px;margin-inline:auto}
+h1{font-size:1.4rem}a{color:inherit}.note{color:var(--mut);font-size:.9rem}
+details{border:1px solid var(--line);border-radius:6px;padding:10px 12px;margin:10px 0}
+summary{cursor:pointer;font-weight:600}.m{color:var(--ok)}.x{color:var(--no)}.f{color:var(--mut)}
+</style></head><body>
+<h1>Keyword reports</h1>
+<p class="note" id="n">Loading…</p><div id="v"></div>
+<p class="note"><a href="./">Back to Path Match</a></p>
+<script>
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+fetch("reports.json",{cache:"no-store"}).then(r=>r.json()).then(d=>{
+  document.getElementById("n").textContent="CV: "+d.cv+". "+d.note;
+  document.getElementById("v").innerHTML=d.posts.map(p=>`<details><summary>${esc(p.coverage_pct)}% · ${esc(p.company)} · ${esc(p.title)}</summary>
+   <p><b class="m">Matched:</b> ${esc(p.matched.join(", ")||"none")}</p>
+   <p><b class="x">Missing:</b> ${esc(p.missing.join(", ")||"none")}</p>
+   <p><b>Related, not counted:</b> ${esc(p.related_not_counted.map(x=>x[0]+" ~ "+x[1]).join("; ")||"none")}</p>
+   <p class="f"><b>Verify:</b> ${esc(p.flags.join(", ")||"none")}</p></details>`).join("");
+}).catch(()=>{document.getElementById("n").textContent="No reports yet. Run the Keyword report workflow in the Actions tab."});
+</script></body></html>

@@ -1,0 +1,43 @@
+JOB: Quality Engineering Intern - Winter 2027
+COMPANY: ABB | LOCATION: Dorval, Quebec, Canada | POSTED: 2026-10-15
+SOURCE: LinkedIn job 4480174440, fetched with the Apify actor curious_coder/linkedin-jobs-scraper (verbatim; the equal-opportunity statement at the end is left out)
+
+At ABB, we help industries run leaner and cleaner—and every person here makes that happen. You’ll be empowered to lead, supported to grow, and proud of the impact we create together. Join us and help run what runs the world.
+
+Role And Responsibilities
+
+-  Documenting and updating internal quality procedures
+- Develop, structure, and document internal procedures (SOP – Standard Operating Procedures) for all operational processes.
+- Ensure that all procedures accurately reflect actual operations and comply with regulatory and internal requirements.
+- Work closely with production supervisors, engineers, and other stakeholders to ensure accuracy in the documented processes.
+-  Design of process flows and flow charts
+- Map all operational processes of the company (production, quality, supply chain, engineering, etc.).
+- Create clear, standardized diagrams that comply with best practices.
+- Identify critical points, bottlenecks, and improvement opportunities through flow analysis.
+- Maintain a centralized and up‑to‑date library of all flow diagrams and organizational charts.
+-  Participate in daily tasks of the quality team on the production floor
+- Observe and participate in quality control inspections, testing procedures, and compliance checks across production lines.
+- Learn to identify non-conformities, document quality issues, and understand corrective action processes.
+- Gain hands-on experience with quality assurance tools, equipment calibration, and measurement techniques.
+- Understand key quality metrics, performance indicators, and how they are tracked and reported.
+- Understand how quality decisions impact production schedules and how the Quality Supervisor collaborates with production teams to resolve issues.
+-  Engineering project involvement and cross-functional collaboration
+- Support ongoing engineering projects across disciplines, including R&D, Manufacturing Engineering, and Production.
+- Work alongside multi-disciplinary teams to gain exposure to how different functions contribute to product and process development.
+- Take responsibility for defined tasks or small sub-projects under the guidance of senior engineers.
+- Apply academic and technical knowledge to real engineering challenges in a professional environment.
+- Participate in cross-functional meetings and contribute to problem-solving discussions.
+- Develop an understanding of how engineering decisions are made across the product lifecycle, from design to production.
+
+Requirements
+
+-  Must be currently enrolled in a co-op bachelor's degree program in Industrial Engineering or a related field, such as Mechanical Engineering, Electrical Engineering, or Operations Management. (Mandatory)
+-  Knowledge of Lean Six Sigma tools and continuous improvement methods.
+-  Proficiency with diagram‑creation software.
+-  Strong analytical skills, technical writing skills, and documentation rigor.
+-  Strong communication skills.
+-  Motivated by standardization and optimization challenges.
+-  Good observation skills and analytical mindset.
+-  Ability to collaborate with operators, supervisors, and engineers.
+-  Autonomy, curiosity, rigor, and strong organizational skills.
+-  French is required. English is also required to communicate with customers outside Quebec on a regular basis.

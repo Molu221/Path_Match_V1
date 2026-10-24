@@ -1,0 +1,32 @@
+SAMANTHA ROY (sample, fictional)
+Montreal, QC | sam.roy@example.com | (514) 555-0199
+linkedin.com/in/samantha-roy-sample
+
+SUMMARY
+Master's student in industrial engineering. Interested in operations, quality and process improvement. Bilingual (English and French).
+
+EDUCATION
+M.Eng. Industrial Engineering, Concordia University, 2025 - 2027 (expected)
+Courses: Production Systems and Inventory Control, Scheduling Theory, Quality Control, Simulation
+B.Eng. Mechanical Engineering, Universite de Sherbrooke, 2020 - 2024
+
+EXPERIENCE
+Quality Intern, ABC Manufacturing, Summer 2023
+- Tracked defect rates in Excel and built a weekly dashboard for the quality team
+- Supported 5S audits and ran a root cause analysis on a recurring packaging defect
+- Drew process maps of the packing line with the supervisor
+
+PROJECTS
+Inventory simulation (course project)
+- Modelled stock levels and reorder points in Python, compared two inventory policies
+Warehouse layout study (capstone, team of 4)
+- Used Minitab for statistical analysis and presented results to the class
+
+SKILLS
+Excel, Python, SQL, Minitab, Power BI, Arena simulation, AutoCAD
+
+CERTIFICATIONS
+Lean Six Sigma Green Belt, 2024
+
+LANGUAGES
+English (fluent), French (professional)

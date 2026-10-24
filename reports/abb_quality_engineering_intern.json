@@ -1,0 +1,153 @@
+{
+  "file": "abb_quality_engineering_intern.txt",
+  "title": "Quality Engineering Intern - Winter 2027",
+  "company": "ABB",
+  "coverage_pct": 27.3,
+  "matched": [
+    "Quality control",
+    "Industrial engineering",
+    "Mechanical engineering",
+    "Lean Six Sigma",
+    "English",
+    "French"
+  ],
+  "missing": [
+    "Documentation",
+    "Standard operating procedures",
+    "Flowcharts and process flows",
+    "Bottleneck analysis",
+    "Corrective action",
+    "Quality assurance",
+    "Calibration",
+    "KPIs",
+    "Collaboration",
+    "Problem solving",
+    "Operations management",
+    "Continuous improvement",
+    "Diagramming software",
+    "Technical writing",
+    "Analytical skills",
+    "Communication"
+  ],
+  "related_not_counted": [
+    [
+      "Flowcharts and process flows",
+      "Process mapping"
+    ],
+    [
+      "Quality assurance",
+      "Quality control"
+    ],
+    [
+      "KPIs",
+      "Dashboards"
+    ],
+    [
+      "Operations management",
+      "Industrial engineering"
+    ],
+    [
+      "Continuous improvement",
+      "Process improvement"
+    ],
+    [
+      "Continuous improvement",
+      "Lean Six Sigma"
+    ]
+  ],
+  "flags": [
+    "Degree level / program stated",
+    "Term and duration",
+    "French required"
+  ],
+  "job_skills": {
+    "Documentation": {
+      "tag": "REQUIRED",
+      "evidence": "-  Strong analytical skills, technical writing skills, and documentation rigor."
+    },
+    "Standard operating procedures": {
+      "tag": "TASK",
+      "evidence": "- Develop, structure, and document internal procedures (SOP – Standard Operating Procedures) for all operational processes."
+    },
+    "Flowcharts and process flows": {
+      "tag": "TASK",
+      "evidence": "-  Design of process flows and flow charts"
+    },
+    "Bottleneck analysis": {
+      "tag": "TASK",
+      "evidence": "- Identify critical points, bottlenecks, and improvement opportunities through flow analysis."
+    },
+    "Quality control": {
+      "tag": "TASK",
+      "evidence": "- Observe and participate in quality control inspections, testing procedures, and compliance checks across production lines."
+    },
+    "Corrective action": {
+      "tag": "TASK",
+      "evidence": "- Learn to identify non-conformities, document quality issues, and understand corrective action processes."
+    },
+    "Quality assurance": {
+      "tag": "TASK",
+      "evidence": "- Gain hands-on experience with quality assurance tools, equipment calibration, and measurement techniques."
+    },
+    "Calibration": {
+      "tag": "TASK",
+      "evidence": "- Gain hands-on experience with quality assurance tools, equipment calibration, and measurement techniques."
+    },
+    "KPIs": {
+      "tag": "TASK",
+      "evidence": "- Understand key quality metrics, performance indicators, and how they are tracked and reported."
+    },
+    "Collaboration": {
+      "tag": "REQUIRED",
+      "evidence": "-  Ability to collaborate with operators, supervisors, and engineers."
+    },
+    "Problem solving": {
+      "tag": "TASK",
+      "evidence": "- Participate in cross-functional meetings and contribute to problem-solving discussions."
+    },
+    "Industrial engineering": {
+      "tag": "REQUIRED",
+      "evidence": "-  Must be currently enrolled in a co-op bachelor's degree program in Industrial Engineering or a related field, such as Mechanical Engineering, Electrical Engineering, or Operations Management. (Mandatory)"
+    },
+    "Mechanical engineering": {
+      "tag": "REQUIRED",
+      "evidence": "-  Must be currently enrolled in a co-op bachelor's degree program in Industrial Engineering or a related field, such as Mechanical Engineering, Electrical Engineering, or Operations Management. (Mandatory)"
+    },
+    "Operations management": {
+      "tag": "REQUIRED",
+      "evidence": "-  Must be currently enrolled in a co-op bachelor's degree program in Industrial Engineering or a related field, such as Mechanical Engineering, Electrical Engineering, or Operations Management. (Mandatory)"
+    },
+    "Lean Six Sigma": {
+      "tag": "REQUIRED",
+      "evidence": "-  Knowledge of Lean Six Sigma tools and continuous improvement methods."
+    },
+    "Continuous improvement": {
+      "tag": "REQUIRED",
+      "evidence": "-  Knowledge of Lean Six Sigma tools and continuous improvement methods."
+    },
+    "Diagramming software": {
+      "tag": "REQUIRED",
+      "evidence": "-  Proficiency with diagram‑creation software."
+    },
+    "Technical writing": {
+      "tag": "REQUIRED",
+      "evidence": "-  Strong analytical skills, technical writing skills, and documentation rigor."
+    },
+    "Analytical skills": {
+      "tag": "REQUIRED",
+      "evidence": "-  Strong analytical skills, technical writing skills, and documentation rigor."
+    },
+    "Communication": {
+      "tag": "REQUIRED",
+      "evidence": "-  Strong communication skills."
+    },
+    "English": {
+      "tag": "REQUIRED",
+      "evidence": "-  French is required. English is also required to communicate with customers outside Quebec on a regular basis."
+    },
+    "French": {
+      "tag": "REQUIRED",
+      "evidence": "-  French is required. English is also required to communicate with customers outside Quebec on a regular basis."
+    }
+  }
+}

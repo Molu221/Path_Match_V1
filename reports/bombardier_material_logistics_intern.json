@@ -1,0 +1,92 @@
+{
+  "file": "bombardier_material_logistics_intern.txt",
+  "title": "Intern, Material Logsitics (Winter 2027)",
+  "company": "Bombardier",
+  "coverage_pct": 36.4,
+  "matched": [
+    "Industrial engineering",
+    "Excel",
+    "English",
+    "French"
+  ],
+  "missing": [
+    "ERP",
+    "KPIs",
+    "Action planning",
+    "Logistics",
+    "Operations management",
+    "SAP",
+    "Planning"
+  ],
+  "related_not_counted": [
+    [
+      "KPIs",
+      "Dashboards"
+    ],
+    [
+      "Logistics",
+      "Inventory control"
+    ],
+    [
+      "Operations management",
+      "Industrial engineering"
+    ],
+    [
+      "Planning",
+      "Scheduling"
+    ]
+  ],
+  "flags": [
+    "Hybrid / on-site",
+    "Students only, not new graduates",
+    "Degree level / program stated",
+    "Term and duration",
+    "Travel outside Canada"
+  ],
+  "job_skills": {
+    "ERP": {
+      "tag": "TASK",
+      "evidence": "- Analyse ERP’s datas quality"
+    },
+    "KPIs": {
+      "tag": "TASK",
+      "evidence": "- Define and maintain key performance indicators based on our ERP, and our internal process."
+    },
+    "Action planning": {
+      "tag": "TASK",
+      "evidence": "- Develop and participate t action plan with the internal logistic team and the supply team."
+    },
+    "Logistics": {
+      "tag": "REQUIRED",
+      "evidence": "- Study at BAA in logistic or operation management"
+    },
+    "Industrial engineering": {
+      "tag": "TASK",
+      "evidence": "- Interact with multifunctional teams (Logistic, supply, methods, Industrial Engineering, Quality)"
+    },
+    "Operations management": {
+      "tag": "REQUIRED",
+      "evidence": "- Study at BAA in logistic or operation management"
+    },
+    "Excel": {
+      "tag": "REQUIRED",
+      "evidence": "- Master SAP and office suite (Excel)"
+    },
+    "SAP": {
+      "tag": "REQUIRED",
+      "evidence": "- Master SAP and office suite (Excel)"
+    },
+    "English": {
+      "tag": "REQUIRED",
+      "evidence": "- Speak and write in french and english"
+    },
+    "French": {
+      "tag": "REQUIRED",
+      "evidence": "- Speak and write in french and english"
+    },
+    "Planning": {
+      "tag": "REQUIRED",
+      "evidence": "- Have great planning habilities"
+    }
+  }
+}
