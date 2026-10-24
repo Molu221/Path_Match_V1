@@ -98,6 +98,7 @@ a{color:var(--accent)}
 .maptab{width:100%;border-collapse:collapse;font-size:12.5px;min-width:700px}
 .maptab th,.maptab td{text-align:left;vertical-align:top;border-top:1px solid var(--line);padding:6px 8px;overflow-wrap:break-word}
 .maptab th:nth-child(1){width:16%;min-width:110px}.maptab th:nth-child(2){width:8%;min-width:70px}.maptab th:nth-child(3){width:30%}.maptab th:nth-child(4){width:32%}.maptab th:nth-child(5){width:14%;min-width:96px}
+.srctab{min-width:640px}.srctab th:nth-child(n),.srctab th{width:auto}.srctab th:nth-child(1){width:15%;min-width:100px}.srctab th:nth-child(2){width:34%}.srctab th:nth-child(3){width:17%}.srctab th:nth-child(4){width:9%;min-width:60px}.srctab th:nth-child(5){width:25%}
 .maptab th{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--mute);border-top:0}
 .maptab td.sn{font-weight:600}
 .maptab .q{color:var(--mute);font-family:var(--f-mono);font-size:11.5px}
@@ -176,7 +177,7 @@ details.old[open]>summary::before{content:"▾ "}
         <div id="liveLog" class="note" aria-live="polite"></div>
       </div>
       <div class="panel note">
-        <strong>Heuristic, not an ATS.</strong> Scores differ by 5 points or less are ties. Postings from employer job boards are scored from their full text. Adzuna postings come with a short snippet only. Snapshot rows are scored from titles only. Open the link and read the posting before you apply.
+        <strong>Heuristic, not an ATS.</strong> Scores differ by 5 points or less are ties. Postings with their full text (employer boards, Job Bank, Workday, The Muse) are scored from all of it. Search services such as Adzuna give a short snippet only, and some Job Bank posts only link to a partner site. Snapshot rows are scored from titles only. Open the link and read the posting before you apply.
       </div>
     </div>
 
@@ -434,6 +435,51 @@ const dayDiff=d=>Math.round((Date.parse(TODAY)-Date.parse(d))/864e5);
 const age=j=>j.ageH!=null?j.ageH:dayDiff(j.date)*24;
 
 /* ---------- skills of each posting and their mapping to the CV: the Python skill list + OaSIS, see matcher.js ---------- */
+let SRC={},SRC_TIME="not yet";
+const SRC_INFO={
+  "Job Bank":["Job Bank Canada (Government of Canada), searched in English and French","Full text; some partner posts only link out"],
+  "The Muse":["The Muse free public API: internships and entry level roles in Montreal","Full text"],
+  "Workday":["Career sites of employers on Workday (CAE, RTX, GE Vernova)","Full text"],
+  "Greenhouse":["Open job boards of employers on Greenhouse","Full text"],
+  "Lever":["Open job boards of employers on Lever","Full text"],
+  "Ashby":["Open job boards of employers on Ashby","Full text"],
+  "SmartRecruiters":["Open job boards of employers on SmartRecruiters","Full text"],
+  "Workable":["Open job boards of employers on Workable","Full text"],
+  "Recruitee":["Open job boards of employers on Recruitee","Full text"],
+  "Breezy":["Open job boards of employers on Breezy","Full text"],
+  "BambooHR":["Open job boards of employers on BambooHR","Full text"],
+  "Personio":["Open job boards of employers on Personio","Full text"],
+  "Teamtailor":["Open job boards of employers on Teamtailor","Full text"],
+  "Career pages":["Employer pages that publish schema.org JobPosting data (the data Google for Jobs reads)","Full text"],
+  "Adzuna":["Adzuna search, Montreal, English and French (free key)","Short snippet"],
+  "Jooble":["Jooble search (free key)","Short snippet"],
+  "Careerjet":["Careerjet search (free key)","Short snippet"]
+};
+const NOT_COVERED=[
+  ["LinkedIn","its robots.txt and terms forbid automated reading, so it is not collected. Paste a LinkedIn description into any card and it is read the same way."],
+  ["Indeed, Glassdoor, Monster, ZipRecruiter","they refuse automated requests (HTTP 403) and their terms do not allow it. Not bypassed."],
+  ["Talent.com","its pages are marked noindex and nofollow and it has no public feed."],
+  ["Concordia CareerLink and other school boards","behind a student login."],
+  ["Taleo, SuccessFactors, iCIMS, Oracle Recruiting","each employer needs its own set-up; only the Workday sites listed above are added so far."],
+  ["Remote-only boards (Remotive, Arbeitnow and similar)","not Montreal on-site roles, so they would only add noise."],
+  ["Jooble and Careerjet","built in, but they need a free key. They stay off until the key is saved as a repository secret."]
+];
+function sourceTable(){
+  const names=[...new Set([...Object.keys(SRC_INFO),...Object.keys(SRC)])];
+  const row=n=>{
+    const v=SRC[n],info=SRC_INFO[n]||[n,""];
+    let st;
+    if(!v)st="not in the last run";
+    else if(v.skipped)st="off: "+v.skipped;
+    else if(v.error&&!v.jobs)st="problem: "+v.error;
+    else{
+      st=(v.boards!=null?v.answered+" of "+v.boards+" boards answered":v.requestsOk!=null?v.requestsOk+" requests ok"+(v.requestsFailed?", "+v.requestsFailed+" failed":""):"ok");
+      if(v.error)st+=" (first problem: "+v.error+")";
+    }
+    return `<tr><td><b>${esc(n)}</b></td><td>${esc(info[0])}</td><td>${esc(info[1])}</td><td>${v&&!v.skipped?(v.jobs||0):"–"}</td><td>${esc(st)}</td></tr>`;
+  };
+  return `<div style="overflow-x:auto"><table class="maptab srctab"><thead><tr><th>Source</th><th>What it gives</th><th>Text</th><th>Postings</th><th>Last run</th></tr></thead><tbody>${names.map(row).join("")}</tbody></table></div>`;
+}
 let DICT=null;
 function cvFound(){if(!DICT||!CV)return null;if(!CV.py)CV.py=DICT.findCv(CV.raw);return CV.py;}
 const TAGW={Title:0,Required:1,Task:2,Preferred:3,"":4};
@@ -611,12 +657,11 @@ function render(){
       <li><b>Match</b> = the same skill is written on your CV. <b>Close</b> = a hand-written pair (Strong) or two skills that OaSIS rates high in many of the same occupations (Likely). Close skills are listed with the reason and count half in the second figure; they are never shown as matches. Flags are never scored.</li>
       <li>The 0–100 score is unchanged and still uses its own keyword list; the older keyword detail sits in a collapsed section at the bottom of each card.</li>
       <li>The same dictionary and rules run in <code>python/keyword_extractor.py</code> and in <a href="reports.html">the keyword reports</a>.</li></ul></div>
-      <div class="panel method" style="margin-top:12px"><h2>Where the postings come from</h2><ul>
-      <li>Adzuna (a free job search service) for broad coverage of Montreal and the surrounding area, in English and French. Each posting carries a short snippet of its text.</li>
-      <li>The open job boards of employers that publish them through Greenhouse, Lever, Ashby and SmartRecruiters. These carry the full posting text. The line under "Live postings" shows how many of the listed employers answered.</li>
-      <li>Employers that use Workday, Taleo or SuccessFactors have no open feed, so they appear only if Adzuna lists them.</li>
-      <li>LinkedIn and Indeed are not used. Postings are filtered to Montreal-area locations and to titles related to engineering, operations, quality, supply chain, data and student roles.</li>
-      <li>A collection runs a few times a day, not instantly. A posting can close before the next run, so check that it is still open.</li></ul></div>
+      <div class="panel method" style="margin-top:12px"><h2>Where the postings come from</h2>
+      <p class="note">Every source below is free to read. Postings are kept only when the location is in the Montreal area and the title or opening text points to engineering, operations, quality, supply chain, data or a student role. This is the report of the last collection (${SRC_TIME}).</p>
+      ${sourceTable()}
+      <h3 style="margin-top:14px">Not covered, and why</h3><ul>${NOT_COVERED.map(x=>`<li><b>${x[0]}</b>: ${x[1]}</li>`).join("")}</ul>
+      <ul><li>A collection runs once a day, not instantly. A posting can close before the next run, so check that it is still open.</li></ul></div>
       ${CV?`<div class="panel method" style="margin-top:12px"><h2>Skills that keep appearing in your top postings but not on your CV</h2><p class="note">${g.length?g.map(x=>esc(x[0])+" ("+x[1]+")").join(", "):"None in the top 25 recent postings."}</p></div>`:""}`;
   }
 }
@@ -692,6 +737,7 @@ $("theme").onclick=()=>{const r=document.documentElement,d=r.dataset.theme==="da
 render();
 
 /* ---------- live postings from the server ---------- */
+
 let SERVER_AT=null;
 async function loadServer(){
   const note=$("liveNote"),log=$("liveLog");
@@ -702,6 +748,7 @@ async function loadServer(){
     if(!d.jobs||!d.jobs.length){note.textContent="No postings have been collected yet. Showing the built-in snapshot from "+TODAY+".";return;}
     if(d.updatedAt===SERVER_AT)return;
     SERVER_AT=d.updatedAt;
+    SRC=d.sources||{};SRC_TIME=new Date(d.updatedAt).toLocaleString([], {month:"short",day:"numeric",hour:"2-digit",minute:"2-digit"});
     const at=Date.parse(d.updatedAt),m=new Map();
     for(const x of d.jobs){
       const k=norm(x.company)+"|"+norm(x.title);
@@ -712,8 +759,8 @@ async function loadServer(){
     JOBS.length=0;
     for(const j of m.values()){j.cat=(/intern|stage|stagiaire|co-?op|etudiant|student/.test(norm(j.title))||j.type==="Part-time"||j.type==="Internship")?"main":"near";applyPasted(j);JOBS.push(j);}
     const t=new Date(d.updatedAt).toLocaleString([], {month:"short",day:"numeric",hour:"2-digit",minute:"2-digit"});
-    note.textContent=(d.mock?"Demo data until the first scheduled collection runs. ":"")+JOBS.length+" postings, collected "+t+". The collector re-runs a few times a day and this page picks up each new collection on its own.";
-    log.textContent=Object.entries(d.sources||{}).map(([k,v])=>v.skipped?k+": not set up":v.boards!=null?k+": "+v.answered+" of "+v.boards+" boards answered, "+v.jobs+" postings":k+": "+v.jobs+" postings").join(" · ");
+    note.textContent=(d.mock?"Demo data until the first scheduled collection runs. ":"")+JOBS.length+" postings, collected "+t+". The collector re-runs once a day and this page picks up each new collection on its own.";
+    log.textContent=Object.entries(SRC).filter(([k,v])=>!v.skipped).map(([k,v])=>k+": "+(v.jobs||0)).join(" · ")+" postings by source. The Method tab shows what each source did on the last run.";
     if(CV)run();else render();
   }catch(e){
     note.textContent="Could not reach the server. Showing the built-in snapshot from "+TODAY+".";

@@ -447,6 +447,10 @@ async function pool(items, n, fn) {
   return results;
 }
 
+/* the employer boards that publish an open feed: one request (or a few) per employer slug */
+export const ATS = { greenhouse, lever, ashby, smartrecruiters, workable, recruitee, breezy, bamboohr, personio, teamtailor };
+export const LABEL = { greenhouse: "Greenhouse", lever: "Lever", ashby: "Ashby", smartrecruiters: "SmartRecruiters", workable: "Workable", recruitee: "Recruitee", breezy: "Breezy", bamboohr: "BambooHR", personio: "Personio", teamtailor: "Teamtailor" };
+
 /* Every source reports the same few numbers so the page (and you) can see which ones worked:
    jobs (kept for Montreal and the target roles), ok / failed requests, and the first error seen. */
 const note = (s, e) => { s.failed = (s.failed || 0) + 1; if (!s.error) s.error = String(e.message || e).slice(0, 160); };
@@ -459,8 +463,7 @@ export async function main({ nowMs = Date.now(), log = console.log, write = true
   const notFound = [];
 
   /* 1. employer boards that publish an open feed: one request per employer */
-  const ats = { greenhouse, lever, ashby, smartrecruiters, workable, recruitee, breezy, bamboohr, personio, teamtailor };
-  const label = { greenhouse: "Greenhouse", lever: "Lever", ashby: "Ashby", smartrecruiters: "SmartRecruiters", workable: "Workable", recruitee: "Recruitee", breezy: "Breezy", bamboohr: "BambooHR", personio: "Personio", teamtailor: "Teamtailor" };
+  const ats = ATS, label = LABEL;
   const tasks = [];
   for (const k of Object.keys(ats)) {
     const slugs = [...new Set(companies[k] || [])];
