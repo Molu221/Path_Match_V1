@@ -4,154 +4,179 @@
 "name": "jb q ingenieur",
 "url": "https://www.jobbank.gc.ca/jobsearch/jobsearch?searchstring=ingenieur&locationstring=Montr%C3%A9al%2C+QC&sort=D&fage=7",
 "count": "<article id=\"article-",
-"headChars": 0
+"headChars": 0,
+"delay": 5000
 },
 {
 "name": "jb q engineer",
 "url": "https://www.jobbank.gc.ca/jobsearch/jobsearch?searchstring=engineer&locationstring=Montr%C3%A9al%2C+QC&sort=D&fage=7",
 "count": "<article id=\"article-",
-"headChars": 0
+"headChars": 0,
+"delay": 5000
 },
 {
 "name": "jb q stagiaire",
 "url": "https://www.jobbank.gc.ca/jobsearch/jobsearch?searchstring=stagiaire&locationstring=Montr%C3%A9al%2C+QC&sort=D&fage=7",
 "count": "<article id=\"article-",
-"headChars": 0
+"headChars": 0,
+"delay": 5000
 },
 {
 "name": "jb q intern",
 "url": "https://www.jobbank.gc.ca/jobsearch/jobsearch?searchstring=intern&locationstring=Montr%C3%A9al%2C+QC&sort=D&fage=7",
 "count": "<article id=\"article-",
-"headChars": 0
+"headChars": 0,
+"delay": 5000
 },
 {
 "name": "jb q qualit\u00e9",
 "url": "https://www.jobbank.gc.ca/jobsearch/jobsearch?searchstring=qualit%C3%A9&locationstring=Montr%C3%A9al%2C+QC&sort=D&fage=7",
 "count": "<article id=\"article-",
-"headChars": 0
+"headChars": 0,
+"delay": 5000
 },
 {
 "name": "jb q quality",
 "url": "https://www.jobbank.gc.ca/jobsearch/jobsearch?searchstring=quality&locationstring=Montr%C3%A9al%2C+QC&sort=D&fage=7",
 "count": "<article id=\"article-",
-"headChars": 0
+"headChars": 0,
+"delay": 5000
 },
 {
 "name": "jb q logistique",
 "url": "https://www.jobbank.gc.ca/jobsearch/jobsearch?searchstring=logistique&locationstring=Montr%C3%A9al%2C+QC&sort=D&fage=7",
 "count": "<article id=\"article-",
-"headChars": 0
+"headChars": 0,
+"delay": 5000
 },
 {
 "name": "jb q supply chain",
 "url": "https://www.jobbank.gc.ca/jobsearch/jobsearch?searchstring=supply%20chain&locationstring=Montr%C3%A9al%2C+QC&sort=D&fage=7",
 "count": "<article id=\"article-",
-"headChars": 0
+"headChars": 0,
+"delay": 5000
 },
 {
 "name": "jb q cha\u00eene d'approvisionnement",
 "url": "https://www.jobbank.gc.ca/jobsearch/jobsearch?searchstring=cha%C3%AEne%20d%27approvisionnement&locationstring=Montr%C3%A9al%2C+QC&sort=D&fage=7",
 "count": "<article id=\"article-",
-"headChars": 0
+"headChars": 0,
+"delay": 5000
 },
 {
 "name": "jb q planificateur",
 "url": "https://www.jobbank.gc.ca/jobsearch/jobsearch?searchstring=planificateur&locationstring=Montr%C3%A9al%2C+QC&sort=D&fage=7",
 "count": "<article id=\"article-",
-"headChars": 0
+"headChars": 0,
+"delay": 5000
 },
 {
 "name": "jb q analyste",
 "url": "https://www.jobbank.gc.ca/jobsearch/jobsearch?searchstring=analyste&locationstring=Montr%C3%A9al%2C+QC&sort=D&fage=7",
 "count": "<article id=\"article-",
-"headChars": 0
+"headChars": 0,
+"delay": 5000
 },
 {
 "name": "jb q technicien",
 "url": "https://www.jobbank.gc.ca/jobsearch/jobsearch?searchstring=technicien&locationstring=Montr%C3%A9al%2C+QC&sort=D&fage=7",
 "count": "<article id=\"article-",
-"headChars": 0
+"headChars": 0,
+"delay": 5000
 },
 {
 "name": "jb q operations",
 "url": "https://www.jobbank.gc.ca/jobsearch/jobsearch?searchstring=operations&locationstring=Montr%C3%A9al%2C+QC&sort=D&fage=7",
 "count": "<article id=\"article-",
-"headChars": 0
+"headChars": 0,
+"delay": 5000
 },
 {
 "name": "jb q am\u00e9lioration continue",
 "url": "https://www.jobbank.gc.ca/jobsearch/jobsearch?searchstring=am%C3%A9lioration%20continue&locationstring=Montr%C3%A9al%2C+QC&sort=D&fage=7",
 "count": "<article id=\"article-",
-"headChars": 0
+"headChars": 0,
+"delay": 5000
 },
 {
 "name": "jb q industriel",
 "url": "https://www.jobbank.gc.ca/jobsearch/jobsearch?searchstring=industriel&locationstring=Montr%C3%A9al%2C+QC&sort=D&fage=7",
 "count": "<article id=\"article-",
-"headChars": 0
+"headChars": 0,
+"delay": 5000
 },
 {
 "name": "jb q m\u00e9canique",
 "url": "https://www.jobbank.gc.ca/jobsearch/jobsearch?searchstring=m%C3%A9canique&locationstring=Montr%C3%A9al%2C+QC&sort=D&fage=7",
 "count": "<article id=\"article-",
-"headChars": 0
+"headChars": 0,
+"delay": 5000
 },
 {
 "name": "jb q coop",
 "url": "https://www.jobbank.gc.ca/jobsearch/jobsearch?searchstring=coop&locationstring=Montr%C3%A9al%2C+QC&sort=D&fage=7",
 "count": "<article id=\"article-",
-"headChars": 0
+"headChars": 0,
+"delay": 5000
 },
 {
 "name": "jb q \u00e9tudiant",
 "url": "https://www.jobbank.gc.ca/jobsearch/jobsearch?searchstring=%C3%A9tudiant&locationstring=Montr%C3%A9al%2C+QC&sort=D&fage=7",
 "count": "<article id=\"article-",
-"headChars": 0
+"headChars": 0,
+"delay": 5000
 },
 {
 "name": "jb q student",
 "url": "https://www.jobbank.gc.ca/jobsearch/jobsearch?searchstring=student&locationstring=Montr%C3%A9al%2C+QC&sort=D&fage=7",
 "count": "<article id=\"article-",
-"headChars": 0
+"headChars": 0,
+"delay": 5000
 },
 {
 "name": "jb q part-time",
 "url": "https://www.jobbank.gc.ca/jobsearch/jobsearch?searchstring=part-time&locationstring=Montr%C3%A9al%2C+QC&sort=D&fage=7",
 "count": "<article id=\"article-",
-"headChars": 0
+"headChars": 0,
+"delay": 5000
 },
 {
 "name": "jb page2 engineer",
 "url": "https://www.jobbank.gc.ca/jobsearch/jobsearch?searchstring=engineer&locationstring=Montr%C3%A9al%2C+QC&sort=D&fage=30&page=2",
 "count": "<article id=\"article-",
-"headChars": 0
+"headChars": 0,
+"delay": 5000
 },
 {
 "name": "jb page1 engineer 30d",
 "url": "https://www.jobbank.gc.ca/jobsearch/jobsearch?searchstring=engineer&locationstring=Montr%C3%A9al%2C+QC&sort=D&fage=30&page=1",
 "count": "<article id=\"article-",
 "save": "jobbank_engineer.html",
-"headChars": 0
+"headChars": 0,
+"delay": 5000
 },
 {
 "name": "jb atom engineer qc",
 "url": "https://www.jobbank.gc.ca/jobsearch/feed/jobSearchRSSfeed?searchstring=engineer&locationstring=Montr%C3%A9al%2C+QC&fage=30&sort=D&rows=100",
 "count": "<entry>",
 "save": "jobbank_atom_engineer.xml",
-"headChars": 300
+"headChars": 300,
+"delay": 5000
 },
 {
 "name": "jb atom page2",
 "url": "https://www.jobbank.gc.ca/jobsearch/feed/jobSearchRSSfeed?term=intern&fprov=QC&fage=30&sort=D&rows=100&page=2",
 "count": "<entry>",
-"headChars": 300
+"headChars": 300,
+"delay": 5000
 },
 {
 "name": "jb atom qc 100",
 "url": "https://www.jobbank.gc.ca/jobsearch/feed/jobSearchRSSfeed?fprov=QC&fage=7&sort=D&rows=100",
 "count": "<entry>",
 "save": "jobbank_atom_qc.xml",
-"headChars": 200
+"headChars": 200,
+"delay": 5000
 }
 ]
 }
