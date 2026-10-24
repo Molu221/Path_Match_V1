@@ -1,60 +1,142 @@
-downloading 22 files
-  try 1 failed for main_duties_en.csv: The read operation timed out  try 1 failed for example_titles_fr.csv: The read operation timed out
-  try 1 failed for example_titles_en.csv: The read operation timed out
-
-  try 1 failed for main_duties_fr.csv: The read operation timed out
-  try 1 failed for lead_statement_en.csv: The read operation timed out
-  try 1 failed for lead_statement_fr.csv: The read operation timed out
-  example_titles_en: 914150 bytes in 15.9s
-  lead_statement_en: 179340 bytes in 16.1s
-  try 2 failed for main_duties_fr.csv: The read operation timed out
-  try 2 failed for main_duties_en.csv: The read operation timed out
-  try 2 failed for lead_statement_fr.csv: The read operation timed out  try 2 failed for example_titles_fr.csv: The read operation timed out
-
-  try 1 failed for employment_requirements_en.csv: The read operation timed out
-  try 1 failed for employment_requirements_fr.csv: The read operation timed out
-  try 3 failed for main_duties_en.csv: HTTP Error 502: Bad Gateway
-  try 3 failed for lead_statement_fr.csv: HTTP Error 502: Bad Gateway
-  try 3 failed for example_titles_fr.csv: The read operation timed out  try 3 failed for main_duties_fr.csv: The read operation timed out
-
-  main_duties_en: FAILED Could not download https://open.canada.ca/data/dataset/eeb3e442-9f19-4d12-8b38-c488fe4f6e5e/resource/7453d044-7b41-44cc-b9c6-1112e9e886b5/download/main-duties_oasis-2022_v1.0.csv: HTTP Error 502: Bad Gateway
-  lead_statement_fr: FAILED Could not download https://open.canada.ca/data/dataset/eeb3e442-9f19-4d12-8b38-c488fe4f6e5e/resource/c41c84ee-0df4-43ec-8690-bbd2424eed83/download/enonce-principal_sipec_2022_v1.0.csv: HTTP Error 502: Bad Gateway
-  example_titles_fr: FAILED Could not download https://open.canada.ca/data/dataset/eeb3e442-9f19-4d12-8b38-c488fe4f6e5e/resource/77e0f199-93c9-466c-9643-c52e7f62820e/download/exemples-dappellation-demploi_sipec_2022_v1.0.csv: The read operation timed out
-  main_duties_fr: FAILED Could not download https://open.canada.ca/data/dataset/eeb3e442-9f19-4d12-8b38-c488fe4f6e5e/resource/7f0337ed-aaab-46a9-a988-1c50286770c7/download/fonctions-principales_sipec_2022_v1.0.csv: The read operation timed out
-  employment_requirements_en: 350463 bytes in 27.9s
-  try 2 failed for employment_requirements_fr.csv: The read operation timed out
-  try 1 failed for additional_information_en.csv: The read operation timed out
-  try 1 failed for additional_information_fr.csv: The read operation timed out
-  try 1 failed for workplaces_employers_en.csv: The read operation timed out
-  try 1 failed for workplaces_employers_fr.csv: The read operation timed out
-  try 1 failed for skills_en.csv: The read operation timed out
-  try 3 failed for employment_requirements_fr.csv: The read operation timed out
-  employment_requirements_fr: FAILED Could not download https://open.canada.ca/data/dataset/eeb3e442-9f19-4d12-8b38-c488fe4f6e5e/resource/1852cf7f-5c40-49ab-b2dc-5d1180545166/download/exigences-demploi_sipec_2022_v1.0.csv: The read operation timed out
-  try 2 failed for additional_information_en.csv: The read operation timed out
-  try 2 failed for additional_information_fr.csv: The read operation timed out
-  try 2 failed for workplaces_employers_en.csv: The read operation timed out
-  try 2 failed for workplaces_employers_fr.csv: The read operation timed out
-  try 2 failed for skills_en.csv: The read operation timed out
-  try 3 failed for workplaces_employers_fr.csv: HTTP Error 502: Bad Gateway
-  try 1 failed for skills_fr.csv: The read operation timed out
-  workplaces_employers_fr: FAILED Could not download https://open.canada.ca/data/dataset/eeb3e442-9f19-4d12-8b38-c488fe4f6e5e/resource/84ee84bb-90e8-41be-b9f5-b1807b895404/download/lieux-de-travail-employeurs_sipec_2022_v1.0.csv: HTTP Error 502: Bad Gateway
-  try 3 failed for additional_information_en.csv: The read operation timed out
-  try 3 failed for additional_information_fr.csv: The read operation timed out
-  try 3 failed for workplaces_employers_en.csv: The read operation timed out
-  additional_information_en: FAILED Could not download https://open.canada.ca/data/dataset/eeb3e442-9f19-4d12-8b38-c488fe4f6e5e/resource/0b56ac41-244f-40ca-8c52-a5e376d3e72a/download/additional-information_oasis_2022_v1.0.csv: The read operation timed out
-  abilities_fr: 146272 bytes in 0.4s
-  additional_information_fr: FAILED Could not download https://open.canada.ca/data/dataset/eeb3e442-9f19-4d12-8b38-c488fe4f6e5e/resource/c8813ce9-49d2-45fb-b903-bf89f29816d9/download/renseignements-supplementaires_sipec_2022_v1.0.csv: The read operation timed out
-  try 3 failed for skills_en.csv: The read operation timed out
-  workplaces_employers_en: FAILED Could not download https://open.canada.ca/data/dataset/eeb3e442-9f19-4d12-8b38-c488fe4f6e5e/resource/c3e16f83-5d09-43be-b1b4-49526cc25ed8/download/workplaces-employers_oasis_2022_v1.0.csv: The read operation timed out
-  work_activities_en: 109626 bytes in 0.4s
-  work_activities_fr: 129564 bytes in 0.4s
-  abilities_en: 126634 bytes in 25.0s
-  work_context_fr: 177136 bytes in 0.4s
-  skills_en: FAILED Could not download https://open.canada.ca/data/dataset/eeb3e442-9f19-4d12-8b38-c488fe4f6e5e/resource/34eecbcc-c3aa-4568-8715-c946de99df33/download/skills_oasis_2022_v1.0.csv: The read operation timed out
-  try 2 failed for skills_fr.csv: The read operation timed out
-  personal_attributes_en: 60875 bytes in 19.8s
-  personal_attributes_fr: 80539 bytes in 19.2s
-  work_context_en: 156980 bytes in 22.0s
-  try 3 failed for skills_fr.csv: The read operation timed out
-  skills_fr: FAILED Could not download https://open.canada.ca/data/dataset/eeb3e442-9f19-4d12-8b38-c488fe4f6e5e/resource/9376bda5-2d80-4b0b-a34d-cf5d64d9b9a8/download/competences_sipec_2022_v1.0.csv: The read operation timed out
-11 downloads failed: additional_information_en, additional_information_fr, employment_requirements_fr, example_titles_fr, lead_statement_fr, main_duties_en, main_duties_fr, skills_en, skills_fr, workplaces_employers_en, workplaces_employers_fr
+OaSIS 2025: Occupational and Skills Information System (OaSIS) 2025 v1.0, ESDC
+portal lists 42 resources for dataset 10ce43bd-fb58-4969-806b-4bffebc87bec
+downloading 26 files
+  lead_statement_en: 179340 bytes in 38.5s
+  try 1 failed for lead_statement_fr.csv (https://open.canada.ca/data/dataset/10ce43bd-fb58-4969-806b-4bffebc87bec/resource/6909fd40-e543-486f-a45d-b39061153de0/download/enonce-principal_sipec_2025_v1.0.csv): HTTP Error 504: Gateway Time-out
+  labels_en: 37024 bytes in 56.7s
+  labels_fr: 56915 bytes in 1.7s
+  try 2 failed for lead_statement_fr.csv (https://open.canada.ca/data/dataset/10ce43bd-fb58-4969-806b-4bffebc87bec/resource/6909fd40-e543-486f-a45d-b39061153de0/download/enonce-principal_sipec_2025_v1.0.csv): HTTP Error 502: Bad Gateway
+  try 1 failed for example_titles_en.csv (https://open.canada.ca/data/dataset/10ce43bd-fb58-4969-806b-4bffebc87bec/resource/3484364c-75a4-4e22-ae9a-d12ea72569d4/download/example-titles_oasis_2025_v1.0.csv): HTTP Error 504: Gateway Time-out
+  try 3 failed for lead_statement_fr.csv (https://open.canada.ca/data/dataset/10ce43bd-fb58-4969-806b-4bffebc87bec/resource/6909fd40-e543-486f-a45d-b39061153de0/download/enonce-principal_sipec_2025_v1.0.csv): The read operation timed out
+  example_titles_en: 914150 bytes in 47.8s
+  try 4 failed for lead_statement_fr.csv (https://open.canada.ca/data/dataset/10ce43bd-fb58-4969-806b-4bffebc87bec/resource/6909fd40-e543-486f-a45d-b39061153de0/download/enonce-principal_sipec_2025_v1.0.csv): HTTP Error 504: Gateway Time-out
+  try 1 failed for example_titles_fr.csv (https://open.canada.ca/data/dataset/10ce43bd-fb58-4969-806b-4bffebc87bec/resource/c66e5c70-6b73-4de2-88eb-b1ec4e887452/download/exemples-dappellation-demploi_sipec_2025_v1.0.csv): The read operation timed out
+  try 2 failed for example_titles_fr.csv (https://open.canada.ca/data/dataset/10ce43bd-fb58-4969-806b-4bffebc87bec/resource/c66e5c70-6b73-4de2-88eb-b1ec4e887452/download/exemples-dappellation-demploi_sipec_2025_v1.0.csv): The read operation timed out
+  try 5 failed for lead_statement_fr.csv (https://open.canada.ca/data/dataset/10ce43bd-fb58-4969-806b-4bffebc87bec/resource/6909fd40-e543-486f-a45d-b39061153de0/download/enonce-principal_sipec_2025_v1.0.csv): The read operation timed out
+  lead_statement_fr: FAILED Could not download https://open.canada.ca/data/dataset/10ce43bd-fb58-4969-806b-4bffebc87bec/resource/6909fd40-e543-486f-a45d-b39061153de0/download/enonce-principal_sipec_2025_v1.0.csv: The read operation timed out
+  example_titles_fr: 1423417 bytes in 51.7s
+  try 1 failed for main_duties_en.csv (https://open.canada.ca/data/dataset/10ce43bd-fb58-4969-806b-4bffebc87bec/resource/92e4107e-a804-4126-85ec-1fca23b82d81/download/main-duties_oasis-2025_v1.1.csv): HTTP Error 504: Gateway Time-out
+  try 1 failed for main_duties_fr.csv (https://open.canada.ca/data/dataset/10ce43bd-fb58-4969-806b-4bffebc87bec/resource/46507c4c-9c75-46c4-8142-083564f568e6/download/fonctions-principales_sipec_2025_v1.1.csv): The read operation timed out
+  main_duties_en: 539628 bytes in 35.0s
+  employment_requirements_en: 350463 bytes in 0.3s
+  try 1 failed for employment_requirements_fr.csv (https://open.canada.ca/data/dataset/10ce43bd-fb58-4969-806b-4bffebc87bec/resource/5c8299fa-d972-4458-bc04-6fb6cf45fe1a/download/exigences-demploi_sipec_2025_v1.0.csv): HTTP Error 502: Bad Gateway
+  employment_requirements_fr: 419979 bytes in 0.4s
+  additional_information_en: 139275 bytes in 0.5s
+  main_duties_fr: 711481 bytes in 26.4s
+  additional_information_fr: 165264 bytes in 20.7s
+  workplaces_employers_en: 232328 bytes in 0.3s
+  workplaces_employers_fr: 330283 bytes in 0.3s
+  skills_en: 97132 bytes in 0.3s
+  abilities_en: 131602 bytes in 0.3s
+  skills_fr: 117014 bytes in 0.3s
+  abilities_fr: 151643 bytes in 0.3s
+  knowledge_fr: 137025 bytes in 0.3s
+  personal_attributes_en: 60652 bytes in 0.3s
+  personal_attributes_fr: 80437 bytes in 0.3s
+  work_activities_en: 108488 bytes in 0.3s
+  knowledge_en: 117119 bytes in 1.8s
+  work_activities_fr: 128536 bytes in 0.4s
+  work_context_en: 158393 bytes in 0.3s
+  work_context_fr: 178717 bytes in 0.3s
+lead_statement_en:
+    | OaSIS profile code,Lead statement
+    | 00010.00,"Legislators participate in the activities of a federal, provincial, territorial or local government legislative body or executive council, band council or school board as elected or appointed members."
+    | 00011.00,"Senior government managers and officials plan, organize, direct, control and evaluate, through middle managers, the major activities of municipal or regional governments or of provincial, territorial or federal departments, boards
+labels_en:
+    | OaSIS profile code;Label
+    | 00010.00;Legislators
+    | 00011.00;Senior government managers and officials
+labels_fr:
+    | Code de profil professionnel SIPeC,Étiquette
+    | 00010.00,Membres des corps législatifs
+    | 00011.00,Cadres supérieurs/cadres supérieures - administration publique
+example_titles_en:
+    | OaSIS profile code,Concordance number,Job title type,Job title text
+    | 00010.00,1,Example,Member of Legislative Assembly (MLA)
+    | 00010.00,1,Example,Member of the Provincial Parliament (MPP)
+example_titles_fr:
+    | Code de profil SIPeC,Numéro de concordance,Type d'appellation d'emploi,Appellation d'emploi
+    | 00010.00,1,Exemple,député provincial/députée provinciale
+    | 00010.00,1,Exemple,député/députée à l'Assemblée législative
+main_duties_en:
+    | OaSIS profile code;Main duties
+    | 00010.00;Enact, amend or repeal laws and regulations
+    | 00010.00;Participate in developing or amending government policies, programs or procedures
+main_duties_fr:
+    | Column1;Column2
+    | Code de profil professionnel SIPeC.00;Fonctions principales
+    | 00010.00;promulguer, modifier et abroger des lois, des ordonnances et des règlements
+employment_requirements_en:
+    | OaSIS profile code,Employment requirement
+    | 00010.00,"Election to a legislative body, or appointment to positions such as senator, lieutenant-governor or governor general, is required."
+    | 00011.00,A university degree or college diploma is usually required.
+employment_requirements_fr:
+    | Code de profil professionnel SIPeC,Exigences d'emploi
+    | 00010.00,"Les membres des corps législatifs sont élus sauf dans le cas des sénateurs, des lieutenants-gouverneurs et du gouverneur général, qui sont des représentants nommés."
+    | 00011.00,Un diplôme d'études universitaires ou collégiales est habituellement exigé.
+additional_information_en:
+    | OaSIS profile code,Additional information (EN)
+    | 00011.00,There is mobility among senior management occupations.
+    | 00012.00,There is mobility among senior management occupations.
+additional_information_fr:
+    | Code de profile professionnel SIPeC,Renseignements supplémentaires
+    | 00011.00,Il existe une mobilité parmi les professions des cadres supérieurs.
+    | 00012.00,Il existe une mobilité parmi les professions des cadres supérieurs.
+workplaces_employers_en:
+    | OaSIS profile code,Workplace/employer name,Profile name
+    | 00010.00,Band councils,Legislators
+    | 00010.00,Executive councils,Legislators
+workplaces_employers_fr:
+    | Code de profil professionnel SIPeC,Lieux de travail/employeurs,Nom du profil professionnel SIPeC
+    | 00010.00,Conseils de bande,Membres des corps législatifs
+    | 00010.00,Conseils de direction,Membres des corps législatifs
+skills_en:
+    | Code OaSIS;OaSIS 2021 Labels;Oral Communication: Active Listening;Digital Literacy;Numeracy;Oral Communication: Oral Comprehension;Oral Communication: Oral Expression;Reading Comprehension;Writing;Decision Making;Evaluation;Learning and Tea
+    | 00010.00;Legislators;4;3;3;5;5;4;4;5;4;5;5;5;5;0;0;0;0;0;0;0;0;0;0;5;5;5;5;5;5;3;5;5;5
+    | 00011.00;Senior government managers and officials;4;4;4;5;5;5;5;5;5;5;5;5;5;0;0;0;0;0;0;1;0;0;0;5;5;5;5;5;5;4;5;5;4
+skills_fr:
+    | Code SIPeC;Étiquette SiPEC - Final;Communication verbale : écoute active;Littératie numérique;Numératie;Communication verbale : compréhension orale;Communication verbale : expression orale;Compréhension de lecture;Rédaction;Prise de décisio
+    | 00010.00;Membres des corps législatifs;4;3;3;5;5;4;4;5;4;5;5;5;5;0;0;0;0;0;0;0;0;0;0;5;5;5;5;5;5;3;5;5;5
+    | 00011.00;Cadres supérieurs/cadres supérieures - administration publique;4;4;4;5;5;5;5;5;5;5;5;5;5;0;0;0;0;0;0;1;0;0;0;5;5;5;5;5;5;4;5;5;4
+abilities_en:
+    | Code OaSIS;OaSIS 2021 Labels;Categorization Flexibility;Deductive Reasoning;Fluency of Ideas;Inductive Reasoning;Information Ordering;Problem Identification;Mathematical Reasoning;Numerical Ability;Memorizing;Multitasking;Pattern Identifica
+    | 00010.00;Legislators;5;4;4;4;4;4;3;3;4;5;4;3;3;2;1;5;4;4;4;4;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;2;2;0;5;4;1;0;1;1;0;3;0;0
+    | 00011.00;Senior government managers and officials;5;5;5;4;5;5;4;4;5;5;4;4;4;0;1;5;5;5;4;4;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;2;2;0;5;4;1;0;1;1;0;3;0;0
+abilities_fr:
+    | Code SIPeC - Final;Étiquette SIPeC - Final;Souplesse dans la catégorisation;Raisonnement déductif;Facilité à concevoir des idées;Raisonnement inductif;Ordonner de l’information;Détection de problèmes;Raisonnement mathématique;Habileté numér
+    | 00010.00;Membres des corps législatifs;5;4;4;4;4;4;3;3;4;5;4;3;3;2;1;5;4;4;4;4;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;2;2;0;5;4;1;0;1;1;0;3;0;0
+    | 00011.00;Cadres supérieurs/cadres supérieures - administration publique;5;5;5;4;5;5;4;4;5;5;4;4;4;0;1;5;5;5;4;4;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;2;2;0;5;4;1;0;1;1;0;3;0;0
+knowledge_en:
+    | Code OaSIS;OaSIS 2021 Labels;Accounting;Business Management;Clerical;Finance;Human Resources and Labour relations;Sales and Marketing;Client Service;Communications and Media;Teaching;Training, Mentoring and Coaching;Hospitality;Mental Healt
+    | 00010.00;Legislators;2;3;2;1;2;0;2;2;0;1;0;0;0;0;0;3;3;3;0;1;3;0;0;0;0;0;0;0;0;0;0;0;1;3;0;2;0;0;0;0;0;0;3;2
+    | 00011.00;Senior government managers and officials;3;3;2;2;3;0;2;3;0;2;0;0;0;0;0;3;3;3;0;3;3;0;0;0;0;0;0;0;0;0;0;0;2;3;1;2;0;0;0;0;0;0;3;2
+knowledge_fr:
+    | Code SIPeC - Final;Étiquette SIPeC - Final;Comptabilité;Gestion des affaires;Travail de bureau;Finance;Ressources humaines et relations de travail;Vente et Marketing;Services aux clients;Communications et médias;Enseignement;Formation, ment
+    | 00010.00;Membres des corps législatifs;2;3;2;1;2;0;2;2;0;1;0;0;0;0;0;3;3;3;0;1;3;0;0;0;0;0;0;0;0;0;0;0;1;3;0;2;0;0;0;0;0;0;3;2
+    | 00011.00;Cadres supérieurs/cadres supérieures - administration publique;3;3;2;2;3;0;2;3;0;2;0;0;0;0;0;3;3;3;0;3;3;0;0;0;0;0;0;0;0;0;0;0;2;3;1;2;0;0;0;0;0;0;3;2
+personal_attributes_en:
+    | OaSIS Code - Final;OaSIS Label - Final; Active Learning; Adaptability;Analytical Thinking;Attention to Detail; Creativity;Concern for Others;Collaboration; Independence;Innovativeness;Leadership;Social Orientation;Service Orientation;Stress
+    | 00010.00;Legislators;4;5;5;5;4;5;5;5;4;5;5;5;5
+    | 00011.00;Senior government managers and officials;4;4;5;5;4;4;5;5;4;5;4;4;5
+personal_attributes_fr:
+    | Code SIPeC - Final;Étiquette SIPeC - Final;Apprentissage actif;Adaptabilité;Pensée analytique;Souci du détail;Créativité;Préoccupation des autres;Collaboration;Autonomie;Esprit d’innovation;Leadership;Orientation sociale;Orientation axée su
+    | 00010.00;Membres des corps législatifs;4;5;5;5;4;5;5;5;4;5;5;5;5
+    | 00011.00;Cadres supérieurs/cadres supérieures - administration publique;4;4;5;5;4;4;5;5;4;5;4;4;5
+work_activities_en:
+    | Code OaSIS;OaSIS Label - Final;Estimating Quantifiable Characteristics;Getting Information;Identifying Objects, Actions and Events;Inspecting Equipment, Structures or Material;Monitoring Processes, Materials or Systems;Controlling Machines 
+    | 00010.00;Legislators;4;5;4;1;4;0;0;4;0;1;5;0;0;1;5;5;5;5;5;5;5;4;4;4;2;5;5;5;5;5;5;4;5;5;5;5;5;5;3
+    | 00011.00;Senior government managers and officials;5;5;4;1;4;0;0;4;0;1;5;0;0;1;5;5;5;5;5;5;5;3;4;4;2;5;5;5;5;5;5;3;5;5;5;5;5;5;4
+work_activities_fr:
+    | Code SIPeC - Final;Étiquette SIPeC - Final;Estimation des caractéristiques quantifiables;Obtention d’information;Identification d’objets, d'actions et d'événements;Inspection d’équipements, de structures ou de matériaux;Surveiller de proces
+    | 00010.00;Membres des corps législatifs;4;5;4;1;4;0;0;4;0;1;5;0;0;1;5;5;5;5;5;5;5;4;4;4;2;5;5;5;5;5;5;4;5;5;5;5;5;5;3
+    | 00011.00;Cadres supérieurs/cadres supérieures - administration publique;5;5;4;1;4;0;0;4;0;1;5;0;0;1;5;5;5;5;5;5;5;3;4;4;2;5;5;5;5;5;5;3;5;5;5;5;5;5;4
+work_context_en:
+    | OaSIS Code - Final;OaSIS Label - Final;Automation (Degree of Automation);Competition (Degree of Competition);Consequence of Error (Degree of Consequence of Error);Freedom to Make Decisions (Degree of Freedom to Make Decisions);Frequency of 
+    | 00010.00;Legislators;1;5;3;5;5;5;1;4;5;3;4;4;2;3;0;0;1;1;0;0;0;2;1;0;0;5;5;0;0;0;0;1;1;3;0;2;1;0;0;0;0;1;0;0;1;0;2;4;2;2;4;5;4;5;4;1;3;5;4;5;3;4;3;5;5;5
+    | 00011.00;Senior government managers and officials;2;5;4;5;5;5;0;4;5;2;5;5;1;3;0;0;0;0;0;0;0;0;0;0;0;5;5;0;0;0;0;0;0;3;0;1;1;0;0;0;0;1;0;0;1;0;2;4;1;2;3;5;4;5;4;1;3;5;4;5;3;5;4;5;5;5
+work_context_fr:
+    | Code SIPeC - Final;Étiquette SIPeC - Final;Automatisation (Degré d’automatisation);Concurrence (Degré de compétition);Conséquence des erreurs (Degré de conséquence de l’erreur);Liberté décisionnelle (Degré de liberté de décision);Fréquence 
+    | 00010.00;Membres des corps législatifs;1;5;3;5;5;5;1;4;5;3;4;4;2;3;0;0;1;1;0;0;0;2;1;0;0;5;5;0;0;0;0;1;1;3;0;2;1;0;0;0;0;1;0;0;1;0;2;4;2;2;4;5;4;5;4;1;3;5;4;5;3;4;3;5;5;5
+    | 00011.00;Cadres supérieurs/cadres supérieures - administration publique;2;5;4;5;5;5;0;4;5;2;5;5;1;3;0;0;0;0;0;0;0;0;0;0;0;5;5;0;0;0;0;0;0;3;0;1;1;0;0;0;0;1;0;0;1;0;2;4;1;2;3;5;4;5;4;1;3;5;4;5;3;5;4;5;5;5
+WARNING: 1 downloads failed: lead_statement_fr
+1 needed downloads failed: lead_statement_fr. Run the workflow again: files already downloaded are kept.
