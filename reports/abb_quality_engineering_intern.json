@@ -2,7 +2,7 @@
   "file": "abb_quality_engineering_intern.txt",
   "title": "Quality Engineering Intern - Winter 2027",
   "company": "ABB",
-  "coverage_pct": 27.3,
+  "coverage_pct": 26.1,
   "matched": [
     "Quality control",
     "Industrial engineering",
@@ -27,6 +27,7 @@
     "Diagramming software",
     "Technical writing",
     "Analytical skills",
+    "Writing",
     "Communication"
   ],
   "related_not_counted": [
@@ -137,6 +138,10 @@
       "tag": "REQUIRED",
       "evidence": "-  Strong analytical skills, technical writing skills, and documentation rigor."
     },
+    "Writing": {
+      "tag": "REQUIRED",
+      "evidence": "-  Strong analytical skills, technical writing skills, and documentation rigor."
+    },
     "Communication": {
       "tag": "REQUIRED",
       "evidence": "-  Strong communication skills."
@@ -151,9 +156,20 @@
     }
   },
   "oasis": {
-    "loaded": false
+    "loaded": true,
+    "built": "2026-10-24"
   },
-  "inferred_related": [],
+  "skills_from_oasis": [
+    "Writing"
+  ],
+  "inferred_related": [
+    [
+      "Quality assurance",
+      "Industrial engineering",
+      0.27,
+      4
+    ]
+  ],
   "occupation_alignment": [],
-  "coverage_with_related_pct": 38.6
+  "coverage_with_related_pct": 37.0
 }

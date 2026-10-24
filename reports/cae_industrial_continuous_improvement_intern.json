@@ -179,8 +179,10 @@
     }
   },
   "oasis": {
-    "loaded": false
+    "loaded": true,
+    "built": "2026-10-24"
   },
+  "skills_from_oasis": [],
   "inferred_related": [],
   "occupation_alignment": [],
   "coverage_with_related_pct": 40.7
