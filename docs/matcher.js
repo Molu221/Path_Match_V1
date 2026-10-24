@@ -29,7 +29,7 @@
   /* lowercase, straight quotes and dashes, accents removed: "Qualité" and "qualite" are the same word */
   function fold(text) {
     text = String(text).toLowerCase()
-      .replace(/[’‘]/g, "'").replace(/[‑–—]/g, "-");
+      .replace(/[’‘]/g, "'").replace(/[‑–—]/g, "-").replace(/œ/g, "oe").replace(/æ/g, "ae");
     return text.normalize("NFKD").replace(/[̀-ͯ]/g, "");
   }
 
@@ -93,8 +93,8 @@
   }
 
   /* one regular expression per skill; group 1 is the character before the word (JS has no safe lookbehind on old Safari) */
-  function pattern(aliases) {
-    const parts = aliases.map(a => escapeRe(a).replace(/ /g, "[\\s-]+") + "s?");
+  function pattern(aliases, noPlural) {
+    const parts = aliases.map(a => escapeRe(a).replace(/ /g, "[\\s-]+") + (noPlural.has(a) ? "" : "s?"));
     return new RegExp("(^|[^a-z0-9])(?:" + parts.join("|") + ")(?![a-z0-9])", "g");
   }
 
@@ -110,7 +110,8 @@
   const TAG_NAME = { REQUIRED: "Required", TASK: "Task", PREFERRED: "Preferred", ABOUT: "About" };
 
   function engine(dict) {
-    const skills = dict.skills.map(s => ({ name: s.n, source: s.s, re: pattern(s.a) }));
+    const noPlural = new Set(dict.noPlural || []);
+    const skills = dict.skills.map(s => ({ name: s.n, source: s.s, re: pattern(s.a, noPlural) }));
     const related = dict.related || {};
     const inferred = dict.inferred || {};
     const why = dict.why || {};

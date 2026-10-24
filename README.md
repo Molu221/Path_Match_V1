@@ -95,6 +95,16 @@ The dictionary only names skills it knows. To read **all** the keywords of a pos
 
 `python/keyword_extractor.py` prints it as step 5a and saves it in `results.json`; `docs/matcher.js` does the same in the browser (the filler list travels in `docs/skills.json`) and the tests check that both give the same phrases, counts, statuses and sections.
 
+### Soft skills and job skills in French and English (`python/skills_extra.py`)
+
+Besides the first list in `keyword_extractor.py`, `python/skills_extra.py` holds about 135 more skills across every field (soft skills such as *rigueur*, *autonomie*, *esprit d'équipe*, *travailler sous pression*; business, health, trades, IT, legal, education...) with their English **and** French spellings, written without accents. A French spelling points to the same English name a CV uses, so *travail d'équipe* in a French posting is a **Match** with "Teamwork" on an English CV. It also holds:
+
+- `CLOSE_PAIRS`: skills that are near, never equal (shown as Close, never counted as Match).
+- `PRUNE`: spellings removed after tracing every alias over the real postings, because they fired on something else (retirement plan and insurance perks, *entretien* = job interview, *achat de congés*...).
+- `NO_PLURAL`: "initiative" is a skill, "initiatives" is what a company runs.
+
+Rules for a new spelling: lowercase, no accents, singular, no short common word, no company-advertising word, and never the same spelling under two skills (it would be counted twice). `scripts/build_site_dictionary.py` copies everything to `docs/skills.json`, so the website uses the same list; the tests compare both engines on English and French postings.
+
 ## OaSIS dictionary (all NOC occupations, English and French)
 
 `scripts/build_oasis_dictionary.py` downloads the official OaSIS **2025** CSV files ([open.canada.ca dataset](https://open.canada.ca/data/en/dataset/10ce43bd-fb58-4969-806b-4bffebc87bec); the same release the [ESDC OaSIS site](https://noc.esdc.gc.ca/OaSIS/) displays, which has web pages only) and builds:

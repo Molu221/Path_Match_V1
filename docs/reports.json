@@ -5,22 +5,26 @@
       "file": "bombardier_material_logistics_intern.txt",
       "title": "Intern, Material Logsitics (Winter 2027)",
       "company": "Bombardier",
-      "coverage_pct": 33.3,
+      "coverage_pct": 31.3,
       "matched": [
         "Industrial engineering",
+        "Manufacturing experience",
         "Excel",
         "English",
         "French"
       ],
       "missing": [
+        "Teamwork",
+        "Environmental sustainability",
         "ERP",
         "KPIs",
+        "Integrity",
         "Action planning",
         "Logistics",
         "Operations management",
         "SAP",
-        "Planning",
-        "Teamwork"
+        "Microsoft Office",
+        "Planning"
       ],
       "related_not_counted": [
         [
@@ -36,6 +40,10 @@
           "Industrial engineering"
         ],
         [
+          "Microsoft Office",
+          "Excel"
+        ],
+        [
           "Planning",
           "Scheduling"
         ]
@@ -48,6 +56,14 @@
         "Travel outside Canada"
       ],
       "job_skills": {
+        "Teamwork": {
+          "tag": "REQUIRED",
+          "evidence": "- Are a team player"
+        },
+        "Environmental sustainability": {
+          "tag": "OTHER",
+          "evidence": "Bombardier is a global leader in aviation, creating innovative and game-changing planes. Our products and services provide world-class experiences that set new standards in passenger comfort, energy efficiency, reliability and safety. We are a global organization focused on working together with a team spirit."
+        },
         "ERP": {
           "tag": "TASK",
           "evidence": "- Analyse ERP’s datas quality"
@@ -55,6 +71,10 @@
         "KPIs": {
           "tag": "TASK",
           "evidence": "- Define and maintain key performance indicators based on our ERP, and our internal process."
+        },
+        "Integrity": {
+          "tag": "TASK",
+          "evidence": "- Maintain system integrity."
         },
         "Action planning": {
           "tag": "TASK",
@@ -68,6 +88,10 @@
           "tag": "TASK",
           "evidence": "- Interact with multifunctional teams (Logistic, supply, methods, Industrial Engineering, Quality)"
         },
+        "Manufacturing experience": {
+          "tag": "TASK",
+          "evidence": "- Support new tools implantation in our manufacturing system"
+        },
         "Operations management": {
           "tag": "REQUIRED",
           "evidence": "- Study at BAA in logistic or operation management"
@@ -77,6 +101,10 @@
           "evidence": "- Master SAP and office suite (Excel)"
         },
         "SAP": {
+          "tag": "REQUIRED",
+          "evidence": "- Master SAP and office suite (Excel)"
+        },
+        "Microsoft Office": {
           "tag": "REQUIRED",
           "evidence": "- Master SAP and office suite (Excel)"
         },
@@ -91,17 +119,13 @@
         "Planning": {
           "tag": "REQUIRED",
           "evidence": "- Have great planning habilities"
-        },
-        "Teamwork": {
-          "tag": "REQUIRED",
-          "evidence": "- Are a team player"
         }
       },
-      "phrases_counted": 80,
+      "phrases_counted": 73,
       "phrases_matched": 4,
-      "phrases_close": 5,
-      "phrase_coverage_pct": 5.0,
-      "phrase_coverage_with_close_pct": 8.1,
+      "phrases_close": 4,
+      "phrase_coverage_pct": 5.5,
+      "phrase_coverage_with_close_pct": 8.2,
       "phrases": [
         {
           "phrase": "material logsitics",
@@ -176,7 +200,7 @@
           "shared_words": []
         },
         {
-          "phrase": "apify actor curious",
+          "phrase": "apify actor",
           "count": 1,
           "where": "-",
           "status": "G",
@@ -358,15 +382,6 @@
           "shared_words": []
         },
         {
-          "phrase": "energy efficiency",
-          "count": 1,
-          "where": "-",
-          "status": "G",
-          "counted": true,
-          "cv_line": "",
-          "shared_words": []
-        },
-        {
           "phrase": "reliability",
           "count": 1,
           "where": "-",
@@ -395,15 +410,6 @@
         },
         {
           "phrase": "focused",
-          "count": 1,
-          "where": "-",
-          "status": "G",
-          "counted": true,
-          "cv_line": "",
-          "shared_words": []
-        },
-        {
-          "phrase": "spirit",
           "count": 1,
           "where": "-",
           "status": "G",
@@ -560,15 +566,6 @@
           ]
         },
         {
-          "phrase": "system integrity",
-          "count": 1,
-          "where": "Task",
-          "status": "G",
-          "counted": true,
-          "cv_line": "",
-          "shared_words": []
-        },
-        {
           "phrase": "internal",
           "count": 1,
           "where": "Task",
@@ -634,17 +631,6 @@
           "shared_words": []
         },
         {
-          "phrase": "manufacturing system",
-          "count": 1,
-          "where": "Task",
-          "status": "R",
-          "counted": true,
-          "cv_line": "quality intern, abc manufacturing, summer 2023",
-          "shared_words": [
-            "manufacturing"
-          ]
-        },
-        {
           "phrase": "thrive",
           "count": 1,
           "where": "Required",
@@ -672,15 +658,6 @@
           "shared_words": []
         },
         {
-          "phrase": "minimum",
-          "count": 1,
-          "where": "Required",
-          "status": "G",
-          "counted": true,
-          "cv_line": "",
-          "shared_words": []
-        },
-        {
           "phrase": "program",
           "count": 1,
           "where": "Required",
@@ -696,15 +673,6 @@
           "status": "M",
           "counted": true,
           "cv_line": "master's student in industrial engineering. interested in operations, quality and process improvement. bilingual (english and french).",
-          "shared_words": []
-        },
-        {
-          "phrase": "office suite",
-          "count": 1,
-          "where": "Required",
-          "status": "G",
-          "counted": true,
-          "cv_line": "",
           "shared_words": []
         },
         {
@@ -763,15 +731,6 @@
         },
         {
           "phrase": "flexible workplace hybrid",
-          "count": 1,
-          "where": "Required",
-          "status": "G",
-          "counted": true,
-          "cv_line": "",
-          "shared_words": []
-        },
-        {
-          "phrase": "important",
           "count": 1,
           "where": "Required",
           "status": "G",
@@ -841,15 +800,16 @@
       "skills_from_oasis": [],
       "inferred_related": [],
       "occupation_alignment": [],
-      "coverage_with_related_pct": 50.0
+      "coverage_with_related_pct": 46.9
     },
     {
       "file": "cae_industrial_continuous_improvement_intern.txt",
       "title": "Industrial/Manufacturing Engineering and Continuous Improvement Intern",
       "company": "CAE",
-      "coverage_pct": 32.1,
+      "coverage_pct": 31.3,
       "matched": [
         "Industrial engineering",
+        "Manufacturing experience",
         "Lean Six Sigma",
         "Process mapping",
         "Root cause analysis",
@@ -861,24 +821,27 @@
       ],
       "missing": [
         "Continuous improvement",
-        "Initiative",
+        "Strategic thinking",
         "PDCA",
         "8D",
         "A3",
         "BPM",
         "Lean Manufacturing",
+        "Optimization",
         "Gap analysis",
         "Action planning",
         "Communication",
         "Facilitation",
         "Problem solving",
         "KPIs",
+        "Analytical skills",
         "Operational excellence",
         "Project management",
         "Collaboration",
         "Interpersonal skills",
         "Teamwork",
-        "PMP"
+        "PMP",
+        "Trade compliance"
       ],
       "related_not_counted": [
         [
@@ -923,9 +886,13 @@
           "tag": "REQUIRED",
           "evidence": "- Previous internship experience in continuous improvement, operational excellence, industrial engineering, project management or a related field."
         },
-        "Initiative": {
-          "tag": "TASK",
-          "evidence": "- Monitor and report on project progress to help ensure the success of continuous improvement initiatives."
+        "Manufacturing experience": {
+          "tag": "OTHER",
+          "evidence": "By joining our team, you will have the opportunity to support the Manufacturing/Industrial Engineering team. This internship offers hands-on experience to promote continuous improvement and contribute to strategic initiatives with a real impact across the organization."
+        },
+        "Strategic thinking": {
+          "tag": "OTHER",
+          "evidence": "By joining our team, you will have the opportunity to support the Manufacturing/Industrial Engineering team. This internship offers hands-on experience to promote continuous improvement and contribute to strategic initiatives with a real impact across the organization."
         },
         "Lean Six Sigma": {
           "tag": "TASK",
@@ -948,6 +915,10 @@
           "evidence": "- Lead and support continuous improvement projects by applying recognized methodologies such as PDCA, 8D, A3, Lean Six Sigma and BPM (Business Process Management)."
         },
         "Lean Manufacturing": {
+          "tag": "TASK",
+          "evidence": "- Contribute to Lean Manufacturing projects aimed at optimizing processes and ways of working."
+        },
+        "Optimization": {
           "tag": "TASK",
           "evidence": "- Contribute to Lean Manufacturing projects aimed at optimizing processes and ways of working."
         },
@@ -986,6 +957,10 @@
         "Dashboards": {
           "tag": "TASK",
           "evidence": "- Track and report impacts using key performance indicators (KPIs) and dashboards."
+        },
+        "Analytical skills": {
+          "tag": "REQUIRED",
+          "evidence": "- Excellent analytical and problem-solving skills."
         },
         "Operational excellence": {
           "tag": "REQUIRED",
@@ -1026,13 +1001,17 @@
         "French": {
           "tag": "REQUIRED",
           "evidence": "- Bilingual (French and English)."
+        },
+        "Trade compliance": {
+          "tag": "OTHER",
+          "evidence": "All applicants must be legally entitled to work in Canada and must meet the requirements of the Canadian Controlled Goods Program (CGP). All students with a work permit must provide a copy of it and a police clearance certificate from the country or countries where they have resided in the past five years."
         }
       },
-      "phrases_counted": 50,
+      "phrases_counted": 47,
       "phrases_matched": 7,
-      "phrases_close": 4,
-      "phrase_coverage_pct": 14.0,
-      "phrase_coverage_with_close_pct": 18.0,
+      "phrases_close": 3,
+      "phrase_coverage_pct": 14.9,
+      "phrase_coverage_with_close_pct": 18.1,
       "phrases": [
         {
           "phrase": "industrial",
@@ -1044,15 +1023,13 @@
           "shared_words": []
         },
         {
-          "phrase": "manufacturing engineering",
+          "phrase": "engineering",
           "count": 1,
           "where": "-",
-          "status": "R",
+          "status": "M",
           "counted": true,
           "cv_line": "master's student in industrial engineering. interested in operations, quality and process improvement. bilingual (english and french).",
-          "shared_words": [
-            "engineering"
-          ]
+          "shared_words": []
         },
         {
           "phrase": "cae",
@@ -1109,7 +1086,7 @@
           "shared_words": []
         },
         {
-          "phrase": "apify actor curious",
+          "phrase": "apify actor",
           "count": 1,
           "where": "-",
           "status": "G",
@@ -1154,25 +1131,7 @@
           "shared_words": []
         },
         {
-          "phrase": "manufacturing",
-          "count": 1,
-          "where": "-",
-          "status": "M",
-          "counted": true,
-          "cv_line": "quality intern, abc manufacturing, summer 2023",
-          "shared_words": []
-        },
-        {
           "phrase": "hands",
-          "count": 1,
-          "where": "-",
-          "status": "G",
-          "counted": true,
-          "cv_line": "",
-          "shared_words": []
-        },
-        {
-          "phrase": "strategic",
           "count": 1,
           "where": "-",
           "status": "G",
@@ -1218,15 +1177,6 @@
         },
         {
           "phrase": "large scale transformation projects",
-          "count": 1,
-          "where": "-",
-          "status": "G",
-          "counted": true,
-          "cv_line": "",
-          "shared_words": []
-        },
-        {
-          "phrase": "optimizing processes",
           "count": 1,
           "where": "-",
           "status": "G",
@@ -1300,6 +1250,15 @@
           ]
         },
         {
+          "phrase": "initiatives",
+          "count": 1,
+          "where": "-",
+          "status": "G",
+          "counted": true,
+          "cv_line": "",
+          "shared_words": []
+        },
+        {
           "phrase": "track",
           "count": 1,
           "where": "-",
@@ -1314,15 +1273,6 @@
           "phrase": "report impacts",
           "count": 1,
           "where": "-",
-          "status": "G",
-          "counted": true,
-          "cv_line": "",
-          "shared_words": []
-        },
-        {
-          "phrase": "analytical",
-          "count": 1,
-          "where": "Required",
           "status": "G",
           "counted": true,
           "cv_line": "",
@@ -1439,7 +1389,7 @@
           "shared_words": []
         },
         {
-          "phrase": "controlled goods program",
+          "phrase": "program",
           "count": 1,
           "where": "Preferred",
           "status": "G",
@@ -1500,14 +1450,17 @@
       "skills_from_oasis": [],
       "inferred_related": [],
       "occupation_alignment": [],
-      "coverage_with_related_pct": 39.3
+      "coverage_with_related_pct": 37.5
     },
     {
       "file": "abb_quality_engineering_intern.txt",
       "title": "Quality Engineering Intern - Winter 2027",
       "company": "ABB",
-      "coverage_pct": 20.7,
+      "coverage_pct": 21.4,
       "matched": [
+        "Quality management",
+        "Process mapping",
+        "Manufacturing experience",
         "Quality control",
         "Industrial engineering",
         "Mechanical engineering",
@@ -1518,9 +1471,13 @@
       "missing": [
         "Documentation",
         "Standard operating procedures",
+        "Compliance",
+        "Stakeholder management",
         "Flowcharts and process flows",
         "Supply chain",
         "Bottleneck analysis",
+        "Metrology and inspection",
+        "Testing and validation",
         "Non-conformance handling",
         "Corrective action",
         "Quality assurance",
@@ -1528,19 +1485,29 @@
         "KPIs",
         "Collaboration",
         "Cross-functional work",
+        "Research and development",
+        "Employee and labour relations",
         "Problem solving",
         "Operations management",
+        "Electrical engineering",
         "Continuous improvement",
         "Diagramming software",
         "Technical writing",
         "Analytical skills",
+        "Rigor",
+        "Written communication",
         "Communication",
         "Optimization",
+        "Motivation",
         "Autonomy",
         "Organizational skills",
         "Curiosity"
       ],
       "related_not_counted": [
+        [
+          "Compliance",
+          "Auditing"
+        ],
         [
           "Flowcharts and process flows",
           "Process mapping"
@@ -1550,8 +1517,20 @@
           "Inventory control"
         ],
         [
+          "Metrology and inspection",
+          "Quality control"
+        ],
+        [
+          "Testing and validation",
+          "Quality control"
+        ],
+        [
           "Quality assurance",
           "Quality control"
+        ],
+        [
+          "Quality assurance",
+          "Quality management"
         ],
         [
           "KPIs",
@@ -1580,9 +1559,21 @@
           "tag": "REQUIRED",
           "evidence": "-  Strong analytical skills, technical writing skills, and documentation rigor."
         },
+        "Quality management": {
+          "tag": "TASK",
+          "evidence": "-  Documenting and updating internal quality procedures"
+        },
         "Standard operating procedures": {
           "tag": "TASK",
           "evidence": "- Develop, structure, and document internal procedures (SOP – Standard Operating Procedures) for all operational processes."
+        },
+        "Compliance": {
+          "tag": "TASK",
+          "evidence": "- Ensure that all procedures accurately reflect actual operations and comply with regulatory and internal requirements."
+        },
+        "Stakeholder management": {
+          "tag": "TASK",
+          "evidence": "- Work closely with production supervisors, engineers, and other stakeholders to ensure accuracy in the documented processes."
         },
         "Flowcharts and process flows": {
           "tag": "TASK",
@@ -1596,7 +1587,23 @@
           "tag": "TASK",
           "evidence": "- Identify critical points, bottlenecks, and improvement opportunities through flow analysis."
         },
+        "Process mapping": {
+          "tag": "TASK",
+          "evidence": "- Maintain a centralized and up‑to‑date library of all flow diagrams and organizational charts."
+        },
+        "Manufacturing experience": {
+          "tag": "TASK",
+          "evidence": "-  Participate in daily tasks of the quality team on the production floor"
+        },
         "Quality control": {
+          "tag": "TASK",
+          "evidence": "- Observe and participate in quality control inspections, testing procedures, and compliance checks across production lines."
+        },
+        "Metrology and inspection": {
+          "tag": "TASK",
+          "evidence": "- Observe and participate in quality control inspections, testing procedures, and compliance checks across production lines."
+        },
+        "Testing and validation": {
           "tag": "TASK",
           "evidence": "- Observe and participate in quality control inspections, testing procedures, and compliance checks across production lines."
         },
@@ -1628,6 +1635,14 @@
           "tag": "TASK",
           "evidence": "-  Engineering project involvement and cross-functional collaboration"
         },
+        "Research and development": {
+          "tag": "TASK",
+          "evidence": "- Support ongoing engineering projects across disciplines, including R&D, Manufacturing Engineering, and Production."
+        },
+        "Employee and labour relations": {
+          "tag": "TASK",
+          "evidence": "- Work alongside multi-disciplinary teams to gain exposure to how different functions contribute to product and process development."
+        },
         "Problem solving": {
           "tag": "TASK",
           "evidence": "- Participate in cross-functional meetings and contribute to problem-solving discussions."
@@ -1641,6 +1656,10 @@
           "evidence": "-  Must be currently enrolled in a co-op bachelor's degree program in Industrial Engineering or a related field, such as Mechanical Engineering, Electrical Engineering, or Operations Management. (Mandatory)"
         },
         "Operations management": {
+          "tag": "REQUIRED",
+          "evidence": "-  Must be currently enrolled in a co-op bachelor's degree program in Industrial Engineering or a related field, such as Mechanical Engineering, Electrical Engineering, or Operations Management. (Mandatory)"
+        },
+        "Electrical engineering": {
           "tag": "REQUIRED",
           "evidence": "-  Must be currently enrolled in a co-op bachelor's degree program in Industrial Engineering or a related field, such as Mechanical Engineering, Electrical Engineering, or Operations Management. (Mandatory)"
         },
@@ -1664,11 +1683,23 @@
           "tag": "REQUIRED",
           "evidence": "-  Strong analytical skills, technical writing skills, and documentation rigor."
         },
+        "Rigor": {
+          "tag": "REQUIRED",
+          "evidence": "-  Strong analytical skills, technical writing skills, and documentation rigor."
+        },
+        "Written communication": {
+          "tag": "REQUIRED",
+          "evidence": "-  Strong analytical skills, technical writing skills, and documentation rigor."
+        },
         "Communication": {
           "tag": "REQUIRED",
           "evidence": "-  Strong communication skills."
         },
         "Optimization": {
+          "tag": "REQUIRED",
+          "evidence": "-  Motivated by standardization and optimization challenges."
+        },
+        "Motivation": {
           "tag": "REQUIRED",
           "evidence": "-  Motivated by standardization and optimization challenges."
         },
@@ -1693,11 +1724,11 @@
           "evidence": "-  French is required. English is also required to communicate with customers outside Quebec on a regular basis."
         }
       },
-      "phrases_counted": 99,
+      "phrases_counted": 88,
       "phrases_matched": 6,
-      "phrases_close": 23,
-      "phrase_coverage_pct": 6.1,
-      "phrase_coverage_with_close_pct": 17.7,
+      "phrases_close": 17,
+      "phrase_coverage_pct": 6.8,
+      "phrase_coverage_with_close_pct": 16.5,
       "phrases": [
         {
           "phrase": "abb",
@@ -1763,7 +1794,7 @@
           "shared_words": []
         },
         {
-          "phrase": "apify actor curious",
+          "phrase": "apify actor",
           "count": 1,
           "where": "-",
           "status": "G",
@@ -1864,15 +1895,14 @@
           "shared_words": []
         },
         {
-          "phrase": "updating internal quality procedures",
+          "phrase": "updating internal",
           "count": 1,
           "where": "Task",
           "status": "R",
           "counted": true,
           "cv_line": "quality intern, abc manufacturing, summer 2023",
           "shared_words": [
-            "internal",
-            "quality"
+            "internal"
           ]
         },
         {
@@ -1934,15 +1964,6 @@
           "shared_words": []
         },
         {
-          "phrase": "regulatory",
-          "count": 1,
-          "where": "Task",
-          "status": "G",
-          "counted": true,
-          "cv_line": "",
-          "shared_words": []
-        },
-        {
           "phrase": "internal",
           "count": 1,
           "where": "Task",
@@ -1967,15 +1988,6 @@
         {
           "phrase": "engineers",
           "count": 2,
-          "where": "Task",
-          "status": "G",
-          "counted": true,
-          "cv_line": "",
-          "shared_words": []
-        },
-        {
-          "phrase": "stakeholders",
-          "count": 1,
           "where": "Task",
           "status": "G",
           "counted": true,
@@ -2038,7 +2050,7 @@
         },
         {
           "phrase": "engineering",
-          "count": 1,
+          "count": 2,
           "where": "Task",
           "status": "M",
           "counted": true,
@@ -2131,17 +2143,6 @@
           "shared_words": []
         },
         {
-          "phrase": "production floor",
-          "count": 1,
-          "where": "Task",
-          "status": "R",
-          "counted": true,
-          "cv_line": "courses: production systems and inventory control, scheduling theory, quality control, simulation",
-          "shared_words": [
-            "production"
-          ]
-        },
-        {
           "phrase": "observe",
           "count": 1,
           "where": "Task",
@@ -2151,7 +2152,7 @@
           "shared_words": []
         },
         {
-          "phrase": "inspections",
+          "phrase": "procedures",
           "count": 1,
           "where": "Task",
           "status": "G",
@@ -2160,7 +2161,7 @@
           "shared_words": []
         },
         {
-          "phrase": "testing procedures",
+          "phrase": "checks",
           "count": 1,
           "where": "Task",
           "status": "G",
@@ -2169,35 +2170,13 @@
           "shared_words": []
         },
         {
-          "phrase": "compliance checks",
+          "phrase": "document",
           "count": 1,
           "where": "Task",
           "status": "G",
           "counted": true,
           "cv_line": "",
           "shared_words": []
-        },
-        {
-          "phrase": "production lines",
-          "count": 1,
-          "where": "Task",
-          "status": "R",
-          "counted": true,
-          "cv_line": "courses: production systems and inventory control, scheduling theory, quality control, simulation",
-          "shared_words": [
-            "production"
-          ]
-        },
-        {
-          "phrase": "document quality issues",
-          "count": 1,
-          "where": "Task",
-          "status": "R",
-          "counted": true,
-          "cv_line": "master's student in industrial engineering. interested in operations, quality and process improvement. bilingual (english and french).",
-          "shared_words": [
-            "quality"
-          ]
         },
         {
           "phrase": "gain hands",
@@ -2225,17 +2204,6 @@
           "counted": true,
           "cv_line": "",
           "shared_words": []
-        },
-        {
-          "phrase": "quality metrics",
-          "count": 1,
-          "where": "Task",
-          "status": "R",
-          "counted": true,
-          "cv_line": "master's student in industrial engineering. interested in operations, quality and process improvement. bilingual (english and french).",
-          "shared_words": [
-            "quality"
-          ]
         },
         {
           "phrase": "reported",
@@ -2321,27 +2289,7 @@
           "shared_words": []
         },
         {
-          "phrase": "r&d",
-          "count": 1,
-          "where": "Task",
-          "status": "G",
-          "counted": true,
-          "cv_line": "",
-          "shared_words": []
-        },
-        {
-          "phrase": "manufacturing engineering",
-          "count": 1,
-          "where": "Task",
-          "status": "R",
-          "counted": true,
-          "cv_line": "master's student in industrial engineering. interested in operations, quality and process improvement. bilingual (english and french).",
-          "shared_words": [
-            "engineering"
-          ]
-        },
-        {
-          "phrase": "alongside multi disciplinary",
+          "phrase": "alongside multi",
           "count": 1,
           "where": "Task",
           "status": "G",
@@ -2520,17 +2468,6 @@
           "shared_words": []
         },
         {
-          "phrase": "electrical engineering",
-          "count": 1,
-          "where": "Required",
-          "status": "R",
-          "counted": true,
-          "cv_line": "master's student in industrial engineering. interested in operations, quality and process improvement. bilingual (english and french).",
-          "shared_words": [
-            "engineering"
-          ]
-        },
-        {
           "phrase": "mandatory",
           "count": 1,
           "where": "Required",
@@ -2541,24 +2478,6 @@
         },
         {
           "phrase": "methods",
-          "count": 1,
-          "where": "Required",
-          "status": "G",
-          "counted": true,
-          "cv_line": "",
-          "shared_words": []
-        },
-        {
-          "phrase": "rigor",
-          "count": 2,
-          "where": "Required",
-          "status": "G",
-          "counted": true,
-          "cv_line": "",
-          "shared_words": []
-        },
-        {
-          "phrase": "motivated",
           "count": 1,
           "where": "Required",
           "status": "G",
@@ -2594,7 +2513,7 @@
           "shared_words": []
         },
         {
-          "phrase": "analytical mindset",
+          "phrase": "mindset",
           "count": 1,
           "where": "Required",
           "status": "G",
@@ -2653,7 +2572,7 @@
         ]
       ],
       "occupation_alignment": [],
-      "coverage_with_related_pct": 31.0
+      "coverage_with_related_pct": 32.1
     }
   ],
   "note": "Heuristic keyword coverage = matched / job skills. Related skills are listed, not counted. Flags are to verify, not scored."

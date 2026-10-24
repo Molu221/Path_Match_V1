@@ -103,6 +103,10 @@ egalement neanmoins toujours lire comprendre ecrire parfois sometimes read write
 regard attention version langue cliquez consultez effectue cours mesure place
 weekly monthly yearly quarterly update updates enrolled tasks duties different
 supported supports tracked happen empowered grow proud together person left end
+interne internes externe externes nouveaux nouvelles differents differentes principaux principales important importants
+importante importantes efficace efficaces solides fort forte forts fortes grand grande grands grandes minimum minimale
+quotidien quotidienne quotidiens regulier reguliere possede possedez posseder environ membre membres offre offrons offrir
+sens aptitude aptitudes habilete habiletes titre domaine domaines nombre type types partie parties
 """.split()
 
 STOP = frozenset(STOP_EN) | frozenset(STOP_FR) | frozenset(FILLER)

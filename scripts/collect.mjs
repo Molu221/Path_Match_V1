@@ -20,10 +20,12 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const pretty = (slug) => slug.replace(/[-_]+/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
 const MAX_DESC = 30000;   // the whole posting: requirements often come after the first 7000 characters
 
+const NAMED = { nbsp: " ", amp: "&", lt: "<", gt: ">", quot: '"', apos: "'", rsquo: "’", lsquo: "‘", rdquo: "”", ldquo: "“", ndash: "–", mdash: "—", hellip: "…", bull: "•" };
 export function decode(s) {
   return String(s || "")
-    .replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">")
-    .replace(/&quot;/g, '"').replace(/&#39;|&apos;/g, "'").replace(/&#x27;/g, "'");
+    .replace(/&#x([0-9a-f]+);/gi, (m, h) => { const n = parseInt(h, 16); return n === 10 || n === 13 ? "\n" : n === 160 ? " " : n > 31 && n < 0x110000 ? String.fromCodePoint(n) : " "; })
+    .replace(/&#(\d+);/g, (m, d) => { const n = +d; return n === 10 || n === 13 ? "\n" : n === 160 ? " " : n > 31 && n < 0x110000 ? String.fromCodePoint(n) : " "; })
+    .replace(/&([a-z]+);/gi, (m, name) => (name.toLowerCase() in NAMED ? NAMED[name.toLowerCase()] : m));
 }
 export function stripHtml(s) {
   // Greenhouse returns escaped HTML, so decode first, then strip tags, then decode again.

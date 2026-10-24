@@ -498,6 +498,12 @@ function sourceTable(){
   return `<div style="overflow-x:auto"><table class="maptab srctab"><thead><tr><th>Source</th><th>What it gives</th><th>Text</th><th>Postings</th><th>Last run</th></tr></thead><tbody>${names.map(row).join("")}</tbody></table></div>`;
 }
 let DICT=null;
+/* a few postings were collected with entities such as &#xa; or &#96; still in the text: turn them back into characters */
+const ENT={nbsp:" ",amp:"&",lt:"<",gt:">",quot:'"',apos:"'",rsquo:"’",lsquo:"‘",rdquo:"”",ldquo:"“",ndash:"–",mdash:"—",hellip:"…",bull:"•"};
+function unent(s){
+  const ch=n=>n===10||n===13?"\n":(n>31&&n<0x110000)?String.fromCodePoint(n):" ";
+  return String(s).replace(/&#x([0-9a-f]+);/gi,(m,h)=>ch(parseInt(h,16))).replace(/&#(\d+);/g,(m,d)=>ch(+d)).replace(/&([a-z]+);/gi,(m,n)=>ENT[n.toLowerCase()]!==undefined?ENT[n.toLowerCase()]:m);
+}
 function cvFound(){if(!DICT||!CV)return null;if(!CV.py)CV.py=DICT.findCv(CV.raw);return CV.py;}
 function cvIx(){if(!DICT||!CV)return null;if(!CV.ix)CV.ix=DICT.indexCv(CV.raw);return CV.ix;}
 const TAGW={Title:0,Required:1,Task:2,Preferred:3,"":4,About:5};
@@ -509,7 +515,7 @@ const TAGW={Title:0,Required:1,Task:2,Preferred:3,"":4,About:5};
 function mapData(j){
   if(!DICT||!CV)return null;
   if(j._map&&j._map.cv===CV&&j._map.dict===DICT)return j._map;
-  const body=(j.desc||"").split("\n").filter(l=>!/^\s*(JOB|COMPANY|SOURCE):/.test(l)).join("\n").trim();
+  const body=unent(j.desc||"").split("\n").filter(l=>!/^\s*(JOB|COMPANY|SOURCE):/.test(l)).join("\n").trim();
   const text=body?j.title+"\n"+body:j.title,cvf=cvFound();
   const job=DICT.find(text),r=DICT.report(text,cvf,job),secs=DICT.sections(text),fl=DICT.flags(text);
   const links={};r.links.forEach(l=>{(links[l.job]=links[l.job]||[]).push(l);});

@@ -2,8 +2,11 @@
   "file": "abb_quality_engineering_intern.txt",
   "title": "Quality Engineering Intern - Winter 2027",
   "company": "ABB",
-  "coverage_pct": 20.7,
+  "coverage_pct": 21.4,
   "matched": [
+    "Quality management",
+    "Process mapping",
+    "Manufacturing experience",
     "Quality control",
     "Industrial engineering",
     "Mechanical engineering",
@@ -14,9 +17,13 @@
   "missing": [
     "Documentation",
     "Standard operating procedures",
+    "Compliance",
+    "Stakeholder management",
     "Flowcharts and process flows",
     "Supply chain",
     "Bottleneck analysis",
+    "Metrology and inspection",
+    "Testing and validation",
     "Non-conformance handling",
     "Corrective action",
     "Quality assurance",
@@ -24,19 +31,29 @@
     "KPIs",
     "Collaboration",
     "Cross-functional work",
+    "Research and development",
+    "Employee and labour relations",
     "Problem solving",
     "Operations management",
+    "Electrical engineering",
     "Continuous improvement",
     "Diagramming software",
     "Technical writing",
     "Analytical skills",
+    "Rigor",
+    "Written communication",
     "Communication",
     "Optimization",
+    "Motivation",
     "Autonomy",
     "Organizational skills",
     "Curiosity"
   ],
   "related_not_counted": [
+    [
+      "Compliance",
+      "Auditing"
+    ],
     [
       "Flowcharts and process flows",
       "Process mapping"
@@ -46,8 +63,20 @@
       "Inventory control"
     ],
     [
+      "Metrology and inspection",
+      "Quality control"
+    ],
+    [
+      "Testing and validation",
+      "Quality control"
+    ],
+    [
       "Quality assurance",
       "Quality control"
+    ],
+    [
+      "Quality assurance",
+      "Quality management"
     ],
     [
       "KPIs",
@@ -76,9 +105,21 @@
       "tag": "REQUIRED",
       "evidence": "-  Strong analytical skills, technical writing skills, and documentation rigor."
     },
+    "Quality management": {
+      "tag": "TASK",
+      "evidence": "-  Documenting and updating internal quality procedures"
+    },
     "Standard operating procedures": {
       "tag": "TASK",
       "evidence": "- Develop, structure, and document internal procedures (SOP – Standard Operating Procedures) for all operational processes."
+    },
+    "Compliance": {
+      "tag": "TASK",
+      "evidence": "- Ensure that all procedures accurately reflect actual operations and comply with regulatory and internal requirements."
+    },
+    "Stakeholder management": {
+      "tag": "TASK",
+      "evidence": "- Work closely with production supervisors, engineers, and other stakeholders to ensure accuracy in the documented processes."
     },
     "Flowcharts and process flows": {
       "tag": "TASK",
@@ -92,7 +133,23 @@
       "tag": "TASK",
       "evidence": "- Identify critical points, bottlenecks, and improvement opportunities through flow analysis."
     },
+    "Process mapping": {
+      "tag": "TASK",
+      "evidence": "- Maintain a centralized and up‑to‑date library of all flow diagrams and organizational charts."
+    },
+    "Manufacturing experience": {
+      "tag": "TASK",
+      "evidence": "-  Participate in daily tasks of the quality team on the production floor"
+    },
     "Quality control": {
+      "tag": "TASK",
+      "evidence": "- Observe and participate in quality control inspections, testing procedures, and compliance checks across production lines."
+    },
+    "Metrology and inspection": {
+      "tag": "TASK",
+      "evidence": "- Observe and participate in quality control inspections, testing procedures, and compliance checks across production lines."
+    },
+    "Testing and validation": {
       "tag": "TASK",
       "evidence": "- Observe and participate in quality control inspections, testing procedures, and compliance checks across production lines."
     },
@@ -124,6 +181,14 @@
       "tag": "TASK",
       "evidence": "-  Engineering project involvement and cross-functional collaboration"
     },
+    "Research and development": {
+      "tag": "TASK",
+      "evidence": "- Support ongoing engineering projects across disciplines, including R&D, Manufacturing Engineering, and Production."
+    },
+    "Employee and labour relations": {
+      "tag": "TASK",
+      "evidence": "- Work alongside multi-disciplinary teams to gain exposure to how different functions contribute to product and process development."
+    },
     "Problem solving": {
       "tag": "TASK",
       "evidence": "- Participate in cross-functional meetings and contribute to problem-solving discussions."
@@ -137,6 +202,10 @@
       "evidence": "-  Must be currently enrolled in a co-op bachelor's degree program in Industrial Engineering or a related field, such as Mechanical Engineering, Electrical Engineering, or Operations Management. (Mandatory)"
     },
     "Operations management": {
+      "tag": "REQUIRED",
+      "evidence": "-  Must be currently enrolled in a co-op bachelor's degree program in Industrial Engineering or a related field, such as Mechanical Engineering, Electrical Engineering, or Operations Management. (Mandatory)"
+    },
+    "Electrical engineering": {
       "tag": "REQUIRED",
       "evidence": "-  Must be currently enrolled in a co-op bachelor's degree program in Industrial Engineering or a related field, such as Mechanical Engineering, Electrical Engineering, or Operations Management. (Mandatory)"
     },
@@ -160,11 +229,23 @@
       "tag": "REQUIRED",
       "evidence": "-  Strong analytical skills, technical writing skills, and documentation rigor."
     },
+    "Rigor": {
+      "tag": "REQUIRED",
+      "evidence": "-  Strong analytical skills, technical writing skills, and documentation rigor."
+    },
+    "Written communication": {
+      "tag": "REQUIRED",
+      "evidence": "-  Strong analytical skills, technical writing skills, and documentation rigor."
+    },
     "Communication": {
       "tag": "REQUIRED",
       "evidence": "-  Strong communication skills."
     },
     "Optimization": {
+      "tag": "REQUIRED",
+      "evidence": "-  Motivated by standardization and optimization challenges."
+    },
+    "Motivation": {
       "tag": "REQUIRED",
       "evidence": "-  Motivated by standardization and optimization challenges."
     },
@@ -189,11 +270,11 @@
       "evidence": "-  French is required. English is also required to communicate with customers outside Quebec on a regular basis."
     }
   },
-  "phrases_counted": 99,
+  "phrases_counted": 88,
   "phrases_matched": 6,
-  "phrases_close": 23,
-  "phrase_coverage_pct": 6.1,
-  "phrase_coverage_with_close_pct": 17.7,
+  "phrases_close": 17,
+  "phrase_coverage_pct": 6.8,
+  "phrase_coverage_with_close_pct": 16.5,
   "phrases": [
     {
       "phrase": "abb",
@@ -259,7 +340,7 @@
       "shared_words": []
     },
     {
-      "phrase": "apify actor curious",
+      "phrase": "apify actor",
       "count": 1,
       "where": "-",
       "status": "G",
@@ -360,15 +441,14 @@
       "shared_words": []
     },
     {
-      "phrase": "updating internal quality procedures",
+      "phrase": "updating internal",
       "count": 1,
       "where": "Task",
       "status": "R",
       "counted": true,
       "cv_line": "quality intern, abc manufacturing, summer 2023",
       "shared_words": [
-        "internal",
-        "quality"
+        "internal"
       ]
     },
     {
@@ -430,15 +510,6 @@
       "shared_words": []
     },
     {
-      "phrase": "regulatory",
-      "count": 1,
-      "where": "Task",
-      "status": "G",
-      "counted": true,
-      "cv_line": "",
-      "shared_words": []
-    },
-    {
       "phrase": "internal",
       "count": 1,
       "where": "Task",
@@ -463,15 +534,6 @@
     {
       "phrase": "engineers",
       "count": 2,
-      "where": "Task",
-      "status": "G",
-      "counted": true,
-      "cv_line": "",
-      "shared_words": []
-    },
-    {
-      "phrase": "stakeholders",
-      "count": 1,
       "where": "Task",
       "status": "G",
       "counted": true,
@@ -534,7 +596,7 @@
     },
     {
       "phrase": "engineering",
-      "count": 1,
+      "count": 2,
       "where": "Task",
       "status": "M",
       "counted": true,
@@ -627,17 +689,6 @@
       "shared_words": []
     },
     {
-      "phrase": "production floor",
-      "count": 1,
-      "where": "Task",
-      "status": "R",
-      "counted": true,
-      "cv_line": "courses: production systems and inventory control, scheduling theory, quality control, simulation",
-      "shared_words": [
-        "production"
-      ]
-    },
-    {
       "phrase": "observe",
       "count": 1,
       "where": "Task",
@@ -647,7 +698,7 @@
       "shared_words": []
     },
     {
-      "phrase": "inspections",
+      "phrase": "procedures",
       "count": 1,
       "where": "Task",
       "status": "G",
@@ -656,7 +707,7 @@
       "shared_words": []
     },
     {
-      "phrase": "testing procedures",
+      "phrase": "checks",
       "count": 1,
       "where": "Task",
       "status": "G",
@@ -665,35 +716,13 @@
       "shared_words": []
     },
     {
-      "phrase": "compliance checks",
+      "phrase": "document",
       "count": 1,
       "where": "Task",
       "status": "G",
       "counted": true,
       "cv_line": "",
       "shared_words": []
-    },
-    {
-      "phrase": "production lines",
-      "count": 1,
-      "where": "Task",
-      "status": "R",
-      "counted": true,
-      "cv_line": "courses: production systems and inventory control, scheduling theory, quality control, simulation",
-      "shared_words": [
-        "production"
-      ]
-    },
-    {
-      "phrase": "document quality issues",
-      "count": 1,
-      "where": "Task",
-      "status": "R",
-      "counted": true,
-      "cv_line": "master's student in industrial engineering. interested in operations, quality and process improvement. bilingual (english and french).",
-      "shared_words": [
-        "quality"
-      ]
     },
     {
       "phrase": "gain hands",
@@ -721,17 +750,6 @@
       "counted": true,
       "cv_line": "",
       "shared_words": []
-    },
-    {
-      "phrase": "quality metrics",
-      "count": 1,
-      "where": "Task",
-      "status": "R",
-      "counted": true,
-      "cv_line": "master's student in industrial engineering. interested in operations, quality and process improvement. bilingual (english and french).",
-      "shared_words": [
-        "quality"
-      ]
     },
     {
       "phrase": "reported",
@@ -817,27 +835,7 @@
       "shared_words": []
     },
     {
-      "phrase": "r&d",
-      "count": 1,
-      "where": "Task",
-      "status": "G",
-      "counted": true,
-      "cv_line": "",
-      "shared_words": []
-    },
-    {
-      "phrase": "manufacturing engineering",
-      "count": 1,
-      "where": "Task",
-      "status": "R",
-      "counted": true,
-      "cv_line": "master's student in industrial engineering. interested in operations, quality and process improvement. bilingual (english and french).",
-      "shared_words": [
-        "engineering"
-      ]
-    },
-    {
-      "phrase": "alongside multi disciplinary",
+      "phrase": "alongside multi",
       "count": 1,
       "where": "Task",
       "status": "G",
@@ -1016,17 +1014,6 @@
       "shared_words": []
     },
     {
-      "phrase": "electrical engineering",
-      "count": 1,
-      "where": "Required",
-      "status": "R",
-      "counted": true,
-      "cv_line": "master's student in industrial engineering. interested in operations, quality and process improvement. bilingual (english and french).",
-      "shared_words": [
-        "engineering"
-      ]
-    },
-    {
       "phrase": "mandatory",
       "count": 1,
       "where": "Required",
@@ -1037,24 +1024,6 @@
     },
     {
       "phrase": "methods",
-      "count": 1,
-      "where": "Required",
-      "status": "G",
-      "counted": true,
-      "cv_line": "",
-      "shared_words": []
-    },
-    {
-      "phrase": "rigor",
-      "count": 2,
-      "where": "Required",
-      "status": "G",
-      "counted": true,
-      "cv_line": "",
-      "shared_words": []
-    },
-    {
-      "phrase": "motivated",
       "count": 1,
       "where": "Required",
       "status": "G",
@@ -1090,7 +1059,7 @@
       "shared_words": []
     },
     {
-      "phrase": "analytical mindset",
+      "phrase": "mindset",
       "count": 1,
       "where": "Required",
       "status": "G",
@@ -1149,5 +1118,5 @@
     ]
   ],
   "occupation_alignment": [],
-  "coverage_with_related_pct": 31.0
+  "coverage_with_related_pct": 32.1
 }

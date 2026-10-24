@@ -2,22 +2,26 @@
   "file": "bombardier_material_logistics_intern.txt",
   "title": "Intern, Material Logsitics (Winter 2027)",
   "company": "Bombardier",
-  "coverage_pct": 33.3,
+  "coverage_pct": 31.3,
   "matched": [
     "Industrial engineering",
+    "Manufacturing experience",
     "Excel",
     "English",
     "French"
   ],
   "missing": [
+    "Teamwork",
+    "Environmental sustainability",
     "ERP",
     "KPIs",
+    "Integrity",
     "Action planning",
     "Logistics",
     "Operations management",
     "SAP",
-    "Planning",
-    "Teamwork"
+    "Microsoft Office",
+    "Planning"
   ],
   "related_not_counted": [
     [
@@ -33,6 +37,10 @@
       "Industrial engineering"
     ],
     [
+      "Microsoft Office",
+      "Excel"
+    ],
+    [
       "Planning",
       "Scheduling"
     ]
@@ -45,6 +53,14 @@
     "Travel outside Canada"
   ],
   "job_skills": {
+    "Teamwork": {
+      "tag": "REQUIRED",
+      "evidence": "- Are a team player"
+    },
+    "Environmental sustainability": {
+      "tag": "OTHER",
+      "evidence": "Bombardier is a global leader in aviation, creating innovative and game-changing planes. Our products and services provide world-class experiences that set new standards in passenger comfort, energy efficiency, reliability and safety. We are a global organization focused on working together with a team spirit."
+    },
     "ERP": {
       "tag": "TASK",
       "evidence": "- Analyse ERP’s datas quality"
@@ -52,6 +68,10 @@
     "KPIs": {
       "tag": "TASK",
       "evidence": "- Define and maintain key performance indicators based on our ERP, and our internal process."
+    },
+    "Integrity": {
+      "tag": "TASK",
+      "evidence": "- Maintain system integrity."
     },
     "Action planning": {
       "tag": "TASK",
@@ -65,6 +85,10 @@
       "tag": "TASK",
       "evidence": "- Interact with multifunctional teams (Logistic, supply, methods, Industrial Engineering, Quality)"
     },
+    "Manufacturing experience": {
+      "tag": "TASK",
+      "evidence": "- Support new tools implantation in our manufacturing system"
+    },
     "Operations management": {
       "tag": "REQUIRED",
       "evidence": "- Study at BAA in logistic or operation management"
@@ -74,6 +98,10 @@
       "evidence": "- Master SAP and office suite (Excel)"
     },
     "SAP": {
+      "tag": "REQUIRED",
+      "evidence": "- Master SAP and office suite (Excel)"
+    },
+    "Microsoft Office": {
       "tag": "REQUIRED",
       "evidence": "- Master SAP and office suite (Excel)"
     },
@@ -88,17 +116,13 @@
     "Planning": {
       "tag": "REQUIRED",
       "evidence": "- Have great planning habilities"
-    },
-    "Teamwork": {
-      "tag": "REQUIRED",
-      "evidence": "- Are a team player"
     }
   },
-  "phrases_counted": 80,
+  "phrases_counted": 73,
   "phrases_matched": 4,
-  "phrases_close": 5,
-  "phrase_coverage_pct": 5.0,
-  "phrase_coverage_with_close_pct": 8.1,
+  "phrases_close": 4,
+  "phrase_coverage_pct": 5.5,
+  "phrase_coverage_with_close_pct": 8.2,
   "phrases": [
     {
       "phrase": "material logsitics",
@@ -173,7 +197,7 @@
       "shared_words": []
     },
     {
-      "phrase": "apify actor curious",
+      "phrase": "apify actor",
       "count": 1,
       "where": "-",
       "status": "G",
@@ -355,15 +379,6 @@
       "shared_words": []
     },
     {
-      "phrase": "energy efficiency",
-      "count": 1,
-      "where": "-",
-      "status": "G",
-      "counted": true,
-      "cv_line": "",
-      "shared_words": []
-    },
-    {
       "phrase": "reliability",
       "count": 1,
       "where": "-",
@@ -392,15 +407,6 @@
     },
     {
       "phrase": "focused",
-      "count": 1,
-      "where": "-",
-      "status": "G",
-      "counted": true,
-      "cv_line": "",
-      "shared_words": []
-    },
-    {
-      "phrase": "spirit",
       "count": 1,
       "where": "-",
       "status": "G",
@@ -557,15 +563,6 @@
       ]
     },
     {
-      "phrase": "system integrity",
-      "count": 1,
-      "where": "Task",
-      "status": "G",
-      "counted": true,
-      "cv_line": "",
-      "shared_words": []
-    },
-    {
       "phrase": "internal",
       "count": 1,
       "where": "Task",
@@ -631,17 +628,6 @@
       "shared_words": []
     },
     {
-      "phrase": "manufacturing system",
-      "count": 1,
-      "where": "Task",
-      "status": "R",
-      "counted": true,
-      "cv_line": "quality intern, abc manufacturing, summer 2023",
-      "shared_words": [
-        "manufacturing"
-      ]
-    },
-    {
       "phrase": "thrive",
       "count": 1,
       "where": "Required",
@@ -669,15 +655,6 @@
       "shared_words": []
     },
     {
-      "phrase": "minimum",
-      "count": 1,
-      "where": "Required",
-      "status": "G",
-      "counted": true,
-      "cv_line": "",
-      "shared_words": []
-    },
-    {
       "phrase": "program",
       "count": 1,
       "where": "Required",
@@ -693,15 +670,6 @@
       "status": "M",
       "counted": true,
       "cv_line": "master's student in industrial engineering. interested in operations, quality and process improvement. bilingual (english and french).",
-      "shared_words": []
-    },
-    {
-      "phrase": "office suite",
-      "count": 1,
-      "where": "Required",
-      "status": "G",
-      "counted": true,
-      "cv_line": "",
       "shared_words": []
     },
     {
@@ -760,15 +728,6 @@
     },
     {
       "phrase": "flexible workplace hybrid",
-      "count": 1,
-      "where": "Required",
-      "status": "G",
-      "counted": true,
-      "cv_line": "",
-      "shared_words": []
-    },
-    {
-      "phrase": "important",
       "count": 1,
       "where": "Required",
       "status": "G",
@@ -838,5 +797,5 @@
   "skills_from_oasis": [],
   "inferred_related": [],
   "occupation_alignment": [],
-  "coverage_with_related_pct": 50.0
+  "coverage_with_related_pct": 46.9
 }

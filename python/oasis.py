@@ -38,7 +38,7 @@ def fold(text):
     """Lowercase, straighten quotes and dashes, remove accents.
     'Qualité' and 'qualite' become the same word, so French CVs match."""
     text = text.lower()
-    for a, b in (("’", "'"), ("‘", "'"), ("‑", "-"), ("–", "-"), ("—", "-")):
+    for a, b in (("’", "'"), ("‘", "'"), ("‑", "-"), ("–", "-"), ("—", "-"), ("œ", "oe"), ("æ", "ae")):
         text = text.replace(a, b)
     text = unicodedata.normalize("NFKD", text)
     return "".join(c for c in text if not unicodedata.combining(c))

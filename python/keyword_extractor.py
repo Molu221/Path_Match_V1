@@ -16,11 +16,17 @@ Only the Python standard library is used. Nothing to install.
 import re
 import sys
 import json
+import math
 import pathlib
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))   # find oasis.py next to this file
 import oasis   # OaSIS helpers (python/oasis.py). Data file: python/oasis_data.json
 import terms   # keywords from the whole posting, with no skill list (python/terms.py)
+
+def pct1(part, whole):
+    """A percentage with one decimal, rounded half up (31.25 -> 31.3), the same way the website rounds it."""
+    return math.floor(1000 * part / whole + 0.5) / 10 if whole else 0.0
+
 
 # ----------------------------------------------------------------------------
 # PART 1. THE SKILL LIST  (a "dictionary": official name -> other ways to write it)
@@ -160,6 +166,29 @@ SKILLS = {
     "French":                    ["french", "francais"],
 }
 
+# More skills, in every field and in French as well as English (python/skills_extra.py).
+import skills_extra
+
+
+def _fold_all(aliases):
+    out, seen = [], set()
+    for a in aliases:
+        f = oasis.fold(a).strip()
+        if f and f not in seen:
+            seen.add(f)
+            out.append(f)
+    return out
+
+
+for _name, _more in skills_extra.MORE_ALIASES.items():
+    SKILLS[_name] = _fold_all(list(SKILLS[_name]) + list(_more))
+for _name, _aliases in skills_extra.NEW_SKILLS.items():
+    SKILLS.setdefault(_name, _fold_all(_aliases))
+for _name, (_remove, _add) in skills_extra.PRUNE.items():       # spellings that fired on the wrong thing in real postings
+    if _name in SKILLS:
+        _gone = set(_fold_all(_remove))
+        SKILLS[_name] = _fold_all([a for a in SKILLS[_name] if a not in _gone] + list(_add))
+
 # Words that mean "this skill is only a nice-to-have" on the line where they appear.
 PREFERRED_WORDS = ["asset", "nice to have", "preferred"]
 
@@ -263,6 +292,13 @@ RELATED_WHY = {
 }
 
 
+# Close pairs of the extra skills (python/skills_extra.py)
+for _job, _cv, _why in skills_extra.CLOSE_PAIRS:
+    if _cv not in RELATED.setdefault(_job, []):
+        RELATED[_job].append(_cv)
+    RELATED_WHY.setdefault((_job, _cv), _why)
+
+
 # ----------------------------------------------------------------------------
 # PART 2. THE TOOLS
 # ----------------------------------------------------------------------------
@@ -274,8 +310,9 @@ def build_patterns(skills=None):
     for name, aliases in (SKILLS if skills is None else skills).items():
         parts = []
         for alias in aliases:
+            plural = r"" if alias in skills_extra.NO_PLURAL else r"s?"   # 'initiative' but not 'initiatives'
             alias = re.escape(alias).replace(r"\ ", r"[\s-]+")   # allow space or hyphen
-            parts.append(alias + r"s?")                           # allow a plural 's'
+            parts.append(alias + plural)                          # allow a plural 's'
         patterns[name] = re.compile(r"(?<![a-z0-9])(?:" + "|".join(parts) + r")(?![a-z0-9])")
     return patterns
 
@@ -354,7 +391,7 @@ def term_summary(job_text, cv_text):
     m = sum(r["status"] == "M" for r in counted)
     c = sum(r["status"] == "R" for r in counted)
     n = len(counted)
-    pct = lambda v: round(100 * v / n, 1) if n else 0.0
+    pct = lambda v: pct1(v, n)
     return {"phrases": rows, "counted": n, "matched": m, "close": c, "pct": pct(m), "pct_with_close": pct(m + 0.5 * c)}
 
 
@@ -446,7 +483,7 @@ def compare(job_kw, cv_kw):
 def related_coverage(matched, missing, related, inferred, total):
     """(Match + 0.5 x Related) / total, the project formula. A missing skill counts once."""
     linked = {a for a, _ in related} | {a for a, _, _, _ in inferred}
-    return round(100 * (len(matched) + 0.5 * len(linked & set(missing))) / total, 1) if total else 0.0
+    return pct1(len(matched) + 0.5 * len(linked & set(missing)), total)
 
 
 def oasis_report_data(job_text, cv_text, matched, missing, cv_kw, related, job_kw):

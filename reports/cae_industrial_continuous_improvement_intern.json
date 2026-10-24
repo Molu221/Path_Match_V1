@@ -2,9 +2,10 @@
   "file": "cae_industrial_continuous_improvement_intern.txt",
   "title": "Industrial/Manufacturing Engineering and Continuous Improvement Intern",
   "company": "CAE",
-  "coverage_pct": 32.1,
+  "coverage_pct": 31.3,
   "matched": [
     "Industrial engineering",
+    "Manufacturing experience",
     "Lean Six Sigma",
     "Process mapping",
     "Root cause analysis",
@@ -16,24 +17,27 @@
   ],
   "missing": [
     "Continuous improvement",
-    "Initiative",
+    "Strategic thinking",
     "PDCA",
     "8D",
     "A3",
     "BPM",
     "Lean Manufacturing",
+    "Optimization",
     "Gap analysis",
     "Action planning",
     "Communication",
     "Facilitation",
     "Problem solving",
     "KPIs",
+    "Analytical skills",
     "Operational excellence",
     "Project management",
     "Collaboration",
     "Interpersonal skills",
     "Teamwork",
-    "PMP"
+    "PMP",
+    "Trade compliance"
   ],
   "related_not_counted": [
     [
@@ -78,9 +82,13 @@
       "tag": "REQUIRED",
       "evidence": "- Previous internship experience in continuous improvement, operational excellence, industrial engineering, project management or a related field."
     },
-    "Initiative": {
-      "tag": "TASK",
-      "evidence": "- Monitor and report on project progress to help ensure the success of continuous improvement initiatives."
+    "Manufacturing experience": {
+      "tag": "OTHER",
+      "evidence": "By joining our team, you will have the opportunity to support the Manufacturing/Industrial Engineering team. This internship offers hands-on experience to promote continuous improvement and contribute to strategic initiatives with a real impact across the organization."
+    },
+    "Strategic thinking": {
+      "tag": "OTHER",
+      "evidence": "By joining our team, you will have the opportunity to support the Manufacturing/Industrial Engineering team. This internship offers hands-on experience to promote continuous improvement and contribute to strategic initiatives with a real impact across the organization."
     },
     "Lean Six Sigma": {
       "tag": "TASK",
@@ -103,6 +111,10 @@
       "evidence": "- Lead and support continuous improvement projects by applying recognized methodologies such as PDCA, 8D, A3, Lean Six Sigma and BPM (Business Process Management)."
     },
     "Lean Manufacturing": {
+      "tag": "TASK",
+      "evidence": "- Contribute to Lean Manufacturing projects aimed at optimizing processes and ways of working."
+    },
+    "Optimization": {
       "tag": "TASK",
       "evidence": "- Contribute to Lean Manufacturing projects aimed at optimizing processes and ways of working."
     },
@@ -141,6 +153,10 @@
     "Dashboards": {
       "tag": "TASK",
       "evidence": "- Track and report impacts using key performance indicators (KPIs) and dashboards."
+    },
+    "Analytical skills": {
+      "tag": "REQUIRED",
+      "evidence": "- Excellent analytical and problem-solving skills."
     },
     "Operational excellence": {
       "tag": "REQUIRED",
@@ -181,13 +197,17 @@
     "French": {
       "tag": "REQUIRED",
       "evidence": "- Bilingual (French and English)."
+    },
+    "Trade compliance": {
+      "tag": "OTHER",
+      "evidence": "All applicants must be legally entitled to work in Canada and must meet the requirements of the Canadian Controlled Goods Program (CGP). All students with a work permit must provide a copy of it and a police clearance certificate from the country or countries where they have resided in the past five years."
     }
   },
-  "phrases_counted": 50,
+  "phrases_counted": 47,
   "phrases_matched": 7,
-  "phrases_close": 4,
-  "phrase_coverage_pct": 14.0,
-  "phrase_coverage_with_close_pct": 18.0,
+  "phrases_close": 3,
+  "phrase_coverage_pct": 14.9,
+  "phrase_coverage_with_close_pct": 18.1,
   "phrases": [
     {
       "phrase": "industrial",
@@ -199,15 +219,13 @@
       "shared_words": []
     },
     {
-      "phrase": "manufacturing engineering",
+      "phrase": "engineering",
       "count": 1,
       "where": "-",
-      "status": "R",
+      "status": "M",
       "counted": true,
       "cv_line": "master's student in industrial engineering. interested in operations, quality and process improvement. bilingual (english and french).",
-      "shared_words": [
-        "engineering"
-      ]
+      "shared_words": []
     },
     {
       "phrase": "cae",
@@ -264,7 +282,7 @@
       "shared_words": []
     },
     {
-      "phrase": "apify actor curious",
+      "phrase": "apify actor",
       "count": 1,
       "where": "-",
       "status": "G",
@@ -309,25 +327,7 @@
       "shared_words": []
     },
     {
-      "phrase": "manufacturing",
-      "count": 1,
-      "where": "-",
-      "status": "M",
-      "counted": true,
-      "cv_line": "quality intern, abc manufacturing, summer 2023",
-      "shared_words": []
-    },
-    {
       "phrase": "hands",
-      "count": 1,
-      "where": "-",
-      "status": "G",
-      "counted": true,
-      "cv_line": "",
-      "shared_words": []
-    },
-    {
-      "phrase": "strategic",
       "count": 1,
       "where": "-",
       "status": "G",
@@ -373,15 +373,6 @@
     },
     {
       "phrase": "large scale transformation projects",
-      "count": 1,
-      "where": "-",
-      "status": "G",
-      "counted": true,
-      "cv_line": "",
-      "shared_words": []
-    },
-    {
-      "phrase": "optimizing processes",
       "count": 1,
       "where": "-",
       "status": "G",
@@ -455,6 +446,15 @@
       ]
     },
     {
+      "phrase": "initiatives",
+      "count": 1,
+      "where": "-",
+      "status": "G",
+      "counted": true,
+      "cv_line": "",
+      "shared_words": []
+    },
+    {
       "phrase": "track",
       "count": 1,
       "where": "-",
@@ -469,15 +469,6 @@
       "phrase": "report impacts",
       "count": 1,
       "where": "-",
-      "status": "G",
-      "counted": true,
-      "cv_line": "",
-      "shared_words": []
-    },
-    {
-      "phrase": "analytical",
-      "count": 1,
-      "where": "Required",
       "status": "G",
       "counted": true,
       "cv_line": "",
@@ -594,7 +585,7 @@
       "shared_words": []
     },
     {
-      "phrase": "controlled goods program",
+      "phrase": "program",
       "count": 1,
       "where": "Preferred",
       "status": "G",
@@ -655,5 +646,5 @@
   "skills_from_oasis": [],
   "inferred_related": [],
   "occupation_alignment": [],
-  "coverage_with_related_pct": 39.3
+  "coverage_with_related_pct": 37.5
 }

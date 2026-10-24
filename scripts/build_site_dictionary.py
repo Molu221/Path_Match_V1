@@ -67,7 +67,7 @@ def build():
     return {"meta": meta, "skills": skills, "related": kx.RELATED, "inferred": inferred_table(kx.OASIS),
             "why": {f"{a}|{b}": reason for (a, b), reason in kx.RELATED_WHY.items()},
             "flags": [{"n": name, "p": pat} for name, pat in kx.FLAG_PATTERNS.items()],
-            "cv_headings": kx.CV_HEADINGS,
+            "cv_headings": kx.CV_HEADINGS, "noPlural": sorted(kx.skills_extra.NO_PLURAL),
             "terms": {"stop": sorted(terms.STOP), "weak": sorted(terms.WEAK)}}
 
 

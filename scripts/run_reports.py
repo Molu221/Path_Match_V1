@@ -30,7 +30,7 @@ def main():
         text = post.read_text(encoding="utf-8")
         job_kw = kx.extract_job_keywords(text)
         matched, missing, extra, related = kx.compare(job_kw, cv_kw)
-        cover = round(100 * len(matched) / len(job_kw), 1) if job_kw else 0.0
+        cover = kx.pct1(len(matched), len(job_kw))
         row = {
             "file": post.name,
             "title": header(text, "JOB"),

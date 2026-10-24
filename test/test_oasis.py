@@ -330,9 +330,12 @@ class RealLayoutTest(unittest.TestCase):
         merged, source = oasis.merge_skills(kx.SKILLS, self.data)
         pats = kx.build_patterns(merged)
         name = "Oral Communication: Active Listening"
-        self.assertIn(name, merged)
-        self.assertTrue(pats[name].search("strong active listening skills"))
-        self.assertTrue(pats[name].search(oasis.fold("une bonne écoute active")))
+        # the OaSIS name is merged into the skill that already exists ("Active listening"), so there is one skill, not two
+        target = name if name in merged else next(n for n, al in merged.items() if oasis.fold(name) in al)
+        self.assertEqual(target, "Active listening")
+        self.assertTrue(pats[target].search("strong active listening skills"))
+        self.assertTrue(pats[target].search(oasis.fold("une bonne écoute active")))
+        self.assertTrue(pats[target].search("communication verbale : écoute active".replace("é", "e")))
         self.assertFalse([k for k in merged if "Degree of" in k], "working conditions must not become skills")
 
     def test_very_common_skills_are_not_inferred(self):
@@ -343,8 +346,9 @@ class RealLayoutTest(unittest.TestCase):
 
 
 class DeckExamplesTest(unittest.TestCase):
-    """The three posts and the CV from the progress presentation. Every skill the presentation lists must be
-    found with the same status (on the CV or not). Extra skills may appear, but only from OaSIS."""
+    """The three posts and the CV from the progress presentation. Every skill the presentation lists must still be
+    found with the same status (on the CV or not). The dictionary has grown since (OaSIS names and the extra
+    skills of python/skills_extra.py), so more skills may appear, but none may disappear or change status."""
 
     def test_skills_listed_in_the_presentation(self):
         import keyword_extractor as kx
@@ -357,11 +361,11 @@ class DeckExamplesTest(unittest.TestCase):
             text = (fx / name).read_text(encoding="utf-8")
             job_kw = kx.extract_job_keywords(text)
             matched, missing, extra, related = kx.compare(job_kw, cv_kw)
-            self.assertEqual(sorted(want["both"]), sorted(m for m in matched if kx.SKILL_SOURCE.get(m) == "curated"), name)
-            self.assertTrue(set(want["not_on_cv"]) <= set(missing), f"{name}: {set(want['not_on_cv']) - set(missing)}")
-            extras = (set(matched) | set(missing)) - set(want["both"]) - set(want["not_on_cv"])
-            self.assertTrue(all(kx.SKILL_SOURCE.get(x, "curated") != "curated" or name != "bombardier_manufacturing_engineering.txt"
-                                for x in extras), f"{name}: unexpected curated skills {extras}")
+            self.assertTrue(set(want["both"]) <= set(matched), f"{name}: lost {set(want['both']) - set(matched)}")
+            # "Manufacturing experience" was "not on the CV" in the presentation; the word "manufacturing" is now a
+            # spelling of it and the CV does write it, so it is found. Every other skill keeps its status.
+            still_missing = set(want["not_on_cv"]) - {"Manufacturing experience"}
+            self.assertTrue(still_missing <= set(missing), f"{name}: {still_missing - set(missing)}")
             for pair in want["close"]:
                 self.assertIn(tuple(pair), related, name)
             for flag in want["flags"]:
@@ -373,9 +377,8 @@ class DeckExamplesTest(unittest.TestCase):
         cv_kw = kx.extract_cv_keywords((fx / "maya_fontaine_cv.txt").read_text(encoding="utf-8"))
         job_kw = kx.extract_job_keywords((fx / "bombardier_manufacturing_engineering.txt").read_text(encoding="utf-8"))
         matched, missing, _, _ = kx.compare(job_kw, cv_kw)
-        self.assertEqual(len(matched), 10)                   # 10 of 33 in the presentation
-        if kx.OASIS:                                          # OaSIS adds "Writing" (from "in writing")
-            self.assertLessEqual(len(job_kw), 34)
+        self.assertGreaterEqual(len(matched), 10)            # 10 of 33 in the presentation; more skills are found now
+        self.assertGreaterEqual(len(job_kw), 33)
 
 
 @unittest.skipUnless(shutil.which("node") and (ROOT / "python" / "oasis_data.json").exists(),
@@ -419,7 +422,7 @@ class MatcherParityTest(unittest.TestCase):
             self.assertEqual(sorted(map(tuple, got["inferred"])), sorted((a, b) for a, b, _, _ in rep["inferred_related"]), post.name)
             self.assertEqual(sorted(got["flags"]), sorted(kx.find_flags(text)), post.name)
             self.assertTrue(got["spansOk"], post.name)
-            self.assertAlmostEqual(got["coveragePct"], round(100 * len(matched) / len(job_kw), 1), places=1)
+            self.assertAlmostEqual(got["coveragePct"], kx.pct1(len(matched), len(job_kw)), places=1)
             self.assertAlmostEqual(got["coverageWithRelatedPct"], rep["coverage_with_related_pct"], places=1)
             # open vocabulary: every phrase of the posting, with the same counts and the same Match / Close / Gap
             body = "\n".join(l for l in text.split("\n") if not re.match(r"^(JOB|COMPANY|SOURCE):", l.strip()))
@@ -461,6 +464,34 @@ class MatcherParityTest(unittest.TestCase):
         self.assertIn(["Continuous improvement", "Kaizen", "Strong"], got["links"])
         self.assertIn("Citizen / permanent resident", got["flags"])
 
+    def test_french_soft_skills_and_noise(self):
+        """French soft skills and job skills are found (and match the English names a CV uses); words that mean something
+        else in a posting are not: perks, 'entretien' = interview, 'initiatives' = company programmes, 'achat de conges'."""
+        import keyword_extractor as kx
+        sys.path.insert(0, str(ROOT / "scripts"))
+        import build_site_dictionary as site
+        fr = ROOT / "test" / "fixtures" / "fr"
+        post = fr / "soft_skills_fr.txt"
+        with tempfile.TemporaryDirectory() as tmp:
+            dict_path = pathlib.Path(tmp) / "skills.json"
+            dict_path.write_text(json.dumps(site.build(), ensure_ascii=False), encoding="utf-8")
+            self._compare(site, dict_path, fr / "cv_fr.txt", [post])
+            r = subprocess.run(["node", str(ROOT / "test" / "matcher_harness.cjs"), str(dict_path), str(fr / "cv_fr.txt"), str(post)],
+                               capture_output=True, text=True)
+            js = set(json.loads(r.stdout)["posts"][post.name]["job"])
+        py = set(kx.extract_job_keywords(post.read_text(encoding="utf-8")))
+        self.assertEqual(js, py)
+        for skill in ("Rigor", "Autonomy", "Teamwork", "Organizational skills", "Works under pressure", "Prioritization",
+                      "Written communication", "Verbal communication", "Dashboards", "Stakeholder management", "Documentation",
+                      "Process optimization", "Microsoft Office", "Compliance", "Collaboration",
+                      "Initiative", "Bilingual (EN/FR)", "Lean Six Sigma", "SAP", "Excel"):
+            self.assertIn(skill, py, skill)
+        for skill in ("Compensation and benefits", "Maintenance and reliability", "Procurement", "Healthcare and clinical", "Recruitment"):
+            self.assertNotIn(skill, py, skill)
+        # 'initiative' is a skill, 'initiatives' is what a company runs
+        self.assertEqual(kx.find_skills_in_line("Appuyer les initiatives de l'entreprise"), [])
+        self.assertEqual(kx.find_skills_in_line("Attention to detail, initiative, and autonomy"), ["Attention to detail", "Initiative", "Autonomy"])
+
     def test_titles_alone_show_their_skills(self):
         import keyword_extractor as kx
         want = {"Stagiaire en amélioration continue et qualité": ["Continuous improvement"],
@@ -489,7 +520,7 @@ class MatcherParityTest(unittest.TestCase):
             + kx.find_skills_in_line("Technical writing, writing reports.")
         self.assertEqual(set(got), set(want))
         self.assertIn("Problem solving", got)
-        self.assertIn("Time Management", got)
+        self.assertIn("Time management", got)
 
 
 class OverlapTest(unittest.TestCase):
@@ -612,10 +643,10 @@ class OpenVocabularyTest(unittest.TestCase):
 
     POST = (
         "Responsibilities\n"
-        "- Stainless steel pipes and ultrasonic testing of the welds\n"
+        "- Stainless steel pipes and flange alignment of the headers\n"
         "Requirements\n"
         "- Knowledge of boiler code and pressure vessels\n"
-        "- Boiler inspection\n"
+        "- Boiler tubes\n"
         "About us\n"
         "We offer a friendly culture and free coffee\n"
     )
@@ -624,7 +655,7 @@ class OpenVocabularyTest(unittest.TestCase):
     def test_phrases_come_from_the_text_not_from_a_list(self):
         s = self.kx.term_summary(self.POST, self.CV)
         names = {r["phrase"].lower(): r for r in s["phrases"]}
-        for phrase in ("stainless steel pipes", "ultrasonic testing", "pressure vessels", "boiler code"):
+        for phrase in ("stainless steel pipes", "flange alignment", "pressure vessels", "boiler code"):
             self.assertIn(phrase, names, phrase)
 
     def test_match_close_and_gap(self):
@@ -632,10 +663,10 @@ class OpenVocabularyTest(unittest.TestCase):
         st = {r["phrase"].lower(): r["status"] for r in s["phrases"]}
         self.assertEqual(st["stainless steel pipes"], "M")
         self.assertEqual(st["boiler code"], "M")
-        self.assertEqual(st["ultrasonic testing"], "G")
+        self.assertEqual(st["flange alignment"], "G")
         self.assertEqual(st["pressure vessels"], "G")
         # a close phrase (shares "boiler" with a CV line) is never reported as a match
-        self.assertEqual(st["boiler inspection"], "R")
+        self.assertEqual(st["boiler tubes"], "R")
 
     def test_company_part_is_listed_but_not_counted(self):
         s = self.kx.term_summary(self.POST, self.CV)
