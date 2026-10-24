@@ -1,0 +1,369 @@
+{
+ "at": "2026-10-24T21:08:31.901Z",
+ "results": [
+  {
+   "name": "arbeitnow api",
+   "url": "https://www.arbeitnow.com/api/job-board-api",
+   "method": "GET",
+   "status": 200,
+   "contentType": "application/json",
+   "bytes": 2669190,
+   "head": "{\"data\":[{\"slug\":\"product-owner-business-analyst-bochum-84748\",\"company_name\":\"Trafineo\",\"title\":\"Product Owner\\/Business Analyst (m\\/f\\/d)\",\"description\":\"<p class=\\\"MsoNormal\\\"><strong>Product Owner\\/Business Analyst (m\\/f\\/d)<\\/strong><\\/p><p class=\\\"MsoNormal\\\"><strong>-Bochum-<\\/strong><\\/p><p class=\\\"MsoNormal\\\"><strong>&nbsp;<\\/strong><\\/p><p class=\\\"MsoNormal\\\"><strong>Shape the Future of Mobility with Us!<br>Trafineo \\u2013 Your Path to an Innovative Mobility World<\\/strong><\\/p><p style=\\\"min-height: 1.7em;\\\"><\\/p><p class=\\\"MsoNormal\\\">As a leading provider of On-Road-Services and mobility solutions in Europe, we combine the strengths of BP Europa SE (Aral) and Circle K (Alimentat",
+   "jsonLdJobPostings": 0,
+   "ms": 241
+  },
+  {
+   "name": "bamboohr",
+   "url": "https://bamboohr.bamboohr.com/careers/list",
+   "method": "GET",
+   "status": 200,
+   "finalUrl": "https://www.bamboohr.com/",
+   "contentType": "text/html; charset=utf-8",
+   "bytes": 44764,
+   "head": "<!DOCTYPE html> <html> <head> <title>BambooHR: The Complete HR Software for People, Payroll &#x26; Benefits</title> <link rel=\"canonical\" href=\"https://www.bamboohr.com/\"> <meta name=\"description\" content=\"BambooHR makes it easy to simplify HR, with award-winning solutions for everything from hire to retire. Learn more with a free demo today.\"> <meta property=\"og:title\" content=\"BambooHR: The Complete HR Software for People, Payroll &#x26; Benefits\"> <meta property=\"og:description\" content=\"BambooHR makes it easy to simplify HR, with award-winning solutions for everything from hire to retire. Learn more with a free demo today.\"> <meta property=\"og:url\" content=\"https://www.bamboohr.com/\"> <m",
+   "jsonLdJobPostings": 0,
+   "ms": 528
+  },
+  {
+   "name": "breezy",
+   "url": "https://breezy.breezy.hr/json",
+   "method": "GET",
+   "status": 200,
+   "contentType": "application/json; charset=utf-8",
+   "bytes": 1892,
+   "head": "[{\"id\":\"98323abf2296\",\"friendly_id\":\"98323abf2296-employee-12\",\"name\":\"Employee #12\",\"url\":\"https://breezy.breezy.hr/p/98323abf2296-employee-12\",\"published_date\":\"2024-02-15T14:37:22.684Z\",\"type\":{\"id\":\"other\",\"name\":\"Other\"},\"location\":{\"country\":{\"name\":\"United States\",\"id\":\"US\"},\"state\":{\"id\":\"FL\",\"name\":\"Florida\"},\"city\":\"Chaos\",\"primary\":true,\"is_remote\":false,\"name\":\"Chaos, FL\"},\"department\":\"Does Not Matter\",\"salary\":\"$0.05 – $0.06 / hour\",\"company\":{\"name\":\"MS Breezy Trial\",\"logo_url\":null,\"friendly_id\":\"breezy\",\"isMultipleLocationsEnabled\":false},\"locations\":[{\"country\":{\"name\":\"United States\",\"id\":\"US\"},\"state\":{\"id\":\"FL\",\"name\":\"Florida\"},\"city\":\"Chaos\",\"primary\":true,\"is_remote\":",
+   "jsonLdJobPostings": 0,
+   "ms": 135
+  },
+  {
+   "name": "gc jobs (status only)",
+   "url": "https://emploisfp-psjobs.cfp-psc.gc.ca/psrs-srfp/applicant/page1800?toggleLanguage=en",
+   "method": "GET",
+   "status": 404,
+   "finalUrl": "https://emploisfp-psjobs.cfp-psc.gc.ca/psrs-srfp/applicant/page1800?iscr=iscr&icr=icr&toggleLanguage=en",
+   "contentType": "text/html;charset=UTF-8",
+   "bytes": 4490,
+   "head": "<!DOCTYPE html><!--[if lt IE 9]> <html class=\"no-js lt-ie9\" lang=\"fr\" dir=\"ltr\"><![endif]--><!--[if gt IE 8]><!--> <html class=\"no-js\" lang=\"fr\" dir=\"ltr\"> <!--<![endif]--> <head> <meta charset=\"utf-8\"> <!-- Web Experience Toolkit (WET) / Boîte à outils de l'expérience Web (BOEW) wet-boew.github.io/wet-boew/License-en.html / wet-boew.github.io/wet-boew/Licence-fr.html --> <title>Fichier introuvable / File not found</title> <meta content=\"width=device-width,initial-scale=1\" name=\"viewport\"> <!-- Meta data --> <meta name=\"robots\" content=\"noindex, nofollow, noarchive\"> <!-- Meta data--> <!--[if gte IE 9 | !IE ]><!--> <link href=\"/psrs-srfp/wet-boew/assets/favicon.ico\" rel=\"icon\" type=\"image/x-",
+   "jsonLdJobPostings": 0,
+   "ms": 632
+  },
+  {
+   "name": "glassdoor (status only)",
+   "url": "https://www.glassdoor.ca/Job/montreal-intern-jobs-SRCH_IL.0,8_IC2296722_KO9,15.htm",
+   "method": "GET",
+   "status": 403,
+   "contentType": "text/plain",
+   "bytes": 9,
+   "head": "Forbidden",
+   "jsonLdJobPostings": 0,
+   "ms": 100
+  },
+  {
+   "name": "indeed ca (status only)",
+   "url": "https://ca.indeed.com/jobs?q=intern&l=Montreal&fromage=7",
+   "method": "GET",
+   "status": 403,
+   "contentType": "text/html; charset=UTF-8",
+   "bytes": 27802,
+   "head": "<!DOCTYPE html><html lang=en><style>:root{--lightningcss-light:initial;--lightningcss-dark: ;--lightningcss-light:initial;--lightningcss-dark: ;color-scheme:light dark;--background-color:#fff;--primary-1000:#0d2d5e;--primary-900:#164081;--primary-800:#2557a7;--primary-700:#3f73d3;--primary-600:#6792f0;--neutral-1000:#2d2d2d;--neutral-900:#424242;--neutral-400:#d4d2d0;--dark-1000:#040606;--link-color:var(--primary-800);--link-color-hover:var(--primary-900);--menu-background-color:#fff;--text-color:var(--neutral-1000);--text-color-hover:var(--neutral-900);--default-transition:cubic-bezier(.645, .045, .355, 1);--menu-transition:.28s all .12s ease-out;--font-family:\"Noto Sans\", system-ui, -apple",
+   "jsonLdJobPostings": 0,
+   "ms": 68
+  },
+  {
+   "name": "jobbank rss guess",
+   "url": "https://www.jobbank.gc.ca/jobsearch/feed/jobSearchRSSfeed?searchstring=intern&locationstring=Montreal%2C+QC&sort=D&rows=50",
+   "method": "GET",
+   "status": 200,
+   "contentType": "application/atom+xml;charset=UTF-8",
+   "bytes": 513,
+   "head": "<?xml version=\"1.0\" encoding=\"UTF-8\"?> <feed xmlns=\"http://www.w3.org/2005/Atom\" xml:lang=\"en\"> <title><![CDATA[intern - Job Bank]]></title> <id>https://www.jobbank.gc.ca/jobsearch/jobSearchRSSfeed</id> <link rel=\"self\" type=\"application/atom+xml\" href=\"https://www.jobbank.gc.ca/jobsearch/jobSearchRSSfeed?searchstring=intern&amp;locationstring=Montreal%2C+QC&amp;sort=D&amp;rows=50\"/> <updated>2026-10-24T17:08:42Z</updated> <author><name>Job Bank</name></author> <logo>/images/sig_eng.gif</logo> </feed> ",
+   "jsonLdJobPostings": 0,
+   "ms": 528
+  },
+  {
+   "name": "jobbank rss guess 2",
+   "url": "https://www.jobbank.gc.ca/jobsearch/feed/jobSearchRSSfeed?fage=7&searchstring=intern&locationstring=Montreal&sort=D&rows=50&loc=Montreal",
+   "method": "GET",
+   "status": 200,
+   "contentType": "application/atom+xml;charset=UTF-8",
+   "bytes": 535,
+   "head": "<?xml version=\"1.0\" encoding=\"UTF-8\"?> <feed xmlns=\"http://www.w3.org/2005/Atom\" xml:lang=\"en\"> <title><![CDATA[intern - Job Bank]]></title> <id>https://www.jobbank.gc.ca/jobsearch/jobSearchRSSfeed</id> <link rel=\"self\" type=\"application/atom+xml\" href=\"https://www.jobbank.gc.ca/jobsearch/jobSearchRSSfeed?fage=7&amp;searchstring=intern&amp;locationstring=Montreal&amp;sort=D&amp;rows=50&amp;loc=Montreal\"/> <updated>2026-10-24T17:08:42Z</updated> <author><name>Job Bank</name></author> <logo>/images/sig_eng.gif</logo> </feed> ",
+   "jsonLdJobPostings": 0,
+   "ms": 531
+  },
+  {
+   "name": "jobbank search en",
+   "url": "https://www.jobbank.gc.ca/jobsearch/jobsearch?searchstring=intern&locationstring=Montreal%2C+QC&sort=D&fage=7",
+   "method": "GET",
+   "status": 200,
+   "contentType": "text/html;charset=UTF-8",
+   "bytes": 227841,
+   "head": "<!DOCTYPE html> <html class=\"no-js\" lang=\"en\" dir=\"ltr\"><head id=\"j_id_5\"> <meta charset=\"utf-8\" /> <title>intern in various locations - Search - Job Bank </title> <meta content=\"width=device-width,initial-scale=1\" name=\"viewport\" /> <meta name=\"dcterms.language\" content=\"eng\" /> <meta name=\"dcterms.creator\" content=\"Employment and Social Development Canada\" /> <meta name=\"dcterms.service\" content=\"ESDC-EDSC_JobBank-GuichetEmplois\" /> <meta name=\"dcterms.accessRights\" content=\"2\" /><meta name=\"dcterms.title\" content=\"Search results - Search - Job Bank\" /> <meta property=\"og:title\" content=\"intern in various locations - Search\" /> <meta property=\"og:description\" name=\"description\" content=\"View 3 job postings near for intern; on Job Bank, Canada’s one-stop job board.\" /> <meta property=\"og:url\" content=\"/jobsearch/jobsearch?term=intern&amp;page=1&amp;sort=D&amp;fage=7&amp;fcid=24435&amp;f",
+   "jsonLdJobPostings": 0,
+   "links": [
+    "/jobsearch/jobposting/50551463;jsessionid=B551B4D7EE906B5DDE36939131592E94.jobsearch76?source=searchresults",
+    "/jobsearch/jobposting/50551555;jsessionid=B551B4D7EE906B5DDE36939131592E94.jobsearch76?source=searchresults",
+    "/jobsearch/jobposting/50539404;jsessionid=B551B4D7EE906B5DDE36939131592E94.jobsearch76?source=searchresults"
+   ],
+   "rss": [
+    "/jobsearch/feed/jobSearchRSSfeed;jsessionid=B551B4D7EE906B5DDE36939131592E94.jobsearch76?fage=2&amp;fcid=24435&amp;fcid=24438&amp;term=intern&amp;sort=D&amp;rows=100"
+   ],
+   "ms": 942
+  },
+  {
+   "name": "jobbank search en -> first link",
+   "url": "https://www.jobbank.gc.ca/jobsearch/jobposting/50551463;jsessionid=B551B4D7EE906B5DDE36939131592E94.jobsearch76?source=searchresults",
+   "method": "GET",
+   "status": 200,
+   "contentType": "text/html;charset=UTF-8",
+   "bytes": 192444,
+   "head": "<!DOCTYPE html> <html class=\"no-js\" lang=\"en\" dir=\"ltr\"><head id=\"j_id_5\"> <meta charset=\"utf-8\" /> <title>intern - Job posting - Job Bank </title> <meta name=\"googlebot\" content=\"noindex\" /> <meta content=\"width=device-width,initial-scale=1\" name=\"viewport\" /> <meta name=\"dcterms.language\" content=\"eng\" /> <meta name=\"dcterms.creator\" content=\"Employment and Social Development Canada\" /> <meta name=\"dcterms.service\" content=\"ESDC-EDSC_JobBank-GuichetEmplois\" /> <meta name=\"dcterms.accessRights\" content=\"2\" /><meta name=\"dcterms.title\" content=\"\" /> <meta property=\"og:title\" content=\"\" /> <meta property=\"og:description\" name=\"description\" content=\"Look at this job opportunity for a intern at Bunge North America or search through thousands of other job postings on Job Bank, Canada’s one-stop job board.\" /> <meta property=\"og:url\" content=\"/jobsearch/jobposting/50551463\" /> <meta property=\"og:image\" content=\"https://www.jobbank.gc.ca/themes-sat/assets/favicon-mobile.png\" /> <meta name=\"smartbanner:title\" content=\"Job Bank\" /> <meta name=\"smartbanner:author\" content=\"ESDC – EDSC\" /> <meta name=\"smartbanner:price\" content=\"Free\" /> <meta name=\"smartbanner:price-suffix-apple\" content=\"–",
+   "jsonLdJobPostings": 0,
+   "ms": 268
+  },
+  {
+   "name": "jobbank search fr",
+   "url": "https://www.guichetemplois.gc.ca/jobsearch/jobsearch?searchstring=stagiaire&locationstring=Montr%C3%A9al%2C+QC&sort=D&fage=7",
+   "method": "GET",
+   "status": 200,
+   "contentType": "text/html;charset=UTF-8",
+   "bytes": 294010,
+   "head": "<!DOCTYPE html> <html class=\"no-js\" lang=\"fr\" dir=\"ltr\"><head id=\"j_id_5\"> <meta charset=\"utf-8\" /> <title>stagiaire dans différentes régions - Recherche - Guichet-Emplois </title> <meta content=\"width=device-width,initial-scale=1\" name=\"viewport\" /> <meta name=\"dcterms.language\" content=\"fra\" /> <meta name=\"dcterms.creator\" content=\"Emploi et Développement social Canada\" /> <meta name=\"dcterms.service\" content=\"ESDC-EDSC_JobBank-GuichetEmplois\" /> <meta name=\"dcterms.accessRights\" content=\"2\" /><meta name=\"dcterms.title\" content=\"Résultats de recherche - Recherche - Guichet-Emplois\" /> <meta property=\"og:title\" content=\"stagiaire dans différentes régions - Recherche\" /> <meta property=\"og:d",
+   "jsonLdJobPostings": 0,
+   "links": [],
+   "ms": 968
+  },
+  {
+   "name": "jobillico search",
+   "url": "https://www.jobillico.com/en/search-jobs?skwd=intern&scty=Montreal",
+   "method": "GET",
+   "status": 404,
+   "contentType": "text/html",
+   "bytes": 4274,
+   "head": "<!doctype html> <html lang=\"fr\"> <head> <title>Jobillico - 404</title> <meta charset=\"UTF-8\"> <meta name=\"content-type\" content=\"text/html; charset=utf-8\"> <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"> <meta name=\"google-site-verification\" content=\"E8B5nI_c_6yjw47NM4_gYgb-cxe_D2aUUbzoBPK6c8U\"> <meta name=\"description\" content=\"Thousands of companies recruit on the Jobillico Network. Discover thousands of jobs available in your area. It's free!\"> <meta name=\"keywords\" content=\"search, job\"> <!-- Facebook metas --> <meta property=\"og:image\" content=\"https://www.jobillico.com/images/google_250x250.png\"/> <meta property=\"og:title\" content=\"Jobillico\"/> <meta property=\"og:u",
+   "jsonLdJobPostings": 0,
+   "ms": 267
+  },
+  {
+   "name": "linkedin guest (status only)",
+   "url": "https://www.linkedin.com/jobs-guest/jobs/api/seeMoreJobPostings/search?keywords=intern&location=Montreal&f_TPR=r604800&start=0",
+   "method": "GET",
+   "status": 200,
+   "contentType": "text/html; charset=utf-8",
+   "bytes": 31950,
+   "head": "<!DOCTYPE html> <li> <div class=\"base-card relative w-full hover:no-underline focus:no-underline base-card--link base-search-card base-search-card--link job-search-card\" data-entity-urn=\"urn:li:jobPosting:4481780374\" data-impression-id=\"jobs-search-result-0\" data-reference-id=\"HhdfZrcXBEZl0W8Oq8bWxQ==\" data-tracking-id=\"pbaMVeuxXv+HS8s4/tBZzw==\" data-column=\"1\" data-row=\"1\"> <a class=\"base-card__full-link absolute top-0 right-0 bottom-0 left-0 p-0 z-[2] outline-offset-[4px]\" href=\"https://ca.linkedin.com/jobs/view/stagiaire-en-soutien-technique-ti-it-support-intern-at-studio-krafton-montr%C3%A9al-4481780374?position=1&amp;pageNum=0&amp;refId=HhdfZrcXBEZl0W8Oq8bWxQ%3D%3D&amp;trackingId=pbaMVe",
+   "jsonLdJobPostings": 0,
+   "ms": 439
+  },
+  {
+   "name": "monster ca (status only)",
+   "url": "https://www.monster.ca/jobs/search?q=intern&where=Montreal",
+   "method": "GET",
+   "status": 403,
+   "finalUrl": "https://www.monster.com/",
+   "contentType": "text/html;charset=utf-8",
+   "bytes": 774,
+   "head": "<html lang=\"en\"><head><title>monster.com</title><style>#cmsg{animation: A 1.5s;}@keyframes A{0%{opacity:0;}99%{opacity:0;}100%{opacity:1;}}</style></head><body style=\"margin:0\"><p id=\"cmsg\">Please enable JS and disable any ad blocker</p><script data-cfasync=\"false\">var dd={'rt':'i','cid':'AHrlqAAAAAMAz_1ypwhOmj8ABPLFIA==','hsh':'A7B2DA82190597376E01B53F7A9246','b':1396754,'s':51024,'e':'5b76130e5d885f3a160eb6483bd0baf3203eadd1a99a3999ac560e17a5d6512406002e3cf3779c078a32554a823686a2','qp':'','host':'geo.captcha-delivery.com','cookie':'QXT6YcOBJaCrsYTMDzRPYrXGnr_Dz_UdASpL_OJ3GzQxN00hxtVN7PPSm_BRBXCUlLye86iXEl6_cVNPSAHH14uTY~zF_4lGuLouxfZiNQIX~eel~UBURiwhXEDt5otj'}</script><script data-cfasync=",
+   "jsonLdJobPostings": 0,
+   "ms": 833
+  },
+  {
+   "name": "muse engineering montreal",
+   "url": "https://www.themuse.com/api/public/jobs?page=0&location=Montreal%2C%20Canada&category=Engineering",
+   "method": "GET",
+   "status": 200,
+   "contentType": "application/json; charset=UTF-8",
+   "bytes": 128,
+   "head": "{\"page\": 0, \"page_count\": 0, \"items_per_page\": 20, \"took\": 3, \"timed_out\": false, \"total\": 0, \"results\": [], \"aggregations\": {}}",
+   "jsonLdJobPostings": 0,
+   "ms": 155
+  },
+  {
+   "name": "muse internship montreal",
+   "url": "https://www.themuse.com/api/public/jobs?page=0&location=Montreal%2C%20Canada&level=Internship",
+   "method": "GET",
+   "status": 200,
+   "contentType": "application/json; charset=UTF-8",
+   "bytes": 126908,
+   "head": "{\"page\": 0, \"page_count\": 5, \"items_per_page\": 20, \"took\": 7, \"timed_out\": false, \"total\": 85, \"results\": [{\"contents\": \"<div><p><a href=\\\"https://www.avalabs.org/gh-applicant-notice\\\" rel=\\\"noopener noreferrer\\\">Applicant Privacy Notice</a></p>\\n<p>Looking to join a world-class blockchain development team? Ava Labs makes it simple to deploy high-performance solutions for Web3, led by innovations on Avalanche. The company was founded by Cornell computer scientists, who partnered with Wall Street veterans and early Web3 leaders to execute a promising vision for redefining the way people build permissionless networks. Ava Labs is redefining the way people create value with Web3. Join us as we empower people to easily and freely digitize all the world\\u2019s assets on one open, programmable blockchain platform.</p></div>\\n\\n<div>\\n<p>Join us for a unique paid summer internship that offers the opportunity to contribute to the fastest blockchain in the industry. As an intern, you will work closely with other employees who will help you apply your knowledge and grow your skills on projects that have potential to have direct impact on the business. You\\u2019ll also get to have some fun and network through optional social events. If you\\u2019ve demonstrated a commitment to academic success and motivation to apply your knowledge outside of the classroom, you are a great candidate!</p>\\n<div>\\n<h4>BASIC QUALIFICATIONS</h4>\\n<ul>\\n<li>Must be enrolled in a bachelor's degree program (Mas",
+   "jsonLdJobPostings": 0,
+   "ms": 422
+  },
+  {
+   "name": "personio",
+   "url": "https://personio.jobs.personio.de/xml",
+   "method": "GET",
+   "status": 200,
+   "contentType": "text/xml",
+   "bytes": 815,
+   "head": "<?xml version=\"1.0\" encoding=\"UTF-8\"?> <workzag-jobs> <position> <id>1834171</id> <subcompany>Personio SE &amp; Co. KG</subcompany> <office>Munich</office> <additionalOffices> <office>Berlin</office> </additionalOffices> <department>Product and Tech</department> <recruitingCategory>Engineering</recruitingCategory> <name>Staff Software Engineer, Data Platform</name> <jobDescriptions></jobDescriptions> <employmentType>permanent</employmentType> <seniority>experienced</seniority> <schedule>full-time</schedule> <yearsOfExperience>7-10</yearsOfExperience> <occupation>software_and_web_development</occupation> <occupationCategory>it_software</occupationCategory> <createdAt>2024-11-13T14:10:41+00:00",
+   "jsonLdJobPostings": 0,
+   "ms": 711
+  },
+  {
+   "name": "recruitee",
+   "url": "https://recruitee.recruitee.com/api/offers/",
+   "method": "GET",
+   "status": 404,
+   "contentType": "application/json; charset=utf-8",
+   "bytes": 21,
+   "head": "{\"error\":\"Not Found\"}",
+   "jsonLdJobPostings": 0,
+   "ms": 268
+  },
+  {
+   "name": "remotive api",
+   "url": "https://remotive.com/api/remote-jobs?search=engineer&limit=3",
+   "method": "GET",
+   "status": 200,
+   "contentType": "application/json; charset=utf-8",
+   "bytes": 114847,
+   "head": "{\"00-warning\": \"Remotive main domain moved to remotive.com ! Please make your API calls on remotive.com/api/remote-jobs instead of remotive.io now ;) Legacy endpoint remotive.io/api/remote-jobs will be terminated in June 2022. Thank you!\", \"0-legal-notice\": \"Legal warning - Hey, thanks for using Remotive's API, we appreciate it! Please note that API documentation and access is granted so that developers can share our jobs further. Please do not submit Remotive jobs to third Party websites, including but not limited to: Jooble, Neuvoo, Google Jobs, LinkedIn Jobs. Please link back to the URL found on Remotive AND mention Remotive as a source in order to Remotive to get traffic from your listin",
+   "jsonLdJobPostings": 0,
+   "ms": 105
+  },
+  {
+   "name": "talent.com search",
+   "url": "https://ca.talent.com/jobs?k=intern&l=Montreal%2C+QC",
+   "method": "GET",
+   "status": 200,
+   "contentType": "text/html; charset=utf-8",
+   "bytes": 602803,
+   "head": "<!DOCTYPE html><html lang=\"en\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/><link rel=\"preload\" as=\"image\" href=\"https://cdn-logos.talent.com/v1/logo/image?feedcode=huawei&amp;company_name=Huawei%20Technologies%20Canada%20Co.%2C%20Ltd.\"/><link rel=\"preload\" as=\"image\" href=\"https://cdn-logos.talent.com/v1/logo/image?feedcode=joveo-kenvue&amp;company_name=Kenvue\"/><link rel=\"preload\" as=\"image\" href=\"https://cdn-logos.talent.com/v1/logo/image?feedcode=smartrecruiters-ats&amp;company_name=Turner%20%26%20Townsend\"/><link rel=\"preload\" as=\"image\" href=\"https://cdn-logos.talent.com/v1/logo/image?feedcode=abb&amp;company_name=ABB\"/><link rel=\"pr",
+   "jsonLdJobPostings": 0,
+   "links": [
+    "/view?id=642440946442044744",
+    "/view?id=641372202596896652",
+    "/view?id=641610730078601748",
+    "/view?id=641863003950221327",
+    "/view?id=628161599063139265",
+    "/view?id=582588511424873633",
+    "/view?id=640646238640017292",
+    "/view?id=640544930360263109"
+   ],
+   "ms": 1853
+  },
+  {
+   "name": "teamtailor",
+   "url": "https://teamtailor.teamtailor.com/jobs.rss",
+   "method": "GET",
+   "status": 404,
+   "contentType": "text/html; charset=utf-8",
+   "bytes": 1068,
+   "head": "<!DOCTYPE html> <html> <head> <meta charset=\"utf-8\"> <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"> <title>Teamtailor — 404 the page you are looking for could not be found</title> <link href=\"https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap\" rel=\"stylesheet\" > <link rel=\"stylesheet\" type=\"text/css\" href=\"/error/style.css\"> </head> <body> <header> <img class=\"logo\" src=\"/error/logo.png\" alt=\"Teamtailor logo\"> </header> <main class=\"hero\"> <div class=\"hero-copy u-primary-text-color\"> <div> <div class=\"emoji\">😢</div> <h1>Ooops.</h1> <p> We couldn’t find the page you were looking for. Go back to <a href=\"https://www.teamtailor.com/\">Teamtailor</a> or <a ",
+   "jsonLdJobPostings": 0,
+   "ms": 465
+  },
+  {
+   "name": "workable widget",
+   "url": "https://apply.workable.com/api/v1/widget/accounts/workable?details=true",
+   "method": "GET",
+   "status": 404,
+   "contentType": "text/plain; charset=utf-8",
+   "bytes": 9,
+   "head": "Not Found",
+   "jsonLdJobPostings": 0,
+   "ms": 164
+  },
+  {
+   "name": "workday alstom",
+   "url": "https://alstom.wd3.myworkdayjobs.com/wday/cxs/alstom/Alstom_External_Career_Site/jobs",
+   "method": "POST",
+   "status": 422,
+   "contentType": "application/json;charset=ISO-8859-1",
+   "bytes": 149,
+   "head": "{\"errorCode\":\"HTTP_422\",\"errorCaseId\":\"494DEFMVMW57XS\",\"httpStatus\":422,\"locale\":\"en-CA,en;q\\u003d0.8,fr;q\\u003d0.6\",\"message\":\"\",\"messageParams\":{}}",
+   "jsonLdJobPostings": 0,
+   "ms": 577
+  },
+  {
+   "name": "workday bombardier a",
+   "url": "https://bombardier.wd3.myworkdayjobs.com/wday/cxs/bombardier/Bombardier/jobs",
+   "method": "POST",
+   "status": 422,
+   "contentType": "application/json;charset=ISO-8859-1",
+   "bytes": 149,
+   "head": "{\"errorCode\":\"HTTP_422\",\"errorCaseId\":\"6379FAMVMW57NB\",\"httpStatus\":422,\"locale\":\"en-CA,en;q\\u003d0.8,fr;q\\u003d0.6\",\"message\":\"\",\"messageParams\":{}}",
+   "jsonLdJobPostings": 0,
+   "ms": 583
+  },
+  {
+   "name": "workday cae",
+   "url": "https://cae.wd3.myworkdayjobs.com/wday/cxs/cae/career/jobs",
+   "method": "POST",
+   "status": 200,
+   "contentType": "application/json",
+   "bytes": 9755,
+   "head": "{\"total\":74,\"jobPostings\":[{\"title\":\"Engineering Manager, Operations Support (Andon)\",\"externalPath\":\"/job/Montreal-St-Laurent/Manager---operations-support_122545\",\"locationsText\":\"Montreal (St. Laurent)\",\"postedOn\":\"Posted Yesterday\",\"bulletFields\":[\"122545\"]},{\"title\":\"Senior Manager, Safety & Quality Intelligence\",\"externalPath\":\"/job/Montreal-St-Laurent/Senior-Manager--Safety---Quality-Intelligence_122369\",\"locationsText\":\"2 Locations\",\"postedOn\":\"Posted Yesterday\",\"bulletFields\":[\"122369\"]},{\"title\":\"IT Security Vulnerability Management & Brand Protection Trainee\",\"externalPath\":\"/job/Montreal-St-Laurent/IT-Security-Vulnerability-Management---Brand-Protection-Trainee_124274\",\"locationsT",
+   "jsonLdJobPostings": 0,
+   "ms": 1097
+  },
+  {
+   "name": "workday cn",
+   "url": "https://cn.wd3.myworkdayjobs.com/wday/cxs/cn/CN_Careers/jobs",
+   "method": "POST",
+   "status": 422,
+   "contentType": "application/json;charset=ISO-8859-1",
+   "bytes": 149,
+   "head": "{\"errorCode\":\"HTTP_422\",\"errorCaseId\":\"6379FAMVMW5840\",\"httpStatus\":422,\"locale\":\"en-CA,en;q\\u003d0.8,fr;q\\u003d0.6\",\"message\":\"\",\"messageParams\":{}}",
+   "jsonLdJobPostings": 0,
+   "ms": 614
+  },
+  {
+   "name": "workday gevernova",
+   "url": "https://gevernova.wd5.myworkdayjobs.com/wday/cxs/gevernova/Vernova_ExternalSite/jobs",
+   "method": "POST",
+   "status": 200,
+   "contentType": "application/json",
+   "bytes": 1286,
+   "head": "{\"total\":2,\"jobPostings\":[{\"title\":\"Mécanicien d’entretien\",\"externalPath\":\"/job/Sorel-Tracy/Mechanic-Maintenance_R5040660-3\",\"timeType\":\"Full time\",\"locationsText\":\"2 Locations\",\"postedOn\":\"Posted 30+ Days Ago\",\"bulletFields\":[\"R5040660\"]},{\"title\":\"Soudeur Monteur\",\"externalPath\":\"/job/Sorel-Tracy/Soudeur-Monteur_R5047848-1\",\"timeType\":\"Full time\",\"locationsText\":\"2 Locations\",\"postedOn\":\"Posted 30+ Days Ago\",\"bulletFields\":[\"R5047848\"]}],\"facets\":[{\"facetParameter\":\"timeType\",\"descriptor\":\"Full/Part-time\",\"values\":[{\"descriptor\":\"Full time\",\"id\":\"0bd744aa38071002dd26b42b58b70000\",\"count\":2}]},{\"facetParameter\":\"workerSubType\",\"descriptor\":\"Job Type\",\"values\":[{\"descriptor\":\"Regular\",\"id\":",
+   "jsonLdJobPostings": 0,
+   "ms": 260
+  },
+  {
+   "name": "workday honeywell",
+   "url": "https://honeywell.wd5.myworkdayjobs.com/wday/cxs/honeywell/Honeywell/jobs",
+   "method": "POST",
+   "status": 422,
+   "contentType": "application/json;charset=ISO-8859-1",
+   "bytes": 149,
+   "head": "{\"errorCode\":\"HTTP_422\",\"errorCaseId\":\"5EDE74MVMW57UG\",\"httpStatus\":422,\"locale\":\"en-CA,en;q\\u003d0.8,fr;q\\u003d0.6\",\"message\":\"\",\"messageParams\":{}}",
+   "jsonLdJobPostings": 0,
+   "ms": 419
+  },
+  {
+   "name": "workday nvidia (shape)",
+   "url": "https://nvidia.wd5.myworkdayjobs.com/wday/cxs/nvidia/NVIDIAExternalCareerSite/jobs",
+   "method": "POST",
+   "status": 200,
+   "contentType": "application/json",
+   "bytes": 66,
+   "head": "{\"total\":0,\"jobPostings\":[],\"facets\":[],\"userAuthenticated\":false}",
+   "jsonLdJobPostings": 0,
+   "ms": 864
+  },
+  {
+   "name": "workday rtx",
+   "url": "https://globalhr.wd5.myworkdayjobs.com/wday/cxs/globalhr/REC_RTX_Ext_Gateway/jobs",
+   "method": "POST",
+   "status": 200,
+   "contentType": "application/json",
+   "bytes": 12020,
+   "head": "{\"total\":226,\"jobPostings\":[{\"title\":\"Gestionnaire du Programme des marchandises contrôlées / Controlled Goods Program Manager\",\"externalPath\":\"/job/CA-QC-LONGUEUIL-J01--1000-Blvd-Marie-Victorin--J01-BLDG/Gestionnaire-du-Programme-des-marchandises-contrles---Controlled-Goods-Program-Manager_01881599\",\"timeType\":\"Full time\",\"locationsText\":\"CA-QC-LONGUEUIL-J01 ~ 1000 Blvd Marie-Victorin ~ J01 BLDG\",\"postedOn\":\"Posted Yesterday\",\"bulletFields\":[\"01881599\"]},{\"title\":\"Gestionnaire principal de la sécurité / Senior Manager, Security\",\"externalPath\":\"/job/CA-QC-LONGUEUIL-J01--1000-Blvd-Marie-Victorin--J01-BLDG/Gestionnaire-principal-de-la-scurit---Senior-Manager--Security_01881597\",\"timeType\":\"Fu",
+   "jsonLdJobPostings": 0,
+   "ms": 299
+  },
+  {
+   "name": "ziprecruiter ca (status only)",
+   "url": "https://www.ziprecruiter.ca/jobs-search?search=intern&location=Montreal",
+   "method": "GET",
+   "status": 403,
+   "finalUrl": "https://www.ziprecruiter.com/jobs-search?search=intern&location=Montreal?search=intern&location=Montreal&country=ca",
+   "contentType": "text/html; charset=UTF-8",
+   "bytes": 6123,
+   "head": "<!DOCTYPE html><html lang=\"en-US\"><head><title>Just a moment...</title><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"><meta http-equiv=\"X-UA-Compatible\" content=\"IE=Edge\"><meta name=\"robots\" content=\"noindex,nofollow\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><meta http-equiv=\"content-security-policy\" content=\"default-src &#39;none&#39;; script-src &#39;nonce-d8NreXrZGEaq5OaR6AruHc&#39; &#39;unsafe-eval&#39; https://challenges.cloudflare.com; script-src-attr &#39;none&#39;; style-src &#39;unsafe-inline&#39;; img-src &#39;self&#39; https://challenges.cloudflare.com; connect-src &#39;self&#39; https://challenges.cloudflare.com; frame-src &#39;self&#",
+   "jsonLdJobPostings": 0,
+   "ms": 537
+  }
+ ]
+}
