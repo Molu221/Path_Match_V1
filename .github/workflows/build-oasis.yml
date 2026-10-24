@@ -44,14 +44,16 @@ jobs:
         with:
           path: data/oasis_raw
           key: oasis-raw-v2-${{ github.run_id }}
-      - name: Re-run keyword reports with OaSIS
-        run: python3 scripts/run_reports.py cv/sample_cv.txt
+      - name: Re-run keyword reports and the website dictionary with OaSIS
+        run: |
+          python3 scripts/run_reports.py cv/sample_cv.txt
+          python3 scripts/build_site_dictionary.py
       - name: Save results and log
         if: always()
         run: |
           git config user.name "path-match-bot"
           git config user.email "path-match-bot@users.noreply.github.com"
-          for f in python/oasis_data.json python/oasis_vocab.csv oasis_build_log.txt reports docs/reports.json; do
+          for f in python/oasis_data.json python/oasis_vocab.csv oasis_build_log.txt reports docs/reports.json docs/skills.json; do
             [ -e "$f" ] && git add "$f"
           done
           git diff --cached --quiet && echo "No changes" && exit 0

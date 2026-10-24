@@ -294,7 +294,7 @@
       "file": "abb_quality_engineering_intern.txt",
       "title": "Quality Engineering Intern - Winter 2027",
       "company": "ABB",
-      "coverage_pct": 26.1,
+      "coverage_pct": 27.3,
       "matched": [
         "Quality control",
         "Industrial engineering",
@@ -319,7 +319,6 @@
         "Diagramming software",
         "Technical writing",
         "Analytical skills",
-        "Writing",
         "Communication"
       ],
       "related_not_counted": [
@@ -430,10 +429,6 @@
           "tag": "REQUIRED",
           "evidence": "-  Strong analytical skills, technical writing skills, and documentation rigor."
         },
-        "Writing": {
-          "tag": "REQUIRED",
-          "evidence": "-  Strong analytical skills, technical writing skills, and documentation rigor."
-        },
         "Communication": {
           "tag": "REQUIRED",
           "evidence": "-  Strong communication skills."
@@ -451,9 +446,7 @@
         "loaded": true,
         "built": "2026-10-24"
       },
-      "skills_from_oasis": [
-        "Writing"
-      ],
+      "skills_from_oasis": [],
       "inferred_related": [
         [
           "Quality assurance",
@@ -463,7 +456,7 @@
         ]
       ],
       "occupation_alignment": [],
-      "coverage_with_related_pct": 37.0
+      "coverage_with_related_pct": 38.6
     }
   ],
   "note": "Heuristic keyword coverage = matched / job skills. Related skills are listed, not counted. Flags are to verify, not scored."

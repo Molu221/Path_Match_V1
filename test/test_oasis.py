@@ -4,6 +4,7 @@ Run: python3 -m unittest test.test_oasis   (from the repository root)
 """
 import json
 import pathlib
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -338,6 +339,88 @@ class RealLayoutTest(unittest.TestCase):
                 "skill_occupations": {"A": list("abcdefgh"), "B": list("abcdefgh"), "C": list("abc"), "D": list("abd")}}
         self.assertEqual(oasis.inferred_related(["A"], ["B"], data), [])             # 8 of 10 occupations: too common
         self.assertEqual(len(oasis.inferred_related(["C"], ["D"], data)), 1)        # 3 and 3, share 2: kept
+
+
+@unittest.skipUnless(shutil.which("node") and (ROOT / "python" / "oasis_data.json").exists(),
+                     "needs node and the built OaSIS data")
+class MatcherParityTest(unittest.TestCase):
+    """The website's matcher (docs/matcher.js) must give the same answers as the Python extractor."""
+
+    def test_same_answers_on_the_sample_posts(self):
+        import keyword_extractor as kx
+        sys.path.insert(0, str(ROOT / "scripts"))
+        import build_site_dictionary as site
+        with tempfile.TemporaryDirectory() as tmp:
+            dict_path = pathlib.Path(tmp) / "skills.json"
+            dict_path.write_text(json.dumps(site.build(), ensure_ascii=False), encoding="utf-8")
+            cv_path = ROOT / "cv" / "sample_cv.txt"
+            posts = sorted((ROOT / "posts").glob("*.txt"))
+            r = subprocess.run(["node", str(ROOT / "test" / "matcher_harness.cjs"), str(dict_path), str(cv_path)]
+                               + [str(p) for p in posts], capture_output=True, text=True)
+            self.assertEqual(r.returncode, 0, r.stderr)
+            js = json.loads(r.stdout)
+        cv_text = cv_path.read_text(encoding="utf-8")
+        cv_kw = kx.extract_cv_keywords(cv_text)
+        self.assertEqual(set(js["cv"]), set(cv_kw))
+        for post in posts:
+            text = post.read_text(encoding="utf-8")
+            job_kw = kx.extract_job_keywords(text)
+            matched, missing, extra, related = kx.compare(job_kw, cv_kw)
+            rep = kx.oasis_report_data(text, cv_text, matched, missing, cv_kw, related, job_kw)
+            got = js["posts"][post.name]
+            self.assertEqual(set(got["job"]), set(job_kw), post.name)
+            self.assertEqual(sorted(got["matched"]), sorted(matched), post.name)
+            self.assertEqual(sorted(got["missing"]), sorted(missing), post.name)
+            self.assertEqual(sorted(map(tuple, got["relatedCurated"])), sorted(related), post.name)
+            self.assertEqual(sorted(map(tuple, got["inferred"])), sorted((a, b) for a, b, _, _ in rep["inferred_related"]), post.name)
+            self.assertAlmostEqual(got["coveragePct"], round(100 * len(matched) / len(job_kw), 1), places=1)
+            self.assertAlmostEqual(got["coverageWithRelatedPct"], rep["coverage_with_related_pct"], places=1)
+
+    def test_french_and_accents(self):
+        import keyword_extractor as kx
+        sys.path.insert(0, str(ROOT / "scripts"))
+        import build_site_dictionary as site
+        with tempfile.TemporaryDirectory() as tmp:
+            dict_path = pathlib.Path(tmp) / "skills.json"
+            dict_path.write_text(json.dumps(site.build(), ensure_ascii=False), encoding="utf-8")
+            text = pathlib.Path(tmp) / "t.txt"
+            text.write_text("Excellente écoute active, résolution de problèmes et Gestion du temps.\nTechnical writing, writing reports.\n", encoding="utf-8")
+            r = subprocess.run(["node", str(ROOT / "test" / "matcher_harness.cjs"), str(dict_path), str(text), str(text)],
+                               capture_output=True, text=True)
+            self.assertEqual(r.returncode, 0, r.stderr)
+            got = json.loads(r.stdout)["cv"]
+        want = kx.find_skills_in_line("Excellente écoute active, résolution de problèmes et Gestion du temps.") \
+            + kx.find_skills_in_line("Technical writing, writing reports.")
+        self.assertEqual(set(got), set(want))
+        self.assertIn("Problem solving", got)
+        self.assertIn("Time Management", got)
+
+
+class OverlapTest(unittest.TestCase):
+    """'Writing' (from OaSIS) must not be counted again inside 'technical writing' (curated)."""
+
+    def setUp(self):
+        import keyword_extractor as kx
+        self.kx = kx
+        skills = {"Technical writing": ["technical writing"], "Writing": ["writing"], "Teamwork": ["teamwork"]}
+        self.patch = (kx.PATTERNS, kx.SKILL_SOURCE)
+        kx.PATTERNS = kx.build_patterns(skills)
+        kx.SKILL_SOURCE = {"Technical writing": "curated", "Writing": "OaSIS skills", "Teamwork": "curated"}
+
+    def tearDown(self):
+        self.kx.PATTERNS, self.kx.SKILL_SOURCE = self.patch
+
+    def test_oasis_skill_inside_a_longer_skill_is_dropped(self):
+        self.assertEqual(self.kx.find_skills_in_line("Strong technical writing and teamwork"),
+                         ["Technical writing", "Teamwork"])
+
+    def test_oasis_skill_on_its_own_is_kept(self):
+        self.assertEqual(self.kx.find_skills_in_line("Report writing; technical writing"),
+                         ["Technical writing", "Writing"])
+
+    def test_curated_skills_are_never_dropped(self):
+        self.kx.SKILL_SOURCE["Writing"] = "curated"
+        self.assertEqual(self.kx.find_skills_in_line("technical writing"), ["Technical writing", "Writing"])
 
 
 class DownloadTest(unittest.TestCase):

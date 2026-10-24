@@ -153,6 +153,7 @@ a{color:var(--accent)}
   </div>
 </div>
 
+<script src="matcher.js"></script>
 <script>
 const TODAY="2026-10-11";
 const L="https://www.linkedin.com/jobs/view/";
@@ -269,7 +270,7 @@ function parseCV(raw){
     const m=re.exec(t);
     if(m){const i=m.index;hits[n]={fam:f,snip:"…"+t.slice(Math.max(0,i-55),i+m[0].length+55)+"…"};fam[f]=(fam[f]||0)+1;}
   }
-  return {text:t,hits,fam};
+  return {text:t,hits,fam,raw};
 }
 const strength=f=>CV.fam[f]?Math.min(0.9,0.3+0.1*CV.fam[f]):0;
 const GENERIC=new Set(["Engineering","Process improvement","Production","Data analysis","Operations","Design","Software","Quality"]);
@@ -382,6 +383,29 @@ JOBS.forEach(j=>{j.snap=true;j.cat=(/intern|stage|stagiaire|co-?op|etudiant|stud
 const dayDiff=d=>Math.round((Date.parse(TODAY)-Date.parse(d))/864e5);
 const age=j=>j.ageH!=null?j.ageH:dayDiff(j.date)*24;
 
+/* ---------- dictionary report: the Python skill list + OaSIS (English and French), see matcher.js ---------- */
+let DICT=null;
+function cvFound(){if(!DICT||!CV)return null;if(!CV.py)CV.py=DICT.findCv(CV.raw);return CV.py;}
+function dictReport(j){
+  if(!DICT||!CV||!j.desc)return null;
+  if(j._rep&&j._rep.cv===CV&&j._rep.dict===DICT)return j._rep.r;
+  const r=DICT.report(j.title+"\n"+j.desc,cvFound());
+  j._rep={cv:CV,dict:DICT,r};return r;
+}
+function dictPanel(j){
+  if(!j.desc)return "";
+  if(!DICT)return '<p class="note">The dictionary report is loading…</p>';
+  const r=dictReport(j),cv=cvFound();
+  const head='<h3>Dictionary report (Python skill list + OaSIS, English and French)</h3>';
+  if(!r||!r.total)return head+'<p class="note">None of the dictionary skills were found in this posting\'s text.</p>';
+  const m=r.matched.map(n=>`<span class="M" title="${esc(cv[n].evidence)}">${esc(n)}</span>`).join("");
+  const g=r.missing.map(n=>`<span class="G">${esc(n)}</span>`).join("");
+  const rel=[...r.relatedCurated.map(([a,b])=>`<span class="R" title="Hand-written pair: not the same word, not counted">${esc(a)} ~ ${esc(b)}</span>`),
+    ...r.inferred.map(([a,b,jc,n])=>`<span class="R" title="Inferred from OaSIS: both skills are rated high in ${n} of the same occupations. Not counted as a match.">${esc(a)} ~ ${esc(b)} (OaSIS, ${n} shared occupations)</span>`)].join("");
+  return head+`<p class="note"><b>${r.coveragePct}%</b> of the ${r.total} dictionary skills in the posting are on your CV; <b>${r.coverageWithRelatedPct}%</b> if related skills count half. Matches need the same skill written on your CV; related and inferred items are never counted as matches.${j.partial?" This posting is only a short snippet, so the list is incomplete.":""}</p>
+    <div class="kw">${m}${g}</div>${rel?`<h3>Related, not counted</h3><div class="kw">${rel}</div>`:""}`;
+}
+
 let tab="main",RES=[];
 const $=id=>document.getElementById(id);
 
@@ -410,6 +434,7 @@ function jobHtml(r,rank){
       <h3>${j.desc?"Posting keywords (R required, T task, P preferred) vs your CV":"Title keywords vs your CV"}</h3><div class="kw">${kw}</div>
       <p class="note">Keyword coverage ${Math.round(s.cov*100)}% = (Match + 0.5 × Related) ÷ title keywords, with generic words such as Engineering or Operations counting 0.4. Confidence: ${s.conf}.</p>
       ${ev}
+      ${dictPanel(j)}
       <h3>Before you apply</h3>
       <p class="note">Open the posting and read the full text. Required skills, security rules, degree level (bachelor's or master's) and exact dates are not visible from the title.</p>
     </div></details>`;
@@ -436,7 +461,9 @@ function render(){
     $("copy").onclick=()=>copyList(shown);
   } else if(tab==="cv"){
     const groups={};Object.entries(CV.hits).forEach(([n,h])=>{(groups[h.fam]=groups[h.fam]||[]).push([n,h.snip]);});
-    v.innerHTML=`<p class="note">Every keyword below appears literally in your CV text. Nothing is inferred. Your CV is the only source of truth.</p><div class="inv">${Object.keys(FAM).filter(f=>groups[f]).map(f=>`<div><h3>${FAM[f]}</h3>${groups[f].map(([n,s])=>`<div class="ev" style="border:0;padding:0"><b>${esc(n)}</b> ${esc(s)}</div>`).join("")}</div>`).join("")||'<div class="empty">No known keywords found. Check that the file text was read correctly.</div>'}</div>`;
+    const cf=cvFound();
+    const dictBlock=cf?`<div class="inv" style="margin-top:12px"><div style="grid-column:1/-1"><h3>Dictionary skills on your CV (${Object.keys(cf).length})</h3><p class="note">Found with the Python skill list plus the OaSIS names in English and French. Each one is written on your CV; nothing is inferred.</p>${Object.entries(cf).map(([n,h])=>`<div class="ev" style="border:0;padding:0"><b>${esc(n)}</b> ${esc(h.evidence)}</div>`).join("")||'<p class="note">None found.</p>'}</div></div>`:"";
+    v.innerHTML=`<p class="note">Every keyword below appears literally in your CV text. Nothing is inferred. Your CV is the only source of truth.</p><div class="inv">${Object.keys(FAM).filter(f=>groups[f]).map(f=>`<div><h3>${FAM[f]}</h3>${groups[f].map(([n,s])=>`<div class="ev" style="border:0;padding:0"><b>${esc(n)}</b> ${esc(s)}</div>`).join("")}</div>`).join("")||'<div class="empty">No known keywords found. Check that the file text was read correctly.</div>'}</div>${dictBlock}`;
   } else {
     const gaps={};RES.filter(r=>age(r.j)<168).slice(0,25).forEach(r=>r.s.map.filter(x=>x.s==="G").forEach(x=>gaps[x.n]=(gaps[x.n]||0)+1));
     const g=Object.entries(gaps).sort((a,b)=>b[1]-a[1]).slice(0,8);
@@ -447,6 +474,12 @@ function render(){
       <li><b>Keyword overlap (0–32):</b> 32 × (Match + 0.5 × Related) ÷ keywords in the title; generic words count 0.4. Title-only scoring caps the total below 100. Match needs the same term on your CV.</li>
       <li><b>Flags, not points:</b> language, work-permit, security and term are shown beside the score so a hidden rule never silently lowers or raises a rank.</li>
       <li>This is a heuristic, not a real applicant tracking system. Differences of 5 points or less are ties.</li></ul></div>
+      <div class="panel method" style="margin-top:12px"><h2>Dictionary report (Python list + OaSIS)</h2><ul>
+      <li>Under each posting that has its full text, a second report shows which skills of the dictionary are written in the posting and on your CV. It does not change the score above.</li>
+      <li>${DICT?`The dictionary has ${DICT.size} skills: the ${DICT.meta.curated} curated ones from <code>python/keyword_extractor.py</code> plus the English and French names of skills, abilities, knowledge areas, work activities and personal attributes from <b>${esc(DICT.meta.source||"OaSIS")}</b> (${DICT.meta.occupations||"?"} occupations, Open Government Licence - Canada). Built ${esc(DICT.meta.built||"")}.`:"The dictionary file could not be loaded."}</li>
+      <li>Accents and capitals do not matter, so "résolution de problèmes" and "problem solving" are the same skill.</li>
+      <li><b>Match</b> = the same skill is written on your CV. <b>Related</b> = a hand-written pair or a skill that OaSIS rates high in many of the same occupations. Related items are listed and count half in the second coverage figure; they are never shown as matches.</li>
+      <li>The same dictionary and rules run in <code>python/keyword_extractor.py</code> and in <a href="reports.html">the keyword reports</a>.</li></ul></div>
       <div class="panel method" style="margin-top:12px"><h2>Where the postings come from</h2><ul>
       <li>Adzuna (a free job search service) for broad coverage of Montreal and the surrounding area, in English and French. Each posting carries a short snippet of its text.</li>
       <li>The open job boards of employers that publish them through Greenhouse, Lever, Ashby and SmartRecruiters. These carry the full posting text. The line under "Live postings" shows how many of the listed employers answered.</li>
@@ -543,6 +576,15 @@ async function loadServer(){
     note.textContent="Could not reach the server. Showing the built-in snapshot from "+TODAY+".";
   }
 }
+async function loadDict(){
+  try{
+    const r=await fetch("skills.json?t="+Date.now(),{cache:"no-store"});
+    if(!r.ok)throw new Error("HTTP "+r.status);
+    DICT=Matcher.engine(await r.json());
+    if(CV)run();else render();
+  }catch(e){console.warn("dictionary not loaded",e);}
+}
+loadDict();
 loadServer();
 setInterval(()=>{if(!document.hidden)loadServer();},5*60*1000);
 </script>

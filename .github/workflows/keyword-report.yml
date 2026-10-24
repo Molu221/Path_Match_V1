@@ -8,6 +8,7 @@ on:
       - "cv/**"
       - "python/**"
       - "scripts/run_reports.py"
+      - "scripts/build_site_dictionary.py"
 
 permissions:
   contents: write
@@ -21,13 +22,17 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+      - name: Run offline tests
+        run: python3 -m unittest test.test_oasis
       - name: Run keyword extractor on every post
         run: python3 scripts/run_reports.py cv/sample_cv.txt
+      - name: Export the skill dictionary for the website
+        run: python3 scripts/build_site_dictionary.py
       - name: Save reports
         run: |
           git config user.name "path-match-bot"
           git config user.email "path-match-bot@users.noreply.github.com"
-          git add reports docs/reports.json
+          git add reports docs/reports.json docs/skills.json
           git diff --cached --quiet && echo "No changes" && exit 0
           git commit -m "Update keyword reports"
           git push

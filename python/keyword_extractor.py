@@ -169,9 +169,24 @@ def clean(text):
 
 
 def find_skills_in_line(line):
-    """Return every skill from our list that is WRITTEN in this line."""
+    """Return every skill from our list that is WRITTEN in this line.
+    A skill that came from OaSIS is not counted when every place it appears sits inside a longer
+    skill's words ('Writing' inside 'technical writing'), so one phrase is not counted twice.
+    Skills from our own curated list are never dropped."""
     line = clean(line)
-    return [name for name, pat in PATTERNS.items() if pat.search(line)]
+    spans = {}
+    for name, pat in PATTERNS.items():
+        found = [m.span() for m in pat.finditer(line)]
+        if found:
+            spans[name] = found
+    kept = []
+    for name, own in spans.items():
+        if SKILL_SOURCE.get(name, "curated") != "curated":
+            others = [sp for other, lst in spans.items() if other != name for sp in lst]
+            if all(any(o[0] <= a and b <= o[1] and (o[1] - o[0]) > (b - a) for o in others) for a, b in own):
+                continue
+        kept.append(name)
+    return kept
 
 
 def split_job_sections(job_text):
