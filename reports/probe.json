@@ -1,330 +1,104 @@
 {
- "at": "2026-10-24T21:36:22.932Z",
+ "at": "2026-10-24T21:47:30.467Z",
  "results": [
   {
-   "name": "builtin montreal job detail",
-   "url": "https://builtinmontreal.com/job/mechanical-engineering-intern/7473722",
+   "name": "builtin internship list",
+   "url": "https://builtinmontreal.com/jobs/internship",
    "method": "GET",
    "status": 200,
    "contentType": "text/html; charset=utf-8",
-   "bytes": 73543,
-   "head": " <!DOCTYPE html> <html lang=\"en\"> <head> <meta charset=\"utf-8\"/> <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"/> <meta name=\"description\" content=\"ABB is hiring for a Mechanical Engineering Intern in Saint-Laurent, Montréal, Q",
-   "jsonLdJobPostings": 1,
-   "ms": 782
+   "bytes": 193676,
+   "head": " <!DOCTYPE html> <html lang=\"en\"> <head> <meta charset=\"utf-8\"/> <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"/> <meta name=\"description\" content=\"Search the best Internship Jo",
+   "jsonLdJobPostings": 0,
+   "ms": 1076
   },
   {
-   "name": "builtin montreal jobs",
-   "url": "https://builtinmontreal.com/jobs",
+   "name": "builtin p2",
+   "url": "https://builtinmontreal.com/jobs?page=2",
    "method": "GET",
    "status": 200,
    "contentType": "text/html; charset=utf-8",
-   "bytes": 217579,
-   "head": " <!DOCTYPE html> <html lang=\"en\"> <head> <meta charset=\"utf-8\"/> <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"/> <meta name=\"description\" content=\"Search the best Tech Jobs & Startup Jobs from top companies & startups in Montr",
+   "bytes": 224910,
+   "head": " <!DOCTYPE html> <html lang=\"en\"> <head> <meta charset=\"utf-8\"/> <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"/> <meta name=\"description\" content=\"Search the best Tech Jobs & S",
    "jsonLdJobPostings": 0,
-   "ms": 77
+   "ms": 649
   },
   {
-   "name": "concordia hire",
-   "url": "https://www.concordia.ca/students/careers.html",
-   "method": "GET",
-   "status": 404,
-   "contentType": "text/html;charset=utf8",
-   "bytes": 116378,
-   "head": "<!DOCTYPE HTML> <html lang=\"en\"> <head> <meta charset=\"utf-8\"> <meta http-equiv=\"content-type\" content=\"text/html; charset=UTF-8\"> <meta name=\"viewport\" id=\"viewport\" content=\"width=device-width, initial-scale=1.0\"> <meta name=\"robots\" content=\"noind",
-   "jsonLdJobPostings": 0,
-   "links": [],
-   "ms": 524
-  },
-  {
-   "name": "dejobs montreal",
-   "url": "https://dejobs.org/montreal-qc/engineering-intern/jobs/",
-   "method": "GET",
-   "status": 202,
-   "contentType": "text/html; charset=UTF-8",
-   "bytes": 2411,
-   "head": "<!DOCTYPE html> <html lang=\"en\"> <head> <meta charset=\"utf-8\"> <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"> <title></title> <style> body { font-family: \"Arial\"; } </style> <script type=\"text/javascript\"> window.awsWafCookieDom",
-   "jsonLdJobPostings": 0,
-   "links": [],
-   "ms": 4
-  },
-  {
-   "name": "eluta search",
-   "url": "https://www.eluta.ca/search?q=intern+engineering&l=Montreal",
-   "method": "GET",
-   "status": 200,
-   "contentType": "text/html; charset=UTF-8",
-   "bytes": 101093,
-   "head": "<!DOCTYPE html> <html lang=\"en\"> <head> <!-- Preconnect to Google/Google CDN to establish early connection --> <link rel=\"preconnect\" href=\"https://www.google.com\"> <link rel=\"preconnect\" href=\"https://www.gstatic.com\" crossorigin> <link href=\"https:",
-   "jsonLdJobPostings": 0,
-   "ms": 1303
-  },
-  {
-   "name": "gc jobs student",
-   "url": "https://emploisfp-psjobs.cfp-psc.gc.ca/psrs-srfp/applicant/page1800?toggleLanguage=en",
-   "method": "GET",
-   "status": 404,
-   "finalUrl": "https://emploisfp-psjobs.cfp-psc.gc.ca/psrs-srfp/applicant/page1800?iscr=iscr&icr=icr&toggleLanguage=en",
-   "contentType": "text/html;charset=UTF-8",
-   "bytes": 4490,
-   "head": "<!DOCTYPE html><!--[if lt IE 9]> <html class=\"no-js lt-ie9\" lang=\"fr\" dir=\"ltr\"><![endif]--><!--[if gt IE 8]><!--> <html class=\"no-js\" lang=\"fr\" dir=\"ltr\"> <!--<![endif]--> <head> <meta charset=\"utf-8\"> <!-- Web Experience Toolkit (WET) / Boîte à out",
-   "jsonLdJobPostings": 0,
-   "ms": 633
-  },
-  {
-   "name": "iagora montreal stages",
-   "url": "https://www.iagora.com/work/fr/stages/canada/montreal",
+   "name": "builtin search intern",
+   "url": "https://builtinmontreal.com/jobs?search=intern",
    "method": "GET",
    "status": 200,
    "contentType": "text/html; charset=utf-8",
-   "bytes": 151038,
-   "head": "<!DOCTYPE HTML> <html lang=\"fr\"> <head> <meta http-equiv=\"Content-Type\" content=\"text/html;charset=UTF-8\"> <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"> <link rel=\"canonical\" href=\"https://www.iagora.com/work/fr/stages/canada/m",
+   "bytes": 310856,
+   "head": " <!DOCTYPE html> <html lang=\"en\"> <head> <meta charset=\"utf-8\"/> <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"/> <meta name=\"description\" content=\"Search the best Tech Jobs & S",
    "jsonLdJobPostings": 0,
-   "links": [
-    "/work/fr/stages",
-    "/work/fr/stages-et-emplois-etranger",
-    "/work/fr/stages-et-emplois/marketing"
-   ],
-   "ms": 328
+   "ms": 1090
   },
   {
-   "name": "jobillico search",
-   "url": "https://www.jobillico.com/en/search-jobs?skwd=industrial+engineer&scty=Montr%C3%A9al",
+   "name": "builtin sitemap",
+   "url": "https://builtinmontreal.com/sitemap.xml",
    "method": "GET",
    "status": 404,
+   "contentType": "text/html; charset=utf-8",
+   "bytes": 30734,
+   "head": " <!DOCTYPE html> <html lang=\"en\"> <head> <meta charset=\"utf-8\"/> <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"/> <meta name=\"description\" content=\"Homepage Web App\"/> <title>40",
+   "jsonLdJobPostings": 0,
+   "ms": 332
+  },
+  {
+   "name": "emplois qc platform",
+   "url": "https://emplois.carrieres.gouv.qc.ca/plateforme-emploi",
+   "method": "GET",
+   "status": 200,
    "contentType": "text/html",
-   "bytes": 4635,
-   "head": "<!doctype html> <html lang=\"fr\"> <head> <title>Jobillico - 404</title> <meta charset=\"UTF-8\"> <meta name=\"content-type\" content=\"text/html; charset=utf-8\"> <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"> <meta name=\"google-site-v",
+   "bytes": 2081,
+   "head": "<!DOCTYPE html> <html lang=\"en\"> <head> <meta charset=\"utf-8\" /> <link rel=\"icon\" href=\"/plateforme-emploi/favicon-16x16.ico\" /> <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" /> ",
    "jsonLdJobPostings": 0,
-   "ms": 184
+   "ms": 291
   },
   {
-   "name": "l3harris montreal",
-   "url": "https://careers.l3harris.com/en/location/montreal-quebec-canada-jobs/4832/6251999-6115047-6077243/4",
-   "method": "GET",
-   "status": 200,
-   "contentType": "text/html; charset=utf-8",
-   "bytes": 158046,
-   "head": " <!DOCTYPE html> <html lang=\"en\" class=\"no-js\" data-theme-name=\"GST\" data-category-id=\"ALL\" data-location-id=\"6251999-6115047-6077243\" data-facet-id=\"custom_fields.Division-Space-&amp;-Mission-Systems\"> <head> <meta charset=\"utf-8\"/> <meta name=\"view",
-   "jsonLdJobPostings": 0,
-   "ms": 525
-  },
-  {
-   "name": "quebec gov careers",
-   "url": "https://www.carrieres.gouv.qc.ca/",
-   "method": "GET",
-   "status": 200,
-   "finalUrl": "https://www.quebec.ca/gouvernement/travailler-gouvernement/emplois-fonction-publique",
-   "contentType": "text/html; charset=utf-8",
-   "bytes": 81242,
-   "head": "<!DOCTYPE html> <html lang=\"fr\"> <head> <meta charset=\"utf-8\"> <!-- This website is powered by TYPO3 - inspiring people to share! TYPO3 is a free open source Content Management Framework initially created by Kasper Skaarhoj and licensed under GNU/GPL",
-   "jsonLdJobPostings": 0,
-   "ms": 547
-  },
-  {
-   "name": "randstad montreal",
-   "url": "https://www.randstad.ca/jobs/q-engineering/quebec/",
-   "method": "GET",
-   "status": 200,
-   "finalUrl": "https://www.randstad.ca/jobs/q-engineering/quebec/quebec/",
-   "contentType": "text/html; charset=utf-8",
-   "bytes": 505941,
-   "head": " <!doctype html> <html lang=\"en-ca\" dir=\"ltr\" > <head> <meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"> <title data-rh=\"true\">17 Engineering Jobs in Québec, Québec | Randstad Canada</title> <meta data-rh=\"true\" name=\"title\" content",
-   "jsonLdJobPostings": 0,
-   "links": [
-    "/jobs/",
-    "/jobs/contract/",
-    "/jobs/permanent/",
-    "/jobs/remote/",
-    "/jobs/q-operational/",
-    "/jobs/s-engineering/",
-    "/jobs/s-industrial-management-professionals/",
-    "/jobs/s-industrial-support/"
-   ],
-   "ms": 1836
-  },
-  {
-   "name": "robots builtinmontreal.com",
+   "name": "robots builtin",
    "url": "https://builtinmontreal.com/robots.txt",
    "method": "GET",
    "status": 200,
    "contentType": "text/plain",
    "bytes": 2862,
-   "head": "# # robots.txt # # This file is to prevent the crawling and indexing of certain parts # of your site by web crawlers and spiders run by sites like Yahoo! # and Google. By telling these \"robots\" where not to go on your site, # you save bandwidth and server resources. # # This file will be ignored unless it is at the root of your host: # Used: http://example.com/robots.txt # Ignored: http://example.com/site/robots.txt # # For more information about the robots.txt standard, see: # http://www.robotstxt.org/robotstxt.html User-agent: * # CSS, JS, Images Allow: /core/*.css Allow: /core/*.js Allow: /core/*.gif Allow: /core/*.GIF Allow: /core/*.jpg Allow: /core/*.JPG Allow: /core/*.jpeg Allow: /core/*.JPEG Allow: /core/*.png Allow: /core/*.PNG Allow: /core/*.svg Allow: /core/*.SVG Allow: /profiles/*.css Allow: /profiles/*.js Allow: /profiles/*.gif Allow: /profiles/*.GIF Allow: /profiles/*.jpg Al",
+   "head": "# # robots.txt # # This file is to prevent the crawling and indexing of certain parts # of your site by web crawlers and spiders run by sites like Yahoo! # and Google. By telling these \"robots\" where ",
    "jsonLdJobPostings": 0,
-   "ms": 474
+   "ms": 203
   },
   {
-   "name": "robots careers.l3harris.com",
-   "url": "https://careers.l3harris.com/robots.txt",
+   "name": "robots emplois qc",
+   "url": "https://emplois.carrieres.gouv.qc.ca/robots.txt",
    "method": "GET",
    "status": 200,
    "contentType": "text/plain",
-   "bytes": 968,
-   "head": "User-agent: * Disallow:/search-jobs/ Disallow:/as Disallow:/sas Disallow:/cs Disallow:/chq Disallow:/ims Disallow:/business-and-operations-jobs Disallow:/finance-jobs Disallow:/manufacturing-jobs Disallow:/program-management-jobs Disallow:/quality-and-operational-excellence-jobs Disallow:/supply-chain-jobs Disallow:/flight-ops-jobs Disallow:/engineering-jobs Disallow:/software-engineering-jobs Disallow:/IVS-Engineering Disallow:/electrical-mechanical-engineering-jobs Disallow:/remote-jobs Noindex:/as Noindex:/sas Noindex:/cs Noindex:/chq Noindex:/ims Noindex:/business-and-operations-jobs Noindex:/finance-jobs Noindex:/manufacturing-jobs Noindex:/program-management-jobs Noindex:/quality-and-operational-excellence-jobs Noindex:/supply-chain-jobs Noindex:/flight-ops-jobs Noindex:/engineering-jobs Noindex:/software-engineering-jobs Noindex:/IVS-Engineering Noindex:/electrical-mechanical-engi",
+   "bytes": 67,
+   "head": "# https://www.robotstxt.org/robotstxt.html User-agent: * Disallow: ",
    "jsonLdJobPostings": 0,
-   "ms": 339
+   "ms": 631
   },
   {
-   "name": "robots dejobs.org",
-   "url": "https://dejobs.org/robots.txt",
-   "method": "GET",
-   "status": 202,
-   "contentType": "text/html; charset=UTF-8",
-   "bytes": 0,
-   "head": "",
-   "jsonLdJobPostings": 0,
-   "ms": 54
-  },
-  {
-   "name": "robots jobs-emplois.canada.ca",
-   "url": "https://jobs-emplois.canada.ca/robots.txt",
-   "method": "GET",
-   "error": "fetch failed",
-   "ms": 160
-  },
-  {
-   "name": "robots www.adecco.ca",
-   "url": "https://www.adecco.ca/robots.txt",
-   "method": "GET",
-   "status": 200,
-   "finalUrl": "https://www.adecco.com/en-ca",
-   "contentType": "text/html; charset=utf-8",
-   "bytes": 530805,
-   "head": "<!DOCTYPE html><html lang=\"en-CA\"><head><meta name=\"viewport\" content=\"width=device-width\"/><style data-font-face-inline=\"critical-icons\">@font-face{font-family:'Material Icons';font-style:normal;font-weight:400;font-display:block;src:url(/fonts/flUhRq6tzZclQEJ-Vdg-IuiaDsNc.woff2) format('woff2')}@font-face{font-family:'Material Icons Outlined';font-style:normal;font-weight:400;font-display:block;src:url(/fonts/gok-H7zzDkdnRel8-DQ6KAXJ69wP1tGnf4ZGhUce.woff2) format('woff2')}@font-face{font-family:'Material Icons Round';font-style:normal;font-weight:400;font-display:block;src:url(/fonts/LDItaoyNOAY6Uewc665JcIzCKsKc_M9flwmP.woff2) format('woff2')}@font-face{font-family:'Material Icons Sharp';font-style:normal;font-weight:400;font-display:block;src:url(/fonts/oPWQ_lt5nv4pWNJpghLP75WiFR4kLh3kvmvR.woff2) format('woff2')}@font-face{font-family:'Material Icons Two Tone';font-style:normal;font-w",
-   "jsonLdJobPostings": 0,
-   "ms": 2373
-  },
-  {
-   "name": "robots www.carrieres.gouv.qc.ca",
-   "url": "https://www.carrieres.gouv.qc.ca/robots.txt",
-   "method": "GET",
-   "status": 200,
-   "finalUrl": "https://www.quebec.ca/gouvernement/travailler-gouvernement/emplois-fonction-publique",
-   "contentType": "text/html; charset=utf-8",
-   "bytes": 81242,
-   "head": "<!DOCTYPE html> <html lang=\"fr\"> <head> <meta charset=\"utf-8\"> <!-- This website is powered by TYPO3 - inspiring people to share! TYPO3 is a free open source Content Management Framework initially created by Kasper Skaarhoj and licensed under GNU/GPL. TYPO3 is copyright 1998-2026 of Kasper Skaarhoj. Extensions are copyright of their respective owners. Information and contribution at https://typo3.org/ --> <title>Emplois dans la fonction publique | Gouvernement du Québec</title> <meta http-equiv=\"x-ua-compatible\" content=\"IE=edge\"> <meta name=\"generator\" content=\"TYPO3 CMS\"> <meta name=\"description\" content=\"Découvrir les avantages de travailler au sein de la fonction publique, les emplois disponibles et les stages offerts ainsi que le processus pour y postuler.\"> <meta property=\"og:image\" content=\"https://cdn-contenu.quebec.ca/cdn-contenu/medias_sociaux/OG_2024_FR.png\"> <meta property=\"o",
-   "jsonLdJobPostings": 0,
-   "ms": 1412
-  },
-  {
-   "name": "robots www.cvmatch.ca",
-   "url": "https://www.cvmatch.ca/robots.txt",
-   "method": "GET",
-   "error": "fetch failed",
-   "ms": 390
-  },
-  {
-   "name": "robots www.eluta.ca",
-   "url": "https://www.eluta.ca/robots.txt",
-   "method": "GET",
-   "status": 200,
-   "contentType": "text/plain; charset=UTF-8",
-   "bytes": 346,
-   "head": "User-agent: * Disallow: /asp/ Disallow: /cache? Disallow: /cache/ Disallow: /notification_search Disallow: /notify? Disallow: /rss? Disallow: /sandbox? Disallow: /search/ Disallow: /static/ Disallow: /system/ User-agent: 008 User-agent: ia_archiver User-Agent: OmniExplorer_Bot User-agent: Baiduspider-image User-agent: YandexImages Disallow: / ",
-   "jsonLdJobPostings": 0,
-   "ms": 451
-  },
-  {
-   "name": "robots www.emploietudiant.qc.ca",
-   "url": "https://www.emploietudiant.qc.ca/robots.txt",
-   "method": "GET",
-   "error": "fetch failed",
-   "ms": 10066
-  },
-  {
-   "name": "robots www.hays.ca",
-   "url": "https://www.hays.ca/robots.txt",
-   "method": "GET",
-   "status": 200,
-   "contentType": "text/plain;charset=UTF-8",
-   "bytes": 6168,
-   "head": "User-agent: * Disallow: /search? Disallow: /it/search? Disallow: /page-not-found/ Disallow: /c/portal/ Disallow: /en/c/portal/ Disallow: /_Incapsula_Resource? Disallow: /combo? Disallow: /viewemailink/ Disallow: /unsubscribeEshot/ Disallow: /unsubscribe/ Disallow: /clientPortal/clientDashboard/ Disallow: /DocExSignIn/beginSigningSession Disallow: /timesheetAlert/reviewTimesheet/ Disallow: /timesheetAlert/approveTimesheet/ Disallow: /gdprThankYou/ Disallow: /online-training/employee/ Disallow: /online-training/employee/* Disallow: /careers/s/my-profile Disallow: /careers/s/saved-searches Disallow: /careers/s/manage-cv Disallow: /careers/s/change-email Disallow: /careers/s/change-password Disallow: /careers/s/marketing-preferences Disallow: /careers/s/alert Disallow: /careers/s/update-whatsapp Disallow: /careers/s/save-whatsapp Disallow: /careers/s/dk-marketing-preferences Disallow: /caree",
-   "jsonLdJobPostings": 0,
-   "ms": 1212
-  },
-  {
-   "name": "robots www.iagora.com",
+   "name": "robots iagora",
    "url": "https://www.iagora.com/robots.txt",
    "method": "GET",
    "status": 200,
    "contentType": "text/plain;charset=UTF-8",
    "bytes": 1024,
-   "head": "User-agent: Mediapartners-Google Disallow: User-agent: Googlebot Disallow: /work/en/profile.html Disallow: /work/es/profile.html Disallow: /work/fr/profile.html Disallow: /work/de/profile.html Disallow: /work/it/profile.html Disallow: /app/profile/ Disallow: /unijob/ Disallow: /app/ User-agent: Cloudfind Disallow: / User-agent: dotbot Disallow: / User-agent: BLEXBot Disallow: / User-agent: SemrushBot Disallow: / User-Agent: MJ12bot Disallow: / User-Agent: DataForSeoBot Disallow: / User-Agent: Bytespider Disallow: / User-agent: meta-externalagent Disallow: / User-agent: Sogou web spider Disallow: / User-agent: * Disallow: /work/en/filter/ Disallow: /work/es/filter/ Disallow: /work/fr/filter/ Disallow: /work/de/filter/ Disallow: /work/it/filter/ Disallow: /work/en/profile.html Disallow: /work/es/profile.html Disallow: /work/fr/profile.html Disallow: /work/de/profile.html Disallow: /work/it",
+   "head": "User-agent: Mediapartners-Google Disallow: User-agent: Googlebot Disallow: /work/en/profile.html Disallow: /work/es/profile.html Disallow: /work/fr/profile.html Disallow: /work/de/profile.html Disallo",
    "jsonLdJobPostings": 0,
    "ms": 413
   },
   {
-   "name": "robots www.jobboom.com",
-   "url": "https://www.jobboom.com/robots.txt",
-   "method": "GET",
-   "status": 403,
-   "contentType": "text/html; charset=UTF-8",
-   "bytes": 5702,
-   "head": "<!DOCTYPE html><html lang=\"en-US\"><head><title>Just a moment...</title><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"><meta http-equiv=\"X-UA-Compatible\" content=\"IE=Edge\"><meta name=\"robots\" content=\"noindex,nofollow\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><meta http-equiv=\"content-security-policy\" content=\"default-src &#39;none&#39;; script-src &#39;nonce-gePM6A6mRtRhjygbZZnI0y&#39; &#39;unsafe-eval&#39; https://challenges.cloudflare.com; script-src-attr &#39;none&#39;; style-src &#39;unsafe-inline&#39;; img-src &#39;self&#39; https://challenges.cloudflare.com; connect-src &#39;self&#39; https://challenges.cloudflare.com; frame-src &#39;self&#39; https://challenges.cloudflare.com blob:; child-src &#39;self&#39; https://challenges.cloudflare.com blob:; worker-src blob:; form-action http: https:; base-uri &#39;self&#39;\"><style>*{box-sizing:",
-   "jsonLdJobPostings": 0,
-   "ms": 218
-  },
-  {
-   "name": "robots www.jobillico.com",
-   "url": "https://www.jobillico.com/robots.txt",
-   "method": "GET",
-   "status": 200,
-   "contentType": "text/plain",
-   "bytes": 5026,
-   "head": "User-agent: * # General site disallows Disallow: /medias/ Disallow: /blog/login/ Disallow: /blog/cgi-bin/ Disallow: /blog/go/ Disallow: /blog/*/trackback Disallow: /ajax/* Disallow: /social/* Disallow: /get-tracking-page Disallow: /search-jobs-vwo Disallow: /search-jobs-vwo/* Disallow: /recherche-emploi-vwo Disallow: /recherche-emploi-vwo/* Disallow: /recherche-opportunite-vwo Disallow: *&vwo= Disallow: *skwd=&scty=& Disallow: *iPerPage=50 Disallow: *iPerPage=75 Disallow: *iPerPage=100 Disallow: *mfil=15 Disallow: *mfil=75 Disallow: *mfil=100 Disallow: *mfil=200 Disallow: *mfil=byCity Disallow: *mfil=byProvince Disallow: *mfil=byRegion Disallow: /*flat= Disallow: /*flng= Disallow: /ajouter-aux-emplois-favoris Disallow: /add-this-favorite-job Disallow: /fast-postulation Disallow: /postulation-rapide Disallow: /voir-offre-partenaire Disallow: /see-partner-offer # START Fix for &ipg= pagina",
-   "jsonLdJobPostings": 0,
-   "ms": 171
-  },
-  {
-   "name": "robots www.placement.emploiquebec.gouv.qc.ca",
-   "url": "https://www.placement.emploiquebec.gouv.qc.ca/robots.txt",
-   "method": "GET",
-   "error": "fetch failed",
-   "ms": 257
-  },
-  {
-   "name": "robots www.randstad.ca",
+   "name": "robots randstad",
    "url": "https://www.randstad.ca/robots.txt",
    "method": "GET",
    "status": 200,
    "contentType": "text/plain",
    "bytes": 1157,
-   "head": "User-agent: * # CSS, JS, Images Allow: /core/*.css$ Allow: /core/*.css? Allow: /core/*.js$ Allow: /core/*.js? Allow: /core/*.gif Allow: /core/*.jpg Allow: /core/*.jpeg Allow: /core/*.png Allow: /core/*.svg Allow: /profiles/*.css$ Allow: /profiles/*.css? Allow: /profiles/*.js$ Allow: /profiles/*.js? Allow: /profiles/*.gif Allow: /profiles/*.jpg Allow: /profiles/*.jpeg Allow: /profiles/*.png Allow: /profiles/*.svg # Exclude parameters for SEO Disallow: /*/?c-career-advice Disallow: /*/apply/ Disallow: /myrandstad/auth/ Disallow: /*/?c-category Disallow: /*/?c-wf360-category Disallow: /*/?c-tags Disallow: /*/?c-press-category Disallow: /*/mi- Disallow: /*/km- Disallow: /*/postcode- Disallow: /*/sa- Disallow: /*/qt- Disallow: /*/d- Disallow: /*search= Disallow: /*search-app/demo/jobs/ Disallow: /*jobs/mvp/ Disallow: /*/profile- Disallow: /*/jobs/*,*/ Disallow: /*/sd- Disallow: /*/sh- Disallo",
+   "head": "User-agent: * # CSS, JS, Images Allow: /core/*.css$ Allow: /core/*.css? Allow: /core/*.js$ Allow: /core/*.js? Allow: /core/*.gif Allow: /core/*.jpg Allow: /core/*.jpeg Allow: /core/*.png Allow: /core/",
    "jsonLdJobPostings": 0,
-   "ms": 223
-  },
-  {
-   "name": "robots www.roberthalf.com",
-   "url": "https://www.roberthalf.com/robots.txt",
-   "method": "GET",
-   "status": 200,
-   "contentType": "text/plain; charset=ISO-8859-1",
-   "bytes": 18140,
-   "head": "# # robots.txt # # This file is to prevent the crawling and indexing of certain parts # of your site by web crawlers and spiders run by sites like Yahoo! # and Google. By telling these \"robots\" where not to go on your site, # you save bandwidth and server resources. # # This file will be ignored unless it is at the root of your host: # Used: http://example.com/robots.txt # Ignored: http://example.com/site/robots.txt # # For more information about the robots.txt standard, see: # http://www.robotstxt.org/robotstxt.html User-agent: * # ####################### ## Universal Rules # CSS, JS, Images #work with FED team for exceptions # Directories # Files Disallow: /web.config # FED Team # SEO Team # ####################### # US (.com/us/en) rules # XML sitemap Sitemap: https://www.roberthalf.com/content/roberthalf.sitemap.us-sitemap.xml Sitemap: https://www.roberthalf.com/content/roberthalf.si",
-   "jsonLdJobPostings": 0,
-   "ms": 383
-  },
-  {
-   "name": "robots www.talent.com",
-   "url": "https://www.talent.com/robots.txt",
-   "method": "GET",
-   "status": 200,
-   "contentType": "text/plain",
-   "bytes": 2023,
-   "head": "User-Agent: * Disallow: /services/api-new/search Disallow: /search-jobs/* Disallow: /api/v1/tracker/pixel Disallow: /coreg/register.php Disallow: /neuvooEmailPixel Disallow: /cdn-cgi/rum Disallow: /redirect* Disallow: /*.shtml Disallow: /invoice-report Disallow: /invoice-report?token* Disallow: /ajax/* Disallow: # Block redirect this is the apply form Disallow: /ar/redirect* Disallow: /pt/redirect* Disallow: /es/redirect* Disallow: /de/redirect* Disallow: /en/redirect* Disallow: /nl/redirect* Disallow: /fr/redirect* Disallow: /it/redirect* Disallow: /zh/redirect* Disallow: /cs/redirect* Disallow: /da/redirect* Disallow: /fi/redirect* Disallow: /el/redirect* Disallow: /hu/redirect* Disallow: /id/redirect* Disallow: /he/redirect* Disallow: /ja/redirect* Disallow: /ko/redirect* Disallow: /ru/redirect* Disallow: /ms/redirect* Disallow: /no/redirect* Disallow: /pl/redirect* Disallow: /ro/redi",
-   "jsonLdJobPostings": 0,
-   "ms": 710
-  },
-  {
-   "name": "robots www.workopolis.com",
-   "url": "https://www.workopolis.com/robots.txt",
-   "method": "GET",
-   "status": 403,
-   "contentType": "text/html; charset=UTF-8",
-   "bytes": 5684,
-   "head": "<!DOCTYPE html><html lang=\"en-US\"><head><title>Just a moment...</title><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"><meta http-equiv=\"X-UA-Compatible\" content=\"IE=Edge\"><meta name=\"robots\" content=\"noindex,nofollow\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><meta http-equiv=\"content-security-policy\" content=\"default-src &#39;none&#39;; script-src &#39;nonce-60iKODW2d9CcJFKHxQCgq2&#39; &#39;unsafe-eval&#39; https://challenges.cloudflare.com; script-src-attr &#39;none&#39;; style-src &#39;unsafe-inline&#39;; img-src &#39;self&#39; https://challenges.cloudflare.com; connect-src &#39;self&#39; https://challenges.cloudflare.com; frame-src &#39;self&#39; https://challenges.cloudflare.com blob:; child-src &#39;self&#39; https://challenges.cloudflare.com blob:; worker-src blob:; form-action http: https:; base-uri &#39;self&#39;\"><style>*{box-sizing:",
-   "jsonLdJobPostings": 0,
-   "ms": 149
+   "ms": 252
   }
  ]
 }
