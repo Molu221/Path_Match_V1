@@ -1,104 +1,49 @@
 {
- "at": "2026-10-24T21:47:30.467Z",
+ "at": "2026-10-24T21:48:45.323Z",
  "results": [
   {
-   "name": "builtin internship list",
-   "url": "https://builtinmontreal.com/jobs/internship",
+   "name": "builtin terms 0",
+   "url": "https://builtin.com/terms-of-use",
    "method": "GET",
-   "status": 200,
-   "contentType": "text/html; charset=utf-8",
-   "bytes": 193676,
-   "head": " <!DOCTYPE html> <html lang=\"en\"> <head> <meta charset=\"utf-8\"/> <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"/> <meta name=\"description\" content=\"Search the best Internship Jo",
+   "status": 404,
+   "contentType": "text/html; charset=UTF-8",
+   "bytes": 42880,
+   "head": "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML+RDFa 1.0//EN\" \"http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd\"><html xmlns=\"http",
    "jsonLdJobPostings": 0,
-   "ms": 1076
+   "ms": 222
   },
   {
-   "name": "builtin p2",
-   "url": "https://builtinmontreal.com/jobs?page=2",
+   "name": "builtin terms 1",
+   "url": "https://builtin.com/terms",
    "method": "GET",
-   "status": 200,
-   "contentType": "text/html; charset=utf-8",
-   "bytes": 224910,
-   "head": " <!DOCTYPE html> <html lang=\"en\"> <head> <meta charset=\"utf-8\"/> <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"/> <meta name=\"description\" content=\"Search the best Tech Jobs & S",
+   "status": 404,
+   "contentType": "text/html; charset=UTF-8",
+   "bytes": 42880,
+   "head": "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML+RDFa 1.0//EN\" \"http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd\"><html xmlns=\"http",
    "jsonLdJobPostings": 0,
-   "ms": 649
+   "ms": 136
   },
   {
-   "name": "builtin search intern",
-   "url": "https://builtinmontreal.com/jobs?search=intern",
+   "name": "builtin terms 2",
+   "url": "https://builtin.com/terms-service",
    "method": "GET",
-   "status": 200,
-   "contentType": "text/html; charset=utf-8",
-   "bytes": 310856,
-   "head": " <!DOCTYPE html> <html lang=\"en\"> <head> <meta charset=\"utf-8\"/> <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"/> <meta name=\"description\" content=\"Search the best Tech Jobs & S",
+   "status": 404,
+   "contentType": "text/html; charset=UTF-8",
+   "bytes": 42880,
+   "head": "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML+RDFa 1.0//EN\" \"http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd\"><html xmlns=\"http",
    "jsonLdJobPostings": 0,
-   "ms": 1090
+   "ms": 183
   },
   {
-   "name": "builtin sitemap",
-   "url": "https://builtinmontreal.com/sitemap.xml",
+   "name": "builtin terms 3",
+   "url": "https://builtinmontreal.com/terms-of-use",
    "method": "GET",
    "status": 404,
    "contentType": "text/html; charset=utf-8",
-   "bytes": 30734,
-   "head": " <!DOCTYPE html> <html lang=\"en\"> <head> <meta charset=\"utf-8\"/> <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"/> <meta name=\"description\" content=\"Homepage Web App\"/> <title>40",
+   "bytes": 31095,
+   "head": " <!DOCTYPE html> <html lang=\"en\"> <head> <meta charset=\"utf-8\"/> <meta name=\"viewport\" content=\"width=device-width, init",
    "jsonLdJobPostings": 0,
-   "ms": 332
-  },
-  {
-   "name": "emplois qc platform",
-   "url": "https://emplois.carrieres.gouv.qc.ca/plateforme-emploi",
-   "method": "GET",
-   "status": 200,
-   "contentType": "text/html",
-   "bytes": 2081,
-   "head": "<!DOCTYPE html> <html lang=\"en\"> <head> <meta charset=\"utf-8\" /> <link rel=\"icon\" href=\"/plateforme-emploi/favicon-16x16.ico\" /> <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" /> ",
-   "jsonLdJobPostings": 0,
-   "ms": 291
-  },
-  {
-   "name": "robots builtin",
-   "url": "https://builtinmontreal.com/robots.txt",
-   "method": "GET",
-   "status": 200,
-   "contentType": "text/plain",
-   "bytes": 2862,
-   "head": "# # robots.txt # # This file is to prevent the crawling and indexing of certain parts # of your site by web crawlers and spiders run by sites like Yahoo! # and Google. By telling these \"robots\" where ",
-   "jsonLdJobPostings": 0,
-   "ms": 203
-  },
-  {
-   "name": "robots emplois qc",
-   "url": "https://emplois.carrieres.gouv.qc.ca/robots.txt",
-   "method": "GET",
-   "status": 200,
-   "contentType": "text/plain",
-   "bytes": 67,
-   "head": "# https://www.robotstxt.org/robotstxt.html User-agent: * Disallow: ",
-   "jsonLdJobPostings": 0,
-   "ms": 631
-  },
-  {
-   "name": "robots iagora",
-   "url": "https://www.iagora.com/robots.txt",
-   "method": "GET",
-   "status": 200,
-   "contentType": "text/plain;charset=UTF-8",
-   "bytes": 1024,
-   "head": "User-agent: Mediapartners-Google Disallow: User-agent: Googlebot Disallow: /work/en/profile.html Disallow: /work/es/profile.html Disallow: /work/fr/profile.html Disallow: /work/de/profile.html Disallo",
-   "jsonLdJobPostings": 0,
-   "ms": 413
-  },
-  {
-   "name": "robots randstad",
-   "url": "https://www.randstad.ca/robots.txt",
-   "method": "GET",
-   "status": 200,
-   "contentType": "text/plain",
-   "bytes": 1157,
-   "head": "User-agent: * # CSS, JS, Images Allow: /core/*.css$ Allow: /core/*.css? Allow: /core/*.js$ Allow: /core/*.js? Allow: /core/*.gif Allow: /core/*.jpg Allow: /core/*.jpeg Allow: /core/*.png Allow: /core/",
-   "jsonLdJobPostings": 0,
-   "ms": 252
+   "ms": 176
   }
  ]
 }
