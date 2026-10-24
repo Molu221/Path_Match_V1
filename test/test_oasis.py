@@ -184,6 +184,162 @@ class OasisTest(unittest.TestCase):
         self.assertTrue(all(x[0] == "Lean Manufacturing" and x[1] == "Quality control" for x in r))
 
 
+class RealLayoutTest(unittest.TestCase):
+    """Made-up files that copy the LAYOUTS seen in the real OaSIS 2025 download log:
+    a comma in some files and a semicolon in others, French header 'Etiquette', a junk first row in
+    main_duties_fr, a numeric 'Concordance number' and a 'Job title type' column in the title files,
+    skill names such as 'Oral Communication: Active Listening', and one file that failed to download."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.tmp = tempfile.TemporaryDirectory()
+        d = pathlib.Path(cls.tmp.name)
+        codes = ["21321.00", "22302.00", "13201.00", "21301.00"]
+
+        def w(name, text):
+            (d / f"{name}.csv").write_text(text, encoding="utf-8-sig")      # the real files start with a BOM
+
+        w("lead_statement_en", "OaSIS profile code,Lead statement\n" + "".join(
+            f'{c},"Plan work, improve quality and lead teams."\n' for c in codes))
+        # lead_statement_fr: not written, as if the download failed
+        w("labels_en", "OaSIS profile code;Label\n21321.00;Industrial engineers\n22302.00;Industrial technologists\n"
+                       "13201.00;Logistics coordinators\n21301.00;Mechanical engineers\n")
+        w("labels_fr", "Code de profil professionnel SIPeC,Étiquette\n21321.00,Ingénieurs industriels\n"
+                       "22302.00,Technologues industriels\n13201.00,Coordonnateurs de la logistique\n"
+                       "21301.00,Ingénieurs mécaniciens\n")
+        w("example_titles_en", "OaSIS profile code,Concordance number,Job title type,Job title text\n"
+                               "21321.00,1,Illustrative example,industrial engineer\n"
+                               "21321.00,2,Illustrative example,quality engineer (QE)\n"
+                               "22302.00,1,Illustrative example,industrial technologist\n"
+                               "13201.00,1,Illustrative example,logistics coordinator\n"
+                               "21301.00,1,Illustrative example,mechanical engineer\n")
+        w("example_titles_fr", "Code de profil SIPeC,Numéro de concordance,Type d'appellation d'emploi,Appellation d'emploi\n"
+                               "21321.00,1,Exemple illustratif,ingénieur industriel/ingénieure industrielle\n"
+                               "22302.00,1,Exemple illustratif,technologue industriel/technologue industrielle\n"
+                               "13201.00,1,Exemple illustratif,coordonnateur/coordonnatrice de la logistique\n"
+                               "21301.00,1,Exemple illustratif,ingénieur mécanicien/ingénieure mécanicienne\n")
+        w("main_duties_en", "OaSIS profile code;Main duties\n21321.00;Analyse root cause, lean manufacturing and quality control\n"
+                            "22302.00;Support lean manufacturing\n13201.00;Inventory control, shipping\n"
+                            "21301.00;Design equipment with AutoCAD\n")
+        w("main_duties_fr", "Column1;Column2\nCode de profil professionnel SIPeC.00;Fonctions principales\n"
+                            "21321.00;analyser les causes, fabrication au plus juste et contrôle de la qualité\n"
+                            "22302.00;soutenir la fabrication au plus juste\n13201.00;contrôle des stocks, expédition\n"
+                            "21301.00;concevoir de l'équipement avec AutoCAD\n")
+        w("employment_requirements_en", "OaSIS profile code,Employment requirement\n" + "".join(
+            f'{c},"A bachelor\'s degree, or equivalent, is required."\n' for c in codes))
+        w("employment_requirements_fr", "Code de profil professionnel SIPeC,Exigences d'emploi\n" + "".join(
+            f'{c},"Un baccalauréat, ou l\'équivalent, est exigé."\n' for c in codes))
+        w("workplaces_employers_en", "OaSIS profile code,Workplace/employer name,Profile name\n" + "".join(
+            f"{c},Manufacturing firms,Some profile\n" for c in codes))
+        w("workplaces_employers_fr", "Code de profil professionnel SIPeC,Lieux de travail/employeurs,Nom du profil professionnel SIPeC\n" + "".join(
+            f"{c},Entreprises de fabrication,Un profil\n" for c in codes))
+        w("additional_information_en", "OaSIS profile code,Additional information (EN)\n21321.00,There is mobility.\n")
+        w("additional_information_fr", "Code de profile professionnel SIPeC,Renseignements supplémentaires\n21321.00,Il existe une mobilité.\n")
+
+        def wide(en_head, fr_head, rows, label_en, label_fr, code_en="Code OaSIS", code_fr="Code SIPeC"):
+            w_en = ";".join([code_en, label_en] + en_head) + "\n" + "".join(
+                ";".join([c, "x"] + [str(v) for v in r]) + "\n" for c, r in zip(codes, rows))
+            w_fr = ";".join([code_fr, label_fr] + fr_head) + "\n" + "".join(
+                ";".join([c, "x"] + [str(v) for v in r]) + "\n" for c, r in zip(codes, rows))
+            return w_en, w_fr
+
+        sk = [[4, 3, 5], [3, 2, 4], [2, 4, 3], [4, 1, 5]]
+        w("skills_en", wide(["Oral Communication: Active Listening", "Digital Literacy", "Decision Making"],
+                            ["Communication verbale : écoute active", "Littératie numérique", "Prise de décisions"],
+                            sk, "OaSIS 2021 Labels", "Étiquette SiPEC - Final")[0])
+        w("skills_fr", wide(["Oral Communication: Active Listening", "Digital Literacy", "Decision Making"],
+                            ["Communication verbale : écoute active", "Littératie numérique", "Prise de décisions"],
+                            sk, "OaSIS 2021 Labels", "Étiquette SiPEC - Final")[1])
+        ab = [[5, 4, 4], [5, 3, 4], [4, 4, 3], [5, 5, 2]]
+        a_en, a_fr = wide(["Categorization Flexibility", "Deductive Reasoning", "Information Ordering"],
+                          ["Souplesse dans la catégorisation", "Raisonnement déductif", "Ordonner de l’information"],
+                          ab, "OaSIS 2021 Labels", "Étiquette SIPeC - Final")
+        w("abilities_en", a_en)
+        w("abilities_fr", a_fr)
+        kn = [[5, 4, 4], [4, 4, 3], [1, 3, 5], [5, 2, 1]]
+        k_en, k_fr = wide(["Engineering and Technology", "Production and Processing", "Accounting"],
+                          ["Génie et technologie", "Production et transformation", "Comptabilité"],
+                          kn, "OaSIS 2021 Labels", "Étiquette SIPeC - Final")
+        w("knowledge_en", k_en)
+        w("knowledge_fr", k_fr)
+        pa = [[4, 5, 5], [4, 4, 5], [3, 5, 4], [5, 5, 4]]
+        p_en, p_fr = wide([" Active Learning", " Adaptability", "Attention to Detail"],
+                          ["Apprentissage actif", "Adaptabilité", "Souci du détail"], pa,
+                          "OaSIS Label - Final", "Étiquette SIPeC - Final", "OaSIS Code - Final", "Code SIPeC - Final")
+        w("personal_attributes_en", p_en)
+        w("personal_attributes_fr", p_fr)
+        wa = [[4, 5, 4], [5, 4, 4], [3, 4, 5], [4, 4, 4]]
+        wa_en, wa_fr = wide(["Getting Information", "Analyzing Data or Information", "Scheduling Work and Activities"],
+                            ["Obtention d’information", "Analyse de données ou d’information", "Planification du travail et des activités"],
+                            wa, "OaSIS Label - Final", "Étiquette SIPeC - Final", "Code OaSIS", "Code SIPeC - Final")
+        w("work_activities_en", wa_en)
+        w("work_activities_fr", wa_fr)
+        wc = [[1, 5, 3], [2, 5, 4], [0, 4, 5], [1, 5, 5]]
+        c_en, c_fr = wide(["Automation (Degree of Automation)", "Competition (Degree of Competition)", "Exposed to Noise (Frequency)"],
+                          ["Automatisation (Degré d’automatisation)", "Concurrence (Degré de compétition)", "Exposition au bruit (Fréquence)"],
+                          wc, "OaSIS Label - Final", "Étiquette SIPeC - Final", "OaSIS Code - Final", "Code SIPeC - Final")
+        w("work_context_en", c_en)
+        w("work_context_fr", c_fr)
+
+        cls.out = d / "o.json"
+        r = subprocess.run([sys.executable, str(ROOT / "scripts" / "build_oasis_dictionary.py"), "--local-dir", str(d),
+                            "--out", str(cls.out), "--vocab", str(d / "v.csv")], capture_output=True, text=True)
+        cls.log = r.stdout + r.stderr
+        assert r.returncode == 0, cls.log
+        cls.data = json.loads(cls.out.read_text(encoding="utf-8"))
+        cls.codes = codes
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.tmp.cleanup()
+
+    def test_builds_without_the_failed_file(self):
+        self.assertEqual(self.data["meta"]["occupations"], 4, self.log)     # the junk first row is not an occupation
+        self.assertIn("lead_statement_fr: not downloaded, skipped", self.log)
+        self.assertNotIn("SKIPPED", self.log)          # main_duties_fr has "Column1;Column2" above its real header
+
+    def test_delimiters(self):
+        self.assertEqual(build.delimiter_of('a,b;c\n1,2;3'), ",")
+        self.assertEqual(build.delimiter_of('a;b;c,d\n'), ";")
+        self.assertEqual(build.delimiter_of('"Identifying Objects, Actions";"B, C";D\n'), ";")
+        self.assertEqual(build.delimiter_of("only one column\n"), ",")
+
+    def test_labels_english_and_french(self):
+        occ = self.data["occupations"]["21321.00"]
+        self.assertEqual(occ.get("label"), "Industrial engineers")
+        self.assertEqual(occ.get("label_fr"), "Ingénieurs industriels")
+
+    def test_titles_use_the_title_column_and_both_genders(self):
+        t = self.data["titles"]
+        self.assertIn("industrial engineer", t)
+        self.assertIn("quality engineer", t)                       # without "(QE)"
+        self.assertIn("ingenieur industriel", t)
+        self.assertIn("ingenieure industrielle", t)                # other side of the slash
+        self.assertFalse([x for x in t if "illustrative" in x or "illustratif" in x], "title type column leaked in")
+
+    def test_descriptors_from_every_rating_file(self):
+        files = {d["file"] for d in self.data["descriptors"]}
+        self.assertEqual(files, {"skills", "abilities", "knowledge", "personal_attributes", "work_activities", "work_context"})
+        pairs = {(d["en"], d["fr"]) for d in self.data["descriptors"]}
+        self.assertIn(("Attention to Detail", "Souci du détail"), pairs)    # leading spaces in other headers are removed
+
+    def test_colon_names_and_work_context(self):
+        import keyword_extractor as kx
+        merged, source = oasis.merge_skills(kx.SKILLS, self.data)
+        pats = kx.build_patterns(merged)
+        name = "Oral Communication: Active Listening"
+        self.assertIn(name, merged)
+        self.assertTrue(pats[name].search("strong active listening skills"))
+        self.assertTrue(pats[name].search(oasis.fold("une bonne écoute active")))
+        self.assertFalse([k for k in merged if "Degree of" in k], "working conditions must not become skills")
+
+    def test_very_common_skills_are_not_inferred(self):
+        data = {"meta": {"occupations": 10},
+                "skill_occupations": {"A": list("abcdefgh"), "B": list("abcdefgh"), "C": list("abc"), "D": list("abd")}}
+        self.assertEqual(oasis.inferred_related(["A"], ["B"], data), [])             # 8 of 10 occupations: too common
+        self.assertEqual(len(oasis.inferred_related(["C"], ["D"], data)), 1)        # 3 and 3, share 2: kept
+
+
 class DownloadTest(unittest.TestCase):
     """The downloader against a tiny local web server (no internet needed)."""
 

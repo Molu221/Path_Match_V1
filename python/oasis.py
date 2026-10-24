@@ -30,6 +30,8 @@ DATA_PATH = pathlib.Path(__file__).with_name("oasis_data.json")
 MIN_OCCUPATIONS = 3      # a skill must appear in at least this many occupations
 MIN_JACCARD = 0.25       # share of occupations the two skills have in common
 MIN_DESCRIPTOR_LEN = 5   # ignore very short descriptor names
+MAX_SHARE = 0.5          # a skill found in more than this share of all occupations says little about any one of them
+NOT_SKILLS = {"work_context"}   # working conditions (noise, automation...) are not things a CV claims
 
 
 def fold(text):
@@ -72,22 +74,31 @@ def merge_skills(skills, data):
         for alias in aliases:
             index[fold(alias)] = name
     for d in data.get("descriptors", []):
+        if d.get("file") in NOT_SKILLS:
+            continue
         en, fr = fold(d.get("en", "")).strip(), fold(d.get("fr", "")).strip()
         label = (d.get("en") or d.get("fr") or "").strip()
         if len(en or fr) < MIN_DESCRIPTOR_LEN:
             continue
+        # 'Oral Communication: Active Listening' is written 'active listening' in a CV
+        names = [n for n in (en, fr) if n]
+        for n in list(names):
+            if ":" in n:
+                tail = n.split(":", 1)[1].strip()
+                if len(tail) >= MIN_DESCRIPTOR_LEN:
+                    names.append(tail)
         target = None
-        for key in (en, en.rstrip("s"), fr, fr.rstrip("s")):
-            if key and key in index:
+        for key in [k for n in names for k in (n, n.rstrip("s"))]:
+            if key in index:
                 target = index[key]
                 break
         if target:                                   # new spelling of a skill we already have
-            for alias in (en, fr):
-                if alias and alias not in index:
+            for alias in names:
+                if alias not in index:
                     merged[target].append(alias)
                     index[alias] = target
         elif label not in merged:                    # a skill we did not have
-            aliases = [a for a in (en, fr) if a and a not in index]
+            aliases = [a for a in names if a not in index]
             if not aliases:
                 continue
             merged[label] = aliases
@@ -128,18 +139,20 @@ def inferred_related(missing, cv_skills, data, already=()):
     if not data:
         return []
     occ = data.get("skill_occupations", {})
+    total = data.get("meta", {}).get("occupations") or 0
+    too_common = MAX_SHARE * total if total else float("inf")
     seen = set(already)
     out = []
     for m in missing:
         a = set(occ.get(m, []))
-        if len(a) < MIN_OCCUPATIONS:
+        if len(a) < MIN_OCCUPATIONS or len(a) > too_common:
             continue
         scored = []
         for c in cv_skills:
             if (m, c) in seen:
                 continue
             b = set(occ.get(c, []))
-            if len(b) < MIN_OCCUPATIONS:
+            if len(b) < MIN_OCCUPATIONS or len(b) > too_common:
                 continue
             shared = len(a & b)
             j = shared / len(a | b)

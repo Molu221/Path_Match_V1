@@ -94,7 +94,9 @@ DATASETS = {
                 "397e62b4-fc4a-4f2a-aada-dadeb4b9e535/download/context-travail_sipec_2025_v1.1.csv"),
         },
         # files that can be missing without stopping the build (everything else is needed)
-        "optional": {"labels", "workplaces_employers", "additional_information", "work_context"},
+        # one slow or failing file must not stop the build; these only add words or names
+        "optional": {"labels", "lead_statement", "employment_requirements", "workplaces_employers",
+                     "additional_information", "work_context"},
     },
     "2022": {
         "id": "eeb3e442-9f19-4d12-8b38-c488fe4f6e5e",
@@ -145,7 +147,7 @@ RESOURCES = DATASETS[DEFAULT_VERSION]["resources"]
 
 UA = "Mozilla/5.0 (compatible; path-match-oasis-builder; +https://github.com/Molu221/Path_Match_V1)"
 CODE_RE = re.compile(r"\d{5}(?:\.\d{2})?")
-LABEL_RE = re.compile(r"label|libell|profile|profil|occupation|nom\b", re.I)
+LABEL_RE = re.compile(r"label|libell|tiquette|profile|profil|occupation|nom\b", re.I)
 RATING_CUTOFF = 0.6        # a skill is linked to an occupation when its rating >= 60% of the file maximum
 
 STOP = {
@@ -228,11 +230,22 @@ def read_rows(path):
             break
         except UnicodeDecodeError:
             continue
-    try:
-        dialect = csv.Sniffer().sniff(text[:5000], delimiters=",;\t")
-    except csv.Error:
-        dialect = csv.excel
-    return [r for r in csv.reader(io.StringIO(text), dialect) if any(c.strip() for c in r)]
+    return [r for r in csv.reader(io.StringIO(text), delimiter=delimiter_of(text)) if any(c.strip() for c in r)]
+
+
+def delimiter_of(text):
+    """The real OaSIS files use "," in some files and ";" in others. The header line decides:
+    count each candidate outside quotes and take the most frequent (ties go to a comma)."""
+    header = text.lstrip().split("\n", 1)[0]
+    counts = {d: 0 for d in ",;\t"}
+    inside = False
+    for ch in header:
+        if ch == '"':
+            inside = not inside
+        elif not inside and ch in counts:
+            counts[ch] += 1
+    best = max(counts.values())
+    return "," if counts[","] == best else max(counts, key=counts.get)
 
 
 def code_of(cell):
@@ -259,6 +272,8 @@ class Table:
         if len(rows) < 2:
             raise SystemExit(f"{path.name} has no data rows")
         self.name = path.name
+        if all(re.fullmatch(r"Column\d+", h.strip()) for h in rows[0]) and len(rows) > 2:
+            rows = rows[1:]                        # an export that put "Column1;Column2" above the real header
         self.header = [h.strip() for h in rows[0]]
         self.rows = rows[1:]
         width = len(self.header)
@@ -373,6 +388,27 @@ def split_titles(cell):
     return [p.strip() for p in re.split(r"[;\n|•]", cell) if p.strip()]
 
 
+def title_variants(title):
+    """'député/députée à l'Assemblée (MLA)' -> the whole title, the title without the brackets, and each
+    side of a slash, because that is how the French titles write both genders."""
+    plain = re.sub(r"\([^)]*\)", " ", title)
+    out = [title, plain]
+    for part in re.split(r"\s*/\s*", plain):
+        out.append(part)
+    return [t for t in dict.fromkeys(out) if t.strip()]
+
+
+def title_column(table):
+    """The text column that holds the job titles: the one with the most different values
+    (the 'type' column next to it only says Example, Exemple...)."""
+    best, best_n = None, 0
+    for i in table.text:
+        n = len({table.cell(r, i) for r in table.rows})
+        if n > best_n:
+            best, best_n = i, n
+    return best
+
+
 # --------------------------------------------------------------------------------------
 # vocabulary (every word and phrase), for review
 # --------------------------------------------------------------------------------------
@@ -451,6 +487,20 @@ def main():
             if (src_dir / f"{name}.csv").exists():
                 print(f"{name}:")
                 peek(src_dir / f"{name}.csv")
+        for name in sorted(failed):                # second pass: one file at a time, waiting longer
+            url_list = dict(jobs)[name]
+            print(f"  second pass for {name}", flush=True)
+            try:
+                for wait in (20, 40):
+                    time.sleep(wait)
+                    try:
+                        print(f"  {name}: {download(url_list, src_dir / f'{name}.csv', tries=2, deadline=300)}", flush=True)
+                        break
+                    except Exception as e:  # noqa: BLE001
+                        print(f"  {name}: still failing ({e})", flush=True)
+            finally:
+                if (src_dir / f"{name}.csv").exists():
+                    failed.remove(name)
         needed = [n for n in failed if n.rsplit("_", 1)[0] not in optional]
         if failed:
             print(f"WARNING: {len(failed)} downloads failed: {', '.join(sorted(failed))}", flush=True)
@@ -487,18 +537,24 @@ def main():
         for key, (kind, _, _) in resources.items():
             if kind != "text" or (key, lang) not in tables:
                 continue
-            by_code = text_by_code(tables[(key, lang)])
+            table = tables[(key, lang)]
+            by_code = text_by_code(table)
             codes.update(by_code)
             for code, cells in by_code.items():
                 corpus[lang].setdefault(code, "")
                 corpus[lang][code] += " " + " ".join(cells)
-                if key == "example_titles":
-                    for cell in cells:
-                        for title in split_titles(cell):
+            if key == "example_titles" and title_column(table) is not None:
+                col = title_column(table)
+                for row in table.rows:
+                    code = table.code_of_row(row)
+                    if not code:
+                        continue
+                    for cell in split_titles(table.cell(row, col)):
+                        for title in title_variants(cell):
                             norm = oasis.norm_title(title)
                             if 2 <= len(norm.split()) <= 8:
                                 titles.setdefault(norm, set()).add(code)
-        for key in ("labels", "lead_statement"):           # the occupation name, from whichever file has it
+        for key in ("labels", "lead_statement", "skills", "abilities", "knowledge"):   # the occupation name, from whichever file has it
             if (key, lang) in tables:
                 for code, label in labels_by_code(tables[(key, lang)]).items():
                     labels.setdefault(code, {}).setdefault("label" if lang == "en" else "label_fr", label)
