@@ -1,208 +1,79 @@
 {
 "probes": [
 {
-"name": "robots builtinmontreal.com",
+"name": "robots builtin",
 "url": "https://builtinmontreal.com/robots.txt",
-"headChars": 900
+"save": "r_builtin.txt",
+"headChars": 200,
+"saveChars": 20000
 },
 {
-"name": "robots www.iagora.com",
+"name": "robots iagora",
 "url": "https://www.iagora.com/robots.txt",
-"headChars": 900
+"save": "r_iagora.txt",
+"headChars": 200,
+"saveChars": 20000
 },
 {
-"name": "robots www.randstad.ca",
+"name": "robots randstad",
 "url": "https://www.randstad.ca/robots.txt",
-"headChars": 900
+"save": "r_randstad.txt",
+"headChars": 200,
+"saveChars": 20000
 },
 {
-"name": "robots www.jobillico.com",
-"url": "https://www.jobillico.com/robots.txt",
-"headChars": 900
+"name": "robots emplois qc",
+"url": "https://emplois.carrieres.gouv.qc.ca/robots.txt",
+"save": "r_emploisqc.txt",
+"headChars": 200,
+"saveChars": 20000
 },
 {
-"name": "robots www.jobboom.com",
-"url": "https://www.jobboom.com/robots.txt",
-"headChars": 900
+"name": "builtin sitemap",
+"url": "https://builtinmontreal.com/sitemap.xml",
+"save": "builtin_sitemap.xml",
+"headChars": 200,
+"saveChars": 20000
 },
 {
-"name": "robots www.eluta.ca",
-"url": "https://www.eluta.ca/robots.txt",
-"headChars": 900
-},
-{
-"name": "robots jobs-emplois.canada.ca",
-"url": "https://jobs-emplois.canada.ca/robots.txt",
-"headChars": 900
-},
-{
-"name": "robots dejobs.org",
-"url": "https://dejobs.org/robots.txt",
-"headChars": 900
-},
-{
-"name": "robots careers.l3harris.com",
-"url": "https://careers.l3harris.com/robots.txt",
-"headChars": 900
-},
-{
-"name": "robots www.workopolis.com",
-"url": "https://www.workopolis.com/robots.txt",
-"headChars": 900
-},
-{
-"name": "robots www.carrieres.gouv.qc.ca",
-"url": "https://www.carrieres.gouv.qc.ca/robots.txt",
-"headChars": 900
-},
-{
-"name": "robots www.placement.emploiquebec.gouv.qc.ca",
-"url": "https://www.placement.emploiquebec.gouv.qc.ca/robots.txt",
-"headChars": 900
-},
-{
-"name": "robots www.emploietudiant.qc.ca",
-"url": "https://www.emploietudiant.qc.ca/robots.txt",
-"headChars": 900
-},
-{
-"name": "robots www.cvmatch.ca",
-"url": "https://www.cvmatch.ca/robots.txt",
-"headChars": 900
-},
-{
-"name": "robots www.hays.ca",
-"url": "https://www.hays.ca/robots.txt",
-"headChars": 900
-},
-{
-"name": "robots www.roberthalf.com",
-"url": "https://www.roberthalf.com/robots.txt",
-"headChars": 900
-},
-{
-"name": "robots www.adecco.ca",
-"url": "https://www.adecco.ca/robots.txt",
-"headChars": 900
-},
-{
-"name": "robots www.talent.com",
-"url": "https://www.talent.com/robots.txt",
-"headChars": 900
-},
-{
-"name": "builtin montreal jobs",
-"url": "https://builtinmontreal.com/jobs",
-"headChars": 250,
+"name": "builtin internship list",
+"url": "https://builtinmontreal.com/jobs/internship",
+"save": "builtin_intern.html",
+"saveChars": 120000,
+"headChars": 200,
 "headers": {
 "Accept": "text/html,application/xhtml+xml"
-},
-"save": "builtin_jobs.html",
-"saveChars": 90000
+}
 },
 {
-"name": "builtin montreal job detail",
-"url": "https://builtinmontreal.com/job/mechanical-engineering-intern/7473722",
-"headChars": 250,
+"name": "builtin search intern",
+"url": "https://builtinmontreal.com/jobs?search=intern",
+"save": "builtin_search.html",
+"saveChars": 120000,
+"headChars": 200,
 "headers": {
 "Accept": "text/html,application/xhtml+xml"
-},
-"save": "builtin_detail.html",
-"saveChars": 90000
+}
 },
 {
-"name": "iagora montreal stages",
-"url": "https://www.iagora.com/work/fr/stages/canada/montreal",
-"headChars": 250,
+"name": "builtin p2",
+"url": "https://builtinmontreal.com/jobs?page=2",
+"save": "builtin_p2.html",
+"saveChars": 120000,
+"headChars": 200,
 "headers": {
 "Accept": "text/html,application/xhtml+xml"
-},
-"save": "iagora_list.html",
-"saveChars": 90000,
-"links": "href=\"(/work/[^\"]*(?:stage|internship|job)[^\"]*)\""
+}
 },
 {
-"name": "jobillico search",
-"url": "https://www.jobillico.com/en/search-jobs?skwd=industrial+engineer&scty=Montr%C3%A9al",
-"headChars": 250,
+"name": "emplois qc platform",
+"url": "https://emplois.carrieres.gouv.qc.ca/plateforme-emploi",
+"save": "emploisqc.html",
+"saveChars": 120000,
+"headChars": 200,
 "headers": {
 "Accept": "text/html,application/xhtml+xml"
-},
-"save": "jobillico_list.html",
-"saveChars": 90000
-},
-{
-"name": "randstad montreal",
-"url": "https://www.randstad.ca/jobs/q-engineering/quebec/",
-"headChars": 250,
-"headers": {
-"Accept": "text/html,application/xhtml+xml"
-},
-"save": "randstad_list.html",
-"saveChars": 90000,
-"links": "href=\"(/jobs/[^\"]*)\""
-},
-{
-"name": "eluta search",
-"url": "https://www.eluta.ca/search?q=intern+engineering&l=Montreal",
-"headChars": 250,
-"headers": {
-"Accept": "text/html,application/xhtml+xml"
-},
-"save": "eluta_list.html",
-"saveChars": 90000
-},
-{
-"name": "gc jobs student",
-"url": "https://emploisfp-psjobs.cfp-psc.gc.ca/psrs-srfp/applicant/page1800?toggleLanguage=en",
-"headChars": 250,
-"headers": {
-"Accept": "text/html,application/xhtml+xml"
-},
-"save": "gcjobs.html",
-"saveChars": 90000
-},
-{
-"name": "dejobs montreal",
-"url": "https://dejobs.org/montreal-qc/engineering-intern/jobs/",
-"headChars": 250,
-"headers": {
-"Accept": "text/html,application/xhtml+xml"
-},
-"save": "dejobs_list.html",
-"saveChars": 90000,
-"links": "href=\"(https://dejobs.org/[^\"]*job[^\"]*)\""
-},
-{
-"name": "l3harris montreal",
-"url": "https://careers.l3harris.com/en/location/montreal-quebec-canada-jobs/4832/6251999-6115047-6077243/4",
-"headChars": 250,
-"headers": {
-"Accept": "text/html,application/xhtml+xml"
-},
-"save": "l3harris.html",
-"saveChars": 90000
-},
-{
-"name": "quebec gov careers",
-"url": "https://www.carrieres.gouv.qc.ca/",
-"headChars": 250,
-"headers": {
-"Accept": "text/html,application/xhtml+xml"
-},
-"save": "qc_gov.html",
-"saveChars": 90000
-},
-{
-"name": "concordia hire",
-"url": "https://www.concordia.ca/students/careers.html",
-"headChars": 250,
-"headers": {
-"Accept": "text/html,application/xhtml+xml"
-},
-"save": "concordia_careers.html",
-"saveChars": 90000,
-"links": "href=\"(https?://[^\"]*(?:careerlink|symplicity|handshake|myworkdayjobs)[^\"]*)\""
+}
 }
 ]
 }
