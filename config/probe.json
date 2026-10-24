@@ -1,0 +1,189 @@
+{
+ "probes": [
+  {
+   "name": "jobbank search en",
+   "url": "https://www.jobbank.gc.ca/jobsearch/jobsearch?searchstring=intern&locationstring=Montreal%2C+QC&sort=D&fage=7",
+   "links": "href=\"(/jobsearch/jobposting/\\d+[^\"]*)\"",
+   "rssLinks": true,
+   "followFirst": "href=\"(/jobsearch/jobposting/\\d+[^\"]*)\"",
+   "headChars": 900
+  },
+  {
+   "name": "jobbank search fr",
+   "url": "https://www.guichetemplois.gc.ca/jobsearch/jobsearch?searchstring=stagiaire&locationstring=Montr%C3%A9al%2C+QC&sort=D&fage=7",
+   "links": "href=\"(/jobsearch/jobposting/\\d+[^\"]*)\""
+  },
+  {
+   "name": "jobbank rss guess",
+   "url": "https://www.jobbank.gc.ca/jobsearch/feed/jobSearchRSSfeed?searchstring=intern&locationstring=Montreal%2C+QC&sort=D&rows=50"
+  },
+  {
+   "name": "jobbank rss guess 2",
+   "url": "https://www.jobbank.gc.ca/jobsearch/feed/jobSearchRSSfeed?fage=7&searchstring=intern&locationstring=Montreal&sort=D&rows=50&loc=Montreal"
+  },
+  {
+   "name": "muse internship montreal",
+   "url": "https://www.themuse.com/api/public/jobs?page=0&location=Montreal%2C%20Canada&level=Internship",
+   "headChars": 1500
+  },
+  {
+   "name": "muse engineering montreal",
+   "url": "https://www.themuse.com/api/public/jobs?page=0&location=Montreal%2C%20Canada&category=Engineering"
+  },
+  {
+   "name": "workday nvidia (shape)",
+   "method": "POST",
+   "url": "https://nvidia.wd5.myworkdayjobs.com/wday/cxs/nvidia/NVIDIAExternalCareerSite/jobs",
+   "body": {
+    "appliedFacets": {},
+    "limit": 20,
+    "offset": 0,
+    "searchText": "Montreal"
+   },
+   "headChars": 1200
+  },
+  {
+   "name": "workday rtx",
+   "method": "POST",
+   "url": "https://globalhr.wd5.myworkdayjobs.com/wday/cxs/globalhr/REC_RTX_Ext_Gateway/jobs",
+   "body": {
+    "appliedFacets": {},
+    "limit": 20,
+    "offset": 0,
+    "searchText": "Montreal"
+   }
+  },
+  {
+   "name": "workday cae",
+   "method": "POST",
+   "url": "https://cae.wd3.myworkdayjobs.com/wday/cxs/cae/career/jobs",
+   "body": {
+    "appliedFacets": {},
+    "limit": 20,
+    "offset": 0,
+    "searchText": "Montreal"
+   }
+  },
+  {
+   "name": "workday bombardier a",
+   "method": "POST",
+   "url": "https://bombardier.wd3.myworkdayjobs.com/wday/cxs/bombardier/Bombardier/jobs",
+   "body": {
+    "appliedFacets": {},
+    "limit": 20,
+    "offset": 0,
+    "searchText": "Montreal"
+   }
+  },
+  {
+   "name": "workday gevernova",
+   "method": "POST",
+   "url": "https://gevernova.wd5.myworkdayjobs.com/wday/cxs/gevernova/Vernova_ExternalSite/jobs",
+   "body": {
+    "appliedFacets": {},
+    "limit": 20,
+    "offset": 0,
+    "searchText": "Montreal"
+   }
+  },
+  {
+   "name": "workday honeywell",
+   "method": "POST",
+   "url": "https://honeywell.wd5.myworkdayjobs.com/wday/cxs/honeywell/Honeywell/jobs",
+   "body": {
+    "appliedFacets": {},
+    "limit": 20,
+    "offset": 0,
+    "searchText": "Montreal"
+   }
+  },
+  {
+   "name": "workday alstom",
+   "method": "POST",
+   "url": "https://alstom.wd3.myworkdayjobs.com/wday/cxs/alstom/Alstom_External_Career_Site/jobs",
+   "body": {
+    "appliedFacets": {},
+    "limit": 20,
+    "offset": 0,
+    "searchText": "Montreal"
+   }
+  },
+  {
+   "name": "workday cn",
+   "method": "POST",
+   "url": "https://cn.wd3.myworkdayjobs.com/wday/cxs/cn/CN_Careers/jobs",
+   "body": {
+    "appliedFacets": {},
+    "limit": 20,
+    "offset": 0,
+    "searchText": "Montreal"
+   }
+  },
+  {
+   "name": "workable widget",
+   "url": "https://apply.workable.com/api/v1/widget/accounts/workable?details=true"
+  },
+  {
+   "name": "recruitee",
+   "url": "https://recruitee.recruitee.com/api/offers/"
+  },
+  {
+   "name": "breezy",
+   "url": "https://breezy.breezy.hr/json"
+  },
+  {
+   "name": "bamboohr",
+   "url": "https://bamboohr.bamboohr.com/careers/list",
+   "accept": "application/json"
+  },
+  {
+   "name": "personio",
+   "url": "https://personio.jobs.personio.de/xml"
+  },
+  {
+   "name": "teamtailor",
+   "url": "https://teamtailor.teamtailor.com/jobs.rss"
+  },
+  {
+   "name": "talent.com search",
+   "url": "https://ca.talent.com/jobs?k=intern&l=Montreal%2C+QC",
+   "links": "href=\"([^\"]*(?:/view\\?id=|/jobs/[^\"]*id=)[^\"]*)\""
+  },
+  {
+   "name": "jobillico search",
+   "url": "https://www.jobillico.com/en/search-jobs?skwd=intern&scty=Montreal"
+  },
+  {
+   "name": "indeed ca (status only)",
+   "url": "https://ca.indeed.com/jobs?q=intern&l=Montreal&fromage=7"
+  },
+  {
+   "name": "linkedin guest (status only)",
+   "url": "https://www.linkedin.com/jobs-guest/jobs/api/seeMoreJobPostings/search?keywords=intern&location=Montreal&f_TPR=r604800&start=0"
+  },
+  {
+   "name": "glassdoor (status only)",
+   "url": "https://www.glassdoor.ca/Job/montreal-intern-jobs-SRCH_IL.0,8_IC2296722_KO9,15.htm"
+  },
+  {
+   "name": "monster ca (status only)",
+   "url": "https://www.monster.ca/jobs/search?q=intern&where=Montreal"
+  },
+  {
+   "name": "ziprecruiter ca (status only)",
+   "url": "https://www.ziprecruiter.ca/jobs-search?search=intern&location=Montreal"
+  },
+  {
+   "name": "remotive api",
+   "url": "https://remotive.com/api/remote-jobs?search=engineer&limit=3"
+  },
+  {
+   "name": "arbeitnow api",
+   "url": "https://www.arbeitnow.com/api/job-board-api"
+  },
+  {
+   "name": "gc jobs (status only)",
+   "url": "https://emploisfp-psjobs.cfp-psc.gc.ca/psrs-srfp/applicant/page1800?toggleLanguage=en"
+  }
+ ]
+}

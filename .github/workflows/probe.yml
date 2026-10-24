@@ -1,0 +1,29 @@
+name: Probe job sites
+
+# Checks which job sites answer from GitHub's machines, and in what shape. Writes reports/probe.json.
+on:
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Probe
+        run: node scripts/probe.mjs
+      - name: Publish the result
+        run: |
+          git config user.name "path-match-bot"
+          git config user.email "path-match-bot@users.noreply.github.com"
+          git add reports/probe.json
+          git diff --cached --quiet && echo "No changes" && exit 0
+          git commit -m "Probe job sites"
+          git pull --rebase origin main
+          git push
