@@ -100,7 +100,10 @@ export async function fetchJson(url, opts = {}) {
 export const postJson = (url, body, headers = {}) =>
   fetchJson(url, { method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json", "Accept-Language": "en-US", ...headers }, body: JSON.stringify(body) });
 
-const keep = (j) => inCanada(j.loc) && RELEVANT.test(norm(j.title + " " + (j.desc || "").slice(0, 1500)));
+/* Titles of work this tool is not for (kitchen, cleaning, driving, care...). "Chef de projet" and "Device Driver Engineer" stay. */
+export const NOT_TARGET = /\b(line cook|prep cook|cook\b|dishwasher|bartender|barista|busser|hostess|food runner|kitchen|sous[- ]chef|executive chef|head chef|chef de cuisine|chef de partie|cuisinier|culinary|dietary aide|housekeep\w*|janitor|custodian|groundskeeper|truck driver|delivery driver|bus driver|chauffeur|lifeguard|dental|nurse\b|caregiver|personal support worker|plongeur|serveur|serveuse|caissier|caissiere|prepose|aide[- ]cuisinier|femme de chambre|manoeuvre|server liaison|server assistant|cashier)\b|^server\s*([-–(/]|$)|\bcleaner$/;
+export const wantedTitle = (title) => !NOT_TARGET.test(norm(title));
+const keep = (j) => inCanada(j.loc) && wantedTitle(j.title) && RELEVANT.test(norm(j.title + " " + (j.desc || "").slice(0, 1500)));
 
 /* ---------- Greenhouse ---------- */
 export async function greenhouse(slug, nowMs) {
@@ -145,7 +148,7 @@ export async function smartrecruiters(slug, nowMs) {
     for (const x of items) {
       const l = x.location || {};
       const loc = [l.city, l.region, l.country].filter(Boolean).join(", ");
-      if (!inCanada(loc) || !RELEVANT.test(norm(x.name))) continue;
+      if (!inCanada(loc) || !wantedTitle(x.name) || !RELEVANT.test(norm(x.name))) continue;
       out.push({
         company: (x.company && x.company.name) || pretty(slug), title: x.name, loc,
         date: String(x.releasedDate || "").slice(0, 10), ageH: hoursSince(x.releasedDate, nowMs),

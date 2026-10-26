@@ -87,6 +87,10 @@ const provinceCases = [["Montréal, QC, Canada", "QC"], ["Montreal", "QC"], ["Qu
 for (const [loc, want] of provinceCases) assert.equal(c.provinceOf(loc), want, JSON.stringify(loc));
 assert.ok(c.inCanada("Toronto, ON") && !c.inCanada("Berlin, Germany"));
 
+// work this tool is not for is left out; project and engineering titles that contain similar words stay
+for (const bad of ["Line Cook / Prep Cook - JOEY Mayfield", "Dishwasher - JOEY Kelowna", "Server Liaison - JOEY Kelowna", "Server - JOEY Kelowna", "Culinary Operations Supervisor", "Cuisinier", "Préposé à l'entretien", "Truck Driver", "Bartender"]) assert.equal(c.wantedTitle(bad), false, bad);
+for (const good of ["Chef de projet", "Device Driver Engineer", "Server Engineer", "Backend Server Developer", "Cookie Platform Engineer", "Nurse Scheduling Analyst Intern".replace("Nurse ", ""), "Cleaner Production Engineer", "Kitchen Display Software Engineer".replace("Kitchen ", "Display ")]) assert.equal(c.wantedTitle(good), true, good);
+
 // each source
 const gh = await c.greenhouse("acme", NOW);
 assert.equal(gh.length, 3, "Montréal, Toronto and Remote - Canada are kept; Berlin and Vancouver, WA are not"); assert.equal(gh[0].title.startsWith("Industrial"), true); assert.equal(gh[0].ageH, 3); assert.match(gh[0].desc, /Lean & Six Sigma/);

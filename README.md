@@ -7,6 +7,16 @@ Upload a CV, get a ranked, explained list of Montreal internships, co-ops and pa
 - **The collector** (`scripts/collect.mjs`) runs on a schedule in GitHub Actions, gathers postings from free sources and saves `docs/jobs.json`. No server is needed.
 - It is a heuristic, not an applicant tracking system. Score differences of 5 points or less are ties. Always read the posting before applying.
 
+## The dashboard (`docs/index.html`)
+
+Tabs: **Full-time jobs**, **Part-time**, **Internships & co-ops** (each with a live count), then the CV keywords and the method. Postings can be browsed before a CV is added; adding one scores and ranks them (the 0–100 score itself is unchanged).
+
+- Search (title, company, city; tick the box to search inside the descriptions; press `/` to jump to it), location (all of Canada, the Montréal area, or one province, each with its count), source, sort (best match, newest, company, title), minimum score, and the posted window (24 h, 7 days, all, each with its count).
+- Results load 25 at a time and more load as you scroll. Star a posting to keep it; **Saved** shows only those (kept in your browser).
+- The address bar holds the tab and filters, so a view can be bookmarked or shared, and the back button works.
+- The page asks the server for a new `jobs.json` every 5 minutes (a 304 when nothing changed) and marks postings that appeared since you opened it.
+- **Copy list** copies every posting that matches the filters, not only the ones on screen.
+
 ## Sources
 
 Every source below is free to read. The collector keeps a posting only when its location is in Canada (any province or territory, English or French name, a code such as QC or ON, or "Remote – Canada"; jobs elsewhere are dropped) and its title or opening text points to engineering, operations, quality, supply chain, data or a student role. Each kept posting is saved with its `province` (`QC`, `ON`, `BC`... or `Remote – Canada` / `Canada` when the text names no province), and `docs/jobs.json` holds the count per province. Job Bank, The Muse, Adzuna, Jooble, Careerjet and the Workday searches are still asked about Montreal only (see `config/searches.json`); the employer boards below return every Canadian posting. After each run `docs/jobs.json` holds, for every source, how many postings it gave, how many requests failed and the first error, and the **Method** tab of the site shows that report.
