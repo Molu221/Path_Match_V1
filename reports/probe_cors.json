@@ -1,0 +1,260 @@
+{
+ "at": "2026-10-26T00:47:05.636Z",
+ "results": [
+  {
+   "name": "cors ashby",
+   "url": "https://api.ashbyhq.com/posting-api/job-board/cohere?includeCompensation=false",
+   "method": "GET",
+   "status": 200,
+   "cors": {
+    "allowOrigin": "*",
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": null
+   },
+   "contentType": "application/json; charset=utf-8",
+   "bytes": 1945845,
+   "head": "{\"jobs\":[{\"id\":\"7133d205-5421-4336-a8e2-6037b5f55073\",\"title\":\"Senior Full-Stack",
+   "jsonLdJobPostings": 0,
+   "ms": 287
+  },
+  {
+   "name": "cors ashby missing board",
+   "url": "https://api.ashbyhq.com/posting-api/job-board/zzznotaboardzzz",
+   "method": "GET",
+   "status": 404,
+   "cors": {
+    "allowOrigin": "*",
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": null
+   },
+   "contentType": "text/plain; charset=utf-8",
+   "bytes": 9,
+   "head": "Not Found",
+   "jsonLdJobPostings": 0,
+   "ms": 166
+  },
+  {
+   "name": "cors bamboohr",
+   "url": "https://taigamotors.bamboohr.com/careers/list",
+   "method": "GET",
+   "status": 200,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": "Authorization,User-Agent"
+   },
+   "contentType": "application/json",
+   "bytes": 5670,
+   "head": "{\"meta\":{\"totalCount\":16},\"result\":[{\"id\":\"39\",\"jobOpeningName\":\"Concepteur m\\u0",
+   "jsonLdJobPostings": 0,
+   "ms": 338
+  },
+  {
+   "name": "cors greenhouse",
+   "url": "https://boards-api.greenhouse.io/v1/boards/stackadapt/jobs",
+   "method": "GET",
+   "status": 200,
+   "cors": {
+    "allowOrigin": "*",
+    "allowHeaders": null,
+    "allowMethods": "GET",
+    "vary": "Origin, Accept-Encoding"
+   },
+   "contentType": "application/json",
+   "bytes": 45534,
+   "head": "{\"jobs\":[{\"absolute_url\":\"https://job-boards.greenhouse.io/stackadapt/jobs/42826",
+   "jsonLdJobPostings": 0,
+   "ms": 136
+  },
+  {
+   "name": "cors greenhouse missing board",
+   "url": "https://boards-api.greenhouse.io/v1/boards/zzznotaboardzzz/jobs",
+   "method": "GET",
+   "status": 404,
+   "cors": {
+    "allowOrigin": "*",
+    "allowHeaders": null,
+    "allowMethods": "GET",
+    "vary": "Origin, Accept-Encoding"
+   },
+   "contentType": "application/json",
+   "bytes": 38,
+   "head": "{\"status\":404,\"error\":\"Job not found\"}",
+   "jsonLdJobPostings": 0,
+   "ms": 76
+  },
+  {
+   "name": "cors job bank feed",
+   "url": "https://www.jobbank.gc.ca/jobsearch/feed/jobSearchRSSfeed?searchstring=intern&locationstring=Montreal&fage=7&rows=1",
+   "method": "GET",
+   "status": 200,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": null
+   },
+   "contentType": "application/atom+xml;charset=UTF-8",
+   "bytes": 506,
+   "head": "<?xml version=\"1.0\" encoding=\"UTF-8\"?> <feed xmlns=\"http://www.w3.org/2005/Atom\"",
+   "jsonLdJobPostings": 0,
+   "ms": 415
+  },
+  {
+   "name": "cors lever",
+   "url": "https://api.lever.co/v0/postings/eqbank?mode=json&limit=1",
+   "method": "GET",
+   "status": 200,
+   "cors": {
+    "allowOrigin": "*",
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": null
+   },
+   "contentType": "application/json; charset=utf-8",
+   "bytes": 20804,
+   "head": "[{\"additionalPlain\":\"What we offer [For full-time permanent roles]\\n \\n💰 Compet",
+   "jsonLdJobPostings": 0,
+   "ms": 520
+  },
+  {
+   "name": "cors lever missing board",
+   "url": "https://api.lever.co/v0/postings/zzznotaboardzzz?mode=json",
+   "method": "GET",
+   "status": 404,
+   "cors": {
+    "allowOrigin": "*",
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": null
+   },
+   "contentType": "application/json; charset=utf-8",
+   "bytes": 41,
+   "head": "{\"ok\":false,\"error\":\"Document not found\"}",
+   "jsonLdJobPostings": 0,
+   "ms": 379
+  },
+  {
+   "name": "cors recruitee",
+   "url": "https://huaweicanada.recruitee.com/api/offers/",
+   "method": "GET",
+   "status": 200,
+   "cors": {
+    "allowOrigin": "https://molu221.github.io",
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": "origin, accept-encoding"
+   },
+   "contentType": "application/json; charset=utf-8",
+   "bytes": 2525550,
+   "head": "{\"offers\":[{\"position\":1858,\"country_code\":\"CA\",\"state_code\":\"ON\",\"published_at\"",
+   "jsonLdJobPostings": 0,
+   "ms": 357
+  },
+  {
+   "name": "cors recruitee missing board",
+   "url": "https://zzznotaboardzzz.recruitee.com/api/offers/",
+   "method": "GET",
+   "status": 404,
+   "cors": {
+    "allowOrigin": "https://molu221.github.io",
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": "origin, accept-encoding"
+   },
+   "contentType": "application/json; charset=utf-8",
+   "bytes": 21,
+   "head": "{\"error\":\"Not Found\"}",
+   "jsonLdJobPostings": 0,
+   "ms": 159
+  },
+  {
+   "name": "cors smartrecruiters",
+   "url": "https://api.smartrecruiters.com/v1/companies/dexterra/postings?limit=1&country=ca",
+   "method": "GET",
+   "status": 200,
+   "cors": {
+    "allowOrigin": "*",
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": "Accept-Encoding"
+   },
+   "contentType": "application/json; charset=utf-8",
+   "bytes": 1201,
+   "head": "{\"offset\":0,\"limit\":1,\"totalFound\":390,\"content\":[{\"id\":\"744000157684109\",\"name\"",
+   "jsonLdJobPostings": 0,
+   "ms": 475
+  },
+  {
+   "name": "cors the muse",
+   "url": "https://www.themuse.com/api/public/jobs?page=0&location=Montreal%2C%20Canada&level=Internship",
+   "method": "GET",
+   "status": 200,
+   "cors": {
+    "allowOrigin": "*",
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": "Accept-Encoding"
+   },
+   "contentType": "application/json; charset=UTF-8",
+   "bytes": 119894,
+   "head": "{\"page\": 0, \"page_count\": 5, \"items_per_page\": 20, \"took\": 20, \"timed_out\": fals",
+   "jsonLdJobPostings": 0,
+   "ms": 322
+  },
+  {
+   "name": "cors workable",
+   "url": "https://apply.workable.com/api/v1/widget/accounts/tehora?details=false",
+   "method": "GET",
+   "status": 200,
+   "cors": {
+    "allowOrigin": "*",
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": "Accept-Encoding, Origin"
+   },
+   "contentType": "application/json; charset=utf-8",
+   "bytes": 1049244,
+   "head": "{\"name\":\"TEHORA\",\"description\":null,\"jobs\":[{\"title\":\"Administrateur applicatif ",
+   "jsonLdJobPostings": 0,
+   "ms": 233
+  },
+  {
+   "name": "cors workable missing board",
+   "url": "https://apply.workable.com/api/v1/widget/accounts/zzznotaboardzzz?details=false",
+   "method": "GET",
+   "status": 404,
+   "cors": {
+    "allowOrigin": "*",
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": "Accept-Encoding, Origin"
+   },
+   "contentType": "text/plain; charset=utf-8",
+   "bytes": 9,
+   "head": "Not Found",
+   "jsonLdJobPostings": 0,
+   "ms": 122
+  },
+  {
+   "name": "cors workday preflight",
+   "url": "https://cae.wd3.myworkdayjobs.com/wday/cxs/cae/career/jobs",
+   "method": "OPTIONS",
+   "status": 404,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": "Accept-Encoding"
+   },
+   "contentType": "text/html; charset=utf-8",
+   "bytes": 1161,
+   "head": "<!DOCTYPE html> <html lang=\"en\"> <head> <title>Not Found</title> <style type=\"te",
+   "jsonLdJobPostings": 0,
+   "ms": 397
+  }
+ ]
+}
