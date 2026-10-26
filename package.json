@@ -6,8 +6,10 @@
   "scripts": {
     "collect": "node scripts/collect.mjs",
     "find": "node scripts/find-boards.mjs",
-    "test": "node test/collect.test.mjs",
+    "test": "node test/collect.test.mjs && node test/jobmeta.test.mjs && node test/scoring.test.mjs",
     "serve": "node scripts/serve.mjs"
   },
-  "engines": { "node": ">=20" }
+  "engines": {
+    "node": ">=20"
+  }
 }

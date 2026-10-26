@@ -1,16 +1,18 @@
 # Path Match (free version)
 **Link for the website:** https://molu221.github.io/Path_Match_V1/
 
-Upload a CV, get a ranked, explained list of Montreal internships, co-ops and part-time roles.
+Upload a CV, get a ranked, explained list of jobs, part-time roles, internships and co-ops across Canada, in any field, for the stage of career the CV shows.
 
 - **The site** is one static page in `docs/`. It reads `docs/jobs.json` and scores each posting against the visitor's CV **in their browser**. CVs are never uploaded anywhere.
 - **The collector** (`scripts/collect.mjs`) runs on a schedule in GitHub Actions, gathers postings from free sources and saves `docs/jobs.json`. No server is needed.
+- **The stage comes first.** The page reads the CV's dates and titles and places the person on a five-stop trail: student or new graduate, early career (1–3 years), mid-level (3–7), senior (7+), director or executive. Each posting gets a level in the same five steps, and the list favours the person's own stage, so a new graduate does not see a director first. The person can tap another stop on the trail at any time.
 - It is a heuristic, not an applicant tracking system. Score differences of 5 points or less are ties. Always read the posting before applying.
 
 ## The dashboard (`docs/index.html`)
 
-Tabs: **Full-time jobs**, **Part-time**, **Internships & co-ops** (each with a live count), then the CV keywords and the method. Postings can be browsed before a CV is added; adding one scores and ranks them (the 0–100 score itself is unchanged).
+The top of the page is a trail with five stops (the stage). With a CV, the pin sits on the stage the CV reads as, and "How we read your CV" says why; without one, the visitor taps a stop. Tabs: **Full-time jobs**, **Part-time**, **Internships & co-ops** (each with a live count), then **Your CV** and the method. Postings can be browsed before a CV is added; adding one scores and ranks them.
 
+- **Level** (default "Fits my level": postings far above or far below the stage are hidden, with a one-tap "show them"; or pick one level) and **field** (software and IT, healthcare, finance, trades, retail, education and so on, each with its count). Every card shows its level, how it relates to the person ("fits", "one step above", "below") and its field.
 - Search (title, company, city; tick the box to search inside the descriptions; press `/` to jump to it), location (all of Canada, the Montréal area, or one province, each with its count), source, sort (best match, newest, company, title), minimum score, and the posted window (24 h, 7 days, all, each with its count).
 - Results load 25 at a time and more load as you scroll. Star a posting to keep it; **Saved** shows only those (kept in your browser).
 - The address bar holds the tab and filters, so a view can be bookmarked or shared, and the back button works.
@@ -19,16 +21,18 @@ Tabs: **Full-time jobs**, **Part-time**, **Internships & co-ops** (each with a l
 
 ## Sources
 
-Every source below is free to read. The collector keeps a posting only when its location is in Canada (any province or territory, English or French name, a code such as QC or ON, or "Remote – Canada"; jobs elsewhere are dropped) and its title or opening text points to engineering, operations, quality, supply chain, data or a student role. Each kept posting is saved with its `province` (`QC`, `ON`, `BC`... or `Remote – Canada` / `Canada` when the text names no province), and `docs/jobs.json` holds the count per province. Job Bank, The Muse, Adzuna, Jooble, Careerjet and the Workday searches are still asked about Montreal only (see `config/searches.json`); the employer boards below return every Canadian posting. After each run `docs/jobs.json` holds, for every source, how many postings it gave, how many requests failed and the first error, and the **Method** tab of the site shows that report.
+Every source below is free to read. The collector keeps a posting when its location is in Canada (any province or territory, English or French name, a code such as QC or ON, or "Remote – Canada"; jobs elsewhere are dropped), whatever the field. Each kept posting is saved with its `province` (`QC`, `ON`, `BC`... or `Remote – Canada` / `Canada` when the text names no province), and `docs/jobs.json` holds the count per province.
+
+Because that is far more than a browser should download, the collector then keeps a **balanced selection** of about 18 MB (`selectJobs` in `scripts/collect.mjs`): internships, co-ops, part-time roles and student-level postings first (up to 30% of the space), then every field in turn (newest first, at most 30 postings per employer), so no field or employer fills the list. It also stores, for each kept posting, its 40 main keywords (`kw`) and their number (`kt`), found with the same rules as the page, so the browser only has to compare them with the CV. Job Bank and The Muse search the largest cities (see `config/searches.json`); the employer boards return every Canadian posting. After each run `docs/jobs.json` holds, for every source, how many postings it gave, how many requests failed and the first error, and the **Method** tab of the site shows that report.
 
 | Source | What it gives | Needs |
 | --- | --- | --- |
-| Job Bank Canada (English and French pages) | Full text of postings found by 15 English and French searches. Some posts only link to a partner site (shown as a snippet card with the partner link). Waits 5 seconds between requests, as its robots.txt asks. | Nothing |
-| The Muse | Internship and entry-level roles in Montreal, full text | Nothing (an optional free key `MUSE_API_KEY` raises its limit) |
+| Job Bank Canada (English and French pages) | Full text of the newest postings found by 8 English and French searches in each of 9 cities (Montréal, Toronto, Vancouver, Calgary, Edmonton, Ottawa, Québec, Winnipeg, Halifax), taken in turn across the search words; about 300 more are kept with their title only. Some posts only link to a partner site (shown as a snippet card with the partner link). Waits 5 seconds between requests, as its robots.txt asks. | Nothing |
+| The Muse | Internship, entry-level, mid-level and senior roles in Montreal, Toronto, Vancouver, Calgary, Ottawa and Edmonton, full text | Nothing (an optional free key `MUSE_API_KEY` raises its limit) |
 | Greenhouse, Lever, Ashby, SmartRecruiters, Workable, Recruitee, Breezy, BambooHR, Personio, Teamtailor | Full text from employers that publish an open board | Nothing. Employers are listed in `config/companies.json` |
 | Workday | Full text from the career sites of employers on Workday (CAE, RTX, GE Vernova so far) | Nothing. To add an employer, paste its career-page address (for example `https://cae.wd3.myworkdayjobs.com/en-US/career`) into `workday` in `config/companies.json` |
 | Career pages | Any employer page that publishes schema.org `JobPosting` data | Nothing. List the page addresses under `pages` |
-| Adzuna | Broad Montreal coverage, short snippet per posting | A free key from https://developer.adzuna.com (`ADZUNA_APP_ID`, `ADZUNA_APP_KEY`) |
+| Adzuna | Broad coverage, short snippet per posting | A free key from https://developer.adzuna.com (`ADZUNA_APP_ID`, `ADZUNA_APP_KEY`) |
 | Jooble | Search service, short snippet | A free key from https://jooble.org/api/about (`JOOBLE_API_KEY`) |
 | Careerjet | Search service, short snippet | A free key from https://www.careerjet.com/partners/api (`CAREERJET_API_KEY`) |
 
@@ -36,7 +40,7 @@ Every source below is free to read. The collector keeps a posting only when its 
 
 A source whose key is not saved is skipped and shown as "off" in the report. A source that breaks does not stop the others.
 
-**Not collected, and why.** LinkedIn (its robots.txt and terms forbid automated reading; paste a description into a card instead), Indeed, Glassdoor, Monster and ZipRecruiter (they refuse automated requests with HTTP 403 and their terms do not allow it; not bypassed), Built In Montréal (its terms of use forbid bots, spiders and scrapers even though robots.txt allows the pages), Talent.com (pages are marked noindex and nofollow, no feed), iagora and staffing agencies (employer hidden behind a sign-up or unnamed clients), Concordia CareerLink (student login), Taleo, SuccessFactors, iCIMS and Oracle Recruiting (each employer needs its own set-up), and remote-only boards (not Montreal on-site roles).
+**Not collected, and why.** LinkedIn (its robots.txt and terms forbid automated reading; paste a description into a card instead), Indeed, Glassdoor, Monster and ZipRecruiter (they refuse automated requests with HTTP 403 and their terms do not allow it; not bypassed), Built In Montréal (its terms of use forbid bots, spiders and scrapers even though robots.txt allows the pages), Talent.com (pages are marked noindex and nofollow, no feed), iagora and staffing agencies (employer hidden behind a sign-up or unnamed clients), school career boards such as CareerLink (student login), Taleo, SuccessFactors, iCIMS and Oracle Recruiting (each employer needs its own set-up), and remote-only boards (not tied to a Canadian city).
 
 **Finding employer boards.** `config/companies.json` is a long starter list. Names that do not exist on a system are skipped silently, and the report counts them as "not found". To look up one employer:
 
@@ -56,7 +60,7 @@ To check a long list, edit `config/candidates.json` and run the **Find boards** 
 
 The workflow then re-runs once a day (change the `cron` line in `.github/workflows/refresh.yml`). Cloudflare Pages or Netlify also work: point them at the `docs` folder.
 
-The site works before step 4 using demo postings, and shows "Demo data" until the first real collection.
+The site shows whatever `docs/jobs.json` holds, so it is never empty once a collection has been committed.
 
 ## Try it on your computer
 
@@ -71,7 +75,9 @@ npm run collect                # collect now (add ADZUNA_APP_ID=... ADZUNA_APP_K
 ## Known limits
 
 - Adzuna, Jooble and Careerjet give only a snippet, and some Job Bank posts only link to a partner site, so those rows are labelled "Snippet" and scored from less text. Paste the full description into the card to score it fully.
-- Job Bank is slow on purpose (5 seconds between requests), so a full run takes several minutes.
+- Job Bank is slow on purpose (5 seconds between requests), so its part of a run takes about 15 minutes (the workflow allows 60).
+- The stage of a person and the level of a posting are read from words and dates, so they can be wrong (a title such as "Director" at a small firm, a CV with no dates). That is why the stage can be changed by hand, the level filter can be switched to "All levels", and every card says how its level was read.
+- `docs/jobs.json` is about 18 MB (a few MB over the wire once compressed). The selection above is what keeps it that size.
 - A collection runs a few times a day, so a posting can close before the next run.
 - Scores come from keyword rules. Degree level, security rules and exact dates are only as good as the posting text.
 - Scanned (image-only) PDFs have no text. Paste the text instead.
@@ -80,12 +86,12 @@ npm run collect                # collect now (add ADZUNA_APP_ID=... ADZUNA_APP_K
 
 ## Files
 
-- `docs/index.html` the site (CV reading, scoring, results)
+- `docs/index.html` the site (stage trail, filters, results); `docs/jobmeta.js` the level of a posting, the stage of a CV, the fit table and the fields; `docs/scoring.js` the 0–100 score; `docs/matcher.js` the keyword engine
 - `docs/jobs.json` the collected postings (demo data at first)
 - `scripts/collect.mjs` the collector, `scripts/find-boards.mjs` the board finder (`config/candidates.json` is its list)
 - `config/companies.json`, `config/searches.json` what to collect
 - `.github/workflows/refresh.yml` the schedule
-- `test/collect.test.mjs` offline tests
+- `test/collect.test.mjs`, `test/jobmeta.test.mjs`, `test/scoring.test.mjs` offline tests (`npm test`)
 
 ## Keyword extractor (Python)
 

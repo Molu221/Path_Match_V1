@@ -8,58 +8,75 @@
     "resultsPerPage": 50,
     "delayMs": 1500,
     "queries": [
-      "intern industrial engineering",
-      "stagiaire génie industriel",
-      "co-op quality",
-      "stage chaîne d'approvisionnement",
-      "stage amélioration continue",
-      "part-time engineering student"
+      "student",
+      "stagiaire",
+      "entry level",
+      "part-time",
+      "assistant",
+      "coordinator",
+      "technician",
+      "analyst"
     ]
   },
   "jobbank": {
-    "_note": "Job Bank Canada (Government of Canada). robots.txt asks for 5 seconds between requests, so this source is slow on purpose. Its job-seeker terms of use also forbid scripts, robots and crawlers (account-registration section): set \"enabled\": false to switch it off.",
+    "_note": "Job Bank Canada (Government of Canada). robots.txt asks for 5 seconds between requests, so this source is slow on purpose: about 70 searches and 120 postings opened is roughly 15 minutes. Its job-seeker terms of use also forbid scripts, robots and crawlers (account-registration section): set \"enabled\": false to switch it off.",
     "enabled": true,
-    "where": "Montréal, QC",
-    "maxDaysOld": 14,
-    "maxDetails": 45,
+    "maxDaysOld": 7,
+    "maxDetails": 120,
     "delayMs": 5000,
     "queries": [
-      "intern",
-      "internship engineering",
+      "student",
       "stagiaire",
-      "stage ingénierie",
-      "co-op",
-      "industrial engineer",
-      "ingénieur industriel",
-      "quality",
-      "qualité",
-      "supply chain",
-      "chaîne d'approvisionnement",
-      "amélioration continue",
-      "logistics",
-      "operations student",
-      "part-time engineering"
-    ]
+      "entry level",
+      "part-time",
+      "assistant",
+      "coordinator",
+      "technician",
+      "analyste"
+    ],
+    "places": [
+      "Montréal, QC",
+      "Toronto, ON",
+      "Vancouver, BC",
+      "Calgary, AB",
+      "Edmonton, AB",
+      "Ottawa, ON",
+      "Québec, QC",
+      "Winnipeg, MB",
+      "Halifax, NS"
+    ],
+    "maxListed": 300
   },
   "muse": {
-    "location": "Montreal, Canada",
     "levels": [
       "Internship",
-      "Entry Level"
+      "Entry Level",
+      "Mid Level",
+      "Senior Level"
     ],
-    "pages": 4
+    "pages": 3,
+    "locations": [
+      "Montreal, Canada",
+      "Toronto, Canada",
+      "Vancouver, Canada",
+      "Calgary, Canada",
+      "Ottawa, Canada",
+      "Edmonton, Canada"
+    ]
   },
   "jooble": {
     "_note": "Needs a free key from https://jooble.org/api/about. Add it as the repository secret JOOBLE_API_KEY.",
     "where": "Montréal, QC",
     "delayMs": 1000,
     "queries": [
-      "intern industrial engineering",
-      "stagiaire génie industriel",
-      "co-op quality",
-      "stage chaîne d'approvisionnement",
-      "stage amélioration continue",
-      "part-time engineering student"
+      "student",
+      "stagiaire",
+      "entry level",
+      "part-time",
+      "assistant",
+      "coordinator",
+      "technician",
+      "analyst"
     ]
   },
   "careerjet": {
@@ -68,12 +85,14 @@
     "locale": "en_CA",
     "delayMs": 1000,
     "queries": [
-      "intern industrial engineering",
-      "stagiaire génie industriel",
-      "co-op quality",
-      "stage chaîne d'approvisionnement",
-      "stage amélioration continue",
-      "part-time engineering student"
+      "student",
+      "stagiaire",
+      "entry level",
+      "part-time",
+      "assistant",
+      "coordinator",
+      "technician",
+      "analyst"
     ]
   }
 }

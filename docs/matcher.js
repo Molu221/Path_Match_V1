@@ -278,7 +278,7 @@
         TOKEN.lastIndex = 0;
         let m;
         while ((m = TOKEN.exec(s))) toks.push({ n: nw(m[0]), st: stem(m[0]), a: m.index, b: m.index + m[0].length, w: m[0] });
-        lines.push({ raw: raw.trim(), s, fm, start: offset, toks });
+        lines.push({ raw: raw.trim(), s, fm, start: offset, toks, have: new Set(toks.map(k => k.st)) });
         offset += raw.length + 1;
       }
       return lines;
@@ -307,7 +307,7 @@
       const need = n <= 3 ? 1 : 2;
       let best = null;
       for (const L of ix) {
-        const have = new Set(L.toks.map(k => k.st));
+        const have = L.have;
         const shared = main.filter(([, s]) => have.has(s)).map(([w]) => w);
         if (shared.length >= need && (!best || shared.length > best.shared.length)) best = { L, shared };
       }
@@ -382,7 +382,74 @@
       };
     }
 
-    return { find, findCv, report, flags, sections, tagOf, terms, indexCv, matchTerms, termsOn, stopWords: [...stop].sort(), weakWords: [...weak].sort(), meta: dict.meta || {}, size: skills.length };
+    /* ---- the keywords the 0-100 score reads ----
+       profile() is run once per posting (by the collector) and stored with it, so the page can score thousands of postings
+       without reading their text again. It lists the posting's counted keywords, the ones that matter most first:
+       the title, then "Required", "Task", untagged, "Preferred". A word that only names the level of the job (senior, intern...)
+       is left out: the level is scored on its own.
+       Each entry is "<tag><kind>|<name>": tag T title, R required, K task, N untagged, P preferred, A about-the-company;
+       kind s = a dictionary skill, t = any other phrase. `kt` is how many keywords the posting has in all. */
+    const LEVEL_WORDS = new Set(["senior", "junior", "sr", "jr", "intern", "internship", "stage", "stagiaire", "coop", "co-op", "student", "etudiant", "entry", "level", "trainee", "graduate", "lead", "apprentice", "associate", "i", "ii", "iii"]);
+    const TAGCODE = { Title: "T", Required: "R", Task: "K", "": "N", Preferred: "P", About: "A" };
+    const TAGRANK = { T: 0, R: 1, K: 2, N: 3, P: 4, A: 5 };
+    function profile(title, body, max) {
+      max = max || 40;
+      const text = body ? title + "\n" + body : title;
+      const tl = String(title).length;
+      const job = find(text), secs = sections(text), rows = [];
+      let kt = 0;
+      for (const n in job) {
+        const e = job[n];
+        const t = TAGCODE[e.first < tl ? "Title" : tagOf(e, secs)];
+        kt++;
+        rows.push({ code: t + "s|" + n, t, k: 0, w: n.split(/\s+/).length, c: e.count, f: e.first });
+      }
+      const tf = terms(text);
+      for (const key in tf) {
+        const e = tf[key];
+        const t = TAGCODE[e.first < tl ? "Title" : tagOf(e, secs)];
+        if (t === "A") continue;
+        kt++;
+        if (e.words.every(w => LEVEL_WORDS.has(w))) continue;
+        rows.push({ code: t + "t|" + e.name, t, k: 1, w: e.words.length, c: e.count, f: e.first });
+      }
+      rows.sort((a, b) => TAGRANK[a.t] - TAGRANK[b.t] || a.k - b.k || b.w - a.w || b.c - a.c || a.f - b.f);
+      const keep = rows.filter(r => r.t !== "A");
+      return { kw: keep.slice(0, max).map(r => r.code), kt };
+    }
+    /* the words of a stored keyword, the same way terms() cut them (cached: the same phrase turns up in many postings) */
+    const WORDS = new Map();
+    function termWords(name) {
+      let w = WORDS.get(name);
+      if (w) return w;
+      w = [];
+      const s = foldMap(String(name)).s;
+      TOKEN.lastIndex = 0;
+      let m;
+      while ((m = TOKEN.exec(s))) w.push(nw(m[0]));
+      if (WORDS.size > 20000) WORDS.clear();
+      WORDS.set(name, w);
+      return w;
+    }
+    /* A stored profile against a CV: [{n, kind: "s"|"t", tag, st: "M"|"R"|"G"}]. Close ("R") is never a match. */
+    function profileStatus(kw, cvFound, ix) {
+      const dec = kw.map(c => ({ n: c.slice(3), kind: c[1], tag: c[0] }));
+      const skills = dec.filter(x => x.kind === "s");
+      const linked = new Set();
+      if (skills.length) {
+        const fake = {};
+        skills.forEach(x => { fake[x.n] = {}; });
+        report("", cvFound, fake).links.forEach(l => linked.add(l.job));
+      }
+      return dec.map(x => {
+        if (x.kind === "s") { x.st = cvFound[x.n] ? "M" : linked.has(x.n) ? "R" : "G"; return x; }
+        const w = termWords(x.n);
+        x.st = w.length ? matchTerm(w, ix).st : "G";
+        return x;
+      });
+    }
+
+    return { profile, profileStatus, termWords, find, findCv, report, flags, sections, tagOf, terms, indexCv, matchTerms, termsOn, stopWords: [...stop].sort(), weakWords: [...weak].sort(), meta: dict.meta || {}, size: skills.length };
   }
 
   /* The text as safe HTML, with <mark class="..."> around each mark {a, b, cls, title}. Where marks overlap, the one

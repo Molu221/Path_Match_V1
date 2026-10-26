@@ -4,94 +4,156 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Path Match</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<meta name="description" content="Find jobs, part-time roles and internships across Canada that fit your career stage. Add your CV and see the reason behind every score.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..900&family=Public+Sans:wght@400;500;600;700&display=swap">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
 <style>
 html{color-scheme:light}
-/* Layout: sticky two-column tool. Left = CV intake + settings, right = ranked, explained list. Colour: ink-blue on cool grey, one teal accent, amber/red reserved for flags. */
-:root{--bg:#eef1f4;--panel:#fff;--ink:#14202b;--mute:#5a6978;--line:#d5dce3;--accent:#0b6e6e;--accent-soft:#d7eeee;--warn:#9a5b00;--warn-soft:#fbeccd;--bad:#a22a2a;--bad-soft:#f6dcdc;--ok:#1d6b3a;--ok-soft:#d9efdf;
---f-disp:"Bricolage Grotesque","Helvetica Neue",Arial,sans-serif;--f-body:"IBM Plex Sans","Helvetica Neue",Arial,sans-serif;--f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e151c;--panel:#16212b;--ink:#e6edf3;--mute:#97a6b4;--line:#2a3846;--accent:#4fc3c3;--accent-soft:#12363a;--warn:#f0b659;--warn-soft:#3a2d12;--bad:#f08a8a;--bad-soft:#3d1c1c;--ok:#7fd49a;--ok-soft:#14321f;color-scheme:dark}}
-:root[data-theme="dark"]{--bg:#0e151c;--panel:#16212b;--ink:#e6edf3;--mute:#97a6b4;--line:#2a3846;--accent:#4fc3c3;--accent-soft:#12363a;--warn:#f0b659;--warn-soft:#3a2d12;--bad:#f08a8a;--bad-soft:#3d1c1c;--ok:#7fd49a;--ok-soft:#14321f;color-scheme:dark}
+/* Idea: a career is a climb, so the page opens on a trail with five stops (student to executive) and a pin that says where you are.
+   The pin comes from your CV, or from the stop you tap. Everything below (the order, the filters, the level fit in the score) follows the pin.
+   Colour: deep spruce for the hero, lake teal for actions, one blaze orange reserved for the pin and the main button,
+   and a five-step ramp (light green to indigo) that marks the level of every posting. */
+:root{--bg:#f0f5f4;--panel:#fff;--ink:#0f2628;--mute:#53696a;--line:#d2e0de;--accent:#0d6a72;--accent-soft:#dcefed;
+--pin:#ff6b2c;--pin-ink:#1d0e05;
+--warn:#8a4f00;--warn-soft:#fbecd0;--bad:#a02a2a;--bad-soft:#f6dddd;--ok:#17673a;--ok-soft:#d8efdf;
+--hero:#0e2c2b;--hero-ink:#eaf6f3;--hero-mute:#a6c6c1;
+--l0:#6cc8a6;--l1:#35aa90;--l2:#1b8892;--l3:#1d5f89;--l4:#3a3f8f;
+--f-disp:"Archivo","Helvetica Neue",Arial,sans-serif;--f-body:"Public Sans","Helvetica Neue",Arial,sans-serif}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0a1718;--panel:#112527;--ink:#e4f1ef;--mute:#9db7b4;--line:#244245;--accent:#5ec9cf;--accent-soft:#12363a;--warn:#f0b659;--warn-soft:#3a2d12;--bad:#f08a8a;--bad-soft:#3d1c1c;--ok:#7fd49a;--ok-soft:#14321f;--l1:#4fc0a6;--l2:#45b0ba;--l3:#6aa9db;--l4:#a3a8ef;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0a1718;--panel:#112527;--ink:#e4f1ef;--mute:#9db7b4;--line:#244245;--accent:#5ec9cf;--accent-soft:#12363a;--warn:#f0b659;--warn-soft:#3a2d12;--bad:#f08a8a;--bad-soft:#3d1c1c;--ok:#7fd49a;--ok-soft:#14321f;--l1:#4fc0a6;--l2:#45b0ba;--l3:#6aa9db;--l4:#a3a8ef;color-scheme:dark}
 *{box-sizing:border-box}
-body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:14px;line-height:1.5;padding-inline:16px;padding-block:20px 48px}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:14.5px;line-height:1.5}
 .wrap{max-width:1180px;margin:0 auto}
-h1,h2,h3{font-family:var(--f-disp);margin:0;text-wrap:balance;line-height:1.15}
-h1{font-size:30px;letter-spacing:-.01em}
-h2{font-size:18px}
-.sub{color:var(--mute);margin:6px 0 20px;max-width:62ch}
-.grid{display:grid;grid-template-columns:340px minmax(0,1fr);gap:20px;align-items:start}
+h1,h2,h3,h4{font-family:var(--f-disp);margin:0;text-wrap:balance;line-height:1.15}
+h2{font-size:17px;font-weight:750;font-stretch:108%}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* hero */
+.hero{position:relative;overflow:hidden;background:var(--hero) url(contours.svg) right center/cover no-repeat;color:var(--hero-ink);padding:18px 16px 26px;border-bottom:1px solid #1d4a47}
+.hero :focus-visible{outline-color:var(--pin)}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.brand{display:flex;align-items:center;gap:9px;font:800 19px/1 var(--f-disp);font-stretch:115%;letter-spacing:-.01em}
+.brand svg{width:22px;height:22px;flex:none}
+.ghost{background:none;color:var(--hero-ink);border:1px solid rgba(234,246,243,.3);border-radius:999px;padding:5px 14px}
+.ghost:hover{border-color:var(--hero-ink)}
+.hero h1{margin:clamp(30px,6vw,64px) 0 14px;font:800 clamp(34px,6.2vw,66px)/1 var(--f-disp);font-stretch:120%;letter-spacing:-.025em;max-width:15ch}
+.lead{max-width:58ch;margin:0;color:var(--hero-mute);font-size:17px;line-height:1.55}
+.stage{margin-top:30px;max-width:900px}
+.stage h2{font:700 15px/1.3 var(--f-body);color:var(--hero-ink)}
+.trail{position:relative;height:172px;margin-top:10px}
+.trail .ln{position:absolute;left:0;top:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+.trail .ln path{fill:none;stroke:#79c9bd;stroke-opacity:.6;stroke-width:2;stroke-linecap:round;stroke-dasharray:1;animation:draw 1.1s .15s ease-out backwards}
+.st{position:absolute;left:var(--x);top:var(--y);width:20%;transform:translate(-50%,-10px);animation:rise .4s calc(.2s + var(--i)*.16s) ease-out backwards}
+.stop{display:block;width:100%;background:none;border:0;padding:0;font:inherit;text-align:center;cursor:pointer;color:var(--hero-mute)}
+.stop .dot{display:block;width:20px;height:20px;margin:0 auto 8px;border-radius:50%;background:var(--hero);border:3px solid var(--c);transition:background .2s,transform .2s}
+.stop b{display:block;font:700 14px/1.2 var(--f-body);color:var(--hero-ink)}
+.stop small{display:block;font-size:12px;line-height:1.3}
+.stop:hover .dot{background:var(--c);transform:scale(1.12)}
+.stop[aria-pressed=true] .dot{background:var(--pin);border-color:var(--pin);transform:scale(1.12)}
+.pin{position:absolute;left:var(--x);top:var(--y);transform:translate(-50%,-100%);margin-top:-12px;display:flex;flex-direction:column;align-items:center;pointer-events:none;transition:left .55s cubic-bezier(.34,1.35,.5,1),top .55s cubic-bezier(.34,1.35,.5,1);animation:fadein .4s var(--pd,0s) backwards}
+.pin[hidden]{display:none}
+.pin span{background:var(--pin);color:var(--pin-ink);font:700 12px/1 var(--f-body);padding:5px 10px;border-radius:999px;white-space:nowrap}
+.pin::after{content:"";width:2px;height:10px;background:var(--pin)}
+.stagenote{margin:10px 0 0;color:var(--hero-mute);font-size:14px;max-width:70ch}
+.stagenote b{color:var(--hero-ink)}
+.stagenote button{margin-left:6px;padding:2px 10px;border-radius:999px;background:none;color:var(--hero-ink);border-color:rgba(234,246,243,.35);font-size:13px}
+.herostat{margin:14px 0 0;color:var(--hero-mute);font-size:13.5px}
+@keyframes draw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+@keyframes rise{from{opacity:0;transform:translate(-50%,2px)}to{opacity:1;transform:translate(-50%,-10px)}}
+@keyframes fadein{from{opacity:0}to{opacity:1}}
+@media(prefers-reduced-motion:reduce){.trail .ln path,.st,.pin{animation:none}.pin,.stop .dot{transition:none}}
+@media(max-width:520px){.stop b{font-size:12.5px}.stop small{font-size:11px}.lead{font-size:15.5px}.trail{height:164px}}
+
+/* page */
+.page{padding:22px 16px 56px}
+.grid{display:grid;grid-template-columns:340px minmax(0,1fr);gap:22px;align-items:start}
 @media(max-width:860px){.grid{grid-template-columns:minmax(0,1fr)}}
-.panel{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:16px}
-.side{display:flex;flex-direction:column;gap:14px;position:sticky;top:12px}
-@media(max-width:860px){.side{position:static}}
-.drop{border:1.5px dashed var(--accent);border-radius:6px;padding:18px 12px;text-align:center;background:var(--accent-soft);cursor:pointer}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:16px}
+.side{display:flex;flex-direction:column;gap:14px}
+@media(min-width:861px){.side{position:sticky;top:12px;max-height:calc(100vh - 24px);overflow:auto;padding-right:2px}}
+.drop{border:1.5px dashed var(--accent);border-radius:8px;padding:18px 12px;text-align:center;background:var(--accent-soft);cursor:pointer;margin-top:10px}
 .drop.over{background:var(--panel)}
-.drop strong{display:block;font-family:var(--f-disp);font-size:16px}
-.drop span{color:var(--mute);font-size:12px}
-label{display:block;font-size:12px;color:var(--mute);margin:10px 0 4px;text-transform:uppercase;letter-spacing:.06em}
-select,textarea,input[type=text]{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:4px;padding:7px 8px}
-textarea{min-height:90px;resize:vertical;font-family:var(--f-mono);font-size:12px}
-button{font:inherit;cursor:pointer;border-radius:4px;border:1px solid var(--line);background:var(--panel);color:var(--ink);padding:7px 11px}
-button.primary{background:var(--accent);color:var(--bg);border-color:var(--accent);font-weight:600}
-button:focus-visible,select:focus-visible,textarea:focus-visible,.drop:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.drop strong{display:block;font:750 16px var(--f-disp);font-stretch:108%}
+.drop span{color:var(--mute);font-size:12.5px}
+label{display:block;font-size:12.5px;font-weight:600;color:var(--mute);margin:12px 0 4px}
+select,textarea,input[type=text]{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:7px 8px}
+textarea{min-height:90px;resize:vertical;font-size:13px}
+button{font:inherit;cursor:pointer;border-radius:6px;border:1px solid var(--line);background:var(--panel);color:var(--ink);padding:7px 12px}
+button.primary{background:var(--pin);color:var(--pin-ink);border-color:transparent;font-weight:700}
+button.primary:hover{filter:brightness(1.06)}
+.btn{display:inline-block;padding:7px 12px;border:1px solid var(--accent);border-radius:6px;text-decoration:none;font-weight:600;font-size:13px}
 .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.samples{margin-top:12px;padding-top:10px;border-top:1px solid var(--line)}
+.samples .row{margin-top:6px;gap:6px}
+.samples button{padding:3px 11px;border-radius:999px;background:var(--bg);font-size:13px}
+.read dl{margin:8px 0 0}
+.read dt{font-weight:700;font-size:15px;display:flex;align-items:center;gap:8px}
+.read dd{margin:4px 0 0;color:var(--mute);font-size:13px}
+.read ul{margin:6px 0 0;padding-left:18px;color:var(--mute);font-size:13px}
 .tabs{display:flex;gap:4px;flex-wrap:wrap;border-bottom:1px solid var(--line);margin-bottom:12px}
 .tab{border:0;border-bottom:3px solid transparent;border-radius:0;background:none;padding:8px 10px;color:var(--mute)}
-.tab[aria-selected=true]{color:var(--ink);border-color:var(--accent);font-weight:600}
+.tab[aria-selected=true]{color:var(--ink);border-color:var(--pin);font-weight:700}
 .bar{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:12px;color:var(--mute);font-size:13px}
-.bar select{width:auto}
-.job{border:1px solid var(--line);border-radius:6px;background:var(--panel);margin-bottom:10px}
-.job summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:56px minmax(0,1fr);gap:12px;padding:12px}
+.note{font-size:13px;color:var(--mute)}
+.empty{padding:36px 16px;text-align:center;color:var(--mute);border:1px dashed var(--line);border-radius:8px}
+.method li{margin:6px 0}
+.hdr{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:flex-start}
+
+/* a posting: the left edge carries its level colour */
+.job{--c:var(--line);border:1px solid var(--line);border-left:5px solid var(--c);border-radius:8px;background:var(--panel);margin-bottom:10px;transition:box-shadow .15s,border-color .15s}
+.lv0{--c:var(--l0)}.lv1{--c:var(--l1)}.lv2{--c:var(--l2)}.lv3{--c:var(--l3)}.lv4{--c:var(--l4)}
+.job:hover{border-color:var(--c)}
+.job[open]{box-shadow:0 2px 12px -6px rgba(0,0,0,.4)}
+.job summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:62px minmax(0,1fr);gap:14px;padding:14px 14px 14px 12px}
 .job summary::-webkit-details-marker{display:none}
-.score{font-family:var(--f-disp);font-size:26px;font-weight:700;line-height:1;text-align:center;padding-top:4px}
-.score small{display:block;font-family:var(--f-mono);font-size:10px;font-weight:400;color:var(--mute);margin-top:4px}
-.t{font-weight:600;font-size:15px;overflow-wrap:anywhere}
-.meta{color:var(--mute);font-size:12.5px;display:flex;flex-wrap:wrap;gap:4px 12px;margin-top:2px}
-.subs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:8px;max-width:420px}
-.sb{font-family:var(--f-mono);font-size:10.5px;color:var(--mute)}
+.score{text-align:center}
+.score b{display:block;font:800 34px/1 var(--f-disp);font-stretch:78%;letter-spacing:-.01em}
+.score small{display:block;font-size:11.5px;color:var(--mute);margin-top:3px}
+.t{font-weight:650;font-size:15.5px;overflow-wrap:anywhere;line-height:1.3}
+.meta{color:var(--mute);font-size:13px;display:flex;flex-wrap:wrap;gap:2px 14px;margin-top:3px}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.subs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:10px;max-width:420px}
+.sb{font-size:11.5px;color:var(--mute)}
 .sb i{display:block;height:5px;background:var(--line);border-radius:3px;margin-top:3px;overflow:hidden}
 .sb i b{display:block;height:100%;background:var(--accent)}
-.pill{display:inline-block;font-size:11.5px;padding:2px 7px;border-radius:10px;margin:6px 6px 0 0;background:var(--bg);border:1px solid var(--line)}
+.pill{display:inline-block;font-size:12px;padding:2px 8px;border-radius:999px;margin:6px 6px 0 0;background:var(--bg);border:1px solid var(--line)}
+.tags .pill{margin:0}
 .pill.w{background:var(--warn-soft);color:var(--warn);border-color:transparent}
 .pill.b{background:var(--bad-soft);color:var(--bad);border-color:transparent}
 .pill.g{background:var(--ok-soft);color:var(--ok);border-color:transparent}
 .pill.n{background:var(--accent-soft);color:var(--accent);border-color:transparent;font-weight:600}
-.det{padding:0 12px 14px 80px}
-@media(max-width:560px){.det{padding-left:12px}}
-.det h3{font-size:13px;margin:10px 0 4px;color:var(--mute);text-transform:uppercase;letter-spacing:.06em;font-family:var(--f-body)}
+.pill.lvl::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--c);margin-right:6px}
+.det{padding:0 14px 16px 82px}
+@media(max-width:560px){.det{padding-left:14px}.job summary{grid-template-columns:50px minmax(0,1fr);gap:10px}.score b{font-size:28px}}
+.det h3{font-size:14px;margin:14px 0 4px;color:var(--ink)}
 .kw{display:flex;gap:6px;flex-wrap:wrap}
-.kw span{font-size:12px;padding:2px 8px;border-radius:4px;border:1px solid var(--line)}
+.kw span{font-size:12.5px;padding:2px 8px;border-radius:5px;border:1px solid var(--line)}
 .kw .M{background:var(--ok-soft);color:var(--ok)}
 .kw .M::before{content:"✓ "}
 .kw .R{background:var(--warn-soft);color:var(--warn)}
 .kw .R::before{content:"~ "}
 .kw .G{background:var(--bad-soft);color:var(--bad)}
 .kw .G::before{content:"✗ "}
-.ev{font-size:12px;color:var(--mute);margin:3px 0;font-family:var(--f-mono);overflow-wrap:anywhere}
-a{color:var(--accent)}
+.kw .N{background:var(--bg);color:var(--mute)}
+.ev{font-size:12.5px;color:var(--mute);margin:3px 0;overflow-wrap:anywhere}
 .inv{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px}
-.inv div{border:1px solid var(--line);border-radius:6px;padding:10px;background:var(--panel)}
+.inv div{border:1px solid var(--line);border-radius:8px;padding:10px;background:var(--panel)}
 .inv h3{font-size:14px;margin-bottom:6px}
-.note{font-size:12.5px;color:var(--mute)}
-.empty{padding:36px 16px;text-align:center;color:var(--mute);border:1px dashed var(--line);border-radius:6px}
-.method li{margin:6px 0}
-.tabwrap{overflow-x:auto}
-.hdr{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:flex-start}
-/* skills under the title + the posting <-> CV mapping */
-.skills{margin-top:8px}
-.sk-h{font-size:12.5px;color:var(--mute);margin-bottom:5px}
+.skills{margin-top:10px}
+.sk-h{font-size:13px;color:var(--mute);margin-bottom:5px}
 .sk-h b{color:var(--ink)}
-.kw.sk span{font-size:11.5px;padding:1px 7px}
-.kw .t{border-style:dashed}
+.kw.sk span{font-size:12px;padding:1px 7px}
+.kw .t{border-style:dashed;font-weight:400;font-size:12.5px}
 .mapgrid .kw{max-height:200px;overflow:auto;align-content:flex-start}
-.mapscroll{max-height:460px;overflow:auto;border:1px solid var(--line);border-radius:6px}
+.mapscroll{max-height:460px;overflow:auto;border:1px solid var(--line);border-radius:8px}
 .mapscroll .maptab thead th{position:sticky;top:0;background:var(--panel);z-index:1}
-.mapfilter{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin:10px 0 4px;font-size:12.5px}
-.mapfilter button{font:inherit;padding:2px 10px;border:1px solid var(--line);border-radius:999px;background:var(--bg);color:var(--ink);cursor:pointer}
-.mapfilter button.on{background:var(--ink);color:var(--bg)}
+.mapfilter{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin:10px 0 4px;font-size:13px}
+.mapfilter button,.chips button{font:inherit;font-size:13px;padding:2px 10px;border:1px solid var(--line);border-radius:999px;background:var(--bg);color:var(--ink);cursor:pointer}
+.mapfilter button.on,.chips button.on{background:var(--ink);color:var(--bg)}
 .mapbody[data-f="M"] tr.r-R,.mapbody[data-f="M"] tr.r-G,.mapbody[data-f="R"] tr.r-M,.mapbody[data-f="R"] tr.r-G,.mapbody[data-f="G"] tr.r-M,.mapbody[data-f="G"] tr.r-R{display:none}
 .mapbody[data-f="skill"] tr.k-term,.mapbody[data-f="term"] tr.k-skill{display:none}
 .kw .off{background:none;color:var(--mute)}
@@ -99,83 +161,97 @@ a{color:var(--accent)}
 .kw .more{border-style:dashed;color:var(--mute);background:none}
 .kw .more::before{content:""}
 .mapnums{display:flex;gap:10px;flex-wrap:wrap;margin:6px 0 4px}
-.mapnums div{border:1px solid var(--line);border-radius:6px;padding:7px 12px;background:var(--bg);font-size:12.5px;color:var(--mute)}
-.mapnums b{display:block;font-family:var(--f-disp);font-size:19px;color:var(--ink)}
+.mapnums div{border:1px solid var(--line);border-radius:8px;padding:7px 12px;background:var(--bg);font-size:13px;color:var(--mute)}
+.mapnums b{display:block;font:750 19px var(--f-disp);color:var(--ink)}
 .mapgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px;margin-top:8px}
-.mapgrid>div{border:1px solid var(--line);border-radius:6px;padding:8px 10px;background:var(--panel);min-width:0}
-.mapgrid h4{margin:0 0 6px;font-family:var(--f-body);font-size:12.5px}
-.mapgrid .pair{font-size:12.5px;margin:3px 0;overflow-wrap:anywhere}
+.mapgrid>div{border:1px solid var(--line);border-radius:8px;padding:8px 10px;background:var(--panel);min-width:0}
+.mapgrid h4{margin:0 0 6px;font-family:var(--f-body);font-size:13px}
+.mapgrid .pair{font-size:13px;margin:3px 0;overflow-wrap:anywhere}
 .mapgrid .pair i{font-style:normal;color:var(--mute)}
-.maptab{width:100%;border-collapse:collapse;font-size:12.5px;min-width:700px}
+.maptab{width:100%;border-collapse:collapse;font-size:13px;min-width:700px}
 .maptab th,.maptab td{text-align:left;vertical-align:top;border-top:1px solid var(--line);padding:6px 8px;overflow-wrap:break-word}
 .maptab th:nth-child(1){width:14%;min-width:110px}.maptab th:nth-child(2){width:7%;min-width:60px}.maptab th:nth-child(3){width:8%;min-width:70px}.maptab th:nth-child(4){width:28%}.maptab th:nth-child(5){width:28%}.maptab th:nth-child(6){min-width:96px}
 .srctab{min-width:640px}.srctab th:nth-child(n),.srctab th{width:auto}.srctab th:nth-child(1){width:15%;min-width:100px}.srctab th:nth-child(2){width:34%}.srctab th:nth-child(3){width:17%}.srctab th:nth-child(4){width:9%;min-width:60px}.srctab th:nth-child(5){width:25%}
-.maptab th{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--mute);border-top:0}
+.maptab th{font-size:12px;color:var(--mute);border-top:0;font-weight:600}
 .maptab td.sn{font-weight:600}
-.maptab .q{color:var(--mute);font-family:var(--f-mono);font-size:11.5px}
-.maptab .q b{color:var(--ink);font-weight:600}
+.maptab .q{color:var(--mute);font-size:12.5px}
+.maptab .q b{color:var(--ink);font-weight:650}
+.how{width:100%;border-collapse:collapse;font-size:13px;margin-top:6px}
+.how th,.how td{text-align:left;vertical-align:top;border-top:1px solid var(--line);padding:6px 8px}
+.how th{font-weight:650;white-space:nowrap}
 .texts{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px;margin-top:6px}
-.texts h4{margin:0 0 2px;font-family:var(--f-body);font-size:12.5px;color:var(--mute)}
-pre.hl{white-space:pre-wrap;overflow-wrap:anywhere;font-family:var(--f-body);font-size:12.5px;line-height:1.65;max-height:400px;overflow:auto;border:1px solid var(--line);border-radius:6px;padding:10px;margin:0;background:var(--panel)}
+.texts h4{margin:0 0 2px;font-family:var(--f-body);font-size:13px;color:var(--mute)}
+pre.hl{white-space:pre-wrap;overflow-wrap:anywhere;font-family:var(--f-body);font-size:13px;line-height:1.65;max-height:400px;overflow:auto;border:1px solid var(--line);border-radius:8px;padding:10px;margin:0;background:var(--panel)}
 mark{color:inherit;border-radius:3px;padding:0 1px}
 mark.m-ok{background:var(--ok-soft);box-shadow:inset 0 -2px 0 var(--ok)}
 mark.m-bad{background:var(--bad-soft);box-shadow:inset 0 -2px 0 var(--bad)}
 mark.m-near{background:var(--warn-soft);box-shadow:inset 0 -2px 0 var(--warn)}
 mark.m-off{background:var(--bg);box-shadow:inset 0 -1px 0 var(--mute)}
 mark.m-chk{background:none;border-bottom:2px dotted var(--accent)}
-.legend{display:flex;gap:6px 14px;flex-wrap:wrap;font-size:12px;color:var(--mute);margin:6px 0}
+.legend{display:flex;gap:6px 14px;flex-wrap:wrap;font-size:12.5px;color:var(--mute);margin:6px 0}
 .legend mark{padding:0 6px}
-.paste{border:1px dashed var(--accent);border-radius:6px;padding:10px;margin:6px 0 10px;background:var(--accent-soft);font-size:12.5px}
+.paste{border:1px dashed var(--accent);border-radius:8px;padding:10px;margin:6px 0 10px;background:var(--accent-soft);font-size:13px}
 .paste textarea{min-height:110px;margin-top:4px}
 details.old{margin-top:12px;border-top:1px solid var(--line);padding-top:6px}
-details.old>summary{cursor:pointer;color:var(--mute);font-size:12.5px;display:block;padding:4px 0}
+details.old>summary{cursor:pointer;color:var(--mute);font-size:13px;display:block;padding:4px 0}
 details.old>summary::before{content:"▸ "}
 details.old[open]>summary::before{content:"▾ "}
 
-/* dashboard: tab counts, toolbar, load more, stars */
-.tab .cnt{font-family:var(--f-mono);font-size:11px;color:var(--mute);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:0 6px;margin-left:5px}
+/* toolbar, tab counts, load more, stars */
+.tab .cnt{font-size:12px;color:var(--mute);background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:0 7px;margin-left:5px}
 .tab[aria-selected=true] .cnt{color:var(--ink)}
-.toolbar{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:10px 12px;margin-bottom:12px}
-@media(min-width:861px){.toolbar.stick{position:sticky;top:8px;z-index:6;box-shadow:0 6px 10px -8px rgba(0,0,0,.35)}}
+.toolbar{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin-bottom:12px}
 .tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 .tools select{width:auto;max-width:100%}
 .search{position:relative;flex:1 1 230px;min-width:170px}
 .search input{padding-right:30px}
 .search button{position:absolute;right:2px;top:2px;border:0;background:none;padding:4px 8px;color:var(--mute);font-size:16px;line-height:1.2}
-.chips{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:8px;font-size:12.5px;color:var(--mute)}
-.chips button{font:inherit;padding:2px 10px;border:1px solid var(--line);border-radius:999px;background:var(--bg);color:var(--ink);cursor:pointer}
-.chips button.on{background:var(--ink);color:var(--bg)}
+.chips{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:8px;font-size:13px;color:var(--mute)}
 .chips button:disabled{opacity:.45;cursor:default}
 .chips .sep{width:1px;height:16px;background:var(--line);margin:0 4px}
-label.inl{display:inline-flex;gap:5px;align-items:center;margin:0;text-transform:none;letter-spacing:0;font-size:12.5px;color:var(--mute);cursor:pointer}
+label.inl{display:inline-flex;gap:5px;align-items:center;margin:0;font-weight:400;font-size:13px;color:var(--mute);cursor:pointer}
 #fstat{margin-top:8px;min-height:1.4em}
 .star{border:0;background:none;font-size:20px;line-height:1;padding:2px 4px;color:var(--mute);display:block;margin:6px auto 0}
-.star.on{color:#d49a00}
-.star:hover{color:#d49a00}
-.kindtag{display:block;font-family:var(--f-mono);font-size:10px;font-weight:400;color:var(--mute);text-transform:uppercase;letter-spacing:.05em;padding-top:6px}
+.star.on,.star:hover{color:#d49a00}
+.kindtag{display:block;font-size:12px;color:var(--mute);padding-top:6px}
 .loadmore{display:block;width:100%;margin:6px 0 14px;padding:10px;border-style:dashed;color:var(--mute)}
 .loadmore:hover{color:var(--ink);border-color:var(--accent)}
-.job{transition:box-shadow .15s,border-color .15s}
-.job:hover{border-color:var(--accent)}
-.job[open]{box-shadow:0 2px 10px -6px rgba(0,0,0,.35)}
-@media(max-width:560px){.tab{padding:8px 7px;font-size:13px}.tools select{flex:1 1 140px}}
+.lvnote{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;margin:0 0 10px;padding:9px 12px;border-radius:8px;background:var(--accent-soft);color:var(--ink);font-size:13.5px}
+.lvnote button{padding:2px 10px;border-radius:999px;font-size:13px;background:var(--panel)}
+@media(max-width:560px){.tab{padding:8px 7px;font-size:13.5px}.tools select{flex:1 1 calc(50% - 8px);min-width:0;width:auto}.search{flex-basis:100%}}
 </style>
 </head>
 <body>
-<h1 style="text-align:center;font-size:clamp(3rem,12vw,7rem);margin:24px 0 0;letter-spacing:.08em">TEST</h1>
-<div class="wrap">
-  <div class="hdr">
-    <div>
-      <h1>Path Match</h1>
-      <p class="sub">Browse full-time jobs, part-time roles, internships and co-ops across Canada, then add your CV to rank them with the reason for every score and every flag.</p>
+<header class="hero">
+  <div class="wrap">
+    <div class="top">
+      <div class="brand"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7z" fill="#ff6b2c"/><circle cx="12" cy="9" r="2.6" fill="#0e2c2b"/></svg>Path Match</div>
+      <button id="theme" class="ghost" aria-label="Toggle theme">Theme</button>
     </div>
-    <button id="theme" aria-label="Toggle theme">Theme</button>
+    <h1>Jobs that fit where you are in your career.</h1>
+    <p class="lead">Add your CV and Path Match works out your stage, from student to executive, then ranks postings in any field for that stage. Every score comes with its reason.</p>
+    <section class="stage" aria-labelledby="stageH">
+      <h2 id="stageH">Where are you now?</h2>
+      <div class="trail" id="trail" role="group" aria-label="Your career stage">
+        <svg class="ln" id="trailSvg" aria-hidden="true" focusable="false"><path id="trailPath" pathLength="1" d=""/></svg>
+        <div class="st" style="--x:10%;--y:62%;--i:0;--c:var(--l0)"><button class="stop" data-b="0" aria-pressed="false"><span class="dot"></span><b>Student</b><small>or new grad</small></button></div>
+        <div class="st" style="--x:30%;--y:48%;--i:1;--c:var(--l1)"><button class="stop" data-b="1" aria-pressed="false"><span class="dot"></span><b>Early career</b><small>1–3 years</small></button></div>
+        <div class="st" style="--x:50%;--y:33%;--i:2;--c:var(--l2)"><button class="stop" data-b="2" aria-pressed="false"><span class="dot"></span><b>Mid-level</b><small>3–7 years</small></button></div>
+        <div class="st" style="--x:70%;--y:19%;--i:3;--c:var(--l3)"><button class="stop" data-b="3" aria-pressed="false"><span class="dot"></span><b>Senior</b><small>7+ years</small></button></div>
+        <div class="st" style="--x:90%;--y:6%;--i:4;--c:var(--l4)"><button class="stop" data-b="4" aria-pressed="false"><span class="dot"></span><b>Executive</b><small>director and up</small></button></div>
+        <div class="pin" id="pin" style="--pd:.9s" hidden><span>You are here</span></div>
+      </div>
+      <p class="stagenote" id="stageNote" aria-live="polite">Tap your stage, or add your CV below and it will be read for you.</p>
+    </section>
+    <p class="herostat" id="herostat">Loading postings…</p>
   </div>
+</header>
 
+<div class="wrap page">
   <div class="grid">
     <div class="side">
       <div class="panel">
-        <h2>1. Your CV</h2>
+        <h2>Your CV</h2>
         <div class="drop" id="drop" tabindex="0" role="button" aria-label="Upload CV">
           <strong>Drop your CV here</strong>
           <span>PDF, Word (.docx) or text. It is read in your browser and never uploaded.</span>
@@ -185,24 +261,26 @@ label.inl{display:inline-flex;gap:5px;align-items:center;margin:0;text-transform
         <textarea id="paste" placeholder="Paste your CV text here"></textarea>
         <div class="row" style="margin-top:10px">
           <button class="primary" id="go">Match my CV</button>
-          <button id="sample">Try a sample CV</button>
         </div>
         <p class="note" id="status" aria-live="polite"></p>
+        <div class="samples">
+          <span class="note">No CV at hand? Try an example:</span>
+          <div class="row" id="samples">
+            <button data-s="student">Student</button><button data-s="grad">New graduate</button><button data-s="nurse">Nurse</button><button data-s="dev">Developer</button><button data-s="exec">Executive</button>
+          </div>
+        </div>
       </div>
+      <div class="panel read" id="cvread" hidden></div>
       <div class="panel">
-        <h2>2. Your situation</h2>
+        <h2>Your situation</h2>
         <label for="permit">Work permit</label>
         <select id="permit">
           <option value="unknown">Unknown, flag it</option>
           <option value="ok">I can work in Canada without sponsorship</option>
           <option value="need">I need employer sponsorship</option>
         </select>
-        <label for="term">Target term</label>
-        <select id="term">
-          <option value="winter 2027|hiver 2027">Winter 2027</option>
-          <option value="summer 2027|ete 2027">Summer 2027</option>
-          <option value="fall 2027|automne 2027">Fall 2027</option>
-        </select>
+        <label for="term">Term you want (internships and co-ops)</label>
+        <select id="term"></select>
         <label for="window">Posted</label>
         <select id="window">
           <option value="1">Last 24 hours</option>
@@ -211,12 +289,12 @@ label.inl{display:inline-flex;gap:5px;align-items:center;margin:0;text-transform
         </select>
       </div>
       <div class="panel">
-        <h2>3. Live postings</h2>
+        <h2>The postings</h2>
         <p class="note" id="liveNote">Loading postings…</p>
         <div id="liveLog" class="note" aria-live="polite"></div>
       </div>
       <div class="panel note">
-        <strong>Heuristic, not an ATS.</strong> Scores differ by 5 points or less are ties. Postings with their full text (employer boards, Job Bank, Workday, The Muse) are scored from all of it. Search services such as Adzuna give a short snippet only, and some Job Bank posts only link to a partner site. Snapshot rows are scored from titles only. Open the link and read the posting before you apply.
+        <strong>A heuristic, not an applicant tracking system.</strong> Scores that differ by 5 points or less are ties. Your stage is read from the dates and titles on your CV and can be wrong: tap another stop on the trail to change it. Postings with their full text are scored from all of it; a short snippet or a title gives a weaker score. Open the link and read the posting before you apply.
       </div>
     </div>
 
@@ -225,15 +303,17 @@ label.inl{display:inline-flex;gap:5px;align-items:center;margin:0;text-transform
         <button class="tab" role="tab" aria-selected="true" data-t="full">Full-time jobs <span class="cnt"></span></button>
         <button class="tab" role="tab" aria-selected="false" data-t="part">Part-time <span class="cnt"></span></button>
         <button class="tab" role="tab" aria-selected="false" data-t="intern">Internships &amp; co-ops <span class="cnt"></span></button>
-        <button class="tab" role="tab" aria-selected="false" data-t="cv">Your CV keywords</button>
+        <button class="tab" role="tab" aria-selected="false" data-t="cv">Your CV</button>
         <button class="tab" role="tab" aria-selected="false" data-t="method">Method &amp; coverage</button>
       </div>
-      <div class="toolbar stick" id="toolbar">
+      <div class="toolbar" id="toolbar">
         <div class="tools">
           <div class="search"><input type="text" id="fq" placeholder="Search title, company, city…  (press / )" aria-label="Search postings" autocomplete="off"><button id="fqx" aria-label="Clear search" hidden>×</button></div>
+          <select id="flvl" aria-label="Level"></select>
+          <select id="ffield" aria-label="Field"></select>
           <select id="floc" aria-label="Location"></select>
           <select id="fsrc" aria-label="Source"></select>
-          <select id="fsort" aria-label="Sort by"><option value="match">Best match</option><option value="new">Newest first</option><option value="company">Company A–Z</option><option value="title">Title A–Z</option></select>
+          <select id="fsort" aria-label="Sort by"><option value="match">Best match</option><option value="stage">Fits my stage</option><option value="level">Level, lowest first</option><option value="new">Newest first</option><option value="company">Company A–Z</option><option value="title">Title A–Z</option></select>
           <select id="fmin" aria-label="Minimum score"><option value="0">Any score</option><option value="30">Score 30+</option><option value="45">Score 45+</option><option value="60">Score 60+</option></select>
         </div>
         <div class="chips" id="chips">
@@ -252,265 +332,95 @@ label.inl{display:inline-flex;gap:5px;align-items:center;margin:0;text-transform
   </div>
 </div>
 
+<script src="jobmeta.js"></script>
+<script src="scoring.js"></script>
 <script src="matcher.js"></script>
 <script>
-const TODAY="2026-10-11";
-const L="https://www.linkedin.com/jobs/view/";
-/* [company, title, location, date, type, source, link] collected 2026-10-11 via Apify (LinkedIn, Indeed, Job Bank) */
-const RAW=[
-["Bombardier","Intern, Manufacturing Engineering (Winter 2027)","Saint-Laurent","2026-10-08","Internship","Indeed","https://jobs.bombardier.com/job/St-Laurent-Intern%2C-Manufacturing-Engineering-%28Winter-2027%29-Qu%C3%A9b-H4R-1K2/1445755633/"],
-["Bombardier","Intern, Industrial Design (Winter 2027)","Dorval","2026-10-09","Internship","Indeed","https://jobs.bombardier.com/job/Dorval-Intern%2C-Industrial-Design-%28Winter-2027%29-Qu%C3%A9b-H4S-1Y9/1446251633/"],
-["Bombardier","Intern, Project Management (Winter 2027)","Saint-Laurent","2026-10-09","Internship","Indeed","https://jobs.bombardier.com/job/St-Laurent-Intern%2C-Project-Management-%28Winter-2027%29-Qu%C3%A9b-H4R-1K2/1446212433/"],
-["Bombardier","Intern, Industrialization (Winter 2027)","Saint-Laurent","2026-10-09","Internship","Indeed","https://jobs.bombardier.com/job/St-Laurent-Intern%2C-Industrialization-%28Winter-2027%29-Qu%C3%A9b-H4R-1K2/1446201233/"],
-["Bombardier","Intern, TRIM process deployment (Winter 2027)","Dorval","2026-10-09","Internship","Indeed","https://jobs.bombardier.com/job/Dorval-Intern%2C-TRIM-process-deployment-%28Winter-2027%29-Qu%C3%A9b-H4S-1Y9/1446247733/"],
-["Bombardier","Intern, Quality Analyst (Winter 2027)","Dorval","2026-10-08","Internship","Indeed","https://jobs.bombardier.com/job/Dorval-Intern%2C-Quality-Analyst-%28Winter-2027%29-Qu%C3%A9b-H4S-1Y9/1445821033/"],
-["Bombardier","Intern, Electromechanical EWIS Design (EWIS) (Winter 2027)","Dorval","2026-10-05","Internship","Indeed","https://jobs.bombardier.com/job/Dorval-Intern%2C-Electromechanical-EWIS-Design-%28EWIS%29-%28Winter-2027%29-Qu%C3%A9b-H4S-1Y9/1444341033/"],
-["Bombardier","Intern, Interior Design Intern (Winter 2027)","Dorval","2026-10-07","Internship","Indeed","https://jobs.bombardier.com/job/Dorval-Intern%2C-Interior-Design-Intern-%28Winter-2027%29-Qu%C3%A9b-H4S-2A3/1445382133/"],
-["Bombardier","Intern, Operational Excellence (Winter 2027)","Dorval","2026-10-09","Internship","Indeed","https://jobs.bombardier.com/job/Dorval-Intern%2C-Operational-Excellence-%28Winter-2027%29-Qu%C3%A9b-H4S-1Y9/1446252633/"],
-["Bombardier","Stagiaire, Analyste Qualité (Hiver 2027)","Dorval","2026-10-07","Internship","Indeed","https://jobs.bombardier.com/job/Dorval-Stagiaire%2C-Analyste-Qualit%C3%A9-%28Hiver-2027%29-Qu%C3%A9b-H4S-2A3/1445389633/"],
-["Bombardier","Intern, Business Process Optimization, Indirect Procurement (Winter 2027)","Dorval","2026-10-09","Internship","Indeed","https://jobs.bombardier.com/job/Dorval-Intern%2C-Business-Process-Optimization%2C-Indirect-Procurement-%28Winter-2027%29-Qu%C3%A9b-H4S-1Y9/1446178133/"],
-["Stantec","Electrical Engineering Intern (EIT) - Industrial Electrical","Montréal","2026-10-08","Internship","Indeed","https://rr.jobsyn.org/9D1018B3A5034EE1A27981C415119F571554"],
-["Molson Coors","Brewery Operations Intern","Longueuil","2026-10-05","Internship","Indeed","https://careers.molsoncoors.com/us/en/job/39890"],
-["Bombardier","Intern, Industrial Engineering and Operations Support (Winter 2027)","Pointe-Claire","2026-10-09","Internship","LinkedIn",L+"4477491954"],
-["Bombardier","Stagiaire, en excellence opérationnelle Bombardier (Hiver 2027)","Dorval","2026-10-10","Internship","LinkedIn",L+"4477891846"],
-["Bombardier","Intern, Manufacturing support - Assembly (Winter, 2027)","Montréal","2026-10-09","Internship","LinkedIn",L+"4477605296"],
-["Bombardier","Stagiaire, deploiement du processus TRIM (Hiver 2027)","Dorval","2026-10-10","Internship","LinkedIn",L+"4478005425"],
-["Bombardier","Stagiaire, Génie Industriel et Support Opérations (Hiver 2027)","Pointe-Claire","2026-10-09","Internship","LinkedIn",L+"4477606222"],
-["Bombardier","Stagiaire, Support Production - Assemblage (Hiver, 2027)","Montréal","2026-10-09","Internship","LinkedIn",L+"4477604269"],
-["Bombardier","Stagiaire, Industrialisation (Hiver 2027)","Montréal","2026-10-09","Internship","LinkedIn",L+"4477846379"],
-["Kruger Inc.","STAGIAIRE – Analyse industrielle visant la détermination de la capacité maximale de production","Montréal","2026-10-10","Internship","LinkedIn",L+"4469253179"],
-["Pratt & Whitney","Stage - Hiver 2027 - Amelioration de procedes a l'outillage / Internship - Winter 2027 - Tooling process improvements","Longueuil","2026-10-09","Internship","LinkedIn",L+"4460317605"],
-["Pratt & Whitney","Stage en gestion des processus d'affaires (BPM) - Hiver 2027 | Internship - Business Process Management (BPM) - Winter 2027","Longueuil","2026-10-06","Internship","LinkedIn",L+"4458704911"],
-["Pratt & Whitney","Stage - Hiver 2027 - Gestionnaire de projets et amélioration continue | Internship - Winter 2027 - Project Management and Continuous improvement","Longueuil","2026-10-05","Internship","LinkedIn",L+"4457812864"],
-["Pratt & Whitney","Stage - Responsable de la gestion du matériel - Hiver 2027 | Internship - Material Management Lead - Winter 2027","Longueuil","2026-10-05","Internship","LinkedIn",L+"4457823045"],
-["MDA Space","Engineering student - Industrial Engineering - Winter 2027","Sainte-Anne-de-Bellevue","2026-10-05","Internship","LinkedIn",L+"4474605115"],
-["MDA Space","Étudiant en ingénierie - Génie industriel - Hiver 2027","Sainte-Anne-de-Bellevue","2026-10-05","Internship","LinkedIn",L+"4475855515"],
-["Labatt","Stage - Chaîne d'approvisionnement","Montréal","2026-10-07","Internship","LinkedIn",L+"4458524682"],
-["Labatt","Stagiaire - Brasserie et Opérations","Montréal","2026-10-07","Internship","LinkedIn",L+"4458515919"],
-["ELYSIS","Stagiaire Industrialisation équipement de production / Industrialization Intern (Hiver 2027)","Montréal","2026-10-06","Internship","LinkedIn",L+"4475108993"],
-["Énergir","Stagiaire ingénierie SGSOP et procédés hiver 2027","Montréal","2026-10-09","Internship","LinkedIn",L+"4475241275"],
-["Énergir","Stagiaire ingénierie gestion actifs usine LSR hiver 2027","Montréal","2026-10-09","Internship","LinkedIn",L+"4475236550"],
-["Lassonde","Stage en ingénierie – Hiver 2027","Rougemont","2026-10-07","Internship","LinkedIn",L+"4467796061"],
-["Lassonde","Stage en ingénierie, Services techniques – Hiver 2027","Rougemont","2026-10-07","Internship","LinkedIn",L+"4467794052"],
-["Moderna","Co-Op, Supply Chain Planning","Laval","2026-10-08","Internship","LinkedIn",L+"4476201845"],
-["Moderna","Co-Op, Quality Assurance","Laval","2026-10-08","Internship","LinkedIn",L+"4476214407"],
-["Loto-Québec","Stage - amélioration continue et automatisation","Montréal","2026-10-10","Internship","LinkedIn",L+"4477191423"],
-["Loto-Québec","Stage - développement, IA et automatisation","Montréal","2026-10-10","Internship","LinkedIn",L+"4478044170"],
-["Héroux-Devtek","Methods Intern - Summer 2026","Longueuil","2026-10-05","Internship","LinkedIn",L+"4470606139"],
-["Héroux-Devtek","Stagiaire Laboratoire - Hiver 2027","Longueuil","2026-10-06","Internship","LinkedIn",L+"4471161613"],
-["EXP","Stagiaire universitaire Hiver 2027, Industrie","Longueuil","2026-10-07","Internship","LinkedIn",L+"4476775979"],
-["Agropur","Étudiant Technicien à la logistique","Saint-Hubert","2026-10-07","Part-time","LinkedIn",L+"4474475445"],
-["Sogefi Group","Stagiaire Chargé(e) de projets Qualité","Montréal","2026-10-09","Internship","LinkedIn",L+"4476801646"],
-["GE Vernova","Stagiaire Projet Qualité","Brossard","2026-10-09","Internship","LinkedIn",L+"4477893232"],
-["Hitachi Energy","Stagiaire Génie Électrique et Contrôle / Electrical and Controls Engineering Intern","Varennes","2026-10-08","Internship","LinkedIn",L+"4477411456"],
-["IPEX by Aliaxis","Stagiaire en conformité des produits, Hiver 2027 *** Product Compliance Intern, Winter 2027","Montréal","2026-10-10","Internship","LinkedIn",L+"4478030341"],
-["IPEX by Aliaxis","Étudiant(e) Co-op, Ingénierie de projets, Hiver 2027 *** Project Engineering Co-op Student, Winter 2027","Montréal","2026-10-09","Internship","LinkedIn",L+"4477632271"],
-["Halo Pharmaceutical","Stagiaire","Mirabel","2026-10-07","Internship","LinkedIn",L+"4476932673"],
-["Teledyne","Stagiaire en photochimie","Bromont","2026-10-06","Internship","LinkedIn",L+"4474008038"],
-["WSP in Canada","Stagiaire, Génie mécanique","Montréal","2026-10-06","Internship","LinkedIn",L+"4474998869"],
-["McKesson","Stagiaire développeur(se) en distribution pharmaceutique - Winter Intern","Montréal","2026-10-07","Internship","LinkedIn",L+"4476779676"],
-["BBA Consultants","Information Management Intern - Health, Safety and Environment Team (Winter 2027)","Montréal","2026-10-07","Internship","LinkedIn",L+"4459026262"],
-["Kiewit","Coordonnateur/ingénieur de terrain stagiaire - Région de l'Est du Canada - Hiver 2027","Laval","2026-10-06","Internship","LinkedIn",L+"4466101687"],
-["CAE","Stagiaire - Spécialiste de données-EN","Montréal","2026-10-06","Internship","LinkedIn",L+"4474081530"],
-["CAE","C-FIN-275 Software Engineering Intern, AI, Automation and Business Intelligence-EN","Montréal","2026-10-09","Internship","LinkedIn",L+"4475228967"],
-["JAMP Pharma","Stagiaire, Spécification - Assurance Qualité (Hiver 2027)","Boucherville","2026-10-07","Internship","LinkedIn",L+"4476785581"],
-["Jubilant Pharma","Stagiaire en santé, sécurité et environnement / Health, Safety and Environment Intern","Montréal","2026-10-10","Internship","LinkedIn",L+"4469247998"],
-["Boston Scientific","R&D Systems Intern / Stagiaire en systèmes de R-D","Montréal","2026-10-06","Internship","LinkedIn",L+"4474796707"],
-["Bell","2027 Intern Program, Business Transformation - Future Opportunities","Montréal","2026-10-06","Internship","LinkedIn",L+"4471150581"],
-["Ampliwork","Operations & Strategy Intern","Montréal","2026-10-11","Internship","LinkedIn",L+"4411156114"],
-["MNP","Analyste, Gaz à effet de serre (Stages hiver-été-automne 2027)","Montréal","2026-10-10","Internship","LinkedIn",L+"4458024454"],
-["CGI","Stage coopératif - Hiver 2027: Gestionnaire de projet (4 mois)","Montréal","2026-10-08","Internship","LinkedIn",L+"4476976573"],
-["DSV","Opérations, Stagiaire","Montréal","2026-10-05","Internship","LinkedIn",L+"4411784074"],
-["Scalia","Stagiaire Coordonnateur de projet & chantier (Hiver 2027) / Intern Project & Site Coordinator (Winter 2027)","Montréal","2026-10-07","Internship","LinkedIn",L+"4475458968"],
-["Frare Gallant","Stagiaire en coordination de projets de construction","Laval","2026-10-08","Internship","LinkedIn",L+"4477428549"],
-["Montoni","Stagiaire estimation, session hiver 2027","Laval","2026-10-07","Internship","LinkedIn",L+"4469059111"],
-["CSIS (federal)","Co-op: IT and Engineering","Montréal","2026-10-08","Internship","LinkedIn",L+"4475728210"],
-["Molson Coors","Manufacturing Associate","Longueuil","2026-10-08","Full-time","LinkedIn",L+"4474628676"],
-["VM Talent Partners","Agent(e) de méthodes","Greater Montréal","2026-10-08","Contract","LinkedIn",L+"4475979914"],
-["L'Oréal","Management Trainee - Environnement","Montréal","2026-10-09","Full-time","LinkedIn",L+"4476820401"],
-["UAP Inc.","Analyste logistique","Montréal","2026-10-08","Full-time","LinkedIn",L+"4468233489"],
-["PepsiCo","Programme de Leadership à la Chaîne d'Approvisionnement","Saint-Laurent","2026-10-11","Full-time","LinkedIn",L+"4403247524"],
-["PepsiCo","Nouveaux et nouvelles diplômé·es 2027 – Chaîne d'approvisionnement","Laval","2026-10-08","Full-time","LinkedIn",L+"4466240739"],
-["Cyient","Method Engineer","Longueuil","2026-10-07","Full-time","LinkedIn",L+"4474436999"],
-["Cyient","Bilingual (FR/EN) Methods Engineer","Longueuil","2026-10-09","Full-time","LinkedIn",L+"4475239934"],
-["Vention","Supply Chain Specialist / Spécialiste de la chaîne d'approvisionnement","Montréal","2026-10-08","Full-time","LinkedIn",L+"4458315380"],
-["ALSTOM","Mechanical engineer","Saint-Bruno","2026-10-01","Full-time","Job Bank","https://www.jobbank.gc.ca/jobsearch/jobposting/50402096"],
-["Groupe Sector Canada","Engineering manager","Montréal","2026-10-01","Full-time","Job Bank","https://www.jobbank.gc.ca/jobsearch/jobposting/50402074"],
-["Starview Packaging Machinery","Mechanical engineer","Dorval","2026-09-28","Full-time","Job Bank","https://www.jobbank.gc.ca/jobsearch/jobposting/50385585"],
-["Fed Manutech","Engineering service project manager","Dorval","2026-09-27","Full-time","Job Bank","https://www.jobbank.gc.ca/jobsearch/jobposting/50376787"],
-["Camfil Canada","Mechanical engineering technologist","Laval","2026-09-24","Full-time","Job Bank","https://www.jobbank.gc.ca/jobsearch/jobposting/50357101"],
-["Mécanique Bec","Mechanical engineer","Saint-Eustache","2026-10-01","Full-time","Job Bank","https://www.jobbank.gc.ca/jobsearch/jobposting/50403253"],
-["Université de Montréal","Mechanical engineering technician","Montréal","2026-10-08","Full-time","Job Bank","https://www.jobbank.gc.ca/jobsearch/jobposting/50452300"]
-];
-
+const $=id=>document.getElementById(id);
 const norm=s=>(s||"").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/[\r\n\t]+/g," ").replace(/\s+/g," ");
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const nf=n=>n.toLocaleString();
+const NOW=new Date(), pad2=n=>String(n).padStart(2,"0");
+const TODAY=NOW.getFullYear()+"-"+pad2(NOW.getMonth()+1)+"-"+pad2(NOW.getDate());
+const NOWIX=NOW.getFullYear()*12+NOW.getMonth();
 
-/* Keyword dictionary: [name, family, regex over accent-stripped lowercase text] */
-const FAM={quality:"Quality & Lean",supply:"Supply chain & planning",ops:"Operations & manufacturing",eng:"Engineering & optimization",data:"Data & tools",pm:"Project management",mech:"Mechanical & design",elec:"Electrical & controls",hse:"Health, safety & compliance",soft:"Soft skills & languages"};
-const KW=[
-["Quality","quality",/\bquality|\bqualite/],["Quality assurance","quality",/quality assurance|assurance qualite|\bqa\b/],["SPC","quality",/\bspc\b|statistical process control|maitrise statistique/],["Six Sigma","quality",/six sigma/],["Lean","quality",/\blean\b/],["Kaizen","quality",/kaizen/],["5S","quality",/\b5s\b/],["Continuous improvement","quality",/continuous improvement|amelioration continue/],["Root cause","quality",/root.cause|cause (premiere|profonde)/],["FMEA","quality",/fmea|amdec/],["ISO / AS9100","quality",/\biso ?\d{4,5}|as9100/],
-["Supply chain","supply",/supply chain|chaine d.?approvisionnement/],["Logistics","supply",/logisti/],["Procurement","supply",/procurement|\bachats?\b|approvisionnement/],["Inventory","supply",/inventor|inventaire/],["Planning","supply",/\bplanning\b|planification|\bplanif/],["S&OP","supply",/s&op|sales and operations/],["Forecasting","supply",/forecast|prevision/],["ERP / SAP","supply",/\berp\b|\bsap\b|oracle|netsuite/],["MRP","supply",/\bmrp\b/],["Warehouse","supply",/warehous|entrepot/],["Material management","supply",/material management|gestion du materiel/],
-["Operations","ops",/\boperations?\b|operationnel|\bopérations\b/],["Operational excellence","ops",/operational excellence|excellence operationnelle/],["Manufacturing","ops",/manufactur|fabrication/],["Industrialization","ops",/industriali[sz]/],["Methods","ops",/\bmethods?\b|\bmethodes?\b/],["Production","ops",/production/],["Assembly","ops",/assembl/],["Process improvement","ops",/process improvement|amelioration (des )?proc|procedes?\b|\bprocess\b/],["Business process (BPM)","ops",/\bbpm\b|business process|processus d.affaires/],["Tooling","ops",/tooling|outillage/],["Facility layout","ops",/layout|amenagement/],["Time study","ops",/time stud|etude de temps|work measurement/],
-["Industrial engineering","eng",/industrial engineering|genie industriel/],["Engineering","eng",/engineer|ingenier/],["Simulation","eng",/simulation|flexsim|\barena\b|simio/],["Optimization","eng",/optimi[sz]/],["Operations research","eng",/operations research|recherche operationnelle/],["Reliability","eng",/reliab|fiabilite/],
-["Python","data",/\bpython\b/],["SQL","data",/\bsql\b/],["Excel","data",/\bexcel\b/],["Power BI / Tableau","data",/power ?bi|tableau/],["Data analysis","data",/\bdata\b|donnees|analytic|analyst|analyse/],["Automation","data",/automati/],["AI / machine learning","data",/\bai\b|\bia\b|artificial intelligence|intelligence artificielle|machine learning/],["Business intelligence","data",/business intelligence|intelligence d.affaires/],["Statistics","data",/statistic/],["Software","data",/software|logiciel/],
-["Project management","pm",/project management|gestion de projet|gestionnaire de projet|charge.? de projet|project coordinat|project engineer|ingenierie de projet|\bpmp\b|\bpmo\b/],["MS Project","pm",/ms project|microsoft project/],
-["CAD","mech",/\bcad\b|catia|solidworks|autocad|siemens nx|\bcreo\b/],["Mechanical","mech",/mechanic|mecanique/],["Design","mech",/\bdesign\b/],
-["Electrical","elec",/electri/],["Controls / PLC","elec",/\bplc\b|controls|controle|automate programmable/],
-["Health & safety","hse",/health,? safety|sante,? securite|\bhse\b|\bshe\b|environnement|environment\b/],["Compliance","hse",/compliance|conformite|regulat/],
-["Leadership","soft",/leadership|team lead|chef d.equipe/],["Bilingual EN/FR","soft",/bilingual|bilingue|francais|french|anglais|english/],["Communication","soft",/communicat|presentation/]
-];
-const TITLE_SKIP=new Set(["soft"]);
+/* ---------- the stage: where the person is, and where each posting sits ---------- */
+const LV=JobMeta.LEVELS, BAND=JobMeta.BANDS;
+let CV=null;   // {raw, lv: result of JobMeta.cvLevel, py, ix}
+let ME=null;   // a stage picked by hand (0-4); wins over the CV reading
+try{const v=localStorage.getItem("pm_lvl");if(/^[0-4]$/.test(v||""))ME=+v;}catch(e){}
+const cvBand=()=>CV&&CV.lv?CV.lv.band:null;
+const meBand=()=>ME!==null?ME:cvBand();
+function setMe(b){ME=b;try{if(b===null)localStorage.removeItem("pm_lvl");else localStorage.setItem("pm_lvl",String(b));}catch(e){}}
+const lvOf=j=>j._lv||(j._lv=JobMeta.jobLevel(j.title,j.desc||"",j.type||""));
+const fdOf=j=>j._fd||(j._fd=JobMeta.fieldOf(j.title));
+const REL_PILL={fits:["g","Fits your level"],step:["w","One step above you"],far:["b","Well above your level"],below:["","Below your level"],"well-below":["","Well below your level"]};
 
-let CV=null; // {text, hits:{name:{fam,snip}}, fam:{fam:count}}
-function parseCV(raw){
-  const t=norm(raw), hits={}, fam={};
-  for(const [n,f,re] of KW){
-    const m=re.exec(t);
-    if(m){const i=m.index;hits[n]={fam:f,snip:"…"+t.slice(Math.max(0,i-55),i+m[0].length+55)+"…"};fam[f]=(fam[f]||0)+1;}
-  }
-  return {text:t,hits,fam,raw};
+const TRAIL=[[10,62],[30,48],[50,33],[70,19],[90,6]];
+function layoutTrail(){
+  const t=$("trail"),W=t.clientWidth,H=t.clientHeight;
+  if(!W||!H)return;
+  const P=TRAIL.map(([x,y])=>[x*W/100,y*H/100]);
+  let d="M"+P[0][0].toFixed(1)+" "+P[0][1].toFixed(1);
+  for(let i=1;i<P.length;i++){const [x1,y1]=P[i-1],[x2,y2]=P[i],m=(x1+x2)/2;d+=" C"+m.toFixed(1)+" "+y1.toFixed(1)+" "+m.toFixed(1)+" "+y2.toFixed(1)+" "+x2.toFixed(1)+" "+y2.toFixed(1);}
+  $("trailSvg").setAttribute("viewBox","0 0 "+W+" "+H);$("trailPath").setAttribute("d",d);
 }
-const strength=f=>CV.fam[f]?Math.min(0.9,0.3+0.1*CV.fam[f]):0;
-const GENERIC=new Set(["Engineering","Process improvement","Production","Data analysis","Operations","Design","Software","Quality"]);
-const wt=n=>GENERIC.has(n)?0.4:1;
+function paintStage(){
+  const b=meBand(),cb=cvBand(),pin=$("pin");
+  document.querySelectorAll("#trail .stop").forEach(s=>s.setAttribute("aria-pressed",String(+s.dataset.b===b)));
+  if(b===null)pin.hidden=true;
+  else{pin.hidden=false;pin.style.setProperty("--x",TRAIL[b][0]+"%");pin.style.setProperty("--y",TRAIL[b][1]+"%");}
+  const n=$("stageNote");
+  if(!CV&&ME===null)n.textContent="Tap your stage, or add your CV below and it will be read for you.";
+  else if(ME!==null){
+    const same=cb===ME;
+    n.innerHTML=`Showing jobs for <b>${esc(BAND[ME].label)}</b>${same?", which is also how your CV reads.":CV?` (your choice). ${cb===null?"Your CV does not show a clear stage":"Your CV reads as "+esc(BAND[cb].label)}.`:" (your choice). Add your CV to rank them for you."}${same?"":` <button id="stageReset">${CV?"Use my CV's reading":"Clear"}</button>`}`;
+  }else if(cb===null)n.textContent="I could not tell your stage from this CV (no dates or years of experience found). Tap your stage on the trail.";
+  else n.innerHTML=`Your CV reads as <b>${esc(BAND[cb].label)}</b>. Not right? Tap another stop.`;
+}
+function renderCvRead(){
+  const el=$("cvread");
+  if(!CV){el.hidden=true;return;}
+  el.hidden=false;
+  const lv=CV.lv,b=lv.band,cap=s=>s.charAt(0).toUpperCase()+s.slice(1);
+  const head=b===null?`<span class="pill">Stage not clear</span>`:`<span class="pill lvl lv${b}">${esc(BAND[b].label)}</span>`;
+  const yrs=lv.years!=null&&b!==null?`<dd>About ${lv.years} year${lv.years===1?"":"s"} of work counted.</dd>`:"";
+  el.innerHTML=`<h2>How we read your CV</h2><dl><dt>${head}</dt>${yrs}</dl><ul>${(lv.why||[]).map(w=>`<li>${esc(cap(w))}</li>`).join("")}</ul><p class="note" style="margin:8px 0 0">The stage decides which postings come first. If it is wrong, tap the right stop on the trail at the top.</p>`;
+}
+function stageChanged(){paintStage();renderCvRead();run();writeHash();}
 
-function titleKw(title){const t=norm(title),out=[];for(const [n,f,re] of KW){if(TITLE_SKIP.has(f))continue;if(re.test(t))out.push([n,f]);}return out;}
-
-const aero=/bombardier|cae|airbus|pratt|mda|heroux|csis|hitachi/;
-function fullMap(j){
-  const t=norm(j.title+" . "+j.desc), tt=norm(j.title);
-  const ix=re=>{const m=re.exec(t);return m?m.index:-1};
-  const sec={req:ix(/qualifications|requirements|requis|exigences|vous avez|you have|what you bring|profil recherche|skills/),pref:ix(/nice to have|preferred|an asset|atout|assets|un plus|souhait/),task:ix(/responsibilit|what you.ll do|your role|tasks|mandat|taches|responsabilites|vos fonctions|you will/)};
-  const tagAt=pos=>{let b=null,bp=-1;for(const k in sec){if(sec[k]>=0&&sec[k]<=pos&&sec[k]>bp){bp=sec[k];b=k}}return b==="req"?"Required":b==="pref"?"Preferred":"Task"};
-  const found=[];
-  for(const [n,f,re] of KW){
-    if(TITLE_SKIP.has(f))continue;
-    const g=new RegExp(re.source,"g");let m,c=0,first=-1;
-    while((m=g.exec(t))){c++;if(first<0)first=m.index;if(c>20)break;}
-    const inTitle=re.test(tt);
-    if(!c&&!inTitle)continue;
-    found.push({n,f,score:c*wt({n})+(inTitle?5:0),tag:inTitle?"Title":tagAt(first),pos:first,
-      snip:first>=0?"…"+t.slice(Math.max(0,first-40),first+60)+"…":""});
-  }
-  found.sort((a,b)=>b.score-a.score);
-  return found.slice(0,16).map(x=>{
-    const base={n:x.n,f:x.f,tag:x.tag,post:x.snip};
-    if(CV.hits[x.n])return{...base,s:"M",ev:CV.hits[x.n].snip};
-    if(CV.fam[x.f])return{...base,s:"R",ev:"Same area on your CV: "+Object.keys(CV.hits).filter(k=>CV.hits[k].fam===x.f).slice(0,3).join(", ")};
-    return{...base,s:"G",ev:"Nothing on your CV"};
-  });
-}
-function descFlags(j,flags){
-  const t=norm(j.desc);
-  const add=(c,msg)=>flags.push([c,msg]);
-  const sec=t.match(/security clearance|cote de securite|habilitation|controlled goods|marchandises controlees|\bitar\b|criminal (record|background)|verification des antecedents|casier judiciaire/);
-  if(sec)add("b","Security / background check in text ("+sec[0]+"): verify");
-  const cit=t.match(/canadian citizen|citoyen canadien|citoyennete canadienne|permanent resident|resident permanent|eligible to work in canada|authori[sz]ed to work in canada|autorise a travailler|permis de travail|work permit|legally entitled/);
-  if(cit)add("w","Work eligibility wording in text ("+cit[0]+"): verify");
-  const bil=/bilingual|bilingue|francais et anglais|french and english|fluent in (both|french)|courant en francais|maitrise du francais|francais.{0,20}requis|french.{0,20}required/.test(t);
-  if(bil)add("w","French/English requirement in text: check your level");
-  else if(/english only|anglais seulement/.test(t))add("g","English only");
-  if(/master|maitrise|graduate student|cycles? superieurs?/.test(t))add("n","Mentions master's / graduate level");
-  else if(/bachelor|baccalaureat|undergraduate|1er cycle|premier cycle/.test(t))add("w","Written for bachelor's students: confirm a master's is accepted");
-  if(/new grad|recent graduate|nouveau diplome|jeune diplome/.test(t)&&!/student|etudiant/.test(t))add("w","Aimed at new graduates, not current students");
-  const len=t.match(/(\d{1,2})[- ]?(?:month|mois)/);
-  if(len)add("","Length: "+len[1]+" months (your co-op runs to Apr 2027: check)");
-  const tools=[...new Set((t.match(/catia|ms project|microsoft project|siemens nx|flexsim|visio|solidworks|autocad|\bsap\b|power ?bi|tableau|minitab|simio|\barena\b|oracle|netsuite|\bpython\b|\bsql\b/g)||[]))];
-  if(tools.length)add("n","Tools named: "+tools.join(", "));
-}
-function scoreJob(j){
-  const T=norm(j.title+" "+j.type);
-  const kws=j.desc?null:titleKw(j.title);
-  const map=j.desc?fullMap(j):kws.map(([n,f])=>{
-    if(CV.hits[n])return{n,f,s:"M",ev:CV.hits[n].snip};
-    if(CV.fam[f])return{n,f,s:"R",ev:"Same area on your CV: "+Object.keys(CV.hits).filter(k=>CV.hits[k].fam===f).slice(0,3).join(", ")};
-    return{n,f,s:"G",ev:"Nothing on your CV"};
-  });
-  const wt2=x=>wt(x.n)*(x.tag==='Required'?1:x.tag==='Task'?0.7:x.tag==='Preferred'?0.4:1);
-  const W=map.reduce((a,x)=>a+wt2(x),0)||1;
-  const cred=map.reduce((a,x)=>a+wt2(x)*(x.s==="M"?1:x.s==="R"?0.5:0),0);
-  const cov=map.length?cred/W:0;
-  const overlap=Math.round(32*cov);
-  const roleStrength=map.length?map.reduce((a,x)=>a+wt2(x)*strength(x.f),0)/W:0;
-  const spec=Math.min(1,W/2.5);
-  const role=Math.round(40*(map.length?roleStrength*(0.6+0.4*spec):0.05));
-  // level / type fit
-  const intern=/intern|stage|stagiaire|co-?op|etudiant|student|stages/.test(T);
-  const flags=[];let level;
-  const past=/summer 2026|ete 2026/.test(T);
-  const tgt=new RegExp(document.getElementById("term").value).test(T);
-  const anyTerm=/(winter|hiver|summer|ete|fall|automne) 2027|2027/.test(T);
-  if(past){level=3;flags.push(["b","Term is in the past (Summer 2026)"]);}
-  else if(/management trainee|leadership program|programme de leadership|nouveaux|graduate|diplome/.test(T)&&!intern){level=8;flags.push(["w","New-graduate programme: may exclude current students"]);}
-  else if(j.type==="Part-time"){level=18;}
-  else if(intern){level=tgt?25:anyTerm?20:22;}
-  else if(/mid-senior|manager|senior/.test(T)||j.cat==="near"){level=/manager|senior/.test(T)?3:8;}
-  else level=8;
-  if(!past&&intern){
-    if(tgt)flags.push(["g","Term matches your target"]);
-    else if(anyTerm)flags.push(["w","Term differs from your target: check dates"]);
-    else flags.push(["w","Term not in title: verify dates"]);
-  }
-  // language
-  const fr=/\b(stage|stagiaire|ingenierie|etudiant|hiver|chaine|amelioration|analyste|agent|programme|nouveaux|gestion|conformite|laboratoire|photochimie|sante|securite)\b/.test(norm(j.title));
-  const bi=/\/|\*\*\*| \| |bilingual|\(fr\/en\)/i.test(j.title)||(fr&&/\b(intern|engineer|manager|student|winter)\b/.test(norm(j.title)));
-  if(bi)flags.push(["n","Bilingual title"]);else if(fr)flags.push(["w","French-language posting"]);else flags.push(["","English title: French may still be required, verify"]);
-  // eligibility
-  const p=document.getElementById("permit").value;
-  if(p==="unknown")flags.push(["w","Work permit: verify"]);
-  else if(p==="need")flags.push(["w","You need sponsorship: confirm the employer sponsors"]);
-  if(/csis/.test(norm(j.company)))flags.push(["b","Federal security clearance and citizenship rules likely: verify"]);
-  else if(aero.test(norm(j.company)))flags.push(["w","Aerospace employer: security screening or Controlled Goods may apply"]);
-  if(j.desc)descFlags(j,flags);
-  const total=role+level+overlap;
-  return{role,level,overlap,total,map,cov,flags,conf:j.desc?(j.partial?"Snippet":"Full text"):"Title only"};
-}
-
-/* merge duplicates across boards by company + title */
-function buildJobs(){
-  const m=new Map();
-  for(const [company,title,loc,date,type,src,url] of RAW){
-    const k=norm(company)+"|"+norm(title);
-    if(m.has(k)){const e=m.get(k);e.sources.push({src,url});if(date<e.date)e.date=date;continue;}
-    m.set(k,{company,title,loc,date,type,sources:[{src,url}]});
-  }
-  return [...m.values()];
-}
-const JOBS=buildJobs();
+/* ---------- postings ---------- */
+const JOBS=[];
 const jkey=j=>norm(j.company)+"|"+norm(j.title);
 /* full posting text the person pasted for a card that only has a title or a snippet; kept in this browser only */
 let PASTED={};try{PASTED=JSON.parse(localStorage.getItem("pm_pasted")||"{}");}catch(e){PASTED={};}
 function savePasted(){try{const k=Object.keys(PASTED);while(k.length>40)delete PASTED[k.shift()];localStorage.setItem("pm_pasted",JSON.stringify(PASTED));}catch(e){}}
 function applyPasted(j){
   const t=PASTED[jkey(j)];
-  if(t){if(!j._orig)j._orig={desc:j.desc||"",partial:!!j.partial};j.desc=t;j.partial=false;j.pasted=true;}
-  else if(j.pasted&&j._orig){j.desc=j._orig.desc;j.partial=j._orig.partial;j.pasted=false;}
-  j._map=null;
+  if(t){if(!j._orig)j._orig={desc:j.desc||"",partial:!!j.partial,kw:j.kw||null,kt:j.kt||0};j.desc=t;j.partial=false;j.pasted=true;j.kw=null;}
+  else if(j.pasted&&j._orig){j.desc=j._orig.desc;j.partial=j._orig.partial;j.pasted=false;j.kw=j._orig.kw;j.kt=j._orig.kt;}
+  j._map=null;j._st=null;j._lv=null;j._d=null;
 }
 const OPEN=new Set();
 /* Montreal area, same list as AREA in scripts/collect.mjs */
 const MTL=/montr[eé]al|laval\b|longueuil|brossard|dorval|saint[- ]laurent|st[- ]laurent|pointe[- ]claire|sainte?[- ]anne[- ]de[- ]bellevue|boucherville|saint[- ]hubert|st[- ]hubert|vaudreuil|terrebonne|mirabel|varennes|candiac|la prairie|saint[- ]bruno|kirkland|lachine|anjou|westmount|verdun|mont[- ]royal|mount royal|saint[- ]eustache|repentigny|blainville|dollard|beaconsfield|pierrefonds|lasalle|ahuntsic|greater montr/i;
-const KIND_RE=/\b(interns?|internships?|stagiaires?|stages?|co-?ops?|etudiant(e)?s?|students?)\b/;
-/* cat is what the 0-100 score has always used (left as it was); kind decides the tab */
+/* the tab: internships and co-ops, part-time, or full-time */
 function classify(j){
   const t=norm(j.title);
-  j.cat=(/intern|stage|stagiaire|co-?op|etudiant|student/.test(t)||j.type==="Part-time"||j.type==="Internship")?"main":"near";
-  j.kind=(KIND_RE.test(t)||j.type==="Internship")?"intern":j.type==="Part-time"?"part":"full";
-  j._s=norm(j.company+" "+j.title+" "+(j.loc||""));j._d=null;
+  j.kind=(JobMeta.isStudentTitle(t)||j.type==="Internship")?"intern":j.type==="Part-time"?"part":"full";
+  j._s=norm(j.company+" "+j.title+" "+(j.loc||""));j._d=null;j._lv=null;j._fd=null;
   if(!j.province)j.province=MTL.test(j.loc||"")?"QC":"";
 }
 let JOBS_VER=0;
-JOBS.forEach(j=>{j.snap=true;classify(j);applyPasted(j);});
 const dayDiff=d=>Math.round((Date.parse(TODAY)-Date.parse(d))/864e5);
 const age=j=>j.ageH!=null?j.ageH:dayDiff(j.date)*24;
 
-/* ---------- skills of each posting and their mapping to the CV: the Python skill list + OaSIS, see matcher.js ---------- */
+/* ---------- where the postings come from ---------- */
 let SRC={},SRC_TIME="not yet";
 const SRC_INFO={
-  "Job Bank":["Job Bank Canada (Government of Canada), searched in English and French","Full text; some partner posts only link out"],
-  "The Muse":["The Muse free public API: internships and entry level roles in Montreal","Full text"],
-  "Workday":["Career sites of employers on Workday (CAE, RTX, GE Vernova)","Full text"],
+  "Job Bank":["Job Bank Canada (Government of Canada): the biggest cities, English and French, all kinds of work","Full text; some partner posts only link out"],
+  "The Muse":["The Muse free public API: internships, entry-level, mid-level and senior roles in the biggest cities","Full text"],
+  "Workday":["Career sites of large employers on Workday","Full text"],
   "Greenhouse":["Open job boards of employers on Greenhouse","Full text"],
   "Lever":["Open job boards of employers on Lever","Full text"],
   "Ashby":["Open job boards of employers on Ashby","Full text"],
@@ -522,24 +432,24 @@ const SRC_INFO={
   "Personio":["Open job boards of employers on Personio","Full text"],
   "Teamtailor":["Open job boards of employers on Teamtailor","Full text"],
   "Career pages":["Employer pages that publish schema.org JobPosting data (the data Google for Jobs reads)","Full text"],
-  "Adzuna":["Adzuna search, Montreal, English and French (free key)","Short snippet"],
+  "Adzuna":["Adzuna search, English and French (free key)","Short snippet"],
   "Jooble":["Jooble search (free key)","Short snippet"],
   "Careerjet":["Careerjet search (free key)","Short snippet"]
 };
 const NOT_COVERED=[
   ["LinkedIn","its robots.txt and terms forbid automated reading, so it is not collected. Paste a LinkedIn description into any card and it is read the same way."],
   ["Indeed, Glassdoor, Monster, ZipRecruiter","they refuse automated requests (HTTP 403) and their terms do not allow it. Not bypassed."],
-  ["Built In Montréal","its terms of use forbid bots, spiders and scrapers, even though its robots.txt allows the pages."],
+  ["Built In","its terms of use forbid bots, spiders and scrapers, even though its robots.txt allows the pages."],
   ["Talent.com","its pages are marked noindex and nofollow and it has no public feed."],
   ["iagora, Randstad and other agencies","iagora hides the employer behind a sign-up; staffing agencies post for unnamed clients. Not added."],
-  ["Concordia CareerLink and other school boards","behind a student login."],
+  ["School career boards (CareerLink and similar)","behind a student login."],
   ["Taleo, SuccessFactors, iCIMS, Oracle Recruiting","each employer needs its own set-up; only the Workday sites listed above are added so far."],
-  ["Remote-only boards (Remotive, Arbeitnow and similar)","not Montreal on-site roles, so they would only add noise."],
+  ["Remote-only boards (Remotive, Arbeitnow and similar)","their postings are not tied to a Canadian city, so they would only add noise."],
   ["Jooble and Careerjet","built in, but they need a free key. They stay off until the key is saved as a repository secret."]
 ];
 const POLITE=[
   "Employer boards, The Muse and Workday are public interfaces that the employers' own career pages use; the collector asks for each page at most a few times a day.",
-  "<b>Job Bank:</b> its robots.txt allows crawling with a 5-second wait, and the collector keeps to that. Its job-seeker terms of use also say that scripts, robots and crawlers may not be used to access its services (in the account-registration section). It is switched on because you asked for it; to switch it off set <code>\"enabled\": false</code> under <code>jobbank</code> in <code>config/searches.json</code>."
+  "<b>Job Bank:</b> its robots.txt allows crawling with a 5-second wait, and the collector keeps to that. Its job-seeker terms of use also say that scripts, robots and crawlers may not be used to access its services (in the account-registration section). It is switched on because the owner of this page asked for it; to switch it off set <code>\"enabled\": false</code> under <code>jobbank</code> in <code>config/searches.json</code>."
 ];
 function sourceTable(){
   const names=[...new Set([...Object.keys(SRC_INFO),...Object.keys(SRC)])];
@@ -557,6 +467,8 @@ function sourceTable(){
   };
   return `<div style="overflow-x:auto"><table class="maptab srctab"><thead><tr><th>Source</th><th>What it gives</th><th>Text</th><th>Postings</th><th>Last run</th></tr></thead><tbody>${names.map(row).join("")}</tbody></table></div>`;
 }
+
+/* ---------- keywords: the Python skill list + OaSIS (matcher.js) ---------- */
 let DICT=null;
 /* a few postings were collected with entities such as &#xa; or &#96; still in the text: turn them back into characters */
 const ENT={nbsp:" ",amp:"&",lt:"<",gt:">",quot:'"',apos:"'",rsquo:"’",lsquo:"‘",rdquo:"”",ldquo:"“",ndash:"–",mdash:"—",hellip:"…",bull:"•"};
@@ -564,18 +476,36 @@ function unent(s){
   const ch=n=>n===10||n===13?"\n":(n>31&&n<0x110000)?String.fromCodePoint(n):" ";
   return String(s).replace(/&#x([0-9a-f]+);/gi,(m,h)=>ch(parseInt(h,16))).replace(/&#(\d+);/g,(m,d)=>ch(+d)).replace(/&([a-z]+);/gi,(m,n)=>ENT[n.toLowerCase()]!==undefined?ENT[n.toLowerCase()]:m);
 }
+const bodyOf=j=>unent(j.desc||"").split("\n").filter(l=>!/^\s*(JOB|COMPANY|SOURCE):/.test(l)).join("\n").trim();
 function cvFound(){if(!DICT||!CV)return null;if(!CV.py)CV.py=DICT.findCv(CV.raw);return CV.py;}
 function cvIx(){if(!DICT||!CV)return null;if(!CV.ix)CV.ix=DICT.indexCv(CV.raw);return CV.ix;}
 const TAGW={Title:0,Required:1,Task:2,Preferred:3,"":4,About:5};
-/* One posting against the CV. A row is a keyword written in the posting (title + full text):
-   kind "skill" = a skill of the dictionary (English and French names, with its close skills),
-   kind "term"  = any other phrase of the text, whatever the field (no list needed).
+const TAGNAME={T:"Title",R:"Required",K:"Task",N:"",P:"Preferred"};
+/* The main keywords of a posting (up to 40) were found when the postings were collected (kw). A posting without them gets them here. */
+function ensureKw(j){
+  if(j.kw)return j.kw;
+  if(!DICT)return null;
+  const p=DICT.profile(j.title,bodyOf(j),40);
+  j.kw=p.kw;j.kt=p.kt;
+  return j.kw;
+}
+/* the keywords of one posting against the CV: [{n, kind, tag, st}] */
+function rowsOf(j){
+  const kw=ensureKw(j);
+  if(!kw||!CV||!DICT)return null;
+  if(j._st&&j._st.cv===CV&&j._st.kw===kw)return j._st.rows;
+  const rows=DICT.profileStatus(kw,cvFound(),cvIx());
+  j._st={cv:CV,kw,rows};
+  return rows;
+}
+/* One posting against the CV, in full: every keyword of the title and text, with the exact lines on both sides (opened cards only).
+   kind "skill" = a skill of the dictionary (English and French names, with its close skills), kind "term" = any other phrase of the text.
    st: M = the same words are on the CV, R = close but not the same (not counted as a match), G = not on the CV.
    Phrases from the company / benefits part of the posting are listed but not counted. */
 function mapData(j){
   if(!DICT||!CV)return null;
   if(j._map&&j._map.cv===CV&&j._map.dict===DICT)return j._map;
-  const body=unent(j.desc||"").split("\n").filter(l=>!/^\s*(JOB|COMPANY|SOURCE):/.test(l)).join("\n").trim();
+  const body=bodyOf(j);
   const text=body?j.title+"\n"+body:j.title,cvf=cvFound();
   const job=DICT.find(text),r=DICT.report(text,cvf,job),secs=DICT.sections(text),fl=DICT.flags(text);
   const links={};r.links.forEach(l=>{(links[l.job]=links[l.job]||[]).push(l);});
@@ -608,23 +538,22 @@ function snip(text,sp,n){
   const flat=t=>esc(t).replace(/\s+/g," ");
   return (s>ls?"…":"")+flat(text.slice(s,a))+"<b>"+esc(text.slice(a,b))+"</b>"+flat(text.slice(b,e))+(e<le?"…":"");
 }
-const SK_CLS={M:"M",R:"R",G:"G"};
 const half=x=>String(Math.round(x*10)/10);
-/* the keywords row directly under the job title */
+/* the keywords row directly under the job title: the main keywords the score counts */
 function skillsRow(j){
   if(!DICT)return '<div class="skills"><span class="note">Reading the keywords…</span></div>';
-  const m=mapData(j),where=j.desc?"posting":"title",t=m.tot;
+  const rows=rowsOf(j)||[],where=j.desc?"posting":"title";
   const need=j.desc&&!j.partial&&!j.pasted?"":" Only "+(j.desc?"a short snippet":"the title")+" is available: open the card and paste the full description.";
-  if(!m.rows.length)return `<div class="skills"><span class="note">No keywords were found in the ${where}.${need}</span></div>`;
-  const MAX=18,shown=m.rows.filter(x=>x.counted).slice(0,MAX),more=t.total-shown.length;
-  const chips=shown.map(x=>{
-    const t=x.st==="M"?"On your CV: "+(x.kind==="skill"?(m.cvf[x.n].evidence||""):(x.hit.line||"")):x.st==="R"?"Close, not the same words: "+x.links.map(l=>l.cv+" ("+l.label+")").join(", ")+". Not counted as a match.":"Not written on your CV.";
-    return `<span class="${SK_CLS[x.st]}${x.kind==="term"?" t":""}" title="${esc((x.tag?x.tag+": ":"")+t)}">${esc(x.n)}</span>`;
+  if(!rows.length)return `<div class="skills"><span class="note">No keywords were found in the ${where}.${need}</span></div>`;
+  const M=rows.filter(x=>x.st==="M").length,C=rows.filter(x=>x.st==="R").length,MAX=16;
+  const chips=rows.slice(0,MAX).map(x=>{
+    const t=x.st==="M"?"On your CV.":x.st==="R"?"Close, not the same words. Not counted as a match.":"Not written on your CV.";
+    return `<span class="${x.st}${x.kind==="t"?" t":""}" title="${esc((TAGNAME[x.tag]?TAGNAME[x.tag]+": ":"")+t)}">${esc(x.n)}</span>`;
   }).join("");
-  return `<div class="skills"><div class="sk-h"><b>${t.matched} of ${t.total}</b> keywords ${j.desc?"in the posting":"in the title"} are on your CV · ${t.pct}%${t.close?` · ${t.close} close, not counted`:""} · <span title="Skills of the dictionary, English and French">${t.skills.matched} of ${t.skills.total} skills</span> + <span title="Every other phrase of the text, any field">${t.terms.matched} of ${t.terms.total} other phrases</span>${j.desc?(j.pasted?" · from the text you pasted":j.partial?" · short snippet only: open the card to paste the full text":""):" · title only: open the card to paste the full text"}</div>
+  const more=rows.length-MAX;
+  return `<div class="skills"><div class="sk-h"><b>${M} of the ${rows.length}</b> main keywords of this ${where} are on your CV${C?` (${C} close, not counted)`:""}${j.pasted?" · from the text you pasted":j.partial?" · short snippet only: open the card to paste the full text":j.desc?"":" · title only: open the card to paste the full text"}</div>
     <div class="kw sk">${chips}${more>0?`<span class="more">+${more} more, open the card</span>`:""}</div></div>`;
 }
-/* the mapping panel inside the card */
 function pasteBox(j){
   if(j.desc&&!j.partial&&!j.pasted)return "";
   const k=esc(jkey(j));
@@ -634,8 +563,9 @@ function pasteBox(j){
     <textarea aria-label="Full job description" data-pk="${k}" placeholder="Paste the full posting text here: tasks, requirements, assets, language and eligibility"></textarea>
     <div class="row" style="margin-top:6px"><button class="primary" data-act="usepaste" data-pk="${k}">Extract keywords from this text</button>${j.pasted?`<button data-act="clearpaste" data-pk="${k}">Remove the pasted text</button>`:""}<span class="note" data-msg="${k}">Stays in this browser only.</span></div></div>`;
 }
+/* the mapping panel inside the card (built when the card is opened) */
 function mapPanel(j){
-  const head='<h3>Mapping: every keyword of the posting ↔ your CV</h3>'+pasteBox(j);
+  const head='<h3>Every keyword of the posting against your CV</h3>'+pasteBox(j);
   if(!DICT)return head+'<p class="note">The dictionary is loading…</p>';
   const m=mapData(j),r=m.r,cv=m.cvf,t=m.tot;
   if(!m.rows.length)return head+`<p class="note">No keywords were found in this posting's ${j.desc?"text":"title"}.</p>`;
@@ -672,7 +602,7 @@ function mapPanel(j){
   const aboutHtml=abt.length?`<details class="old"><summary>From the company / benefits part of the posting (${abt.length} phrases, listed but not counted)</summary><div class="kw" style="margin-top:6px;max-height:200px;overflow:auto">${abt.map(x=>`<span class="off${x.kind==="term"?" t":""}" title="${esc(x.st==="M"?"on your CV":x.st==="R"?"close to something on your CV":"not on your CV")}">${esc(x.n)}</span>`).join("")}</div></details>`:"";
   return head+`<div class="mapbody" data-f="all" onclick="const b=event.target.closest('.mapfilter button');if(b){this.dataset.f=b.dataset.f;this.querySelectorAll('.mapfilter button').forEach(x=>x.classList.toggle('on',x===b));}"><div class="mapnums"><div><b>${t.matched} of ${t.total} = ${t.pct}%</b>exact words: the same keyword is written on both (${t.skills.matched} of ${t.skills.total} dictionary skills + ${t.terms.matched} of ${t.terms.total} other phrases)</div>
       <div><b>${half(t.matched+0.5*t.close)} of ${t.total} = ${t.pctRel}%</b>with close keywords at half credit</div></div>
-    <p class="note">The 0–100 score above still uses its own title keyword list. This panel reads <b>every phrase of the posting</b>, in any field: the dictionary (Python list + OaSIS, English and French) names the skills it knows and every other phrase is taken as written. Filler words (the, experience, skills, benefits…) are never keywords. A close keyword is never shown as a match.</p>
+    <p class="note">This table reads <b>every phrase of the posting</b>. The score above counts the main keywords only (up to 40, the ones in the title and the requirements first), so these totals can differ from the line under the title. Filler words (the, experience, skills, benefits…) are never keywords. A close keyword is never shown as a match.</p>
     <div class="mapgrid">
       <div><h4>Found on both (${both.length})</h4><div class="kw">${both.map(x=>chip(x,"M")).join("")||'<span class="note">None.</span>'}</div></div>
       <div><h4>In the post, not on your CV (${miss.length})</h4><div class="kw">${miss.map(x=>chip(x,"G")).join("")||'<span class="note">None.</span>'}</div></div>
@@ -685,14 +615,94 @@ function mapPanel(j){
       <div><h4>Your CV</h4><div class="legend"><mark class="m-ok">in the post</mark><mark class="m-near">close, not counted</mark><mark class="m-off">not asked by this post</mark></div><pre class="hl">${Matcher.highlight(CV.raw,cm)}</pre></div></div></div>`;
 }
 
+/* ---------- the score: role fit + level fit + keyword overlap (scoring.js) ---------- */
+const SEASON_END={winter:3,hiver:3,spring:5,printemps:5,summer:7,ete:7,fall:11,autumn:11,automne:11};
+/* the terms named in a title, as the month index when each one ends: "Summer 2026" ends Aug 2026 */
+function termsIn(t){
+  const out=[],re=/\b(winter|hiver|spring|printemps|summer|ete|fall|autumn|automne)\b[\s,.\-–]*(20\d\d)/g;let m;
+  while((m=re.exec(t)))out.push({end:+m[2]*12+SEASON_END[m[1]],label:m[1].charAt(0).toUpperCase()+m[1].slice(1)+" "+m[2]});
+  return out;
+}
+/* the next terms to choose from, starting with the one that is running now */
+function termOptions(){
+  const S=[["Winter","winter|hiver",0,3],["Summer","summer|ete",4,7],["Fall","fall|autumn|automne",8,11]],out=[];
+  for(let y=NOW.getFullYear();y<=NOW.getFullYear()+1;y++)for(const [n,re,a,b] of S){
+    if(y*12+b<NOWIX)continue;
+    out.push({label:n+" "+y,value:re.split("|").map(w=>w+" "+y).join("|"),start:y*12+a});
+  }
+  return out.slice(0,4);
+}
+(function(){
+  const o=termOptions(),up=o.find(x=>x.start>NOWIX)||o[0];
+  $("term").innerHTML=o.map(x=>`<option value="${esc(x.value)}"${x===up?" selected":""}>${esc(x.label)}</option>`).join("")+'<option value="">Any term</option>';
+})();
+const FR_W=/\b(le|la|les|des|du|une|pour|avec|vous|nous|votre|notre|dans|sur|est|sont|aux|chez|et)\b/g;
+const EN_W=/\b(the|and|for|with|you|your|our|will|are|to|of|in|is|we|as|an)\b/g;
+const FR_T=/\b(stage|stagiaire|etudiant|etudiante|ingenieur|ingenieure|responsable|conseiller|conseillere|adjoint|adjointe|prepose|preposee|technicien|technicienne|charge|chargee|gestionnaire|directeur|directrice|coordonnateur|coordonnatrice|commis|caissier|caissiere|vendeur|vendeuse|infirmier|infirmiere|analyste|agent|agente|developpeur|developpeuse|hiver|ete|automne)\b/;
+function langOf(j){
+  const body=norm((j.desc||"").slice(0,900));
+  if(body.length>200){
+    const fr=(body.match(FR_W)||[]).length,en=(body.match(EN_W)||[]).length;
+    if(fr>=8&&en>=8)return "bi";
+    return fr>en*1.3?"fr":"en";
+  }
+  const t=norm(j.title);
+  if(/ \/ | \| |\*\*\*|\(fr\/en\)|\bbilingual\b|\bbilingue\b/.test(t)&&FR_T.test(t)&&/\b(intern|engineer|manager|student|specialist|analyst|coordinator|assistant|officer|advisor|developer|nurse|technician|clerk)\b/.test(t))return "bi";
+  return FR_T.test(t)||(t.match(FR_W)||[]).length>=2?"fr":"en";
+}
+const FED=/\b(csis|scrs|rcmp|grc|national defence|defense nationale|communications security|cbsa|asfc)\b/;
+const DEFENCE=/bombardier|\bcae\b|airbus|pratt|\bmda\b|heroux|lockheed|boeing|general dynamics|l3harris|raytheon|\brtx\b|bae systems|thales|safran|textron|leonardo|colt canada|magellan aerospace|calian|collins aerospace/;
+function descFlags(j,flags){
+  const t=norm(j.desc);
+  const add=(c,msg)=>flags.push([c,msg]);
+  const sec=t.match(/security clearance|cote de securite|habilitation|controlled goods|marchandises controlees|\bitar\b|criminal (record|background)|verification des antecedents|casier judiciaire|vulnerable sector|secteur vulnerable/);
+  if(sec)add("b","Security / background check in text ("+sec[0]+"): verify");
+  const cit=t.match(/canadian citizen|citoyen canadien|citoyennete canadienne|permanent resident|resident permanent|eligible to work in canada|authori[sz]ed to work in canada|autorise a travailler|permis de travail|work permit|legally entitled/);
+  if(cit)add("w","Work eligibility wording in text ("+cit[0]+"): verify");
+  if(/english only|anglais seulement/.test(t))add("g","English only");
+  else if(/bilingual|bilingue|francais et anglais|french and english|fluent in (both|french)|courant en francais|maitrise du francais|francais.{0,20}requis|french.{0,20}required/.test(t))add("w","French/English requirement in text: check your level");
+  if(/master|maitrise|graduate student|cycles? superieurs?/.test(t))add("n","Mentions master's / graduate level");
+  else if(/bachelor|baccalaureat|undergraduate|1er cycle|premier cycle/.test(t))add("w","Written for bachelor's level: check that your degree fits");
+  if(/new grad|recent graduate|nouveau diplome|jeune diplome/.test(t)&&!/student|etudiant/.test(t))add("w","Aimed at new graduates, not current students");
+  const len=t.match(/(\d{1,2})[- ]?(?:month|mois)/);
+  if(len)add("","Length: "+len[1]+" months: check that it fits your dates");
+}
+function scoreJob(j){
+  const T=norm(j.title+" "+j.type);
+  const b=meBand(),lv=lvOf(j),fit=JobMeta.fit(b,lv.lvl),rel=JobMeta.relation(b,lv.lvl);
+  const rows=rowsOf(j)||[];
+  const intern=j.kind==="intern",flags=[];
+  const terms=termsIn(norm(j.title)),past=terms.length>0&&terms.every(x=>x.end<NOWIX);
+  const val=$("term").value,tgt=!val||new RegExp(val).test(T);
+  const anyTerm=/(winter|hiver|spring|printemps|summer|ete|fall|autumn|automne)\W+20\d\d|\b20\d\d\b/.test(T);
+  const sc=Scoring.compute(rows,fit,{past,intern,tgt,anyTerm});
+  if(past)flags.push(["b","Term is in the past ("+terms[0].label+")"]);
+  else if(/management trainee|leadership program|programme de leadership|nouveaux|graduate program|diplome/.test(T)&&!intern)flags.push(["w","New-graduate programme: may exclude current students"]);
+  if(!past&&intern){
+    if(tgt&&val)flags.push(["g","Term matches your target"]);
+    else if(!val){}
+    else if(anyTerm)flags.push(["w","Term differs from your target: check dates"]);
+    else flags.push(["w","Term not in title: verify dates"]);
+  }
+  const lang=langOf(j);
+  flags.push(lang==="bi"?["n","Bilingual posting"]:lang==="fr"?["w","French-language posting"]:["","English posting: French may still be required, verify"]);
+  const p=$("permit").value;
+  if(p==="unknown")flags.push(["w","Work permit: verify"]);
+  else if(p==="need")flags.push(["w","You need sponsorship: confirm the employer sponsors"]);
+  const co=norm(j.company);
+  if(FED.test(co))flags.push(["b","Federal security clearance and citizenship rules likely: verify"]);
+  else if(DEFENCE.test(co))flags.push(["w","Aerospace / defence employer: security screening or Controlled Goods may apply"]);
+  if(j.desc)descFlags(j,flags);
+  return{role:sc.role,level:sc.level,overlap:sc.overlap,total:sc.total,rows,cov:sc.cov,matched:sc.matched,close:sc.close,n:sc.n,flags,lv,rel,fit,past,conf:j.desc?(j.partial?"Short snippet":"Full text"):"Title only"};
+}
+
 let tab="full",RES=[],RES_VER=-1,RUN=0,SCORING="";
-const $=id=>document.getElementById(id);
 const LIST_TABS=["full","part","intern"];
 const KIND_LABEL={full:"full-time jobs",part:"part-time jobs",intern:"internships & co-ops"};
 const KIND_SHORT={full:"Full-time",part:"Part-time",intern:"Intern"};
 const PROV_NAME={QC:"Quebec",ON:"Ontario",BC:"British Columbia",AB:"Alberta",MB:"Manitoba",SK:"Saskatchewan",NS:"Nova Scotia",NB:"New Brunswick",NL:"Newfoundland & Labrador",PE:"Prince Edward Island",YT:"Yukon",NT:"Northwest Territories",NU:"Nunavut","Remote – Canada":"Remote – Canada",Canada:"Canada, no province named","":"Location not stated"};
 const PAGE=25;
-const F={q:"",qw:[],loc:"",src:"",sort:"",min:0,saved:false,desc:false};
+const F={q:"",qw:[],loc:"",src:"",sort:"",min:0,saved:false,desc:false,lvl:"fit",fd:""};
 let SHOW=PAGE,CUR={list:[],shown:0};
 let SAVED=new Set();try{SAVED=new Set(JSON.parse(localStorage.getItem("pm_saved")||"[]"));}catch(e){}
 function saveSaved(){try{localStorage.setItem("pm_saved",JSON.stringify([...SAVED].slice(-500)));}catch(e){}}
@@ -700,8 +710,8 @@ function saveSaved(){try{localStorage.setItem("pm_saved",JSON.stringify([...SAVE
 /* Score every posting against the CV in small slices so the page stays usable; the list shows at once and the scores follow */
 function run(){
   const id=++RUN;
-  if(RES_VER!==JOBS_VER||!CV){RES=JOBS.map(j=>({j,s:null}));RES_VER=JOBS_VER;}
-  if(!CV){SCORING="";render();return;}
+  if(RES_VER!==JOBS_VER||!CV||!DICT){RES=JOBS.map(j=>({j,s:null}));RES_VER=JOBS_VER;}
+  if(!CV||!DICT){SCORING="";render();return;}
   const out=new Array(JOBS.length);let i=0;
   const step=()=>{
     if(id!==RUN)return;
@@ -712,49 +722,61 @@ function run(){
   };
   SCORING="Scoring postings against your CV…";render();setTimeout(step,0);
 }
-function pill(c,t){return `<span class="pill ${c}">${esc(t)}</span>`}
-function jobHtml(r,rank){
-  const {j,s}=r,a=age(j),d=a<24?0:Math.floor(a/24);
-  const when=a<24?(j.ageH!=null?`Posted ${Math.max(1,Math.round(a))}h ago`:"Posted today"):d===1?"Posted 1 day ago":`Posted ${d} days ago`;
-  const links=j.sources.map(x=>`<a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.src)}</a>`).join(" · ");
-  const bar=(v,m,l)=>`<div class="sb">${l} ${v}/${m}<i><b style="width:${v/m*100}%"></b></i></div>`;
-  const kw=s.map.length?s.map.map(x=>`<span class="${x.s}" title="${esc(x.ev)}">${esc(x.n)}${x.tag&&x.tag!=="Title"?" · "+x.tag[0]:""}</span>`).join(""):'<span class="note">No recognisable skill terms in the title.</span>';
-  const ev=s.map.map(x=>`<div class="ev"><b>${x.s==="M"?"Match":x.s==="R"?"Related":"Gap"}</b> ${esc(x.n)}${x.tag?" ("+x.tag+")":""}: ${esc(x.ev)}${x.post?"<br>In posting: "+esc(x.post):""}</div>`).join("");
-  const jk=jkey(j);
-  return `<details class="job" data-k="${esc(jk)}"${OPEN.has(jk)?" open":""}><summary>
-    <div class="score">${s.total}<small>#${rank}</small>${starBtn(jk)}</div>
-    <div>
-      <div class="t">${esc(j.title)}</div>
-      <div class="meta"><span>${esc(j.company)}</span><span>${esc(j.loc)}</span><span>${when}${a<24?" · within 24h":""}</span><span>${links}</span></div>
-      ${skillsRow(j)}
-      <div class="subs">${bar(s.role,40,"Role")}${bar(s.level,25,"Level")}${bar(s.overlap,32,"Keywords")}</div>
-      <div>${s.flags.map(f=>pill(f[0]==="g"?"g":f[0],f[1])).join("")}${a<24?pill("n","24h"):""}${j.fresh?pill("n","New since you opened the page"):""}${j.snap?pill("","Snapshot, not re-checked"):pill("g","Live")}</div>
-    </div></summary>
-    <div class="det">
-      ${mapPanel(j)}
-      <details class="old"><summary>How the 0–100 score counted its keywords (older list)</summary>
-      <h3>${j.desc?"Posting keywords (R required, T task, P preferred) vs your CV":"Title keywords vs your CV"}</h3><div class="kw">${kw}</div>
-      <p class="note">Keyword coverage ${Math.round(s.cov*100)}% = (Match + 0.5 × Related) ÷ title keywords, with generic words such as Engineering or Operations counting 0.4. Confidence: ${s.conf}.</p>
-      ${ev}</details>
-      <h3>Before you apply</h3>
-      <p class="note">Open the posting and read the full text. Required skills, security rules, degree level (bachelor's or master's) and exact dates are not visible from the title.</p>
-    </div></details>`;
-}
+function pill(c,t,title){return `<span class="pill ${c}"${title?` title="${esc(title)}"`:""}>${esc(t)}</span>`}
 const starBtn=k=>`<button class="star${SAVED.has(k)?" on":""}" data-star="${esc(k)}" aria-pressed="${SAVED.has(k)}" title="${SAVED.has(k)?"Remove from saved":"Save this posting"}">${SAVED.has(k)?"★":"☆"}</button>`;
 const whenOf=j=>{const a=age(j),d=a<24?0:Math.floor(a/24);return a<24?(j.ageH!=null?`Posted ${Math.max(1,Math.round(a))}h ago`:"Posted today"):d===1?"Posted 1 day ago":`Posted ${d} days ago`;};
+const srcLinks=j=>j.sources.map(x=>`<a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.src)}</a>`).join(" · ");
+/* level, how it relates to the person, field and type: the tags under a title */
+function tagsHtml(j,rel){
+  const lv=lvOf(j),fd=fdOf(j),r=REL_PILL[rel];
+  return `<div class="tags"><span class="pill lvl lv${lv.lvl}" title="${esc(lv.why||"")}">${esc(LV[lv.lvl].label)}</span>${r?pill(r[0],r[1]):""}${pill("",fd.label)}${j.type?pill("",j.type):""}</div>`;
+}
+/* how the three parts of the score were counted */
+function breakdown(j,s){
+  const b=meBand(),lv=s.lv;
+  const lvTxt=`The posting reads as <b>${esc(LV[lv.lvl].label)}</b>${lv.why?` (${esc(lv.why)})`:""}. ${b===null?"Your stage is not known, so this part is a middle value.":`Your stage is <b>${esc(BAND[b].label)}</b>, a ${Math.round(s.fit*100)}% fit.`}${s.past?" The term has passed, so it is capped at 3.":""}`;
+  return `<table class="how"><tbody>
+    <tr><th>Role fit ${s.role}/40</th><td>How much of the title and the required keywords of the posting your CV covers. A close keyword counts half.</td></tr>
+    <tr><th>Level fit ${s.level}/25</th><td>${lvTxt}</td></tr>
+    <tr><th>Keywords ${s.overlap}/35</th><td>${s.matched} matched and ${s.close} close, out of the ${s.n} main keywords counted (${Math.round(s.cov*100)}% weighted coverage; 40% earns the full 35). Few keywords means a cautious score. Confidence: ${s.conf}.</td></tr></tbody></table>`;
+}
+function jobHtml(r,rank){
+  const {j,s}=r,a=age(j),jk=jkey(j);
+  const bar=(v,m,l)=>`<div class="sb">${l} ${v}/${m}<i><b style="width:${v/m*100}%"></b></i></div>`;
+  return `<details class="job lv${s.lv.lvl}" data-k="${esc(jk)}"${OPEN.has(jk)?" open":""}><summary>
+    <div class="score"><b>${s.total}</b><small>#${rank}</small>${starBtn(jk)}</div>
+    <div>
+      <div class="t">${esc(j.title)}</div>
+      <div class="meta"><span>${esc(j.company)}</span><span>${esc(j.loc)}</span><span>${whenOf(j)}${a<24?" · within 24h":""}</span><span>${srcLinks(j)}</span></div>
+      ${tagsHtml(j,s.rel)}
+      ${skillsRow(j)}
+      <div class="subs">${bar(s.role,40,"Role")}${bar(s.level,25,"Level")}${bar(s.overlap,35,"Keywords")}</div>
+      <div>${s.flags.map(f=>pill(f[0]==="g"?"g":f[0],f[1])).join("")}${a<24?pill("n","24h"):""}${j.fresh?pill("n","New since you opened the page"):""}</div>
+    </div></summary>
+    <div class="det">
+      <div class="mapslot" data-k="${esc(jk)}">${OPEN.has(jk)?mapPanel(j):""}</div>
+      <details class="old"><summary>How the 0–100 score was counted</summary>${breakdown(j,s)}</details>
+      <h3>Before you apply</h3>
+      <p class="note">Open the posting and read the full text. Required skills, security rules, degree level and exact dates may not be visible from the title.</p>
+      <div class="row">${j.sources.slice(0,3).map(x=>`<a class="btn" href="${esc(x.url)}" target="_blank" rel="noopener">Open on ${esc(x.src)}</a>`).join(" ")}</div>
+    </div></details>`;
+}
 /* a posting before a CV is added: nothing is scored, the text is there to read */
 function browseHtml(j,rank){
-  const a=age(j),jk=jkey(j);
-  const links=j.sources.map(x=>`<a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.src)}</a>`).join(" · ");
-  const text=unent(j.desc||"").split("\n").filter(l=>!/^\s*(JOB|COMPANY|SOURCE):/.test(l)).join("\n").trim();
+  const a=age(j),jk=jkey(j),lv=lvOf(j);
+  const text=bodyOf(j);
   const body=text?esc(text.slice(0,3000))+(text.length>3000?"\n…":""):"";
   const open=j.sources.slice(0,3).map(x=>`<a class="btn" href="${esc(x.url)}" target="_blank" rel="noopener">Open on ${esc(x.src)}</a>`).join(" ");
-  return `<details class="job" data-k="${esc(jk)}"${OPEN.has(jk)?" open":""}><summary>
+  const rel=JobMeta.relation(meBand(),lv.lvl);
+  const kws=(j.kw||[]).slice(0,10).map(c=>`<span class="N${c[1]==="t"?" t":""}">${esc(c.slice(3))}</span>`).join("");
+  return `<details class="job lv${lv.lvl}" data-k="${esc(jk)}"${OPEN.has(jk)?" open":""}><summary>
     <div class="score"><span class="kindtag">${KIND_SHORT[j.kind]}</span>${starBtn(jk)}</div>
     <div>
       <div class="t">${esc(j.title)}</div>
-      <div class="meta"><span>${esc(j.company)}</span><span>${esc(j.loc)}</span><span>${whenOf(j)}</span><span>${links}</span></div>
-      <div>${j.type?pill("",j.type):""}${a<24?pill("n","24h"):""}${j.fresh?pill("n","New since you opened the page"):""}${j.partial?pill("","Short snippet only"):""}</div>
+      <div class="meta"><span>${esc(j.company)}</span><span>${esc(j.loc)}</span><span>${whenOf(j)}</span><span>${srcLinks(j)}</span></div>
+      ${tagsHtml(j,rel)}
+      ${kws?`<div class="skills"><div class="sk-h">What the posting asks for</div><div class="kw sk">${kws}</div></div>`:""}
+      <div>${a<24?pill("n","24h"):""}${j.fresh?pill("n","New since you opened the page"):""}${j.partial?pill("","Short snippet only"):""}</div>
     </div></summary>
     <div class="det">
       <h3>The posting</h3>${body?`<pre class="hl">${body}</pre>`:'<p class="note">No description was collected for this posting. Open it on the employer\'s page.</p>'}
@@ -764,13 +786,14 @@ function browseHtml(j,rank){
 }
 const cardOf=(r,i)=>r.s?jobHtml(r,i+1):browseHtml(r.j,i+1);
 
-/* every filter that does not depend on the tab or the location */
+/* ---------- filters ---------- */
 function textOk(j){
   if(!F.qw.length)return true;
   const hay=F.desc?j._s+" "+(j._d||(j._d=norm(j.desc||""))):j._s;
   for(const w of F.qw)if(!hay.includes(w))return false;
   return true;
 }
+/* everything except the tab, location, level and field */
 function poolFilter(w){
   return RES.filter(r=>{
     const j=r.j;
@@ -782,13 +805,23 @@ function poolFilter(w){
   });
 }
 const locOk=j=>!F.loc||(F.loc==="MTL"?MTL.test(j.loc||""):(j.province||"")===F.loc);
+/* "fits my level" hides what is far above or far below the stage */
+function fitsLevel(j){
+  const b=meBand();
+  if(b===null)return true;
+  const rel=JobMeta.relation(b,lvOf(j).lvl);
+  return rel!=="far"&&rel!=="well-below";
+}
+const lvOk=j=>F.lvl===""?true:F.lvl==="fit"?fitsLevel(j):lvOf(j).lvl===+F.lvl;
+const fdOk=j=>!F.fd||fdOf(j).id===F.fd;
 const sortFns={
   match:(a,b)=>(b.s?b.s.total:0)-(a.s?a.s.total:0)||age(a.j)-age(b.j),
+  stage:(a,b)=>{const m=meBand();return JobMeta.fit(m,lvOf(b.j).lvl)-JobMeta.fit(m,lvOf(a.j).lvl)||age(a.j)-age(b.j);},
+  level:(a,b)=>lvOf(a.j).lvl-lvOf(b.j).lvl||age(a.j)-age(b.j),
   new:(a,b)=>age(a.j)-age(b.j),
   company:(a,b)=>a.j.company.localeCompare(b.j.company)||age(a.j)-age(b.j),
   title:(a,b)=>a.j.title.localeCompare(b.j.title)||age(a.j)-age(b.j)
 };
-const nf=n=>n.toLocaleString();
 function fillSelect(sel,opts,cur){
   sel.innerHTML=opts.map(o=>`<option value="${esc(o[0])}">${esc(o[1])}</option>`).join("");
   sel.value=opts.some(o=>o[0]===cur)?cur:opts[0][0];
@@ -799,48 +832,65 @@ function syncControls(){
   $("fdesc").checked=F.desc;
   $("fmin").value=String(F.min);$("fmin").disabled=!CV;
   const mo=$("fsort").querySelector("[value=match]");if(mo)mo.disabled=!CV;
+  const so=$("fsort").querySelector("[value=stage]");if(so)so.disabled=meBand()===null;
   $("fsaved").classList.toggle("on",F.saved);$("fsaved").setAttribute("aria-pressed",F.saved);
   $("fsaved").textContent="★ Saved ("+SAVED.size+")";
 }
 function renderList(v){
-  const w=+$("window").value;
-  const sortKey=(F.sort&&(F.sort!=="match"||CV))?F.sort:(CV?"match":"new");
-  const poolAll=poolFilter(w);                                   // everything except tab and location
+  const w=+$("window").value,b=meBand();
+  /* without a CV or a stage the list starts with the lowest levels, so nobody lands on a director first */
+  const sortOk={match:!!CV,stage:b!==null};
+  const sortKey=(F.sort&&sortOk[F.sort]!==false)?F.sort:(CV?"match":b!==null?"stage":"level");
+  const poolAll=poolFilter(w);
+  const passAll=j=>locOk(j)&&lvOk(j)&&fdOk(j);
   /* tab counts: all filters, any tab */
   const cnt={full:0,part:0,intern:0};
-  for(const r of poolAll)if(locOk(r.j))cnt[r.j.kind]++;
-  document.querySelectorAll(".tab").forEach(b=>{const c=b.querySelector(".cnt");if(c)c.textContent=nf(cnt[b.dataset.t]);});
+  for(const r of poolAll)if(passAll(r.j))cnt[r.j.kind]++;
+  document.querySelectorAll(".tab").forEach(t=>{const c=t.querySelector(".cnt");if(c)c.textContent=nf(cnt[t.dataset.t]);});
   /* the posted-window chips show how many postings each window holds */
-  const base0=RES.filter(r=>r.j.kind===tab&&locOk(r.j)&&(!F.saved||SAVED.has(jkey(r.j)))&&(!F.src||r.j.sources.some(s=>s.src===F.src))&&(!F.min||(r.s&&r.s.total>=F.min))&&textOk(r.j));
+  const base0=RES.filter(r=>r.j.kind===tab&&passAll(r.j)&&(!F.saved||SAVED.has(jkey(r.j)))&&(!F.src||r.j.sources.some(s=>s.src===F.src))&&(!F.min||(r.s&&r.s.total>=F.min))&&textOk(r.j));
   const wc={1:0,7:0,99:base0.length};base0.forEach(r=>{const a=age(r.j);if(a<24)wc[1]++;if(a<168)wc[7]++;});
-  document.querySelectorAll("#chips [data-w]").forEach(b=>{b.classList.toggle("on",+b.dataset.w===w);b.textContent=({1:"24 h",7:"7 days",99:"All"})[b.dataset.w]+" ("+nf(wc[b.dataset.w])+")";});
-  /* location and source options with their counts for this tab */
+  document.querySelectorAll("#chips [data-w]").forEach(bt=>{bt.classList.toggle("on",+bt.dataset.w===w);bt.textContent=({1:"24 h",7:"7 days",99:"All"})[bt.dataset.w]+" ("+nf(wc[bt.dataset.w])+")";});
+  /* every filter shows the counts it would give with the others applied */
   const inTab=poolAll.filter(r=>r.j.kind===tab);
-  const lc={},mtl=inTab.filter(r=>MTL.test(r.j.loc||"")).length;
-  inTab.forEach(r=>{const p=r.j.province||"";lc[p]=(lc[p]||0)+1;});
-  const order=Object.keys(lc).sort((a,b)=>lc[b]-lc[a]);
-  fillSelect($("floc"),[["","All of Canada ("+nf(inTab.length)+")"],["MTL","Montréal area ("+nf(mtl)+")"],...order.map(p=>[p,(PROV_NAME[p]||p)+" ("+nf(lc[p])+")"])],F.loc);
+  const forLoc=inTab.filter(r=>lvOk(r.j)&&fdOk(r.j));
+  const lc={},mtl=forLoc.filter(r=>MTL.test(r.j.loc||"")).length;
+  forLoc.forEach(r=>{const p=r.j.province||"";lc[p]=(lc[p]||0)+1;});
+  fillSelect($("floc"),[["","All of Canada ("+nf(forLoc.length)+")"],["MTL","Montréal area ("+nf(mtl)+")"],...Object.keys(lc).sort((a,c)=>lc[c]-lc[a]).map(p=>[p,(PROV_NAME[p]||p)+" ("+nf(lc[p])+")"])],F.loc);
   if(F.loc&&$("floc").value!==F.loc)F.loc="";
-  const inLoc=inTab.filter(r=>locOk(r.j)),sc={};
+  const forLv=inTab.filter(r=>locOk(r.j)&&fdOk(r.j)),lvc=[0,0,0,0,0];
+  forLv.forEach(r=>lvc[lvOf(r.j).lvl]++);
+  const fitN=forLv.filter(r=>fitsLevel(r.j)).length;
+  fillSelect($("flvl"),[...(b!==null?[["fit","Fits my level ("+nf(fitN)+")"]]:[]),["","All levels ("+nf(forLv.length)+")"],...LV.map((l,i)=>[String(i),l.label+" ("+nf(lvc[i])+")"])],F.lvl==="fit"&&b===null?"":F.lvl);
+  const forFd=inTab.filter(r=>locOk(r.j)&&lvOk(r.j)),fc={};
+  forFd.forEach(r=>{const id=fdOf(r.j).id;fc[id]=(fc[id]||0)+1;});
+  fillSelect($("ffield"),[["","All fields ("+nf(forFd.length)+")"],...JobMeta.FIELD_LIST.filter(f=>fc[f.id]).sort((x,y)=>(x.id==="other")-(y.id==="other")||fc[y.id]-fc[x.id]).map(f=>[f.id,f.label+" ("+nf(fc[f.id])+")"])],F.fd);
+  if(F.fd&&$("ffield").value!==F.fd)F.fd="";
+  const inLoc=inTab.filter(r=>passAll(r.j)),sc={};
   inLoc.forEach(r=>new Set(r.j.sources.map(s=>s.src)).forEach(n=>sc[n]=(sc[n]||0)+1));
-  fillSelect($("fsrc"),[["","All sources ("+nf(inLoc.length)+")"],...Object.keys(sc).sort((a,b)=>sc[b]-sc[a]).map(n=>[n,n+" ("+nf(sc[n])+")"])],F.src);
+  fillSelect($("fsrc"),[["","All sources ("+nf(inLoc.length)+")"],...Object.keys(sc).sort((x,y)=>sc[y]-sc[x]).map(n=>[n,n+" ("+nf(sc[n])+")"])],F.src);
   if(F.src&&$("fsrc").value!==F.src)F.src="";
   $("fsort").value=sortKey;
   const list=inLoc.slice().sort(sortFns[sortKey]);
   const n24=list.filter(r=>age(r.j)<24).length;
   CUR={list,shown:Math.min(SHOW,list.length)};
   syncControls();
-  const active=F.q||F.loc||F.src||F.min||F.saved;
   const bits=[`<b>${nf(list.length)}</b> ${KIND_LABEL[tab]}`,`${nf(n24)} posted in the last 24 h`];
   if(SCORING)bits.push(esc(SCORING));
   else if(!CV)bits.push("<b>add your CV</b> (left) to score and rank them");
-  if(sortKey!=="match"&&CV)bits.push("sorted by "+({new:"newest",company:"company",title:"title"})[sortKey]);
+  if(sortKey!=="match")bits.push("sorted by "+({stage:"fit with your stage",level:"level, lowest first",new:"newest",company:"company",title:"title"})[sortKey]);
   $("fstat").innerHTML=bits.join(" · ");
-  const note=tab==="full"?'<p class="note">Includes contract roles and postings that state no employment type. Level fit is capped low on purpose, so scores here sit below internships.</p>':tab==="part"?'<p class="note">Postings whose employment type says part-time. Few employers state it, so this list is short.</p>':"";
-  const empty=`<div class="empty">Nothing matches these filters.<br><button id="emptyreset" style="margin-top:10px">Reset filters</button>${w<99?` <button data-w="99" class="widen" style="margin-top:10px">Show everything collected</button>`:""}</div>`;
-  v.innerHTML=note+`<div id="cards">${CUR.list.slice(0,CUR.shown).map(cardOf).join("")||empty}</div><div id="moreWrap"></div>`;
+  /* notes above the list: what the level filter did, and where the student roles are */
+  let notes="";
+  const hidden=(F.lvl==="fit"&&b!==null)?forLv.length-fitN:0;
+  if(b===null)notes+=`<p class="lvnote"><span><b>Tell me where you are</b> and the roles that fit your level come first. Tap your stage on the trail at the top, or add your CV.</span></p>`;
+  else if(hidden>0)notes+=`<p class="lvnote"><span><b>${nf(hidden)}</b> posting${hidden===1?" is":"s are"} far above or below your level and hidden.</span><button data-lvall>Show ${hidden===1?"it":"them"}</button></p>`;
+  if(b===0&&tab!=="intern"&&cnt.intern)notes+=`<p class="lvnote"><span>Most first roles are internships and co-ops.</span><button data-gotab="intern">See ${nf(cnt.intern)}</button></p>`;
+  if(tab==="full")notes+='<p class="note">Includes contract roles and postings that state no employment type.</p>';
+  else if(tab==="part")notes+='<p class="note">Postings whose employment type says part-time. Few employers state it, so this list can be short.</p>';
+  const empty=`<div class="empty">${JOBS.length?"Nothing matches these filters.":"No postings are loaded yet."}<br><button id="emptyreset" style="margin-top:10px">Reset filters</button>${w<99?` <button data-w="99" class="widen" style="margin-top:10px">Show everything collected</button>`:""}</div>`;
+  v.innerHTML=notes+`<div id="cards">${CUR.list.slice(0,CUR.shown).map(cardOf).join("")||empty}</div><div id="moreWrap"></div>`;
   updateMore();
-  void active;
 }
 function updateMore(){
   const left=CUR.list.length-CUR.shown,w=$("moreWrap");
@@ -867,48 +917,51 @@ function render(){
   $("toolbar").hidden=!isList;
   if(isList){renderList(v);return;}
   syncControls();
-  if(tab==="cv"&&!CV){v.innerHTML=`<div class="empty"><strong>Add your CV to see its keywords.</strong><br>${JOBS.length.toLocaleString()} postings are loaded and can already be browsed. Use the sample CV to see how matching works.</div>`;return;}
+  if(tab==="cv"&&!CV){v.innerHTML=`<div class="empty"><strong>Add your CV to see what was read from it.</strong><br>${nf(JOBS.length)} postings are loaded and can already be browsed. Use one of the example CVs to see how matching works.</div>`;return;}
   if(tab==="cv"){
-
-    const groups={};Object.entries(CV.hits).forEach(([n,h])=>{(groups[h.fam]=groups[h.fam]||[]).push([n,h.snip]);});
-    const cf=cvFound();
-    const dictBlock=cf?`<div class="inv" style="margin-top:12px"><div style="grid-column:1/-1"><h3>Dictionary skills on your CV (${Object.keys(cf).length})</h3><p class="note">Found with the Python skill list plus the OaSIS names in English and French. Each one is written on your CV; nothing is inferred.</p>${Object.entries(cf).map(([n,h])=>`<div class="ev" style="border:0;padding:0"><b>${esc(n)}</b> ${esc(h.evidence)}</div>`).join("")||'<p class="note">None found.</p>'}</div></div>`:"";
-    v.innerHTML=`<p class="note">Every keyword below appears literally in your CV text. Nothing is inferred. Your CV is the only source of truth.</p><div class="inv">${Object.keys(FAM).filter(f=>groups[f]).map(f=>`<div><h3>${FAM[f]}</h3>${groups[f].map(([n,s])=>`<div class="ev" style="border:0;padding:0"><b>${esc(n)}</b> ${esc(s)}</div>`).join("")}</div>`).join("")||'<div class="empty">No known keywords found. Check that the file text was read correctly.</div>'}</div>${dictBlock}`;
+    const cf=cvFound(),lv=CV.lv,b=lv.band;
+    const stage=`<div style="grid-column:1/-1"><h3>Your stage</h3><p>${b===null?"Not clear from this CV.":`<span class="pill lvl lv${b}">${esc(BAND[b].label)}</span>`}</p><ul class="note">${(lv.why||[]).map(w=>`<li>${esc(w)}</li>`).join("")}</ul><p class="note">${b===null?"Pick your stage on the trail at the top of the page.":"This decides which postings come first. If it is wrong, tap the right stop on the trail at the top of the page."}</p></div>`;
+    let skills;
+    if(!cf)skills='<div style="grid-column:1/-1"><p class="note">The dictionary is loading…</p></div>';
+    else{
+      const groups={};Object.entries(cf).forEach(([n,h])=>{const s=(!h.section||h.section==="HEADER")?"Top of the CV":h.section.charAt(0)+h.section.slice(1).toLowerCase();(groups[s]=groups[s]||[]).push([n,h]);});
+      skills=Object.keys(groups).length?Object.keys(groups).map(s=>`<div><h3>${esc(s)}</h3>${groups[s].map(([n,h])=>`<div class="ev" style="border:0;padding:0"><b>${esc(n)}</b> ${esc(h.evidence)}</div>`).join("")}</div>`).join(""):'<div style="grid-column:1/-1" class="empty">No known skills found. Check that the file text was read correctly.</div>';
+    }
+    v.innerHTML=`<p class="note">Every skill below is written in your CV text; nothing is inferred. The names come from the Python skill list and the OaSIS occupation data, in English and French (${DICT?DICT.size:"?"} skills). Your CV is the only source of truth.</p><div class="inv">${stage}${skills}</div>`;
   } else {
-    const gaps={};RES.filter(r=>r.s&&age(r.j)<168).slice(0,25).forEach(r=>r.s.map.filter(x=>x.s==="G").forEach(x=>gaps[x.n]=(gaps[x.n]||0)+1));
-    const g=Object.entries(gaps).sort((a,b)=>b[1]-a[1]).slice(0,8);
-    const by={};JOBS.forEach(j=>j.sources.forEach(s=>by[s.src]=(by[s.src]||0)+1));
+    const gaps={};
+    RES.filter(r=>r.s&&age(r.j)<168&&fitsLevel(r.j)).sort(sortFns.match).slice(0,25).forEach(r=>r.s.rows.filter(x=>x.st==="G"&&(x.tag==="T"||x.tag==="R"||x.tag==="K")&&(x.kind==="s"||/\s/.test(x.n))).forEach(x=>gaps[x.n]=(gaps[x.n]||0)+1));
+    const g=Object.entries(gaps).sort((a,b)=>b[1]-a[1]).slice(0,10);
     v.innerHTML=`<div class="panel method"><h2>How the score works</h2><ul>
-      <li><b>Role fit (0–40):</b> how strongly your CV covers the skill area named in the job title.</li>
-      <li><b>Level / type fit (0–25):</b> internship or co-op scores highest; part-time lower; junior full-time lower again; a term that has already passed scores almost nothing.</li>
-      <li><b>Keyword overlap (0–32):</b> 32 × (Match + 0.5 × Related) ÷ keywords in the title; generic words count 0.4. Title-only scoring caps the total below 100. Match needs the same term on your CV.</li>
-      <li><b>Flags, not points:</b> language, work-permit, security and term are shown beside the score so a hidden rule never silently lowers or raises a rank.</li>
-      <li>This is a heuristic, not a real applicant tracking system. Differences of 5 points or less are ties.</li></ul></div>
+      <li><b>Your stage.</b> It is read from the CV. Dated jobs are added up (internships, co-ops, part-time and volunteer work count at 40%). A stated "N+ years of experience" or a director-level title can lift it. A degree and no dated full-time job reads as student or new graduate. If you tap a stop on the trail, your choice replaces the reading.</li>
+      <li><b>The level of a posting</b> is read from its title first (intern, junior, senior, manager, director, vice-president and their French forms), then from the years of experience its text asks for.</li>
+      <li><b>Role fit (0–40):</b> how much of the title and the required keywords of the posting your CV covers.</li>
+      <li><b>Level fit (0–25):</b> how well the level of the posting suits your stage. The same level earns all 25; a neighbouring level earns most of them (a new graduate gets 23 for an entry-level job but only about 9 for a mid-level one); two or more levels away earns little or nothing. An internship whose term is not the one you want loses a few points, and a term that has passed scores almost nothing. The table is in <code>docs/jobmeta.js</code>.</li>
+      <li><b>Keyword overlap (0–35):</b> the main keywords of the posting (up to 40, title and requirements first) against your CV: a match counts 1, a close keyword ½. A posting that covers 40% of its weighted keywords earns all 35 points. A posting with only a few keywords is scored cautiously, so 2 of 3 does not read as 67%.</li>
+      <li><b>Flags, not points:</b> language, work permit, security, degree level and term are shown beside the score so a hidden rule never silently lowers or raises a rank.</li>
+      <li>This is a heuristic, not a real applicant tracking system. Differences of 5 points or less are ties. A level reading from a CV or a title can be wrong: that is why the filter can be changed, and why every score shows its reason.</li></ul></div>
       <div class="panel method" style="margin-top:12px"><h2>Keywords and the mapping to your CV (any field)</h2><ul>
-      <li><b>Every keyword of the posting is read, not only a fixed list.</b> The whole text (title and description) is cut into phrases at the filler words, so "root cause analysis", "génie informatique" or "vulnerability identification" are keywords even if no list contains them. This works for any job in any field, in English and French.</li>
-      <li>Two kinds of keyword appear, marked in the table: a <b>skill</b> is a name the dictionary knows (the ${DICT?DICT.meta.curated:"curated"} hand-written skills of <code>python/keyword_extractor.py</code> plus the English and French skill names of <b>${DICT?esc(DICT.meta.source||"OaSIS"):"OaSIS"}</b>, ${DICT?DICT.size:"?"} in all); an <b>other phrase</b> is any other run of words taken as written (dashed outline on the chips). The two are never counted twice.</li>
-      <li><b>Under each job title</b> you see the first keywords, with the count. <span class="kw" style="display:inline"><span class="M">green</span></span> = the same words are written on your CV, <span class="kw" style="display:inline"><span class="R">amber</span></span> = close but not the same (not counted), <span class="kw" style="display:inline"><span class="G">red</span></span> = not on your CV. Open the card for all of them, a filter (Match, Close, Gap, Skills, Other phrases), the exact lines of your CV and the posting highlighted next to your CV.</li>
-      <li><b>Match</b> = the same words, in the same order, are on your CV (plural and accents do not matter: "dashboards" = "dashboard", "qualité" = "qualite"). <b>Close</b> = not the same, but a single word with the same stem ("planning" / "planner"), or a phrase that shares its main word(s) with one line of your CV, or a hand-written / OaSIS-linked skill pair. A close keyword is shown with the reason, counts half in the second figure and is <b>never shown as a match</b>.</li>
-      <li>Each keyword shows where it sits in the posting (Title, Required, Task or Preferred, read from the headings; an "asset" line is Preferred). Phrases from the company, benefits, equal-opportunity and application parts of the posting are <b>listed but not counted</b>, so the employer's advertising does not lower your percentage.</li>
-      <li>Two figures per posting: <b>exact words</b> = matched ÷ keywords counted, and <b>with close keywords at half credit</b> = (matched + 0.5 × close) ÷ keywords counted. Because every phrase of the text is a keyword, these percentages are lower than a list-based count, and a long posting has more keywords. The split "skills + other phrases" is always shown.</li>
-      <li><b>Known limits.</b> No list of filler words is perfect, so a few ordinary words slip through as keywords (and a few real ones are dropped). The phrase cutting is mechanical, not a language model. A keyword that is written in the other language is never a match ("project" / "projet" is Close at best). The text you paste or the collected text can be cut short.</li>
-      <li><b>Postings from the employers' open job boards carry their full text.</b> A card that only has a title or a short snippet has a box where you can paste the full description (from LinkedIn, Indeed or the employer's page); the keywords, the mapping and the score are then recalculated. The pasted text stays in your browser.</li>
+      <li><b>Every keyword of the posting is read, not only a fixed list.</b> The whole text (title and description) is cut into phrases at the filler words, so "root cause analysis", "génie informatique" or "patient assessment" are keywords even if no list contains them. This works for any job in any field, in English and French.</li>
+      <li>Two kinds of keyword appear: a <b>skill</b> is a name the dictionary knows (the ${DICT?DICT.meta.curated:"curated"} hand-written skills of <code>python/keyword_extractor.py</code> plus the English and French skill names of <b>${DICT?esc(DICT.meta.source||"OaSIS"):"OaSIS"}</b>, ${DICT?DICT.size:"?"} in all); an <b>other phrase</b> is any other run of words taken as written (dashed outline on the chips). The two are never counted twice.</li>
+      <li><b>Under each job title</b> you see the main keywords. <span class="kw" style="display:inline"><span class="M">green</span></span> = the same words are written on your CV, <span class="kw" style="display:inline"><span class="R">amber</span></span> = close but not the same (half credit, never shown as a match), <span class="kw" style="display:inline"><span class="G">red</span></span> = not on your CV. Open the card for every keyword, a filter (Match, Close, Gap, Skills, Other phrases), the exact lines of your CV and the posting highlighted next to your CV.</li>
+      <li><b>Match</b> = the same words, in the same order, are on your CV (plural and accents do not matter: "dashboards" = "dashboard", "qualité" = "qualite"). <b>Close</b> = not the same, but a single word with the same stem ("planning" / "planner"), or a phrase that shares its main word(s) with one line of your CV, or a hand-written / OaSIS-linked skill pair.</li>
+      <li>Each keyword shows where it sits in the posting (Title, Required, Task or Preferred, read from the headings). Phrases from the company, benefits, equal-opportunity and application parts of the posting are <b>listed but not counted</b>, so the employer's advertising does not lower your percentage.</li>
+      <li><b>Known limits.</b> No list of filler words is perfect, so a few ordinary words slip through as keywords (and a few real ones are dropped). The phrase cutting is mechanical, not a language model. A keyword written in the other language is never a match ("project" / "projet" is Close at best). The text can be cut short. Most postings carry their full text; a card that has only a title or a short snippet has a box where you can paste the full description, and everything is recalculated from it (it stays in your browser).</li>
       <li>Things to check yourself (degree level, years of experience, work authorization, security, language) are listed beside the mapping and are never scored.</li>
-      <li>The 0–100 score is unchanged and still uses its own title keyword list; the older keyword detail sits in a collapsed section at the bottom of each card. The same rules run in <code>python/keyword_extractor.py</code> (<code>python/terms.py</code>) and in <a href="reports.html">the keyword reports</a>.</li>
-      <li>${DICT?`Dictionary built ${esc(DICT.meta.built||"")} from ${DICT.meta.occupations||"?"} occupations (Open Government Licence - Canada).`:"The dictionary file could not be loaded."}</li></ul>
+      <li>The same rules run in <code>python/keyword_extractor.py</code> (<code>python/terms.py</code>) and in <a href="reports.html">the keyword reports</a>. ${DICT?`Dictionary built ${esc(DICT.meta.built||"")} from ${DICT.meta.occupations||"?"} occupations (Open Government Licence - Canada).`:"The dictionary file could not be loaded."}</li></ul>
       ${DICT&&DICT.stopWords&&DICT.stopWords.length?`<details class="old"><summary>The ${DICT.stopWords.length} filler words that cut phrases and are never keywords (English and French, accents removed)</summary><p class="note" style="margin:6px 0">Words like these end a phrase: articles, pronouns, verbs of the job-ad voice, benefits words, months, numbers. You can read them in <code>python/terms.py</code>.</p><div class="kw sk" style="max-height:220px;overflow:auto"><span class="off">${DICT.stopWords.map(esc).join('</span><span class="off">')}</span></div></details>
       <details class="old"><summary>The ${DICT.weakWords.length} broad words that count only inside a longer phrase</summary><div class="kw sk" style="max-height:160px;overflow:auto"><span class="off">${DICT.weakWords.map(esc).join('</span><span class="off">')}</span></div></details>`:""}</div>
       <div class="panel method" style="margin-top:12px"><h2>Where the postings come from</h2>
-      <p class="note">Every source below is free to read. Postings are kept only when the location is in Canada (each is saved with its province) and the title or opening text points to engineering, operations, quality, supply chain, data or a student role. Job Bank, The Muse, Adzuna, Jooble, Careerjet and the Workday searches still ask about Montreal only. This is the report of the last collection (${SRC_TIME}).</p>
+      <p class="note">Every source below is free to read. A posting is kept when its location is in Canada (each is saved with its province), whatever the field. Because the list is large, the collector keeps a balanced selection: internships, co-ops and part-time roles first, then every field in turn (newest first, at most a few postings per employer), so no one field or employer fills the list. This is the report of the last collection (${SRC_TIME}).</p>
       ${sourceTable()}
       <h3 style="margin-top:14px">Not covered, and why</h3><ul>${NOT_COVERED.map(x=>`<li><b>${x[0]}</b>: ${x[1]}</li>`).join("")}</ul>
       <h3 style="margin-top:14px">Terms and politeness</h3><ul>${POLITE.map(x=>`<li>${x}</li>`).join("")}</ul>
       <ul><li>A collection runs once a day, not instantly. A posting can close before the next run, so check that it is still open.</li></ul></div>
-      ${CV?`<div class="panel method" style="margin-top:12px"><h2>Skills that keep appearing in your top postings but not on your CV</h2><p class="note">${g.length?g.map(x=>esc(x[0])+" ("+x[1]+")").join(", "):"None in the top 25 recent postings."}</p></div>`:""}`;
+      ${CV?`<div class="panel method" style="margin-top:12px"><h2>Keywords that keep appearing in your best postings but are not on your CV</h2><p class="note">${g.length?g.map(x=>esc(x[0])+" ("+x[1]+")").join(", "):"None in the 25 best-scoring recent postings."}</p></div>`:""}`;
   }
 }
 function copyList(list){
-  const rows=["Rank\tScore\tCompany\tRole\tLocation\tProvince\tPosted\tType\tBoard\tLink\tFlags"].concat(list.map((r,i)=>[i+1,r.s?r.s.total:"",r.j.company,r.j.title,r.j.loc,r.j.province||"",r.j.date,r.j.type||"",r.j.sources[0].src,r.j.sources[0].url,r.s?r.s.flags.map(f=>f[1]).join("; "):""].join("\t")));
+  const rows=["Rank\tScore\tCompany\tRole\tLevel\tField\tLocation\tProvince\tPosted\tType\tBoard\tLink\tFlags"].concat(list.map((r,i)=>[i+1,r.s?r.s.total:"",r.j.company,r.j.title,LV[lvOf(r.j).lvl].label,fdOf(r.j).label,r.j.loc,r.j.province||"",r.j.date,r.j.type||"",r.j.sources[0].src,r.j.sources[0].url,r.s?r.s.flags.map(f=>f[1]).join("; "):""].join("\t")));
   const t=rows.join("\n");
   const b=$("copy");
   const ok=()=>{b.textContent="Copied "+list.length;setTimeout(()=>b.textContent="Copy list",1500)};
@@ -916,7 +969,7 @@ function copyList(list){
 }
 function fallback(t,b){const ta=document.createElement("textarea");ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand("copy");b.textContent="Copied"}catch(e){b.textContent="Select and copy manually"}ta.remove()}
 
-/* file reading */
+/* ---------- reading the CV ---------- */
 async function readFile(f){
   const name=f.name.toLowerCase();
   if(name.endsWith(".pdf")){
@@ -937,21 +990,77 @@ async function handleFile(f){
     go();
   }catch(e){$("status").textContent="Could not read text from that file (a scanned PDF has no text). Paste the text instead.";}
 }
-function go(){
+function go(note){
   const t=$("paste").value;
   if(t.trim().length<80){$("status").textContent="Add your CV first: upload a file or paste at least a few lines.";return;}
-  CV=parseCV(t);
-  const n=Object.keys(CV.hits).length;
-  $("status").textContent=n+" keywords found on your CV.";
-  run();
+  CV={raw:t,lv:JobMeta.cvLevel(t,new Date()),py:null,ix:null};
+  setMe(null);                       // a new CV replaces a stage picked by hand
+  const cf=cvFound();
+  $("status").textContent=(note?note+" ":"")+(cf?Object.keys(cf).length+" skills found on your CV.":"Reading your CV…");
+  paintStage();renderCvRead();writeHash();run();
 }
-const SAMPLE=`SAMPLE CV (example only, not a real person)
-Alex Example, M.Eng. Industrial Engineering, Concordia University. Bilingual English and French.
-Experience: Operations intern, manufacturing plant. Led a Lean 5S and kaizen continuous improvement project that cut changeover time. Built a discrete-event simulation of the assembly line in Arena and FlexSim. Quality analyst co-op: root cause analysis, SPC charts, FMEA, ISO 9001 audits.
-Supply chain: inventory control, demand forecasting, S&OP, MRP in SAP, warehouse layout.
-Tools: Python, SQL, Excel, Power BI. Data analysis and automation of weekly KPI reports.
-Coursework: Operations research, optimization, production systems, statistics, project management.
-Certifications: Six Sigma Green Belt. Leadership: president of the industrial engineering student association.`;
+const SAMPLES={
+student:`Alex Example
+M.Eng. Industrial Engineering, Concordia University, Sep 2025 - Dec 2027 (co-op). B.Eng. Mechanical Engineering, McGill University, 2020 - 2025. Bilingual English and French.
+
+EXPERIENCE
+Operations Intern, Aerotech Manufacturing, May 2025 - Aug 2025
+Led a Lean 5S and kaizen continuous improvement project that cut changeover time. Built a discrete-event simulation of the assembly line in Arena and FlexSim.
+Quality Analyst Co-op, Pharma Plant, Jan 2024 - Apr 2024
+Root cause analysis, SPC charts, FMEA, ISO 9001 audits.
+
+SKILLS
+Supply chain: inventory control, demand forecasting, S&OP, MRP in SAP. Python, SQL, Excel, Power BI. Operations research, optimization, statistics, project management.
+Certifications: Six Sigma Green Belt. Leadership: president of the industrial engineering student association.`,
+grad:`Priya Example
+Marketing graduate
+
+EDUCATION
+Bachelor of Commerce, Marketing, McGill University, Sept 2021 - May 2025
+
+EXPERIENCE
+Social Media Intern, Lumen Studio, Jun 2024 - Aug 2024
+Managed Instagram and TikTok content calendars and grew followers by 30%. Wrote copy for email newsletters in Mailchimp.
+Marketing Assistant (part-time), Campus Bookstore, Sep 2023 - Apr 2024
+Ran promotions and analysed sales in Excel.
+
+SKILLS
+Canva, Google Analytics, SEO basics, copywriting, social media marketing. Bilingual English and French.`,
+nurse:`Amina Example, RN
+Registered Nurse
+
+EXPERIENCE
+Registered Nurse, Hôpital Général, Jan 2025 - Present
+Medical-surgical unit: patient assessment, medication administration, IV therapy, wound care, charting in Epic.
+Nursing student placement, CHUM, Jan 2024 - Apr 2024
+
+EDUCATION
+B.Sc.N. Nursing, Université de Montréal, 2020 - 2024
+BLS and ACLS certified. Bilingual French and English.`,
+dev:`Marc Example - Software Developer
+Full-stack developer building web applications in React, Node.js and PostgreSQL.
+
+EXPERIENCE
+Software Developer, Web Agency Inc., Jan 2021 - Present
+Built React and Node.js features and REST APIs, deployed on AWS, CI/CD with GitHub Actions, wrote unit tests, worked in Agile sprints with Jira.
+Developer intern, Startup Labs, May 2020 - Aug 2020
+Python, Django, SQL.
+
+EDUCATION
+B.Sc. Computer Science, Concordia University, 2016 - 2020`,
+exec:`Jean-Pierre Example
+Vice President, Operations. More than 20 years of experience leading supply chain and manufacturing operations.
+
+EXPERIENCE
+Vice President, Operations, Groupe Laval Inc., 2016 - Present
+P&L ownership, lean transformation, 450 staff, S&OP, capital planning.
+Director of Supply Chain, Metalex, 2010 - 2016
+Plant Manager, Metalex, 2004 - 2010
+Production Supervisor, Acier Nord, 1999 - 2004
+
+EDUCATION
+B.Eng. Mechanical Engineering, McGill University, 1995 - 1999. MBA, HEC Montréal.`
+};
 
 $("drop").onclick=()=>$("file").click();
 $("drop").onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();$("file").click();}};
@@ -959,11 +1068,23 @@ $("file").onchange=e=>e.target.files[0]&&handleFile(e.target.files[0]);
 ["dragover","dragenter"].forEach(ev=>$("drop").addEventListener(ev,e=>{e.preventDefault();$("drop").classList.add("over")}));
 ["dragleave","drop"].forEach(ev=>$("drop").addEventListener(ev,e=>{e.preventDefault();$("drop").classList.remove("over")}));
 $("drop").addEventListener("drop",e=>{const f=e.dataTransfer.files[0];if(f)handleFile(f)});
-$("go").onclick=go;
-$("sample").onclick=()=>{$("paste").value=SAMPLE;go();};
-["permit","term"].forEach(id=>$(id).onchange=()=>run());
+$("go").onclick=()=>go();
+$("samples").onclick=e=>{const b=e.target.closest("[data-s]");if(b){$("paste").value=SAMPLES[b.dataset.s];go("Example CV, not a real person.");}};
+$("permit").onchange=()=>run();
+$("term").onchange=()=>run();
 $("window").onchange=()=>{SHOW=PAGE;render();writeHash();};
-$("view").addEventListener("toggle",e=>{const d=e.target;if(d&&d.classList&&d.classList.contains("job")&&d.dataset.k){if(d.open)OPEN.add(d.dataset.k);else OPEN.delete(d.dataset.k);}},true);
+$("trail").addEventListener("click",e=>{const s=e.target.closest(".stop");if(s){setMe(+s.dataset.b);SHOW=PAGE;stageChanged();}});
+$("stageNote").addEventListener("click",e=>{if(e.target.closest("#stageReset")){setMe(null);SHOW=PAGE;stageChanged();}});
+$("view").addEventListener("toggle",e=>{
+  const d=e.target;
+  if(d&&d.classList&&d.classList.contains("job")&&d.dataset.k){
+    if(d.open){
+      OPEN.add(d.dataset.k);
+      const slot=d.querySelector(".mapslot");
+      if(slot&&!slot.firstChild&&CV){const j=JOBS.find(x=>jkey(x)===d.dataset.k);if(j)slot.innerHTML=mapPanel(j);}
+    }else OPEN.delete(d.dataset.k);
+  }
+},true);
 $("view").addEventListener("click",e=>{
   const b=e.target.closest("[data-act]");if(!b)return;
   const k=b.dataset.pk,card=b.closest("details.job");
@@ -975,16 +1096,20 @@ $("view").addEventListener("click",e=>{
   const j=JOBS.find(x=>jkey(x)===k);
   if(j){applyPasted(j);OPEN.add(k);const rr=RES.find(x=>x.j===j);if(rr&&CV)rr.s=scoreJob(j);render();const el=[...document.querySelectorAll("details.job")].find(d=>d.dataset.k===k);if(el)el.scrollIntoView({block:"nearest"});}
 });
-$("tabs").onclick=e=>{const b=e.target.closest(".tab");if(b&&b.dataset.t!==tab){tab=b.dataset.t;SHOW=PAGE;render();writeHash(true);window.scrollTo({top:0});}};
+$("tabs").onclick=e=>{const b=e.target.closest(".tab");if(b&&b.dataset.t!==tab){tab=b.dataset.t;SHOW=PAGE;render();writeHash(true);window.scrollTo({top:Math.max(0,$("tabs").getBoundingClientRect().top+scrollY-12)});}};
 
 /* ---------- dashboard controls ---------- */
 const DEFAULT_W="7";
+const FIELD_IDS=new Set(JobMeta.FIELD_LIST.map(f=>f.id));
 function readHash(){
   const p=new URLSearchParams(location.hash.slice(1));
   const t=p.get("t");tab=["full","part","intern","cv","method"].includes(t)?t:"full";
   F.q=p.get("q")||"";F.qw=norm(F.q).split(" ").filter(Boolean);
-  F.loc=p.get("loc")||"";F.src=p.get("src")||"";F.sort=["match","new","company","title"].includes(p.get("o"))?p.get("o"):"";
+  F.loc=p.get("loc")||"";F.src=p.get("src")||"";F.sort=["match","stage","level","new","company","title"].includes(p.get("o"))?p.get("o"):"";
   F.min=+(p.get("min")||0)||0;F.saved=p.get("saved")==="1";F.desc=p.get("d")==="1";
+  const lv=p.get("lv");F.lvl=lv===null?"fit":lv==="all"?"":/^[0-4]$/.test(lv)?lv:"fit";
+  const fd=p.get("fd");F.fd=FIELD_IDS.has(fd)?fd:"";
+  const me=p.get("me");if(/^[0-4]$/.test(me||""))ME=+me;
   const w=p.get("w");$("window").value=["1","7","99"].includes(w)?w:DEFAULT_W;
 }
 function writeHash(push){
@@ -992,6 +1117,9 @@ function writeHash(push){
   if(tab!=="full")p.set("t",tab);
   if(F.q)p.set("q",F.q);if(F.loc)p.set("loc",F.loc);if(F.src)p.set("src",F.src);if(F.sort)p.set("o",F.sort);
   if(F.min)p.set("min",F.min);if(F.saved)p.set("saved","1");if(F.desc)p.set("d","1");
+  if(F.lvl==="")p.set("lv","all");else if(F.lvl!=="fit")p.set("lv",F.lvl);
+  if(F.fd)p.set("fd",F.fd);
+  if(ME!==null)p.set("me",ME);
   if($("window").value!==DEFAULT_W)p.set("w",$("window").value);
   const h=p.toString()?"#"+p.toString():location.pathname+location.search;
   try{history[push?"pushState":"replaceState"](null,"",h);}catch(e){}
@@ -1003,6 +1131,8 @@ $("fq").addEventListener("input",e=>{
   clearTimeout(qTimer);qTimer=setTimeout(()=>refilter(false),160);
 });
 $("fqx").onclick=()=>{F.q="";F.qw=[];$("fq").value="";$("fq").focus();refilter(false);};
+$("flvl").onchange=e=>{F.lvl=e.target.value;refilter(false);};
+$("ffield").onchange=e=>{F.fd=e.target.value;refilter(false);};
 $("floc").onchange=e=>{F.loc=e.target.value;refilter(false);};
 $("fsrc").onchange=e=>{F.src=e.target.value;refilter(false);};
 $("fsort").onchange=e=>{F.sort=e.target.value;refilter(false);};
@@ -1010,12 +1140,14 @@ $("fmin").onchange=e=>{F.min=+e.target.value;refilter(false);};
 $("fdesc").onchange=e=>{F.desc=e.target.checked;refilter(false);};
 $("fsaved").onclick=()=>{F.saved=!F.saved;refilter(false);};
 $("chips").addEventListener("click",e=>{const b=e.target.closest("[data-w]");if(b){$("window").value=b.dataset.w;refilter(false);}});
-function resetFilters(){Object.assign(F,{q:"",qw:[],loc:"",src:"",sort:"",min:0,saved:false,desc:false});$("fq").value="";$("window").value=DEFAULT_W;refilter(false);}
+function resetFilters(){Object.assign(F,{q:"",qw:[],loc:"",src:"",sort:"",min:0,saved:false,desc:false,lvl:"fit",fd:""});$("fq").value="";$("window").value=DEFAULT_W;refilter(false);}
 $("freset").onclick=resetFilters;
 $("copy").onclick=()=>copyList(CUR.list);
 $("view").addEventListener("click",e=>{
   if(e.target.closest("#more")){showMore();return;}
   if(e.target.closest("#emptyreset")){resetFilters();return;}
+  if(e.target.closest("[data-lvall]")){F.lvl="";refilter(false);return;}
+  const gt=e.target.closest("[data-gotab]");if(gt){tab=gt.dataset.gotab;SHOW=PAGE;render();writeHash(true);return;}
   const wd=e.target.closest(".widen");if(wd){$("window").value=wd.dataset.w;refilter(false);return;}
   const st=e.target.closest(".star");
   if(st){
@@ -1032,13 +1164,22 @@ document.addEventListener("keydown",e=>{
   if(e.key==="/"&&!typing&&LIST_TABS.includes(tab)){e.preventDefault();$("fq").focus();$("fq").select();}
   else if(e.key==="Escape"&&e.target===$("fq")){if(F.q){F.q="";F.qw=[];$("fq").value="";refilter(false);}else $("fq").blur();}
 });
-window.addEventListener("popstate",()=>{readHash();SHOW=PAGE;render();});
+window.addEventListener("popstate",()=>{readHash();SHOW=PAGE;paintStage();render();});
+window.addEventListener("resize",layoutTrail);
 readHash();
 $("theme").onclick=()=>{const r=document.documentElement,d=r.dataset.theme==="dark"||(!r.dataset.theme&&matchMedia("(prefers-color-scheme:dark)").matches);r.dataset.theme=d?"light":"dark"};
+layoutTrail();paintStage();
+setTimeout(()=>$("pin").style.setProperty("--pd","0s"),2200);
 run();
 
 /* ---------- live postings from the server ---------- */
-
+function heroStat(){
+  const el=$("herostat");
+  if(!JOBS.length){el.textContent="No postings are loaded yet.";return;}
+  const fields=new Set(JOBS.map(j=>fdOf(j).id)),provs=new Set(JOBS.map(j=>j.province).filter(p=>/^[A-Z]{2}$/.test(p||"")));
+  const stu=JOBS.filter(j=>lvOf(j).lvl===0).length;
+  el.textContent=`${nf(JOBS.length)} postings in ${fields.size} fields across ${provs.size} provinces and territories, ${nf(stu)} of them for students and new graduates. Collected ${SRC_TIME}.`;
+}
 let SERVER_AT=null;
 async function loadServer(){
   const note=$("liveNote"),log=$("liveLog");
@@ -1046,7 +1187,7 @@ async function loadServer(){
     const r=await fetch("jobs.json",{cache:"no-cache"});   // asks the server if it changed (a 304 costs nothing)
     if(!r.ok)throw new Error("HTTP "+r.status);
     const d=await r.json();
-    if(!d.jobs||!d.jobs.length){note.textContent="No postings have been collected yet. Showing the built-in snapshot from "+TODAY+".";return;}
+    if(!d.jobs||!d.jobs.length){note.textContent="No postings have been collected yet.";$("herostat").textContent="No postings have been collected yet.";return;}
     if(d.updatedAt===SERVER_AT)return;
     const first=SERVER_AT===null;
     SERVER_AT=d.updatedAt;
@@ -1055,7 +1196,7 @@ async function loadServer(){
     for(const x of d.jobs){
       const k=norm(x.company)+"|"+norm(x.title);
       if(m.has(k))continue;
-      m.set(k,{company:x.company,title:x.title,loc:x.loc,date:x.date,type:x.type||"",sources:x.sources,desc:x.desc||"",province:x.province||"",
+      m.set(k,{company:x.company,title:x.title,loc:x.loc,date:x.date,type:x.type||"",sources:x.sources,desc:x.desc||"",province:x.province||"",kw:x.kw||null,kt:x.kt||0,
         ageH:x.postedAt?(Date.now()-Date.parse(x.postedAt))/36e5:x.ageH!=null?x.ageH+(Date.now()-at)/36e5:null,snap:!!d.mock,partial:!!x.partial});
     }
     const before=new Set(JOBS.map(jkey)),wasFresh=new Set(JOBS.filter(j=>j.fresh).map(jkey));
@@ -1063,12 +1204,13 @@ async function loadServer(){
     for(const j of m.values()){classify(j);const k=jkey(j);j.fresh=!first&&(!before.has(k)||wasFresh.has(k));applyPasted(j);JOBS.push(j);}
     JOBS_VER++;
     const nNew=JOBS.filter(j=>j.fresh).length;
-    const t=new Date(d.updatedAt).toLocaleString([], {month:"short",day:"numeric",hour:"2-digit",minute:"2-digit"});
-    note.textContent=(d.mock?"Demo data until the first scheduled collection runs. ":"")+JOBS.length+" postings, collected "+t+". The collector re-runs once a day and this page checks for a new collection every 5 minutes."+(nNew?" "+nNew+" new since you opened this page.":"")+"";
+    note.textContent=(d.mock?"Demo data until the first scheduled collection runs. ":"")+nf(JOBS.length)+" postings, collected "+SRC_TIME+". The collector re-runs once a day and this page checks for a new collection every 5 minutes."+(nNew?" "+nNew+" new since you opened this page.":"");
     log.textContent=Object.entries(SRC).filter(([k,v])=>!v.skipped).map(([k,v])=>k+": "+(v.jobs||0)).join(" · ")+" postings by source. The Method tab shows what each source did on the last run.";
+    heroStat();
     run();
   }catch(e){
-    note.textContent="Could not reach the server. Showing the built-in snapshot from "+TODAY+".";
+    note.textContent="Could not reach the server, so no postings are shown. Reload the page to try again.";
+    $("herostat").textContent="The postings could not be loaded.";
   }
 }
 async function loadDict(){
@@ -1076,8 +1218,9 @@ async function loadDict(){
     const r=await fetch("skills.json?t="+Date.now(),{cache:"no-store"});
     if(!r.ok)throw new Error("HTTP "+r.status);
     DICT=Matcher.engine(await r.json());
-    render();
-  }catch(e){console.warn("dictionary not loaded",e);}
+    if(CV){const cf=cvFound();if(cf&&/^Reading/.test($("status").textContent))$("status").textContent=Object.keys(cf).length+" skills found on your CV.";}
+    run();
+  }catch(e){console.warn("dictionary not loaded",e);$("status").textContent="The skills dictionary could not be loaded, so postings cannot be scored. Reload the page to try again.";}
 }
 loadDict();
 loadServer();

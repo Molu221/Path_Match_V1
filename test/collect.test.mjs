@@ -8,7 +8,9 @@ const routes = [
     { title: "Data Analyst Intern", location: { name: "Toronto, ON" }, first_published: "2026-10-10T09:00:00Z", absolute_url: "https://gh/3", content: "x" },
     { title: "Operations Analyst Intern", location: { name: "Remote - Canada" }, first_published: "2026-10-10T08:00:00Z", absolute_url: "https://gh/4", content: "x" },
     { title: "Industrial Engineer", location: { name: "Berlin, Germany" }, first_published: "2026-10-10T07:00:00Z", absolute_url: "https://gh/5", content: "x" },
-    { title: "Process Engineer Intern", location: { name: "Vancouver, WA" }, first_published: "2026-10-10T06:00:00Z", absolute_url: "https://gh/6", content: "x" } ] })],
+    { title: "Process Engineer Intern", location: { name: "Vancouver, WA" }, first_published: "2026-10-10T06:00:00Z", absolute_url: "https://gh/6", content: "x" },
+    { title: "Registered Nurse", location: { name: "Winnipeg, MB" }, first_published: "2026-10-09T06:00:00Z", absolute_url: "https://gh/7", content: "&lt;p&gt;Patient care on a medical unit. Requirements: RN licence.&lt;/p&gt;" },
+    { title: "Internal Auditor", location: { name: "Halifax, NS" }, first_published: "2026-10-09T05:00:00Z", absolute_url: "https://gh/8", content: "Audit work." } ] })],
   [/boards-api\.greenhouse\.io\/v1\/boards\/missing/, () => { const e = new Error("HTTP 404"); e.status = 404; throw e; }],
   [/api\.lever\.co\/v0\/postings\/globex/, () => [{ text: "Stagiaire en qualité", categories: { location: "Laval, QC", commitment: "Internship" }, createdAt: NOW - 5 * 36e5, hostedUrl: "https://lever/1", descriptionPlain: "FMEA, SPC, root cause.", lists: [] }]],
   [/api\.ashbyhq\.com\/posting-api\/job-board\/initech/, () => ({ jobs: [{ title: "Supply Chain Co-op", location: "Montreal", publishedAt: "2026-10-10T12:00:00Z", jobUrl: "https://ashby/1", descriptionPlain: "Inventory planning, SAP.", employmentType: "Intern" }] })],
@@ -87,13 +89,14 @@ const provinceCases = [["Montréal, QC, Canada", "QC"], ["Montreal", "QC"], ["Qu
 for (const [loc, want] of provinceCases) assert.equal(c.provinceOf(loc), want, JSON.stringify(loc));
 assert.ok(c.inCanada("Toronto, ON") && !c.inCanada("Berlin, Germany"));
 
-// work this tool is not for is left out; project and engineering titles that contain similar words stay
-for (const bad of ["Line Cook / Prep Cook - JOEY Mayfield", "Dishwasher - JOEY Kelowna", "Server Liaison - JOEY Kelowna", "Server - JOEY Kelowna", "Culinary Operations Supervisor", "Cuisinier", "Préposé à l'entretien", "Truck Driver", "Bartender"]) assert.equal(c.wantedTitle(bad), false, bad);
-for (const good of ["Chef de projet", "Device Driver Engineer", "Server Engineer", "Backend Server Developer", "Cookie Platform Engineer", "Nurse Scheduling Analyst Intern".replace("Nurse ", ""), "Cleaner Production Engineer", "Kitchen Display Software Engineer".replace("Kitchen ", "Display ")]) assert.equal(c.wantedTitle(good), true, good);
+// no field is filtered out: a cook, a nurse and an engineer in Canada are all kept
+assert.equal(c.RELEVANT, undefined); assert.equal(c.wantedTitle, undefined);
 
 // each source
 const gh = await c.greenhouse("acme", NOW);
-assert.equal(gh.length, 3, "Montréal, Toronto and Remote - Canada are kept; Berlin and Vancouver, WA are not"); assert.equal(gh[0].title.startsWith("Industrial"), true); assert.equal(gh[0].ageH, 3); assert.match(gh[0].desc, /Lean & Six Sigma/);
+assert.equal(gh.length, 6, "every Canadian posting is kept, whatever the field; Berlin and Vancouver, WA are not");
+assert.equal(gh.find((j) => j.title === "Internal Auditor").type, "", "'Internal' is not an internship");
+assert.equal(gh.find((j) => j.title === "Registered Nurse").loc, "Winnipeg, MB"); assert.equal(gh[0].title.startsWith("Industrial"), true); assert.equal(gh[0].ageH, 3); assert.match(gh[0].desc, /Lean & Six Sigma/);
 await assert.rejects(() => c.greenhouse("missing", NOW), (e) => e.status === 404);
 const lv = await c.lever("globex", NOW); assert.equal(lv[0].type, "Internship"); assert.equal(lv[0].ageH, 5);
 const ab = await c.ashby("initech", NOW); assert.equal(ab[0].type, "Internship");
@@ -105,7 +108,7 @@ assert.equal(az.jobs.length, 2);
 const m = c.merge([...az.jobs, ...gh]);
 const dup = m.find((j) => /Industrial Engineering Intern/.test(j.title));
 assert.equal(dup.sources.length, 2); assert.equal(dup.partial, undefined); assert.match(dup.desc, /Six Sigma/);
-assert.equal(m.length, 4);
+assert.equal(m.length, 7);
 
 
 // helpers for the new sources
@@ -117,8 +120,12 @@ assert.equal(c.jsonLdJobs('<script type="application/ld&#x2B;json">{"@graph":[{"
 // Job Bank: the feed lists, only Montreal-area relevant rows are opened; partner posts take their text from the French page
 const noPause = async () => {};
 const jb = await c.jobbank({ queries: ["engineer"], where: "Montréal, QC", maxDaysOld: 7, maxDetails: 10, delayMs: 0 }, NOW, () => {}, noPause);
-assert.equal(jb.listed, 4); assert.equal(jb.inArea, 3, "the cook row is not opened; the Toronto row now is");
-assert.equal(jb.jobs.length, 3);
+assert.equal(jb.listed, 4); assert.equal(jb.inArea, 4, "the cook row and the Toronto row are kept too");
+assert.equal(jb.jobs.length, 4);
+// several places: every place is searched; rows past the detail limit stay as title-only rows
+const jb2 = await c.jobbank({ queries: ["engineer", ""], places: ["Montréal, QC", "Toronto, ON"], maxDaysOld: 7, maxDetails: 1, maxListed: 2, delayMs: 0 }, NOW, () => {}, noPause);
+assert.equal(jb2.ok, 4); assert.equal(jb2.jobs.length, 3); assert.equal(jb2.jobs.filter((j) => j.partial).length >= 2, true);
+assert.ok(jb2.jobs.slice(1).every((j) => j.desc === "" && j.sources[0].url.includes("/jobposting/")));
 const partnerPost = jb.jobs.find((j) => /Stagiaire/.test(j.title));
 assert.equal(partnerPost.company, "Usine Alpha"); assert.equal(partnerPost.loc, "Montréal, QC"); assert.equal(partnerPost.type, "Internship");
 assert.equal(partnerPost.partial, undefined); assert.match(partnerPost.desc, /\nExigences\n/); assert.match(partnerPost.desc, /Job summary:/);
@@ -127,7 +134,9 @@ assert.equal(jb.jobs.find((j) => /co-op/.test(j.title)).type, "Internship");
 
 // The Muse
 const mu = await c.muse({ location: "Montreal, Canada", levels: ["Internship"], pages: 2 }, NOW, () => {});
-assert.equal(mu.jobs.length, 1); assert.equal(mu.jobs[0].type, "Internship"); assert.match(mu.jobs[0].desc, /Inventory planning/);
+assert.equal(mu.jobs.length, 2, "the barista is kept too"); assert.equal(mu.jobs[0].type, "Internship"); assert.match(mu.jobs[0].desc, /Inventory planning/);
+const mu2 = await c.muse({ locations: ["Montreal, Canada", "Toronto, Canada"], levels: ["Internship", "Mid Level"], pages: 1 }, NOW, () => {});
+assert.equal(mu2.ok, 4, "two places x two levels");
 
 // Workday
 const wd = await c.workday({ name: "Acme", host: "acme.wd1.myworkdayjobs.com", tenant: "acme", site: "site", queries: [""] }, NOW, () => {});
@@ -177,12 +186,16 @@ const out = await c.main({
 assert.equal(out.notFoundCount, 3, "missing, nobody and the Workday site that does not exist");
 assert.equal(out.sources.Greenhouse.boards, 2); assert.equal(out.sources.Greenhouse.answered, 1);
 assert.equal(out.sources.Recruitee.boards, 2); assert.equal(out.sources.Recruitee.answered, 1);
-assert.equal(out.sources.Workday.answered, 1); assert.equal(out.sources["Job Bank"].jobs, 3); assert.equal(out.sources["The Muse"].jobs, 1);
+assert.equal(out.sources.Workday.answered, 1); assert.equal(out.sources["Job Bank"].jobs, 4); assert.equal(out.sources["The Muse"].jobs, 2);
 assert.equal(out.sources.Jooble.jobs, 1); assert.match(out.sources.Careerjet.skipped, /CAREERJET_API_KEY is not set/);
 assert.ok(out.sources.Adzuna.jobs >= 1);
-assert.equal(out.jobs.length, 20, "expected postings from every fake source, got " + out.jobs.length);
+assert.equal(out.jobs.length, 25, "expected postings from every fake source, got " + out.jobs.length);
+assert.equal(out.collected, 25);
+assert.ok(out.jobs.every((j) => Array.isArray(j.kw) && j.kw.length && /^[TRKNPA][st]\|/.test(j.kw[0]) && j.kt >= j.kw.length), "every job carries its keyword profile");
+assert.ok(out.jobs.some((j) => j.title === "Registered Nurse") && out.jobs.some((j) => j.title === "Senior Chef"));
+assert.equal(Object.values(out.fields).reduce((a, b) => a + b, 0), out.jobs.length);
 assert.ok(out.jobs.every((j) => j.province), "every job carries its province");
-assert.equal(out.provinces.ON, 2); assert.equal(out.provinces["Remote – Canada"], 1); assert.equal(out.provinces.QC, 17);
+assert.equal(out.provinces.ON, 2); assert.equal(out.provinces["Remote – Canada"], 1); assert.equal(out.provinces.QC, 20); assert.equal(out.provinces.MB, 1); assert.equal(out.provinces.NS, 1);
 assert.equal(Object.values(out.provinces).reduce((a, b) => a + b, 0), out.jobs.length);
 assert.ok(!out.jobs.some((j) => /Berlin|Vancouver, WA/.test(j.loc)), "jobs outside Canada are dropped");
 
@@ -196,7 +209,22 @@ const broken = await c.main({ nowMs: NOW, log: () => {}, write: false, env: {}, 
 
 assert.equal(broken.sources["Job Bank"].jobs, 0); assert.equal(broken.sources["The Muse"].jobs, 0);
 assert.equal(broken.sources["The Muse"].requestsFailed, 1);
-assert.equal(broken.sources.Greenhouse.jobs, 3);
+assert.equal(broken.sources.Greenhouse.jobs, 6);
 globalThis.fetch = fetchOk;
+
+// the size budget: rare kinds first, one employer cannot fill the list, every field gets a share
+const mk = (company, title, ageH, extra = {}) => ({ company, title, loc: "Toronto, ON", ageH, desc: "x".repeat(1000), type: "", sources: [{ src: "t", url: "u" }], ...extra });
+const pool = [
+  ...Array.from({ length: 40 }, (_, i) => mk("BigCo", "Software Engineer " + i, i)),
+  ...Array.from({ length: 6 }, (_, i) => mk("Clinic" + i, "Registered Nurse " + i, 50 + i)),
+  ...Array.from({ length: 6 }, (_, i) => mk("Bank" + i, "Accountant " + i, 60 + i)),
+  mk("Uni", "Summer Student", 500), mk("Shop", "Cashier", 300, { type: "Part-time" }),
+];
+const pick = c.selectJobs(pool, { maxBytes: 12 * 2000, perCompany: 3 });
+assert.ok(pick.length <= 12 && pick.some((j) => j.title === "Summer Student") && pick.some((j) => j.type === "Part-time"), "internships and part-time go in first even when old");
+assert.ok(pick.filter((j) => j.company === "BigCo").length <= 3, "at most perCompany from one employer");
+assert.ok(pick.some((j) => /Nurse/.test(j.title)) && pick.some((j) => /Accountant/.test(j.title)), "other fields get a share");
+assert.ok(pick.every((j, i) => i === 0 || (pick[i - 1].ageH ?? 1e9) <= (j.ageH ?? 1e9)), "the result is newest first");
+assert.equal(c.selectJobs(pool, { maxBytes: 1e9, perCompany: 100 }).length, pool.length, "everything fits when the budget allows");
 
 console.log("all tests passed:", out.jobs.length, "merged postings;", JSON.stringify(out.sources.Greenhouse));

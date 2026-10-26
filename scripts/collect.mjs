@@ -1,4 +1,4 @@
-// Collects postings located anywhere in Canada (each saved with its province) from free sources and writes docs/jobs.json.
+// Collects postings located anywhere in Canada, in every field (each saved with its province), from free sources and writes docs/jobs.json.
 // Sources (all free, none needs a login):
 //   open feeds of Job Bank Canada and The Muse; Workday career sites (the public JSON behind the career page);
 //   public job boards of Greenhouse, Lever, Ashby, SmartRecruiters, Workable, Recruitee, Breezy, BambooHR, Personio, Teamtailor;
@@ -8,12 +8,13 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
+import { loadJobMeta, loadMatcher, loadSkills } from "./umd.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = path.join(ROOT, "docs", "jobs.json");
 
 export const AREA = /montr[eé]al|laval\b|longueuil|brossard|dorval|saint[- ]laurent|st[- ]laurent|pointe[- ]claire|sainte?[- ]anne[- ]de[- ]bellevue|boucherville|saint[- ]hubert|st[- ]hubert|vaudreuil|terrebonne|mirabel|varennes|candiac|la prairie|saint[- ]bruno|kirkland|lachine|anjou|westmount|verdun|mont[- ]royal|mount royal|saint[- ]eustache|repentigny|blainville|dollard|beaconsfield|pierrefonds|lasalle|ahuntsic|greater montr/i;
-export const RELEVANT = /intern|stage|stagiaire|co-?op|student|etudiant|apprenti|engineer|ingenieur|analyst|analyste|operations|operation|supply|logisti|qualit|planner|planific|procure|achat|manufactur|industr|process|procede|\blean\b|continuous|amelioration|project|projet|data|donnees|production|method|maintenance|reliab|safety|securite|environment|coordinat|coordonna|technician|technicien|specialist|specialiste|associate|junior|entry|graduate|diplom/;
+// There is no list of wanted job titles: a posting is kept when it is located in Canada, whatever the field.
 
 /* ---------- where in Canada: the province of a location text, or "" when the place is not in Canada ---------- */
 /* Names are matched on the lower-case, accent-free text. Two-letter codes (QC, ON...) are matched on the original text, upper case only,
@@ -78,7 +79,7 @@ const hoursSince = (iso, nowMs) => {
 };
 const typeFrom = (s) => {
   const t = norm(s);
-  if (/intern|stage|stagiaire|co-?op|student|etudiant/.test(t)) return "Internship";
+  if (/\b(interns?|internships?|stages?|stagiaires?|co-?ops?|students?|etudiants?)\b/.test(t) && !/\b(early|late|growth|seed)[- ]stage\b|\bstage manager\b/.test(t)) return "Internship";
   if (/part[- ]?time|temps partiel/.test(t)) return "Part-time";
   if (/contract|contrat|temporary|temporaire/.test(t)) return "Contract";
   if (/full[- ]?time|temps plein|permanent/.test(t)) return "Full-time";
@@ -100,10 +101,7 @@ export async function fetchJson(url, opts = {}) {
 export const postJson = (url, body, headers = {}) =>
   fetchJson(url, { method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json", "Accept-Language": "en-US", ...headers }, body: JSON.stringify(body) });
 
-/* Titles of work this tool is not for (kitchen, cleaning, driving, care...). "Chef de projet" and "Device Driver Engineer" stay. */
-export const NOT_TARGET = /\b(line cook|prep cook|cook\b|dishwasher|bartender|barista|busser|hostess|food runner|kitchen|sous[- ]chef|executive chef|head chef|chef de cuisine|chef de partie|cuisinier|culinary|dietary aide|housekeep\w*|janitor|custodian|groundskeeper|truck driver|delivery driver|bus driver|chauffeur|lifeguard|dental|nurse\b|caregiver|personal support worker|plongeur|serveur|serveuse|caissier|caissiere|prepose|aide[- ]cuisinier|femme de chambre|manoeuvre|server liaison|server assistant|cashier)\b|^server\s*([-–(/]|$)|\bcleaner$/;
-export const wantedTitle = (title) => !NOT_TARGET.test(norm(title));
-const keep = (j) => inCanada(j.loc) && wantedTitle(j.title) && RELEVANT.test(norm(j.title + " " + (j.desc || "").slice(0, 1500)));
+const keep = (j) => !!j.title && inCanada(j.loc);
 
 /* ---------- Greenhouse ---------- */
 export async function greenhouse(slug, nowMs) {
@@ -148,7 +146,7 @@ export async function smartrecruiters(slug, nowMs) {
     for (const x of items) {
       const l = x.location || {};
       const loc = [l.city, l.region, l.country].filter(Boolean).join(", ");
-      if (!inCanada(loc) || !wantedTitle(x.name) || !RELEVANT.test(norm(x.name))) continue;
+      if (!inCanada(loc)) continue;
       out.push({
         company: (x.company && x.company.name) || pretty(slug), title: x.name, loc,
         date: String(x.releasedDate || "").slice(0, 10), ageH: hoursSince(x.releasedDate, nowMs),
@@ -158,7 +156,7 @@ export async function smartrecruiters(slug, nowMs) {
     }
     if (items.length < 100) break;
   }
-  for (const j of out.slice(0, 80)) {
+  for (const j of out.slice(0, 100)) {
     try {
       const det = await fetchJson(j._ref);
       const s = (det.jobAd && det.jobAd.sections) || {};
@@ -196,7 +194,7 @@ export async function adzuna(cfg, id, key, nowMs, log) {
       await sleep(cfg.delayMs);
     }
   }
-  return { jobs: out.filter((j) => j.title && RELEVANT.test(norm(j.title + " " + j.desc.slice(0, 600)))), ok, failed };
+  return { jobs: out.filter((j) => j.title), ok, failed };
 }
 
 /* ---------- helpers for the sources below ---------- */
@@ -265,14 +263,22 @@ export async function jobbank(cfg, nowMs, log, pause = sleep) {
   const base = "https://www.jobbank.gc.ca/jobsearch/";
   const seen = new Map();
   let ok = 0, failed = 0;
-  for (const q of cfg.queries) {
-    const u = `${base}feed/jobSearchRSSfeed?searchstring=${encodeURIComponent(q)}&locationstring=${encodeURIComponent(cfg.where)}&fage=${cfg.maxDaysOld}&sort=D&rows=100`;
-    try { const xml = await fetchText(u, { headers: { Accept: "application/atom+xml,application/xml,*/*" } }); ok++; for (const e of atomEntries(xml)) if (e.id && !seen.has(e.id)) seen.set(e.id, e); }
-    catch (e) { failed++; log(`Job Bank "${q}": ${e.message}`); }
-    await pause(cfg.delayMs);
+  const places = cfg.places && cfg.places.length ? cfg.places : [cfg.where];
+  for (const where of places) {
+    for (const q of cfg.queries) {
+      const u = `${base}feed/jobSearchRSSfeed?searchstring=${encodeURIComponent(q)}&locationstring=${encodeURIComponent(where)}&fage=${cfg.maxDaysOld}&sort=D&rows=100`;
+      try { const xml = await fetchText(u, { headers: { Accept: "application/atom+xml,application/xml,*/*" } }); ok++; for (const e of atomEntries(xml)) if (e.id && !seen.has(e.id)) seen.set(e.id, { ...e, q }); }
+      catch (e) { failed++; log(`Job Bank "${q}" in ${where}: ${e.message}`); }
+      await pause(cfg.delayMs);
+    }
   }
-  const cand = [...seen.values()].filter((e) => inCanada(e.loc) && RELEVANT.test(norm(e.title + " " + e.employer)))
-    .sort((a, b) => Date.parse(b.updated) - Date.parse(a.updated)).slice(0, cfg.maxDetails);
+  const all = [...seen.values()].filter((e) => inCanada(e.loc)).sort((a, b) => Date.parse(b.updated) - Date.parse(a.updated));
+  /* one lane per search word, newest first, taken in turn: the postings that are opened (5 seconds each) then come from every kind of work, not only from the word that found the most */
+  const lanes = new Map();
+  for (const e of all) { if (!lanes.has(e.q)) lanes.set(e.q, []); lanes.get(e.q).push(e); }
+  const queue = [], L = [...lanes.values()];
+  for (let i = 0; L.some((l) => i < l.length); i++) for (const l of L) if (i < l.length) queue.push(l[i]);
+  const cand = queue.slice(0, cfg.maxDetails);
   const jobs = [];
   for (const e of cand) {
     const url = `https://www.jobbank.gc.ca/jobsearch/jobposting/${e.id}`;
@@ -292,7 +298,15 @@ export async function jobbank(cfg, nowMs, log, pause = sleep) {
       sources: [{ src: "Job Bank", url }, ...(d && d.partner ? [{ src: d.partner.name, url: d.partner.url }] : [])], desc: cut(body), ...(full ? {} : { partial: true }),
     });
   }
-  return { jobs: jobs.filter((j) => j.title && RELEVANT.test(norm(j.title + " " + j.desc.slice(0, 1500)))), ok, failed, listed: seen.size, inArea: cand.length };
+  /* the rest of the list is not opened one by one (5 seconds each): it is kept with its title, employer, place and date only */
+  for (const e of queue.slice(cfg.maxDetails, cfg.maxDetails + (cfg.maxListed ?? 300))) {
+    jobs.push({
+      company: e.employer || "Unknown", title: e.title, loc: e.loc.replace(/\s*\((\w\w)\)\s*$/, ", $1"),
+      date: e.updated.slice(0, 10), ageH: hoursSince(e.updated, nowMs), type: typeFrom(e.title),
+      sources: [{ src: "Job Bank", url: `https://www.jobbank.gc.ca/jobsearch/jobposting/${e.id}` }], desc: "", partial: true,
+    });
+  }
+  return { jobs: jobs.filter((j) => j.title), ok, failed, listed: seen.size, inArea: all.length };
 }
 
 /* ---------- The Muse (free public API, no key needed for testing: 500 requests an hour) ---------- */
@@ -300,20 +314,23 @@ export async function muse(cfg, nowMs, log) {
   const out = [];
   let ok = 0, failed = 0;
   const key = process.env.MUSE_API_KEY ? `&api_key=${encodeURIComponent(process.env.MUSE_API_KEY)}` : "";
-  for (const level of cfg.levels) {
-    for (let page = 0; page < cfg.pages; page++) {
-      try {
-        const d = await fetchJson(`https://www.themuse.com/api/public/jobs?page=${page}&location=${encodeURIComponent(cfg.location)}&level=${encodeURIComponent(level)}${key}`);
-        ok++;
-        for (const x of d.results || []) out.push({
-          company: (x.company && x.company.name) || "Unknown", title: x.name, loc: (x.locations || []).map((l) => l.name).join(" / "),
-          date: String(x.publication_date || "").slice(0, 10), ageH: hoursSince(x.publication_date, nowMs),
-          type: (x.levels || []).some((l) => /intern/i.test(l.name)) ? "Internship" : typeFrom(x.name),
-          sources: [{ src: "The Muse", url: (x.refs && x.refs.landing_page) || "" }], desc: cut(stripHtml(x.contents)),
-        });
-        if (page + 1 >= (d.page_count || 0)) break;
-      } catch (e) { failed++; log(`The Muse ${level} page ${page}: ${e.message}`); break; }
-      await sleep(250);
+  const places = cfg.locations && cfg.locations.length ? cfg.locations : [cfg.location];
+  for (const place of places) {
+    for (const level of cfg.levels) {
+      for (let page = 0; page < cfg.pages; page++) {
+        try {
+          const d = await fetchJson(`https://www.themuse.com/api/public/jobs?page=${page}&location=${encodeURIComponent(place)}&level=${encodeURIComponent(level)}${key}`);
+          ok++;
+          for (const x of d.results || []) out.push({
+            company: (x.company && x.company.name) || "Unknown", title: x.name, loc: (x.locations || []).map((l) => l.name).join(" / "),
+            date: String(x.publication_date || "").slice(0, 10), ageH: hoursSince(x.publication_date, nowMs),
+            type: (x.levels || []).some((l) => /intern/i.test(l.name)) ? "Internship" : typeFrom(x.name),
+            sources: [{ src: "The Muse", url: (x.refs && x.refs.landing_page) || "" }], desc: cut(stripHtml(x.contents)),
+          });
+          if (page + 1 >= (d.page_count || 0)) break;
+        } catch (e) { failed++; log(`The Muse ${place} ${level} page ${page}: ${e.message}`); break; }
+        await sleep(250);
+      }
     }
   }
   return { jobs: out.filter(keep), ok, failed };
@@ -344,7 +361,7 @@ export async function workday(b, nowMs, log) {
     }
     if (q === "" && total != null && total <= 400) break;       // a small career site was read completely
   }
-  const wanted = [...found.values()].filter((p) => (inCanada(p.locationsText || "") || /\d+\s+locations?|\bsites?\b/i.test(p.locationsText || "") || !p.locationsText) && RELEVANT.test(norm(p.title))).slice(0, b.maxDetails || 60);
+  const wanted = [...found.values()].filter((p) => (inCanada(p.locationsText || "") || /\d+\s+locations?|\bsites?\b/i.test(p.locationsText || "") || !p.locationsText)).slice(0, b.maxDetails || 100);
   const out = [];
   for (const p of wanted) {
     try {
@@ -392,7 +409,7 @@ export async function breezy(slug, nowMs) {
     date: String(x.published_date || "").slice(0, 10), ageH: hoursSince(x.published_date, nowMs),
     type: typeFrom(((x.type && x.type.name) || "") + " " + x.name), sources: [{ src: "Breezy", url: x.url }], desc: cut(stripHtml(x.description || "")),
   }));
-  for (const j of jobs.filter((j) => !j.desc && inCanada(j.loc) && RELEVANT.test(norm(j.title))).slice(0, 20)) {   // the list has no text: read the posting's own page
+  for (const j of jobs.filter((j) => !j.desc && inCanada(j.loc)).slice(0, 40)) {   // the list has no text: read the posting's own page
     try { const ld = jsonLdJobs(await fetchText(j.sources[0].url, { headers: { Accept: "text/html" } }))[0]; if (ld) j.desc = cut(stripHtml(ld.description)); } catch { /* keep the title only */ }
   }
   return jobs.filter((j) => j.title && keep(j));
@@ -403,7 +420,7 @@ export async function bamboohr(slug, nowMs) {
   const out = [];
   for (const x of d.result) {
     const loc = [x.location && x.location.city, x.location && x.location.state].filter(Boolean).join(", ");
-    if (!inCanada(loc) || !RELEVANT.test(norm(x.jobOpeningName))) continue;
+    if (!inCanada(loc)) continue;
     let desc = "", date = "";
     try { const det = await fetchJson(`https://${slug}.bamboohr.com/careers/${x.id}/detail`); const o = (det.result && det.result.jobOpening) || {}; desc = cut(stripHtml(o.description)); date = String(o.datePosted || "").slice(0, 10); } catch { /* title only */ }
     out.push({ company: pretty(slug), title: x.jobOpeningName, loc, date, ageH: hoursSince(date, nowMs), type: typeFrom((x.employmentStatusLabel || "") + " " + x.jobOpeningName),
@@ -481,6 +498,53 @@ export async function careerjet(cfg, key, nowMs, log) {
   return { jobs: out.filter((j) => j.title && keep(j)), ok, failed };
 }
 
+/* Which postings go into jobs.json. The file has a size budget (the page downloads all of it), so when more are found than fit:
+   internships, co-ops and part-time jobs go in first (they are the rarest); the rest are shared out one by one across the fields
+   (software, health, trades, finance...), newest first, with at most `perCompany` from one employer, so no field or employer fills the list. */
+export function selectJobs(jobs, { maxBytes = 18e6, perCompany = 30, rareShare = 0.3 } = {}) {
+  const meta = loadJobMeta();
+  const cost = (j) => (j.desc ? j.desc.length : 0) + 1000;     // the text plus the rest of the record and its keyword profile
+  const fresh = (a, b) => (a.ageH ?? 1e9) - (b.ageH ?? 1e9);
+  const per = new Map(), taken = new Set(), out = [];
+  let bytes = 0;
+  const take = (j, cap) => {
+    const c = norm(j.company);
+    if ((per.get(c) || 0) >= cap || bytes + cost(j) > maxBytes) return false;
+    per.set(c, (per.get(c) || 0) + 1); bytes += cost(j); out.push(j); taken.add(j); return true;
+  };
+  const sorted = jobs.slice().sort(fresh);
+  let rareBytes = 0;
+  for (const j of sorted) {
+    if (!(j.type === "Internship" || j.type === "Part-time" || meta.jobLevel(j.title, "", "").lvl === 0)) continue;
+    if (rareBytes + cost(j) > maxBytes * rareShare) break;
+    if (take(j, perCompany * 2)) rareBytes += cost(j);
+  }
+  const queues = new Map();
+  for (const j of sorted) {
+    if (taken.has(j)) continue;
+    const f = meta.fieldOf(j.title).id;
+    if (!queues.has(f)) queues.set(f, []);
+    queues.get(f).push(j);
+  }
+  const lists = [...queues.values()], at = lists.map(() => 0);
+  let progress = true;
+  while (progress && bytes < maxBytes) {
+    progress = false;
+    for (let k = 0; k < lists.length; k++) {
+      while (at[k] < lists[k].length) { if (take(lists[k][at[k]++], perCompany)) { progress = true; break; } }
+    }
+  }
+  return out.sort(fresh);
+}
+
+/* The keywords of each posting, worked out here once so the page can score thousands of postings without reading their text. */
+export function addProfiles(jobs, log = console.log) {
+  let E;
+  try { E = loadMatcher().engine(loadSkills()); } catch (e) { log("Keyword profiles skipped: " + e.message); return jobs; }
+  for (const j of jobs) { const p = E.profile(j.title, j.desc || ""); j.kw = p.kw; j.kt = p.kt; }
+  return jobs;
+}
+
 export function merge(list) {
   const m = new Map();
   for (const j of list) {
@@ -511,7 +575,7 @@ export const LABEL = { greenhouse: "Greenhouse", lever: "Lever", ashby: "Ashby",
    jobs (kept for Montreal and the target roles), ok / failed requests, and the first error seen. */
 const note = (s, e) => { s.failed = (s.failed || 0) + 1; if (!s.error) s.error = String(e.message || e).slice(0, 160); };
 
-export async function main({ nowMs = Date.now(), log = console.log, write = true, companies, searches, env = process.env } = {}) {
+export async function main({ nowMs = Date.now(), log = console.log, write = true, companies, searches, env = process.env, selection = {} } = {}) {
   companies = companies || JSON.parse(fs.readFileSync(path.join(ROOT, "config", "companies.json"), "utf8"));
   searches = searches || JSON.parse(fs.readFileSync(path.join(ROOT, "config", "searches.json"), "utf8"));
   const sources = {};
@@ -583,12 +647,13 @@ export async function main({ nowMs = Date.now(), log = console.log, write = true
   await withKey("Careerjet", searches.careerjet, ["CAREERJET_API_KEY"], () => careerjet(searches.careerjet, env.CAREERJET_API_KEY, nowMs, log));
 
   /* every kept job is in Canada: save its province (QC, ON, BC... or "Remote – Canada" / "Canada" when the text names no province) */
-  const jobs = merge(all).map((j) => ({ ...j, province: provinceOf(j.loc) })).filter((j) => j.province)
-    .sort((a, b) => (a.ageH ?? 1e9) - (b.ageH ?? 1e9)).slice(0, 2500);
-  const provinces = {};
-  for (const j of jobs) provinces[j.province] = (provinces[j.province] || 0) + 1;
-  const out = { updatedAt: new Date(nowMs).toISOString(), mock: false, sources, notFoundCount: notFound.length, provinces, jobs };
-  log(`Collected ${jobs.length} postings. ` + Object.entries(sources).map(([k, v]) => `${k}: ${JSON.stringify(v)}`).join(" | "));
+  const found = merge(all).map((j) => ({ ...j, province: provinceOf(j.loc) })).filter((j) => j.province);
+  const jobs = addProfiles(selectJobs(found, selection), log);
+  const provinces = {}, fields = {};
+  const meta = loadJobMeta();
+  for (const j of jobs) { provinces[j.province] = (provinces[j.province] || 0) + 1; const f = meta.fieldOf(j.title).id; fields[f] = (fields[f] || 0) + 1; }
+  const out = { updatedAt: new Date(nowMs).toISOString(), mock: false, sources, notFoundCount: notFound.length, collected: found.length, provinces, fields, jobs };
+  log(`Collected ${found.length} postings in Canada, kept ${jobs.length}. ` + Object.entries(sources).map(([k, v]) => `${k}: ${JSON.stringify(v)}`).join(" | "));
   if (write) {
     if (jobs.length < 10) { log("Fewer than 10 postings. Keeping the previous jobs.json."); process.exitCode = 1; return out; }
     fs.writeFileSync(OUT, JSON.stringify(out));
