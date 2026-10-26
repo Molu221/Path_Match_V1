@@ -7,6 +7,7 @@ import { fileURLToPath } from "node:url";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const cfgPath = process.argv[2] || path.join(ROOT, "config", "probe.json");
+const outName = process.argv[3] || "probe.json";
 const probes = JSON.parse(fs.readFileSync(cfgPath, "utf8")).probes;
 const UA = "Mozilla/5.0 (compatible; path-match/1.0; +https://github.com/Molu221/Path_Match_V1)";
 
@@ -22,7 +23,7 @@ async function one(p, urlOverride) {
       body: p.body ? JSON.stringify(p.body) : undefined,
     });
     let text = await res.text();
-    r.status = res.status; r.finalUrl = res.url !== url ? res.url : undefined; r.contentType = res.headers.get("content-type"); r.bytes = text.length;
+    r.status = res.status; r.cors = { allowOrigin: res.headers.get("access-control-allow-origin"), allowHeaders: res.headers.get("access-control-allow-headers"), allowMethods: res.headers.get("access-control-allow-methods"), vary: res.headers.get("vary") }; r.finalUrl = res.url !== url ? res.url : undefined; r.contentType = res.headers.get("content-type"); r.bytes = text.length;
     r.head = p.discover ? "" : flat(text, p.headChars || 700);
     if (p.discover) { r.title = (/<title>([^<]*)/i.exec(text) || [])[1]; text = ""; }
     r.jsonLdJobPostings = (text.match(/"@type"\s*:\s*"JobPosting"/g) || []).length;
@@ -57,4 +58,4 @@ await Promise.all(Array.from({ length: 6 }, async () => {
 }));
 results.sort((a, b) => a.name.localeCompare(b.name));
 fs.mkdirSync(path.join(ROOT, "reports"), { recursive: true });
-fs.writeFileSync(path.join(ROOT, "reports", "probe.json"), JSON.stringify({ at: new Date().toISOString(), results }, null, 1));
+fs.writeFileSync(path.join(ROOT, "reports", outName), JSON.stringify({ at: new Date().toISOString(), results }, null, 1));

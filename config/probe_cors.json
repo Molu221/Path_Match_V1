@@ -1,0 +1,141 @@
+{
+ "probes": [
+  {
+   "name": "cors greenhouse",
+   "url": "https://boards-api.greenhouse.io/v1/boards/stackadapt/jobs",
+   "headers": {
+    "Origin": "https://molu221.github.io",
+    "Accept": "application/json"
+   },
+   "headChars": 80
+  },
+  {
+   "name": "cors greenhouse missing board",
+   "url": "https://boards-api.greenhouse.io/v1/boards/zzznotaboardzzz/jobs",
+   "headers": {
+    "Origin": "https://molu221.github.io",
+    "Accept": "application/json"
+   },
+   "headChars": 80
+  },
+  {
+   "name": "cors lever",
+   "url": "https://api.lever.co/v0/postings/eqbank?mode=json&limit=1",
+   "headers": {
+    "Origin": "https://molu221.github.io",
+    "Accept": "application/json"
+   },
+   "headChars": 80
+  },
+  {
+   "name": "cors lever missing board",
+   "url": "https://api.lever.co/v0/postings/zzznotaboardzzz?mode=json",
+   "headers": {
+    "Origin": "https://molu221.github.io",
+    "Accept": "application/json"
+   },
+   "headChars": 80
+  },
+  {
+   "name": "cors ashby",
+   "url": "https://api.ashbyhq.com/posting-api/job-board/cohere?includeCompensation=false",
+   "headers": {
+    "Origin": "https://molu221.github.io",
+    "Accept": "application/json"
+   },
+   "headChars": 80
+  },
+  {
+   "name": "cors ashby missing board",
+   "url": "https://api.ashbyhq.com/posting-api/job-board/zzznotaboardzzz",
+   "headers": {
+    "Origin": "https://molu221.github.io",
+    "Accept": "application/json"
+   },
+   "headChars": 80
+  },
+  {
+   "name": "cors smartrecruiters",
+   "url": "https://api.smartrecruiters.com/v1/companies/dexterra/postings?limit=1&country=ca",
+   "headers": {
+    "Origin": "https://molu221.github.io",
+    "Accept": "application/json"
+   },
+   "headChars": 80
+  },
+  {
+   "name": "cors workable",
+   "url": "https://apply.workable.com/api/v1/widget/accounts/tehora?details=false",
+   "headers": {
+    "Origin": "https://molu221.github.io",
+    "Accept": "application/json"
+   },
+   "headChars": 80
+  },
+  {
+   "name": "cors workable missing board",
+   "url": "https://apply.workable.com/api/v1/widget/accounts/zzznotaboardzzz?details=false",
+   "headers": {
+    "Origin": "https://molu221.github.io",
+    "Accept": "application/json"
+   },
+   "headChars": 80
+  },
+  {
+   "name": "cors recruitee",
+   "url": "https://huaweicanada.recruitee.com/api/offers/",
+   "headers": {
+    "Origin": "https://molu221.github.io",
+    "Accept": "application/json"
+   },
+   "headChars": 80
+  },
+  {
+   "name": "cors recruitee missing board",
+   "url": "https://zzznotaboardzzz.recruitee.com/api/offers/",
+   "headers": {
+    "Origin": "https://molu221.github.io",
+    "Accept": "application/json"
+   },
+   "headChars": 80
+  },
+  {
+   "name": "cors bamboohr",
+   "url": "https://taigamotors.bamboohr.com/careers/list",
+   "headers": {
+    "Origin": "https://molu221.github.io",
+    "Accept": "application/json"
+   },
+   "headChars": 80
+  },
+  {
+   "name": "cors the muse",
+   "url": "https://www.themuse.com/api/public/jobs?page=0&location=Montreal%2C%20Canada&level=Internship",
+   "headers": {
+    "Origin": "https://molu221.github.io",
+    "Accept": "application/json"
+   },
+   "headChars": 80
+  },
+  {
+   "name": "cors job bank feed",
+   "url": "https://www.jobbank.gc.ca/jobsearch/feed/jobSearchRSSfeed?searchstring=intern&locationstring=Montreal&fage=7&rows=1",
+   "headers": {
+    "Origin": "https://molu221.github.io",
+    "Accept": "application/atom+xml,*/*"
+   },
+   "headChars": 80
+  },
+  {
+   "name": "cors workday preflight",
+   "url": "https://cae.wd3.myworkdayjobs.com/wday/cxs/cae/career/jobs",
+   "method": "OPTIONS",
+   "headers": {
+    "Origin": "https://molu221.github.io",
+    "Access-Control-Request-Method": "POST",
+    "Access-Control-Request-Headers": "content-type"
+   },
+   "headChars": 80
+  }
+ ]
+}

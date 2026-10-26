@@ -2,7 +2,14 @@ name: Probe job sites
 
 # Checks which job sites answer from GitHub's machines, and in what shape. Writes reports/probe.json.
 on:
-  workflow_dispatch: {}
+  workflow_dispatch:
+    inputs:
+      config:
+        description: Probe list (a file in config/)
+        default: config/probe.json
+      out:
+        description: Report file name (written to reports/)
+        default: probe.json
 
 permissions:
   contents: write
@@ -17,12 +24,15 @@ jobs:
         with:
           node-version: 20
       - name: Probe
-        run: node scripts/probe.mjs
+        env:
+          PROBE_CONFIG: ${{ inputs.config || 'config/probe.json' }}
+          PROBE_OUT: ${{ inputs.out || 'probe.json' }}
+        run: node scripts/probe.mjs "$PROBE_CONFIG" "$PROBE_OUT"
       - name: Publish the result
         run: |
           git config user.name "path-match-bot"
           git config user.email "path-match-bot@users.noreply.github.com"
-          git add reports/probe.json reports/probe
+          git add reports/*.json reports/probe
           git diff --cached --quiet && echo "No changes" && exit 0
           git commit -m "Probe job sites"
           git pull --rebase origin main
