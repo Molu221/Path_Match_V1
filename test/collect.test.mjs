@@ -5,7 +5,10 @@ const routes = [
   [/boards-api\.greenhouse\.io\/v1\/boards\/acme\/jobs/, () => ({ jobs: [
     { title: "Industrial Engineering Intern (Winter 2027)", location: { name: "Montréal, QC" }, first_published: "2026-10-11T09:00:00Z", absolute_url: "https://gh/1", company_name: "Acme", content: "&lt;p&gt;Lean &amp;amp; Six Sigma. Python required.&lt;/p&gt;" },
     { title: "Senior Chef", location: { name: "Montréal, QC" }, first_published: "2026-10-01T09:00:00Z", absolute_url: "https://gh/2", content: "&lt;p&gt;cook&lt;/p&gt;" },
-    { title: "Data Analyst Intern", location: { name: "Toronto, ON" }, first_published: "2026-10-10T09:00:00Z", absolute_url: "https://gh/3", content: "x" } ] })],
+    { title: "Data Analyst Intern", location: { name: "Toronto, ON" }, first_published: "2026-10-10T09:00:00Z", absolute_url: "https://gh/3", content: "x" },
+    { title: "Operations Analyst Intern", location: { name: "Remote - Canada" }, first_published: "2026-10-10T08:00:00Z", absolute_url: "https://gh/4", content: "x" },
+    { title: "Industrial Engineer", location: { name: "Berlin, Germany" }, first_published: "2026-10-10T07:00:00Z", absolute_url: "https://gh/5", content: "x" },
+    { title: "Process Engineer Intern", location: { name: "Vancouver, WA" }, first_published: "2026-10-10T06:00:00Z", absolute_url: "https://gh/6", content: "x" } ] })],
   [/boards-api\.greenhouse\.io\/v1\/boards\/missing/, () => { const e = new Error("HTTP 404"); e.status = 404; throw e; }],
   [/api\.lever\.co\/v0\/postings\/globex/, () => [{ text: "Stagiaire en qualité", categories: { location: "Laval, QC", commitment: "Internship" }, createdAt: NOW - 5 * 36e5, hostedUrl: "https://lever/1", descriptionPlain: "FMEA, SPC, root cause.", lists: [] }]],
   [/api\.ashbyhq\.com\/posting-api\/job-board\/initech/, () => ({ jobs: [{ title: "Supply Chain Co-op", location: "Montreal", publishedAt: "2026-10-10T12:00:00Z", jobUrl: "https://ashby/1", descriptionPlain: "Inventory planning, SAP.", employmentType: "Intern" }] })],
@@ -18,6 +21,7 @@ const routes = [
   [/jobbank\.gc\.ca\/jobsearch\/feed\/jobSearchRSSfeed/, () => ATOM],
   [/jobbank\.gc\.ca\/jobsearch\/jobposting\/111$/, () => jbPage({ noc: "industrial engineer", title: "Stagiaire en génie industriel", employer: "Usine Alpha", city: "Montréal", partner: "https://partner.example/offre/111", description: "" })],
   [/guichetemplois\.gc\.ca\/jobsearch\/jobposting\/111$/, () => jbPage({ noc: "industrial engineer", title: "Stagiaire en génie industriel", employer: "Usine Alpha", city: "Montréal", description: "Soutien à l'amélioration continue. Exigences: baccalauréat en génie industriel. Atouts: Lean, Excel." })],
+  [/jobbank\.gc\.ca\/jobsearch\/jobposting\/222$/, () => jbPage({ noc: "industrial engineer", title: "Industrial engineer", employer: "Toronto Co", city: "Toronto", description: "Plant layout. Requirements: AutoCAD." })],
   [/jobbank\.gc\.ca\/jobsearch\/jobposting\/333$/, () => jbPage({ noc: "industrial engineer", title: "Industrial engineering co-op", employer: "Direct Employer", city: "Laval", description: "Time studies and Lean projects. Requirements: Excel. Preferred: Minitab." })],
   [/themuse\.com\/api\/public\/jobs/, () => ({ page_count: 1, results: [
     { name: "Supply Chain Intern", publication_date: "2026-10-10T10:00:00Z", company: { name: "Muse Co" }, locations: [{ name: "Montreal, Canada" }], levels: [{ name: "Internship" }], refs: { landing_page: "https://muse/1" }, contents: "<p>Inventory planning with SAP. Requirements: Excel.</p>" },
@@ -26,7 +30,9 @@ const routes = [
     { title: "Industrial Engineering Intern", externalPath: "/job/Montreal/Intern_R1", locationsText: "Montreal", postedOn: "Posted Today" },
     { title: "Welder", externalPath: "/job/Toronto/Welder_R2", locationsText: "Toronto", postedOn: "Posted 3 Days Ago" } ] : []) }; }],
   [/wday\/cxs\/acme\/site\/job\/Montreal\/Intern_R1$/, () => ({ jobPostingInfo: { title: "Industrial Engineering Intern", jobDescription: "<p>Lean projects</p><p>Qualifications</p><ul><li>Excel</li></ul>", location: "Montreal", startDate: "2026-10-11", timeType: "Full time", externalUrl: "https://acme.wd1.myworkdayjobs.com/site/job/Montreal/Intern_R1" } })],
+  [/apply\.workable\.com\/api\/v1\/widget\/accounts\/wk2/, () => ({ name: "WK2", jobs: [{ title: "Operations Analyst", telecommuting: true, country: "Canada", city: "", state: "", published_on: "2026-10-10", url: "https://workable/2", description: "<p>Reporting</p>", locations: [{ country: "Canada", region: "Ontario", city: "Ottawa" }] }, { title: "Operations Analyst", country: "United States", city: "Austin", state: "Texas", url: "https://workable/3", description: "x" }] })],
   [/apply\.workable\.com\/api\/v1\/widget\/accounts\/wk/, () => ({ name: "WK", jobs: [{ title: "Quality Intern", city: "Montreal", state: "Quebec", country: "Canada", published_on: "2026-10-10", url: "https://workable/1", description: "<p>FMEA and SPC</p>" }] })],
+  [/w2\.recruitee\.com\/api\/offers/, () => ({ offers: [{ title: "Quality Analyst", company_name: "Rec2", location: "Calgary", country_code: "CA", remote: true, published_at: "2026-10-09T10:00:00Z", careers_url: "https://rec/2", description: "<p>Audits</p>" }, { title: "Quality Analyst", company_name: "Rec2", location: "Lyon", country_code: "FR", published_at: "2026-10-09T10:00:00Z", careers_url: "https://rec/3", description: "x" }] })],
   [/wr\.recruitee\.com\/api\/offers/, () => ({ offers: [{ title: "Stagiaire logistique", company_name: "Rec", location: "Montréal, QC", published_at: "2026-10-09T10:00:00Z", careers_url: "https://rec/1", description: "<p>Logistique</p>", requirements: "<p>Excel</p>" }] })],
   [/bz\.breezy\.hr\/json/, () => [{ name: "Process Engineer Co-op", company: { name: "Bz" }, location: { name: "Montreal, QC" }, published_date: "2026-10-09T10:00:00Z", url: "https://bz.breezy.hr/p/1", type: { name: "Internship" } }]],
   [/bz\.breezy\.hr\/p\/1$/, () => '<script type="application/ld+json">{"@type":"JobPosting","title":"Process Engineer Co-op","description":"<p>Six Sigma and process mapping</p>"}</script>'],
@@ -70,9 +76,20 @@ const c = await import("../scripts/collect.mjs");
 assert.equal(c.stripHtml("&lt;p&gt;Lean &amp;amp; Six&lt;/p&gt;"), "Lean & Six");
 assert.ok(c.AREA.test("Montréal, QC") && c.AREA.test("Saint-Laurent") && !c.AREA.test("Toronto, ON"));
 
+// where in Canada: the province of a location text; "" means not in Canada
+const provinceCases = [["Montréal, QC, Canada", "QC"], ["Montreal", "QC"], ["Québec (QC)", "QC"], ["Lévis, Québec", "QC"], ["Dorval, QC", "QC"], ["Toronto, Ontario", "ON"], ["London, ON", "ON"], ["Mississauga, ON, CA", "ON"],
+  ["Vancouver, BC", "BC"], ["Calgary, AB / Boston, MA", "AB"], ["Halifax, Nova Scotia", "NS"], ["Fredericton, NB", "NB"], ["Charlottetown, PEI", "PE"], ["Whitehorse, YT, Canada", "YT"], ["St. John’s, NL, Canada", "NL"],
+  ["Saskatoon, SK", "SK"], ["Regina, SK, Canada", "SK"], ["Winnipeg, Manitoba", "MB"],
+  ["Remote - Canada", "Remote – Canada"], ["Télétravail – Canada", "Remote – Canada"], ["Telework - Canada", "Remote – Canada"], ["Canada", "Canada"], ["Remote, Ontario", "ON"],
+  ["Toronto / Montreal", "ON"], ["Montreal / Toronto", "QC"], ["Paris, France / Montreal, QC, Canada", "QC"], ["Boston, MA / Vancouver, BC", "BC"],
+  ["Remote", ""], ["Remote - US", ""], ["On-site", ""], ["", ""], ["New York, NY", ""], ["Paris, France", ""], ["Anjou, France", ""], ["London, UK", ""],
+  ["Amsterdam, NL", ""], ["Bratislava, SK", ""], ["Vancouver, WA", ""], ["Ontario, CA", ""]];
+for (const [loc, want] of provinceCases) assert.equal(c.provinceOf(loc), want, JSON.stringify(loc));
+assert.ok(c.inCanada("Toronto, ON") && !c.inCanada("Berlin, Germany"));
+
 // each source
 const gh = await c.greenhouse("acme", NOW);
-assert.equal(gh.length, 1); assert.equal(gh[0].title.startsWith("Industrial"), true); assert.equal(gh[0].ageH, 3); assert.match(gh[0].desc, /Lean & Six Sigma/);
+assert.equal(gh.length, 3, "Montréal, Toronto and Remote - Canada are kept; Berlin and Vancouver, WA are not"); assert.equal(gh[0].title.startsWith("Industrial"), true); assert.equal(gh[0].ageH, 3); assert.match(gh[0].desc, /Lean & Six Sigma/);
 await assert.rejects(() => c.greenhouse("missing", NOW), (e) => e.status === 404);
 const lv = await c.lever("globex", NOW); assert.equal(lv[0].type, "Internship"); assert.equal(lv[0].ageH, 5);
 const ab = await c.ashby("initech", NOW); assert.equal(ab[0].type, "Internship");
@@ -84,7 +101,7 @@ assert.equal(az.jobs.length, 2);
 const m = c.merge([...az.jobs, ...gh]);
 const dup = m.find((j) => /Industrial Engineering Intern/.test(j.title));
 assert.equal(dup.sources.length, 2); assert.equal(dup.partial, undefined); assert.match(dup.desc, /Six Sigma/);
-assert.equal(m.length, 2);
+assert.equal(m.length, 4);
 
 
 // helpers for the new sources
@@ -96,8 +113,8 @@ assert.equal(c.jsonLdJobs('<script type="application/ld&#x2B;json">{"@graph":[{"
 // Job Bank: the feed lists, only Montreal-area relevant rows are opened; partner posts take their text from the French page
 const noPause = async () => {};
 const jb = await c.jobbank({ queries: ["engineer"], where: "Montréal, QC", maxDaysOld: 7, maxDetails: 10, delayMs: 0 }, NOW, () => {}, noPause);
-assert.equal(jb.listed, 4); assert.equal(jb.inArea, 2, "Toronto and the cook row are not opened");
-assert.equal(jb.jobs.length, 2);
+assert.equal(jb.listed, 4); assert.equal(jb.inArea, 3, "the cook row is not opened; the Toronto row now is");
+assert.equal(jb.jobs.length, 3);
 const partnerPost = jb.jobs.find((j) => /Stagiaire/.test(j.title));
 assert.equal(partnerPost.company, "Usine Alpha"); assert.equal(partnerPost.loc, "Montréal, QC"); assert.equal(partnerPost.type, "Internship");
 assert.equal(partnerPost.partial, undefined); assert.match(partnerPost.desc, /\nExigences\n/); assert.match(partnerPost.desc, /Job summary:/);
@@ -118,6 +135,8 @@ assert.throws(() => c.workdayFromUrl("https://example.com/careers"));
 
 // the other open boards
 const wk = await c.workable("wk", NOW); assert.equal(wk[0].company, "WK"); assert.match(wk[0].desc, /FMEA/);
+const wk2 = await c.workable("wk2", NOW); assert.equal(wk2.length, 1, "the Texas posting is dropped"); assert.equal(c.provinceOf(wk2[0].loc), "ON"); assert.match(wk2[0].loc, /Remote/);
+const rc2 = await c.recruitee("w2", NOW); assert.equal(rc2.length, 1, "the Lyon posting is dropped"); assert.equal(c.provinceOf(rc2[0].loc), "AB"); assert.match(rc2[0].loc, /Canada/);
 const rc = await c.recruitee("wr", NOW); assert.equal(rc[0].type, "Internship"); assert.match(rc[0].desc, /Excel/);
 const bz = await c.breezy("bz", NOW); assert.match(bz[0].desc, /Six Sigma/, "Breezy's list has no text, so the posting page is read");
 const bh = await c.bamboohr("bh", NOW); assert.equal(bh[0].date, "2026-10-08"); assert.match(bh[0].desc, /Preventive/);
@@ -154,10 +173,14 @@ const out = await c.main({
 assert.equal(out.notFoundCount, 3, "missing, nobody and the Workday site that does not exist");
 assert.equal(out.sources.Greenhouse.boards, 2); assert.equal(out.sources.Greenhouse.answered, 1);
 assert.equal(out.sources.Recruitee.boards, 2); assert.equal(out.sources.Recruitee.answered, 1);
-assert.equal(out.sources.Workday.answered, 1); assert.equal(out.sources["Job Bank"].jobs, 2); assert.equal(out.sources["The Muse"].jobs, 1);
+assert.equal(out.sources.Workday.answered, 1); assert.equal(out.sources["Job Bank"].jobs, 3); assert.equal(out.sources["The Muse"].jobs, 1);
 assert.equal(out.sources.Jooble.jobs, 1); assert.match(out.sources.Careerjet.skipped, /CAREERJET_API_KEY is not set/);
 assert.ok(out.sources.Adzuna.jobs >= 1);
-assert.equal(out.jobs.length, 17, "expected postings from every fake source, got " + out.jobs.length);
+assert.equal(out.jobs.length, 20, "expected postings from every fake source, got " + out.jobs.length);
+assert.ok(out.jobs.every((j) => j.province), "every job carries its province");
+assert.equal(out.provinces.ON, 2); assert.equal(out.provinces["Remote – Canada"], 1); assert.equal(out.provinces.QC, 17);
+assert.equal(Object.values(out.provinces).reduce((a, b) => a + b, 0), out.jobs.length);
+assert.ok(!out.jobs.some((j) => /Berlin|Vancouver, WA/.test(j.loc)), "jobs outside Canada are dropped");
 
 // a source can be switched off in the config
 const off = await c.main({ nowMs: NOW, log: () => {}, write: false, env: {}, companies: {}, searches: { ...searchCfg, jobbank: { ...searchCfg.jobbank, enabled: false } } });
@@ -169,7 +192,7 @@ const broken = await c.main({ nowMs: NOW, log: () => {}, write: false, env: {}, 
 
 assert.equal(broken.sources["Job Bank"].jobs, 0); assert.equal(broken.sources["The Muse"].jobs, 0);
 assert.equal(broken.sources["The Muse"].requestsFailed, 1);
-assert.equal(broken.sources.Greenhouse.jobs, 1);
+assert.equal(broken.sources.Greenhouse.jobs, 3);
 globalThis.fetch = fetchOk;
 
 console.log("all tests passed:", out.jobs.length, "merged postings;", JSON.stringify(out.sources.Greenhouse));

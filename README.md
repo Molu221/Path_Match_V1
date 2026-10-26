@@ -9,7 +9,7 @@ Upload a CV, get a ranked, explained list of Montreal internships, co-ops and pa
 
 ## Sources
 
-Every source below is free to read. The collector keeps a posting only when its location is in the Montreal area and its title or opening text points to engineering, operations, quality, supply chain, data or a student role. After each run `docs/jobs.json` holds, for every source, how many postings it gave, how many requests failed and the first error, and the **Method** tab of the site shows that report.
+Every source below is free to read. The collector keeps a posting only when its location is in Canada (any province or territory, English or French name, a code such as QC or ON, or "Remote – Canada"; jobs elsewhere are dropped) and its title or opening text points to engineering, operations, quality, supply chain, data or a student role. Each kept posting is saved with its `province` (`QC`, `ON`, `BC`... or `Remote – Canada` / `Canada` when the text names no province), and `docs/jobs.json` holds the count per province. Job Bank, The Muse, Adzuna, Jooble, Careerjet and the Workday searches are still asked about Montreal only (see `config/searches.json`); the employer boards below return every Canadian posting. After each run `docs/jobs.json` holds, for every source, how many postings it gave, how many requests failed and the first error, and the **Method** tab of the site shows that report.
 
 | Source | What it gives | Needs |
 | --- | --- | --- |

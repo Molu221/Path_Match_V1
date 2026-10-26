@@ -1,4 +1,4 @@
-// Collects Montreal-area postings from free sources and writes docs/jobs.json.
+// Collects postings located anywhere in Canada (each saved with its province) from free sources and writes docs/jobs.json.
 // Sources (all free, none needs a login):
 //   open feeds of Job Bank Canada and The Muse; Workday career sites (the public JSON behind the career page);
 //   public job boards of Greenhouse, Lever, Ashby, SmartRecruiters, Workable, Recruitee, Breezy, BambooHR, Personio, Teamtailor;
@@ -14,6 +14,47 @@ const OUT = path.join(ROOT, "docs", "jobs.json");
 
 export const AREA = /montr[eé]al|laval\b|longueuil|brossard|dorval|saint[- ]laurent|st[- ]laurent|pointe[- ]claire|sainte?[- ]anne[- ]de[- ]bellevue|boucherville|saint[- ]hubert|st[- ]hubert|vaudreuil|terrebonne|mirabel|varennes|candiac|la prairie|saint[- ]bruno|kirkland|lachine|anjou|westmount|verdun|mont[- ]royal|mount royal|saint[- ]eustache|repentigny|blainville|dollard|beaconsfield|pierrefonds|lasalle|ahuntsic|greater montr/i;
 export const RELEVANT = /intern|stage|stagiaire|co-?op|student|etudiant|apprenti|engineer|ingenieur|analyst|analyste|operations|operation|supply|logisti|qualit|planner|planific|procure|achat|manufactur|industr|process|procede|\blean\b|continuous|amelioration|project|projet|data|donnees|production|method|maintenance|reliab|safety|securite|environment|coordinat|coordonna|technician|technicien|specialist|specialiste|associate|junior|entry|graduate|diplom/;
+
+/* ---------- where in Canada: the province of a location text, or "" when the place is not in Canada ---------- */
+/* Names are matched on the lower-case, accent-free text. Two-letter codes (QC, ON...) are matched on the original text, upper case only,
+   and the codes that other countries use too (NL Netherlands, SK Slovakia, PE Peru, NT Australia, YT Mayotte) need the word Canada beside them. */
+const PROV_NAME = [
+  ["QC", AREA, /\bquebec\b|\bgatineau\b|\bsherbrooke\b|\btrois[- ]rivieres\b|\bsaguenay\b|\blevis\b|\bdrummondville\b|\bgranby\b|\bsaint[- ]jerome\b|\brimouski\b|\bchicoutimi\b|\bshawinigan\b|\bjoliette\b/],
+  ["ON", /\bontario\b|\btoronto\b|\bottawa\b|\bmississauga\b|\bbrampton\b|\bmarkham\b|\bvaughan\b|\bkitchener\b|\brichmond hill\b|\bscarborough\b|\betobicoke\b|\bnorth york\b|\bguelph\b|\boshawa\b|\boakville\b|\bpickering\b|\bgreater toronto\b/],
+  ["BC", /\bbritish columbia\b|\bcolombie[- ]britannique\b|\bvancouver\b|\bburnaby\b|\bkelowna\b|\bcoquitlam\b|\babbotsford\b|\bnanaimo\b/],
+  ["AB", /\balberta\b|\bcalgary\b|\bedmonton\b|\bred deer\b|\blethbridge\b|\bfort mcmurray\b/],
+  ["SK", /\bsaskatchewan\b|\bsaskatoon\b/],
+  ["MB", /\bmanitoba\b|\bwinnipeg\b/],
+  ["NB", /\bnew brunswick\b|\bnouveau[- ]brunswick\b|\bfredericton\b|\bmoncton\b/],
+  ["NS", /\bnova scotia\b|\bnouvelle[- ]ecosse\b|\bhalifax\b/],
+  ["PE", /\bprince edward island\b|\bile[- ]du[- ]prince[- ]edouard\b|\bcharlottetown\b/],
+  ["NL", /\bnewfoundland\b|\bterre[- ]neuve\b|\blabrador\b/],
+  ["YT", /\byukon\b|\bwhitehorse\b/],
+  ["NT", /\bnorthwest territories\b|\bterritoires du nord[- ]ouest\b|\byellowknife\b/],
+  ["NU", /\bnunavut\b|\biqaluit\b/],
+];
+const PROV_CODE = /(?:^|[\s,(\/])(QC|ON|BC|AB|SK|MB|NB|NS|PE|PEI|NL|YT|NT|NU)(?=$|[\s,)\/.])/g;
+const CODE_ALSO_ELSEWHERE = new Set(["SK", "PE", "NL", "NT", "YT"]);
+const NOT_CANADA = /ontario,?\s*(ca\b|california)|vancouver,?\s*(wa\b|washington)/i;   // cities with a US namesake
+export function provinceOf(loc) {
+  const raw = String(loc || "");
+  if (!raw.trim() || NOT_CANADA.test(raw)) return "";
+  const u = raw.normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/\s+/g, " ").trim();   // accent-free, case kept (for the codes)
+  const t = u.toLowerCase();
+  const canada = /\bcanada\b|\bcanadian\b|\bcanadien/.test(t);
+  if (!canada && /\b(france|belgium|belgique|suisse|switzerland|luxembourg|morocco|maroc|tunisia|tunisie|algeria|algerie|senegal)\b/.test(t)) return "";   // Anjou, Verdun, Saint-Laurent also exist there
+  let best = "", at = Infinity;                          // with several places ("Toronto / Montreal") the first one named wins
+  const see = (code, i) => { if (i >= 0 && i < at) { best = code; at = i; } };
+  for (const [code, ...res] of PROV_NAME) for (const re of res) see(code, t.search(re));
+  for (const m of u.matchAll(PROV_CODE)) {
+    const code = m[1] === "PEI" ? "PE" : m[1];
+    if (!CODE_ALSO_ELSEWHERE.has(code) || canada) see(code, m.index);
+  }
+  if (best) return best;
+  if (canada) return /remote|teletravail|telework|telecommut|a distance|work from home|anywhere/.test(t) ? "Remote – Canada" : "Canada";
+  return "";
+}
+export const inCanada = (loc) => provinceOf(loc) !== "";
 
 const norm = (s) => (s || "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/\s+/g, " ").trim();
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -59,7 +100,7 @@ export async function fetchJson(url, opts = {}) {
 export const postJson = (url, body, headers = {}) =>
   fetchJson(url, { method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json", "Accept-Language": "en-US", ...headers }, body: JSON.stringify(body) });
 
-const keep = (j) => AREA.test(j.loc || "") && RELEVANT.test(norm(j.title + " " + (j.desc || "").slice(0, 1500)));
+const keep = (j) => inCanada(j.loc) && RELEVANT.test(norm(j.title + " " + (j.desc || "").slice(0, 1500)));
 
 /* ---------- Greenhouse ---------- */
 export async function greenhouse(slug, nowMs) {
@@ -104,7 +145,7 @@ export async function smartrecruiters(slug, nowMs) {
     for (const x of items) {
       const l = x.location || {};
       const loc = [l.city, l.region, l.country].filter(Boolean).join(", ");
-      if (!AREA.test(loc) || !RELEVANT.test(norm(x.name))) continue;
+      if (!inCanada(loc) || !RELEVANT.test(norm(x.name))) continue;
       out.push({
         company: (x.company && x.company.name) || pretty(slug), title: x.name, loc,
         date: String(x.releasedDate || "").slice(0, 10), ageH: hoursSince(x.releasedDate, nowMs),
@@ -227,7 +268,7 @@ export async function jobbank(cfg, nowMs, log, pause = sleep) {
     catch (e) { failed++; log(`Job Bank "${q}": ${e.message}`); }
     await pause(cfg.delayMs);
   }
-  const cand = [...seen.values()].filter((e) => AREA.test(e.loc) && RELEVANT.test(norm(e.title + " " + e.employer)))
+  const cand = [...seen.values()].filter((e) => inCanada(e.loc) && RELEVANT.test(norm(e.title + " " + e.employer)))
     .sort((a, b) => Date.parse(b.updated) - Date.parse(a.updated)).slice(0, cfg.maxDetails);
   const jobs = [];
   for (const e of cand) {
@@ -300,7 +341,7 @@ export async function workday(b, nowMs, log) {
     }
     if (q === "" && total != null && total <= 400) break;       // a small career site was read completely
   }
-  const wanted = [...found.values()].filter((p) => (AREA.test(p.locationsText || "") || /\d+\s+locations?|\bsites?\b/i.test(p.locationsText || "") || !p.locationsText) && RELEVANT.test(norm(p.title))).slice(0, b.maxDetails || 60);
+  const wanted = [...found.values()].filter((p) => (inCanada(p.locationsText || "") || /\d+\s+locations?|\bsites?\b/i.test(p.locationsText || "") || !p.locationsText) && RELEVANT.test(norm(p.title))).slice(0, b.maxDetails || 60);
   const out = [];
   for (const p of wanted) {
     try {
@@ -324,7 +365,8 @@ export async function workday(b, nowMs, log) {
 export async function workable(slug, nowMs) {
   const d = await fetchJson(`https://apply.workable.com/api/v1/widget/accounts/${slug}?details=true`);
   return (d.jobs || []).map((x) => ({
-    company: d.name || pretty(slug), title: x.title, loc: [x.city, x.state, x.country].filter(Boolean).join(", "),
+    company: d.name || pretty(slug), title: x.title,
+    loc: [...new Set([[x.city, x.state, x.country].filter(Boolean).join(", "), ...(x.locations || []).map((l) => [l.city, l.region, l.country].filter(Boolean).join(", "))].filter(Boolean))].join(" / ") + (x.telecommuting ? " / Remote" : ""),
     date: String(x.published_on || x.created_at || "").slice(0, 10), ageH: hoursSince(x.published_on || x.created_at, nowMs),
     type: typeFrom((x.employment_type || "") + " " + x.title), sources: [{ src: "Workable", url: x.url || x.shortlink }], desc: cut(stripHtml(x.description)),
   })).filter((j) => j.title && keep(j));
@@ -332,7 +374,8 @@ export async function workable(slug, nowMs) {
 export async function recruitee(slug, nowMs) {
   const d = await fetchJson(`https://${slug}.recruitee.com/api/offers/`);
   return (d.offers || []).map((x) => ({
-    company: x.company_name || pretty(slug), title: x.title, loc: x.location || [x.city, x.country].filter(Boolean).join(", "),
+    company: x.company_name || pretty(slug), title: x.title,
+    loc: (x.location || [x.city, x.country].filter(Boolean).join(", ")) + (x.country_code === "CA" && !/canada/i.test(x.location || x.country || "") ? ", Canada" : "") + (x.remote ? " / Remote" : ""),
     date: String(x.published_at || x.created_at || "").slice(0, 10), ageH: hoursSince(x.published_at || x.created_at, nowMs),
     type: typeFrom((x.employment_type_code || "") + " " + x.title), sources: [{ src: "Recruitee", url: x.careers_url }],
     desc: cut(stripHtml((x.description || "") + "\n" + (x.requirements || ""))),
@@ -346,7 +389,7 @@ export async function breezy(slug, nowMs) {
     date: String(x.published_date || "").slice(0, 10), ageH: hoursSince(x.published_date, nowMs),
     type: typeFrom(((x.type && x.type.name) || "") + " " + x.name), sources: [{ src: "Breezy", url: x.url }], desc: cut(stripHtml(x.description || "")),
   }));
-  for (const j of jobs.filter((j) => !j.desc && AREA.test(j.loc) && RELEVANT.test(norm(j.title))).slice(0, 20)) {   // the list has no text: read the posting's own page
+  for (const j of jobs.filter((j) => !j.desc && inCanada(j.loc) && RELEVANT.test(norm(j.title))).slice(0, 20)) {   // the list has no text: read the posting's own page
     try { const ld = jsonLdJobs(await fetchText(j.sources[0].url, { headers: { Accept: "text/html" } }))[0]; if (ld) j.desc = cut(stripHtml(ld.description)); } catch { /* keep the title only */ }
   }
   return jobs.filter((j) => j.title && keep(j));
@@ -357,7 +400,7 @@ export async function bamboohr(slug, nowMs) {
   const out = [];
   for (const x of d.result) {
     const loc = [x.location && x.location.city, x.location && x.location.state].filter(Boolean).join(", ");
-    if (!AREA.test(loc) || !RELEVANT.test(norm(x.jobOpeningName))) continue;
+    if (!inCanada(loc) || !RELEVANT.test(norm(x.jobOpeningName))) continue;
     let desc = "", date = "";
     try { const det = await fetchJson(`https://${slug}.bamboohr.com/careers/${x.id}/detail`); const o = (det.result && det.result.jobOpening) || {}; desc = cut(stripHtml(o.description)); date = String(o.datePosted || "").slice(0, 10); } catch { /* title only */ }
     out.push({ company: pretty(slug), title: x.jobOpeningName, loc, date, ageH: hoursSince(date, nowMs), type: typeFrom((x.employmentStatusLabel || "") + " " + x.jobOpeningName),
@@ -510,7 +553,7 @@ export async function main({ nowMs = Date.now(), log = console.log, write = true
     if (cfg.enabled === false) { sources[name] = { skipped: 'switched off ("enabled": false in config/searches.json)' }; return; }
     try {
       const r = await fn();
-      sources[name] = { requestsOk: r.ok, requestsFailed: r.failed, jobs: r.jobs.length, ...(r.listed != null ? { listed: r.listed, inMontreal: r.inArea } : {}) };
+      sources[name] = { requestsOk: r.ok, requestsFailed: r.failed, jobs: r.jobs.length, ...(r.listed != null ? { listed: r.listed, inCanada: r.inArea } : {}) };
       all.push(...r.jobs);
     } catch (e) { sources[name] = { jobs: 0, error: String(e.message || e).slice(0, 160) }; log(`${name}: ${e.message}`); }
   };
@@ -536,8 +579,12 @@ export async function main({ nowMs = Date.now(), log = console.log, write = true
   await withKey("Jooble", searches.jooble, ["JOOBLE_API_KEY"], () => jooble(searches.jooble, env.JOOBLE_API_KEY, nowMs, log));
   await withKey("Careerjet", searches.careerjet, ["CAREERJET_API_KEY"], () => careerjet(searches.careerjet, env.CAREERJET_API_KEY, nowMs, log));
 
-  const jobs = merge(all).sort((a, b) => (a.ageH ?? 1e9) - (b.ageH ?? 1e9)).slice(0, 2500);
-  const out = { updatedAt: new Date(nowMs).toISOString(), mock: false, sources, notFoundCount: notFound.length, jobs };
+  /* every kept job is in Canada: save its province (QC, ON, BC... or "Remote – Canada" / "Canada" when the text names no province) */
+  const jobs = merge(all).map((j) => ({ ...j, province: provinceOf(j.loc) })).filter((j) => j.province)
+    .sort((a, b) => (a.ageH ?? 1e9) - (b.ageH ?? 1e9)).slice(0, 2500);
+  const provinces = {};
+  for (const j of jobs) provinces[j.province] = (provinces[j.province] || 0) + 1;
+  const out = { updatedAt: new Date(nowMs).toISOString(), mock: false, sources, notFoundCount: notFound.length, provinces, jobs };
   log(`Collected ${jobs.length} postings. ` + Object.entries(sources).map(([k, v]) => `${k}: ${JSON.stringify(v)}`).join(" | "));
   if (write) {
     if (jobs.length < 10) { log("Fewer than 10 postings. Keeping the previous jobs.json."); process.exitCode = 1; return out; }
