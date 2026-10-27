@@ -1,0 +1,90 @@
+{
+ "at": "2026-10-27T00:54:58.591Z",
+ "results": [
+  {
+   "name": "workable day_range",
+   "url": "https://jobs.workable.com/api/v1/jobs?location=Canada&limit=5&day_range=1",
+   "method": "GET",
+   "status": 200,
+   "cors": {
+    "allowOrigin": "http://jobs.workable.com",
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": "Accept-Encoding, Origin"
+   },
+   "contentType": "application/json; charset=utf-8",
+   "bytes": 47258,
+   "head": "{\"title\":\"Workable\",\"totalSize\":139,\"nextPageToken\":\"eyJzZWFyY2hBdCI6IjIwMjYtMTAtMjdUMDA6NTk6NTkuOTk5WiIsIm9mZnNldCI6WzAuOTk5OTk4MTUsMCwxNzkzMDUzODg5ODg5LCIyZjc1MmFjOC0xYWYyLTQ1YzEtYmM0ZC0xODBlMzUxYmZkNDgiXX0=\",\"jobs\":[{\"id\":\"518c00f1-d2db-4d47-ad12-54e08bfebb81\",\"title\":\"Client Success Manager for Meta Advertising and Appointment-Setting Agency\",\"state\":\"published\",\"description\":\"<p><strong>Clien",
+   "jsonLdJobPostings": 0,
+   "ms": 235
+  },
+  {
+   "name": "workable page1",
+   "url": "https://jobs.workable.com/api/v1/jobs?location=Canada&limit=20",
+   "method": "GET",
+   "status": 200,
+   "cors": {
+    "allowOrigin": "http://jobs.workable.com",
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": "Accept-Encoding, Origin"
+   },
+   "contentType": "application/json; charset=utf-8",
+   "bytes": 159682,
+   "head": "{\"title\":\"Workable\",\"totalSize\":7711,\"nextPageToken\":\"eyJzZWFyY2hBdCI6IjIwMjYtMTAtMjdUMDA6NTk6NTkuOTk5WiIsIm9mZnNldCI6WzAuOTk5OTk2NywwLDE3ODYwNTQyNjMwODUsImY2YmUzNDY5LTkzMWMtNDEzYS05YTFjLTc5YzBmN2YyNmEwNSJdfQ==\",\"jobs\":[{\"department\":\"Instructor\",\"id\":\"9ec98ede-ae52-4103-ad8d-739be8f9a40e\",\"title\":\"",
+   "jsonLdJobPostings": 0,
+   "ms": 281
+  },
+  {
+   "name": "workable page1 -> first link",
+   "url": "https://jobs.workable.com/api/v1/jobs?location=Canada&limit=20&pageToken=eyJzZWFyY2hBdCI6IjIwMjYtMTAtMjdUMDA6NTk6NTkuOTk5WiIsIm9mZnNldCI6WzAuOTk5OTk2NywwLDE3ODYwNTQyNjMwODUsImY2YmUzNDY5LTkzMWMtNDEzYS05YTFjLTc5YzBmN2YyNmEwNSJdfQ==",
+   "method": "GET",
+   "status": 200,
+   "cors": {
+    "allowOrigin": "http://jobs.workable.com",
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": "Accept-Encoding, Origin"
+   },
+   "contentType": "application/json; charset=utf-8",
+   "bytes": 160483,
+   "head": "{\"title\":\"Workable\",\"totalSize\":7711,\"nextPageToken\":\"eyJzZWFyY2hBdCI6IjIwMjYtMTAtMjdUMDA6NTk6NTkuOTk5WiIsIm9mZnNldCI6WzAuOTk5OTkzMTUsMCwxNzkzMDQ1NzQyNjU4LCJkYzlmODVjNi1lMzBkLTQ0MmItOWU3Yy0wYTJlNTk4MzNkMDciXX0=\",\"jobs\":[{\"department\":\"Saskatoon Area\",\"id\":\"b30f9bb0-b5f2-43bc-abdf-09cc74bbfd09\",\"title\":\"Senior Mine Engineer/Planner - PL#27347\",\"state\":\"published\",\"description\":\"<p>Peter Lucas Project Management invests in people, community, and to provide gold standard project delivery. We are currently looking for an experienced <strong>Senior Mine Engineer / Planner</strong> to join our team.</p><p>At Peter Lucas, we provide project management, engineering, procurement, and construction management services to clients in the mining, energy, and heavy industrial sectors. We are seeking a versatile mining professional with strong technical capabilities, operational experience, and the ability to mentor and support the development of junior engineers.</p><h3><strong>About the Opportunity</strong></h3><p>The <strong>Senior Mine Engineer / Planner</strong> will provide senior-level technical support to an active mining operation on a <strong>2 weeks in / 2 weeks out rotation</strong>. T",
+   "jsonLdJobPostings": 0,
+   "ms": 162
+  },
+  {
+   "name": "workable Quebec",
+   "url": "https://jobs.workable.com/api/v1/jobs?location=Quebec&limit=5",
+   "method": "GET",
+   "status": 200,
+   "cors": {
+    "allowOrigin": "http://jobs.workable.com",
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": "Accept-Encoding, Origin"
+   },
+   "contentType": "application/json; charset=utf-8",
+   "bytes": 35691,
+   "head": "{\"title\":\"Workable\",\"totalSize\":765,\"nextPageToken\":\"eyJzZWFyY2hBdCI6IjIwMjYtMTAtMjdUMDA6NTk6NTkuOTk5WiIsIm9mZnNldCI6WzAuOTcxMDIwNiwwLDE3OTE5NDYzOTk5NDUsIjkyMDU4MTAwLTcwY2UtNGI0NS04MzM4LWFiYTE0MTIwMDVjMyJdfQ==\",\"jobs\":[{\"department\":\"R&D Logiciel\",\"id\":\"a17af3b6-c1da-4943-a049-8a1bf0dbf80a\",\"title\":",
+   "jsonLdJobPostings": 0,
+   "ms": 194
+  },
+  {
+   "name": "workable query cook",
+   "url": "https://jobs.workable.com/api/v1/jobs?query=cook&location=Canada&limit=5",
+   "method": "GET",
+   "status": 200,
+   "cors": {
+    "allowOrigin": "http://jobs.workable.com",
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": "Accept-Encoding, Origin"
+   },
+   "contentType": "application/json; charset=utf-8",
+   "bytes": 29080,
+   "head": "{\"title\":\"Workable\",\"totalSize\":175,\"nextPageToken\":\"eyJzZWFyY2hBdCI6IjIwMjYtMTAtMjdUMDA6NTk6NTkuOTk5WiIsIm9mZnNldCI6WzQ2LjIwNzE1NywwLDE3OTI1MzcyMDgzMTIsIjA0MDNkODY1LTQxNjgtNDQyYy1iZjMwLTZkOWUxNmY2OWE1YyJdfQ==\",\"jobs\":[{\"department\":\"Restaurants\",\"id\":\"32a129e9-4e43-4fb8-a81f-311607c9f0c1\",\"title\":\"",
+   "jsonLdJobPostings": 0,
+   "ms": 188
+  }
+ ]
+}
