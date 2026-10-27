@@ -394,7 +394,8 @@ function stageChanged(){paintStage();renderCvRead();run();writeHash();}
 
 /* ---------- postings ---------- */
 const JOBS=[];
-const jkey=j=>norm(j.company)+"|"+norm(j.title);
+/* one posting = employer + title + province (the same title in two provinces is two postings) */
+const jkey=j=>norm(j.company)+"|"+norm(j.title)+(j.province?"|"+j.province:"");
 /* full posting text the person pasted for a card that only has a title or a snippet; kept in this browser only */
 let PASTED={};try{PASTED=JSON.parse(localStorage.getItem("pm_pasted")||"{}");}catch(e){PASTED={};}
 function savePasted(){try{const k=Object.keys(PASTED);while(k.length>40)delete PASTED[k.shift()];localStorage.setItem("pm_pasted",JSON.stringify(PASTED));}catch(e){}}
@@ -1222,7 +1223,7 @@ async function loadServer(){
     SRC=d.sources||{};SRC_TIME=new Date(d.updatedAt).toLocaleString([], {month:"short",day:"numeric",hour:"2-digit",minute:"2-digit"});
     const at=Date.parse(d.updatedAt),m=new Map();
     for(const x of d.jobs){
-      const k=norm(x.company)+"|"+norm(x.title);
+      const k=norm(x.company)+"|"+norm(x.title)+(x.province?"|"+x.province:"");
       if(m.has(k))continue;
       m.set(k,{company:x.company,title:x.title,loc:x.loc,date:x.date,type:x.type||"",sources:x.sources,desc:x.desc||"",id:x.id||"",dl:x.dl!=null?x.dl:(x.desc||"").length,lv:x.lv||null,lg:x.lg||null,df:x.df||null,province:x.province||"",kw:x.kw||null,kt:x.kt||0,
         ageH:x.postedAt?(Date.now()-Date.parse(x.postedAt))/36e5:x.ageH!=null?x.ageH+(Date.now()-at)/36e5:null,snap:!!d.mock,partial:!!x.partial});
