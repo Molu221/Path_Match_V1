@@ -284,8 +284,8 @@ label.inl{display:inline-flex;gap:5px;align-items:center;margin:0;font-weight:40
         <label for="window">Posted</label>
         <select id="window">
           <option value="1">Last 24 hours</option>
-          <option value="7" selected>Last 7 days</option>
-          <option value="99">Everything collected</option>
+          <option value="7">Last 7 days</option>
+          <option value="99" selected>Everything collected</option>
         </select>
       </div>
       <div class="panel">
@@ -421,9 +421,9 @@ const age=j=>j.ageH!=null?j.ageH:dayDiff(j.date)*24;
 /* ---------- where the postings come from ---------- */
 let SRC={},SRC_TIME="not yet";
 const SRC_INFO={
-  "Job Bank":["Job Bank Canada (Government of Canada): the biggest cities, English and French, all kinds of work","Full text; some partner posts only link out"],
+  "Job Bank":["Job Bank Canada (Government of Canada): searches across the country for every kind of work, English and French","Full text for the newest postings; title, employer, place and date for the rest. Some partner posts only link out"],
   "The Muse":["The Muse free public API: internships, entry-level, mid-level and senior roles in the biggest cities","Full text"],
-  "Workday":["Career sites of large employers on Workday","Full text"],
+  "Workday":["Career sites of large Canadian employers on Workday: every posting in Canada","Full text for the newest 100 of each employer; title, place and date for the rest"],
   "Greenhouse":["Open job boards of employers on Greenhouse","Full text"],
   "Lever":["Open job boards of employers on Lever","Full text"],
   "Ashby":["Open job boards of employers on Ashby","Full text"],
@@ -1127,7 +1127,7 @@ $("view").addEventListener("click",e=>{
 $("tabs").onclick=e=>{const b=e.target.closest(".tab");if(b&&b.dataset.t!==tab){tab=b.dataset.t;SHOW=PAGE;render();writeHash(true);window.scrollTo({top:Math.max(0,$("tabs").getBoundingClientRect().top+scrollY-12)});}};
 
 /* ---------- dashboard controls ---------- */
-const DEFAULT_W="7";
+const DEFAULT_W="99";
 const FIELD_IDS=new Set(JobMeta.FIELD_LIST.map(f=>f.id));
 function readHash(){
   const p=new URLSearchParams(location.hash.slice(1));
