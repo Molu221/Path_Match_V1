@@ -1,0 +1,30 @@
+{
+ "probes": [
+  {
+   "name": "workable page1",
+   "url": "https://jobs.workable.com/api/v1/jobs?location=Canada&limit=20",
+   "headChars": 300,
+   "save": "workable_p1.json",
+   "saveChars": 60000,
+   "followFirst": "\"nextPageToken\":\"([^\"]+)\"",
+   "followTemplate": "https://jobs.workable.com/api/v1/jobs?location=Canada&limit=20&pageToken={1}",
+   "followSave": "workable_p2.json",
+   "headChars2": 300
+  },
+  {
+   "name": "workable query cook",
+   "url": "https://jobs.workable.com/api/v1/jobs?query=cook&location=Canada&limit=5",
+   "headChars": 300
+  },
+  {
+   "name": "workable Quebec",
+   "url": "https://jobs.workable.com/api/v1/jobs?location=Quebec&limit=5",
+   "headChars": 300
+  },
+  {
+   "name": "workable day_range",
+   "url": "https://jobs.workable.com/api/v1/jobs?location=Canada&limit=5&day_range=1",
+   "headChars": 400
+  }
+ ]
+}
