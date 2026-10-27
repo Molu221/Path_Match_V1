@@ -1,18 +1,54 @@
 {
- "at": "2026-10-24T21:34:29.024Z",
- "checked": 266,
- "found": 6,
+ "at": "2026-10-27T00:52:28.046Z",
+ "checked": 927,
+ "found": 70,
  "hits": {
   "Taiga Motors": {
    "bamboohr": [
     {
      "slug": "taigamotors",
-     "montrealJobs": 8,
+     "montrealJobs": 15,
      "company": "Taigamotors",
      "sample": [
-      "Analyste nomenclature / BOM and Change Control Analyst (Montréal, Quebec)",
-      "Manufacturing Engineer (Montréal, Quebec)",
-      "Ingénieur de production (Montréal, Quebec)"
+      "Concepteur mécanique / Mechanical Designer (Montréal, Quebec)",
+      "Directeur Marketing / Marketing Director (Montréal, Quebec)",
+      "Analyste nomenclature / BOM and Change Control Analyst (Montréal, Quebec)"
+     ]
+    }
+   ]
+  },
+  "Unilever": {
+   "bamboohr": [
+    {
+     "slug": "unilever",
+     "montrealJobs": 1,
+     "company": "Unilever",
+     "sample": [
+      "Marketing Manager (Vancouver, British Columbia)"
+     ]
+    }
+   ]
+  },
+  "Metro Inc": {
+   "smartrecruiters": [
+    {
+     "slug": "metroinc",
+     "montrealJobs": 1,
+     "company": "Metro Inc.",
+     "sample": [
+      "Front-end Cashier (Toronto, ON, ca)"
+     ]
+    }
+   ]
+  },
+  "Walmart": {
+   "bamboohr": [
+    {
+     "slug": "walmart",
+     "montrealJobs": 1,
+     "company": "Walmart",
+     "sample": [
+      "Marketing Manager (Vancouver, British Columbia)"
      ]
     }
    ]
@@ -21,12 +57,26 @@
    "ashby": [
     {
      "slug": "hopper",
-     "montrealJobs": 3,
+     "montrealJobs": 7,
      "company": "Hopper",
      "sample": [
       "Gestionnaire de produit principal, Place de marché API HTS (Canada - Remote / Montréal - Remote / Québec - Remote)",
-      "Directeur ou directrice principal(e) de produit, IA conversationnelle// Principal Product Manager- Conversational AI  (Montréal - Remote)",
-      "Gestionnaire, Finance et stratégie// Finance & Strategy Manager (Montréal - Remote / Québec - Remote)"
+      "Principal Product Manager, HTS API Marketplace (Ontario - Remote / Toronto - Remote / Vancouver - Remote)",
+      "Principal Product Manager- Conversational AI (Canada - Remote / Toronto - Remote / Alberta - Remote)"
+     ]
+    }
+   ]
+  },
+  "Nuvei": {
+   "workable": [
+    {
+     "slug": "nuvei",
+     "montrealJobs": 10,
+     "company": "Nuvei",
+     "sample": [
+      "Bilingual Merchant Support Specialist (French/English) - 24$/hour (Montreal, Quebec, Canada)",
+      "Bilingual Talent Acquisition Specialist - 12 month contract (English/French) (Canada / Remote)",
+      "Oracle Cloud Developer (Canada / Remote)"
      ]
     }
    ]
@@ -35,10 +85,12 @@
    "smartrecruiters": [
     {
      "slug": "gameloft",
-     "montrealJobs": 1,
+     "montrealJobs": 13,
      "company": "Gameloft",
      "sample": [
-      "Coordonnateur(trice) de studio - Studio Coordinator (Montreal, QC, ca)"
+      "[Dungeons & Dragons PC Console] Concepteur(trice) de jeu technique - Technical Game Designer (Montreal, QC, ca)",
+      "[Disney Dreamlight Valley PC/Console] Artiste technique - Technical Artist (Montreal, QC, ca)",
+      "[Dungeons & Dragons PC-Console] Artiste de concept intermédiaire - Intermediate Concept Artist (Montreal, QC, ca)"
      ]
     }
    ]
@@ -47,12 +99,37 @@
    "bamboohr": [
     {
      "slug": "ludia",
-     "montrealJobs": 5,
+     "montrealJobs": 9,
      "company": "Ludia",
      "sample": [
-      "Visual effects & Motion Design Intern / Stagiaire en éffets visuels & motion design (MONTRÉAL, Quebec, Quebec)",
-      "Community Management Intern / Stagiaire en gestion de communauté (MONTRÉAL, Quebec, Quebec)",
-      "Game Economy Design Intern / Stagiaire en conception d'économie de jeux (MONTRÉAL, Quebec, Quebec)"
+      "Senior Product Manager | Chef.fe de produit Senior.e (MONTRÉAL, Quebec, Quebec)",
+      "Ludia General Application / Ludia Candidature Spontanée (MONTRÉAL, Quebec, Quebec)",
+      "3D Character Artist | Artiste de personnages 3D (MONTRÉAL, Quebec, Quebec)"
+     ]
+    }
+   ]
+  },
+  "Telus": {
+   "breezy": [
+    {
+     "slug": "telus",
+     "montrealJobs": 1,
+     "company": "TELUS",
+     "sample": [
+      "Manager, Data & AI Transformations (Toronto, ON)"
+     ]
+    }
+   ]
+  },
+  "National Bank": {
+   "greenhouse": [
+    {
+     "slug": "national",
+     "montrealJobs": 2,
+     "company": "NATIONAL",
+     "sample": [
+      "Director, Public Affairs and Regional Lead (Newfoundland and Labrador, Canada)",
+      "Senior Consultant, Public Affairs and Government Relations (Toronto, Ontario, Canada)"
      ]
     }
    ]
@@ -61,12 +138,12 @@
    "smartrecruiters": [
     {
      "slug": "videotron",
-     "montrealJobs": 25,
+     "montrealJobs": 103,
      "company": "Videotron",
      "sample": [
       "Chargé·e de projets marketing, plateformes de contenu  (Montréal, QC, ca)",
-      "Coordonnateur·trice de production et des opérations (Montréal, QC, ca)",
-      "Gestionnaire des opérations, Cinéma Impérial (Montréal, QC, ca)"
+      "Manutenteur de presse  (Sainte-Anne-des-Plaines, QC, ca)",
+      "Agent·e de ventes, Centre Rockland (Mont-Royal, QC, ca)"
      ]
     }
    ]
@@ -75,12 +152,795 @@
    "greenhouse": [
     {
      "slug": "hasbro",
-     "montrealJobs": 8,
+     "montrealJobs": 22,
      "company": "Hasbro",
      "sample": [
       "Analyste principal(e) de la sécurité SAP (Montréal)",
-      "DevOps Engineer (Montréal)",
-      "Digital Asset & Workflow Systems Specialist (12-Month Contract) (Montréal)"
+      "Animateur.rice Cinématique Principal.e (Montréal)",
+      "Animateur.rice Cinématique Principal.e (Montréal)"
+     ]
+    }
+   ]
+  },
+  "Genetec": {
+   "smartrecruiters": [
+    {
+     "slug": "genetec",
+     "montrealJobs": 1,
+     "company": "genetec",
+     "sample": [
+      "Développeur logiciel (Sherbrooke, QC, ca)"
+     ]
+    }
+   ]
+  },
+  "Sierra Wireless": {
+   "ashby": [
+    {
+     "slug": "sierra",
+     "montrealJobs": 23,
+     "company": "Sierra",
+     "sample": [
+      "Enterprise Sales Engineer - Strategic, Healthcare (Toronto)",
+      "Enterprise Sales Engineer - Strategic (Toronto)",
+      "Enterprise Sales Engineer - Majors (Toronto)"
+     ]
+    }
+   ]
+  },
+  "Continental": {
+   "smartrecruiters": [
+    {
+     "slug": "continental",
+     "montrealJobs": 2,
+     "company": "Continental",
+     "sample": [
+      "Field Sales Representative - Ontario - Passenger & Light Truck Tire (Oshawa, ON, ca)",
+      "Field Sales Representative - Ontario - Passenger & Light Truck Tire (Mississauga, ON, ca)"
+     ]
+    }
+   ]
+  },
+  "Wealthsimple": {
+   "ashby": [
+    {
+     "slug": "wealthsimple",
+     "montrealJobs": 40,
+     "company": "Wealthsimple",
+     "sample": [
+      "Lead, Workplace Operations (Toronto Headquarters)",
+      "Future Opportunities - North Star: Calling all Canadians Abroad (Remote (Canada))",
+      "(Bilingual) Senior Advisor / Lead Advisor, Wealth Management Service (Quebec Clients) (Remote (Canada))"
+     ]
+    }
+   ]
+  },
+  "Faire": {
+   "greenhouse": [
+    {
+     "slug": "faire",
+     "montrealJobs": 13,
+     "company": "Faire",
+     "sample": [
+      "Customer Experience Associate (3 Month Fixed-Term Contract) (Kitchener-Waterloo, ON)",
+      "Growth Platform, Marketing Engineer (Toronto, ON)",
+      "Product Engineer - Ads (Toronto, ON)"
+     ]
+    }
+   ]
+  },
+  "Cohere": {
+   "ashby": [
+    {
+     "slug": "cohere",
+     "montrealJobs": 74,
+     "company": "Cohere",
+     "sample": [
+      "Senior Full-Stack Engineer, Internal Applications  (Toronto / Canada)",
+      "Member of Technical Staff, Modeling (London / San Francisco / New York / Paris / Toronto / Montreal)",
+      "Senior Member of Technical Staff, Multimodal AI (San Francisco / New York / San Francisco / Paris / Toronto / Montreal)"
+     ]
+    }
+   ]
+  },
+  "Thinkific": {
+   "ashby": [
+    {
+     "slug": "thinkific",
+     "montrealJobs": 3,
+     "company": "Thinkific",
+     "sample": [
+      "Account Executive  (Distributed - Canada)",
+      "Senior Technical Project Manager   (Distributed - Canada)",
+      "Senior Product Manager (Distributed - Canada)"
+     ]
+    }
+   ]
+  },
+  "Neo Financial": {
+   "ashby": [
+    {
+     "slug": "neofinancial",
+     "montrealJobs": 59,
+     "company": "Neofinancial",
+     "sample": [
+      "Sales Representative - Dufferin Mall (Spanish)  (Toronto, ON)",
+      "Sales Representative - Masonville Place  (London, ON)",
+      "Sales Representative - Scarborough Town Centre  (Scarborough, ON)"
+     ]
+    }
+   ]
+  },
+  "Dialpad": {
+   "greenhouse": [
+    {
+     "slug": "dialpad",
+     "montrealJobs": 1,
+     "company": "Dialpad",
+     "sample": [
+      "Manager, Customer Success (Kitchener, Canada)"
+     ]
+    }
+   ]
+  },
+  "Hootsuite": {
+   "smartrecruiters": [
+    {
+     "slug": "hootsuite",
+     "montrealJobs": 4,
+     "company": "Hootsuite_",
+     "sample": [
+      "Software Developer (Vancouver, BC, ca)",
+      "Recruiter (Vancouver, BC, ca)",
+      "Sales Recruiter (Vancouver, BC, ca)"
+     ]
+    }
+   ]
+  },
+  "Procurify": {
+   "ashby": [
+    {
+     "slug": "procurify",
+     "montrealJobs": 10,
+     "company": "Procurify",
+     "sample": [
+      "Business Development Representative (US/Canada - Remote)",
+      "Engineering Manager, AI Engineering (Canada Remote)",
+      "Senior Full Stack Engineer (Canada Remote)"
+     ]
+    }
+   ]
+  },
+  "Jobber": {
+   "ashby": [
+    {
+     "slug": "jobber",
+     "montrealJobs": 37,
+     "company": "Jobber",
+     "sample": [
+      "Staff Software Engineer (Edmonton / Vancouver / Kitchener-Waterloo / Toronto)",
+      "Senior Software Engineer (Toronto / Vancouver / Kitchener-Waterloo / Edmonton)",
+      "Account Executive, Full Cycle (Toronto / Vancouver / Kitchener-Waterloo / Edmonton)"
+     ]
+    }
+   ]
+  },
+  "Visier": {
+   "ashby": [
+    {
+     "slug": "visier",
+     "montrealJobs": 2,
+     "company": "Visier",
+     "sample": [
+      "Staff Information Security Engineer - Threat Detection & Response (CAN - Vancouver)",
+      "Privacy and AI Program Manager (CAN - Vancouver)"
+     ]
+    }
+   ]
+  },
+  "Unbounce": {
+   "greenhouse": [
+    {
+     "slug": "unbounce",
+     "montrealJobs": 1,
+     "company": "Unbounce",
+     "sample": [
+      "Senior Financial Analyst, FP&A (AI First) (Remote, Canada, Remote, United States)"
+     ]
+    }
+   ]
+  },
+  "Fullscript": {
+   "lever": [
+    {
+     "slug": "fullscript",
+     "montrealJobs": 13,
+     "company": "Fullscript",
+     "sample": [
+      "Accounting Manager (Ottawa, ON / Ottawa, ON / Toronto, ON)",
+      "Director of Engineering, Developer Infrastructure (Ottawa, ON / Ottawa, ON / Toronto, ON / Calgary, AB)",
+      "Engineering Manager, Patient Experience (Ottawa, ON / Ottawa, ON / Toronto, ON / Calgary, AB)"
+     ]
+    }
+   ]
+  },
+  "Float": {
+   "ashby": [
+    {
+     "slug": "float",
+     "montrealJobs": 20,
+     "company": "Float",
+     "sample": [
+      "Full Stack Development (Remote - Canada) (Canada)",
+      "Business Development Representative (Toronto, Canada)",
+      "Senior Product Designer (Toronto, Canada)"
+     ]
+    }
+   ]
+  },
+  "Wattpad": {
+   "lever": [
+    {
+     "slug": "wattpad",
+     "montrealJobs": 2,
+     "company": "Wattpad",
+     "sample": [
+      "[Wattpad] Engineering Manager (Toronto, Ontario / Toronto, Ontario)",
+      "[Wattpad] Head of Engineering (Toronto, Ontario / Toronto, Ontario)"
+     ]
+    }
+   ]
+  },
+  "Pelmorex": {
+   "lever": [
+    {
+     "slug": "pelmorex",
+     "montrealJobs": 10,
+     "company": "Pelmorex",
+     "sample": [
+      "Data Scientist (Oakville, Canada / Oakville, Canada)",
+      "GIS Developer (Oakville, Canada / Oakville, Canada)",
+      "Marketing Research Analyst - Bilingual (Analyste en recherche marketing) (Oakville, Canada / Oakville, Canada / Montreal, Canada)"
+     ]
+    }
+   ]
+  },
+  "Trulioo": {
+   "ashby": [
+    {
+     "slug": "trulioo",
+     "montrealJobs": 20,
+     "company": "Trulioo",
+     "sample": [
+      "Continuous Improvement & AI Intelligence Automation Lead (Vancouver, BC / San Diego, CA / San Francisco, CA)",
+      "Product Manager (KYB) (Vancouver, BC / Toronto, ON)",
+      "Senior Product Manager (KYC - Fraud & Risk) (Vancouver, BC / San Diego, CA / Toronto, ON / San Francisco, CA)"
+     ]
+    }
+   ]
+  },
+  "Later": {
+   "greenhouse": [
+    {
+     "slug": "later",
+     "montrealJobs": 9,
+     "company": "Later",
+     "sample": [
+      "Account Manager - Influencer Marketing (Boston, MA; Chicago, Illinois, United States; Los Angeles, California, United States; New York, New York, United States; Remote; Toronto, Ontario, Canada; Vancouver, British Columbia, Canada)",
+      "AI Automation Co-op (Spring 2027) (Vancouver, British Columbia, Canada)",
+      "Data Science Co-op  (Vancouver, British Columbia, Canada)"
+     ]
+    }
+   ]
+  },
+  "Tenstorrent": {
+   "greenhouse": [
+    {
+     "slug": "tenstorrent",
+     "montrealJobs": 38,
+     "company": "Tenstorrent",
+     "sample": [
+      "Associate, Corporate Development (Toronto, Ontario, Canada)",
+      "Cost Accounting Lead (Austin, Texas, United States; Santa Clara, California, United States; Toronto, Ontario, Canada)",
+      "Datacenter & Agentic AI Workload Performance Optimization Engineer (Santa Clara, California, United States; Toronto, Ontario, Canada)"
+     ]
+    }
+   ]
+  },
+  "Waabi": {
+   "lever": [
+    {
+     "slug": "waabi",
+     "montrealJobs": 55,
+     "company": "Waabi",
+     "sample": [
+      "2027 Intern, PhD Research Scientist (Toronto, ON / Toronto, ON / Pittsburgh, PA / San Francisco, CA)",
+      "Applied Scientist (Toronto, ON / Toronto, ON / San Francisco, CA / Pittsburgh, PA / Remote US & Canada)",
+      "Associate, Strategic Finance & Corporate Development (San Francisco, CA / San Francisco, CA / Toronto, ON / Dallas, TX / Phoenix, AZ / Pittsburgh, PA / Remote US & Canada)"
+     ]
+    }
+   ]
+  },
+  "Rewind": {
+   "ashby": [
+    {
+     "slug": "rewind",
+     "montrealJobs": 3,
+     "company": "Rewind",
+     "sample": [
+      "VP, Engineering (Ontario)",
+      "Senior Technical Support Engineer (T3) (Ontario)",
+      "Product Marketing Manager (Canada - remote)"
+     ]
+    }
+   ]
+  },
+  "EQ Bank": {
+   "lever": [
+    {
+     "slug": "eqbank",
+     "montrealJobs": 82,
+     "company": "Eqbank",
+     "sample": [
+      "AI Solutions Engineer, Technology Workplace Services (Toronto / Toronto)",
+      "Analyst, Credit Risk Management (Toronto / Toronto)",
+      "Associate Director, Direct-to-Consumer (Toronto / Toronto)"
+     ]
+    }
+   ]
+  },
+  "Mejuri": {
+   "greenhouse": [
+    {
+     "slug": "mejuri",
+     "montrealJobs": 35,
+     "company": "Mejuri",
+     "sample": [
+      "Assistant Store Manager (Square One, Mississauga)",
+      "Concession Manager (Holt Renfrew, Vancouver)",
+      "Directrice/Directeur Adjoint(e) de Magasin (Greater Montreal Area)"
+     ]
+    }
+   ]
+  },
+  "Indigo": {
+   "ashby": [
+    {
+     "slug": "indigo",
+     "montrealJobs": 2,
+     "company": "Indigo",
+     "sample": [
+      "Software Engineer, Applied AI/Product (Toronto)",
+      "Medical Intake Specialist- Toronto (Toronto)"
+     ]
+    }
+   ]
+  },
+  "Cirque du Soleil": {
+   "lever": [
+    {
+     "slug": "cirquedusoleil",
+     "montrealJobs": 12,
+     "company": "Cirquedusoleil",
+     "sample": [
+      "Adjoint exécutif - Blue Man Group et VStar Entertainment | Executive Assistant - Blue Man Group & VStar Entertainment (Montréal, QC / Montréal, QC)",
+      "Chef d’équipe – Comptes payables | Team Lead – Accounts Payable (Montréal, QC / Montréal, QC)",
+      "Directeur principal, Partenariats | Senior Director, Partnership Sales (Montréal, QC / Montréal, QC / Toronto, ON / Vancouver, BC)"
+     ]
+    }
+   ]
+  },
+  "Relic Entertainment": {
+   "bamboohr": [
+    {
+     "slug": "relicentertainment",
+     "montrealJobs": 2,
+     "company": "Relicentertainment",
+     "sample": [
+      "General Application - Love Our Games? Apply Here! (Vancouver, British Columbia)",
+      "Senior UX Designer (Vancouver, British Columbia)"
+     ]
+    }
+   ]
+  },
+  "Phoenix Labs": {
+   "ashby": [
+    {
+     "slug": "phoenix",
+     "montrealJobs": 11,
+     "company": "Phoenix",
+     "sample": [
+      "Performance Marketing Specialist (Toronto, Ontario)",
+      "Senior Frontend Developer (React) (Toronto, Ontario)",
+      "Creative Strategist, Raven (Toronto, Ontario)"
+     ]
+    }
+   ]
+  },
+  "Webflow": {
+   "ashby": [
+    {
+     "slug": "webflow",
+     "montrealJobs": 7,
+     "company": "Webflow",
+     "sample": [
+      "Staff Product Manager, AI (United States / Canada (BC & ON only))",
+      "Senior Staff Machine Learning Scientist, Assets (United States / Canada (BC & ON only))",
+      "Senior Developer Educator (United States / Canada (BC & ON only))"
+     ]
+    }
+   ]
+  },
+  "Toast": {
+   "greenhouse": [
+    {
+     "slug": "toast",
+     "montrealJobs": 15,
+     "company": "Toast",
+     "sample": [
+      "Bilingual Strategic Cuisines Account Executive (Mandarin) - Vancouver, BC (Vancouver, BC)",
+      "District Sales Manager (Vancouver, British Columbia, Canada)",
+      "Inside Sales Manager- Toronto (Toronto, Ontario, Canada)"
+     ]
+    }
+   ]
+  },
+  "PagerDuty": {
+   "greenhouse": [
+    {
+     "slug": "pagerduty",
+     "montrealJobs": 7,
+     "company": "PagerDuty",
+     "sample": [
+      "Account Manager - Toronto (Toronto)",
+      "Principal Product Manager - Platform Security (Toronto)",
+      "Principal Product Manager - Platform Security (Atlanta; San Francisco; Toronto)"
+     ]
+    }
+   ]
+  },
+  "Zscaler": {
+   "greenhouse": [
+    {
+     "slug": "zscaler",
+     "montrealJobs": 4,
+     "company": "Zscaler",
+     "sample": [
+      "Product Sales Account Executive  (Canada - Update Location)",
+      "Senior Sales Engineer - Central Canada (Remote - Ontario, Canada)",
+      "Senior Specialist Sales Engineer, Data Security (Remote - Ontario, Canada; Remote - Quebec, Canada)"
+     ]
+    }
+   ]
+  },
+  "Pure Storage": {
+   "greenhouse": [
+    {
+     "slug": "purestorage",
+     "montrealJobs": 2,
+     "company": "Everpure",
+     "sample": [
+      "Partner Account Manager - Toronto (Toronto, Canada)",
+      "Senior Pre-Sales Systems Engineer, Ottawa (Remote, Ontario, Canada)"
+     ]
+    }
+   ]
+  },
+  "Seagate": {
+   "bamboohr": [
+    {
+     "slug": "seagate",
+     "montrealJobs": 3,
+     "company": "Seagate",
+     "sample": [
+      "Talent Community  (Burnaby, British Columbia)",
+      "Operations Manager (Coquitlam, British Columbia)",
+      "Project Superintendent - LOA (Coquitlam, British Columbia)"
+     ]
+    }
+   ]
+  },
+  "Wabtec": {
+   "smartrecruiters": [
+    {
+     "slug": "wabtec",
+     "montrealJobs": 35,
+     "company": "Wabtec",
+     "sample": [
+      "Field Service Technician  (Calgary, AB, ca)",
+      "Ingénieur en test et conception mécanique / Test & Mechanical Engineer (Montreal, QC, ca)",
+      "Développeur Backend Cloud (Fullstack) (Montreal, QC, ca)"
+     ]
+    }
+   ]
+  },
+  "AbbVie": {
+   "smartrecruiters": [
+    {
+     "slug": "abbvie",
+     "montrealJobs": 36,
+     "company": "AbbVie",
+     "sample": [
+      "Medical Science Liaison, Dermatology (Southwest Ontario & Manitoba) - 12 Month Contract (Toronto, ON, ca)",
+      "Dermatology Pipeline Medical Science Liaison (Toronto, ON, ca)",
+      "Agent de liaison médico scientifique, Pépinière de produits, Dermatologie (Montreal, QC, ca)"
+     ]
+    }
+   ]
+  },
+  "Vertex": {
+   "bamboohr": [
+    {
+     "slug": "vertex",
+     "montrealJobs": 1,
+     "company": "Vertex",
+     "sample": [
+      "Marketing Manager (Vancouver, British Columbia)"
+     ]
+    }
+   ]
+  },
+  "Telus Health": {
+   "breezy": [
+    {
+     "slug": "telus",
+     "montrealJobs": 1,
+     "company": "TELUS",
+     "sample": [
+      "Manager, Data & AI Transformations (Toronto, ON)"
+     ]
+    }
+   ]
+  },
+  "Walmart Canada": {
+   "bamboohr": [
+    {
+     "slug": "walmart",
+     "montrealJobs": 1,
+     "company": "Walmart",
+     "sample": [
+      "Marketing Manager (Vancouver, British Columbia)"
+     ]
+    }
+   ]
+  },
+  "Sephora": {
+   "bamboohr": [
+    {
+     "slug": "sephora",
+     "montrealJobs": 1,
+     "company": "Sephora",
+     "sample": [
+      "Marketing Manager (Vancouver, British Columbia)"
+     ]
+    }
+   ]
+  },
+  "Lush": {
+   "greenhouse": [
+    {
+     "slug": "lush",
+     "montrealJobs": 62,
+     "company": "Lush Handmade Cosmetics",
+     "sample": [
+      "Accounts Payable Administrative Support (Toronto, Ontario, Canada)",
+      "Ambassadeur Saisonnier - Carrefour Laval (Laval, Quebec, Canada)",
+      "Ambassadeur Saisonnier - Galeries d'Anjou (Montreal, Quebec, Canada)"
+     ]
+    }
+   ]
+  },
+  "Indigo Books": {
+   "ashby": [
+    {
+     "slug": "indigo",
+     "montrealJobs": 2,
+     "company": "Indigo",
+     "sample": [
+      "Software Engineer, Applied AI/Product (Toronto)",
+      "Medical Intake Specialist- Toronto (Toronto)"
+     ]
+    }
+   ]
+  },
+  "Instacart": {
+   "greenhouse": [
+    {
+     "slug": "instacart",
+     "montrealJobs": 37,
+     "company": "Instacart",
+     "sample": [
+      "Billing Operations Lead (Canada - Remote (ON, AB, BC, or NS Only))",
+      "Chief of Staff, Online Grocery (Canada - Remote (ON, AB, BC, or NS Only))",
+      "Director, Ads Product Marketing  (Canada - Remote (ON, AB, BC, or NS Only))"
+     ]
+    }
+   ]
+  },
+  "Lyft": {
+   "greenhouse": [
+    {
+     "slug": "lyft",
+     "montrealJobs": 75,
+     "company": "Lyft",
+     "sample": [
+      "Analyste en Planification des Actifs (Montreal, Canada)",
+      "Analyste Financier (Montreal, Canada)",
+      "Analyst, Global Support Workforce Planning (Toronto, Canada)"
+     ]
+    }
+   ]
+  },
+  "TCS": {
+   "greenhouse": [
+    {
+     "slug": "tcs",
+     "montrealJobs": 1,
+     "company": "Thornbury Community Services",
+     "sample": [
+      "Learning Disabilities Support Work- Halifax (Halifax)"
+     ]
+    }
+   ]
+  },
+  "Torstar": {
+   "smartrecruiters": [
+    {
+     "slug": "torstar",
+     "montrealJobs": 11,
+     "company": "Torstar",
+     "sample": [
+      "Reporter - Hamilton (Full-time) (Hamilton, ON, ca)",
+      "Digital Producer Audience Engagement (Full-time) (Toronto, ON, ca)",
+      "Journalist - Housing (Full-time) (Toronto, ON, ca)"
+     ]
+    }
+   ]
+  },
+  "Commissionaires": {
+   "bamboohr": [
+    {
+     "slug": "commissionaires",
+     "montrealJobs": 22,
+     "company": "Commissionaires",
+     "sample": [
+      "Security Guard (Veteran of Canadian Armed Forces / Canadian Military, RCMP, Police and Reservist) (Halifax, Nova Scotia)",
+      "Security Guard - Valley (Greenwood, Nova Scotia)",
+      "Part-Time Spare Security Guards - Sydney (Sydney, Nova Scotia)"
+     ]
+    }
+   ]
+  },
+  "Georgian": {
+   "ashby": [
+    {
+     "slug": "georgian",
+     "montrealJobs": 2,
+     "company": "Georgian",
+     "sample": [
+      "Sr. Capital Formation Associate (Toronto Headquarters)",
+      "AI/ML Engineer Intern (2027) (Toronto Headquarters)"
+     ]
+    }
+   ]
+  },
+  "Dexterra": {
+   "smartrecruiters": [
+    {
+     "slug": "dexterra",
+     "montrealJobs": 292,
+     "company": "Dexterra",
+     "sample": [
+      "Cashier / Cook Helper  (Richmond, BC, ca)",
+      "Culinary Operations Supervisor (Surrey, BC, ca)",
+      "Cleaning Supervisor (Toronto, ON, ca)"
+     ]
+    }
+   ]
+  },
+  "SAIT": {
+   "lever": [
+    {
+     "slug": "sait",
+     "montrealJobs": 15,
+     "company": "Sait",
+     "sample": [
+      "Adjunct Instructor - H2S Alive - Calgary Corrections (Calgary, AB / Calgary, AB)",
+      "Adjunct Instructor - Standard First Aid - Calgary Corrections (Calgary, AB / Calgary, AB)",
+      "Adjunct Instructor- Service Now Fundamentals- Corporate Delivery Opportunity Talent Pool (Calgary, AB / Calgary, AB)"
+     ]
+    }
+   ]
+  },
+  "Vanier": {
+   "bamboohr": [
+    {
+     "slug": "vanier",
+     "montrealJobs": 10,
+     "company": "Vanier",
+     "sample": [
+      "Psychologist (London, Ontario)",
+      "Child & Family Therapist-Contract (London, Ontario)",
+      "Director of Quality & Strategy (London, Ontario)"
+     ]
+    }
+   ]
+  },
+  "National Research Council": {
+   "greenhouse": [
+    {
+     "slug": "national",
+     "montrealJobs": 2,
+     "company": "NATIONAL",
+     "sample": [
+      "Director, Public Affairs and Regional Lead (Newfoundland and Labrador, Canada)",
+      "Senior Consultant, Public Affairs and Government Relations (Toronto, Ontario, Canada)"
+     ]
+    }
+   ]
+  },
+  "City of Hamilton": {
+   "bamboohr": [
+    {
+     "slug": "cityofhamilton",
+     "montrealJobs": 35,
+     "company": "Cityofhamilton",
+     "sample": [
+      "Job ID #30790: Instrumentation Technician (Hamilton, Ontario)",
+      "Job ID #31588: Environmental Enforcement Officer (Hamilton, Ontario)",
+      "Job ID #31748: Refrigeration AC Technician - REPOST (Hamilton, Ontario)"
+     ]
+    }
+   ]
+  },
+  "YWCA": {
+   "breezy": [
+    {
+     "slug": "ywca",
+     "montrealJobs": 1,
+     "company": "YWCA Halifax",
+     "sample": [
+      "SHYM 1 Program Coordinator (Dartmouth, NS)"
+     ]
+    }
+   ]
+  },
+  "CHEO": {
+   "bamboohr": [
+    {
+     "slug": "cheo",
+     "montrealJobs": 3,
+     "company": "Cheo",
+     "sample": [
+      "Locum Pediatric Neurologist (Ottawa, Ontario)",
+      "LOCUM PEDIATRIC ONCOLOGIST, SOLID TUMOR ONCOLOGY (Ottawa, Ontario)",
+      "Pediatric Gastroenterologist (Ottawa, Ontario)"
+     ]
+    }
+   ]
+  },
+  "North York General": {
+   "bamboohr": [
+    {
+     "slug": "north",
+     "montrealJobs": 1,
+     "company": "North",
+     "sample": [
+      "Marketing Manager (Vancouver, British Columbia)"
+     ]
+    }
+   ]
+  },
+  "Island Health": {
+   "greenhouse": [
+    {
+     "slug": "island",
+     "montrealJobs": 3,
+     "company": "Island",
+     "sample": [
+      "Escalation Engineer- Toronto (Toronto)",
+      "Senior Software Engineer- Toronto (Toronto)",
+      "Test Development Engineer  - Toronto (Toronto)"
      ]
     }
    ]
@@ -88,18 +948,84 @@
  },
  "slugsByKind": {
   "bamboohr": [
+   "cheo",
+   "cityofhamilton",
+   "commissionaires",
    "ludia",
-   "taigamotors"
-  ],
-  "ashby": [
-   "hopper"
+   "north",
+   "relicentertainment",
+   "seagate",
+   "sephora",
+   "taigamotors",
+   "unilever",
+   "vanier",
+   "vertex",
+   "walmart"
   ],
   "smartrecruiters": [
+   "abbvie",
+   "continental",
+   "dexterra",
    "gameloft",
-   "videotron"
+   "genetec",
+   "hootsuite",
+   "metroinc",
+   "torstar",
+   "videotron",
+   "wabtec"
+  ],
+  "ashby": [
+   "cohere",
+   "float",
+   "georgian",
+   "hopper",
+   "indigo",
+   "jobber",
+   "neofinancial",
+   "phoenix",
+   "procurify",
+   "rewind",
+   "sierra",
+   "thinkific",
+   "trulioo",
+   "visier",
+   "wealthsimple",
+   "webflow"
+  ],
+  "workable": [
+   "nuvei"
+  ],
+  "breezy": [
+   "telus",
+   "ywca"
   ],
   "greenhouse": [
-   "hasbro"
+   "dialpad",
+   "faire",
+   "hasbro",
+   "instacart",
+   "island",
+   "later",
+   "lush",
+   "lyft",
+   "mejuri",
+   "national",
+   "pagerduty",
+   "purestorage",
+   "tcs",
+   "tenstorrent",
+   "toast",
+   "unbounce",
+   "zscaler"
+  ],
+  "lever": [
+   "cirquedusoleil",
+   "eqbank",
+   "fullscript",
+   "pelmorex",
+   "sait",
+   "waabi",
+   "wattpad"
   ]
  }
 }
