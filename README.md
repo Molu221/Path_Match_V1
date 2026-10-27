@@ -78,7 +78,7 @@ npm run collect                # collect now (add ADZUNA_APP_ID=... ADZUNA_APP_K
 - Adzuna, Jooble and Careerjet give only a snippet, and some Job Bank posts only link to a partner site, so those rows are labelled "Snippet" and scored from less text. Paste the full description into the card to score it fully.
 - Job Bank is slow on purpose (5 seconds between requests), so its part of a run takes about 15 minutes. A whole run takes 30 to 60 minutes the first time (the workflow allows 150) and less afterwards, because postings that did not change are not analysed again.
 - The stage of a person and the level of a posting are read from words and dates, so they can be wrong (a title such as "Director" at a small firm, a CV with no dates). That is why the stage can be changed by hand, the level filter can be switched to "All levels", and every card says how its level was read.
-- `docs/jobs.json` is about 1 KB per posting (about 4 MB over the wire for 13,000 postings once compressed); the texts are read only when needed.
+- `docs/jobs.json` is about 1.2 KB per posting (18 MB, about 5 MB over the wire once compressed, for 15,600 postings); the texts (60 MB in `docs/d`) are read only when a card is opened.
 - A collection runs a few times a day, so a posting can close before the next run.
 - Scores come from keyword rules. Degree level, security rules and exact dates are only as good as the posting text.
 - Scanned (image-only) PDFs have no text. Paste the text instead.
