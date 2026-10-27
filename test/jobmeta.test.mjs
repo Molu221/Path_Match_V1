@@ -69,4 +69,20 @@ const fields = [
 for (const [t, want] of fields) assert.equal(J.fieldOf(t).id, want, t + " -> " + J.fieldOf(t).id);
 assert.equal(J.fieldOf("Quelque chose d'inclassable").id, "other");
 assert.ok(J.FIELD_LIST.length >= 15 && J.FIELD_LIST.at(-1).id === "other");
+
+/* language of a posting (read from the text, else from the title) and the wording to check yourself */
+const EN = "We are looking for a cashier to join our team. You will serve the customers and the store is open to all. ".repeat(4);
+const FR = "Nous cherchons un caissier pour notre magasin. Vous allez servir les clients dans notre equipe et les ventes. ".repeat(4);
+assert.equal(J.langOf("Cashier", EN), "en");
+assert.equal(J.langOf("Caissier", FR), "fr");
+assert.equal(J.langOf("Cashier", EN + FR), "bi");
+assert.equal(J.langOf("Stagiaire en génie industriel", ""), "fr", "no text: the title decides");
+assert.equal(J.langOf("Software Developer", ""), "en");
+assert.equal(J.langOf("Assistant / Adjoint administratif - bilingual", ""), "bi");
+const fl = J.descFlags("Must hold a security clearance. Fluent in both English and French. Bachelor degree. A 4-month term. Canadian citizens only.");
+const has = (re) => fl.some((f) => re.test(f[1]));
+assert.ok(has(/Security/) && has(/French\/English/) && has(/bachelor/) && has(/4 months/) && has(/Work eligibility/), "wording flags: " + JSON.stringify(fl));
+assert.equal(J.descFlags("").length, 0);
+assert.ok(J.descFlags("English only. Nothing else.").some((f) => f[0] === "g"));
+
 console.log("jobmeta tests passed:", levels.length, "titles,", Object.keys(CVS).length, "CVs,", fields.length, "fields");

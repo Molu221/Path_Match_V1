@@ -212,7 +212,7 @@ assert.equal(broken.sources["The Muse"].requestsFailed, 1);
 assert.equal(broken.sources.Greenhouse.jobs, 6);
 globalThis.fetch = fetchOk;
 
-// the size budget: rare kinds first, one employer cannot fill the list, every field gets a share
+// everything is kept; only above the limit are the rare kinds first, one employer cannot fill the list, and every field gets a share
 const mk = (company, title, ageH, extra = {}) => ({ company, title, loc: "Toronto, ON", ageH, desc: "x".repeat(1000), type: "", sources: [{ src: "t", url: "u" }], ...extra });
 const pool = [
   ...Array.from({ length: 40 }, (_, i) => mk("BigCo", "Software Engineer " + i, i)),
@@ -220,11 +220,39 @@ const pool = [
   ...Array.from({ length: 6 }, (_, i) => mk("Bank" + i, "Accountant " + i, 60 + i)),
   mk("Uni", "Summer Student", 500), mk("Shop", "Cashier", 300, { type: "Part-time" }),
 ];
-const pick = c.selectJobs(pool, { maxBytes: 12 * 2000, perCompany: 3 });
+assert.equal(c.selectJobs(pool).length, pool.length, "nothing is dropped below the limit, even 40 postings of one employer");
+const pick = c.selectJobs(pool, { maxJobs: 12, perCompany: 3 });
 assert.ok(pick.length <= 12 && pick.some((j) => j.title === "Summer Student") && pick.some((j) => j.type === "Part-time"), "internships and part-time go in first even when old");
 assert.ok(pick.filter((j) => j.company === "BigCo").length <= 3, "at most perCompany from one employer");
 assert.ok(pick.some((j) => /Nurse/.test(j.title)) && pick.some((j) => /Accountant/.test(j.title)), "other fields get a share");
 assert.ok(pick.every((j, i) => i === 0 || (pick[i - 1].ageH ?? 1e9) <= (j.ageH ?? 1e9)), "the result is newest first");
-assert.equal(c.selectJobs(pool, { maxBytes: 1e9, perCompany: 100 }).length, pool.length, "everything fits when the budget allows");
+
+// the two kinds of file: a short record per posting (jobs.json) and the text in 64 files by id (docs/d)
+const fsx = await import("node:fs"), osx = await import("node:os"), pathx = await import("node:path");
+const dir = fsx.mkdtempSync(pathx.join(osx.tmpdir(), "pm-"));
+const withText = [
+  mk("Acme", "Registered Nurse", 30, { desc: "Provide patient care. Requirements: RN licence. Bilingual (French and English) required.", province: "ON" }),
+  mk("Acme", "Cashier", 5000, { desc: "", partial: true, province: "ON" }),
+  mk("Beta", "Software Developer", null, { desc: "Python and SQL. Security clearance required.", province: "QC" }),
+];
+c.addProfiles(withText, () => {});
+const ids = withText.map((j) => j.id);
+assert.ok(ids.every((i) => /^[0-9a-f]{10}$/.test(i)) && new Set(ids).size === 3, "every posting has its own id");
+assert.equal(c.jobId({ company: "ACME ", title: "registered  nurse" }), withText[0].id, "the id follows the key that merges duplicates (case, accents, spaces)");
+assert.ok(withText.every((j) => Array.isArray(j.lv) && ["en", "fr", "bi"].includes(j.lg) && Number.isInteger(j.dl)), "level, language and text length are saved with the record");
+assert.ok(withText[0].df.some((f) => /French\/English/.test(f[1])) && withText[2].df.some((f) => /Security/.test(f[1])), "wording flags are saved with the record");
+const written = c.writeOutput({ updatedAt: "2026-10-11T12:00:00.000Z", mock: false, sources: {}, jobs: withText }, { indexFile: pathx.join(dir, "jobs.json"), textDir: pathx.join(dir, "d") });
+assert.equal(written.jobs, 3);
+const idx = JSON.parse(fsx.readFileSync(pathx.join(dir, "jobs.json"), "utf8"));
+assert.ok(idx.jobs.every((j) => j.desc === undefined && j.ageH === undefined), "the index has no text and no 'hours ago'");
+assert.equal(idx.jobs.find((j) => j.title === "Registered Nurse").postedAt, "2026-10-10T06:00:00.000Z", "postedAt = collection time minus the age");
+assert.ok(idx.jobs.every((j, i) => i === 0 || idx.jobs[i - 1].id < j.id), "the index is sorted by id, the same order every day");
+assert.equal(fsx.readdirSync(pathx.join(dir, "d")).length, 64);
+for (const j of withText) {
+  const shard = JSON.parse(fsx.readFileSync(pathx.join(dir, "d", c.shardOf(j.id) + ".json"), "utf8"));
+  assert.equal(shard[j.id], j.desc || undefined, "the text is in the file named by the id");
+}
+assert.equal(c.shardOf("ffffffffff"), "63"); assert.equal(c.shardOf("0000000000"), "00");
+fsx.rmSync(dir, { recursive: true });
 
 console.log("all tests passed:", out.jobs.length, "merged postings;", JSON.stringify(out.sources.Greenhouse));

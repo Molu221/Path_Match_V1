@@ -352,7 +352,10 @@ try{const v=localStorage.getItem("pm_lvl");if(/^[0-4]$/.test(v||""))ME=+v;}catch
 const cvBand=()=>CV&&CV.lv?CV.lv.band:null;
 const meBand=()=>ME!==null?ME:cvBand();
 function setMe(b){ME=b;try{if(b===null)localStorage.removeItem("pm_lvl");else localStorage.setItem("pm_lvl",String(b));}catch(e){}}
-const lvOf=j=>j._lv||(j._lv=JobMeta.jobLevel(j.title,j.desc||"",j.type||""));
+/* A posting is a short record: its level (lv), language (lg), wording flags (df), keywords (kw) and length of text (dl) were worked out
+   by the collector from the full text. The text itself sits in d/NN.json and is loaded only when a card is opened (ensureText). */
+const hasText=j=>!!(j.desc||j.dl);
+const lvOf=j=>j._lv||(j._lv=(j.lv&&!j.pasted)?{lvl:j.lv[0],why:j.lv[1]||""}:JobMeta.jobLevel(j.title,j.desc||"",j.type||""));
 const fdOf=j=>j._fd||(j._fd=JobMeta.fieldOf(j.title));
 const REL_PILL={fits:["g","Fits your level"],step:["w","One step above you"],far:["b","Well above your level"],below:["","Below your level"],"well-below":["","Well below your level"]};
 
@@ -468,6 +471,49 @@ function sourceTable(){
   return `<div style="overflow-x:auto"><table class="maptab srctab"><thead><tr><th>Source</th><th>What it gives</th><th>Text</th><th>Postings</th><th>Last run</th></tr></thead><tbody>${names.map(row).join("")}</tbody></table></div>`;
 }
 
+/* ---------- posting texts: d/00.json ... d/63.json, loaded when a card is opened ---------- */
+const shardOf=id=>String(parseInt(String(id).slice(0,2),16)>>2).padStart(2,"0");
+let SHARD=new Map(),BYID=new Map(),DATA_V="";
+function loadShard(n){
+  if(!SHARD.has(n))SHARD.set(n,fetch("d/"+n+".json?v="+encodeURIComponent(DATA_V)).then(r=>{if(!r.ok)throw new Error("HTTP "+r.status);return r.json();}).catch(e=>{SHARD.delete(n);throw e;}));
+  return SHARD.get(n);
+}
+const needsText=j=>!j.desc&&j.dl>0&&!!j.id&&!j._tfail;
+async function ensureText(j){
+  if(!needsText(j))return;
+  try{const t=(await loadShard(shardOf(j.id)))[j.id];if(t&&!j.desc){j.desc=t;j._map=null;j._d=null;}else if(!t)j._tfail=true;}
+  catch(e){j._tfail=true;}
+}
+/* redraw the text parts of a card that is open (after its text arrived) */
+function refreshSlot(j){
+  const k=jkey(j),d=[...document.querySelectorAll("details.job")].find(x=>x.dataset.k===k);
+  if(!d||!d.open)return;
+  const ms=d.querySelector(".mapslot"),ds=d.querySelector(".descslot");
+  if(ms&&CV)ms.innerHTML=mapPanel(j);
+  if(ds)ds.innerHTML=descPanel(j);
+}
+function descPanel(j){
+  if(needsText(j)){ensureText(j).then(()=>refreshSlot(j));return '<p class="note">Loading the posting…</p>';}
+  if(j._tfail&&!j.desc)return '<p class="note">The text of this posting could not be loaded. Check the connection and open the card again, or open it on the employer\'s page.</p>';
+  const text=bodyOf(j);
+  return text?`<pre class="hl">${esc(text.slice(0,3000))}${text.length>3000?"\n…":""}</pre>`:'<p class="note">No description was collected for this posting. Open it on the employer\'s page.</p>';
+}
+/* "search inside the descriptions": needs every text, so all 64 files are read once, 8 at a time */
+let ALLTEXT=null,TEXTNOTE="";
+function loadAllText(){
+  if(ALLTEXT)return ALLTEXT;
+  const ns=[...Array(64).keys()].map(n=>String(n).padStart(2,"0"));let done=0;
+  ALLTEXT=(async()=>{
+    for(let i=0;i<ns.length;i+=8)await Promise.all(ns.slice(i,i+8).map(async n=>{
+      try{const sh=await loadShard(n);for(const id in sh){const j=BYID.get(id);if(j&&!j.desc){j.desc=sh[id];j._d=null;}}}catch(e){}
+      done++;TEXTNOTE=done<64?`Reading the posting texts… ${done} of 64`:"";
+      if(F.desc){const el=$("fstat");if(el&&TEXTNOTE)el.textContent=TEXTNOTE;}
+    }));
+    TEXTNOTE="";
+  })();
+  return ALLTEXT;
+}
+
 /* ---------- keywords: the Python skill list + OaSIS (matcher.js) ---------- */
 let DICT=null;
 /* a few postings were collected with entities such as &#xa; or &#96; still in the text: turn them back into characters */
@@ -542,8 +588,8 @@ const half=x=>String(Math.round(x*10)/10);
 /* the keywords row directly under the job title: the main keywords the score counts */
 function skillsRow(j){
   if(!DICT)return '<div class="skills"><span class="note">Reading the keywords…</span></div>';
-  const rows=rowsOf(j)||[],where=j.desc?"posting":"title";
-  const need=j.desc&&!j.partial&&!j.pasted?"":" Only "+(j.desc?"a short snippet":"the title")+" is available: open the card and paste the full description.";
+  const rows=rowsOf(j)||[],where=hasText(j)?"posting":"title";
+  const need=hasText(j)&&!j.partial&&!j.pasted?"":" Only "+(hasText(j)?"a short snippet":"the title")+" is available: open the card and paste the full description.";
   if(!rows.length)return `<div class="skills"><span class="note">No keywords were found in the ${where}.${need}</span></div>`;
   const M=rows.filter(x=>x.st==="M").length,C=rows.filter(x=>x.st==="R").length,MAX=16;
   const chips=rows.slice(0,MAX).map(x=>{
@@ -551,13 +597,13 @@ function skillsRow(j){
     return `<span class="${x.st}${x.kind==="t"?" t":""}" title="${esc((TAGNAME[x.tag]?TAGNAME[x.tag]+": ":"")+t)}">${esc(x.n)}</span>`;
   }).join("");
   const more=rows.length-MAX;
-  return `<div class="skills"><div class="sk-h"><b>${M} of the ${rows.length}</b> main keywords of this ${where} are on your CV${C?` (${C} close, not counted)`:""}${j.pasted?" · from the text you pasted":j.partial?" · short snippet only: open the card to paste the full text":j.desc?"":" · title only: open the card to paste the full text"}</div>
+  return `<div class="skills"><div class="sk-h"><b>${M} of the ${rows.length}</b> main keywords of this ${where} are on your CV${C?` (${C} close, not counted)`:""}${j.pasted?" · from the text you pasted":j.partial?" · short snippet only: open the card to paste the full text":hasText(j)?"":" · title only: open the card to paste the full text"}</div>
     <div class="kw sk">${chips}${more>0?`<span class="more">+${more} more, open the card</span>`:""}</div></div>`;
 }
 function pasteBox(j){
-  if(j.desc&&!j.partial&&!j.pasted)return "";
+  if(hasText(j)&&!j.partial&&!j.pasted)return "";
   const k=esc(jkey(j));
-  const msg=j.pasted?"The keywords below come from the full text you pasted.":j.desc?"Only a short snippet of this posting is available, so only some keywords are listed.":"Only the title is available, so only the keywords of the title are listed.";
+  const msg=j.pasted?"The keywords below come from the full text you pasted.":hasText(j)?"Only a short snippet of this posting is available, so only some keywords are listed.":"Only the title is available, so only the keywords of the title are listed.";
   return `<div class="paste"><b>${msg}</b>
     <div class="note" style="margin-top:6px">Paste the whole job description (from LinkedIn, Indeed or the employer's page).</div>
     <textarea aria-label="Full job description" data-pk="${k}" placeholder="Paste the full posting text here: tasks, requirements, assets, language and eligibility"></textarea>
@@ -565,10 +611,11 @@ function pasteBox(j){
 }
 /* the mapping panel inside the card (built when the card is opened) */
 function mapPanel(j){
+  if(needsText(j)){ensureText(j).then(()=>refreshSlot(j));return '<p class="note">Loading the posting text…</p>';}
   const head='<h3>Every keyword of the posting against your CV</h3>'+pasteBox(j);
   if(!DICT)return head+'<p class="note">The dictionary is loading…</p>';
   const m=mapData(j),r=m.r,cv=m.cvf,t=m.tot;
-  if(!m.rows.length)return head+`<p class="note">No keywords were found in this posting's ${j.desc?"text":"title"}.</p>`;
+  if(!m.rows.length)return head+`<p class="note">No keywords were found in this posting's ${hasText(j)?"text":"title"}.</p>`;
   const cnt=m.rows.filter(x=>x.counted),abt=m.rows.filter(x=>!x.counted);
   const both=cnt.filter(x=>x.st==="M"),near=cnt.filter(x=>x.st==="R"),miss=cnt.filter(x=>x.st==="G");
   const chip=(x,c)=>`<span class="${c}${x.kind==="term"?" t":""}" title="${esc(x.tag||"")}">${esc(x.n)}</span>`;
@@ -636,36 +683,13 @@ function termOptions(){
   const o=termOptions(),up=o.find(x=>x.start>NOWIX)||o[0];
   $("term").innerHTML=o.map(x=>`<option value="${esc(x.value)}"${x===up?" selected":""}>${esc(x.label)}</option>`).join("")+'<option value="">Any term</option>';
 })();
-const FR_W=/\b(le|la|les|des|du|une|pour|avec|vous|nous|votre|notre|dans|sur|est|sont|aux|chez|et)\b/g;
-const EN_W=/\b(the|and|for|with|you|your|our|will|are|to|of|in|is|we|as|an)\b/g;
-const FR_T=/\b(stage|stagiaire|etudiant|etudiante|ingenieur|ingenieure|responsable|conseiller|conseillere|adjoint|adjointe|prepose|preposee|technicien|technicienne|charge|chargee|gestionnaire|directeur|directrice|coordonnateur|coordonnatrice|commis|caissier|caissiere|vendeur|vendeuse|infirmier|infirmiere|analyste|agent|agente|developpeur|developpeuse|hiver|ete|automne)\b/;
-function langOf(j){
-  const body=norm((j.desc||"").slice(0,900));
-  if(body.length>200){
-    const fr=(body.match(FR_W)||[]).length,en=(body.match(EN_W)||[]).length;
-    if(fr>=8&&en>=8)return "bi";
-    return fr>en*1.3?"fr":"en";
-  }
-  const t=norm(j.title);
-  if(/ \/ | \| |\*\*\*|\(fr\/en\)|\bbilingual\b|\bbilingue\b/.test(t)&&FR_T.test(t)&&/\b(intern|engineer|manager|student|specialist|analyst|coordinator|assistant|officer|advisor|developer|nurse|technician|clerk)\b/.test(t))return "bi";
-  return FR_T.test(t)||(t.match(FR_W)||[]).length>=2?"fr":"en";
-}
+/* the language of a posting: from the record, or from the text when the person pasted one */
+function langOf(j){return (j.lg&&!j.pasted)?j.lg:JobMeta.langOf(j.title,j.desc||"");}
 const FED=/\b(csis|scrs|rcmp|grc|national defence|defense nationale|communications security|cbsa|asfc)\b/;
 const DEFENCE=/bombardier|\bcae\b|airbus|pratt|\bmda\b|heroux|lockheed|boeing|general dynamics|l3harris|raytheon|\brtx\b|bae systems|thales|safran|textron|leonardo|colt canada|magellan aerospace|calian|collins aerospace/;
 function descFlags(j,flags){
-  const t=norm(j.desc);
-  const add=(c,msg)=>flags.push([c,msg]);
-  const sec=t.match(/security clearance|cote de securite|habilitation|controlled goods|marchandises controlees|\bitar\b|criminal (record|background)|verification des antecedents|casier judiciaire|vulnerable sector|secteur vulnerable/);
-  if(sec)add("b","Security / background check in text ("+sec[0]+"): verify");
-  const cit=t.match(/canadian citizen|citoyen canadien|citoyennete canadienne|permanent resident|resident permanent|eligible to work in canada|authori[sz]ed to work in canada|autorise a travailler|permis de travail|work permit|legally entitled/);
-  if(cit)add("w","Work eligibility wording in text ("+cit[0]+"): verify");
-  if(/english only|anglais seulement/.test(t))add("g","English only");
-  else if(/bilingual|bilingue|francais et anglais|french and english|fluent in (both|french)|courant en francais|maitrise du francais|francais.{0,20}requis|french.{0,20}required/.test(t))add("w","French/English requirement in text: check your level");
-  if(/master|maitrise|graduate student|cycles? superieurs?/.test(t))add("n","Mentions master's / graduate level");
-  else if(/bachelor|baccalaureat|undergraduate|1er cycle|premier cycle/.test(t))add("w","Written for bachelor's level: check that your degree fits");
-  if(/new grad|recent graduate|nouveau diplome|jeune diplome/.test(t)&&!/student|etudiant/.test(t))add("w","Aimed at new graduates, not current students");
-  const len=t.match(/(\d{1,2})[- ]?(?:month|mois)/);
-  if(len)add("","Length: "+len[1]+" months: check that it fits your dates");
+  const f=(j.df&&!j.pasted)?j.df:JobMeta.descFlags(j.desc||"");
+  for(const x of f)flags.push(x);
 }
 function scoreJob(j){
   const T=norm(j.title+" "+j.type);
@@ -692,8 +716,8 @@ function scoreJob(j){
   const co=norm(j.company);
   if(FED.test(co))flags.push(["b","Federal security clearance and citizenship rules likely: verify"]);
   else if(DEFENCE.test(co))flags.push(["w","Aerospace / defence employer: security screening or Controlled Goods may apply"]);
-  if(j.desc)descFlags(j,flags);
-  return{role:sc.role,level:sc.level,overlap:sc.overlap,total:sc.total,rows,cov:sc.cov,matched:sc.matched,close:sc.close,n:sc.n,flags,lv,rel,fit,past,conf:j.desc?(j.partial?"Short snippet":"Full text"):"Title only"};
+  if(hasText(j))descFlags(j,flags);
+  return{role:sc.role,level:sc.level,overlap:sc.overlap,total:sc.total,rows,cov:sc.cov,matched:sc.matched,close:sc.close,n:sc.n,flags,lv,rel,fit,past,conf:hasText(j)?(j.partial?"Short snippet":"Full text"):"Title only"};
 }
 
 let tab="full",RES=[],RES_VER=-1,RUN=0,SCORING="";
@@ -764,8 +788,6 @@ function jobHtml(r,rank){
 /* a posting before a CV is added: nothing is scored, the text is there to read */
 function browseHtml(j,rank){
   const a=age(j),jk=jkey(j),lv=lvOf(j);
-  const text=bodyOf(j);
-  const body=text?esc(text.slice(0,3000))+(text.length>3000?"\n…":""):"";
   const open=j.sources.slice(0,3).map(x=>`<a class="btn" href="${esc(x.url)}" target="_blank" rel="noopener">Open on ${esc(x.src)}</a>`).join(" ");
   const rel=JobMeta.relation(meBand(),lv.lvl);
   const kws=(j.kw||[]).slice(0,10).map(c=>`<span class="N${c[1]==="t"?" t":""}">${esc(c.slice(3))}</span>`).join("");
@@ -779,7 +801,7 @@ function browseHtml(j,rank){
       <div>${a<24?pill("n","24h"):""}${j.fresh?pill("n","New since you opened the page"):""}${j.partial?pill("","Short snippet only"):""}</div>
     </div></summary>
     <div class="det">
-      <h3>The posting</h3>${body?`<pre class="hl">${body}</pre>`:'<p class="note">No description was collected for this posting. Open it on the employer\'s page.</p>'}
+      <h3>The posting</h3><div class="descslot">${OPEN.has(jk)?descPanel(j):""}</div>
       <p class="note"><b>Add your CV</b> (left) to score this posting and see which of its keywords are on your CV.</p>
       <div class="row">${open}</div>
     </div></details>`;
@@ -877,6 +899,7 @@ function renderList(v){
   syncControls();
   const bits=[`<b>${nf(list.length)}</b> ${KIND_LABEL[tab]}`,`${nf(n24)} posted in the last 24 h`];
   if(SCORING)bits.push(esc(SCORING));
+  else if(F.desc&&TEXTNOTE)bits.push(esc(TEXTNOTE));
   else if(!CV)bits.push("<b>add your CV</b> (left) to score and rank them");
   if(sortKey!=="match")bits.push("sorted by "+({stage:"fit with your stage",level:"level, lowest first",new:"newest",company:"company",title:"title"})[sortKey]);
   $("fstat").innerHTML=bits.join(" · ");
@@ -1080,8 +1103,13 @@ $("view").addEventListener("toggle",e=>{
   if(d&&d.classList&&d.classList.contains("job")&&d.dataset.k){
     if(d.open){
       OPEN.add(d.dataset.k);
-      const slot=d.querySelector(".mapslot");
-      if(slot&&!slot.firstChild&&CV){const j=JOBS.find(x=>jkey(x)===d.dataset.k);if(j)slot.innerHTML=mapPanel(j);}
+      const j=JOBS.find(x=>jkey(x)===d.dataset.k);
+      if(j){
+        j._tfail=false;
+        const slot=d.querySelector(".mapslot"),ds=d.querySelector(".descslot");
+        if(slot&&!slot.firstChild&&CV)slot.innerHTML=mapPanel(j);
+        if(ds&&!ds.firstChild)ds.innerHTML=descPanel(j);
+      }
     }else OPEN.delete(d.dataset.k);
   }
 },true);
@@ -1137,7 +1165,7 @@ $("floc").onchange=e=>{F.loc=e.target.value;refilter(false);};
 $("fsrc").onchange=e=>{F.src=e.target.value;refilter(false);};
 $("fsort").onchange=e=>{F.sort=e.target.value;refilter(false);};
 $("fmin").onchange=e=>{F.min=+e.target.value;refilter(false);};
-$("fdesc").onchange=e=>{F.desc=e.target.checked;refilter(false);};
+$("fdesc").onchange=e=>{F.desc=e.target.checked;refilter(false);if(F.desc)loadAllText().then(()=>{if(F.desc)render();});};
 $("fsaved").onclick=()=>{F.saved=!F.saved;refilter(false);};
 $("chips").addEventListener("click",e=>{const b=e.target.closest("[data-w]");if(b){$("window").value=b.dataset.w;refilter(false);}});
 function resetFilters(){Object.assign(F,{q:"",qw:[],loc:"",src:"",sort:"",min:0,saved:false,desc:false,lvl:"fit",fd:""});$("fq").value="";$("window").value=DEFAULT_W;refilter(false);}
@@ -1196,12 +1224,12 @@ async function loadServer(){
     for(const x of d.jobs){
       const k=norm(x.company)+"|"+norm(x.title);
       if(m.has(k))continue;
-      m.set(k,{company:x.company,title:x.title,loc:x.loc,date:x.date,type:x.type||"",sources:x.sources,desc:x.desc||"",province:x.province||"",kw:x.kw||null,kt:x.kt||0,
+      m.set(k,{company:x.company,title:x.title,loc:x.loc,date:x.date,type:x.type||"",sources:x.sources,desc:x.desc||"",id:x.id||"",dl:x.dl!=null?x.dl:(x.desc||"").length,lv:x.lv||null,lg:x.lg||null,df:x.df||null,province:x.province||"",kw:x.kw||null,kt:x.kt||0,
         ageH:x.postedAt?(Date.now()-Date.parse(x.postedAt))/36e5:x.ageH!=null?x.ageH+(Date.now()-at)/36e5:null,snap:!!d.mock,partial:!!x.partial});
     }
     const before=new Set(JOBS.map(jkey)),wasFresh=new Set(JOBS.filter(j=>j.fresh).map(jkey));
-    JOBS.length=0;
-    for(const j of m.values()){classify(j);const k=jkey(j);j.fresh=!first&&(!before.has(k)||wasFresh.has(k));applyPasted(j);JOBS.push(j);}
+    JOBS.length=0;SHARD=new Map();BYID=new Map();ALLTEXT=null;DATA_V=d.updatedAt;
+    for(const j of m.values()){classify(j);const k=jkey(j);j.fresh=!first&&(!before.has(k)||wasFresh.has(k));applyPasted(j);JOBS.push(j);if(j.id)BYID.set(j.id,j);}
     JOBS_VER++;
     const nNew=JOBS.filter(j=>j.fresh).length;
     note.textContent=(d.mock?"Demo data until the first scheduled collection runs. ":"")+nf(JOBS.length)+" postings, collected "+SRC_TIME+". The collector re-runs once a day and this page checks for a new collection every 5 minutes."+(nNew?" "+nNew+" new since you opened this page.":"");

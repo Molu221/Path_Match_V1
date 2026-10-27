@@ -23,7 +23,7 @@ The top of the page is a trail with five stops (the stage). With a CV, the pin s
 
 Every source below is free to read. The collector keeps a posting when its location is in Canada (any province or territory, English or French name, a code such as QC or ON, or "Remote – Canada"; jobs elsewhere are dropped), whatever the field. Each kept posting is saved with its `province` (`QC`, `ON`, `BC`... or `Remote – Canada` / `Canada` when the text names no province), and `docs/jobs.json` holds the count per province.
 
-Because that is far more than a browser should download, the collector then keeps a **balanced selection** of about 18 MB (`selectJobs` in `scripts/collect.mjs`): internships, co-ops, part-time roles and student-level postings first (up to 30% of the space), then every field in turn (newest first, at most 30 postings per employer), so no field or employer fills the list. It also stores, for each kept posting, its 40 main keywords (`kw`) and their number (`kt`), found with the same rules as the page, so the browser only has to compare them with the CV. Job Bank and The Muse search the largest cities (see `config/searches.json`); the employer boards return every Canadian posting. After each run `docs/jobs.json` holds, for every source, how many postings it gave, how many requests failed and the first error, and the **Method** tab of the site shows that report.
+Every posting that is found is kept; nothing is dropped to save space. To keep the page fast, the data is in two kinds of file. `docs/jobs.json` holds one short record per posting (title, employer, place, date, links, and what the collector worked out from the full text: its 40 main keywords `kw` and their number `kt`, its level `lv`, its language `lg`, wording to check yourself `df`, the length of the text `dl`). The text of each posting is in `docs/d/00.json` to `63.json`, chosen by the posting's `id`, and the page reads one of these files only when a card is opened (or all of them, once, when "search inside the descriptions too" is ticked). A posting keeps its place and its record from one day to the next, so the daily commit only changes what came and went. Only if more than 60,000 postings were found would `selectJobs` choose a balanced selection (internships, co-ops and part-time roles first, then every field in turn, at most 1,500 postings per employer). After each run `docs/jobs.json` holds, for every source, how many postings it gave, how many requests failed and the first error, and the **Method** tab of the site shows that report.
 
 | Source | What it gives | Needs |
 | --- | --- | --- |
@@ -77,7 +77,7 @@ npm run collect                # collect now (add ADZUNA_APP_ID=... ADZUNA_APP_K
 - Adzuna, Jooble and Careerjet give only a snippet, and some Job Bank posts only link to a partner site, so those rows are labelled "Snippet" and scored from less text. Paste the full description into the card to score it fully.
 - Job Bank is slow on purpose (5 seconds between requests), so its part of a run takes about 15 minutes (the workflow allows 60).
 - The stage of a person and the level of a posting are read from words and dates, so they can be wrong (a title such as "Director" at a small firm, a CV with no dates). That is why the stage can be changed by hand, the level filter can be switched to "All levels", and every card says how its level was read.
-- `docs/jobs.json` is about 18 MB (a few MB over the wire once compressed). The selection above is what keeps it that size.
+- `docs/jobs.json` is about 1 KB per posting (about 4 MB over the wire for 13,000 postings once compressed); the texts are read only when needed.
 - A collection runs a few times a day, so a posting can close before the next run.
 - Scores come from keyword rules. Degree level, security rules and exact dates are only as good as the posting text.
 - Scanned (image-only) PDFs have no text. Paste the text instead.
@@ -87,7 +87,7 @@ npm run collect                # collect now (add ADZUNA_APP_ID=... ADZUNA_APP_K
 ## Files
 
 - `docs/index.html` the site (stage trail, filters, results); `docs/jobmeta.js` the level of a posting, the stage of a CV, the fit table and the fields; `docs/scoring.js` the 0–100 score; `docs/matcher.js` the keyword engine
-- `docs/jobs.json` the collected postings (demo data at first)
+- `docs/jobs.json` the collected postings, one short record each; `docs/d/` their full texts in 64 files
 - `scripts/collect.mjs` the collector, `scripts/find-boards.mjs` the board finder (`config/candidates.json` is its list)
 - `config/companies.json`, `config/searches.json` what to collect
 - `.github/workflows/refresh.yml` the schedule

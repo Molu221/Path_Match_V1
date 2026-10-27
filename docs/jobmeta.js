@@ -7,6 +7,8 @@
  *   JobMeta.cvLevel(cvText, now)         -> { band: 0..4 | null, years, conf, why }
  *   JobMeta.fit(cvBand, jobLvl)          -> 0..1   (how well a posting of that level suits a person of that band)
  *   JobMeta.fieldOf(title)               -> { id, label }
+ *   JobMeta.langOf(title, desc)          -> "en" | "fr" | "bi"
+ *   JobMeta.descFlags(desc)              -> [[colour, message], ...]  things to check yourself
  *
  * Levels of a POSTING            Bands of a PERSON (same scale)
  *   0 intern / co-op / student     0 student or new graduate (under 1 year of full-time work)
@@ -295,5 +297,44 @@
   }
   const FIELD_LIST = FIELDS.map(f => ({ id: f.id, label: f.label })).concat([OTHER]);
 
-  return { fold, LEVELS, BANDS, FIT, FIT_MIN, FIELD_LIST, jobLevel, cvLevel, fit, relation, fieldOf, isStudentTitle, yearsAsked };
+
+  /* ------------------------------------------------------------------ language and eligibility wording of a posting ------------------------------------------------------------------ */
+  /* The collector works these out once for every posting (so the page does not need the full text to show them) and the page works them out
+     again only for a text the person pastes. */
+  const plain = (s) => String(s || "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[\r\n\t]+/g, " ").replace(/\s+/g, " ");
+  const FR_W = /\b(le|la|les|des|du|une|pour|avec|vous|nous|votre|notre|dans|sur|est|sont|aux|chez|et)\b/g;
+  const EN_W = /\b(the|and|for|with|you|your|our|will|are|to|of|in|is|we|as|an)\b/g;
+  const FR_T = /\b(stage|stagiaire|etudiant|etudiante|ingenieur|ingenieure|responsable|conseiller|conseillere|adjoint|adjointe|prepose|preposee|technicien|technicienne|charge|chargee|gestionnaire|directeur|directrice|coordonnateur|coordonnatrice|commis|caissier|caissiere|vendeur|vendeuse|infirmier|infirmiere|analyste|agent|agente|developpeur|developpeuse|hiver|ete|automne)\b/;
+  /* "en" English, "fr" French, "bi" written in both languages */
+  function langOf(title, desc) {
+    const body = plain(String(desc || "").slice(0, 900));
+    if (body.length > 200) {
+      const fr = (body.match(FR_W) || []).length, en = (body.match(EN_W) || []).length;
+      if (fr >= 8 && en >= 8) return "bi";
+      return fr > en * 1.3 ? "fr" : "en";
+    }
+    const t = plain(title);
+    if (/ \/ | \| |\*\*\*|\(fr\/en\)|\bbilingual\b|\bbilingue\b/.test(t) && FR_T.test(t) && /\b(intern|engineer|manager|student|specialist|analyst|coordinator|assistant|officer|advisor|developer|nurse|technician|clerk)\b/.test(t)) return "bi";
+    return FR_T.test(t) || (t.match(FR_W) || []).length >= 2 ? "fr" : "en";
+  }
+  /* things to check yourself, found in the text: [colour code, message]. Never part of the score. */
+  function descFlags(desc) {
+    const t = plain(desc), flags = [];
+    if (!t) return flags;
+    const add = (c, msg) => flags.push([c, msg]);
+    const sec = t.match(/security clearance|cote de securite|habilitation|controlled goods|marchandises controlees|\bitar\b|criminal (record|background)|verification des antecedents|casier judiciaire|vulnerable sector|secteur vulnerable/);
+    if (sec) add("b", "Security / background check in text (" + sec[0] + "): verify");
+    const cit = t.match(/canadian citizen|citoyen canadien|citoyennete canadienne|permanent resident|resident permanent|eligible to work in canada|authori[sz]ed to work in canada|autorise a travailler|permis de travail|work permit|legally entitled/);
+    if (cit) add("w", "Work eligibility wording in text (" + cit[0] + "): verify");
+    if (/english only|anglais seulement/.test(t)) add("g", "English only");
+    else if (/bilingual|bilingue|francais et anglais|french and english|fluent in (both|french)|courant en francais|maitrise du francais|francais.{0,20}requis|french.{0,20}required/.test(t)) add("w", "French/English requirement in text: check your level");
+    if (/master|maitrise|graduate student|cycles? superieurs?/.test(t)) add("n", "Mentions master's / graduate level");
+    else if (/bachelor|baccalaureat|undergraduate|1er cycle|premier cycle/.test(t)) add("w", "Written for bachelor's level: check that your degree fits");
+    if (/new grad|recent graduate|nouveau diplome|jeune diplome/.test(t) && !/student|etudiant/.test(t)) add("w", "Aimed at new graduates, not current students");
+    const len = t.match(/(\d{1,2})[- ]?(?:month|mois)/);
+    if (len) add("", "Length: " + len[1] + " months: check that it fits your dates");
+    return flags;
+  }
+
+  return { fold, LEVELS, BANDS, FIT, FIT_MIN, FIELD_LIST, jobLevel, cvLevel, fit, relation, fieldOf, isStudentTitle, yearsAsked, langOf, descFlags };
 });

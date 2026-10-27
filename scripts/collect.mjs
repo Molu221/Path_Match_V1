@@ -1,4 +1,5 @@
-// Collects postings located anywhere in Canada, in every field (each saved with its province), from free sources and writes docs/jobs.json.
+// Collects postings located anywhere in Canada, in every field (each saved with its province), from free sources and writes docs/jobs.json
+// (one short record per posting) and docs/d/00.json ... 63.json (the full text of each posting, read by the page only when a card is opened).
 // Sources (all free, none needs a login):
 //   open feeds of Job Bank Canada and The Muse; Workday career sites (the public JSON behind the career page);
 //   public job boards of Greenhouse, Lever, Ashby, SmartRecruiters, Workable, Recruitee, Breezy, BambooHR, Personio, Teamtailor;
@@ -7,11 +8,13 @@
 // No dependencies. Node 20+.
 import fs from "node:fs";
 import path from "node:path";
+import crypto from "node:crypto";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { loadJobMeta, loadMatcher, loadSkills } from "./umd.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = path.join(ROOT, "docs", "jobs.json");
+const OUT_TEXT = path.join(ROOT, "docs", "d");     // the posting texts, in 64 files (see writeOutput)
 
 export const AREA = /montr[eé]al|laval\b|longueuil|brossard|dorval|saint[- ]laurent|st[- ]laurent|pointe[- ]claire|sainte?[- ]anne[- ]de[- ]bellevue|boucherville|saint[- ]hubert|st[- ]hubert|vaudreuil|terrebonne|mirabel|varennes|candiac|la prairie|saint[- ]bruno|kirkland|lachine|anjou|westmount|verdun|mont[- ]royal|mount royal|saint[- ]eustache|repentigny|blainville|dollard|beaconsfield|pierrefonds|lasalle|ahuntsic|greater montr/i;
 // There is no list of wanted job titles: a posting is kept when it is located in Canada, whatever the field.
@@ -498,26 +501,26 @@ export async function careerjet(cfg, key, nowMs, log) {
   return { jobs: out.filter((j) => j.title && keep(j)), ok, failed };
 }
 
-/* Which postings go into jobs.json. The file has a size budget (the page downloads all of it), so when more are found than fit:
-   internships, co-ops and part-time jobs go in first (they are the rarest); the rest are shared out one by one across the fields
-   (software, health, trades, finance...), newest first, with at most `perCompany` from one employer, so no field or employer fills the list. */
-export function selectJobs(jobs, { maxBytes = 18e6, perCompany = 30, rareShare = 0.3 } = {}) {
-  const meta = loadJobMeta();
-  const cost = (j) => (j.desc ? j.desc.length : 0) + 1000;     // the text plus the rest of the record and its keyword profile
+/* Which postings go into jobs.json. All of them, unless there are more than `maxJobs` (the page keeps every record in memory):
+   then the internships, co-ops and part-time jobs go in first (they are the rarest) and the rest are shared out one by one across the
+   fields (software, health, trades, finance...), newest first, with at most `perCompany` from one employer, so no field or employer fills the list.
+   The posting texts are not in jobs.json (they are in docs/d), so the size of the texts no longer limits how many postings are kept. */
+export function selectJobs(jobs, { maxJobs = 60000, perCompany = 1500, rareShare = 0.3 } = {}) {
   const fresh = (a, b) => (a.ageH ?? 1e9) - (b.ageH ?? 1e9);
+  if (jobs.length <= maxJobs) return jobs.slice().sort(fresh);
+  const meta = loadJobMeta();
   const per = new Map(), taken = new Set(), out = [];
-  let bytes = 0;
   const take = (j, cap) => {
     const c = norm(j.company);
-    if ((per.get(c) || 0) >= cap || bytes + cost(j) > maxBytes) return false;
-    per.set(c, (per.get(c) || 0) + 1); bytes += cost(j); out.push(j); taken.add(j); return true;
+    if ((per.get(c) || 0) >= cap || out.length >= maxJobs) return false;
+    per.set(c, (per.get(c) || 0) + 1); out.push(j); taken.add(j); return true;
   };
   const sorted = jobs.slice().sort(fresh);
-  let rareBytes = 0;
+  let rare = 0;
   for (const j of sorted) {
     if (!(j.type === "Internship" || j.type === "Part-time" || meta.jobLevel(j.title, "", "").lvl === 0)) continue;
-    if (rareBytes + cost(j) > maxBytes * rareShare) break;
-    if (take(j, perCompany * 2)) rareBytes += cost(j);
+    if (rare >= maxJobs * rareShare) break;
+    if (take(j, perCompany * 2)) rare++;
   }
   const queues = new Map();
   for (const j of sorted) {
@@ -528,7 +531,7 @@ export function selectJobs(jobs, { maxBytes = 18e6, perCompany = 30, rareShare =
   }
   const lists = [...queues.values()], at = lists.map(() => 0);
   let progress = true;
-  while (progress && bytes < maxBytes) {
+  while (progress && out.length < maxJobs) {
     progress = false;
     for (let k = 0; k < lists.length; k++) {
       while (at[k] < lists[k].length) { if (take(lists[k][at[k]++], perCompany)) { progress = true; break; } }
@@ -537,11 +540,73 @@ export function selectJobs(jobs, { maxBytes = 18e6, perCompany = 30, rareShare =
   return out.sort(fresh);
 }
 
-/* The keywords of each posting, worked out here once so the page can score thousands of postings without reading their text. */
-export function addProfiles(jobs, log = console.log) {
+/* ---------- the two kinds of file ---------- */
+/* A posting has a short id (from its company and title, the same key that merges duplicates). Its text is saved in one of 64 files by id,
+   so the page loads a file only when a card is opened, and the same posting is in the same place and the same order every day (the daily
+   change in the repository is then only the postings that came and went). */
+export const SHARDS = 64;
+export const jobId = (j) => crypto.createHash("sha1").update(norm(j.company) + "|" + norm(j.title)).digest("hex").slice(0, 10);
+export const shardOf = (id) => String(parseInt(String(id).slice(0, 2), 16) >> 2).padStart(2, "0");
+export function splitJobs(out) {
+  const at = Date.parse(out.updatedAt);
+  const texts = Array.from({ length: SHARDS }, () => ({}));
+  const jobs = out.jobs.slice().sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0)).map((j) => {
+    const { desc, ageH, ...rest } = j;
+    if (desc) texts[+shardOf(j.id)][j.id] = desc;
+    /* the moment of posting (not "hours ago"), rounded to the second: it does not change from one day to the next */
+    return ageH == null ? rest : { ...rest, postedAt: new Date(Math.round((at - ageH * 36e5) / 1000) * 1000).toISOString() };
+  });
+  return { index: { ...out, jobs }, texts };
+}
+export function writeOutput(out, { indexFile = OUT, textDir = OUT_TEXT } = {}) {
+  const { index, texts } = splitJobs(out);
+  fs.mkdirSync(textDir, { recursive: true });
+  texts.forEach((t, i) => fs.writeFileSync(path.join(textDir, String(i).padStart(2, "0") + ".json"), JSON.stringify(t)));
+  fs.writeFileSync(indexFile, JSON.stringify(index));
+  return { jobs: index.jobs.length, indexBytes: fs.statSync(indexFile).size, textBytes: texts.reduce((n, t) => n + JSON.stringify(t).length, 0) };
+}
+
+/* The records need the dictionary, the keyword engine and the level rules; when none of these changed, a posting whose text has the same length as
+   yesterday keeps yesterday's record (reading a text takes about 40 ms, so 10,000 postings would take minutes). */
+export function profileVersion(dir = path.join(ROOT, "docs")) {
+  const h = crypto.createHash("sha1");
+  for (const f of ["skills.json", "matcher.js", "jobmeta.js"]) { try { h.update(fs.readFileSync(path.join(dir, f))); } catch { h.update(f); } }
+  return h.digest("hex").slice(0, 10);
+}
+export function readPrevious(file = OUT, version = profileVersion()) {
+  try {
+    const d = JSON.parse(fs.readFileSync(file, "utf8"));
+    if (d.profileV !== version) return new Map();
+    return new Map((d.jobs || []).filter((j) => j.id && j.kw).map((j) => [j.id, j]));
+  } catch { return new Map(); }
+}
+
+/* What the page needs to rank a posting without its text, worked out here once: its id, its main keywords (kw, kt), its level (lv), its language (lg),
+   things to check in the wording (df) and the length of the text (dl). */
+export function addProfiles(jobs, log = console.log, prev = new Map()) {
   let E;
-  try { E = loadMatcher().engine(loadSkills()); } catch (e) { log("Keyword profiles skipped: " + e.message); return jobs; }
-  for (const j of jobs) { const p = E.profile(j.title, j.desc || ""); j.kw = p.kw; j.kt = p.kt; }
+  try { E = loadMatcher().engine(loadSkills()); } catch (e) { log("Keyword profiles skipped: " + e.message); E = null; }
+  const meta = loadJobMeta();
+  let reused = 0;
+  for (const j of jobs) {
+    const text = j.desc || "";
+    j.id = jobId(j);
+    j.dl = text.length;
+    const old = prev.get(j.id);
+    if (old && old.dl === j.dl) {
+      j.lv = old.lv; j.lg = old.lg; j.kw = old.kw; j.kt = old.kt;
+      if (old.df) j.df = old.df;
+      reused++;
+      continue;
+    }
+    const lv = meta.jobLevel(j.title, text, j.type || "");
+    j.lv = [lv.lvl, lv.why];
+    j.lg = meta.langOf(j.title, text);
+    const df = meta.descFlags(text);
+    if (df.length) j.df = df;
+    if (E) { const p = E.profile(j.title, text); j.kw = p.kw; j.kt = p.kt; }
+  }
+  if (prev.size) log(`Records: ${reused} reused from the previous collection, ${jobs.length - reused} read.`);
   return jobs;
 }
 
@@ -648,15 +713,16 @@ export async function main({ nowMs = Date.now(), log = console.log, write = true
 
   /* every kept job is in Canada: save its province (QC, ON, BC... or "Remote – Canada" / "Canada" when the text names no province) */
   const found = merge(all).map((j) => ({ ...j, province: provinceOf(j.loc) })).filter((j) => j.province);
-  const jobs = addProfiles(selectJobs(found, selection), log);
+  const jobs = addProfiles(selectJobs(found, selection), log, write ? readPrevious() : new Map());
   const provinces = {}, fields = {};
   const meta = loadJobMeta();
   for (const j of jobs) { provinces[j.province] = (provinces[j.province] || 0) + 1; const f = meta.fieldOf(j.title).id; fields[f] = (fields[f] || 0) + 1; }
-  const out = { updatedAt: new Date(nowMs).toISOString(), mock: false, sources, notFoundCount: notFound.length, collected: found.length, provinces, fields, jobs };
+  const out = { updatedAt: new Date(nowMs).toISOString(), mock: false, profileV: profileVersion(), sources, notFoundCount: notFound.length, collected: found.length, provinces, fields, jobs };
   log(`Collected ${found.length} postings in Canada, kept ${jobs.length}. ` + Object.entries(sources).map(([k, v]) => `${k}: ${JSON.stringify(v)}`).join(" | "));
   if (write) {
     if (jobs.length < 10) { log("Fewer than 10 postings. Keeping the previous jobs.json."); process.exitCode = 1; return out; }
-    fs.writeFileSync(OUT, JSON.stringify(out));
+    const w = writeOutput(out);
+    log(`Wrote docs/jobs.json (${(w.indexBytes / 1e6).toFixed(1)} MB, ${w.jobs} postings) and the texts in docs/d (${(w.textBytes / 1e6).toFixed(1)} MB).`);
   }
   return out;
 }

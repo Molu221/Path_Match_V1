@@ -33,7 +33,7 @@ jobs:
         run: |
           git config user.name "path-match-bot"
           git config user.email "path-match-bot@users.noreply.github.com"
-          git add docs/jobs.json
+          git add docs/jobs.json docs/d
           git diff --cached --quiet && echo "No changes" && exit 0
           git commit -m "Refresh postings"
           git pull --rebase origin main
