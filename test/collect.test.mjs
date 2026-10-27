@@ -32,6 +32,13 @@ const routes = [
     { title: "Industrial Engineering Intern", externalPath: "/job/Montreal/Intern_R1", locationsText: "Montreal", postedOn: "Posted Today" },
     { title: "Welder", externalPath: "/job/Toronto/Welder_R2", locationsText: "Toronto", postedOn: "Posted 3 Days Ago" } ] : []) }; }],
   [/wday\/cxs\/acme\/site\/job\/Montreal\/Intern_R1$/, () => ({ jobPostingInfo: { title: "Industrial Engineering Intern", jobDescription: "<p>Lean projects</p><p>Qualifications</p><ul><li>Excel</li></ul>", location: "Montreal", startDate: "2026-10-11", timeType: "Full time", externalUrl: "https://acme.wd1.myworkdayjobs.com/site/job/Montreal/Intern_R1" } })],
+  [/wday\/cxs\/bigco\/site\/jobs$/, (u, o) => {
+    const q = JSON.parse(o.body), ca = (q.appliedFacets.locationCountry || [])[0] === "CAID";
+    const facets = [{ descriptor: "Locations", facetParameter: "locationMainGroup", values: [{ descriptor: "Country", facetParameter: "locationCountry", values: [{ descriptor: "Canada", id: "CAID", count: 45 }, { descriptor: "United States", id: "USID", count: 3000 }] }] }];
+    if (!ca) return { total: 3045, facets, jobPostings: Array.from({ length: 20 }, (_, i) => ({ title: "US job " + i, externalPath: "/job/US/u" + i, locationsText: "Austin, TX", postedOn: "Posted Today" })) };
+    return { total: 45, facets, jobPostings: Array.from({ length: Math.max(0, Math.min(20, 45 - q.offset)) }, (_, i) => ({ title: "Store Associate " + (q.offset + i), externalPath: "/job/CA/c" + (q.offset + i), locationsText: i % 2 ? "2 Locations" : "Toronto, Ontario", postedOn: i < 3 ? "Posted Today" : "Posted " + (i + 1) + " Days Ago", bulletFields: ["R" + i] })) };
+  }],
+  [/wday\/cxs\/bigco\/site\/job\/CA\/c0$/, () => ({ jobPostingInfo: { title: "Store Associate 0", jobDescription: "<p>Serve customers</p>", location: "Toronto, Ontario", startDate: "2026-10-11", timeType: "Part time", externalUrl: "https://bigco.wd1.myworkdayjobs.com/site/job/CA/c0" } })],
   [/apply\.workable\.com\/api\/v1\/widget\/accounts\/wk2/, () => ({ name: "WK2", jobs: [{ title: "Operations Analyst", telecommuting: true, country: "Canada", city: "", state: "", published_on: "2026-10-10", url: "https://workable/2", description: "<p>Reporting</p>", locations: [{ country: "Canada", region: "Ontario", city: "Ottawa" }] }, { title: "Operations Analyst", country: "United States", city: "Austin", state: "Texas", url: "https://workable/3", description: "x" }] })],
   [/apply\.workable\.com\/api\/v1\/widget\/accounts\/wk/, () => ({ name: "WK", jobs: [{ title: "Quality Intern", city: "Montreal", state: "Quebec", country: "Canada", published_on: "2026-10-10", url: "https://workable/1", description: "<p>FMEA and SPC</p>" }] })],
   [/w2\.recruitee\.com\/api\/offers/, () => ({ offers: [{ title: "Quality Analyst", company_name: "Rec2", location: "Calgary", country_code: "CA", remote: true, published_at: "2026-10-09T10:00:00Z", careers_url: "https://rec/2", description: "<p>Audits</p>" }, { title: "Quality Analyst", company_name: "Rec2", location: "Lyon", country_code: "FR", published_at: "2026-10-09T10:00:00Z", careers_url: "https://rec/3", description: "x" }] })],
@@ -142,6 +149,14 @@ assert.equal(mu2.ok, 4, "two places x two levels");
 const wd = await c.workday({ name: "Acme", host: "acme.wd1.myworkdayjobs.com", tenant: "acme", site: "site", queries: [""] }, NOW, () => {});
 assert.equal(wd.length, 1); assert.equal(wd[0].company, "Acme"); assert.equal(wd[0].ageH, 12); assert.match(wd[0].desc, /Qualifications/);
 
+// a big Workday site: the Canada facet is found in the answer and used, every Canadian posting is listed, the newest get their full text
+assert.deepEqual({ ...c.canadaFacet([{ facetParameter: "locationMainGroup", values: [{ facetParameter: "locationCountry", values: [{ descriptor: "Canada", id: "X1", count: 5 }] }] }]) }, { param: "locationCountry", id: "X1", count: 5 });
+assert.equal(c.canadaFacet([{ facetParameter: "jobFamily", values: [{ descriptor: "Canada", id: "no" }] }]), null, "only a country facet counts");
+const big = await c.workday({ name: "BigCo", host: "bigco.wd1.myworkdayjobs.com", tenant: "bigco", site: "site", maxDetails: 1 }, NOW, () => {});
+assert.equal(big.length, 45, "all 45 Canadian postings, none of the 3000 American ones: " + big.length);
+assert.ok(big.every((j) => c.inCanada(j.loc)), "a place such as '2 Locations' gets ', Canada' so the posting is not lost");
+assert.equal(big.filter((j) => j.desc).length, 1); assert.ok(big.filter((j) => j.partial).length === 44, "the rest are title-only records");
+assert.ok(big.filter((j) => j.partial).every((j) => /^\d{4}-\d\d-\d\d$/.test(j.date) && j.ageH != null && j.sources[0].url.startsWith("https://bigco.wd1.myworkdayjobs.com/site/job/CA/")));
 assert.deepEqual(c.workdayFromUrl("https://cae.wd3.myworkdayjobs.com/en-US/career/jobs?x=1", "CAE"), { name: "CAE", host: "cae.wd3.myworkdayjobs.com", tenant: "cae", site: "career" });
 assert.equal(c.workdayFromUrl("https://acme.wd1.myworkdayjobs.com/External_Site").site, "External_Site");
 assert.throws(() => c.workdayFromUrl("https://example.com/careers"));

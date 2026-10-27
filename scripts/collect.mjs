@@ -349,37 +349,73 @@ export function workdayFromUrl(url, name) {
   return { name: name || pretty(tenant), host: u.hostname, tenant, site: parts[0] };
 }
 const WD_AGE = (t) => { const s = norm(t); if (/today|aujourd/.test(s)) return 8; if (/yesterday|hier/.test(s)) return 32; const m = /(\d+)\+?\s*(?:days?|jours?)/.exec(s); return m ? (+m[1]) * 24 + (/\+/.test(s) ? 24 : 12) : null; };
+/* Workday lists the countries of a career site in the `facets` of its answer. The one called Canada selects every posting in Canada. */
+export function canadaFacet(facets) {
+  let found = null;
+  const walk = (list) => {
+    for (const f of list || []) {
+      if (found) return;
+      if (/country/i.test(f.facetParameter || "")) {
+        const v = (f.values || []).find((x) => /^canada$/i.test(String(x.descriptor || "").trim()));
+        if (v && v.id) { found = { param: f.facetParameter, id: v.id, count: v.count }; return; }
+      }
+      walk(f.values);      // the groups nest: locationMainGroup -> locationCountry -> Canada
+    }
+  };
+  walk(facets);
+  return found;
+}
+const WD_CITIES = ["Canada", "Montreal", "Toronto", "Vancouver", "Calgary", "Ottawa", "Edmonton", "Winnipeg", "Halifax", "Quebec", "Mississauga", "stage", "intern"];
+/* Every Canadian posting of a career site: the title, place and age of all of them (20 per request), and the full text of the newest `maxDetails`. */
 export async function workday(b, nowMs, log) {
   const base = `https://${b.host}/wday/cxs/${b.tenant}/${b.site}`;
-  const queries = b.queries || ["", "Montreal", "Montréal", "Quebec", "stage", "intern"];
+  const maxList = b.maxList || 3000, maxDetails = b.maxDetails ?? 100;
+  const page = (applied, off, q) => postJson(`${base}/jobs`, { appliedFacets: applied, limit: 20, offset: off, searchText: q || "" });
+  const first = await page({}, 0, "");
+  const fac = canadaFacet(first.facets);
   const found = new Map();
-  let total = null;
-  for (const q of queries) {
-    for (let off = 0; off < 400; off += 20) {
-      const d = await postJson(`${base}/jobs`, { appliedFacets: {}, limit: 20, offset: off, searchText: q });
-      if (total == null) total = d.total;
-      for (const p of d.jobPostings || []) found.set(p.externalPath, p);
-      if ((d.jobPostings || []).length < 20 || (q === "" && d.total <= 400 && off + 20 >= d.total)) break;
-      await sleep(120);
+  const read = async (applied, q, limit, head) => {
+    for (let off = 0; off < limit; off += 20) {
+      const d = off === 0 && head ? head : await page(applied, off, q);
+      const rows = d.jobPostings || [];
+      for (const p of rows) found.set(p.externalPath, p);
+      if (rows.length < 20 || (d.total != null && off + 20 >= d.total)) break;
+      await sleep(80);
     }
-    if (q === "" && total != null && total <= 400) break;       // a small career site was read completely
-  }
-  const wanted = [...found.values()].filter((p) => (inCanada(p.locationsText || "") || /\d+\s+locations?|\bsites?\b/i.test(p.locationsText || "") || !p.locationsText)).slice(0, b.maxDetails || 100);
+  };
+  if (fac) await read({ [fac.param]: [fac.id] }, "", maxList);                                  // the site says which postings are in Canada
+  else if ((first.total || 0) <= maxList) await read({}, "", maxList, first);                   // a site without that facet: read it all
+  else for (const q of b.queries || WD_CITIES) await read({}, q, 400);                          // a very big site without it: search the Canadian cities
+  const known = (p) => !!fac || inCanada(p.locationsText || "");
+  const rows = [...found.values()].filter((p) => known(p) || /\d+\s+locations?/i.test(p.locationsText || "") || !p.locationsText)
+    .sort((x, y) => (WD_AGE(x.postedOn) ?? 1e9) - (WD_AGE(y.postedOn) ?? 1e9));
   const out = [];
-  for (const p of wanted) {
+  for (const p of rows.slice(0, maxDetails)) {
     try {
       const det = await fetchJson(`${base}${p.externalPath}`, { headers: { Accept: "application/json", "Accept-Language": "en-US" } });
       const i = det.jobPostingInfo || {};
       const loc = [i.location, ...(i.additionalLocations || [])].filter(Boolean).join(" / ") || p.locationsText || "";
       const posted = i.startDate ? Date.parse(i.startDate + "T00:00:00Z") : null;
       out.push({
-        company: b.name, title: i.title || p.title, loc, date: i.startDate || "",
+        company: b.name, title: i.title || p.title, loc: fac && !inCanada(loc) ? (loc ? loc + ", Canada" : "Canada") : loc, date: i.startDate || "",
         ageH: posted ? Math.max(0, (nowMs - posted) / 36e5) : WD_AGE(i.postedOn || p.postedOn),
         type: typeFrom(`${i.timeType || ""} ${i.title || p.title}`),
         sources: [{ src: "Workday", url: i.externalUrl || `https://${b.host}/${b.site}${p.externalPath}` }], desc: cut(stripHtml(i.jobDescription)),
       });
     } catch (e) { if (e.status !== 404) log(`Workday ${b.tenant} ${p.externalPath}: ${e.message}`); }
-    await sleep(120);
+    await sleep(80);
+  }
+  /* the rest of the list is kept with its title, place and age only; the age is turned into a date so the record does not change from one day to the next */
+  for (const p of rows.slice(maxDetails)) {
+    if (!known(p)) continue;
+    const age = WD_AGE(p.postedOn);
+    const date = age == null ? "" : new Date(nowMs - age * 36e5).toISOString().slice(0, 10);
+    const loc = p.locationsText || "";
+    out.push({
+      company: b.name, title: p.title, loc: inCanada(loc) ? loc : (loc ? loc + ", Canada" : "Canada"), date,
+      ageH: date ? hoursSince(date + "T12:00:00Z", nowMs) : null, type: typeFrom(p.title),
+      sources: [{ src: "Workday", url: `https://${b.host}/${b.site}${p.externalPath}` }], desc: "", partial: true,
+    });
   }
   return out.filter(keep);
 }
