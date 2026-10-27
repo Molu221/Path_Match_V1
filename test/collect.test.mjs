@@ -42,9 +42,10 @@ const routes = [
   [/wday\/cxs\/acme\/site\/job\/Montreal\/Intern_R1$/, () => ({ jobPostingInfo: { title: "Industrial Engineering Intern", jobDescription: "<p>Lean projects</p><p>Qualifications</p><ul><li>Excel</li></ul>", location: "Montreal", startDate: "2026-10-11", timeType: "Full time", externalUrl: "https://acme.wd1.myworkdayjobs.com/site/job/Montreal/Intern_R1" } })],
   [/wday\/cxs\/bigco\/site\/jobs$/, (u, o) => {
     const q = JSON.parse(o.body), ca = (q.appliedFacets.locationCountry || [])[0] === "CAID";
-    const facets = [{ descriptor: "Locations", facetParameter: "locationMainGroup", values: [{ descriptor: "Country", facetParameter: "locationCountry", values: [{ descriptor: "Canada", id: "CAID", count: 45 }, { descriptor: "United States", id: "USID", count: 3000 }] }] }];
+    const facets = [{ descriptor: "Locations", facetParameter: "locationMainGroup", values: [{ descriptor: "Country", facetParameter: "locationCountry", values: [{ descriptor: "Canada", id: "CAID", count: 85 }, { descriptor: "United States", id: "USID", count: 3000 }] }] }];
     if (!ca) return { total: 3045, facets, jobPostings: Array.from({ length: 20 }, (_, i) => ({ title: "US job " + i, externalPath: "/job/US/u" + i, locationsText: "Austin, TX", postedOn: "Posted Today" })) };
-    return { total: 45, facets, jobPostings: Array.from({ length: Math.max(0, Math.min(20, 45 - q.offset)) }, (_, i) => ({ title: "Store Associate " + (q.offset + i), externalPath: "/job/CA/c" + (q.offset + i), locationsText: i % 2 ? "2 Locations" : "Toronto, Ontario", postedOn: i < 3 ? "Posted Today" : "Posted " + (i + 1) + " Days Ago", bulletFields: ["R" + i] })) };
+    /* like the real Workday: the total is only given on the first page, later pages say 0 */
+    return { total: q.offset === 0 ? 85 : 0, facets, jobPostings: Array.from({ length: Math.max(0, Math.min(20, 85 - q.offset)) }, (_, i) => ({ title: "Store Associate " + (q.offset + i), externalPath: "/job/CA/c" + (q.offset + i), locationsText: i % 2 ? "2 Locations" : "Toronto, Ontario", postedOn: i < 3 ? "Posted Today" : "Posted " + (i + 1) + " Days Ago", bulletFields: ["R" + i] })) };
   }],
   [/wday\/cxs\/bigco\/site\/job\/CA\/c0$/, () => ({ jobPostingInfo: { title: "Store Associate 0", jobDescription: "<p>Serve customers</p>", location: "Toronto, Ontario", startDate: "2026-10-11", timeType: "Part time", externalUrl: "https://bigco.wd1.myworkdayjobs.com/site/job/CA/c0" } })],
   [/apply\.workable\.com\/api\/v1\/widget\/accounts\/wk2/, () => ({ name: "WK2", jobs: [{ title: "Operations Analyst", telecommuting: true, country: "Canada", city: "", state: "", published_on: "2026-10-10", url: "https://workable/2", description: "<p>Reporting</p>", locations: [{ country: "Canada", region: "Ontario", city: "Ottawa" }] }, { title: "Operations Analyst", country: "United States", city: "Austin", state: "Texas", url: "https://workable/3", description: "x" }] })],
@@ -177,9 +178,9 @@ assert.equal(cf3.param, "locationRegionStateProvince"); assert.equal(cf3.count, 
 assert.equal(c.canadaFacet([{ facetParameter: "jobFamily", values: [{ descriptor: "Canada", id: "no", count: 1 }] }]), null, "only a place facet counts");
 assert.equal(c.canadaFacet(nest([{ facetParameter: "locations", values: [{ descriptor: "Berlin, Germany", id: "z", count: 1 }] }])), null);
 const big = await c.workday({ name: "BigCo", host: "bigco.wd1.myworkdayjobs.com", tenant: "bigco", site: "site", maxDetails: 1 }, NOW, () => {});
-assert.equal(big.length, 45, "all 45 Canadian postings, none of the 3000 American ones: " + big.length);
+assert.equal(big.length, 85, "all 85 Canadian postings (five pages, the total is only on the first), none of the 3000 American ones: " + big.length);
 assert.ok(big.every((j) => c.inCanada(j.loc)), "a place such as '2 Locations' gets ', Canada' so the posting is not lost");
-assert.equal(big.filter((j) => j.desc).length, 1); assert.ok(big.filter((j) => j.partial).length === 44, "the rest are title-only records");
+assert.equal(big.filter((j) => j.desc).length, 1); assert.ok(big.filter((j) => j.partial).length === 84, "the rest are title-only records");
 assert.ok(big.filter((j) => j.partial).every((j) => /^\d{4}-\d\d-\d\d$/.test(j.date) && j.ageH != null && j.sources[0].url.startsWith("https://bigco.wd1.myworkdayjobs.com/site/job/CA/")));
 assert.deepEqual(c.workdayFromUrl("https://cae.wd3.myworkdayjobs.com/en-US/career/jobs?x=1", "CAE"), { name: "CAE", host: "cae.wd3.myworkdayjobs.com", tenant: "cae", site: "career" });
 assert.equal(c.workdayFromUrl("https://acme.wd1.myworkdayjobs.com/External_Site").site, "External_Site");
@@ -290,7 +291,10 @@ const withText = [
 c.addProfiles(withText, () => {});
 const ids = withText.map((j) => j.id);
 assert.ok(ids.every((i) => /^[0-9a-f]{10}$/.test(i)) && new Set(ids).size === 3, "every posting has its own id");
-assert.equal(c.jobId({ company: "ACME ", title: "registered  nurse" }), withText[0].id, "the id follows the key that merges duplicates (case, accents, spaces)");
+assert.equal(c.jobId({ company: "ACME ", title: "registered  nurse", province: "ON" }), withText[0].id, "the id follows the key that merges duplicates (case, accents, spaces)");
+assert.notEqual(c.jobId({ company: "Acme", title: "Registered Nurse", loc: "Toronto, ON" }), c.jobId({ company: "Acme", title: "Registered Nurse", loc: "Calgary, AB" }), "the same title in two provinces is two postings");
+const two = c.merge([mk("Acme", "Cashier", 5, { loc: "Toronto, ON" }), mk("Acme", "Cashier", 6, { loc: "Ottawa, Ontario" }), mk("Acme", "Cashier", 7, { loc: "Calgary, AB" })]);
+assert.equal(two.length, 2, "two Ontario stores are one posting with two links, Alberta is another"); assert.equal(two[0].sources.length, 1, "the same link is not added twice");
 assert.ok(withText.every((j) => Array.isArray(j.lv) && ["en", "fr", "bi"].includes(j.lg) && Number.isInteger(j.dl)), "level, language and text length are saved with the record");
 assert.ok(withText[0].df.some((f) => /French\/English/.test(f[1])) && withText[2].df.some((f) => /Security/.test(f[1])), "wording flags are saved with the record");
 const written = c.writeOutput({ updatedAt: "2026-10-11T12:00:00.000Z", mock: false, sources: {}, jobs: withText }, { indexFile: pathx.join(dir, "jobs.json"), textDir: pathx.join(dir, "d") });

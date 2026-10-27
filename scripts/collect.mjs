@@ -452,11 +452,13 @@ export async function workday(b, nowMs, log) {
   const inCa = !!fac || !!b.allCanada;                                                          // allCanada: every posting of this site is in Canada (the config says so)
   const found = new Map();
   const read = async (applied, q, limit, head) => {
+    let total = null;                                                   // Workday gives the total on the first page only; later pages say 0
     for (let off = 0; off < limit; off += 20) {
       const d = off === 0 && head ? head : await page(applied, off, q);
       const rows = d.jobPostings || [];
+      if (off === 0) total = d.total;
       for (const p of rows) found.set(p.externalPath, p);
-      if (rows.length < 20 || (d.total != null && off + 20 >= d.total)) break;
+      if (rows.length < 20 || (total && off + 20 >= total)) break;
       await sleep(80);
     }
   };
@@ -658,7 +660,10 @@ export function selectJobs(jobs, { maxJobs = 60000, perCompany = 1500, rareShare
    so the page loads a file only when a card is opened, and the same posting is in the same place and the same order every day (the daily
    change in the repository is then only the postings that came and went). */
 export const SHARDS = 64;
-export const jobId = (j) => crypto.createHash("sha1").update(norm(j.company) + "|" + norm(j.title)).digest("hex").slice(0, 10);
+/* One posting = one employer + one title + one province: "Cashier" at the same chain in Ontario and in Alberta are two postings (so the province filter finds both),
+   while the same posting seen on two job boards is one. */
+export const dedupKey = (j) => norm(j.company) + "|" + norm(j.title) + "|" + (j.province ?? provinceOf(j.loc));
+export const jobId = (j) => crypto.createHash("sha1").update(dedupKey(j)).digest("hex").slice(0, 10);
 export const shardOf = (id) => String(parseInt(String(id).slice(0, 2), 16) >> 2).padStart(2, "0");
 export function splitJobs(out) {
   const at = Date.parse(out.updatedAt);
@@ -726,7 +731,7 @@ export function addProfiles(jobs, log = console.log, prev = new Map()) {
 export function merge(list) {
   const m = new Map();
   for (const j of list) {
-    const k = norm(j.company) + "|" + norm(j.title);
+    const k = dedupKey(j);
     const e = m.get(k);
     if (!e) { m.set(k, { ...j }); continue; }
     if (!e.sources.some((s) => s.url === j.sources[0].url)) e.sources.push(...j.sources);
