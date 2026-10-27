@@ -74,7 +74,7 @@ a{color:var(--accent)}
 @media(max-width:860px){.grid{grid-template-columns:minmax(0,1fr)}}
 .panel{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:16px}
 .side{display:flex;flex-direction:column;gap:14px}
-@media(min-width:861px){.side{position:sticky;top:12px;max-height:calc(100vh - 24px);overflow:auto;padding-right:2px}}
+@media(min-width:861px){.side{position:sticky;top:64px;max-height:calc(100vh - 76px);overflow:auto;padding-right:2px}}
 .drop{border:1.5px dashed var(--accent);border-radius:8px;padding:18px 12px;text-align:center;background:var(--accent-soft);cursor:pointer;margin-top:10px}
 .drop.over{background:var(--panel)}
 .drop strong{display:block;font:750 16px var(--f-disp);font-stretch:108%}
@@ -219,48 +219,162 @@ label.inl{display:inline-flex;gap:5px;align-items:center;margin:0;font-weight:40
 .lvnote{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;margin:0 0 10px;padding:9px 12px;border-radius:8px;background:var(--accent-soft);color:var(--ink);font-size:13.5px}
 .lvnote button{padding:2px 10px;border-radius:999px;font-size:13px;background:var(--panel)}
 @media(max-width:560px){.tab{padding:8px 7px;font-size:13.5px}.tools select{flex:1 1 calc(50% - 8px);min-width:0;width:auto}.search{flex-basis:100%}}
+
+/* pages: a slim bar with the three steps, then one view at a time (start, your CV and details, top 10, all jobs) */
+[hidden]{display:none!important}
+.view{min-height:60vh}
+.topbar{position:sticky;top:0;z-index:30;background:var(--hero);color:var(--hero-ink);border-bottom:1px solid #1d4a47}
+.topbar :focus-visible{outline-color:var(--pin)}
+.barin{display:flex;align-items:center;gap:10px 18px;padding:9px 16px}
+.topbar .brand{color:var(--hero-ink);text-decoration:none;margin-right:auto;font-size:18px}
+.steps{display:flex;align-items:center}
+.step{display:flex;align-items:center;gap:7px;color:var(--hero-mute);text-decoration:none;font-size:13.5px;padding:4px 2px;white-space:nowrap}
+.step+.step::before{content:"";width:22px;height:2px;margin:0 8px 0 6px;background:rgba(234,246,243,.28);border-radius:2px;order:-1}
+.step i{font-style:normal;display:grid;place-items:center;width:22px;height:22px;border-radius:50%;border:2px solid rgba(234,246,243,.4);font:700 11.5px/1 var(--f-body)}
+.step:hover{color:var(--hero-ink)}
+.step.on{color:var(--hero-ink);font-weight:700}
+.step.on i{background:var(--pin);border-color:var(--pin);color:var(--pin-ink)}
+.step.done i{background:var(--accent);border-color:var(--accent);color:#fff}
+.step.off{opacity:.55}
+.alljobs{color:var(--hero-ink);text-decoration:none;font-size:13.5px;padding:5px 12px;border-radius:999px;border:1px solid rgba(234,246,243,.3);white-space:nowrap}
+.alljobs b{font-weight:600;color:var(--hero-mute);margin-left:3px}
+.alljobs:hover,.alljobs.on{border-color:var(--hero-ink)}
+.alljobs.on{background:rgba(234,246,243,.12)}
+@media(max-width:700px){.barin{flex-wrap:wrap;gap:8px 12px}.topbar .brand{flex:1 1 auto;margin:0}#theme{order:2}.steps{order:3;flex:1 1 auto}.alljobs{order:4}.alljobs b{display:none}.step span{display:none}.step.on span{display:inline}.step+.step::before{width:14px;margin:0 6px 0 4px}}
+.view[data-page=home] .hero{padding-top:8px}
+.hero h1{margin-top:clamp(26px,5vw,56px)}
+.cta{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin:26px 0 0}
+.btnp{display:inline-block;background:var(--pin);color:var(--pin-ink);font:700 16px/1 var(--f-body);padding:14px 24px;border-radius:8px;text-decoration:none}
+.btnp:hover{filter:brightness(1.07)}
+.btng{display:inline-block;color:var(--hero-ink);font-weight:600;padding:13px 20px;border:1px solid rgba(234,246,243,.35);border-radius:8px;text-decoration:none}
+.btng:hover{border-color:var(--hero-ink)}
+.hometrail{margin-top:34px;max-width:900px;pointer-events:none}
+.hometrail .stop{cursor:default}
+.how{padding:30px 16px 50px}
+.how3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));margin:0;padding:0;list-style:none}
+.how3 li{padding:2px 26px 2px 0;margin-right:26px;border-right:1px solid var(--line)}
+.how3 li:last-child{border:0;margin:0}
+.how3 svg{width:30px;height:30px;fill:none;stroke:var(--accent);stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.how3 h2{font-size:17px;margin:10px 0 4px}
+.how3 p{margin:0;color:var(--mute);max-width:34ch}
+.skipline{margin:26px 0 0}
+@media(max-width:760px){.how3{grid-template-columns:1fr}.how3 li{border:0;margin:0 0 20px;padding:0}}
+
+.pagein{padding:6px 16px 60px}
+.pghead{margin:26px 0 16px}
+.pghead h1{font:800 clamp(26px,4.2vw,42px)/1.05 var(--f-disp);font-stretch:112%;letter-spacing:-.02em}
+.pghead p{margin:8px 0 0;max-width:70ch}
+.view h1:focus{outline:none}
+.view[data-page=jobs] .pghead{margin:22px 0 14px}
+.view[data-page=jobs] .pghead h1{font-size:clamp(24px,3.4vw,34px)}
+.view[data-page=jobs] .page{padding-top:8px}
+.dgrid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:20px;align-items:start}
+@media(max-width:900px){.dgrid{grid-template-columns:minmax(0,1fr)}}
+.dgrid h2{font-size:18px}
+.stagecard{margin-top:12px;background:var(--hero) url(contours.svg) right center/cover no-repeat;color:var(--hero-ink);border-radius:10px;padding:14px 16px 12px;overflow:hidden}
+.stagecard h3{font:700 15px/1.3 var(--f-body);color:var(--hero-ink)}
+.stagecard :focus-visible{outline-color:var(--pin)}
+.stagecard .trail{height:150px;margin-top:6px}
+.fgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 14px}
+@media(max-width:560px){.fgrid{grid-template-columns:minmax(0,1fr)}}
+label.chk{margin:8px 0 0}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg label{margin:0;font-weight:500;color:var(--ink)}
+.seg input{position:absolute;opacity:0;width:1px;height:1px}
+.seg span{display:inline-block;padding:6px 13px;border:1px solid var(--line);border-radius:999px;background:var(--bg);cursor:pointer;font-size:13.5px}
+.seg input:checked+span{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.seg input:focus-visible+span{outline:2px solid var(--accent);outline-offset:2px}
+.livecount{margin:14px 0 0;padding:9px 12px;border-radius:8px;background:var(--accent-soft);font-size:13.5px}
+.livecount:empty{display:none}
+.read{margin-top:14px;padding-top:12px;border-top:1px solid var(--line)}
+.actionbar{position:sticky;bottom:0;z-index:5;display:flex;align-items:center;gap:10px 18px;flex-wrap:wrap;margin-top:18px;padding:12px 16px;background:var(--panel);border:1px solid var(--line);border-radius:10px;box-shadow:0 -6px 18px -14px rgba(0,0,0,.5)}
+button.big{padding:12px 24px;font-size:16px;border-radius:8px}
+button:disabled{opacity:.5;cursor:default}
+.actionbar .skip{margin-left:auto;font-size:13.5px}
+
+.profilebar{display:flex;flex-wrap:wrap;gap:6px 8px;align-items:center;margin:0 0 16px}
+.profilebar .pill{margin:0;font-size:13px;padding:3px 10px}
+.profilebar a{font-size:13.5px;margin-left:4px}
+.prog{margin:8px 0 18px;max-width:560px}
+.prog i{display:block;height:8px;border-radius:4px;background:var(--line);overflow:hidden;position:relative}
+.prog i::after{content:"";position:absolute;left:0;top:0;bottom:0;width:var(--pc,0%);background:var(--accent);border-radius:4px;transition:width .2s}
+.prog span{display:block;margin-top:6px;font-size:13px;color:var(--mute)}
+.job.top{scroll-margin-top:70px}
+.job.top summary{grid-template-columns:54px minmax(0,1fr);gap:14px}
+.rank{text-align:center;padding-top:2px}
+.rank b{display:block;font:800 40px/1 var(--f-disp);font-stretch:78%;color:var(--l2)}
+.job.top:first-child .rank b{color:var(--pin)}
+.rank small{display:block;font-size:11.5px;color:var(--mute);margin-top:4px}
+.topscore{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 8px;margin-top:8px}
+.topscore b{font:800 30px/1 var(--f-disp);font-stretch:85%}
+.topscore span{color:var(--mute);font-size:13px}
+.why{margin:6px 0 0;font-size:13.5px}
+.tactions{margin-top:14px}
+#tgaps{margin-top:18px}
+#tgaps h2{font-size:16px;margin-bottom:6px}
+.sr{position:absolute;left:-9999px}
+.job{scroll-margin-top:70px}
+.view[data-page=home] .hero{border-bottom:0}
 </style>
 </head>
 <body>
-<header class="hero">
-  <div class="wrap">
-    <div class="top">
-      <div class="brand"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7z" fill="#ff6b2c"/><circle cx="12" cy="9" r="2.6" fill="#0e2c2b"/></svg>Path Match</div>
-      <button id="theme" class="ghost" aria-label="Toggle theme">Theme</button>
-    </div>
-    <h1>Jobs that fit where you are in your career.</h1>
-    <p class="lead">Add your CV and Path Match works out your stage, from student to executive, then ranks postings in any field for that stage. Every score comes with its reason.</p>
-    <section class="stage" aria-labelledby="stageH">
-      <h2 id="stageH">Where are you now?</h2>
-      <div class="trail" id="trail" role="group" aria-label="Your career stage">
-        <svg class="ln" id="trailSvg" aria-hidden="true" focusable="false"><path id="trailPath" pathLength="1" d=""/></svg>
-        <div class="st" style="--x:10%;--y:62%;--i:0;--c:var(--l0)"><button class="stop" data-b="0" aria-pressed="false"><span class="dot"></span><b>Student</b><small>or new grad</small></button></div>
-        <div class="st" style="--x:30%;--y:48%;--i:1;--c:var(--l1)"><button class="stop" data-b="1" aria-pressed="false"><span class="dot"></span><b>Early career</b><small>1–3 years</small></button></div>
-        <div class="st" style="--x:50%;--y:33%;--i:2;--c:var(--l2)"><button class="stop" data-b="2" aria-pressed="false"><span class="dot"></span><b>Mid-level</b><small>3–7 years</small></button></div>
-        <div class="st" style="--x:70%;--y:19%;--i:3;--c:var(--l3)"><button class="stop" data-b="3" aria-pressed="false"><span class="dot"></span><b>Senior</b><small>7+ years</small></button></div>
-        <div class="st" style="--x:90%;--y:6%;--i:4;--c:var(--l4)"><button class="stop" data-b="4" aria-pressed="false"><span class="dot"></span><b>Executive</b><small>director and up</small></button></div>
-        <div class="pin" id="pin" style="--pd:.9s" hidden><span>You are here</span></div>
-      </div>
-      <p class="stagenote" id="stageNote" aria-live="polite">Tap your stage, or add your CV below and it will be read for you.</p>
-    </section>
-    <p class="herostat" id="herostat">Loading postings…</p>
+<header class="topbar" id="topbar">
+  <div class="wrap barin">
+    <a class="brand" href="./" data-p="home" aria-label="Path Match, start page"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7z" fill="#ff6b2c"/><circle cx="12" cy="9" r="2.6" fill="#0e2c2b"/></svg>Path Match</a>
+    <nav class="steps" id="steps" aria-label="Steps">
+      <a class="step" href="./" data-p="home"><i>1</i><span>Start</span></a>
+      <a class="step" href="#p=details" data-p="details"><i>2</i><span>Your CV</span></a>
+      <a class="step" href="#p=matches" data-p="matches"><i>3</i><span>Top 10</span></a>
+    </nav>
+    <a class="alljobs" id="navjobs" href="#p=jobs" data-p="jobs">All jobs <b id="navCount"></b></a>
+    <button id="theme" class="ghost" aria-label="Toggle theme">Theme</button>
   </div>
 </header>
 
-<div class="wrap page">
-  <div class="grid">
-    <div class="side">
-      <div class="panel">
-        <h2>Your CV</h2>
+<!-- page 1: start -->
+<main id="pg-home" class="view" data-page="home">
+  <section class="hero">
+    <div class="wrap">
+      <h1 tabindex="-1">Jobs that fit where you are in your career.</h1>
+      <p class="lead">Upload your CV and tell us what you are looking for. Path Match reads your stage, from student to executive, scores every posting against your CV and gives you a ranked top 10, with the reason behind every score.</p>
+      <div class="cta">
+        <a class="btnp" href="#p=details" data-p="details">Upload my CV</a>
+        <a class="btng" href="#p=jobs" data-p="jobs">Browse all <span id="homeCount">the</span> jobs</a>
+      </div>
+      <div class="hometrail" aria-hidden="true">
+        <div class="trail" id="htrail"></div>
+        <p class="stagenote">Five stages, from student to executive. Your CV shows which one you are at, and the postings that fit it come first.</p>
+      </div>
+      <p class="herostat" id="herostat">Loading postings…</p>
+    </div>
+  </section>
+  <section class="wrap how">
+    <ol class="how3">
+      <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16V4m0 0-4 4m4-4 4 4M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg><h2>Add your CV</h2><p>PDF, Word or pasted text. It is read in your browser and never uploaded.</p></li>
+      <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h9m4 0h3M4 17h3m4 0h9M15 4.5v5m-8 4.5v5"/></svg><h2>Tell us what you want</h2><p>Your stage, where you want to work, the kind of work and the languages you use.</p></li>
+      <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11M4 5.5l1 1 1.8-2M4 11.5l1 1 1.8-2M4 17.5l1 1 1.8-2"/></svg><h2>Get your top 10</h2><p>The ten postings that fit your CV best, with the keywords that matched and the ones missing.</p></li>
+    </ol>
+    <p class="note skipline">No CV at hand? <a href="#p=jobs" data-p="jobs">Browse every posting</a> or <a href="#p=details" data-p="details">try an example CV</a>.</p>
+  </section>
+</main>
+
+<!-- page 2: your CV and your details -->
+<main id="pg-details" class="view" data-page="details" hidden>
+  <div class="wrap pagein">
+    <div class="pghead"><h1 tabindex="-1">Your CV and your details</h1><p class="note" id="dnote">It takes about two minutes. Your CV is read in your browser and is never uploaded.</p></div>
+    <div class="dgrid">
+      <section class="panel" aria-labelledby="cvH">
+        <h2 id="cvH">1. Your CV</h2>
         <div class="drop" id="drop" tabindex="0" role="button" aria-label="Upload CV">
           <strong>Drop your CV here</strong>
-          <span>PDF, Word (.docx) or text. It is read in your browser and never uploaded.</span>
+          <span>PDF, Word (.docx) or text. Or click to choose a file.</span>
         </div>
         <input type="file" id="file" accept=".pdf,.docx,.txt,.md" hidden>
         <label for="paste">Or paste the text</label>
         <textarea id="paste" placeholder="Paste your CV text here"></textarea>
         <div class="row" style="margin-top:10px">
-          <button class="primary" id="go">Match my CV</button>
+          <button class="primary" id="go">Read my CV</button>
+          <button id="dclear" hidden>Remove my CV</button>
         </div>
         <p class="note" id="status" aria-live="polite"></p>
         <div class="samples">
@@ -269,68 +383,146 @@ label.inl{display:inline-flex;gap:5px;align-items:center;margin:0;font-weight:40
             <button data-s="student">Student</button><button data-s="grad">New graduate</button><button data-s="nurse">Nurse</button><button data-s="dev">Developer</button><button data-s="exec">Executive</button>
           </div>
         </div>
-      </div>
-      <div class="panel read" id="cvread" hidden></div>
-      <div class="panel">
-        <h2>Your situation</h2>
-        <label for="permit">Work permit</label>
-        <select id="permit">
-          <option value="unknown">Unknown, flag it</option>
-          <option value="ok">I can work in Canada without sponsorship</option>
-          <option value="need">I need employer sponsorship</option>
-        </select>
-        <label for="term">Term you want (internships and co-ops)</label>
-        <select id="term"></select>
-        <label for="window">Posted</label>
-        <select id="window">
-          <option value="1">Last 24 hours</option>
-          <option value="7">Last 7 days</option>
-          <option value="99" selected>Everything collected</option>
-        </select>
-      </div>
-      <div class="panel">
-        <h2>The postings</h2>
-        <p class="note" id="liveNote">Loading postings…</p>
-        <div id="liveLog" class="note" aria-live="polite"></div>
-      </div>
-      <div class="panel note">
-        <strong>A heuristic, not an applicant tracking system.</strong> Scores that differ by 5 points or less are ties. Your stage is read from the dates and titles on your CV and can be wrong: tap another stop on the trail to change it. Postings with their full text are scored from all of it; a short snippet or a title gives a weaker score. Open the link and read the posting before you apply.
-      </div>
+        <div class="read" id="cvread" hidden></div>
+      </section>
+      <section class="panel" aria-labelledby="meH">
+        <h2 id="meH">2. About you and what you want</h2>
+        <div class="stagecard">
+          <h3 id="stageH">Where are you now?</h3>
+          <div class="trail" id="trail" role="group" aria-label="Your career stage">
+            <svg class="ln" id="trailSvg" aria-hidden="true" focusable="false"><path id="trailPath" pathLength="1" d=""/></svg>
+            <div class="st" style="--x:10%;--y:62%;--i:0;--c:var(--l0)"><button class="stop" data-b="0" aria-pressed="false"><span class="dot"></span><b>Student</b><small>or new grad</small></button></div>
+            <div class="st" style="--x:30%;--y:48%;--i:1;--c:var(--l1)"><button class="stop" data-b="1" aria-pressed="false"><span class="dot"></span><b>Early career</b><small>1–3 years</small></button></div>
+            <div class="st" style="--x:50%;--y:33%;--i:2;--c:var(--l2)"><button class="stop" data-b="2" aria-pressed="false"><span class="dot"></span><b>Mid-level</b><small>3–7 years</small></button></div>
+            <div class="st" style="--x:70%;--y:19%;--i:3;--c:var(--l3)"><button class="stop" data-b="3" aria-pressed="false"><span class="dot"></span><b>Senior</b><small>7+ years</small></button></div>
+            <div class="st" style="--x:90%;--y:6%;--i:4;--c:var(--l4)"><button class="stop" data-b="4" aria-pressed="false"><span class="dot"></span><b>Executive</b><small>director and up</small></button></div>
+            <div class="pin" id="pin" style="--pd:.9s" hidden><span>You are here</span></div>
+          </div>
+          <p class="stagenote" id="stageNote" aria-live="polite">Tap your stage, or add your CV and it will be read for you.</p>
+        </div>
+        <div class="fgrid">
+          <div><label for="dloc">Where do you want to work?</label><select id="dloc"></select>
+            <label class="inl chk"><input type="checkbox" id="dremote"> Include remote roles in Canada</label></div>
+          <div><label for="dfield">Field</label><select id="dfield"></select></div>
+        </div>
+        <label id="kindL">Kind of work</label>
+        <div class="seg" id="dkind" role="group" aria-labelledby="kindL">
+          <label><input type="checkbox" value="full"><span>Full-time</span></label>
+          <label><input type="checkbox" value="part"><span>Part-time</span></label>
+          <label><input type="checkbox" value="intern"><span>Internships &amp; co-ops</span></label>
+        </div>
+        <label id="whenL">Posted within</label>
+        <div class="seg" id="dwhen" role="radiogroup" aria-labelledby="whenL">
+          <label><input type="radio" name="when" value="7"><span>7 days</span></label>
+          <label><input type="radio" name="when" value="30"><span>30 days</span></label>
+          <label><input type="radio" name="when" value="60"><span>60 days</span></label>
+          <label><input type="radio" name="when" value="90"><span>90 days</span></label>
+          <label><input type="radio" name="when" value="0"><span>Any time</span></label>
+        </div>
+        <label id="langL">Languages you work in</label>
+        <div class="seg" id="dlang" role="radiogroup" aria-labelledby="langL">
+          <label><input type="radio" name="lang" value="both"><span>English and French</span></label>
+          <label><input type="radio" name="lang" value="en"><span>English only</span></label>
+          <label><input type="radio" name="lang" value="fr"><span>French only</span></label>
+        </div>
+        <div class="fgrid">
+          <div><label for="permit">Work permit</label>
+            <select id="permit">
+              <option value="unknown">Unknown, flag it</option>
+              <option value="ok">I can work in Canada without sponsorship</option>
+              <option value="need">I need employer sponsorship</option>
+            </select></div>
+          <div><label for="term">Term you want (internships and co-ops)</label><select id="term"></select></div>
+        </div>
+        <p class="livecount" id="dcount" aria-live="polite"></p>
+      </section>
     </div>
-
-    <div>
-      <div class="tabs" role="tablist" id="tabs">
-        <button class="tab" role="tab" aria-selected="true" data-t="full">Full-time jobs <span class="cnt"></span></button>
-        <button class="tab" role="tab" aria-selected="false" data-t="part">Part-time <span class="cnt"></span></button>
-        <button class="tab" role="tab" aria-selected="false" data-t="intern">Internships &amp; co-ops <span class="cnt"></span></button>
-        <button class="tab" role="tab" aria-selected="false" data-t="cv">Your CV</button>
-        <button class="tab" role="tab" aria-selected="false" data-t="method">Method &amp; coverage</button>
-      </div>
-      <div class="toolbar" id="toolbar">
-        <div class="tools">
-          <div class="search"><input type="text" id="fq" placeholder="Search title, company, city…  (press / )" aria-label="Search postings" autocomplete="off"><button id="fqx" aria-label="Clear search" hidden>×</button></div>
-          <select id="flvl" aria-label="Level"></select>
-          <select id="ffield" aria-label="Field"></select>
-          <select id="floc" aria-label="Location"></select>
-          <select id="fsrc" aria-label="Source"></select>
-          <select id="fsort" aria-label="Sort by"><option value="match">Best match</option><option value="stage">Fits my stage</option><option value="level">Level, lowest first</option><option value="new">Newest first</option><option value="company">Company A–Z</option><option value="title">Title A–Z</option></select>
-          <select id="fmin" aria-label="Minimum score"><option value="0">Any score</option><option value="30">Score 30+</option><option value="45">Score 45+</option><option value="60">Score 60+</option></select>
-        </div>
-        <div class="chips" id="chips">
-          <span>Posted</span><button data-w="1">24 h</button><button data-w="7">7 days</button><button data-w="99">All</button>
-          <span class="sep"></span>
-          <label class="inl"><input type="checkbox" id="fdesc"> search inside the descriptions too</label>
-          <span class="sep"></span>
-          <button id="fsaved" aria-pressed="false">★ Saved (0)</button>
-          <button id="freset">Reset filters</button>
-          <button id="copy">Copy list</button>
-        </div>
-        <div class="note" id="fstat" aria-live="polite"></div>
-      </div>
-      <div id="view"></div>
+    <div class="actionbar">
+      <button class="primary big" id="dgo">Show my top 10</button>
+      <span class="note" id="dhint"></span>
+      <a class="skip" href="#p=jobs" data-p="jobs">Skip and browse all jobs</a>
     </div>
   </div>
-</div>
+</main>
+
+<!-- page 3: your top 10 -->
+<main id="pg-matches" class="view" data-page="matches" hidden>
+  <div class="wrap pagein">
+    <div class="pghead"><h1 tabindex="-1">Your top 10</h1><p class="note" id="tlead" aria-live="polite"></p></div>
+    <div class="profilebar" id="tprofile"></div>
+    <div class="prog" id="tprog" hidden role="status"><i></i><span></span></div>
+    <div id="topview"></div>
+    <div class="row tactions" id="tactions" hidden>
+      <button id="tmore">Show the next 10</button>
+      <button id="tcopy">Copy my top 10</button>
+      <a class="btn" href="#p=jobs" data-p="jobs">Browse all <span id="tall"></span> postings</a>
+    </div>
+    <label class="inl chk" id="tfullL" style="margin-top:14px" hidden><input type="checkbox" id="tfull"> Rank only postings with their full text (a title alone is too little to score)</label>
+    <div class="panel" id="tgaps" hidden></div>
+    <p class="note" style="margin-top:14px">This is a heuristic, not an applicant tracking system: scores that differ by 5 points or less are ties, and no employer sees this ranking. <a href="#p=jobs&amp;t=method" data-p="jobs" data-t="method">How the score is worked out</a>.</p>
+  </div>
+</main>
+
+<!-- all the jobs that were collected -->
+<main id="pg-jobs" class="view" data-page="jobs" hidden>
+  <div class="wrap page">
+    <div class="pghead"><h1 tabindex="-1">All jobs</h1><p class="note" id="jnote"></p></div>
+    <div class="grid">
+      <div class="side">
+        <div class="panel" id="profile"></div>
+        <div class="panel">
+          <h2>Filters</h2>
+          <label for="window">Posted</label>
+          <select id="window">
+            <option value="1">Last 24 hours</option>
+            <option value="7">Last 7 days</option>
+            <option value="99" selected>Everything collected</option>
+          </select>
+        </div>
+        <div class="panel">
+          <h2>The postings</h2>
+          <p class="note" id="liveNote">Loading postings…</p>
+          <div id="liveLog" class="note" aria-live="polite"></div>
+        </div>
+        <div class="panel note">
+          <strong>A heuristic, not an applicant tracking system.</strong> Scores that differ by 5 points or less are ties. Your stage is read from the dates and titles on your CV and can be wrong: change it on the details page. Postings with their full text are scored from all of it; a short snippet or a title gives a weaker score. Open the link and read the posting before you apply.
+        </div>
+      </div>
+
+      <div>
+        <div class="tabs" role="tablist" id="tabs">
+          <button class="tab" role="tab" aria-selected="true" data-t="full">Full-time jobs <span class="cnt"></span></button>
+          <button class="tab" role="tab" aria-selected="false" data-t="part">Part-time <span class="cnt"></span></button>
+          <button class="tab" role="tab" aria-selected="false" data-t="intern">Internships &amp; co-ops <span class="cnt"></span></button>
+          <button class="tab" role="tab" aria-selected="false" data-t="cv">Your CV</button>
+          <button class="tab" role="tab" aria-selected="false" data-t="method">Method &amp; coverage</button>
+        </div>
+        <div class="toolbar" id="toolbar">
+          <div class="tools">
+            <div class="search"><input type="text" id="fq" placeholder="Search title, company, city…  (press / )" aria-label="Search postings" autocomplete="off"><button id="fqx" aria-label="Clear search" hidden>×</button></div>
+            <select id="flvl" aria-label="Level"></select>
+            <select id="ffield" aria-label="Field"></select>
+            <select id="floc" aria-label="Location"></select>
+            <select id="fsrc" aria-label="Source"></select>
+            <select id="fsort" aria-label="Sort by"><option value="match">Best match</option><option value="stage">Fits my stage</option><option value="level">Level, lowest first</option><option value="new">Newest first</option><option value="company">Company A–Z</option><option value="title">Title A–Z</option></select>
+            <select id="fmin" aria-label="Minimum score"><option value="0">Any score</option><option value="30">Score 30+</option><option value="45">Score 45+</option><option value="60">Score 60+</option></select>
+          </div>
+          <div class="chips" id="chips">
+            <span>Posted</span><button data-w="1">24 h</button><button data-w="7">7 days</button><button data-w="99">All</button>
+            <span class="sep"></span>
+            <label class="inl"><input type="checkbox" id="fdesc"> search inside the descriptions too</label>
+            <span class="sep"></span>
+            <button id="fsaved" aria-pressed="false">★ Saved (0)</button>
+            <button id="freset">Reset filters</button>
+            <button id="copy">Copy list</button>
+          </div>
+          <div class="note" id="fstat" aria-live="polite"></div>
+        </div>
+        <div id="view"></div>
+      </div>
+    </div>
+  </div>
+</main>
 
 <script src="jobmeta.js"></script>
 <script src="scoring.js"></script>
@@ -361,20 +553,31 @@ const REL_PILL={fits:["g","Fits your level"],step:["w","One step above you"],far
 
 const TRAIL=[[10,62],[30,48],[50,33],[70,19],[90,6]];
 function layoutTrail(){
-  const t=$("trail"),W=t.clientWidth,H=t.clientHeight;
-  if(!W||!H)return;
-  const P=TRAIL.map(([x,y])=>[x*W/100,y*H/100]);
-  let d="M"+P[0][0].toFixed(1)+" "+P[0][1].toFixed(1);
-  for(let i=1;i<P.length;i++){const [x1,y1]=P[i-1],[x2,y2]=P[i],m=(x1+x2)/2;d+=" C"+m.toFixed(1)+" "+y1.toFixed(1)+" "+m.toFixed(1)+" "+y2.toFixed(1)+" "+x2.toFixed(1)+" "+y2.toFixed(1);}
-  $("trailSvg").setAttribute("viewBox","0 0 "+W+" "+H);$("trailPath").setAttribute("d",d);
+  document.querySelectorAll(".trail").forEach(t=>{
+    const W=t.clientWidth,H=t.clientHeight;
+    if(!W||!H)return;
+    const P=TRAIL.map(([x,y])=>[x*W/100,y*H/100]);
+    let d="M"+P[0][0].toFixed(1)+" "+P[0][1].toFixed(1);
+    for(let i=1;i<P.length;i++){const [x1,y1]=P[i-1],[x2,y2]=P[i],m=(x1+x2)/2;d+=" C"+m.toFixed(1)+" "+y1.toFixed(1)+" "+m.toFixed(1)+" "+y2.toFixed(1)+" "+x2.toFixed(1)+" "+y2.toFixed(1);}
+    const svg=t.querySelector("svg.ln");
+    svg.setAttribute("viewBox","0 0 "+W+" "+H);svg.querySelector("path").setAttribute("d",d);
+  });
 }
+/* the start page shows the same trail without a pin and without buttons: a picture of the five stages */
+(function(){
+  const c=$("trail").cloneNode(true);
+  c.removeAttribute("id");c.removeAttribute("role");c.querySelectorAll("[id]").forEach(e=>e.removeAttribute("id"));
+  c.querySelector(".pin").remove();
+  c.querySelectorAll("button.stop").forEach(b=>{const d=document.createElement("span");d.className="stop";d.innerHTML=b.innerHTML;b.replaceWith(d);});
+  $("htrail").replaceWith(c);
+})();
 function paintStage(){
   const b=meBand(),cb=cvBand(),pin=$("pin");
   document.querySelectorAll("#trail .stop").forEach(s=>s.setAttribute("aria-pressed",String(+s.dataset.b===b)));
   if(b===null)pin.hidden=true;
   else{pin.hidden=false;pin.style.setProperty("--x",TRAIL[b][0]+"%");pin.style.setProperty("--y",TRAIL[b][1]+"%");}
   const n=$("stageNote");
-  if(!CV&&ME===null)n.textContent="Tap your stage, or add your CV below and it will be read for you.";
+  if(!CV&&ME===null)n.textContent="Tap your stage, or add your CV and it will be read for you.";
   else if(ME!==null){
     const same=cb===ME;
     n.innerHTML=`Showing jobs for <b>${esc(BAND[ME].label)}</b>${same?", which is also how your CV reads.":CV?` (your choice). ${cb===null?"Your CV does not show a clear stage":"Your CV reads as "+esc(BAND[cb].label)}.`:" (your choice). Add your CV to rank them for you."}${same?"":` <button id="stageReset">${CV?"Use my CV's reading":"Clear"}</button>`}`;
@@ -388,9 +591,9 @@ function renderCvRead(){
   const lv=CV.lv,b=lv.band,cap=s=>s.charAt(0).toUpperCase()+s.slice(1);
   const head=b===null?`<span class="pill">Stage not clear</span>`:`<span class="pill lvl lv${b}">${esc(BAND[b].label)}</span>`;
   const yrs=lv.years!=null&&b!==null?`<dd>About ${lv.years} year${lv.years===1?"":"s"} of work counted.</dd>`:"";
-  el.innerHTML=`<h2>How we read your CV</h2><dl><dt>${head}</dt>${yrs}</dl><ul>${(lv.why||[]).map(w=>`<li>${esc(cap(w))}</li>`).join("")}</ul><p class="note" style="margin:8px 0 0">The stage decides which postings come first. If it is wrong, tap the right stop on the trail at the top.</p>`;
+  el.innerHTML=`<h2>How we read your CV</h2><dl><dt>${head}</dt>${yrs}</dl><ul>${(lv.why||[]).map(w=>`<li>${esc(cap(w))}</li>`).join("")}</ul><p class="note" style="margin:8px 0 0">The stage decides which postings come first. If it is wrong, tap the right stop on the trail.</p>`;
 }
-function stageChanged(){paintStage();renderCvRead();run();writeHash();}
+function stageChanged(){paintStage();renderCvRead();renderDetails();run();writeHash();}
 
 /* ---------- postings ---------- */
 const JOBS=[];
@@ -487,12 +690,14 @@ async function ensureText(j){
 }
 /* redraw the text parts of a card that is open (after its text arrived) */
 function refreshSlot(j){
-  const k=jkey(j),d=[...document.querySelectorAll("details.job")].find(x=>x.dataset.k===k);
+  const k=jkey(j),d=cardEl(k);
   if(!d||!d.open)return;
   const ms=d.querySelector(".mapslot"),ds=d.querySelector(".descslot");
   if(ms&&CV)ms.innerHTML=mapPanel(j);
   if(ds)ds.innerHTML=descPanel(j);
 }
+/* the card of a posting on the page that is showing (the same posting can sit on two pages) */
+const cardEl=k=>[...document.querySelectorAll("details.job")].find(x=>x.dataset.k===k&&!x.closest("[hidden]"));
 function descPanel(j){
   if(needsText(j)){ensureText(j).then(()=>refreshSlot(j));return '<p class="note">Loading the posting…</p>';}
   if(j._tfail&&!j.desc)return '<p class="note">The text of this posting could not be loaded. Check the connection and open the card again, or open it on the employer\'s page.</p>';
@@ -721,7 +926,7 @@ function scoreJob(j){
   return{role:sc.role,level:sc.level,overlap:sc.overlap,total:sc.total,rows,cov:sc.cov,matched:sc.matched,close:sc.close,n:sc.n,flags,lv,rel,fit,past,conf:hasText(j)?(j.partial?"Short snippet":"Full text"):"Title only"};
 }
 
-let tab="full",RES=[],RES_VER=-1,RUN=0,SCORING="";
+let tab="full",RES=[],RES_VER=-1,RUN=0,SCORING="",SCORED_FOR=null,SCORE_PC=0;
 const LIST_TABS=["full","part","intern"];
 const KIND_LABEL={full:"full-time jobs",part:"part-time jobs",intern:"internships & co-ops"};
 const KIND_SHORT={full:"Full-time",part:"Part-time",intern:"Intern"};
@@ -742,10 +947,11 @@ function run(){
     if(id!==RUN)return;
     const end=Math.min(JOBS.length,i+100);
     for(;i<end;i++)out[i]={j:JOBS[i],s:scoreJob(JOBS[i])};
-    if(i<JOBS.length){SCORING=`Scoring postings against your CV… ${i.toLocaleString()} of ${JOBS.length.toLocaleString()}`;$("fstat").textContent=SCORING;setTimeout(step,0);}
-    else{SCORING="";RES=out;render();}
+    SCORE_PC=Math.round(100*i/JOBS.length);
+    if(i<JOBS.length){SCORING=`Scoring postings against your CV… ${i.toLocaleString()} of ${JOBS.length.toLocaleString()}`;$("fstat").textContent=SCORING;paintProgress();setTimeout(step,0);}
+    else{SCORING="";RES=out;SCORED_FOR=CV;render();}
   };
-  SCORING="Scoring postings against your CV…";render();setTimeout(step,0);
+  SCORING="Scoring postings against your CV…";SCORE_PC=0;render();setTimeout(step,0);
 }
 function pill(c,t,title){return `<span class="pill ${c}"${title?` title="${esc(title)}"`:""}>${esc(t)}</span>`}
 const starBtn=k=>`<button class="star${SAVED.has(k)?" on":""}" data-star="${esc(k)}" aria-pressed="${SAVED.has(k)}" title="${SAVED.has(k)?"Remove from saved":"Save this posting"}">${SAVED.has(k)?"★":"☆"}</button>`;
@@ -765,14 +971,15 @@ function breakdown(j,s){
     <tr><th>Level fit ${s.level}/25</th><td>${lvTxt}</td></tr>
     <tr><th>Keywords ${s.overlap}/35</th><td>${s.matched} matched and ${s.close} close, out of the ${s.n} main keywords counted (${Math.round(s.cov*100)}% weighted coverage; 40% earns the full 35). Few keywords means a cautious score. Confidence: ${s.conf}.</td></tr></tbody></table>`;
 }
-function jobHtml(r,rank){
+function jobHtml(r,rank,top){
   const {j,s}=r,a=age(j),jk=jkey(j);
   const bar=(v,m,l)=>`<div class="sb">${l} ${v}/${m}<i><b style="width:${v/m*100}%"></b></i></div>`;
-  return `<details class="job lv${s.lv.lvl}" data-k="${esc(jk)}"${OPEN.has(jk)?" open":""}><summary>
-    <div class="score"><b>${s.total}</b><small>#${rank}</small>${starBtn(jk)}</div>
+  return `<details class="job${top?" top":""} lv${s.lv.lvl}" data-k="${esc(jk)}"${OPEN.has(jk)?" open":""}><summary>
+    ${top?`<div class="rank"><b>${rank}</b><small>${starBtn(jk)}</small></div>`:`<div class="score"><b>${s.total}</b><small>#${rank}</small>${starBtn(jk)}</div>`}
     <div>
       <div class="t">${esc(j.title)}</div>
       <div class="meta"><span>${esc(j.company)}</span><span>${esc(j.loc)}</span><span>${whenOf(j)}${a<24?" · within 24h":""}</span><span>${srcLinks(j)}</span></div>
+      ${top?`<div class="topscore"><b>${s.total}</b><span>out of 100 · ${s.conf==="Full text"?"scored from the full text":s.conf==="Short snippet"?"scored from a short snippet":"scored from the title only"}</span></div>`:""}
       ${tagsHtml(j,s.rel)}
       ${skillsRow(j)}
       <div class="subs">${bar(s.role,40,"Role")}${bar(s.level,25,"Level")}${bar(s.overlap,35,"Keywords")}</div>
@@ -803,7 +1010,7 @@ function browseHtml(j,rank){
     </div></summary>
     <div class="det">
       <h3>The posting</h3><div class="descslot">${OPEN.has(jk)?descPanel(j):""}</div>
-      <p class="note"><b>Add your CV</b> (left) to score this posting and see which of its keywords are on your CV.</p>
+      <p class="note"><a href="#p=details" data-p="details"><b>Add your CV</b></a> to score this posting and see which of its keywords are on your CV.</p>
       <div class="row">${open}</div>
     </div></details>`;
 }
@@ -901,13 +1108,13 @@ function renderList(v){
   const bits=[`<b>${nf(list.length)}</b> ${KIND_LABEL[tab]}`,`${nf(n24)} posted in the last 24 h`];
   if(SCORING)bits.push(esc(SCORING));
   else if(F.desc&&TEXTNOTE)bits.push(esc(TEXTNOTE));
-  else if(!CV)bits.push("<b>add your CV</b> (left) to score and rank them");
+  else if(!CV)bits.push('<a href="#p=details" data-p="details"><b>add your CV</b></a> to score and rank them');
   if(sortKey!=="match")bits.push("sorted by "+({stage:"fit with your stage",level:"level, lowest first",new:"newest",company:"company",title:"title"})[sortKey]);
   $("fstat").innerHTML=bits.join(" · ");
   /* notes above the list: what the level filter did, and where the student roles are */
   let notes="";
   const hidden=(F.lvl==="fit"&&b!==null)?forLv.length-fitN:0;
-  if(b===null)notes+=`<p class="lvnote"><span><b>Tell me where you are</b> and the roles that fit your level come first. Tap your stage on the trail at the top, or add your CV.</span></p>`;
+  if(b===null)notes+=`<p class="lvnote"><span><b>Tell me where you are</b> and the roles that fit your level come first.</span><a class="btn" href="#p=details" data-p="details">Add my CV or pick my stage</a></p>`;
   else if(hidden>0)notes+=`<p class="lvnote"><span><b>${nf(hidden)}</b> posting${hidden===1?" is":"s are"} far above or below your level and hidden.</span><button data-lvall>Show ${hidden===1?"it":"them"}</button></p>`;
   if(b===0&&tab!=="intern"&&cnt.intern)notes+=`<p class="lvnote"><span>Most first roles are internships and co-ops.</span><button data-gotab="intern">See ${nf(cnt.intern)}</button></p>`;
   if(tab==="full")notes+='<p class="note">Includes contract roles and postings that state no employment type.</p>';
@@ -934,17 +1141,18 @@ function watchSentinel(){
   if(!IO)IO=new IntersectionObserver(es=>{if(es.some(e=>e.isIntersecting))showMore();},{rootMargin:"300px"});
   IO.disconnect();IO.observe(el);
 }
-function render(){
+function renderJobs(){
   const v=$("view");
+  paintProfile();
   document.querySelectorAll(".tab").forEach(b=>b.setAttribute("aria-selected",b.dataset.t===tab));
   const isList=LIST_TABS.includes(tab);
   $("toolbar").hidden=!isList;
   if(isList){renderList(v);return;}
   syncControls();
-  if(tab==="cv"&&!CV){v.innerHTML=`<div class="empty"><strong>Add your CV to see what was read from it.</strong><br>${nf(JOBS.length)} postings are loaded and can already be browsed. Use one of the example CVs to see how matching works.</div>`;return;}
+  if(tab==="cv"&&!CV){v.innerHTML=`<div class="empty"><strong>Add your CV to see what was read from it.</strong><br>${nf(JOBS.length)} postings are loaded and can already be browsed. <a href="#p=details" data-p="details">Add your CV</a> or use one of the example CVs to see how matching works.</div>`;return;}
   if(tab==="cv"){
     const cf=cvFound(),lv=CV.lv,b=lv.band;
-    const stage=`<div style="grid-column:1/-1"><h3>Your stage</h3><p>${b===null?"Not clear from this CV.":`<span class="pill lvl lv${b}">${esc(BAND[b].label)}</span>`}</p><ul class="note">${(lv.why||[]).map(w=>`<li>${esc(w)}</li>`).join("")}</ul><p class="note">${b===null?"Pick your stage on the trail at the top of the page.":"This decides which postings come first. If it is wrong, tap the right stop on the trail at the top of the page."}</p></div>`;
+    const stage=`<div style="grid-column:1/-1"><h3>Your stage</h3><p>${b===null?"Not clear from this CV.":`<span class="pill lvl lv${b}">${esc(BAND[b].label)}</span>`}</p><ul class="note">${(lv.why||[]).map(w=>`<li>${esc(w)}</li>`).join("")}</ul><p class="note">${b===null?"Pick your stage on the details page.":"This decides which postings come first. If it is wrong, change it on the details page."}</p></div>`;
     let skills;
     if(!cf)skills='<div style="grid-column:1/-1"><p class="note">The dictionary is loading…</p></div>';
     else{
@@ -984,11 +1192,11 @@ function render(){
       ${CV?`<div class="panel method" style="margin-top:12px"><h2>Keywords that keep appearing in your best postings but are not on your CV</h2><p class="note">${g.length?g.map(x=>esc(x[0])+" ("+x[1]+")").join(", "):"None in the 25 best-scoring recent postings."}</p></div>`:""}`;
   }
 }
-function copyList(list){
+function copyList(list,btn,label){
   const rows=["Rank\tScore\tCompany\tRole\tLevel\tField\tLocation\tProvince\tPosted\tType\tBoard\tLink\tFlags"].concat(list.map((r,i)=>[i+1,r.s?r.s.total:"",r.j.company,r.j.title,LV[lvOf(r.j).lvl].label,fdOf(r.j).label,r.j.loc,r.j.province||"",r.j.date,r.j.type||"",r.j.sources[0].src,r.j.sources[0].url,r.s?r.s.flags.map(f=>f[1]).join("; "):""].join("\t")));
   const t=rows.join("\n");
-  const b=$("copy");
-  const ok=()=>{b.textContent="Copied "+list.length;setTimeout(()=>b.textContent="Copy list",1500)};
+  const b=btn||$("copy");
+  const ok=()=>{b.textContent="Copied "+list.length;setTimeout(()=>b.textContent=label||"Copy list",1500)};
   try{navigator.clipboard.writeText(t).then(ok,()=>fallback(t,b))}catch(e){fallback(t,b)}
 }
 function fallback(t,b){const ta=document.createElement("textarea");ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand("copy");b.textContent="Copied"}catch(e){b.textContent="Select and copy manually"}ta.remove()}
@@ -1019,9 +1227,11 @@ function go(note){
   if(t.trim().length<80){$("status").textContent="Add your CV first: upload a file or paste at least a few lines.";return;}
   CV={raw:t,lv:JobMeta.cvLevel(t,new Date()),py:null,ix:null};
   setMe(null);                       // a new CV replaces a stage picked by hand
+  T.shown=10;
+  try{sessionStorage.setItem("pm_cv",t.slice(0,60000));}catch(e){}   // this tab only: gone when it is closed
   const cf=cvFound();
   $("status").textContent=(note?note+" ":"")+(cf?Object.keys(cf).length+" skills found on your CV.":"Reading your CV…");
-  paintStage();renderCvRead();writeHash();run();
+  paintStage();renderCvRead();renderDetails();paintNav();writeHash();run();
 }
 const SAMPLES={
 student:`Alex Example
@@ -1094,12 +1304,12 @@ $("file").onchange=e=>e.target.files[0]&&handleFile(e.target.files[0]);
 $("drop").addEventListener("drop",e=>{const f=e.dataTransfer.files[0];if(f)handleFile(f)});
 $("go").onclick=()=>go();
 $("samples").onclick=e=>{const b=e.target.closest("[data-s]");if(b){$("paste").value=SAMPLES[b.dataset.s];go("Example CV, not a real person.");}};
-$("permit").onchange=()=>run();
-$("term").onchange=()=>run();
+$("permit").onchange=()=>{P.permit=$("permit").value;savePrefs();run();};
+$("term").onchange=()=>{P.term=$("term").value;savePrefs();run();};
 $("window").onchange=()=>{SHOW=PAGE;render();writeHash();};
 $("trail").addEventListener("click",e=>{const s=e.target.closest(".stop");if(s){setMe(+s.dataset.b);SHOW=PAGE;stageChanged();}});
 $("stageNote").addEventListener("click",e=>{if(e.target.closest("#stageReset")){setMe(null);SHOW=PAGE;stageChanged();}});
-$("view").addEventListener("toggle",e=>{
+function onCardToggle(e){
   const d=e.target;
   if(d&&d.classList&&d.classList.contains("job")&&d.dataset.k){
     if(d.open){
@@ -1113,8 +1323,10 @@ $("view").addEventListener("toggle",e=>{
       }
     }else OPEN.delete(d.dataset.k);
   }
-},true);
-$("view").addEventListener("click",e=>{
+}
+$("view").addEventListener("toggle",onCardToggle,true);
+$("topview").addEventListener("toggle",onCardToggle,true);
+function onAct(e){
   const b=e.target.closest("[data-act]");if(!b)return;
   const k=b.dataset.pk,card=b.closest("details.job");
   if(b.dataset.act==="usepaste"){
@@ -1123,15 +1335,202 @@ $("view").addEventListener("click",e=>{
     PASTED[k]=t.slice(0,30000);savePasted();
   }else if(b.dataset.act==="clearpaste"){delete PASTED[k];savePasted();}
   const j=JOBS.find(x=>jkey(x)===k);
-  if(j){applyPasted(j);OPEN.add(k);const rr=RES.find(x=>x.j===j);if(rr&&CV)rr.s=scoreJob(j);render();const el=[...document.querySelectorAll("details.job")].find(d=>d.dataset.k===k);if(el)el.scrollIntoView({block:"nearest"});}
+  if(j){applyPasted(j);OPEN.add(k);const rr=RES.find(x=>x.j===j);if(rr&&CV)rr.s=scoreJob(j);render();const el=cardEl(k);if(el)el.scrollIntoView({block:"nearest"});}
+}
+$("view").addEventListener("click",onAct);
+$("topview").addEventListener("click",onAct);
+$("tabs").onclick=e=>{const b=e.target.closest(".tab");if(b&&b.dataset.t!==tab){tab=b.dataset.t;SHOW=PAGE;render();writeHash(true);window.scrollTo({top:Math.max(0,$("tabs").getBoundingClientRect().top+scrollY-64)});}};
+
+/* ---------- the pages: start, your CV and details, top 10, all jobs ---------- */
+const PAGES=["home","details","matches","jobs"];
+const PG_TITLE={home:"Path Match",details:"Your CV and details · Path Match",matches:"Your top 10 · Path Match",jobs:"All jobs · Path Match"};
+let PG="home",LASTHASH=null;
+const T={shown:10};                       // how many ranked postings the top 10 page shows (10, then 20, 30...)
+/* what the person told us on the details page; kept in this browser */
+const P={loc:"",remote:true,kinds:["full","part","intern"],fd:"",lang:"both",within:60,permit:"unknown",term:null,fullOnly:true};
+try{const s=JSON.parse(localStorage.getItem("pm_prefs")||"null");if(s&&typeof s==="object")Object.assign(P,s);}catch(e){}
+if(!Array.isArray(P.kinds)||!P.kinds.length)P.kinds=["full","part","intern"];
+function savePrefs(){try{localStorage.setItem("pm_prefs",JSON.stringify(P));}catch(e){}}
+const KIND_NAME={full:"Full-time",part:"Part-time",intern:"Internships & co-ops"};
+const LANG_NAME={both:"English and French",en:"English only",fr:"French only"};
+
+/* does a posting fit what the person asked for? (kind of work, place, field, language, level) */
+function prefOk(j){
+  if(!P.kinds.includes(j.kind))return false;
+  const remote=j.province==="Remote – Canada";
+  if(P.loc){
+    const here=P.loc==="MTL"?MTL.test(j.loc||""):j.province===P.loc;
+    if(!here&&!(P.remote&&remote))return false;
+  }else if(!P.remote&&remote)return false;
+  if(P.fd&&fdOf(j).id!==P.fd)return false;
+  if(P.within&&age(j)>=P.within*24)return false;          // an old posting is often filled
+  const lg=langOf(j);
+  if(P.lang==="en"&&lg==="fr")return false;
+  if(P.lang==="fr"&&lg==="en")return false;
+  return fitsLevel(j);
+}
+
+function paintNav(){
+  document.querySelectorAll("#steps .step").forEach((a,i)=>{
+    const p=a.dataset.p,on=p===PG,done=!on&&((p==="home")||(p==="details"&&!!CV));
+    a.classList.toggle("on",on);a.classList.toggle("done",done);a.classList.toggle("off",p==="matches"&&!CV);
+    a.querySelector("i").textContent=done?"✓":String(i+1);
+    if(on)a.setAttribute("aria-current","step");else a.removeAttribute("aria-current");
+  });
+  $("navjobs").classList.toggle("on",PG==="jobs");
+}
+function showPage(p,push){
+  if(p==="matches"&&!CV){p="details";$("dnote").textContent="Add your CV first, and your top 10 will appear here.";}
+  const changed=p!==PG;
+  PG=p;
+  PAGES.forEach(x=>$("pg-"+x).hidden=x!==p);
+  document.title=PG_TITLE[p];
+  paintNav();writeHash(!!push&&changed);
+  render();layoutTrail();
+  if(changed){
+    window.scrollTo(0,0);
+    if(push){const h=$("pg-"+p).querySelector("h1");if(h)h.focus({preventScroll:true});}
+  }
+}
+function render(){
+  if(PG==="jobs")renderJobs();
+  else if(PG==="matches")renderMatches();
+  else if(PG==="details")renderDetails();
+}
+/* every link with data-p goes to a page without reloading */
+document.addEventListener("click",e=>{
+  const a=e.target.closest("a[data-p]");
+  if(!a||e.metaKey||e.ctrlKey||e.shiftKey||e.button)return;
+  e.preventDefault();
+  if(a.dataset.t)tab=a.dataset.t;
+  SHOW=PAGE;
+  showPage(a.dataset.p,true);
 });
-$("tabs").onclick=e=>{const b=e.target.closest(".tab");if(b&&b.dataset.t!==tab){tab=b.dataset.t;SHOW=PAGE;render();writeHash(true);window.scrollTo({top:Math.max(0,$("tabs").getBoundingClientRect().top+scrollY-12)});}};
+
+/* ---------- page 2: the details ---------- */
+function fillDetails(){
+  const lc={},fc={};
+  for(const j of JOBS){const p=j.province||"";lc[p]=(lc[p]||0)+1;const f=fdOf(j).id;fc[f]=(fc[f]||0)+1;}
+  const mtl=JOBS.filter(j=>MTL.test(j.loc||"")).length;
+  fillSelect($("dloc"),[["","All of Canada ("+nf(JOBS.length)+")"],["MTL","Montréal area ("+nf(mtl)+")"],...Object.keys(lc).filter(p=>/^[A-Z]{2}$/.test(p)).sort((a,c)=>lc[c]-lc[a]).map(p=>[p,(PROV_NAME[p]||p)+" ("+nf(lc[p])+")"])],P.loc);
+  fillSelect($("dfield"),[["","Any field"],...JobMeta.FIELD_LIST.filter(f=>fc[f.id]).sort((x,y)=>(x.id==="other")-(y.id==="other")||fc[y.id]-fc[x.id]).map(f=>[f.id,f.label+" ("+nf(fc[f.id])+")"])],P.fd);
+}
+function syncDetails(){
+  if($("dloc").value!==P.loc)$("dloc").value=P.loc;
+  if($("dfield").value!==P.fd)$("dfield").value=P.fd;
+  $("dremote").checked=!!P.remote;
+  document.querySelectorAll("#dkind input").forEach(x=>{x.checked=P.kinds.includes(x.value);});
+  document.querySelectorAll("#dlang input").forEach(x=>{x.checked=x.value===P.lang;});
+  document.querySelectorAll("#dwhen input").forEach(x=>{x.checked=+x.value===P.within;});
+}
+function renderDetails(){
+  if(JOBS.length&&$("dloc").options.length<2)fillDetails();
+  syncDetails();
+  const has=!!CV;
+  $("dgo").disabled=!has;$("dclear").hidden=!has;
+  $("dhint").textContent=has?"":"Add your CV to continue.";
+  if(JOBS.length){
+    const n=JOBS.filter(prefOk).length;
+    $("dcount").innerHTML=`<b>${nf(n)}</b> of ${nf(JOBS.length)} postings fit these choices.`+(meBand()===null?" Your stage is not known yet, so the level is not applied.":"");
+  }else $("dcount").textContent="";
+}
+function prefsChanged(){T.shown=10;savePrefs();renderDetails();}
+$("dloc").onchange=e=>{P.loc=e.target.value;prefsChanged();};
+$("dfield").onchange=e=>{P.fd=e.target.value;prefsChanged();};
+$("dremote").onchange=e=>{P.remote=e.target.checked;prefsChanged();};
+$("dkind").addEventListener("change",e=>{
+  const ks=[...document.querySelectorAll("#dkind input:checked")].map(x=>x.value);
+  if(!ks.length){e.target.checked=true;return;}             // at least one kind of work stays selected
+  P.kinds=ks;prefsChanged();
+});
+$("dlang").addEventListener("change",e=>{P.lang=e.target.value;prefsChanged();});
+$("dwhen").addEventListener("change",e=>{P.within=+e.target.value;prefsChanged();});
+$("dgo").onclick=()=>showPage("matches",true);
+$("dclear").onclick=()=>{
+  CV=null;SCORED_FOR=null;T.shown=10;
+  try{sessionStorage.removeItem("pm_cv");}catch(e){}
+  $("paste").value="";$("status").textContent="";
+  paintStage();renderCvRead();paintNav();run();renderDetails();
+};
+
+/* ---------- page 3: the top 10 ---------- */
+/* The best postings for this CV among those that fit the details: ranked by score, at most 2 per employer so one company cannot fill the list. */
+function topMatches(){
+  const fit=RES.filter(r=>r.s&&prefOk(r.j)&&!r.s.past);
+  const full=fit.filter(r=>hasText(r.j)&&!r.j.partial);
+  const relaxed=P.fullOnly&&full.length<10&&fit.length>full.length;
+  const pool=(P.fullOnly&&!relaxed?full:fit).slice().sort(sortFns.match);
+  const per=new Map(),all=[];
+  for(const r of pool){
+    const c=norm(r.j.company),n=per.get(c)||0;
+    if(n>=2)continue;
+    per.set(c,n+1);all.push(r);
+    if(all.length>=50)break;
+  }
+  return {out:all.slice(0,T.shown),more:all.length>T.shown&&T.shown<50,fit:fit.length,full:full.length,relaxed};
+}
+function prefSummary(){
+  const b=meBand(),out=[];
+  if(b!==null)out.push(`<span class="pill lvl lv${b}">${esc(BAND[b].label)}</span>`);
+  const where=P.loc?(P.loc==="MTL"?"Montréal area":(PROV_NAME[P.loc]||P.loc)):"All of Canada";
+  out.push(pill("n",where+(P.remote?(P.loc?" + remote":""):", no remote roles")));
+  out.push(pill("",P.kinds.length===3?"Any kind of work":P.kinds.map(k=>KIND_NAME[k]).join(", ")));
+  if(P.fd){const f=JobMeta.FIELD_LIST.find(x=>x.id===P.fd);out.push(pill("",f?f.label:P.fd));}
+  out.push(pill("",LANG_NAME[P.lang]));
+  out.push(pill("",P.within?"Posted in the last "+P.within+" days":"Any posting date"));
+  return out.join("")+`<a href="#p=details" data-p="details">Edit my details</a>`;
+}
+function paintProgress(){
+  if(PG!=="matches")return;
+  const pr=$("tprog"),busy=!!CV&&!!(SCORING||SCORED_FOR!==CV||!DICT);
+  pr.hidden=!busy;
+  if(busy){pr.style.setProperty("--pc",(DICT?Math.max(4,SCORE_PC):4)+"%");pr.querySelector("span").textContent=!DICT?"Loading the skills dictionary…":SCORING||"Scoring postings against your CV…";}
+}
+function renderMatches(){
+  if(!CV){showPage("details");return;}
+  $("tprofile").innerHTML=prefSummary();
+  $("tall").textContent=nf(JOBS.length);
+  const v=$("topview"),busy=!!(SCORING||SCORED_FOR!==CV||!DICT);
+  paintProgress();
+  if(busy){v.innerHTML="";$("tactions").hidden=true;$("tgaps").hidden=true;$("tfullL").hidden=true;$("tlead").textContent="Reading your CV against every posting…";return;}
+  const t=topMatches();
+  $("tfullL").hidden=false;$("tfull").checked=!!P.fullOnly;
+  if(!t.out.length){
+    $("tlead").textContent=`None of the ${nf(JOBS.length)} postings fits all of your choices.`;
+    v.innerHTML=`<div class="empty">Nothing fits these choices${t.fit?` with a full text to score`:""}.<br>Widen the place, the kind of work or the language.<br><a class="btn" style="margin-top:10px" href="#p=details" data-p="details">Edit my details</a></div>`;
+    $("tactions").hidden=false;$("tmore").hidden=true;$("tcopy").hidden=true;$("tgaps").hidden=true;
+    return;
+  }
+  $("tlead").innerHTML=`From ${nf(JOBS.length)} postings, <b>${nf(t.fit)}</b> fit your details. ${t.out.length>10?`Showing ranks 1 to ${t.out.length}`:t.out.length===10?"These 10":t.out.length===1?"This 1":"These "+t.out.length} fit${t.out.length===1?"s":""} your CV best.${t.relaxed?" Fewer than 10 have a full text, so postings with only a title or snippet are included.":""}`;
+  v.innerHTML=t.out.map((r,i)=>jobHtml(r,i+1,true)).join("");
+  $("tactions").hidden=false;$("tcopy").hidden=false;
+  $("tmore").hidden=!t.more;$("tmore").textContent=`Show the next 10 (ranks ${t.out.length+1} to ${Math.min(50,t.out.length+10)})`;
+  const gaps={};
+  t.out.forEach(r=>r.s.rows.filter(x=>x.st==="G"&&(x.tag==="T"||x.tag==="R"||x.tag==="K")&&(x.kind==="s"||/\s/.test(x.n))).forEach(x=>gaps[x.n]=(gaps[x.n]||0)+1));
+  const g=Object.entries(gaps).sort((a,b)=>b[1]-a[1]).slice(0,8);
+  const gp=$("tgaps");gp.hidden=!g.length;
+  if(g.length)gp.innerHTML=`<h2>Keywords your best postings ask for that are not on your CV</h2><div class="kw">${g.map(x=>`<span class="G">${esc(x[0])} · ${x[1]}</span>`).join("")}</div><p class="note" style="margin:8px 0 0">If you have this experience, write it on your CV in the posting's words. If not, it is a gap to close. Nothing is added to your CV for you.</p>`;
+}
+$("tmore").onclick=()=>{T.shown=Math.min(50,T.shown+10);renderMatches();};
+$("tcopy").onclick=()=>copyList(topMatches().out,$("tcopy"),"Copy my top 10");
+$("tfull").onchange=e=>{P.fullOnly=e.target.checked;T.shown=10;savePrefs();renderMatches();};
+
+/* ---------- the all-jobs page: who you are, and a line about the list ---------- */
+function paintProfile(){
+  const b=meBand(),el=$("profile");
+  el.innerHTML=!CV&&b===null
+    ?`<h2>Your profile</h2><p class="note">Add your CV and every posting is scored and ranked for you.</p><a class="btn" href="#p=details" data-p="details">Add my CV</a>`
+    :`<h2>Your profile</h2>${b!==null?`<p style="margin:8px 0 0"><span class="pill lvl lv${b}">${esc(BAND[b].label)}</span></p>`:""}<p class="note">${CV?"CV read in this browser.":"No CV added."}</p><div class="row"><a class="btn" href="#p=details" data-p="details">Edit my details</a>${CV?'<a class="btn" href="#p=matches" data-p="matches">See my top 10</a>':""}</div>`;
+  $("jnote").textContent=JOBS.length?`${nf(JOBS.length)} postings across Canada, in every field. ${CV?"Scored against your CV.":"Add your CV to score them."}`:"";
+}
 
 /* ---------- dashboard controls ---------- */
 const DEFAULT_W="99";
 const FIELD_IDS=new Set(JobMeta.FIELD_LIST.map(f=>f.id));
 function readHash(){
   const p=new URLSearchParams(location.hash.slice(1));
+  const pg=p.get("p");
+  PG=PAGES.includes(pg)?pg:["t","q","loc","src","o","min","saved","d","lv","fd","me","w"].some(k=>p.has(k))?"jobs":"home";   // an old link with filters opens the list
   const t=p.get("t");tab=["full","part","intern","cv","method"].includes(t)?t:"full";
   F.q=p.get("q")||"";F.qw=norm(F.q).split(" ").filter(Boolean);
   F.loc=p.get("loc")||"";F.src=p.get("src")||"";F.sort=["match","stage","level","new","company","title"].includes(p.get("o"))?p.get("o"):"";
@@ -1143,15 +1542,19 @@ function readHash(){
 }
 function writeHash(push){
   const p=new URLSearchParams();
-  if(tab!=="full")p.set("t",tab);
-  if(F.q)p.set("q",F.q);if(F.loc)p.set("loc",F.loc);if(F.src)p.set("src",F.src);if(F.sort)p.set("o",F.sort);
-  if(F.min)p.set("min",F.min);if(F.saved)p.set("saved","1");if(F.desc)p.set("d","1");
-  if(F.lvl==="")p.set("lv","all");else if(F.lvl!=="fit")p.set("lv",F.lvl);
-  if(F.fd)p.set("fd",F.fd);
-  if(ME!==null)p.set("me",ME);
-  if($("window").value!==DEFAULT_W)p.set("w",$("window").value);
+  if(PG!=="home")p.set("p",PG);
+  if(PG==="jobs"){
+    if(tab!=="full")p.set("t",tab);
+    if(F.q)p.set("q",F.q);if(F.loc)p.set("loc",F.loc);if(F.src)p.set("src",F.src);if(F.sort)p.set("o",F.sort);
+    if(F.min)p.set("min",F.min);if(F.saved)p.set("saved","1");if(F.desc)p.set("d","1");
+    if(F.lvl==="")p.set("lv","all");else if(F.lvl!=="fit")p.set("lv",F.lvl);
+    if(F.fd)p.set("fd",F.fd);
+    if(ME!==null)p.set("me",ME);
+    if($("window").value!==DEFAULT_W)p.set("w",$("window").value);
+  }
   const h=p.toString()?"#"+p.toString():location.pathname+location.search;
   try{history[push?"pushState":"replaceState"](null,"",h);}catch(e){}
+  LASTHASH=location.hash;
 }
 function refilter(push){SHOW=PAGE;render();writeHash(push);}
 let qTimer=null;
@@ -1178,6 +1581,10 @@ $("view").addEventListener("click",e=>{
   if(e.target.closest("[data-lvall]")){F.lvl="";refilter(false);return;}
   const gt=e.target.closest("[data-gotab]");if(gt){tab=gt.dataset.gotab;SHOW=PAGE;render();writeHash(true);return;}
   const wd=e.target.closest(".widen");if(wd){$("window").value=wd.dataset.w;refilter(false);return;}
+  starClick(e);
+},true);
+$("topview").addEventListener("click",starClick,true);
+function starClick(e){
   const st=e.target.closest(".star");
   if(st){
     e.preventDefault();e.stopPropagation();
@@ -1187,17 +1594,24 @@ $("view").addEventListener("click",e=>{
     if(F.saved){render();}
     else{document.querySelectorAll(".star").forEach(b=>{if(b.dataset.star===k){const on=SAVED.has(k);b.classList.toggle("on",on);b.textContent=on?"★":"☆";b.setAttribute("aria-pressed",on);b.title=on?"Remove from saved":"Save this posting";}});syncControls();}
   }
-},true);
+}
 document.addEventListener("keydown",e=>{
   const typing=/^(input|textarea|select)$/i.test((e.target.tagName||""));
-  if(e.key==="/"&&!typing&&LIST_TABS.includes(tab)){e.preventDefault();$("fq").focus();$("fq").select();}
+  if(e.key==="/"&&!typing&&PG==="jobs"&&LIST_TABS.includes(tab)){e.preventDefault();$("fq").focus();$("fq").select();}
   else if(e.key==="Escape"&&e.target===$("fq")){if(F.q){F.q="";F.qw=[];$("fq").value="";refilter(false);}else $("fq").blur();}
 });
-window.addEventListener("popstate",()=>{readHash();SHOW=PAGE;paintStage();render();});
+function onNav(){if(location.hash===LASTHASH)return;readHash();SHOW=PAGE;paintStage();showPage(PG,false);}
+window.addEventListener("popstate",onNav);
+window.addEventListener("hashchange",onNav);
 window.addEventListener("resize",layoutTrail);
+/* a CV read earlier in this tab is still here after a reload (it is kept for this tab only) */
+try{const t=sessionStorage.getItem("pm_cv");if(t&&t.trim().length>=80){$("paste").value=t;CV={raw:t,lv:JobMeta.cvLevel(t,new Date()),py:null,ix:null};$("status").textContent="Your CV from earlier in this tab is loaded.";}}catch(e){}
+if(["unknown","ok","need"].includes(P.permit))$("permit").value=P.permit;
+if(P.term!==null&&[...$("term").options].some(o=>o.value===P.term))$("term").value=P.term;
 readHash();
 $("theme").onclick=()=>{const r=document.documentElement,d=r.dataset.theme==="dark"||(!r.dataset.theme&&matchMedia("(prefers-color-scheme:dark)").matches);r.dataset.theme=d?"light":"dark"};
-layoutTrail();paintStage();
+paintStage();renderCvRead();
+showPage(PG,false);
 setTimeout(()=>$("pin").style.setProperty("--pd","0s"),2200);
 run();
 
@@ -1205,6 +1619,7 @@ run();
 function heroStat(){
   const el=$("herostat");
   if(!JOBS.length){el.textContent="No postings are loaded yet.";return;}
+  $("navCount").textContent=nf(JOBS.length);$("homeCount").textContent=nf(JOBS.length);
   const fields=new Set(JOBS.map(j=>fdOf(j).id)),provs=new Set(JOBS.map(j=>j.province).filter(p=>/^[A-Z]{2}$/.test(p||"")));
   const stu=JOBS.filter(j=>lvOf(j).lvl===0).length;
   el.textContent=`${nf(JOBS.length)} postings in ${fields.size} fields across ${provs.size} provinces and territories, ${nf(stu)} of them for students and new graduates. Collected ${SRC_TIME}.`;
@@ -1235,7 +1650,7 @@ async function loadServer(){
     const nNew=JOBS.filter(j=>j.fresh).length;
     note.textContent=(d.mock?"Demo data until the first scheduled collection runs. ":"")+nf(JOBS.length)+" postings, collected "+SRC_TIME+". The collector re-runs once a day and this page checks for a new collection every 5 minutes."+(nNew?" "+nNew+" new since you opened this page.":"");
     log.textContent=Object.entries(SRC).filter(([k,v])=>!v.skipped).map(([k,v])=>k+": "+(v.jobs||0)).join(" · ")+" postings by source. The Method tab shows what each source did on the last run.";
-    heroStat();
+    heroStat();fillDetails();paintProfile();
     run();
   }catch(e){
     note.textContent="Could not reach the server, so no postings are shown. Reload the page to try again.";

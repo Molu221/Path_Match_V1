@@ -3,14 +3,19 @@
 
 Upload a CV, get a ranked, explained list of jobs, part-time roles, internships and co-ops across Canada, in any field, for the stage of career the CV shows.
 
-- **The site** is one static page in `docs/`. It reads `docs/jobs.json` and scores each posting against the visitor's CV **in their browser**. CVs are never uploaded anywhere.
+- **The site** is one static page in `docs/` with four views (start, your CV and details, your top 10, all jobs). It reads `docs/jobs.json` and scores each posting against the visitor's CV **in their browser**. CVs are never uploaded anywhere.
 - **The collector** (`scripts/collect.mjs`) runs on a schedule in GitHub Actions, gathers postings from free sources and saves `docs/jobs.json`. No server is needed.
 - **The stage comes first.** The page reads the CV's dates and titles and places the person on a five-stop trail: student or new graduate, early career (1–3 years), mid-level (3–7), senior (7+), director or executive. Each posting gets a level in the same five steps, and the list favours the person's own stage, so a new graduate does not see a director first. The person can tap another stop on the trail at any time.
 - It is a heuristic, not an applicant tracking system. Score differences of 5 points or less are ties. Always read the posting before applying.
 
-## The dashboard (`docs/index.html`)
+## The pages (`docs/index.html`)
 
-The top of the page is a trail with five stops (the stage). With a CV, the pin sits on the stage the CV reads as, and "How we read your CV" says why; without one, the visitor taps a stop. Tabs: **Full-time jobs**, **Part-time**, **Internships & co-ops** (each with a live count), then **Your CV** and the method. Postings can be browsed before a CV is added; adding one scores and ranks them.
+The site has four pages, chosen with the address (`#p=details` and so on) so the back button works. A step bar at the top shows where the visitor is.
+
+1. **Start.** A short pitch, the five-stop trail as a picture, and two buttons: upload a CV, or browse every posting.
+2. **Your CV and your details.** The visitor drops a PDF or Word file (or pastes text, or tries an example CV). The CV is read in the browser; with a CV, the pin sits on the stage the CV reads as and "How we read your CV" says why, and a tap on another stop changes it. The visitor also says where they want to work (all of Canada, the Montréal area or one province, with or without remote roles), the kind of work (full-time, part-time, internships and co-ops), the field, how recent the postings must be (default the last 60 days, because an old posting is often filled), the languages they work in, their work permit and the term they want. A live line says how many postings fit those choices. The details are kept in the browser; the CV text is kept for the open tab only.
+3. **Your top 10.** Every posting is scored against the CV, those that fit the details are kept, and the 10 best are shown with their score, the matched and missing keywords and the flags (language, permit, term, security). At most 2 per employer, and only postings with their full text by default (a title alone is too little to score; a tick box lifts this). "Show the next 10" goes to rank 50, "Copy my top 10" copies the list, and a panel lists the keywords the best postings ask for that are not on the CV. Postings whose term has passed are left out.
+4. **All jobs.** Everything the collector found, as before: tabs **Full-time jobs**, **Part-time**, **Internships & co-ops**, **Your CV** (what was read from the CV) and **Method & coverage**, with the filters below.
 
 - **Level** (default "Fits my level": postings far above or far below the stage are hidden, with a one-tap "show them"; or pick one level) and **field** (software and IT, healthcare, finance, trades, retail, education and so on, each with its count). Every card shows its level, how it relates to the person ("fits", "one step above", "below") and its field.
 - Search (title, company, city; tick the box to search inside the descriptions; press `/` to jump to it), location (all of Canada, the Montréal area, or one province, each with its count), source, sort (best match, newest, company, title), minimum score, and the posted window (24 h, 7 days, all, each with its count).
