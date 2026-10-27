@@ -1,0 +1,187 @@
+{
+ "probes": [
+  {
+   "name": "cisco",
+   "method": "POST",
+   "url": "https://cisco.wd5.myworkdayjobs.com/wday/cxs/cisco/cisco_careers/jobs",
+   "body": {
+    "appliedFacets": {},
+    "limit": 1,
+    "offset": 0,
+    "searchText": ""
+   },
+   "headChars": 9000
+  },
+  {
+   "name": "intel",
+   "method": "POST",
+   "url": "https://intel.wd1.myworkdayjobs.com/wday/cxs/intel/External/jobs",
+   "body": {
+    "appliedFacets": {},
+    "limit": 1,
+    "offset": 0,
+    "searchText": ""
+   },
+   "headChars": 9000
+  },
+  {
+   "name": "uottawa",
+   "method": "POST",
+   "url": "https://uottawa.wd3.myworkdayjobs.com/wday/cxs/uottawa/uOttawa_External_Career_Site/jobs",
+   "body": {
+    "appliedFacets": {},
+    "limit": 1,
+    "offset": 0,
+    "searchText": ""
+   },
+   "headChars": 6000
+  },
+  {
+   "name": "bestbuycanada",
+   "method": "POST",
+   "url": "https://bestbuycanada.wd3.myworkdayjobs.com/wday/cxs/bestbuycanada/BestBuyCA_Career/jobs",
+   "body": {
+    "appliedFacets": {},
+    "limit": 1,
+    "offset": 0,
+    "searchText": ""
+   },
+   "headChars": 6000
+  },
+  {
+   "name": "astrazeneca",
+   "method": "POST",
+   "url": "https://astrazeneca.wd3.myworkdayjobs.com/wday/cxs/astrazeneca/Careers/jobs",
+   "body": {
+    "appliedFacets": {},
+    "limit": 1,
+    "offset": 0,
+    "searchText": ""
+   },
+   "headChars": 9000
+  },
+  {
+   "name": "walmart wd5",
+   "method": "POST",
+   "url": "https://walmart.wd5.myworkdayjobs.com/wday/cxs/walmart/WalmartExternal/jobs",
+   "body": {
+    "appliedFacets": {},
+    "limit": 1,
+    "offset": 0,
+    "searchText": ""
+   },
+   "headChars": 3500
+  },
+  {
+   "name": "walmart wd504",
+   "method": "POST",
+   "url": "https://walmart.wd504.myworkdayjobs.com/wday/cxs/walmart/WalmartExternal/jobs",
+   "body": {
+    "appliedFacets": {},
+    "limit": 1,
+    "offset": 0,
+    "searchText": ""
+   },
+   "headChars": 3500
+  },
+  {
+   "name": "loblaw careers cashier",
+   "method": "POST",
+   "url": "https://myview.wd3.myworkdayjobs.com/wday/cxs/myview/loblaw_careers/jobs",
+   "body": {
+    "appliedFacets": {},
+    "limit": 1,
+    "offset": 0,
+    "searchText": "cashier"
+   },
+   "headChars": 3500
+  },
+  {
+   "name": "loblaw lcl_private",
+   "method": "POST",
+   "url": "https://myview.wd3.myworkdayjobs.com/wday/cxs/myview/lcl_private/jobs",
+   "body": {
+    "appliedFacets": {},
+    "limit": 1,
+    "offset": 0,
+    "searchText": "associate"
+   },
+   "headChars": 3500
+  },
+  {
+   "name": "sdm",
+   "method": "POST",
+   "url": "https://myview.wd3.myworkdayjobs.com/wday/cxs/myview/sdm_careers/jobs",
+   "body": {
+    "appliedFacets": {},
+    "limit": 1,
+    "offset": 0,
+    "searchText": "pharmacy"
+   },
+   "headChars": 3500
+  },
+  {
+   "name": "cwb wd3 External",
+   "method": "POST",
+   "url": "https://cwb.wd3.myworkdayjobs.com/wday/cxs/cwb/External/jobs",
+   "body": {
+    "appliedFacets": {},
+    "limit": 1,
+    "offset": 0,
+    "searchText": ""
+   },
+   "headChars": 3500
+  },
+  {
+   "name": "cwb wd3 external",
+   "method": "POST",
+   "url": "https://cwb.wd3.myworkdayjobs.com/wday/cxs/cwb/external/jobs",
+   "body": {
+    "appliedFacets": {},
+    "limit": 1,
+    "offset": 0,
+    "searchText": ""
+   },
+   "headChars": 3500
+  },
+  {
+   "name": "telus intl",
+   "method": "POST",
+   "url": "https://telusinternational.wd3.myworkdayjobs.com/wday/cxs/telusinternational/External/jobs",
+   "body": {
+    "appliedFacets": {},
+    "limit": 1,
+    "offset": 0,
+    "searchText": ""
+   },
+   "headChars": 3500
+  },
+  {
+   "name": "telus intl wd3 jobs",
+   "method": "POST",
+   "url": "https://telusinternational.wd3.myworkdayjobs.com/wday/cxs/telusinternational/External_Careers/jobs",
+   "body": {
+    "appliedFacets": {},
+    "limit": 1,
+    "offset": 0,
+    "searchText": ""
+   },
+   "headChars": 3500
+  },
+  {
+   "name": "workable aggregator limit20",
+   "url": "https://jobs.workable.com/api/v1/jobs?location=Canada&limit=20",
+   "headChars": 900
+  },
+  {
+   "name": "workable robots",
+   "url": "https://jobs.workable.com/robots.txt",
+   "headChars": 900
+  },
+  {
+   "name": "jobbank robots",
+   "url": "https://www.jobbank.gc.ca/robots.txt",
+   "headChars": 1500
+  }
+ ]
+}
