@@ -1,7 +1,7 @@
 // Collects postings located anywhere in Canada, in every field (each saved with its province), from free sources and writes docs/jobs.json
 // (one short record per posting) and docs/d/00.json ... 63.json (the full text of each posting, read by the page only when a card is opened).
 // Sources (all free, none needs a login):
-//   open feeds of Job Bank Canada and The Muse; Workday career sites (the public JSON behind the career page);
+//   open feeds of Job Bank Canada and The Muse; Workable's job search (jobs.workable.com); Workday career sites (the public JSON behind the career page);
 //   public job boards of Greenhouse, Lever, Ashby, SmartRecruiters, Workable, Recruitee, Breezy, BambooHR, Personio, Teamtailor;
 //   any career page that publishes schema.org JobPosting data; Adzuna, Jooble and Careerjet when their free key is set.
 // Sites that forbid or block automated reading (LinkedIn, Indeed, Glassdoor, Monster, ZipRecruiter, Talent.com) are not read.
@@ -23,19 +23,30 @@ export const AREA = /montr[eé]al|laval\b|longueuil|brossard|dorval|saint[- ]lau
 /* Names are matched on the lower-case, accent-free text. Two-letter codes (QC, ON...) are matched on the original text, upper case only,
    and the codes that other countries use too (NL Netherlands, SK Slovakia, PE Peru, NT Australia, YT Mayotte) need the word Canada beside them. */
 const PROV_NAME = [
-  ["QC", AREA, /\bquebec\b|\bgatineau\b|\bsherbrooke\b|\btrois[- ]rivieres\b|\bsaguenay\b|\blevis\b|\bdrummondville\b|\bgranby\b|\bsaint[- ]jerome\b|\brimouski\b|\bchicoutimi\b|\bshawinigan\b|\bjoliette\b/],
-  ["ON", /\bontario\b|\btoronto\b|\bottawa\b|\bmississauga\b|\bbrampton\b|\bmarkham\b|\bvaughan\b|\bkitchener\b|\brichmond hill\b|\bscarborough\b|\betobicoke\b|\bnorth york\b|\bguelph\b|\boshawa\b|\boakville\b|\bpickering\b|\bgreater toronto\b/],
-  ["BC", /\bbritish columbia\b|\bcolombie[- ]britannique\b|\bvancouver\b|\bburnaby\b|\bkelowna\b|\bcoquitlam\b|\babbotsford\b|\bnanaimo\b/],
-  ["AB", /\balberta\b|\bcalgary\b|\bedmonton\b|\bred deer\b|\blethbridge\b|\bfort mcmurray\b/],
-  ["SK", /\bsaskatchewan\b|\bsaskatoon\b/],
-  ["MB", /\bmanitoba\b|\bwinnipeg\b/],
-  ["NB", /\bnew brunswick\b|\bnouveau[- ]brunswick\b|\bfredericton\b|\bmoncton\b/],
-  ["NS", /\bnova scotia\b|\bnouvelle[- ]ecosse\b|\bhalifax\b/],
-  ["PE", /\bprince edward island\b|\bile[- ]du[- ]prince[- ]edouard\b|\bcharlottetown\b/],
-  ["NL", /\bnewfoundland\b|\bterre[- ]neuve\b|\blabrador\b/],
+  ["QC", AREA, /\bquebec\b|\bgatineau\b|\bsherbrooke\b|\btrois[- ]rivieres\b|\bsaguenay\b|\blevis\b|\bdrummondville\b|\bgranby\b|\bsaint[- ]jerome\b|\brimouski\b|\bchicoutimi\b|\bshawinigan\b|\bjoliette\b|\bsaint[- ]jean[- ]sur[- ]richelieu\b|\bchateauguay\b|\bmascouche\b|\bvictoriaville\b|\brouyn[- ]noranda\b|\bval[- ]d'or\b|\bbaie[- ]comeau\b|\bsept[- ]iles\b|\bthetford mines\b|\bshawinigan\b|\briviere[- ]du[- ]loup\b|\bmagog\b|\bcowansville\b|\bsalaberry[- ]de[- ]valleyfield\b|\bsorel[- ]tracy\b|\bsaint[- ]hyacinthe\b|\bsainte[- ]therese\b|\bsaint[- ]lazare\b|\bsaint[- ]georges\b|\balma\b,? (qc|quebec)/],
+  ["ON", /\bontario\b|\btoronto\b|\bottawa\b|\bmississauga\b|\bbrampton\b|\bmarkham\b|\bvaughan\b|\bkitchener\b|\brichmond hill\b|\bscarborough\b|\betobicoke\b|\bnorth york\b|\bguelph\b|\boshawa\b|\boakville\b|\bpickering\b|\bgreater toronto\b|\bbarrie\b|\bbrantford\b|\bst\.? catharines\b|\bthunder bay\b|\bbelleville\b|\bsarnia\b|\borillia\b|\bnewmarket\b|\bajax\b|\bwhitby\b|\bcaledon\b|\bstoney creek\b|\bancaster\b|\bwoodbridge\b|\bthornhill\b|\bstouffville\b|\bgeorgetown\b|\bowen sound\b|\bnorth bay\b|\btimmins\b|\bsault ste\.? marie\b|\bkenora\b|\bcobourg\b|\bwelland\b|\bfort erie\b|\bmuskoka\b|\bniagara[- ]on[- ]the[- ]lake\b|\bburlington, on\b/],
+  ["BC", /\bbritish columbia\b|\bcolombie[- ]britannique\b|\bvancouver\b|\bburnaby\b|\bkelowna\b|\bcoquitlam\b|\babbotsford\b|\bnanaimo\b|\bkamloops\b|\bprince george\b|\bpenticton\b|\bchilliwack\b|\bmaple ridge\b|\bport coquitlam\b|\bnew westminster\b|\bnorth vancouver\b|\bwest vancouver\b|\bwhite rock\b|\bsquamish\b|\bwhistler\b|\bcourtenay\b|\bcampbell river\b|\bsalmon arm\b|\bcranbrook\b|\bwilliams lake\b|\blangford\b|\bsaanich\b|\bport moody\b|\bpitt meadows\b|\bsurrey, bc\b/],
+  ["AB", /\balberta\b|\bcalgary\b|\bedmonton\b|\bred deer\b|\blethbridge\b|\bfort mcmurray\b|\bairdrie\b|\bst\.? albert\b|\bgrande prairie\b|\bmedicine hat\b|\bspruce grove\b|\bcamrose\b|\bcochrane\b|\bokotoks\b|\bleduc\b|\bbanff\b|\bcanmore\b|\bfort saskatchewan\b|\bsherwood park\b|\bstrathcona\b/],
+  ["SK", /\bsaskatchewan\b|\bsaskatoon\b|\bmoose jaw\b|\bprince albert\b|\bswift current\b|\byorkton\b|\bestevan\b|\bnorth battleford\b/],
+  ["MB", /\bmanitoba\b|\bwinnipeg\b|\bsteinbach\b|\bportage la prairie\b|\bwinkler\b/],
+  ["NB", /\bnew brunswick\b|\bnouveau[- ]brunswick\b|\bfredericton\b|\bmoncton\b|\bmiramichi\b|\bedmundston\b|\bdieppe\b|\briverview\b|\bsaint john, nb\b/],
+  ["NS", /\bnova scotia\b|\bnouvelle[- ]ecosse\b|\bhalifax\b|\btruro\b|\bnew glasgow\b|\bkentville\b|\bantigonish\b|\bcape breton\b|\bdartmouth\b|\bsydney, ns\b/],
+  ["PE", /\bprince edward island\b|\bile[- ]du[- ]prince[- ]edouard\b|\bcharlottetown\b|\bsummerside\b/],
+  ["NL", /\bnewfoundland\b|\bterre[- ]neuve\b|\blabrador\b|\bcorner brook\b|\bmount pearl\b|\bst\.? john['’]s\b|\bgrand falls\b/],
   ["YT", /\byukon\b|\bwhitehorse\b/],
   ["NT", /\bnorthwest territories\b|\bterritoires du nord[- ]ouest\b|\byellowknife\b/],
   ["NU", /\bnunavut\b|\biqaluit\b/],
+];
+/* places that other countries share (Hamilton NZ, Surrey UK, Sydney AU...): used only when the text also says Canada */
+const PROV_NAME_CA = [
+  ["ON", /\bhamilton\b|\bkingston\b|\blondon\b|\bwindsor\b|\bcambridge\b|\bwaterloo\b|\bsudbury\b|\bpeterborough\b|\bcornwall\b|\bstratford\b|\bniagara\b|\baurora\b|\bmilton\b|\bconcord\b|\bburlington\b|\bnorth york\b/],
+  ["BC", /\bvictoria\b|\bsurrey\b|\brichmond\b|\bdelta\b|\blangley\b|\bnelson\b|\bcomox\b/],
+  ["AB", /\blloydminster\b/],
+  ["SK", /\bregina\b/],
+  ["MB", /\bbrandon\b|\bthompson\b|\bselkirk\b/],
+  ["NB", /\bsaint john\b|\bbathurst\b/],
+  ["NS", /\bsydney\b|\bbridgewater\b|\byarmouth\b/],
+  ["PE", /\bstratford\b/],
 ];
 const PROV_CODE = /(?:^|[\s,(\/])(QC|ON|BC|AB|SK|MB|NB|NS|PE|PEI|NL|YT|NT|NU)(?=$|[\s,)\/.])/g;
 const CODE_ALSO_ELSEWHERE = new Set(["SK", "PE", "NL", "NT", "YT"]);
@@ -54,6 +65,7 @@ export function provinceOf(loc) {
     const code = m[1] === "PEI" ? "PE" : m[1];
     if (!CODE_ALSO_ELSEWHERE.has(code) || canada) see(code, m.index);
   }
+  if (!best && canada) for (const [code, re] of PROV_NAME_CA) see(code, t.search(re));
   if (best) return best;
   if (canada) return /remote|teletravail|telework|telecommut|a distance|work from home|anywhere/.test(t) ? "Remote – Canada" : "Canada";
   return "";
@@ -355,6 +367,46 @@ export async function muse(cfg, nowMs, log) {
   return { jobs: out.filter(keep), ok, failed };
 }
 
+/* ---------- Workable's own job search (jobs.workable.com): the open postings of every company that hires through Workable ---------- */
+/* One public JSON list, 20 postings a page with a page token, each with its full text. Read politely: about one request a second. */
+export async function workableSearch(cfg, nowMs, log, pause = sleep) {
+  const out = [], seen = new Set();
+  let ok = 0, failed = 0, listed = 0, stop = "";
+  const t0 = Date.now();
+  const limit = cfg.limit || 20;
+  for (const place of cfg.locations && cfg.locations.length ? cfg.locations : ["Canada"]) {
+    let token = "";
+    for (let page = 0; page < (cfg.maxPages ?? 500); page++) {
+      if (cfg.budgetMs && Date.now() - t0 > cfg.budgetMs) { stop = `time budget used after ${page} pages of ${place}`; break; }
+      const url = `https://jobs.workable.com/api/v1/jobs?location=${encodeURIComponent(place)}&limit=${limit}` + (token ? `&pageToken=${encodeURIComponent(token)}` : "");
+      let d = null;
+      for (let attempt = 0; attempt < 2 && !d; attempt++) {
+        try { d = await fetchJson(url); ok++; }
+        catch (e) { failed++; if (attempt) { stop = `${place} page ${page}: ${e.message}`; log("Workable jobs " + stop); } else await pause(3000); }
+      }
+      if (!d) break;
+      for (const x of d.jobs || []) {
+        if (!x || !x.id || seen.has(x.id)) continue;
+        seen.add(x.id); listed++;
+        const l = x.location || {};
+        const where = (x.locations && x.locations.length ? x.locations : [[l.city, l.subregion, l.countryName].filter(Boolean).join(", ")]).filter(Boolean).join(" / ");
+        out.push({
+          company: (x.company && x.company.title) || "Unknown", title: x.title,
+          loc: where + (x.workplace === "remote" ? " / Remote" : ""),
+          date: String(x.created || "").slice(0, 10), ageH: hoursSince(x.created, nowMs),
+          type: typeFrom((x.employmentType || "") + " " + x.title), sources: [{ src: "Workable", url: x.url }],
+          desc: cut(stripHtml([x.description, x.requirementsSection, x.benefitsSection].filter(Boolean).join("\n"))),
+        });
+      }
+      token = d.nextPageToken || "";
+      if (!token || !(d.jobs || []).length) break;
+      await pause(cfg.delayMs ?? 700);
+    }
+  }
+  const jobs = out.filter(keep);
+  return { jobs, ok, failed, listed, inArea: jobs.length, ...(stop ? { stop } : {}) };
+}
+
 /* ---------- Workday career sites (the JSON behind every myworkdayjobs.com page, no login) ---------- */
 /* a Workday career page address (https://cae.wd3.myworkdayjobs.com/en-US/career) is enough: the tenant is the first part of the host */
 export function workdayFromUrl(url, name) {
@@ -365,21 +417,29 @@ export function workdayFromUrl(url, name) {
   return { name: name || pretty(tenant), host: u.hostname, tenant, site: parts[0] };
 }
 const WD_AGE = (t) => { const s = norm(t); if (/today|aujourd/.test(s)) return 8; if (/yesterday|hier/.test(s)) return 32; const m = /(\d+)\+?\s*(?:days?|jours?)/.exec(s); return m ? (+m[1]) * 24 + (/\+/.test(s) ? 24 : 12) : null; };
-/* Workday lists the countries of a career site in the `facets` of its answer. The one called Canada selects every posting in Canada. */
+/* Workday lists the places of a career site in the `facets` of its answer. Some sites have a country facet with "Canada" in it; others list provinces,
+   cities or offices ("Canada - Mississauga"). Either way the values that are in Canada can be selected together to get every Canadian posting. */
 export function canadaFacet(facets) {
-  let found = null;
-  const walk = (list) => {
+  const groups = [];
+  const walk = (list, parent) => {
     for (const f of list || []) {
-      if (found) return;
-      if (/country/i.test(f.facetParameter || "")) {
-        const v = (f.values || []).find((x) => /^canada$/i.test(String(x.descriptor || "").trim()));
-        if (v && v.id) { found = { param: f.facetParameter, id: v.id, count: v.count }; return; }
-      }
-      walk(f.values);      // the groups nest: locationMainGroup -> locationCountry -> Canada
+      const kids = f.values || [];
+      if (kids.some((x) => x.values)) walk(kids, f);                       // locationMainGroup -> locationCountry / locations
+      else if (f.facetParameter && kids.length) groups.push(f);
     }
   };
   walk(facets);
-  return found;
+  let best = null;
+  for (const f of groups) {
+    if (!/country|location|province|region|city/i.test(f.facetParameter)) continue;
+    const country = /country/i.test(f.facetParameter) ? f.values.filter((x) => /^canada$/i.test(String(x.descriptor || "").trim())) : [];
+    const ins = country.length ? country : f.values.filter((x) => x.id && inCanada(String(x.descriptor || "")));
+    if (!ins.length) continue;
+    const count = ins.reduce((n, x) => n + (x.count || 0), 0);
+    if (!best || country.length || (!best.country && count > best.count)) best = { param: f.facetParameter, ids: ins.map((x) => x.id).slice(0, 300), count, country: country.length > 0 };
+    if (country.length) break;
+  }
+  return best && { param: best.param, ids: best.ids, count: best.count };
 }
 const WD_CITIES = ["Canada", "Montreal", "Toronto", "Vancouver", "Calgary", "Ottawa", "Edmonton", "Winnipeg", "Halifax", "Quebec", "Mississauga", "stage", "intern"];
 /* Every Canadian posting of a career site: the title, place and age of all of them (20 per request), and the full text of the newest `maxDetails`. */
@@ -389,6 +449,7 @@ export async function workday(b, nowMs, log) {
   const page = (applied, off, q) => postJson(`${base}/jobs`, { appliedFacets: applied, limit: 20, offset: off, searchText: q || "" });
   const first = await page({}, 0, "");
   const fac = canadaFacet(first.facets);
+  const inCa = !!fac || !!b.allCanada;                                                          // allCanada: every posting of this site is in Canada (the config says so)
   const found = new Map();
   const read = async (applied, q, limit, head) => {
     for (let off = 0; off < limit; off += 20) {
@@ -399,10 +460,10 @@ export async function workday(b, nowMs, log) {
       await sleep(80);
     }
   };
-  if (fac) await read({ [fac.param]: [fac.id] }, "", maxList);                                  // the site says which postings are in Canada
+  if (fac) await read({ [fac.param]: fac.ids }, "", maxList);                                  // the site says which postings are in Canada
   else if ((first.total || 0) <= maxList) await read({}, "", maxList, first);                   // a site without that facet: read it all
   else for (const q of b.queries || WD_CITIES) await read({}, q, 400);                          // a very big site without it: search the Canadian cities
-  const known = (p) => !!fac || inCanada(p.locationsText || "");
+  const known = (p) => inCa || inCanada(p.locationsText || "");
   const rows = [...found.values()].filter((p) => known(p) || /\d+\s+locations?/i.test(p.locationsText || "") || !p.locationsText)
     .sort((x, y) => (WD_AGE(x.postedOn) ?? 1e9) - (WD_AGE(y.postedOn) ?? 1e9));
   const out = [];
@@ -413,7 +474,7 @@ export async function workday(b, nowMs, log) {
       const loc = [i.location, ...(i.additionalLocations || [])].filter(Boolean).join(" / ") || p.locationsText || "";
       const posted = i.startDate ? Date.parse(i.startDate + "T00:00:00Z") : null;
       out.push({
-        company: b.name, title: i.title || p.title, loc: fac && !inCanada(loc) ? (loc ? loc + ", Canada" : "Canada") : loc, date: i.startDate || "",
+        company: b.name, title: i.title || p.title, loc: inCa && !inCanada(loc) ? (loc ? loc + ", Canada" : "Canada") : loc, date: i.startDate || "",
         ageH: posted ? Math.max(0, (nowMs - posted) / 36e5) : WD_AGE(i.postedOn || p.postedOn),
         type: typeFrom(`${i.timeType || ""} ${i.title || p.title}`),
         sources: [{ src: "Workday", url: i.externalUrl || `https://${b.host}/${b.site}${p.externalPath}` }], desc: cut(stripHtml(i.jobDescription)),
@@ -704,11 +765,12 @@ export async function main({ nowMs = Date.now(), log = console.log, write = true
     if (cfg.enabled === false) { sources[name] = { skipped: 'switched off ("enabled": false in config/searches.json)' }; return; }
     try {
       const r = await fn();
-      sources[name] = { requestsOk: r.ok, requestsFailed: r.failed, jobs: r.jobs.length, ...(r.listed != null ? { listed: r.listed, inCanada: r.inArea } : {}), ...(r.skipped ? { searchesSkipped: r.skipped } : {}) };
+      sources[name] = { requestsOk: r.ok, requestsFailed: r.failed, jobs: r.jobs.length, ...(r.listed != null ? { listed: r.listed, inCanada: r.inArea } : {}), ...(r.skipped ? { searchesSkipped: r.skipped } : {}), ...(r.stop ? { stoppedEarly: r.stop } : {}) };
       all.push(...r.jobs);
     } catch (e) { sources[name] = { jobs: 0, error: String(e.message || e).slice(0, 160) }; log(`${name}: ${e.message}`); }
   };
   const jobBankRun = run("Job Bank", searches.jobbank, () => jobbank(searches.jobbank, nowMs, log));
+  const workableRun = run("Workable jobs", searches.workable, () => workableSearch(searches.workable, nowMs, log));
 
   /* 1. employer boards that publish an open feed: one request per employer */
   const ats = ATS, label = LABEL;
@@ -765,6 +827,7 @@ export async function main({ nowMs = Date.now(), log = console.log, write = true
   await withKey("Careerjet", searches.careerjet, ["CAREERJET_API_KEY"], () => careerjet(searches.careerjet, env.CAREERJET_API_KEY, nowMs, log));
 
   await jobBankRun;
+  await workableRun;
 
   /* every kept job is in Canada: save its province (QC, ON, BC... or "Remote – Canada" / "Canada" when the text names no province) */
   const found = merge(all).map((j) => ({ ...j, province: provinceOf(j.loc) })).filter((j) => j.province);

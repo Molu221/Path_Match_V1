@@ -22,7 +22,7 @@ const ask = async (host, tenant, site) => {
       body: JSON.stringify({ appliedFacets: {}, limit: 1, offset: 0, searchText: "" }), signal: AbortSignal.timeout(8000) });
     if (typeof d.total !== "number") return null;
     const ca = canadaFacet(d.facets);
-    return { host: `${tenant}.${host}.myworkdayjobs.com`, tenant, site, total: d.total, canada: ca ? ca.count : null };
+    return { host: `${tenant}.${host}.myworkdayjobs.com`, tenant, site, total: d.total, canada: ca ? ca.count : null, facet: ca ? ca.param : null };
   } catch { return null; }
 };
 async function pool(items, n, fn) {

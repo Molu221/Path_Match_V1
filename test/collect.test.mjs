@@ -2,6 +2,14 @@
 import assert from "node:assert/strict";
 const NOW = Date.parse("2026-10-11T12:00:00Z");
 const routes = [
+  /* Workable's job search: two pages of postings, the second reached with the page token of the first */
+  [/jobs\.workable\.com\/api\/v1\/jobs\?location=Canada&limit=2$/, () => ({ totalSize: 4, nextPageToken: "TOK1", jobs: [
+    { id: "w1", title: "Swim Instructor", description: "<p>Teach <b>swimming</b></p>", requirementsSection: "<ul><li>Lifeguard certificate</li></ul>", employmentType: "Part-time", url: "https://apply.workable.com/view/w1", locations: ["Markham, Canada"], location: { city: "Markham", countryName: "Canada" }, created: "2026-10-10T12:00:00.000Z", company: { title: "WD Swim" }, workplace: "on_site" },
+    { id: "w2", title: "Remote Support Agent", description: "<p>Help customers</p>", employmentType: "Full-time", url: "https://apply.workable.com/view/w2", locations: ["Canada"], location: { countryName: "Canada" }, created: "2026-10-11T00:00:00.000Z", company: { title: "Helpdesk Inc" }, workplace: "remote" } ] })],
+  [/jobs\.workable\.com\/api\/v1\/jobs\?location=Canada&limit=2&pageToken=TOK1$/, () => ({ totalSize: 4, jobs: [
+    { id: "w2", title: "Remote Support Agent", description: "again", url: "https://apply.workable.com/view/w2", locations: ["Canada"], created: "2026-10-11T00:00:00.000Z", company: { title: "Helpdesk Inc" } },
+    { id: "w3", title: "Welder", description: "<p>Weld steel</p>", employmentType: "Contract", url: "https://apply.workable.com/view/w3", locations: ["Hamilton, Canada"], created: "2026-10-09T12:00:00.000Z", company: { title: "Steel Co" } },
+    { id: "w4", title: "Engineer", description: "x", url: "https://apply.workable.com/view/w4", locations: ["Austin, United States"], created: "2026-10-09T12:00:00.000Z", company: { title: "Texas LLC" } } ] })],
   [/boards-api\.greenhouse\.io\/v1\/boards\/acme\/jobs/, () => ({ jobs: [
     { title: "Industrial Engineering Intern (Winter 2027)", location: { name: "Montréal, QC" }, first_published: "2026-10-11T09:00:00Z", absolute_url: "https://gh/1", company_name: "Acme", content: "&lt;p&gt;Lean &amp;amp; Six Sigma. Python required.&lt;/p&gt;" },
     { title: "Senior Chef", location: { name: "Montréal, QC" }, first_published: "2026-10-01T09:00:00Z", absolute_url: "https://gh/2", content: "&lt;p&gt;cook&lt;/p&gt;" },
@@ -92,7 +100,9 @@ const provinceCases = [["Montréal, QC, Canada", "QC"], ["Montreal", "QC"], ["Qu
   ["Remote - Canada", "Remote – Canada"], ["Télétravail – Canada", "Remote – Canada"], ["Telework - Canada", "Remote – Canada"], ["Canada", "Canada"], ["Remote, Ontario", "ON"],
   ["Toronto / Montreal", "ON"], ["Montreal / Toronto", "QC"], ["Paris, France / Montreal, QC, Canada", "QC"], ["Boston, MA / Vancouver, BC", "BC"],
   ["Remote", ""], ["Remote - US", ""], ["On-site", ""], ["", ""], ["New York, NY", ""], ["Paris, France", ""], ["Anjou, France", ""], ["London, UK", ""],
-  ["Amsterdam, NL", ""], ["Bratislava, SK", ""], ["Vancouver, WA", ""], ["Ontario, CA", ""]];
+  ["Amsterdam, NL", ""], ["Bratislava, SK", ""], ["Vancouver, WA", ""], ["Ontario, CA", ""],
+  ["Markham, Canada", "ON"], ["Hamilton, Canada", "ON"], ["Surrey, Canada", "BC"], ["Victoria, Canada", "BC"], ["Sydney, Canada", "NS"], ["Kamloops", "BC"], ["Airdrie, Alberta", "AB"],
+  ["Hamilton, New Zealand", ""], ["Surrey, United Kingdom", ""], ["Sydney, Australia", ""], ["Cambridge, MA", ""], ["St. John’s, Canada", "NL"], ["Lloydminster, Canada", "AB"]];
 for (const [loc, want] of provinceCases) assert.equal(c.provinceOf(loc), want, JSON.stringify(loc));
 assert.ok(c.inCanada("Toronto, ON") && !c.inCanada("Berlin, Germany"));
 
@@ -157,8 +167,15 @@ const wd = await c.workday({ name: "Acme", host: "acme.wd1.myworkdayjobs.com", t
 assert.equal(wd.length, 1); assert.equal(wd[0].company, "Acme"); assert.equal(wd[0].ageH, 12); assert.match(wd[0].desc, /Qualifications/);
 
 // a big Workday site: the Canada facet is found in the answer and used, every Canadian posting is listed, the newest get their full text
-assert.deepEqual({ ...c.canadaFacet([{ facetParameter: "locationMainGroup", values: [{ facetParameter: "locationCountry", values: [{ descriptor: "Canada", id: "X1", count: 5 }] }] }]) }, { param: "locationCountry", id: "X1", count: 5 });
-assert.equal(c.canadaFacet([{ facetParameter: "jobFamily", values: [{ descriptor: "Canada", id: "no" }] }]), null, "only a country facet counts");
+const nest = (inner) => [{ facetParameter: "locationMainGroup", values: inner }];
+const cf1 = c.canadaFacet(nest([{ facetParameter: "locationCountry", descriptor: "Country", values: [{ descriptor: "Canada", id: "X1", count: 5 }, { descriptor: "Mexico", id: "X2", count: 9 }] }]));
+assert.equal(cf1.param, "locationCountry"); assert.equal(cf1.ids.join(), "X1"); assert.equal(cf1.count, 5);
+const cf2 = c.canadaFacet(nest([{ facetParameter: "locations", descriptor: "Locations", values: [{ descriptor: "Austin, Texas, US", id: "a", count: 3 }, { descriptor: "Canada - Mississauga", id: "b", count: 7 }, { descriptor: "Toronto, Ontario, Canada", id: "c", count: 2 }, { descriptor: "Vancouver, WA", id: "d", count: 4 }] }]));
+assert.equal(cf2.param, "locations"); assert.equal(cf2.ids.join(), "b,c", "offices in Canada are selected together; the American Vancouver is not"); assert.equal(cf2.count, 9);
+const cf3 = c.canadaFacet(nest([{ facetParameter: "locationRegionStateProvince", descriptor: "Province", values: [{ descriptor: "Alberta", id: "p1", count: 27 }, { descriptor: "Ontario", id: "p2", count: 44 }] }, { facetParameter: "locationHierarchy2", descriptor: "City", values: [{ descriptor: "Ajax", id: "c1", count: 1 }] }]));
+assert.equal(cf3.param, "locationRegionStateProvince"); assert.equal(cf3.count, 71, "the facet that covers the most postings wins");
+assert.equal(c.canadaFacet([{ facetParameter: "jobFamily", values: [{ descriptor: "Canada", id: "no", count: 1 }] }]), null, "only a place facet counts");
+assert.equal(c.canadaFacet(nest([{ facetParameter: "locations", values: [{ descriptor: "Berlin, Germany", id: "z", count: 1 }] }])), null);
 const big = await c.workday({ name: "BigCo", host: "bigco.wd1.myworkdayjobs.com", tenant: "bigco", site: "site", maxDetails: 1 }, NOW, () => {});
 assert.equal(big.length, 45, "all 45 Canadian postings, none of the 3000 American ones: " + big.length);
 assert.ok(big.every((j) => c.inCanada(j.loc)), "a place such as '2 Locations' gets ', Canada' so the posting is not lost");
@@ -167,6 +184,19 @@ assert.ok(big.filter((j) => j.partial).every((j) => /^\d{4}-\d\d-\d\d$/.test(j.d
 assert.deepEqual(c.workdayFromUrl("https://cae.wd3.myworkdayjobs.com/en-US/career/jobs?x=1", "CAE"), { name: "CAE", host: "cae.wd3.myworkdayjobs.com", tenant: "cae", site: "career" });
 assert.equal(c.workdayFromUrl("https://acme.wd1.myworkdayjobs.com/External_Site").site, "External_Site");
 assert.throws(() => c.workdayFromUrl("https://example.com/careers"));
+
+// Workable's job search: pages are followed by token, repeats and non-Canadian postings are dropped, a remote posting says so
+const wks = await c.workableSearch({ locations: ["Canada"], limit: 2, delayMs: 0 }, NOW, () => {}, async () => {});
+assert.equal(wks.listed, 4, "w2 appears on both pages and counts once"); assert.equal(wks.jobs.length, 3, "the Austin posting is dropped"); assert.equal(wks.ok, 2);
+assert.equal(wks.jobs[0].company, "WD Swim"); assert.equal(wks.jobs[0].type, "Part-time"); assert.match(wks.jobs[0].desc, /Lifeguard certificate/); assert.equal(wks.jobs[0].ageH, 24);
+assert.equal(c.provinceOf(wks.jobs[0].loc), "ON"); assert.equal(c.provinceOf(wks.jobs[1].loc), "Remote – Canada"); assert.equal(c.provinceOf(wks.jobs[2].loc), "ON", "Hamilton, Canada is Ontario");
+assert.equal(wks.jobs[0].sources[0].src, "Workable");
+const wkStop = await c.workableSearch({ locations: ["Canada"], limit: 2, delayMs: 0, maxPages: 1 }, NOW, () => {}, async () => {});
+assert.equal(wkStop.ok, 1, "maxPages stops the reading"); assert.equal(wkStop.jobs.length, 2);
+const wkBad = await c.workableSearch({ locations: ["Nowhere"], limit: 2 }, NOW, () => {}, async () => {});
+assert.equal(wkBad.jobs.length, 0); assert.ok(wkBad.stop && wkBad.failed === 2, "a failing page is retried once, then the reading stops and says why: " + JSON.stringify(wkBad));
+const viaMain = await c.main({ nowMs: NOW, log: () => {}, write: false, env: {}, companies: {}, searches: { workable: { locations: ["Canada"], limit: 2, delayMs: 0 } } });
+assert.equal(viaMain.sources["Workable jobs"].jobs, 3); assert.equal(viaMain.sources["Workable jobs"].listed, 4); assert.equal(viaMain.jobs.length, 3);
 
 // the other open boards
 const wk = await c.workable("wk", NOW); assert.equal(wk[0].company, "WK"); assert.match(wk[0].desc, /FMEA/);

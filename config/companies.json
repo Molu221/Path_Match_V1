@@ -754,6 +754,236 @@
    "host": "bird.wd3.myworkdayjobs.com",
    "tenant": "bird",
    "site": "CanemCareers"
+  },
+  {
+   "name": "Desjardins",
+   "host": "desjardins.wd10.myworkdayjobs.com",
+   "tenant": "desjardins",
+   "site": "Desjardins",
+   "allCanada": true
+  },
+  {
+   "name": "Intact Financial",
+   "host": "intactfc.wd3.myworkdayjobs.com",
+   "tenant": "intactfc",
+   "site": "Intactfc"
+  },
+  {
+   "name": "Aviva",
+   "host": "aviva.wd1.myworkdayjobs.com",
+   "tenant": "aviva",
+   "site": "External"
+  },
+  {
+   "name": "Brookfield",
+   "host": "brookfield.wd5.myworkdayjobs.com",
+   "tenant": "brookfield",
+   "site": "Brookfield"
+  },
+  {
+   "name": "CDPQ",
+   "host": "cdpq.wd10.myworkdayjobs.com",
+   "tenant": "cdpq",
+   "site": "cdpq",
+   "allCanada": true
+  },
+  {
+   "name": "Cogeco",
+   "host": "cogeco.wd3.myworkdayjobs.com",
+   "tenant": "cogeco",
+   "site": "Cogeco_Careers",
+   "allCanada": true
+  },
+  {
+   "name": "Giant Tiger",
+   "host": "gianttiger.wd3.myworkdayjobs.com",
+   "tenant": "gianttiger",
+   "site": "gianttiger",
+   "allCanada": true
+  },
+  {
+   "name": "Mosaic",
+   "host": "mosaic.wd5.myworkdayjobs.com",
+   "tenant": "mosaic",
+   "site": "Mosaic"
+  },
+  {
+   "name": "Shell",
+   "host": "shell.wd3.myworkdayjobs.com",
+   "tenant": "shell",
+   "site": "shellcareers"
+  },
+  {
+   "name": "Keyera",
+   "host": "keyera.wd10.myworkdayjobs.com",
+   "tenant": "keyera",
+   "site": "Keyera_Careers",
+   "allCanada": true
+  },
+  {
+   "name": "Western University",
+   "host": "western.wd1.myworkdayjobs.com",
+   "tenant": "western",
+   "site": "western",
+   "allCanada": true
+  },
+  {
+   "name": "Brock University",
+   "host": "brocku.wd3.myworkdayjobs.com",
+   "tenant": "brocku",
+   "site": "Brocku_Careers",
+   "allCanada": true
+  },
+  {
+   "name": "Wilfrid Laurier University",
+   "host": "wlu.wd5.myworkdayjobs.com",
+   "tenant": "wlu",
+   "site": "WluCareers",
+   "allCanada": true
+  },
+  {
+   "name": "Mitel",
+   "host": "mitel.wd3.myworkdayjobs.com",
+   "tenant": "mitel",
+   "site": "mitelcareers"
+  },
+  {
+   "name": "Ciena",
+   "host": "ciena.wd5.myworkdayjobs.com",
+   "tenant": "ciena",
+   "site": "Careers"
+  },
+  {
+   "name": "Cisco",
+   "host": "cisco.wd5.myworkdayjobs.com",
+   "tenant": "cisco",
+   "site": "cisco_careers"
+  },
+  {
+   "name": "HP",
+   "host": "hp.wd5.myworkdayjobs.com",
+   "tenant": "hp",
+   "site": "ExternalCareerSite"
+  },
+  {
+   "name": "Salesforce",
+   "host": "salesforce.wd12.myworkdayjobs.com",
+   "tenant": "salesforce",
+   "site": "External_Career_Site"
+  },
+  {
+   "name": "Intel",
+   "host": "intel.wd1.myworkdayjobs.com",
+   "tenant": "intel",
+   "site": "External"
+  },
+  {
+   "name": "Workday",
+   "host": "workday.wd5.myworkdayjobs.com",
+   "tenant": "workday",
+   "site": "workday"
+  },
+  {
+   "name": "Magna",
+   "host": "magna.wd3.myworkdayjobs.com",
+   "tenant": "magna",
+   "site": "Magna"
+  },
+  {
+   "name": "3M",
+   "host": "3m.wd1.myworkdayjobs.com",
+   "tenant": "3m",
+   "site": "Search"
+  },
+  {
+   "name": "Medtronic",
+   "host": "medtronic.wd1.myworkdayjobs.com",
+   "tenant": "medtronic",
+   "site": "MedtronicCareers"
+  },
+  {
+   "name": "Pfizer",
+   "host": "pfizer.wd1.myworkdayjobs.com",
+   "tenant": "pfizer",
+   "site": "PfizerCareers"
+  },
+  {
+   "name": "AstraZeneca",
+   "host": "astrazeneca.wd3.myworkdayjobs.com",
+   "tenant": "astrazeneca",
+   "site": "Careers"
+  },
+  {
+   "name": "GSK",
+   "host": "gsk.wd5.myworkdayjobs.com",
+   "tenant": "gsk",
+   "site": "gskcareers"
+  },
+  {
+   "name": "Novartis",
+   "host": "novartis.wd3.myworkdayjobs.com",
+   "tenant": "novartis",
+   "site": "Novartis_Careers"
+  },
+  {
+   "name": "Sanofi",
+   "host": "sanofi.wd3.myworkdayjobs.com",
+   "tenant": "sanofi",
+   "site": "sanoficareers"
+  },
+  {
+   "name": "Baxter",
+   "host": "baxter.wd1.myworkdayjobs.com",
+   "tenant": "baxter",
+   "site": "Baxter"
+  },
+  {
+   "name": "Abbott",
+   "host": "abbott.wd5.myworkdayjobs.com",
+   "tenant": "abbott",
+   "site": "AbbottCareers"
+  },
+  {
+   "name": "Stryker",
+   "host": "stryker.wd1.myworkdayjobs.com",
+   "tenant": "stryker",
+   "site": "StrykerCareers"
+  },
+  {
+   "name": "Carrier",
+   "host": "carrier.wd5.myworkdayjobs.com",
+   "tenant": "carrier",
+   "site": "jobs"
+  },
+  {
+   "name": "Mastercard campus",
+   "host": "mastercard.wd1.myworkdayjobs.com",
+   "tenant": "mastercard",
+   "site": "Campus"
+  },
+  {
+   "name": "Visa",
+   "host": "visa.wd5.myworkdayjobs.com",
+   "tenant": "visa",
+   "site": "visa"
+  },
+  {
+   "name": "Accenture",
+   "host": "accenture.wd103.myworkdayjobs.com",
+   "tenant": "accenture",
+   "site": "AccentureCareers"
+  },
+  {
+   "name": "CoStar",
+   "host": "costar.wd1.myworkdayjobs.com",
+   "tenant": "costar",
+   "site": "costarcareers"
+  },
+  {
+   "name": "JLL",
+   "host": "jll.wd1.myworkdayjobs.com",
+   "tenant": "jll",
+   "site": "JllCareers"
   }
  ],
  "pages": []

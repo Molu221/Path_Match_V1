@@ -150,6 +150,15 @@
       "Halifax, NS"
     ]
   },
+  "workable": {
+    "_note": "Workable's own job search (jobs.workable.com): every open posting in Canada of every company that hires through Workable, with its full text, about 20 per request.",
+    "enabled": true,
+    "locations": ["Canada"],
+    "limit": 20,
+    "delayMs": 700,
+    "maxPages": 600,
+    "budgetMs": 1500000
+  },
   "muse": {
     "levels": [
       "Internship",
