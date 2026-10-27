@@ -1,0 +1,363 @@
+{
+ "at": "2026-10-27T00:38:22.227Z",
+ "results": [
+  {
+   "name": "jb blank search blank loc fage1",
+   "url": "https://www.jobbank.gc.ca/jobsearch/feed/jobSearchRSSfeed?searchstring=&locationstring=&fage=1&sort=D&rows=100",
+   "method": "GET",
+   "status": 200,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": null
+   },
+   "contentType": "application/atom+xml;charset=UTF-8",
+   "bytes": 54892,
+   "head": "<?xml version=\"1.0\" encoding=\"UTF-8\"?> <feed xmlns=\"http://www.w3.org/2005/Atom\" xml:lang=\"en\"> <title><![CDATA[Available jobs - Job Bank]]></title> <id>https://www.jobbank.gc.ca/jobsearch/jobSearchRSSfeed</id> <link rel=\"self\" type=\"application/atom+xml\" href=\"https://www.jobbank.gc.ca/jobsearch/jobSearchRSSfeed?searchstring=&amp;locationstring=&amp;fage=1&amp;sort=D&amp;rows=100\"/> <updated>2026",
+   "jsonLdJobPostings": 0,
+   "count": 100,
+   "ms": 655
+  },
+  {
+   "name": "jb blank search Ontario fage1",
+   "url": "https://www.jobbank.gc.ca/jobsearch/feed/jobSearchRSSfeed?searchstring=&locationstring=Ontario&fage=1&sort=D&rows=100",
+   "method": "GET",
+   "status": 200,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": null
+   },
+   "contentType": "application/atom+xml;charset=UTF-8",
+   "bytes": 54899,
+   "head": "<?xml version=\"1.0\" encoding=\"UTF-8\"?> <feed xmlns=\"http://www.w3.org/2005/Atom\" xml:lang=\"en\"> <title><![CDATA[Available jobs - Job Bank]]></title> <id>https://www.jobbank.gc.ca/jobsearch/jobSearchRSSfeed</id> <link rel=\"self\" type=\"application/atom+xml\" href=\"https://www.jobbank.gc.ca/jobsearch/jobSearchRSSfeed?searchstring=&amp;locationstring=Ontario&amp;fage=1&amp;sort=D&amp;rows=100\"/> <updat",
+   "jsonLdJobPostings": 0,
+   "count": 100,
+   "ms": 761
+  },
+  {
+   "name": "jb cook Montreal fage7",
+   "url": "https://www.jobbank.gc.ca/jobsearch/feed/jobSearchRSSfeed?searchstring=cook&locationstring=Montr%C3%A9al%2C+QC&fage=7&sort=D&rows=100",
+   "method": "GET",
+   "status": 200,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": null
+   },
+   "contentType": "application/atom+xml;charset=UTF-8",
+   "bytes": 53705,
+   "head": "<?xml version=\"1.0\" encoding=\"UTF-8\"?> <feed xmlns=\"http://www.w3.org/2005/Atom\" xml:lang=\"en\"> <title><![CDATA[cook - Job Bank]]></title> <id>https://www.jobbank.gc.ca/jobsearch/jobSearchRSSfeed</id> <link rel=\"self\" type=\"application/atom+xml\" href=\"https://www.jobbank.gc.ca/jobsearch/jobSearchRSSfeed?searchstring=cook&amp;locationstring=Montr%C3%A9al%2C+QC&amp;fage=7&amp;sort=D&amp;rows=100\"/> ",
+   "jsonLdJobPostings": 0,
+   "count": 100,
+   "ms": 342
+  },
+  {
+   "name": "jb cook Montreal no loc",
+   "url": "https://www.jobbank.gc.ca/jobsearch/feed/jobSearchRSSfeed?searchstring=cook&fage=7&sort=D&rows=100",
+   "method": "GET",
+   "status": 200,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": null
+   },
+   "contentType": "application/atom+xml;charset=UTF-8",
+   "bytes": 53666,
+   "head": "<?xml version=\"1.0\" encoding=\"UTF-8\"?> <feed xmlns=\"http://www.w3.org/2005/Atom\" xml:lang=\"en\"> <title><![CDATA[cook - Job Bank]]></title> <id>https://www.jobbank.gc.ca/jobsearch/jobSearchRSSfeed</id> <link rel=\"self\" type=\"application/atom+xml\" href=\"https://www.jobbank.gc.ca/jobsearch/jobSearchRSSfeed?searchstring=cook&amp;fage=7&amp;sort=D&amp;rows=100\"/> <updated>2026-10-26T20:38:20Z</updated>",
+   "jsonLdJobPostings": 0,
+   "count": 100,
+   "ms": 249
+  },
+  {
+   "name": "jb driver Calgary fage7",
+   "url": "https://www.jobbank.gc.ca/jobsearch/feed/jobSearchRSSfeed?searchstring=driver&locationstring=Calgary%2C+AB&fage=7&sort=D&rows=100",
+   "method": "GET",
+   "status": 200,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": null
+   },
+   "contentType": "application/atom+xml;charset=UTF-8",
+   "bytes": 54194,
+   "head": "<?xml version=\"1.0\" encoding=\"UTF-8\"?> <feed xmlns=\"http://www.w3.org/2005/Atom\" xml:lang=\"en\"> <title><![CDATA[driver - Job Bank]]></title> <id>https://www.jobbank.gc.ca/jobsearch/jobSearchRSSfeed</id> <link rel=\"self\" type=\"application/atom+xml\" href=\"https://www.jobbank.gc.ca/jobsearch/jobSearchRSSfeed?searchstring=driver&amp;locationstring=Calgary%2C+AB&amp;fage=7&amp;sort=D&amp;rows=100\"/> <u",
+   "jsonLdJobPostings": 0,
+   "count": 100,
+   "ms": 374
+  },
+  {
+   "name": "jb driver Calgary fage7 sort M",
+   "url": "https://www.jobbank.gc.ca/jobsearch/feed/jobSearchRSSfeed?searchstring=driver&locationstring=Calgary%2C+AB&fage=7&sort=M&rows=100",
+   "method": "GET",
+   "status": 200,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": null
+   },
+   "contentType": "application/atom+xml;charset=UTF-8",
+   "bytes": 54194,
+   "head": "<?xml version=\"1.0\" encoding=\"UTF-8\"?> <feed xmlns=\"http://www.w3.org/2005/Atom\" xml:lang=\"en\"> <title><![CDATA[driver - Job Bank]]></title> <id>https://www.jobbank.gc.ca/jobsearch/jobSearchRSSfeed</id> <link rel=\"self\" type=\"application/atom+xml\" href=\"https://www.jobbank.gc.ca/jobsearch/jobSearchRSSfeed?searchstring=driver&amp;locationstring=Calgary%2C+AB&amp;fage=7&amp;sort=M&amp;rows=100\"/> <u",
+   "jsonLdJobPostings": 0,
+   "count": 100,
+   "ms": 367
+  },
+  {
+   "name": "jb fprov ON",
+   "url": "https://www.jobbank.gc.ca/jobsearch/feed/jobSearchRSSfeed?fprov=ON&fage=1&sort=D&rows=100",
+   "method": "GET",
+   "status": 200,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": null
+   },
+   "contentType": "application/atom+xml;charset=UTF-8",
+   "bytes": 55511,
+   "head": "<?xml version=\"1.0\" encoding=\"UTF-8\"?> <feed xmlns=\"http://www.w3.org/2005/Atom\" xml:lang=\"en\"> <title><![CDATA[Available jobs near Ontario - Job Bank]]></title> <id>https://www.jobbank.gc.ca/jobsearch/jobSearchRSSfeed</id> <link rel=\"self\" type=\"application/atom+xml\" href=\"https://www.jobbank.gc.ca/jobsearch/jobSearchRSSfeed?fprov=ON&amp;fage=1&amp;sort=D&amp;rows=100\"/> <updated>2026-10-26T20:38",
+   "jsonLdJobPostings": 0,
+   "count": 100,
+   "ms": 252
+  },
+  {
+   "name": "jb html results fragment",
+   "url": "https://www.jobbank.gc.ca/jobsearch/jobsearch?searchstring=nurse&locationstring=Toronto%2C+ON&fage=7&sort=D&page=1&fsrc=16",
+   "method": "GET",
+   "status": 200,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": "Accept-Encoding"
+   },
+   "contentType": "text/html;charset=UTF-8",
+   "bytes": 311946,
+   "head": "<!DOCTYPE html> <html class=\"no-js\" lang=\"en\" dir=\"ltr\"><head id=\"j_id_5\"> <meta charset=\"utf-8\" /> <title>nurse in various locations - Search - Job Bank </title> <meta content=\"width=device-width,initial-scale=1\" name=\"viewport\" /> <meta name=\"dcterms.language\" content=\"eng\" /> <meta name=\"dcterms.",
+   "jsonLdJobPostings": 0,
+   "count": 25,
+   "ms": 483
+  },
+  {
+   "name": "jb html search page1",
+   "url": "https://www.jobbank.gc.ca/jobsearch/jobsearch?searchstring=nurse&locationstring=Toronto%2C+ON&fage=7&sort=D",
+   "method": "GET",
+   "status": 200,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": "Accept-Encoding"
+   },
+   "contentType": "text/html;charset=UTF-8",
+   "bytes": 304986,
+   "head": "<!DOCTYPE html> <html class=\"no-js\" lang=\"en\" dir=\"ltr\"><head id=\"j_id_5\"> <meta charset=\"utf-8\" /> <title>nurse in various locations - Search - Job Bank </title> <meta content=\"width=device-width,initial-scale=1\" name=\"viewport\" /> <meta name=\"dcterms.language\" content=\"eng\" /> <meta name=\"dcterms.",
+   "jsonLdJobPostings": 0,
+   "count": 25,
+   "ms": 824
+  },
+  {
+   "name": "jb html search page2",
+   "url": "https://www.jobbank.gc.ca/jobsearch/jobsearch?searchstring=nurse&locationstring=Toronto%2C+ON&fage=7&sort=D&page=2",
+   "method": "GET",
+   "status": 200,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": "Accept-Encoding"
+   },
+   "contentType": "text/html;charset=UTF-8",
+   "bytes": 303949,
+   "head": "<!DOCTYPE html> <html class=\"no-js\" lang=\"en\" dir=\"ltr\"><head id=\"j_id_5\"> <meta charset=\"utf-8\" /> <title>nurse in various locations - Search - Job Bank </title> <meta content=\"width=device-width,initial-scale=1\" name=\"viewport\" /> <meta name=\"dcterms.language\" content=\"eng\" /> <meta name=\"dcterms.",
+   "jsonLdJobPostings": 0,
+   "count": 25,
+   "ms": 514
+  },
+  {
+   "name": "jb nurse Toronto fage1",
+   "url": "https://www.jobbank.gc.ca/jobsearch/feed/jobSearchRSSfeed?searchstring=nurse&locationstring=Toronto%2C+ON&fage=1&sort=D&rows=100",
+   "method": "GET",
+   "status": 200,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": null
+   },
+   "contentType": "application/atom+xml;charset=UTF-8",
+   "bytes": 24360,
+   "head": "<?xml version=\"1.0\" encoding=\"UTF-8\"?> <feed xmlns=\"http://www.w3.org/2005/Atom\" xml:lang=\"en\"> <title><![CDATA[nurse - Job Bank]]></title> <id>https://www.jobbank.gc.ca/jobsearch/jobSearchRSSfeed</id> <link rel=\"self\" type=\"application/atom+xml\" href=\"https://www.jobbank.gc.ca/jobsearch/jobSearchRSSfeed?searchstring=nurse&amp;locationstring=Toronto%2C+ON&amp;fage=1&amp;sort=D&amp;rows=100\"/> <upd",
+   "jsonLdJobPostings": 0,
+   "count": 42,
+   "ms": 711
+  },
+  {
+   "name": "jb nurse Toronto fage30",
+   "url": "https://www.jobbank.gc.ca/jobsearch/feed/jobSearchRSSfeed?searchstring=nurse&locationstring=Toronto%2C+ON&fage=30&sort=D&rows=100",
+   "method": "GET",
+   "status": 200,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": null
+   },
+   "contentType": "application/atom+xml;charset=UTF-8",
+   "bytes": 24361,
+   "head": "<?xml version=\"1.0\" encoding=\"UTF-8\"?> <feed xmlns=\"http://www.w3.org/2005/Atom\" xml:lang=\"en\"> <title><![CDATA[nurse - Job Bank]]></title> <id>https://www.jobbank.gc.ca/jobsearch/jobSearchRSSfeed</id> <link rel=\"self\" type=\"application/atom+xml\" href=\"https://www.jobbank.gc.ca/jobsearch/jobSearchRSSfeed?searchstring=nurse&amp;locationstring=Toronto%2C+ON&amp;fage=30&amp;sort=D&amp;rows=100\"/> <up",
+   "jsonLdJobPostings": 0,
+   "count": 42,
+   "ms": 676
+  },
+  {
+   "name": "jb nurse Toronto no rows",
+   "url": "https://www.jobbank.gc.ca/jobsearch/feed/jobSearchRSSfeed?searchstring=nurse&locationstring=Toronto%2C+ON&fage=7&sort=D",
+   "method": "GET",
+   "status": 200,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": null
+   },
+   "contentType": "application/atom+xml;charset=UTF-8",
+   "bytes": 24347,
+   "head": "<?xml version=\"1.0\" encoding=\"UTF-8\"?> <feed xmlns=\"http://www.w3.org/2005/Atom\" xml:lang=\"en\"> <title><![CDATA[nurse - Job Bank]]></title> <id>https://www.jobbank.gc.ca/jobsearch/jobSearchRSSfeed</id> <link rel=\"self\" type=\"application/atom+xml\" href=\"https://www.jobbank.gc.ca/jobsearch/jobSearchRSSfeed?searchstring=nurse&amp;locationstring=Toronto%2C+ON&amp;fage=7&amp;sort=D\"/> <updated>2026-10-",
+   "jsonLdJobPostings": 0,
+   "count": 42,
+   "ms": 702
+  },
+  {
+   "name": "jb nurse Toronto page2",
+   "url": "https://www.jobbank.gc.ca/jobsearch/feed/jobSearchRSSfeed?searchstring=nurse&locationstring=Toronto%2C+ON&fage=7&sort=D&rows=100&page=2",
+   "method": "GET",
+   "status": 200,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": null
+   },
+   "contentType": "application/atom+xml;charset=UTF-8",
+   "bytes": 533,
+   "head": "<?xml version=\"1.0\" encoding=\"UTF-8\"?> <feed xmlns=\"http://www.w3.org/2005/Atom\" xml:lang=\"en\"> <title><![CDATA[nurse - Job Bank]]></title> <id>https://www.jobbank.gc.ca/jobsearch/jobSearchRSSfeed</id> <link rel=\"self\" type=\"application/atom+xml\" href=\"https://www.jobbank.gc.ca/jobsearch/jobSearchRSSfeed?searchstring=nurse&amp;locationstring=Toronto%2C+ON&amp;fage=7&amp;sort=D&amp;rows=100&amp;pag",
+   "jsonLdJobPostings": 0,
+   "count": 0,
+   "ms": 540
+  },
+  {
+   "name": "jb nurse Toronto rows100 fage7",
+   "url": "https://www.jobbank.gc.ca/jobsearch/feed/jobSearchRSSfeed?searchstring=nurse&locationstring=Toronto%2C+ON&fage=7&sort=D&rows=100",
+   "method": "GET",
+   "status": 200,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": null
+   },
+   "contentType": "application/atom+xml;charset=UTF-8",
+   "bytes": 24360,
+   "head": "<?xml version=\"1.0\" encoding=\"UTF-8\"?> <feed xmlns=\"http://www.w3.org/2005/Atom\" xml:lang=\"en\"> <title><![CDATA[nurse - Job Bank]]></title> <id>https://www.jobbank.gc.ca/jobsearch/jobSearchRSSfeed</id> <link rel=\"self\" type=\"application/atom+xml\" href=\"https://www.jobbank.gc.ca/jobsearch/jobSearchRSSfeed?searchstring=nurse&amp;locationstring=Toronto%2C+ON&amp;fage=7&amp;sort=D&amp;rows=100\"/> <upd",
+   "jsonLdJobPostings": 0,
+   "count": 42,
+   "ms": 760
+  },
+  {
+   "name": "smartrecruiters all ca",
+   "url": "https://api.smartrecruiters.com/v1/postings?country=ca&limit=100",
+   "method": "GET",
+   "status": 404,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": null
+   },
+   "contentType": null,
+   "bytes": 0,
+   "head": "",
+   "jsonLdJobPostings": 0,
+   "count": 0,
+   "ms": 420
+  },
+  {
+   "name": "workable aggregator Canada",
+   "url": "https://jobs.workable.com/api/v1/jobs?location=Canada&limit=50",
+   "method": "GET",
+   "status": 400,
+   "cors": {
+    "allowOrigin": "http://jobs.workable.com",
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": "Accept-Encoding, Origin"
+   },
+   "contentType": "application/json; charset=utf-8",
+   "bytes": 44,
+   "head": "{\"limit\":\"Must be less than or equal to 20\"}",
+   "jsonLdJobPostings": 0,
+   "count": 0,
+   "ms": 151
+  },
+  {
+   "name": "workable aggregator query",
+   "url": "https://jobs.workable.com/api/v1/jobs?query=nurse&location=Toronto&limit=50",
+   "method": "GET",
+   "status": 400,
+   "cors": {
+    "allowOrigin": "http://jobs.workable.com",
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": "Accept-Encoding, Origin"
+   },
+   "contentType": "application/json; charset=utf-8",
+   "bytes": 44,
+   "head": "{\"limit\":\"Must be less than or equal to 20\"}",
+   "jsonLdJobPostings": 0,
+   "count": 0,
+   "ms": 153
+  },
+  {
+   "name": "workday bogus tenant status",
+   "url": "https://nobodyxyz123.wd3.myworkdayjobs.com/wday/cxs/nobodyxyz123/External/jobs",
+   "method": "POST",
+   "status": 422,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": "Accept-Encoding"
+   },
+   "contentType": "application/json;charset=ISO-8859-1",
+   "bytes": 149,
+   "head": "{\"errorCode\":\"HTTP_422\",\"errorCaseId\":\"30485FMVPYISCD\",\"httpStatus\":422,\"locale\":\"en-CA,en;q\\u003d0.8,fr;q\\u003d0.6\",\"message\":\"\",\"messageParams\":{}}",
+   "jsonLdJobPostings": 0,
+   "ms": 618
+  },
+  {
+   "name": "workday rbc facets",
+   "url": "https://rbc.wd3.myworkdayjobs.com/wday/cxs/rbc/RBCGLOBAL1/jobs",
+   "method": "POST",
+   "status": 200,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": "accept-encoding"
+   },
+   "contentType": "application/json",
+   "bytes": 24733,
+   "head": "{\"total\":865,\"jobPostings\":[{\"title\":\"Associate Director, Transaction Services – Change the Bank (CTB), Capital Markets (London)\",\"externalPath\":\"/job/London-United-Kingdom-of-Great-Britain-and-Northern-Ireland/Associate-Director--Transaction-Services---Change-the-Bank--CTB---Capital-Markets--London-_R-0000181806\",\"locationsText\":\"London, United Kingdom of Great Britain and Northern Ireland\",\"postedOn\":\"Posted Today\",\"bulletFields\":[\"R-0000181806\"]},{\"title\":\"Executive Assistant\",\"externalPath\":\"/job/TORONTO-Ontario-Canada/Executive-Assistant_R-0000188971-1\",\"locationsText\":\"TORONTO, Ontario, Canada\",\"postedOn\":\"Posted 4 Days Ago\",\"bulletFields\":[\"R-0000188971\"]}],\"facets\":[{\"facetParameter\":\"Category\",\"descriptor\":\"Category\",\"values\":[{\"descriptor\":\"Sales and Advisory\",\"id\":\"7911130ac480011864964fc0692d0000\",\"count\":569},{\"descriptor\":\"Technology\",\"id\":\"7911130ac48001186496552dce380000\",\"count\":81},{\"descriptor\":\"Operations and Business Management\",\"id\":\"7911130ac480011864965229f9670002\",\"count\":59},{\"descriptor\":\"Enterprise and Financial Risk\",\"id\":\"7911130ac480011864965833370e0002\",\"count\":22},{\"descriptor\":\"Governance and Compliance\",\"id\":\"7911130ac4800118649656fd57bf0001\",\"count\":20},{\"descriptor\":\"Internship and Rotational Program\",\"id\":\"7911130ac480011864965493391d0000\",\"count\":19},{\"descriptor\":\"Finance, Accounting and Treasury\",\"id\":\"7911130ac4800118649655c8a5290002\",\"count\":17},{\"descriptor\":\"Administrative Services\",\"id\":\"7911130ac4800118649653f8b5ec0000\",\"count\":14},{\"descriptor\":\"Research\",\"id\":\"7911130ac4800118649658ce350e0001\",\"count\":13},{\"descriptor\":\"Analytics and Data Management\",\"id\":\"7911130ac48001186496535e1c620000\",\"count\":9},{\"descriptor\":\"Product Management Group\",\"id\":\"7911130ac480011864965493391d0002\",\"count\":8},{\"descriptor\":\"Strategy and Transformation\",\"id\":\"7911130ac48001186496518f6fc00000\",\"count\":8},{\"descriptor\":\"Project and Program Management\",\"id\":\"7911130ac4800118649652c39f3d0001\",\"count\":7},{\"descriptor\":\"Human Resources\",\"id\":\"7911130ac48001186496505a55e70001\",\"count\":5},{\"descriptor\":\"Marketing and Communications\",\"id\":\"7911130ac480011864965833370e0000\",\"count\":4},{\"descriptor\":\"Portfolio Management\",\"id\":\"7911130ac48001186496535e1c620002\",\"count\":4},{\"descriptor\":\"Legal and Legal Support\",\"id\":\"7911130ac48001186496596934870000\",\"count\":2},{\"descriptor\":\"Custodial Services\",\"id\":\"7911130ac48001186496579834b90000\",\"count\":2},{\"descriptor\":\"Trading Group\",\"id\":\"7911130ac48001186496566254ba0001\",\"count\":1},{\"descriptor\"",
+   "jsonLdJobPostings": 0,
+   "ms": 2279
+  }
+ ]
+}
