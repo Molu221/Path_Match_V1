@@ -1,0 +1,294 @@
+{
+ "at": "2026-10-27T00:54:02.725Z",
+ "results": [
+  {
+   "name": "astrazeneca",
+   "url": "https://astrazeneca.wd3.myworkdayjobs.com/wday/cxs/astrazeneca/Careers/jobs",
+   "method": "POST",
+   "status": 200,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": "accept-encoding"
+   },
+   "contentType": "application/json",
+   "bytes": 24945,
+   "head": "{\"total\":1305,\"jobPostings\":[{\"title\":\"Biobank Scientist\",\"externalPath\":\"/job/US---Gaithersburg---MD/Biobank-Scientist_R-262798-1\",\"timeType\":\"Full time\",\"locationsText\":\"US - Gaithersburg - MD\",\"postedOn\":\"Posted Today\",\"bulletFields\":[\"R-262798\"]}],\"facets\":[{\"facetParameter\":\"timeType\",\"descriptor\":\"Full/Part-time\",\"values\":[{\"descriptor\":\"Full time\",\"id\":\"7ae59499a9e2102a8d90aa249f7509af\",\"count\":1304},{\"descriptor\":\"Part time\",\"id\":\"7ae59499a9e2102a8d90aa21a55209ae\",\"count\":1}]},{\"facetParameter\":\"workerSubType\",\"descriptor\":\"Job Type\",\"values\":[{\"descriptor\":\"Apprentice (Fixed Term)\",\"id\":\"b914f96b1779102cb8f0f533bb7c0908\",\"count\":5},{\"descriptor\":\"Domestic Assignee\",\"id\":\"b914f96b1779102cb8f0eaf58e830903\",\"count\":2},{\"descriptor\":\"Regular\",\"id\":\"b914f96b1779102cb8f0e2643f3c0902\",\"count\":1263},{\"descriptor\":\"Student (Fixed Term) (Trainee)\",\"id\":\"b914f96b1779102cb8f0f340cc730907\",\"count\":13},{\"descriptor\":\"Temporary (Fixed Term)\",\"id\":\"b914f96b1779102cb8f0ed05d81e0904\",\"count\":21},{\"descriptor\":\"Trainee (Trainee)\",\"id\":\"b914f96b1779102cb8f0f92bd813090a\",\"count\":1}]},{\"facetParameter\":\"jobFamilyGroup\",\"descriptor\":\"Job Category\",\"values\":[{\"descriptor\":\"Administration\",\"id\":\"6d6c03a6c7411001f1ece95b54130000\",\"count\":11},{\"descriptor\":\"Commercial Strategy & Business Development\",\"id\":\"ed83cb9579af1001f1c69b3e25f20000\",\"count\":137},{\"descriptor\":\"Contractor\",\"id\":\"b914f96b1779102cc4a9cff1a2259362\",\"count\":2},{\"descriptor\":\"Corporate Affairs\",\"id\":\"4596400e19b31001f21d2a0bacbc0000\",\"count\":13},{\"descriptor\":\"Data & AI\",\"id\":\"a044177026441001f1e97e07cb150000\",\"count\":53},{\"descriptor\":\"Development\",\"id\":\"d54746fc512f1001f1f2012d432d0000\",\"count\":117},{\"descriptor\":\"Engineering\",\"id\":\"d2bb8bda794b1001f20c98c34d3e0000\",\"count\":24},{\"descriptor\":\"Facilities & Safety & Health & Environment & Sustainability\",\"id\":\"28876fd13a7f1001f1c188cdf85b0000\",\"count\":23},{\"descriptor\":\"Finance\",\"id\":\"005f3946ee291001f1e51c89a26f0000\",\"count\":17},{\"descriptor\":\"Human Resources\",\"id\":\"4596400e19b31001f21d40da94a90000\",\"count\":16},{\"descriptor\":\"Information Technology\",\"id\":\"41d9d77978e91001f21b7382cf1d0000\",\"count\":50},{\"descriptor\":\"Legal & Compliance\",\"id\":\"b585d53521a11001f1b7c46afad40000\",\"count\":9},{\"descriptor\":\"LGY_Administration\",\"id\":\"b914f96b1779102cc4a9b33d6cf69354\",\"count\":2},{\"descriptor\":\"LGY_Commercial Non-Sales\",\"id\":\"b914f96b1779102cc4a9c41f0b46935c\",\"count\":17},{\"descriptor\":\"LGY_Corporate Affairs\",\"id\":\"b914f96b1779102cc4a9c8617be1935e\",\"count\":2},{\"descriptor\":\"LGY_Development\",\"id\":\"b914f96b1779102cc4a9bfc4484d935a\",\"count\":9},{\"descriptor\":\"LGY_Engineering\",\"id\":\"b914f96b1779102cc4a9d3cd99dd9364\",\"count\":1},{\"descriptor\":\"LGY_Facilities Management\",\"id\":\"b914f96b1779102cc4a9dc0eeec49368\",\"count\":3},{\"descriptor\":\"LGY_Information Technology\",\"id\":\"b914f96b1779102cc4a9efef60cd9372\",\"count\":2},{\"descriptor\":\"LGY_Medical Affairs\",\"id\":\"b914f96b1779102cc4a9f7d100a99376\",\"count\":16},{\"descriptor\":\"LGY_Project, Change, Business Improvement and Strategy Management\",\"id\":\"b914f96b1779102cc4aa040e3edc937c\",\"count\":2},{\"descriptor\":\"LGY_Regulatory\",\"id\":\"b914f96b1779102cc4aa0c259d3c9380\",\"count\":1},{\"descriptor\":\"LGY_Sales\",\"id\":\"b914f96b1779102cc4aa102e5dc29382\",\"count\":17},{\"descriptor\":\"LGY_Sales Force Effectiveness\",\"id\":\"b914f96b1779102cc4aa1841cacd9386\",\"count\":2},{\"descriptor\":\"LGY_Scientific\",\"id\":\"b914f96b1779102cc4aa1444a23a9384\",\"count\":4},{\"descriptor\":\"Manufacturing\",\"id\":\"6bf338f79e551001f1ef0ddc52620000\",\"count\":26},{\"descriptor\":\"Medical\",\"id\":\"f13d3b39c6731001f21ea9fb381f0000\",\"count\":157},{\"descriptor\":\"Project Management & Business Improvement\",\"id\":\"6bf338f79e551001f1ef7356f98f0000\",\"count\":22},{\"descriptor\":\"Quality\",\"id\":\"b914f96b1779102cc4aa08244b5a937e\",\"count\":23},{\"descriptor\":\"Sales\",\"id\":\"b585d53521a11001f1b755456e8e0000\",\"count\":435},{\"descriptor\":\"Science\",\"id\":\"846e47f7c1951001f1f3ac5d0b2d0000\",\"count\":56},{\"descriptor\":\"Supply\",\"id\":\"6d6c03a6c7411001f1ecc71fcc5b0000\",\"count\":16},{\"descriptor\":\"Unvalidated\",\"id\":\"b914f96b1779102cc4ab63dc21fd9391\",\"count\":20}]},{\"facetParameter\":\"locationMainGroup\",\"values\":[{\"facetParameter\":\"locations\",\"descriptor\":\"Locations\",\"values\":[{\"descriptor\":\"Algeria - Algiers\",\"id\":\"b914f96b1779102cc96f0b4f7ab9aeb8\",\"count\":1},{\"descriptor\":\"Algeria - Oran\",\"id\":\"b914f96b1779102cc972b2a8140fb21f\",\"count\":1},{\"descriptor\":\"Algeria - Tizi Ouzou\",\"id\":\"b914f96b1779102cc96a2181db37ab32\",\"count\":1},{\"descriptor\":\"Argentina - Ciudad Autonoma\",\"id\":\"b914f96b1779102cc96cfb641453ad7c\",\"count\":1},{\"descriptor\":\"Australia – New South Wales\",\"id\":\"1099d31d7c6d1075c6e7e711eb1e7d64\",\"count\":1},{\"descriptor\":\"Austria - Vienna\",\"id\":\"3892183a9cc3105fad3fd2c9e74156a4\",\"count\":3},{\"descriptor\":\"AZ Computational Pathology GmbH - Munich\",\"id\":\"53a998f35a44019f79246794c9007b90\",\"count\":2},{\"descriptor\":\"Beijing Yizhuang\",\"id\":\"b8bbfaedf49b0161bf9fc586fe018644\",\"count\":21},{\"descriptor\":\"Brazil - Cotia\",\"id\":\"b914f96b1779102cc96fd997629eafda\",\"count\":2},{\"descriptor\":\"Bulgaria - Sofia\",\"id\":\"b914f96b1779102cc969bf391921aaab\",\"count\":3},{\"descriptor\":\"Cambridge MA – 100 Binney Street\",\"id\":\"56c3be6fc406100176abdc3d4b6c0000\",\"count\":1},{\"descriptor\":\"Canada – Hamilton – Longwood Road South\",\"id\":\"b7ecb289c0361000ff53f8ed92dd0000\",\"count\":7},{\"descriptor\":\"Canada - Mississauga\",\"id\":\"b914f96b1779102cc9699fd1f882aa83\",\"count\":7},{\"descriptor\":\"Chile - Santiago\",\"id\":\"b914f96b1779102cc96998419051aa79\",\"count\":2},{\"descriptor\":\"China\",\"id\":\"ecfb283a6b551041648d6fab00d036ac\",\"count\":406},{\"descriptor\":\"China\",\"id\":\"b914f96b1779102cc97281d6cb9eb1de\",\"count\":60},{\"descriptor\":\"China – Beijing – BioPark\",\"id\":\"1224d55a31ff1000a181038bc05b0000\",\"count\":9},{\"descriptor\":\"China - Shanghai\",\"id\":\"b914f96b1779102cc96a9cce115aabeb\",\"count\":1},{\"descriptor\":\"China - Wuxi\",\"id\":\"b914f96b1779102cc96a749116feabaa\",\"count\":14},{\"descriptor\":\"Colombia - Bogotá\",\"id\":\"b914f96b1779102cc96a510d7adaab78\",\"count\":5},{\"descriptor\":\"Costa Rica - San Jose\",\"id\":\"b914f96b1779102cc96c914e31b7acfa\",\"count\":4},{\"descriptor\":\"Croatia - Zagreb\",\"id\":\"b914f96b1779102cc96c8cf98078acf5\",\"count\":1},{\"descriptor\":\"Czech Republic - Prague\",\"id\":\"b914f96b1779102cc96c893ac740acf0\",\"count\":1},{\"descriptor\":\"Denmark - Copenhagen\",\"id\":\"b914f96b1779102cc96c85856570aceb\",\"count\":4},{\"descriptor\":\"Egypt\",\"id\":\"b914f96b1779102cc96c6b18b3a1acc8\",\"count\":2},{\"descriptor\":\"Estonia - Tallinn\",\"id\":\"b914f96b1779102cc96c4b8034f1aca0\",\"count\":1},{\"descriptor\":\"Field PS\",\"id\":\"d05a4b941ac21001206f3dbee3d00000\",\"count\":4},{\"descriptor\":\"Field-UK\",\"id\":\"1c53715e5b5b010dc8b79df2220a89c0\",\"count\":1},{\"descriptor\":\"Finland - Espoo\",\"id\":\"b914f96b1779102cc96c47bf2fbbac9b\",\"count\":1},{\"descriptor\":\"France - Dunkirk\",\"id\":\"b914f96b1779102cc96c443364efac96\",\"count\":1},{\"descriptor\":\"France - La Defense\",\"id\":\"52e2bba19d6110592ecf8a7989224f4a\",\"count\":10},{\"descriptor\":\"France - Levallois Perret\",\"id\":\"db51358cb33a019a646126c7b300163b\",\"count\":3},{\"descriptor\":\"Germany - Baden-Württemberg\",\"id\":\"5f6e79fd566201776f24b6af040179bd\",\"count\":5},{\"descriptor\":\"Germany - Bayern\",\"id\":\"3c06b2f2956d012f8c00c7e0040146b5\",\"count\":7},{\"descriptor\":\"Germany - Berlin\",\"id\":\"21559668bdcc01ab1c7472f4040128c4\",\"count\":2},{\"descriptor\":\"Germany - Brandenburg\",\"id\":\"21559668bdcc01d30717e30605018ac4\",\"count\":2},{\"descriptor\":\"Germany - Bremen\",\"id\":\"f973cd07e5660183450202080501f3c5\",\"count\":2},{\"descriptor\":\"Germany - Hamburg\",\"id\":\"5f6e79fd5662010f3a11c92b040107bb\",\"count\":26},{\"descriptor\":\"Germany - Hessen\",\"id\":\"3c06b2f2956d01217ede7c270501e3b7\",\"count\":3},{\"descriptor\":\"Germany - Mecklenburg-Vorpommern\",\"id\":\"5f6e79fd5662013fb58d4d2f05011dc1\",\"count\":3},{\"descriptor\":\"Germany - Niedersachsen\",\"id\":\"3c06b2f2956d0133965b214f050134b9\",\"count\":3},{\"descriptor\":\"Germany - Nordrhein-Westfalen\",\"id\":\"3c06b2f2956d0108bc7e70600501a1b9\",\"count\":3},{\"descriptor\":\"Germany - Rheinland-Pfalz\",\"id\":\"3c06b2f2956d0157def7917a05010eba\",\"count\":3},{\"descriptor\":\"Germany - Saarland\",\"id\":\"3c06b2f2956d018937b0528a050184ba\",\"count\":3},{\"descriptor\":\"Germany - Sachsen\",\"id\":\"5f6e79fd56620138b608b98e05017cc3\",\"count\":1},{\"descriptor\":\"Germany - Sachsen-Anhalt\",\"id\":\"3c06b2f2956d01b24bdd9a2e060133bd\",\"count\":2},{\"descriptor\":\"Germany - Schleswig-Holstein\",\"id\":\"3c06b2f2956d01930327f9400601d2bd\",\"count\":2},{\"descriptor\":\"Germany - Thüringen\",\"id\":\"f973cd07e566019e107553420601a9cd\",\"count\":1},{\"descriptor\":\"Greece - Athens\",\"id\":\"b914f96b1779102cc96c315a5a67ac7d\",\"count\":1},{\"descriptor\":\"Hangzhou Office\",\"id\":\"04a2f6e82c0201c5f698500bb5017d6b\",\"count\":2},{\"descriptor\":\"Hong Kong\",\"id\":\"b914f96b1779102cc96c222d8fb9ac69\",\"count\":4},{\"descriptor\":\"Hungary - Budapest\",\"id\":\"b914f96b1779102cc96c1b20f8b1ac5f\",\"count\":5},{\"descriptor\":\"India - Bangalore\",\"id\":\"2c1433a5f2960105bea682732237fbc7\",\"count\":19},{\"descriptor\":\"India - Chennai\",\"id\":\"f3d89509ad0b102de2bc63a063d5793f\",\"count\":16},{\"descriptor\":\"India - Tamil Nadu\",\"id\":\"b914f96b1779102cc97003ec79c2b016\",\"count\":1},{\"descriptor\":\"Indonesia - Bandung\",\"id\":",
+   "jsonLdJobPostings": 0,
+   "ms": 989
+  },
+  {
+   "name": "bestbuycanada",
+   "url": "https://bestbuycanada.wd3.myworkdayjobs.com/wday/cxs/bestbuycanada/BestBuyCA_Career/jobs",
+   "method": "POST",
+   "status": 200,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": "accept-encoding"
+   },
+   "contentType": "application/json",
+   "bytes": 21807,
+   "head": "{\"total\":140,\"jobPostings\":[{\"title\":\"Retail Associate (Full Time)\",\"externalPath\":\"/job/14405-Fort-McMurray/Retail-Associate--Full-Time-_R-54493\",\"locationsText\":\"14405 Fort McMurray\",\"postedOn\":\"Posted Today\",\"bulletFields\":[\"R-54493\"]}],\"facets\":[{\"facetParameter\":\"remoteType\",\"descriptor\":\"Remote Type\",\"values\":[{\"descriptor\":\"On-Site\",\"id\":\"6b28a51eac6210020b341b5595050000\",\"count\":6},{\"descriptor\":\"Remote\",\"id\":\"6b28a51eac6210020b341bf04e050001\",\"count\":3},{\"descriptor\":\"Remote First\",\"id\":\"6b28a51eac6210020b341bf04e050000\",\"count\":3}]},{\"facetParameter\":\"jobFamilyGroup\",\"descriptor\":\"Job Category\",\"values\":[{\"descriptor\":\"Retail\",\"id\":\"4acf03b2e8e3010f6c2451b60502b065\",\"count\":114},{\"descriptor\":\"Geek Squad\",\"id\":\"4bf93dcb2a88100091b30b1300f30000\",\"count\":14},{\"descriptor\":\"Supply Chain\",\"id\":\"38091d695c42100091b32dc1e43f0000\",\"count\":2},{\"descriptor\":\"Digital Platforms\",\"id\":\"38091d695c42100091b2d53603630000\",\"count\":2},{\"descriptor\":\"Geek Squad City\",\"id\":\"4bf93dcb2a88100091b39c9412b60000\",\"count\":2},{\"descriptor\":\"Best Buy Business\",\"id\":\"4bf93dcb2a88100091b3659ff5b30000\",\"count\":1},{\"descriptor\":\"Technology Operations\",\"id\":\"4bf93dcb2a88100091b354b7c4a70000\",\"count\":1},{\"descriptor\":\"Marketing\",\"id\":\"4bf93dcb2a88100091b31f9a97d10000\",\"count\":1},{\"descriptor\":\"Warehouse\",\"id\":\"38091d695c42100091b385ecc8600000\",\"count\":1},{\"descriptor\":\"Ecommerce\",\"id\":\"38091d695c42100091b2e2033a650000\",\"count\":1},{\"descriptor\":\"Customer Care\",\"id\":\"4bf93dcb2a88100091b2e3436d6f0000\",\"count\":1}]},{\"facetParameter\":\"workerSubType\",\"descriptor\":\"Job Type\",\"values\":[{\"descriptor\":\"Seasonal (Fixed Term) (Seasonal)\",\"id\":\"4acf03b2e8e301138b10348e04023726\",\"count\":101},{\"descriptor\":\"Regular\",\"id\":\"4acf03b2e8e301474000338e04023426\",\"count\":36},{\"descriptor\":\"Fixed Term (Fixed Term)\",\"id\":\"4acf03b2e8e301ebd9c5338e04023526\",\"count\":3}]},{\"facetParameter\":\"timeType\",\"descriptor\":\"Time Type\",\"values\":[{\"descriptor\":\"Part time\",\"id\":\"540b7b97140b01bb879ee98c7d1a8400\",\"count\":104},{\"descriptor\":\"Full time\",\"id\":\"540b7b97140b0137afb7e98c7d1a8500\",\"count\":36}]},{\"facetParameter\":\"jobFamily\",\"descriptor\":\"Job Family\",\"values\":[{\"descriptor\":\"Computing Solutions\",\"id\":\"9e31279624c010020b930bab53470000\",\"count\":38},{\"descriptor\":\"In-store Services\",\"id\":\"c3a985dfaa7601048121f24822016006\",\"count\":29},{\"descriptor\":\"Computing & Home\",\"id\":\"e99d961fa15110020b5ae6745c9e0000\",\"count\":12},{\"descriptor\":\"Computing & In-store Services\",\"id\":\"9e31279624c010020b930510fc780000\",\"count\":11},{\"descriptor\":\"Field Services (Retail)\",\"id\":\"4acf03b2e8e3017bfb59a3920402f02a\",\"count\":8},{\"descriptor\":\"Product Process\",\"id\":\"e99d961fa15110020b5b1b548d150000\",\"count\":5},{\"descriptor\":\"Solutions\",\"id\":\"9e31279624c010020b9344b7c6630000\",\"count\":5},{\"descriptor\":\"Appliances\",\"id\":\"9e31279624c010020b92f743d9180000\",\"count\":5},{\"descriptor\":\"Mobile SAS\",\"id\":\"4bf93dcb2a881000918abf4f442a0000\",\"count\":4},{\"descriptor\":\"Store Leader\",\"id\":\"9e31279624c010020b934a1ef0360000\",\"count\":3},{\"descriptor\":\"Platforms\",\"id\":\"4bf93dcb2a8810009187a8a3fb680000\",\"count\":2},{\"descriptor\":\"Operations\",\"id\":\"e99d961fa15110020b5b3790698a0000\",\"count\":2},{\"descriptor\":\"Mobile & Smart Living\",\"id\":\"e99d961fa15110020b5b09df40200000\",\"count\":2},{\"descriptor\":\"Sales\",\"id\":\"9e31279624c010020b93394d3e1c0000\",\"count\":2},{\"descriptor\":\"Refurbishment & Testing\",\"id\":\"38091d695c421000918c53ffe0e30000\",\"count\":2},{\"descriptor\":\"Lean Engineering\",\"id\":\"38091d695c421000918b07af33f90000\",\"count\":2},{\"descriptor\":\"Digital Merchandising\",\"id\":\"4bf93dcb2a881000918834f22ce70000\",\"count\":1},{\"descriptor\":\"Remote Support\",\"id\":\"4bf93dcb2a881000918715aba8940000\",\"count\":1},{\"descriptor\":\"Building Maintenance\",\"id\":\"4bf93dcb2a881000918692eebefe0000\",\"count\":1},{\"descriptor\":\"Omni-channel\",\"id\":\"e99d961fa15110020b5b15eda33b0000\",\"count\":1},{\"descriptor\":\"BBB Account Management\",\"id\":\"4bf93dcb2a881000918bd643e92b0000\",\"count\":1},{\"descriptor\":\"Technology Architecture\",\"id\":\"38091d695c421000918b4e98faeb0000\",\"count\":1},{\"descriptor\":\"Clearance Centre\",\"id\":\"4bf93dcb2a881000918ab7634c2f0000\",\"count\":1},{\"descriptor\":\"Digital Marketing\",\"id\":\"4bf93dcb2a8810009189c112d2f70000\",\"count\":1}]},{\"facetParameter\":\"locationMainGroup\",\"values\":[{\"facetParameter\":\"locationRegionStateProvince\",\"descriptor\":\"Province\",\"values\":[{\"descriptor\":\"Alberta\",\"id\":\"588eb24f950e4c5b93d5ad3f37aebad2\",\"count\":27},{\"descriptor\":\"British Columbia\",\"id\":\"cb76ca97a13347548a188f23caa96b17\",\"count\":27},{\"descriptor\":\"Manitoba\",\"id\":\"8a973097230449ff9c006a64a8957db0\",\"count\":2},{\"descriptor\":\"New Brunswick\",\"id\":\"76be59a0b2e14040a3a795ff615acbef\",\"count\":3},{\"descriptor\":\"Newfoundland and Labrador\",\"id\":\"bc68f86b471c4b29b2448a63b8f569c7\",\"count\":1},{\"descriptor\":\"Nova Scotia\",\"id\":\"7f87ec5a66494630b4ed3080db17b649\",\"count\":3},{\"descriptor\":\"Ontario\",\"id\":\"218a720b28a74c67b5c6d42c00bdadfa\",\"count\":44},{\"descriptor\":\"Prince Edward Island\",\"id\":\"c53f338692294b0a9d469ff6afb97177\",\"count\":1},{\"descriptor\":\"Quebec\",\"id\":\"ef8a53af14534128b795fd55d75ec08b\",\"count\":29},{\"descriptor\":\"Saskatchewan\",\"id\":\"00e298f324744884830f7eacb196677b\",\"count\":3}]},{\"facetParameter\":\"locationHierarchy2\",\"descriptor\":\"City\",\"values\":[{\"descriptor\":\"Ajax\",\"id\":\"4acf03b2e8e3015760bff25205022edd\",\"count\":1},{\"descriptor\":\"Ancaster\",\"id\":\"4acf03b2e8e301d165f5595305025de0\",\"count\":1},{\"descriptor\":\"Anjou\",\"id\":\"4acf03b2e8e301e6bc033c53050264df\",\"count\":1},{\"descriptor\":\"Aurora\",\"id\":\"4acf03b2e8e301aac2c7f152050220dd\",\"count\":2},{\"descriptor\":\"Barrie\",\"id\":\"4acf03b2e8e30129c2fe73530502d5e0\",\"count\":1},{\"descriptor\":\"Belleville\",\"id\":\"4acf03b2e8e3012a2b783d5305027adf\",\"count\":1},{\"descriptor\":\"Brampton\",\"id\":\"4acf03b2e8e30197a75a36530502fede\",\"count\":5},{\"descriptor\":\"Brandon\",\"id\":\"4acf03b2e8e301e7a78776530502e4e0\",\"count\":1},{\"descriptor\":\"Brantford\",\"id\":\"4acf03b2e8e301a5d52634530502ebde\",\"count\":1},{\"descriptor\":\"Brossard\",\"id\":\"4acf03b2e8e3010f9ba3f752050269dd\",\"count\":3},{\"descriptor\":\"Burnaby\",\"id\":\"4acf03b2e8e3019d64eef85205026fdd\",\"count\"",
+   "jsonLdJobPostings": 0,
+   "ms": 1095
+  },
+  {
+   "name": "cisco",
+   "url": "https://cisco.wd5.myworkdayjobs.com/wday/cxs/cisco/cisco_careers/jobs",
+   "method": "POST",
+   "status": 200,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": "accept-encoding"
+   },
+   "contentType": "application/json",
+   "bytes": 30490,
+   "head": "{\"total\":1513,\"jobPostings\":[{\"title\":\"Lead Backend Engineer, Studio (Hybrid)\",\"externalPath\":\"/job/Milpitas-California-US/Lead-Backend-Engineer---Studio--Hybrid-_2029193-1\",\"timeType\":\"Full time\",\"locationsText\":\"Milpitas, California, US\",\"postedOn\":\"Posted Today\",\"bulletFields\":[\"2029193\"]}],\"facets\":[{\"facetParameter\":\"jobFamilyGroup\",\"descriptor\":\"Job Category\",\"values\":[{\"descriptor\":\"Apprentice & Intern\",\"id\":\"2101eee3ea96010675b0a474fc015c29\",\"count\":51},{\"descriptor\":\"Business Development & Strategy\",\"id\":\"2101eee3ea9601e3ad35a574fc015e29\",\"count\":27},{\"descriptor\":\"Business Operations\",\"id\":\"2101eee3ea96012a428aa574fc016029\",\"count\":29},{\"descriptor\":\"Contingent Worker\",\"id\":\"2101eee3ea960130885da474fc015a29\",\"count\":1},{\"descriptor\":\"Customer Experience\",\"id\":\"2101eee3ea9601cf53eba574fc016229\",\"count\":137},{\"descriptor\":\"Engineering\",\"id\":\"2101eee3ea96016aef42a674fc016429\",\"count\":759},{\"descriptor\":\"Finance\",\"id\":\"2101eee3ea96012dfbbfa974fc017429\",\"count\":12},{\"descriptor\":\"Information Technology\",\"id\":\"2101eee3ea96017b1ceba674fc016829\",\"count\":28},{\"descriptor\":\"Legal\",\"id\":\"2101eee3ea96016e497ca774fc016a29\",\"count\":10},{\"descriptor\":\"Marketing & Communications\",\"id\":\"2101eee3ea9601aa1ed8a774fc016c29\",\"count\":19},{\"descriptor\":\"Other\",\"id\":\"2101eee3ea9601a9830ba374fc015829\",\"count\":2},{\"descriptor\":\"People & Communities\",\"id\":\"2101eee3ea960104d768a874fc016e29\",\"count\":8},{\"descriptor\":\"Sales\",\"id\":\"2101eee3ea96017da0c8a874fc017029\",\"count\":340},{\"descriptor\":\"Supply Chain\",\"id\":\"2101eee3ea9601642a5fa974fc017229\",\"count\":89}]},{\"facetParameter\":\"workerSubType\",\"descriptor\":\"Job Type\",\"values\":[{\"descriptor\":\"Fixed Term (Fixed Term)\",\"id\":\"a5e1942e7b2c0174bbde2f106001b600\",\"count\":20},{\"descriptor\":\"Intern (Fixed Term) (Seasonal) (Trainee)\",\"id\":\"a5e1942e7b2c01c6907030106001b700\",\"count\":52},{\"descriptor\":\"Regular\",\"id\":\"a5e1942e7b2c01f937db30106001b800\",\"count\":1440}]},{\"facetParameter\":\"timeType\",\"descriptor\":\"Full/Part-time\",\"values\":[{\"descriptor\":\"Full time\",\"id\":\"672880041e5001a878ea77353f075800\",\"count\":1509},{\"descriptor\":\"Part time\",\"id\":\"672880041e5001e929c977353f075700\",\"count\":3}]},{\"facetParameter\":\"locationMainGroup\",\"values\":[{\"facetParameter\":\"locations\",\"descriptor\":\"Locations\",\"values\":[{\"descriptor\":\"Acton, Massachusetts, US\",\"id\":\"026fa05becb01001f51296c6934d0000\",\"count\":2},{\"descriptor\":\"Ahmedabad, India\",\"id\":\"0696c83bbe641001f4f0800dae0d0000\",\"count\":2},{\"descriptor\":\"Alajuela, Costa Rica\",\"id\":\"026fa05becb01001f50a320e41360000\",\"count\":1},{\"descriptor\":\"Allen, Texas, US\",\"id\":\"1cf8ea09530d1001f4d02c51bde80000\",\"count\":2},{\"descriptor\":\"Allentown, Pennsylvania, US\",\"id\":\"711bab74a75d1001f4fe4e51c0c10000\",\"count\":15},{\"descriptor\":\"Alpharetta, Georgia, US\",\"id\":\"3dbd26f9e73e1001f4ded910c5cd0000\",\"count\":3},{\"descriptor\":\"Amsterdam, Netherlands\",\"id\":\"1cf8ea09530d1001f4c67303db070000\",\"count\":20},{\"descriptor\":\"Annapolis Junction, Maryland, US\",\"id\":\"3e81422748f91001f5095990dee70000\",\"count\":8},{\"descriptor\":\"Ann Arbor, Michigan, US\",\"id\":\"4f0d32a779431001f4ec4d8058690000\",\"count\":10},{\"descriptor\":\"Appleton, Wisconsin, US\",\"id\":\"711bab74a75d1001f4fdd2e809c00000\",\"count\":2},{\"descriptor\":\"Arlington, Virginia, US\",\"id\":\"ce4f9994607f1001f8c36c04f46a0000\",\"count\":4},{\"descriptor\":\"Armenia\",\"id\":\"0696c83bbe641001f4fbedc90abe0000\",\"count\":14},{\"descriptor\":\"Ashburn, Virginia, US\",\"id\":\"4f0d32a779431001f4f8f4db526d0000\",\"count\":3},{\"descriptor\":\"Athens, Greece\",\"id\":\"8676de3331b41001f4fa41db84510000\",\"count\":4},{\"descriptor\":\"Atlanta, Georgia, US\",\"id\":\"1cf8ea09530d1001f4c74d49078d0000\",\"count\":48},{\"descriptor\":\"Augusta, Maine, US\",\"id\":\"711bab74a75d1001f4fed4ec84320000\",\"count\":1},{\"descriptor\":\"Austin, Texas, US\",\"id\":\"662e524adea41001f4d0d43d20c30000\",\"count\":67},{\"descriptor\":\"Bangalore, India\",\"id\":\"662e524adea41001f4d0bd5a1ddd0000\",\"count\":288},{\"descriptor\":\"Bangkok, Thailand\",\"id\":\"662e524adea41001f4e1ed9bb67b0000\",\"count\":15},{\"descriptor\":\"Barcelona, Spain\",\"id\":\"026fa05becb01001f505ec7f24f70000\",\"count\":3},{\"descriptor\":\"Baton Rouge, Louisiana, US\",\"id\":\"026fa05becb01001f514b91a5fbc0000\",\"count\":2},{\"descriptor\":\"Bayan Lepas, Malaysia\",\"id\":\"3e81422748f91001f5074c161fe10000\",\"count\":4},{\"descriptor\":\"Bedford, Massachusetts, US\",\"id\":\"4f0d32a779431001f4f5ec35fd560000\",\"count\":1},{\"descriptor\":\"Beijing, China\",\"id\":\"3e81422748f91001f501b5ed65620000\",\"count\":3},{\"descriptor\":\"Belgrade, Serbia\",\"id\":\"ef8a5a22403d1001f50bf01b31c40000\",\"count\":6},{\"descriptor\":\"Bellevue, Washington, US\",\"id\":\"2ad3a2cf32881001f4e1001e9d490000\",\"count\":5},{\"descriptor\":\"Bentonville, Arkansas, US\",\"id\":\"3e81422748f91001f50292899d640000\",\"count\":1},{\"descriptor\":\"Berlin, Germany\",\"id\":\"202bf7dfec311001f4db424f3fb30000\",\"count\":11},{\"descriptor\":\"Bern, Switzerland\",\"id\":\"6bed8334bf4b1001f4eefcdc95570000\",\"count\":1},{\"descriptor\":\"Birmingham, Alabama, US\",\"id\":\"4f0d32a779431001f4f2c426ad7d0000\",\"count\":3},{\"descriptor\":\"Birmingham, England\",\"id\":\"d2e94b0889ed1001b3023de8467e0000\",\"count\":4},{\"descriptor\":\"Bismarck, North Dakota, US\",\"id\":\"3e81422748f91001f504b42a48960000\",\"count\":1},{\"descriptor\":\"Boca Raton, Florida, US\",\"id\":\"ef8a5a22403d1001f508bba986630000\",\"count\":3},{\"descriptor\":\"Bogota, Colombia\",\"id\":\"3419053a4e7d1001f4ece10e48410000\",\"count\":2},{\"descriptor\":\"Boise, Idaho, US\",\"id\":\"202bf7dfec311001f4d0e629e0be0000\",\"count\":5},{\"descriptor\":\"Bonn, Germany\",\"id\":\"026fa05becb01001f515bb1adb070000\",\"count\":2},{\"descriptor\":\"Boston, Massachusetts, US\",\"id\":\"0696c83bbe641001f4f3ae0809c20000\",\"count\":9},{\"descriptor\":\"Boulder, Colorado, US\",\"id\":\"0d39a3a581dc1001f8ad3b56bb380000\",\"count\":16},{\"descriptor\":\"Boxborough, Massachusetts, US\",\"id\":\"3419053a4e7d1001f4f66b18b30d0000\",\"count\":10},{\"descriptor\":\"BRA-BRASILIA\",\"id\":\"2101eee3ea96018ec5fb943303024034\",\"count\":1},{\"descriptor\":\"Bracknell, United Kingdom\",\"id\":\"662e524adea41001f4cf09b6e8970000\",\"count\":1},{\"descriptor\":\"Bratislava, Slovakia\",\"id\":\"0696c83bbe641001f4ffa36e9b170000\",\"count\":7},{\"descriptor\":\"Bristol, United Kingdom\",\"id\":\"1cf8ea09530d1001f4d6fd97cb6d0000\",\"count\":1},{\"descriptor\":\"Brooklyn, New York, US\",\"id\":\"1cf8ea09530d1001f4d2c4945fbe0000\",\"count\":1},{\"descriptor\":\"Brook Park, Ohio, US\",\"id\":\"3e81422748f91001f505edeb25e70000\",\"count\":2},{\"descriptor\":\"Brussels, Belgium\",\"id\":\"6bed8334bf4b1001f4f5595fe4c60000\",\"count\":8},{\"descriptor\":\"Bucharest, Romania\",\"id\":\"4f0d32a779431001f4fab86cbfe10000\",\"count\":6},{\"descriptor\":\"Budapest, Hungary\",\"id\":\"4f0d32a779431001f4f9dfe9781f0000\",\"count\":14},{\"descriptor\":\"Caesarea, Israel\",\"id\":\"3419053a4e7d1001f4eede2208d40000\",\"count\":24},{\"descriptor\":\"Cairo Al Qahirah, Egypt\",\"id\":\"1cf8ea09530d1001f4cd995802b80000\",\"count\":1},{\"descriptor\":\"Calgary, Alberta, Canada\",\"id\":\"711bab74a75d1001f500b3d7e5700000\",\"count\":8},{\"descriptor\":\"Cambridge, Massachusetts, US\",\"id\":\"662e524adea41001f4dd08e3d18d0000\",\"count\":1},{\"descriptor\":\"Canberra, Australia\",\"id\":\"1cf8ea09530d1001f4ce888d41680000\",\"count\":5},{\"descriptor\":\"Carlsbad, California, US\",\"id\":\"202bf7dfec311001f4d0dc8cb51c0000\",\"count\":20},{\"descriptor\":\"Carrollton, Texas, US\",\"id\":\"8676de3331b41001f4f8ad4028de0000\",\"count\":1},{\"descriptor\":\"Cary, North Carolina, US\",\"id\":\"026fa05becb01001f5146f132aae0000\",\"count\":6},{\"descriptor\":\"Centennial, Colorado, US\",\"id\":\"6bed8334bf4b1001f4f6f55f6bb10000\",\"count\":2},{\"descriptor\":\"Chandlers Ford, United Kingdom\",\"id\":\"3419053a4e7d1001f4eba0e97e5c0000\",\"count\":1},{\"descriptor\":\"Charleston, West Virginia, US\",\"id\":\"1cf8ea09530d1001f4cd001d170e0000\",\"count\":6},{\"descriptor\":\"Chennai, India\",\"id\":\"3dbd26f9e73e1001f4d59df763f20000\",\"count\":7},{\"descriptor\":\"Chester, United Kingdom\",\"id\":\"5475bb0bd5531001f7cca19a9c280000\",\"count\":1},{\"descriptor\":\"Chicago, Illinois, US\",\"id\":\"8676de3331b41001f4f1f2fd68500000\",\"count\":41},{\"descriptor\":\"Chonburi, Thailand\",\"id\":\"662e524adea41001f4e22e7d0e7a0000\",\"count\":4},{\"descriptor\":\"Clayton, Missouri, US\",\"id\":\"3dbd26f9e73e1001f4dcfbb2091a0000\",\"count\":2},{\"descriptor\":\"Cologne, Germany\",\"id\":\"026fa05becb01001f51727627b1b0000\",\"count\":1},{\"descriptor\":\"Colorado Springs, Colorado, US\",\"id\":\"2ad3a2cf32881001f4e62f377e620000\",\"count\":4},{\"descriptor\":\"Copenhagen, Denmark\",\"id\":\"8676de3331b41001f4ea5fef5dcf0000\",\"count\":12},{\"descriptor\":\"Crawley, United Kingdom\",\"id\":\"1cf8ea09530d1001f4d6174c39d70000\",\"count\":1},{\"descriptor\":\"Dallas, Texas, US\",\"id\":\"ef8a5a22403d1001f50ad842ae690000\",\"count\":20},{\"descriptor\":\"Denver, Colorado, US\",\"id\":\"3e81422748f91001f5024e0d80fe0000\",\"count\":18},{\"descriptor\":\"Dhahran, Saudi Arabia\",\"id\":\"6bed8334bf4b1001f4edd858dc890000\",\"count\":1},{\"descriptor\":\"Diegem, Belgium\",\"id\":\"8676de3331b41001f4e9efdf6a870000\",\"count\":6},{\"descriptor\":\"Doha, Qatar\",\"id\":\"2ad3a2cf32881001f4e70448ca8a0000\",\"count\":1},{\"descriptor\":\"Dover, Delaware, US\",\"id\":\"1cf8ea09530d1001f4d34fd799470000\",\"count\":4},{\"descriptor\":\"Dubai, United Arab Emirates\",\"id\":\"662e524adea41001f4df6e32bf480000\",\"count\":6},{\"descriptor\":\"Dublin, Ireland\",\"id\":\"026fa05becb01001f5178c643d810000\",\"count\":8},{\"d",
+   "jsonLdJobPostings": 0,
+   "ms": 442
+  },
+  {
+   "name": "cwb wd3 external",
+   "url": "https://cwb.wd3.myworkdayjobs.com/wday/cxs/cwb/external/jobs",
+   "method": "POST",
+   "status": 422,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": "Accept-Encoding"
+   },
+   "contentType": "application/json;charset=ISO-8859-1",
+   "bytes": 149,
+   "head": "{\"errorCode\":\"HTTP_422\",\"errorCaseId\":\"73376DMVPZ2YUW\",\"httpStatus\":422,\"locale\":\"en-CA,en;q\\u003d0.8,fr;q\\u003d0.6\",\"message\":\"\",\"messageParams\":{}}",
+   "jsonLdJobPostings": 0,
+   "ms": 649
+  },
+  {
+   "name": "cwb wd3 External",
+   "url": "https://cwb.wd3.myworkdayjobs.com/wday/cxs/cwb/External/jobs",
+   "method": "POST",
+   "status": 422,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": "Accept-Encoding"
+   },
+   "contentType": "application/json;charset=ISO-8859-1",
+   "bytes": 149,
+   "head": "{\"errorCode\":\"HTTP_422\",\"errorCaseId\":\"B90414MVPZ2YPA\",\"httpStatus\":422,\"locale\":\"en-CA,en;q\\u003d0.8,fr;q\\u003d0.6\",\"message\":\"\",\"messageParams\":{}}",
+   "jsonLdJobPostings": 0,
+   "ms": 730
+  },
+  {
+   "name": "intel",
+   "url": "https://intel.wd1.myworkdayjobs.com/wday/cxs/intel/External/jobs",
+   "method": "POST",
+   "status": 200,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": "accept-encoding"
+   },
+   "contentType": "application/json",
+   "bytes": 6479,
+   "head": "{\"total\":791,\"jobPostings\":[{\"title\":\"Senior Analog and Mixed Signal Design Engineer\",\"externalPath\":\"/job/US-Oregon-Hillsboro/Senior-Analog-and-Mixed-Signal-Design-Engineer_JR0288356\",\"locationsText\":\"2 Locations\",\"postedOn\":\"Posted Today\",\"bulletFields\":[\"Spotlight Job\",\"JR0288356\"]}],\"facets\":[{\"facetParameter\":\"jobFamilyGroup\",\"descriptor\":\"Job Category\",\"values\":[{\"descriptor\":\"Silicon Hardware Engineering\",\"id\":\"c37a9eaa90371000c6fd2261025d0000\",\"count\":193},{\"descriptor\":\"Manufacturing and Process Development\",\"id\":\"dc8bf79476611087d67b5159c64a703c\",\"count\":157},{\"descriptor\":\"Intern\",\"id\":\"dc8bf79476611087d67b36517cf17036\",\"count\":105},{\"descriptor\":\"Software Engineering\",\"id\":\"ace7a3d23b7e01a0544279031a0ec85c\",\"count\":101},{\"descriptor\":\"Contract Employee\",\"id\":\"dc8bf79476611087d67bc98084127048\",\"count\":83},{\"descriptor\":\"Platform Hardware and Systems Engineering\",\"id\":\"c37a9eaa90371000c6fd29069de10000\",\"count\":54},{\"descriptor\":\"Construction and Corporate Services\",\"id\":\"259d777b50b21000c6fcae2828b50000\",\"count\":22},{\"descriptor\":\"Supply Chain\",\"id\":\"c37a9eaa90371000c6fd6537fef70000\",\"count\":18},{\"descriptor\":\"Business Strategy and Enablement\",\"id\":\"6fbee4bf2e511000c6fd6a78c26e0000\",\"count\":12},{\"descriptor\":\"Sales\",\"id\":\"dc8bf79476611087d67bb92d84227044\",\"count\":9},{\"descriptor\":\"Information Technology\",\"id\":\"dc8bf79476611087d67b2cccdde47034\",\"count\":7},{\"descriptor\":\"Project and Program Management\",\"id\":\"f31a130ea31c1000c6fd81ebbafd0000\",\"count\":7},{\"descriptor\":\"Marketing\",\"id\":\"dc8bf79476611087d67b67d653eb703e\",\"count\":7},{\"descriptor\":\"Finance\",\"id\":\"dc8bf79476611087d67aed516c5e702c\",\"count\":6},{\"descriptor\":\"Data, UX, and Ecosystem Sciences\",\"id\":\"a55ea4dd831d1000c6fce5a0c4d30000\",\"count\":6},{\"descriptor\":\"Communication\",\"id\":\"49b69133c4381000c6fceabf354a0000\",\"count\":2},{\"descriptor\":\"Human Resources\",\"id\":\"dc8bf79476611087d67b1a254db17032\",\"count\":1},{\"descriptor\":\"Legal, Trade and Government Affairs\",\"id\":\"dc8bf79476611087d67b456992ce703a\",\"count\":1}]},{\"facetParameter\":\"workerSubType\",\"descriptor\":\"Job Type\",\"values\":[{\"descriptor\":\"Regular\",\"id\":\"dc8bf79476611087dfde9c6b065bae76\",\"count\":603},{\"descriptor\":\"Student / Intern (Fixed Term)\",\"id\":\"dc8bf79476611087dfde99931439ae75\",\"count\":105},{\"descriptor\":\"Intel Contract Employee (Fixed Term)\",\"id\":\"dc8bf79476611087dfde8d38b882ae74\",\"count\":83}]},{\"facetParameter\":\"timeType\",\"descriptor\":\"Time Type\",\"values\":[{\"descriptor\":\"Full time\",\"id\":\"dc193d6170de10860883d9bf7c0e01a9\",\"count\":757},{\"descriptor\":\"Part time\",\"id\":\"dc193d6170de10860883d9a5954a01a8\",\"count\":34}]},{\"facetParameter\":\"locationMainGroup\",\"values\":[{\"facetParameter\":\"locations\",\"descriptor\":\"Locations\",\"values\":[{\"descriptor\":\"Canada, Toronto\",\"id\":\"1e4a4eb3adf1019f4237e975bf81b3ce\",\"count\":12},{\"descriptor\":\"Costa Rica, San Jose\",\"id\":\"1e4a4eb3adf101888ff41a77bf81a2cf\",\"count\":5},{\"descriptor\":\"Germany, Munich\",\"id\":\"1e4a4eb3adf101311d06d076bf815ccf\",\"count\":6},{\"descriptor\":\"India, Bangalore\",\"id\":\"1e4a4eb3adf101f44070f976bf8184cf\",\"count\":91},{\"descriptor\":\"Ireland, Leixlip\",\"id\":\"1e4a4eb3adf101424c5a8574bf8175cd\",\"count\":17},{\"descriptor\":\"Israel, Haifa\",\"id\":\"1e4a4eb3adf1013563ba9174bf817fcd\",\"count\":15},{\"descriptor\":\"Israel, Jerusalem\",\"id\":\"1e4a4eb3adf101f41cd29774bf8184cd\",\"count\":3},{\"descriptor\":\"Israel, Kiryat-Gat\",\"id\":\"1e4a4eb3adf101cb242c9e74bf8189cd\",\"count\":3},{\"descriptor\":\"Israel, Petah-Tikva\",\"id\":\"1e4a4eb3adf101aaeda8a474bf818ecd\",\"count\":7},{\"descriptor\":\"Japan, Tokyo\",\"id\":\"1e4a4eb3adf1017e01a9cd74bf81b1cd\",\"count\":8},{\"descriptor\":\"Malaysia, Kulim\",\"id\":\"1e4a4eb3adf101740c9ff674bf81d4cd\",\"count\":40},{\"descriptor\":\"Malaysia, Penang\",\"id\":\"1e4a4eb3adf1016620eafb74bf81d9cd\",\"count\":103},{\"descriptor\":\"Mexico, Guadalajara\",\"id\":\"1e4a4eb3adf101717b7c0175bf81decd\",\"count\":5},{\"descriptor\":\"Poland, Gdansk\",\"id\":\"1e4a4eb3adf10124b3604375bf811ace\",\"count\":23},{\"descriptor\":\"PRC, Beijing\",\"id\":\"1e4a4eb3adf101274b92fb75bf81c2ce\",\"count\":7},{\"descriptor\":\"PRC, Chengdu\",\"id\":\"1e4a4eb3adf101b8e4180176bf81c7ce\",\"count\":8},{\"descriptor\":\"PRC, Shanghai\",\"id\":\"1e4a4eb3adf1017ae1675974bf8152cd\",\"count\":24},{\"descriptor\":\"PRC, Shenzhen\",\"id\":\"1e4a4eb3adf1018866765f74bf8157cd\",\"count\":3},{\"descriptor\":\"Saudi Arabia, Riyadh\",\"id\":\"1e4a4eb3adf10120e2f47075bf8142ce\",\"count\":1},{\"descriptor\":\"South Korea, Seoul\",\"id\":\"1e4a4eb3adf1016cebea8c75bf815bce\",\"count\":4},{\"descriptor\":\"Taiwan, Hsinchu\",\"id\":\"1e4a4eb3adf101e2d0f3b175bf817ece\",\"count\":5},{\"descriptor\":\"Taiwan, Taipei\",\"id\":\"1e4a4eb3adf101a35ab0bc75bf8188ce\",\"count\":12},{\"descriptor\":\"US, Arizona, Phoenix\",\"id\":\"1e4a4eb3adf101b8aec18a77bf810dd0\",\"count\":189},{\"descriptor\":\"US, California, Folsom\",\"id\":\"1e4a4eb3adf1018c4bf78f77bf8112d0\",\"count\":86},{\"descriptor\":\"US, California, San Diego\",\"id\":\"1e4a4eb3adf1013ddb7bd877bf8153d0\",\"count\":2},{\"descriptor\":\"US, California, Santa Clara\",\"id\":\"1e4a4eb3adf10118b1dfe877bf8162d0\",\"count\":130},{\"descriptor\":\"US, Colorado, Fort Collins\",\"id\":\"1e4a4eb3adf101989587fd77bf8176d0\",\"count\":6},{\"descriptor\":\"US, Florida, Multiple Cities\",\"id\":\"1e4a4eb3adf10194b7227578bf81e9d0\",\"count\":1},{\"descriptor\":\"US, Massachusetts, Beaver Brook\",\"id\":\"da6b8032b879100204a63a809f6c0000\",\"count\":9},{\"descriptor\":\"US, New Mexico, Albuquerque\",\"id\":\"1e4a4eb3adf10146fd5c5276bf81eece\",\"count\":31},{\"descriptor\":\"US, New York, New York\",\"id\":\"1e4a4eb3adf1017f0a3f5776bf81f3ce\",\"count\":2},{\"descriptor\":\"US, Ohio, New Albany\",\"id\":\"9225dd5a24931001586f2d984f1e0000\",\"count\":2},{\"descriptor\":\"US, Oregon, Hillsboro\",\"id\":\"1e4a4eb3adf1011246675c76bf81f8ce\",\"count\":251},{\"descriptor\":\"US, Oregon, Portland\",\"id\":\"0741efd9f02e01994a3c9ca2ae078199\",\"count\":1},{\"descriptor\":\"US, Pennsylvania, Allentown\",\"id\":\"1e4a4eb3adf1019877cb6176bf81fdce\",\"count\":2},{\"descriptor\":\"US, Texas, Austin\",\"id\":\"1e4a4eb3adf1016541777876bf8111cf\",\"count\":61},{\"descriptor\":\"US, Washington, D.C.\",\"id\":\"1e4a4eb3adf10174f0548376bf811bcf\",\"count\":1},{\"descriptor\":\"US, Washington, Multiple Cities\",\"id\":\"1e4a4eb3adf101770f350977bf8193cf\",\"count\":1},{\"descriptor\":\"Vietnam, Ho_Chi_Minh_City\",\"id\":\"1e4a4eb3adf101bf12a99b76bf812fcf\",\"count\":10},{\"descriptor\":\"Virtual India\",\"id\":\"fabab36f05f51000ba74e9448dc20000\",\"count\":2},{\"descriptor\":\"Virtual Malaysia\",\"id\":\"c559ea5919e51000c00ad27932d70000\",\"count\":1},{\"descriptor\":\"Virtual South Korea\",\"id\":\"04a88582f0711000bf71a4efcc680000\",\"count\":1},{\"descriptor\":\"Virtual US\",\"id\":\"1e4a4eb3adf101cc4e292078bf8199d0\",\"count\":1}]}]}],\"userAuthenticated\":false}",
+   "jsonLdJobPostings": 0,
+   "ms": 1111
+  },
+  {
+   "name": "jobbank robots",
+   "url": "https://www.jobbank.gc.ca/robots.txt",
+   "method": "GET",
+   "status": 200,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": null
+   },
+   "contentType": "text/plain",
+   "bytes": 29,
+   "head": "User-agent: * Crawl-delay: 5 ",
+   "jsonLdJobPostings": 0,
+   "ms": 386
+  },
+  {
+   "name": "loblaw careers cashier",
+   "url": "https://myview.wd3.myworkdayjobs.com/wday/cxs/myview/loblaw_careers/jobs",
+   "method": "POST",
+   "status": 200,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": "accept-encoding"
+   },
+   "contentType": "application/json",
+   "bytes": 535,
+   "head": "{\"total\":0,\"jobPostings\":[],\"facets\":[{\"facetParameter\":\"distance\",\"descriptor\":\"Distance\",\"values\":[{\"descriptor\":\"10 kilometers\",\"id\":\"57678abbc1e2100019bca70bd2430066\",\"count\":1},{\"descriptor\":\"25 kilometers\",\"id\":\"57678abbc1e2100019bca714e67b0067\",\"count\":1},{\"descriptor\":\"50 kilometers\",\"id\":\"57678abbc1e2100019bca71d913b0068\",\"count\":1},{\"descriptor\":\"100 kilometers\",\"id\":\"57678abbc1e2100019bca727553b0069\",\"count\":1},{\"descriptor\":\"Any Distance\",\"id\":\"57678abbc1e2100019bca72faa0b006a\",\"count\":1}]}],\"userAuthenticated\":false}",
+   "jsonLdJobPostings": 0,
+   "ms": 1347
+  },
+  {
+   "name": "loblaw lcl_private",
+   "url": "https://myview.wd3.myworkdayjobs.com/wday/cxs/myview/lcl_private/jobs",
+   "method": "POST",
+   "status": 403,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": "Accept-Encoding"
+   },
+   "contentType": "application/json;charset=ISO-8859-1",
+   "bytes": 161,
+   "head": "{\"errorCode\":\"S22\",\"errorCaseId\":\"ACB3BAMVPZ2YLP\",\"httpStatus\":403,\"locale\":\"en-CA,en;q\\u003d0.8,fr;q\\u003d0.6\",\"message\":\"permission denied\",\"messageParams\":{}}",
+   "jsonLdJobPostings": 0,
+   "ms": 644
+  },
+  {
+   "name": "sdm",
+   "url": "https://myview.wd3.myworkdayjobs.com/wday/cxs/myview/sdm_careers/jobs",
+   "method": "POST",
+   "status": 200,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": "accept-encoding"
+   },
+   "contentType": "application/json",
+   "bytes": 535,
+   "head": "{\"total\":0,\"jobPostings\":[],\"facets\":[{\"facetParameter\":\"distance\",\"descriptor\":\"Distance\",\"values\":[{\"descriptor\":\"10 kilometers\",\"id\":\"57678abbc1e2100019bca70bd2430066\",\"count\":1},{\"descriptor\":\"25 kilometers\",\"id\":\"57678abbc1e2100019bca714e67b0067\",\"count\":1},{\"descriptor\":\"50 kilometers\",\"id\":\"57678abbc1e2100019bca71d913b0068\",\"count\":1},{\"descriptor\":\"100 kilometers\",\"id\":\"57678abbc1e2100019bca727553b0069\",\"count\":1},{\"descriptor\":\"Any Distance\",\"id\":\"57678abbc1e2100019bca72faa0b006a\",\"count\":1}]}],\"userAuthenticated\":false}",
+   "jsonLdJobPostings": 0,
+   "ms": 1518
+  },
+  {
+   "name": "telus intl",
+   "url": "https://telusinternational.wd3.myworkdayjobs.com/wday/cxs/telusinternational/External/jobs",
+   "method": "POST",
+   "status": 403,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": "Accept-Encoding"
+   },
+   "contentType": "application/json;charset=ISO-8859-1",
+   "bytes": 161,
+   "head": "{\"errorCode\":\"S22\",\"errorCaseId\":\"6379FAMVPZ2Z2P\",\"httpStatus\":403,\"locale\":\"en-CA,en;q\\u003d0.8,fr;q\\u003d0.6\",\"message\":\"permission denied\",\"messageParams\":{}}",
+   "jsonLdJobPostings": 0,
+   "ms": 780
+  },
+  {
+   "name": "telus intl wd3 jobs",
+   "url": "https://telusinternational.wd3.myworkdayjobs.com/wday/cxs/telusinternational/External_Careers/jobs",
+   "method": "POST",
+   "status": 403,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": "Accept-Encoding"
+   },
+   "contentType": "application/json;charset=ISO-8859-1",
+   "bytes": 161,
+   "head": "{\"errorCode\":\"S22\",\"errorCaseId\":\"AEBBB9MVPZ2Z78\",\"httpStatus\":403,\"locale\":\"en-CA,en;q\\u003d0.8,fr;q\\u003d0.6\",\"message\":\"permission denied\",\"messageParams\":{}}",
+   "jsonLdJobPostings": 0,
+   "ms": 823
+  },
+  {
+   "name": "uottawa",
+   "url": "https://uottawa.wd3.myworkdayjobs.com/wday/cxs/uottawa/uOttawa_External_Career_Site/jobs",
+   "method": "POST",
+   "status": 200,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": "accept-encoding"
+   },
+   "contentType": "application/json",
+   "bytes": 13511,
+   "head": "{\"total\":944,\"jobPostings\":[{\"title\":\"SCFP-CUPE - Winter 2027 - TA - CRM4302 D00\",\"externalPath\":\"/job/Ottawa-ON/SCFP-CUPE---Winter-2027---TA---CRM4302-D00_JR40687-1\",\"locationsText\":\"Main Campus\",\"postedOn\":\"Posted Today\",\"bulletFields\":[\"JR40687\"]}],\"facets\":[{\"facetParameter\":\"timeType\",\"descriptor\":\"Time Type\",\"values\":[{\"descriptor\":\"Part time\",\"id\":\"f04d695cd5b5100d441fbc7e42610004\",\"count\":868},{\"descriptor\":\"Full time\",\"id\":\"f04d695cd5b5100d441fbd189da50000\",\"count\":76}]},{\"facetParameter\":\"workerSubType\",\"descriptor\":\"Job Type\",\"values\":[{\"descriptor\":\"Student (Fixed Term)\",\"id\":\"f04d695cd5b5100e684a3c2624110001\",\"count\":598},{\"descriptor\":\"Academic Term (Fixed Term)\",\"id\":\"f04d695cd5b5100e684a3b8c46700000\",\"count\":274},{\"descriptor\":\"Academic Regular\",\"id\":\"f04d695cd5b5100e684a3af2049c0000\",\"count\":43},{\"descriptor\":\"Admin Regular\",\"id\":\"f04d695cd5b5100e684a3b8c46700001\",\"count\":15},{\"descriptor\":\"Admin Term (Fixed Term)\",\"id\":\"f04d695cd5b5100e684a3b8c46700004\",\"count\":14}]},{\"facetParameter\":\"jobFamilyGroup\",\"descriptor\":\"Job Category\",\"values\":[{\"descriptor\":\"Student Jobs\",\"id\":\"f04d695cd5b5100e92c05a3151910000\",\"count\":614},{\"descriptor\":\"Academic Delivery\",\"id\":\"f04d695cd5b5100e92c05090a8240000\",\"count\":303},{\"descriptor\":\"Academic Services\",\"id\":\"f04d695cd5b5100e92c0512a997a0000\",\"count\":11},{\"descriptor\":\"Information Technology\",\"id\":\"f04d695cd5b5100e92c057c954510000\",\"count\":3},{\"descriptor\":\"Communications and Marketing\",\"id\":\"f04d695cd5b5100e92c05392f45f0000\",\"count\":3},{\"descriptor\":\"Finance\",\"id\":\"f04d695cd5b5100e92c05560cadd0001\",\"count\":2},{\"descriptor\":\"Business Support\",\"id\":\"f04d695cd5b5100e92c052f8e53e0000\",\"count\":2},{\"descriptor\":\"Business Development and Advancement\",\"id\":\"f04d695cd5b5100e92c051c464310001\",\"count\":2},{\"descriptor\":\"University Leadership\",\"id\":\"f04d695cd5b5100e92c05b657cdf0000\",\"count\":1},{\"descriptor\":\"Student Support\",\"id\":\"f04d695cd5b5100e92c05acb631d0000\",\"count\":1},{\"descriptor\":\"Project and Program Management\",\"id\":\"f04d695cd5b5100e92c05863a2150000\",\"count\":1},{\"descriptor\":\"Governance and Risk\",\"id\":\"f04d695cd5b5100e92c05695822d0000\",\"count\":1}]},{\"facetParameter\":\"Union\",\"descriptor\":\"Faculty/Sevice\",\"values\":[{\"descriptor\":\"Official Languages and Bilingualism Institute_PT Professors (Elena Valenzuela)\",\"id\":\"f04d695cd5b5100e91fb6dd266990000\",\"count\":109},{\"descriptor\":\"Department of Mathematics and Statistics, Students & Casuals (Felipe Chong Rengifo)\",\"id\":\"e7a7ff0f9c511001637689578add0000\",\"count\":109},{\"descriptor\":\"EECS_ST (Mélanie Dion)\",\"id\":\"f04d695cd5b5100e91fc617b32090000\",\"count\":108},{\"descriptor\":\"Telfer School of Management_Students and Casuals (Anick Duchesne)\",\"id\":\"f04d695cd5b5100e91fb1ac9d7440000\",\"count\":97},{\"descriptor\":\"Department of Criminology_ST (Stephanie Tavares)\",\"id\":\"f04d695cd5b5100e91fc84bdd4450000\",\"count\":80},{\"descriptor\":\"School of Political Studies_ST (Philippe Busser)\",\"id\":\"f04d695cd5b5100e91fc6f501e200000\",\"count\":71},{\"descriptor\":\"Department of Economics_ST (Alexie Morin-Fortin)\",\"id\":\"f04d695cd5b5100e91fc7a247f260000\",\"count\":38},{\"descriptor\":\"Direction, School of Rehabilitation Sciences_PT (Matthieu Boisgontier)\",\"id\":\"f04d695cd5b5100e91fc2a23aaff0000\",\"count\":36},{\"descriptor\":\"Department of Mathematics and Statistics_PT (Alistair Savage)\",\"id\":\"f04d695cd5b5100e91fc5574b6700000\",\"count\":17},{\"descriptor\":\"Institute of Feminist and Gender Studies_ST (Nandy Cassamajor)\",\"id\":\"f04d695cd5b5100e91fc8557aa070000\",\"count\":17},{\"descriptor\":\"School of International Development and Global Studies_ST (Sylvie Thériault)\",\"id\":\"f04d695cd5b5100e91fc7385a0c90000\",\"count\":16},{\"descriptor\":\"Department of Mechanical Engineering_PT (Salma Houd)\",\"id\":\"13a634088c6310012234362808d50001\",\"count\":16},{\"descriptor\":\"Department of Civil Engineering_PT (Luc Cloutier)\",\"id\":\"f04d695cd5b5100e91fc5a43f66a0000\",\"count\":15},{\"descriptor\":\"Graduate School of Public and International Affairs_ST (May Hamouie)\",\"id\":\"f04d695cd5b5100e91fc77bbafc40000\",\"count\":14},{\"descriptor\":\"Undergraduate Programs_Part Time Professors (Mirela Moldoveanu)\",\"id\":\"f04d695cd5b5100e91fb837bea220000\",\"count\":12},{\"descriptor\":\"Official Languages and Bilingualism Institute_Students and Casuals (Elena Valenzuela)\",\"id\":\"f04d695cd5b5100e91fb5ffdc7700000\",\"count\":11},{\"descriptor\":\"Department of Physics, Students & Casuals (Patrick Laliberté)\",\"id\":\"c4daf12b1fad1000b755028d22a10001\",\"count\":7},{\"descriptor\":\"Telfer School of Management_FT (Stephane Brutus)\",\"id\":\"f04d695cd5b5100e91fb1c98f7230000\",\"count\":6},{\"descriptor\":\"School of Social Work_ST (Adam Guarisco)\",\"id\":\"f04d695cd5b5100e91fc7d84e2910000\",\"count\":6},{\"descriptor\":\"Department of Biology, Students & Casuals (Linda céleste Munezero)\",\"id\":\"c4daf12b1fad1000b7346ad86d230000\",\"count\":5},{\"descriptor\":\"Department of Mechanical Engineering_PT (Salma Houd)\",\"id\":\"f04d695cd5b5100e91fd1b1492640000\",\"count\":5},{\"descriptor\":\"Telfer School of Management_PT (Stephane Brutus)\",\"id\":\"f04d695cd5b5100e91fb1c98f7250000\",\"count\":5},{\"descriptor\":\"Faculty of Health Sciences_Full Time Professors (Lucie Thibault)\",\"id\":\"f04d695cd5b5100e91fc1d7e723e0000\",\"count\":4},{\"descriptor\":\"Département de français_Part Time Professors (Mawy Bouchard)\",\"id\":\"f04d695cd5b5100e91fb7f44a0720000\",\"count\":4},{\"descriptor\":\"Department of Communication_Part Time Professors (Philippe Ross)\",\"id\":\"f04d695cd5b5100e91fb67cfa97a0000\",\"count\":4},{\"descriptor\":\"School of Psychology_PT (Martine Raymond)\",\"id\":\"f04d695cd5b5100e91fc81bb9f7f0000\",\"count\":4},{\"descriptor\":\"School of Political Studies_PT (Philippe Busser)\",\"id\":\"f04d695cd5b5100e91fc6f501e1e0000\",\"count\":3},{\"descriptor\":\"Department of Physics_FT (Louis Barriault)\",\"id\":\"f04d695cd5b5100e91fc4d04c7950000\",\"count\":3},{\"descriptor\":\"Department of Earth and Environmental Sciences_PT (Glenn Antony Milne)\",\"id\":\"f04d695cd5b5100e91fc4b374c3c0000\",\"count\":3},{\"descriptor\":\"DHN Digital Cultures / Cultures numériques_PT (Jada Watson)\",\"id\":\"300ffe16b90b1001ff4382903e1c0000\",\"count\":3",
+   "jsonLdJobPostings": 0,
+   "ms": 1384
+  },
+  {
+   "name": "walmart wd5",
+   "url": "https://walmart.wd5.myworkdayjobs.com/wday/cxs/walmart/WalmartExternal/jobs",
+   "method": "POST",
+   "status": 422,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": "Accept-Encoding"
+   },
+   "contentType": "application/json;charset=ISO-8859-1",
+   "bytes": 149,
+   "head": "{\"errorCode\":\"HTTP_422\",\"errorCaseId\":\"5FE731MVPZ2XO0\",\"httpStatus\":422,\"locale\":\"en-CA,en;q\\u003d0.8,fr;q\\u003d0.6\",\"message\":\"\",\"messageParams\":{}}",
+   "jsonLdJobPostings": 0,
+   "ms": 403
+  },
+  {
+   "name": "walmart wd504",
+   "url": "https://walmart.wd504.myworkdayjobs.com/wday/cxs/walmart/WalmartExternal/jobs",
+   "method": "POST",
+   "status": 200,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": "accept-encoding"
+   },
+   "contentType": "application/json",
+   "bytes": 432987,
+   "head": "{\"total\":2000,\"jobPostings\":[{\"title\":\"Pharmacy Tech Certified Sam's (Full Time)\",\"externalPath\":\"/job/USA-CO-COLORADO-SPRINGS-08272-SAMS-CLUB/Pharmacy-Tech-Certified-Sam-s--Full-Time-_R-2690118\",\"locationsText\":\"(USA) CO COLORADO SPRINGS 08272 SAM'S CLUB\",\"postedOn\":\"Posted Today\",\"bulletFields\":[\"R-2690118\"]}],\"facets\":[{\"facetParameter\":\"timeType\",\"descriptor\":\"Time Type\",\"values\":[{\"descriptor\":\"Full time\",\"id\":\"b181d8271e36017533d4ca68eee44f00\",\"count\":13294},{\"descriptor\":\"Part time\",\"id\":\"b181d8271e3601fa68bcca68eee44e00\",\"count\":6441}]},{\"facetParameter\":\"jobFamilyGroup\",\"descriptor\":\"Job Category\",\"values\":[{\"descriptor\":\"Business Services\",\"id\":\"8abf3c6ae2d9102081744ca045ad0000\",\"count\":7312},{\"descriptor\":\"Business Operations\",\"id\":\"e83ebdbd2a0a0172c2dd788948e900c6\",\"count\":6629},{\"descriptor\":\"Healthcare\",\"id\":\"e83ebdbd2a0a01518391798948e902c6\",\"count\":3101},{\"descriptor\":\"Maintenance\",\"id\":\"e83ebdbd2a0a0141f98d7c8948e906c6\",\"count\":1588},{\"descriptor\":\"Technology\",\"id\":\"e83ebdbd2a0a01e7e1477a8948e904c6\",\"count\":682},{\"descriptor\":\"Supply Chain\",\"id\":\"e83ebdbd2a0a01f0098b818948e92dc6\",\"count\":316},{\"descriptor\":\"Data Analytics and Management\",\"id\":\"e83ebdbd2a0a01af0185848948e94dc6\",\"count\":184},{\"descriptor\":\"PMO\",\"id\":\"e83ebdbd2a0a01769a8c8b8948e96cc6\",\"count\":183},{\"descriptor\":\"Sales, Marketing and Business Development\",\"id\":\"e83ebdbd2a0a01cd90a4748948e9fac5\",\"count\":110},{\"descriptor\":\"General and Retail Management\",\"id\":\"a85ececd76b81019028285064d710000\",\"count\":90},{\"descriptor\":\"Transportation\",\"id\":\"e83ebdbd2a0a01c7317a858948e955c6\",\"count\":88},{\"descriptor\":\"Investigations and Security\",\"id\":\"e83ebdbd2a0a01050ff47e8948e912c6\",\"count\":82},{\"descriptor\":\"People\",\"id\":\"e83ebdbd2a0a0177281d8a8948e968c6\",\"count\":59},{\"descriptor\":\"Continuous Improvement\",\"id\":\"e83ebdbd2a0a013a8ab5778948e9fcc5\",\"count\":49},{\"descriptor\":\"Support Services\",\"id\":\"e83ebdbd2a0a01471ea1838948e946c6\",\"count\":46},{\"descriptor\":\"Finance\",\"id\":\"e83ebdbd2a0a01eed84c8c8948e96ec6\",\"count\":39},{\"descriptor\":\"Manufacturing and Printing\",\"id\":\"e83ebdbd2a0a010915c6878948e960c6\",\"count\":33},{\"descriptor\":\"Engineering and Design\",\"id\":\"e83ebdbd2a0a01ea72c2808948e924c6\",\"count\":33},{\"descriptor\":\"Other\",\"id\":\"e83ebdbd2a0a01421ec9888948e964c6\",\"count\":23},{\"descriptor\":\"Realty\",\"id\":\"e83ebdbd2a0a011354c78a8948e96ac6\",\"count\":18},{\"descriptor\":\"Compliance Ethics and Legal\",\"id\":\"e83ebdbd2a0a017bf472898948e966c6\",\"count\":17},{\"descriptor\":\"Communications and Corporate Affairs\",\"id\":\"e83ebdbd2a0a01181c5c828948e936c6\",\"count\":10},{\"descriptor\":\"Purchasing\",\"id\":\"e83ebdbd2a0a013df6aa7d8948e90ac6\",\"count\":10},{\"descriptor\":\"Research and Development\",\"id\":\"e83ebdbd2a0a01cc71e67f8948e91ac6\",\"count\":7}]},{\"facetParameter\":\"jobFamily\",\"descriptor\":\"Job Family\",\"values\":[{\"descriptor\":\"Customer Service\",\"id\":\"e83ebdbd2a0a019e0e61425b47e9a5c4\",\"count\":7300},{\"descriptor\":\"Food Service\",\"id\":\"e83ebdbd2a0a01c215d52d5a47e90cc4\",\"count\":3816},{\"descriptor\":\"Operations Management\",\"id\":\"e83ebdbd2a0a0124267a175b47e98dc4\",\"count\":2812},{\"descriptor\":\"Pharmacy\",\"id\":\"e83ebdbd2a0a01b1202d095a47e9f4c3\",\"count\":1947},{\"descriptor\":\"Optical Care\",\"id\":\"e83ebdbd2a0a01535720d25947e9ccc3\",\"count\":1127},{\"descriptor\":\"Facilities Maintenance\",\"id\":\"e83ebdbd2a0a0161c325005b47e97fc4\",\"count\":704},{\"descriptor\":\"Software Engineering and Architecture\",\"id\":\"e83ebdbd2a0a01e6af60e95a47e972c4\",\"count\":489},{\"descriptor\":\"Facilities Maintenance General\",\"id\":\"487b496fe8951019026c315c27690000\",\"",
+   "jsonLdJobPostings": 0,
+   "ms": 2009
+  },
+  {
+   "name": "workable aggregator limit20",
+   "url": "https://jobs.workable.com/api/v1/jobs?location=Canada&limit=20",
+   "method": "GET",
+   "status": 200,
+   "cors": {
+    "allowOrigin": "http://jobs.workable.com",
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": "Accept-Encoding, Origin"
+   },
+   "contentType": "application/json; charset=utf-8",
+   "bytes": 159682,
+   "head": "{\"title\":\"Workable\",\"totalSize\":7711,\"nextPageToken\":\"eyJzZWFyY2hBdCI6IjIwMjYtMTAtMjdUMDA6NTk6NTkuOTk5WiIsIm9mZnNldCI6WzAuOTk5OTk2NywwLDE3ODYwNTQyNjMwODUsImY2YmUzNDY5LTkzMWMtNDEzYS05YTFjLTc5YzBmN2YyNmEwNSJdfQ==\",\"jobs\":[{\"department\":\"Instructor\",\"id\":\"9ec98ede-ae52-4103-ad8d-739be8f9a40e\",\"title\":\"Swim Instructor\",\"state\":\"published\",\"description\":\"<p><strong>Pay:</strong> CA$20.00-CA$30.00 per hour<br /><strong>Location: </strong>66 Bullock Dr, Markham, ON L3P 3P2</p><p><strong>Swim/Aquatic Instructors – Markham, ON<br /><br />Make Waves with WD Swim!</strong></p><p>WD Swim is seeking enthusiastic and dedicated Swim/Aquatic Instructors to join our team in Markham. If you’re passionate about swimming, fitness, and creating a fun, safe, and supportive environment for all ages, we’d love to meet you!<br /></p><p><strong>About the Role</strong><br />As a Swim/Aquatic Instructor, you’ll del",
+   "jsonLdJobPostings": 0,
+   "ms": 346
+  },
+  {
+   "name": "workable robots",
+   "url": "https://jobs.workable.com/robots.txt",
+   "method": "GET",
+   "status": 200,
+   "cors": {
+    "allowOrigin": "http://jobs.workable.com",
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": "Accept-Encoding, Origin"
+   },
+   "contentType": "text/plain; charset=utf-8",
+   "bytes": 250,
+   "head": "User-agent: * Content-Signal: search=yes, ai-input=yes, ai-train=no Allow: /search/* Disallow: /search*?* Disallow: /search Disallow: */search/$ Disallow: /profile* Disallow: /company-login-unauthorized Sitemap: https://jobs.workable.com/sitemap.xml",
+   "jsonLdJobPostings": 0,
+   "ms": 145
+  }
+ ]
+}
