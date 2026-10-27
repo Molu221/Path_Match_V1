@@ -18,6 +18,8 @@ jobs:
     timeout-minutes: 150
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: main            # the newest main, not the commit this run was queued at
       - uses: actions/setup-node@v4
         with:
           node-version: 20
@@ -36,5 +38,10 @@ jobs:
           git add docs/jobs.json docs/d
           git diff --cached --quiet && echo "No changes" && exit 0
           git commit -m "Refresh postings"
-          git pull --rebase origin main
-          git push
+          # another run or a code change may have been pushed meanwhile: the data of this run wins in docs/jobs.json and docs/d
+          for i in 1 2 3; do
+            git pull --rebase -X theirs origin main && git push && exit 0
+            git rebase --abort 2>/dev/null || true
+            sleep 5
+          done
+          exit 1
