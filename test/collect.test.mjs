@@ -130,6 +130,13 @@ const jb = await c.jobbank({ queries: ["engineer"], where: "Montréal, QC", maxD
 assert.equal(jb.listed, 4); assert.equal(jb.inArea, 4, "the cook row and the Toronto row are kept too");
 assert.equal(jb.jobs.length, 4);
 // several places: every place is searched; rows past the detail limit stay as title-only rows
+// the Job Bank search list: country-wide keywords, one search per province, then keywords x cities
+const grid = c.jobbankSearches({ nationwide: ["cook"], provinces: ["Ontario"], queries: ["nurse", "driver"], places: ["Toronto, ON", "Calgary, AB"] });
+assert.deepEqual(grid.map((g) => `${g.q}|${g.where}`), ["cook|", "|Ontario", "nurse|Toronto, ON", "nurse|Calgary, AB", "driver|Toronto, ON", "driver|Calgary, AB"]);
+assert.equal(c.jobbankSearches({ queries: ["a"], where: "Montréal, QC" }).length, 1, "the old single-place setting still works");
+let waited = 0;
+const jbBudget = await c.jobbank({ nationwide: ["a", "b", "c"], maxDaysOld: 7, maxDetails: 0, delayMs: 0, budgetMs: 1 }, NOW, () => {}, async () => { waited++; await new Promise((r) => setTimeout(r, 5)); });
+assert.ok(jbBudget.skipped >= 1, "searches stop when the time budget is used: " + JSON.stringify({ ok: jbBudget.ok, skipped: jbBudget.skipped }));
 const jb2 = await c.jobbank({ queries: ["engineer", ""], places: ["Montréal, QC", "Toronto, ON"], maxDaysOld: 7, maxDetails: 1, maxListed: 2, delayMs: 0 }, NOW, () => {}, noPause);
 assert.equal(jb2.ok, 4); assert.equal(jb2.jobs.length, 3); assert.equal(jb2.jobs.filter((j) => j.partial).length >= 2, true);
 assert.ok(jb2.jobs.slice(1).every((j) => j.desc === "" && j.sources[0].url.includes("/jobposting/")));

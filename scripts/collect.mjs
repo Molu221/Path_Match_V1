@@ -262,19 +262,35 @@ export function jobbankDetail(html) {
 }
 /* an internship stays an internship even when the posting is part time; otherwise the "Terms of employment" line decides */
 const jbType = (title, summary) => { const t = typeFrom(title); return t === "Internship" ? t : typeFrom(summary) || t; };
+/* The feed gives at most 100 postings per search and has no second page, so the number of postings found is the number of different searches:
+   keywords across the whole country, one search per province with no keyword, and the busiest keywords in each big city. */
+export function jobbankSearches(cfg) {
+  const out = [];
+  for (const q of cfg.nationwide || []) out.push({ q, where: "" });
+  for (const where of cfg.provinces || []) out.push({ q: "", where });
+  const places = cfg.places && cfg.places.length ? cfg.places : cfg.where ? [cfg.where] : [];
+  for (const q of cfg.queries || []) for (const where of places.length ? places : [""]) out.push({ q, where });
+  return out;
+}
 export async function jobbank(cfg, nowMs, log, pause = sleep) {
   const base = "https://www.jobbank.gc.ca/jobsearch/";
   const seen = new Map();
-  let ok = 0, failed = 0;
-  const places = cfg.places && cfg.places.length ? cfg.places : [cfg.where];
-  for (const where of places) {
-    for (const q of cfg.queries) {
-      const u = `${base}feed/jobSearchRSSfeed?searchstring=${encodeURIComponent(q)}&locationstring=${encodeURIComponent(where)}&fage=${cfg.maxDaysOld}&sort=D&rows=100`;
-      try { const xml = await fetchText(u, { headers: { Accept: "application/atom+xml,application/xml,*/*" } }); ok++; for (const e of atomEntries(xml)) if (e.id && !seen.has(e.id)) seen.set(e.id, { ...e, q }); }
-      catch (e) { failed++; log(`Job Bank "${q}" in ${where}: ${e.message}`); }
-      await pause(cfg.delayMs);
+  let ok = 0, failed = 0, skipped = 0;
+  const started = Date.now();
+  const searches = jobbankSearches(cfg);
+  for (const { q, where } of searches) {
+    if (cfg.budgetMs && Date.now() - started > cfg.budgetMs) { skipped++; continue; }
+    const u = `${base}feed/jobSearchRSSfeed?searchstring=${encodeURIComponent(q)}&locationstring=${encodeURIComponent(where)}&fage=${cfg.maxDaysOld}&sort=D&rows=100`;
+    try {
+      const xml = await fetchText(u, { headers: { Accept: "application/atom+xml,application/xml,*/*" } }); ok++;
+      let n = 0, fresh = 0;
+      for (const e of atomEntries(xml)) { n++; if (e.id && !seen.has(e.id)) { seen.set(e.id, { ...e, q: q || where }); fresh++; } }
+      if (cfg.verbose !== false) log(`Job Bank "${q}" in "${where}": ${n} listed, ${fresh} new`);
     }
+    catch (e) { failed++; log(`Job Bank "${q}" in ${where}: ${e.message}`); }
+    await pause(cfg.delayMs);
   }
+  if (skipped) log(`Job Bank: ${skipped} searches skipped (time budget of ${Math.round(cfg.budgetMs / 60000)} minutes used)`);
   const all = [...seen.values()].filter((e) => inCanada(e.loc)).sort((a, b) => Date.parse(b.updated) - Date.parse(a.updated));
   /* one lane per search word, newest first, taken in turn: the postings that are opened (5 seconds each) then come from every kind of work, not only from the word that found the most */
   const lanes = new Map();
@@ -302,14 +318,14 @@ export async function jobbank(cfg, nowMs, log, pause = sleep) {
     });
   }
   /* the rest of the list is not opened one by one (5 seconds each): it is kept with its title, employer, place and date only */
-  for (const e of queue.slice(cfg.maxDetails, cfg.maxDetails + (cfg.maxListed ?? 300))) {
+  for (const e of queue.slice(cfg.maxDetails, cfg.maxDetails + (cfg.maxListed ?? 1e6))) {
     jobs.push({
       company: e.employer || "Unknown", title: e.title, loc: e.loc.replace(/\s*\((\w\w)\)\s*$/, ", $1"),
       date: e.updated.slice(0, 10), ageH: hoursSince(e.updated, nowMs), type: typeFrom(e.title),
       sources: [{ src: "Job Bank", url: `https://www.jobbank.gc.ca/jobsearch/jobposting/${e.id}` }], desc: "", partial: true,
     });
   }
-  return { jobs: jobs.filter((j) => j.title), ok, failed, listed: seen.size, inArea: all.length };
+  return { jobs: jobs.filter((j) => j.title), ok, failed, listed: seen.size, inArea: all.length, ...(skipped ? { skipped } : {}) };
 }
 
 /* ---------- The Muse (free public API, no key needed for testing: 500 requests an hour) ---------- */
@@ -682,6 +698,17 @@ export async function main({ nowMs = Date.now(), log = console.log, write = true
   const sources = {};
   const all = [];
   const notFound = [];
+  /* Job Bank asks for 5 seconds between requests, so it runs beside everything else instead of after it */
+  const run = async (name, cfg, fn) => {
+    if (!cfg) return;
+    if (cfg.enabled === false) { sources[name] = { skipped: 'switched off ("enabled": false in config/searches.json)' }; return; }
+    try {
+      const r = await fn();
+      sources[name] = { requestsOk: r.ok, requestsFailed: r.failed, jobs: r.jobs.length, ...(r.listed != null ? { listed: r.listed, inCanada: r.inArea } : {}), ...(r.skipped ? { searchesSkipped: r.skipped } : {}) };
+      all.push(...r.jobs);
+    } catch (e) { sources[name] = { jobs: 0, error: String(e.message || e).slice(0, 160) }; log(`${name}: ${e.message}`); }
+  };
+  const jobBankRun = run("Job Bank", searches.jobbank, () => jobbank(searches.jobbank, nowMs, log));
 
   /* 1. employer boards that publish an open feed: one request per employer */
   const ats = ATS, label = LABEL;
@@ -716,16 +743,6 @@ export async function main({ nowMs = Date.now(), log = console.log, write = true
   }
 
   /* 4. public search boards */
-  const run = async (name, cfg, fn) => {
-    if (!cfg) return;
-    if (cfg.enabled === false) { sources[name] = { skipped: 'switched off ("enabled": false in config/searches.json)' }; return; }
-    try {
-      const r = await fn();
-      sources[name] = { requestsOk: r.ok, requestsFailed: r.failed, jobs: r.jobs.length, ...(r.listed != null ? { listed: r.listed, inCanada: r.inArea } : {}) };
-      all.push(...r.jobs);
-    } catch (e) { sources[name] = { jobs: 0, error: String(e.message || e).slice(0, 160) }; log(`${name}: ${e.message}`); }
-  };
-  await run("Job Bank", searches.jobbank, () => jobbank(searches.jobbank, nowMs, log));
   await run("The Muse", searches.muse, () => muse(searches.muse, nowMs, log));
 
   /* 5. search services that need a free key: switched on by a repository secret */
@@ -746,6 +763,8 @@ export async function main({ nowMs = Date.now(), log = console.log, write = true
   }
   await withKey("Jooble", searches.jooble, ["JOOBLE_API_KEY"], () => jooble(searches.jooble, env.JOOBLE_API_KEY, nowMs, log));
   await withKey("Careerjet", searches.careerjet, ["CAREERJET_API_KEY"], () => careerjet(searches.careerjet, env.CAREERJET_API_KEY, nowMs, log));
+
+  await jobBankRun;
 
   /* every kept job is in Canada: save its province (QC, ON, BC... or "Remote – Canada" / "Canada" when the text names no province) */
   const found = merge(all).map((j) => ({ ...j, province: provinceOf(j.loc) })).filter((j) => j.province);
