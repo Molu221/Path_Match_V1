@@ -1,0 +1,148 @@
+{
+ "probes": [
+  {
+   "name": "jb nurse Toronto rows100 fage7",
+   "url": "https://www.jobbank.gc.ca/jobsearch/feed/jobSearchRSSfeed?searchstring=nurse&locationstring=Toronto%2C+ON&fage=7&sort=D&rows=100",
+   "count": "<entry>",
+   "headChars": 400,
+   "accept": "application/atom+xml,application/xml,*/*"
+  },
+  {
+   "name": "jb nurse Toronto no rows",
+   "url": "https://www.jobbank.gc.ca/jobsearch/feed/jobSearchRSSfeed?searchstring=nurse&locationstring=Toronto%2C+ON&fage=7&sort=D",
+   "count": "<entry>",
+   "headChars": 400,
+   "accept": "application/atom+xml,application/xml,*/*"
+  },
+  {
+   "name": "jb nurse Toronto page2",
+   "url": "https://www.jobbank.gc.ca/jobsearch/feed/jobSearchRSSfeed?searchstring=nurse&locationstring=Toronto%2C+ON&fage=7&sort=D&rows=100&page=2",
+   "count": "<entry>",
+   "headChars": 400,
+   "accept": "application/atom+xml,application/xml,*/*"
+  },
+  {
+   "name": "jb nurse Toronto fage30",
+   "url": "https://www.jobbank.gc.ca/jobsearch/feed/jobSearchRSSfeed?searchstring=nurse&locationstring=Toronto%2C+ON&fage=30&sort=D&rows=100",
+   "count": "<entry>",
+   "headChars": 400,
+   "accept": "application/atom+xml,application/xml,*/*"
+  },
+  {
+   "name": "jb nurse Toronto fage1",
+   "url": "https://www.jobbank.gc.ca/jobsearch/feed/jobSearchRSSfeed?searchstring=nurse&locationstring=Toronto%2C+ON&fage=1&sort=D&rows=100",
+   "count": "<entry>",
+   "headChars": 400,
+   "accept": "application/atom+xml,application/xml,*/*"
+  },
+  {
+   "name": "jb blank search Ontario fage1",
+   "url": "https://www.jobbank.gc.ca/jobsearch/feed/jobSearchRSSfeed?searchstring=&locationstring=Ontario&fage=1&sort=D&rows=100",
+   "count": "<entry>",
+   "headChars": 400,
+   "accept": "application/atom+xml,application/xml,*/*"
+  },
+  {
+   "name": "jb blank search blank loc fage1",
+   "url": "https://www.jobbank.gc.ca/jobsearch/feed/jobSearchRSSfeed?searchstring=&locationstring=&fage=1&sort=D&rows=100",
+   "count": "<entry>",
+   "headChars": 400,
+   "accept": "application/atom+xml,application/xml,*/*"
+  },
+  {
+   "name": "jb cook Montreal fage7",
+   "url": "https://www.jobbank.gc.ca/jobsearch/feed/jobSearchRSSfeed?searchstring=cook&locationstring=Montr%C3%A9al%2C+QC&fage=7&sort=D&rows=100",
+   "count": "<entry>",
+   "headChars": 400,
+   "accept": "application/atom+xml,application/xml,*/*"
+  },
+  {
+   "name": "jb cook Montreal no loc",
+   "url": "https://www.jobbank.gc.ca/jobsearch/feed/jobSearchRSSfeed?searchstring=cook&fage=7&sort=D&rows=100",
+   "count": "<entry>",
+   "headChars": 400,
+   "accept": "application/atom+xml,application/xml,*/*"
+  },
+  {
+   "name": "jb driver Calgary fage7",
+   "url": "https://www.jobbank.gc.ca/jobsearch/feed/jobSearchRSSfeed?searchstring=driver&locationstring=Calgary%2C+AB&fage=7&sort=D&rows=100",
+   "count": "<entry>",
+   "headChars": 400,
+   "accept": "application/atom+xml,application/xml,*/*"
+  },
+  {
+   "name": "jb driver Calgary fage7 sort M",
+   "url": "https://www.jobbank.gc.ca/jobsearch/feed/jobSearchRSSfeed?searchstring=driver&locationstring=Calgary%2C+AB&fage=7&sort=M&rows=100",
+   "count": "<entry>",
+   "headChars": 400,
+   "accept": "application/atom+xml,application/xml,*/*"
+  },
+  {
+   "name": "jb fprov ON",
+   "url": "https://www.jobbank.gc.ca/jobsearch/feed/jobSearchRSSfeed?fprov=ON&fage=1&sort=D&rows=100",
+   "count": "<entry>",
+   "headChars": 400,
+   "accept": "application/atom+xml,application/xml,*/*"
+  },
+  {
+   "name": "jb html search page1",
+   "url": "https://www.jobbank.gc.ca/jobsearch/jobsearch?searchstring=nurse&locationstring=Toronto%2C+ON&fage=7&sort=D",
+   "count": "jobposting/\\d+",
+   "headChars": 300
+  },
+  {
+   "name": "jb html search page2",
+   "url": "https://www.jobbank.gc.ca/jobsearch/jobsearch?searchstring=nurse&locationstring=Toronto%2C+ON&fage=7&sort=D&page=2",
+   "count": "jobposting/\\d+",
+   "headChars": 300
+  },
+  {
+   "name": "jb html results fragment",
+   "url": "https://www.jobbank.gc.ca/jobsearch/jobsearch?searchstring=nurse&locationstring=Toronto%2C+ON&fage=7&sort=D&page=1&fsrc=16",
+   "count": "jobposting/\\d+",
+   "headChars": 300
+  },
+  {
+   "name": "workable aggregator Canada",
+   "url": "https://jobs.workable.com/api/v1/jobs?location=Canada&limit=50",
+   "count": "\"id\"",
+   "headChars": 600
+  },
+  {
+   "name": "workable aggregator query",
+   "url": "https://jobs.workable.com/api/v1/jobs?query=nurse&location=Toronto&limit=50",
+   "count": "\"id\"",
+   "headChars": 600
+  },
+  {
+   "name": "smartrecruiters all ca",
+   "url": "https://api.smartrecruiters.com/v1/postings?country=ca&limit=100",
+   "count": "\"id\"",
+   "headChars": 600
+  },
+  {
+   "name": "workday bogus tenant status",
+   "method": "POST",
+   "url": "https://nobodyxyz123.wd3.myworkdayjobs.com/wday/cxs/nobodyxyz123/External/jobs",
+   "body": {
+    "appliedFacets": {},
+    "limit": 1,
+    "offset": 0,
+    "searchText": ""
+   },
+   "headChars": 200
+  },
+  {
+   "name": "workday rbc facets",
+   "method": "POST",
+   "url": "https://rbc.wd3.myworkdayjobs.com/wday/cxs/rbc/RBCGLOBAL1/jobs",
+   "body": {
+    "appliedFacets": {},
+    "limit": 2,
+    "offset": 0,
+    "searchText": ""
+   },
+   "headChars": 2500
+  }
+ ]
+}
