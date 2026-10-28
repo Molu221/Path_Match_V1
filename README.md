@@ -10,7 +10,7 @@ Upload a CV, get a ranked, explained list of jobs, part-time roles, internships 
 
 ## The pages (`docs/index.html`)
 
-The site has four pages, chosen with the address (`#p=details` and so on) so the back button works. A step bar at the top shows where the visitor is.
+The site has four main pages and five extra ones (below), chosen with the address (`#p=details`, `#p=market` and so on) so the back button works. A step bar at the top shows where the visitor is, and every page has its own accent colour (the line under the top bar and the stripe by its title).
 
 1. **Start.** A short pitch, the five-stop trail as a picture, and two buttons: upload a CV, or browse every posting.
 2. **Your CV and your details.** The visitor drops a PDF or Word file (or pastes text, or tries an example CV). The CV is read in the browser; with a CV, the pin sits on the stage the CV reads as and "How we read your CV" says why, and a tap on another stop changes it. The visitor also says where they want to work (all of Canada, the Montréal area or one province, with or without remote roles), the kind of work (full-time, part-time, internships and co-ops), the field, how recent the postings must be (default the last 60 days, because an old posting is often filled), the languages they work in, their work permit and the term they want. A live line says how many postings fit those choices. The details are kept in the browser; the CV text is kept for the open tab only.
@@ -23,6 +23,18 @@ The site has four pages, chosen with the address (`#p=details` and so on) so the
 - The address bar holds the tab and filters, so a view can be bookmarked or shared, and the back button works.
 - The page asks the server for a new `jobs.json` every 5 minutes (a 304 when nothing changed) and marks postings that appeared since you opened it.
 - **Copy list** copies every posting that matches the filters, not only the ones on screen.
+
+### The extra pages (`docs/pages.js`, `docs/pages.css`)
+
+Reached from the **Explore** menu in the top bar, from the tiles on the start page, or from the jump bar (**Ctrl K**, or **⌘K**: type a page name, or words from a title or company). All of them are worked out in the browser from the postings already loaded; nothing is added to the data, and the site still works if `pages.js` fails to load.
+
+- **Market map** (`#p=market`). A tile map of the provinces (plus the Montréal area, remote roles and "Canada, no province"), shaded in five steps by the number of postings; a field-by-stage grid with the visitor's stage marked; the postings published in each of the last 30 days; the employers with the most postings; and the skills asked for most (role and tool skills, or general strengths). A switch narrows everything to full-time, part-time or internships. A province, a grid cell or an employer opens the matching postings on the All jobs page.
+- **Skill lab** (`#p=lab`, needs a CV). Take the 200 best-fitting postings, switch on a skill the CV lacks, and see the top 10 re-ranked with the new scores (same scoring rules, the skill counted as present). It suggests the three role or tool skills that lift the list most. General strengths such as "Communication" are listed apart, because the score counts only what is written on the CV. It is a what-if: nothing is written to the CV.
+- **Career ladder** (`#p=ladder`). For a field (or all fields), the five rungs from student to executive with their posting counts, the titles that come up most on a rung, its most-asked skills, the skills that are far more common than one rung down, and what the next rung adds. A ✓ marks a skill on the CV.
+- **Quick sort** (`#p=swipe`). One posting per card: drag it right to save or left to skip (or use the buttons, or the arrow keys; `Z` undoes, the up arrow opens the posting). With a CV the cards come in ranked order and show what matched and what is missing; without one they are the newest postings that fit the details. Skipped cards stay hidden until brought back.
+- **Application board** (`#p=board`). Saved, Applied, Interview, Offer and Closed columns (drag a card, or use the arrows), a weekly goal with a progress ring and a streak, a form to add an application found elsewhere, a CSV download, and a table of interviews by the match score at the time of applying, so the visitor can see in their own data whether higher scores led to more interviews (it says plainly that a small sample proves nothing). Everything is kept in this browser only. Starring a posting anywhere puts it in Saved.
+
+Colour: the base stays spruce, lake teal and blaze orange; each page adds one hue (sun, sky, violet, mint, coral, berry, peach) and a field gets one of eight hues. The map and grid use one five-step violet ramp whose text colour is set per step; `npm test` checks the wiring and a browser pass checked the text contrast of every new page in the light and dark themes.
 
 ## Sources
 
@@ -92,12 +104,12 @@ npm run collect                # collect now (add ADZUNA_APP_ID=... ADZUNA_APP_K
 
 ## Files
 
-- `docs/index.html` the site (stage trail, filters, results); `docs/jobmeta.js` the level of a posting, the stage of a CV, the fit table and the fields; `docs/scoring.js` the 0–100 score; `docs/matcher.js` the keyword engine
+- `docs/index.html` the site (stage trail, filters, results); `docs/pages.js` and `docs/pages.css` the five extra pages, the Explore menu, the jump bar and the colours; `docs/jobmeta.js` the level of a posting, the stage of a CV, the fit table and the fields; `docs/scoring.js` the 0–100 score; `docs/matcher.js` the keyword engine
 - `docs/jobs.json` the collected postings, one short record each; `docs/d/` their full texts in 64 files
 - `scripts/collect.mjs` the collector, `scripts/find-boards.mjs` the board finder (`config/candidates.json` is its list)
 - `config/companies.json`, `config/searches.json` what to collect
 - `.github/workflows/refresh.yml` the schedule
-- `test/collect.test.mjs`, `test/jobmeta.test.mjs`, `test/scoring.test.mjs` offline tests (`npm test`)
+- `test/collect.test.mjs`, `test/jobmeta.test.mjs`, `test/scoring.test.mjs`, `test/pages.test.mjs` offline tests (`npm test`)
 
 ## Keyword extractor (Python)
 

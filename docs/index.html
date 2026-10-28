@@ -21,9 +21,12 @@ html{color-scheme:light}
 --warn:#8a4f00;--warn-soft:#fbecd0;--bad:#a02a2a;--bad-soft:#f6dddd;--ok:#17673a;--ok-soft:#d8efdf;
 --hero:#0e2c2b;--hero-ink:#eaf6f3;--hero-mute:#a6c6c1;
 --l0:#6cc8a6;--l1:#35aa90;--l2:#1b8892;--l3:#1d5f89;--l4:#3a3f8f;
+--sun:#f5a800;--coral:#e8474c;--berry:#cf2f6e;--violet:#6250d6;--sky:#2a78d6;--mint:#0f9f72;--peach:#ee7d25;--on-vio:#fff;
+--h1:#2a78d6;--h2:#eb6834;--h3:#1baf7a;--h4:#eda100;--h5:#e87ba4;--h6:#2f9a2f;--h7:#6250d6;--h8:#e34948;--h9:#8a9a98;
+--pg:var(--pin);
 --f-disp:"Archivo","Helvetica Neue",Arial,sans-serif;--f-body:"Public Sans","Helvetica Neue",Arial,sans-serif}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0a1718;--panel:#112527;--ink:#e4f1ef;--mute:#9db7b4;--line:#244245;--accent:#5ec9cf;--accent-soft:#12363a;--warn:#f0b659;--warn-soft:#3a2d12;--bad:#f08a8a;--bad-soft:#3d1c1c;--ok:#7fd49a;--ok-soft:#14321f;--l1:#4fc0a6;--l2:#45b0ba;--l3:#6aa9db;--l4:#a3a8ef;color-scheme:dark}}
-:root[data-theme="dark"]{--bg:#0a1718;--panel:#112527;--ink:#e4f1ef;--mute:#9db7b4;--line:#244245;--accent:#5ec9cf;--accent-soft:#12363a;--warn:#f0b659;--warn-soft:#3a2d12;--bad:#f08a8a;--bad-soft:#3d1c1c;--ok:#7fd49a;--ok-soft:#14321f;--l1:#4fc0a6;--l2:#45b0ba;--l3:#6aa9db;--l4:#a3a8ef;color-scheme:dark}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0a1718;--panel:#112527;--ink:#e4f1ef;--mute:#9db7b4;--line:#244245;--accent:#5ec9cf;--accent-soft:#12363a;--warn:#f0b659;--warn-soft:#3a2d12;--bad:#f08a8a;--bad-soft:#3d1c1c;--ok:#7fd49a;--ok-soft:#14321f;--l1:#4fc0a6;--l2:#45b0ba;--l3:#6aa9db;--l4:#a3a8ef;--sun:#ffc933;--coral:#ff7b80;--berry:#f06595;--violet:#9a8cf2;--sky:#5aa9f2;--mint:#3fd0a0;--peach:#ff9f55;--on-vio:#10122b;--h1:#3987e5;--h2:#d95926;--h3:#199e70;--h4:#c98500;--h5:#d55181;--h6:#3aa83a;--h7:#9085e9;--h8:#e66767;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0a1718;--panel:#112527;--ink:#e4f1ef;--mute:#9db7b4;--line:#244245;--accent:#5ec9cf;--accent-soft:#12363a;--warn:#f0b659;--warn-soft:#3a2d12;--bad:#f08a8a;--bad-soft:#3d1c1c;--ok:#7fd49a;--ok-soft:#14321f;--l1:#4fc0a6;--l2:#45b0ba;--l3:#6aa9db;--l4:#a3a8ef;--sun:#ffc933;--coral:#ff7b80;--berry:#f06595;--violet:#9a8cf2;--sky:#5aa9f2;--mint:#3fd0a0;--peach:#ff9f55;--on-vio:#10122b;--h1:#3987e5;--h2:#d95926;--h3:#199e70;--h4:#c98500;--h5:#d55181;--h6:#3aa83a;--h7:#9085e9;--h8:#e66767;color-scheme:dark}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:14.5px;line-height:1.5}
 .wrap{max-width:1180px;margin:0 auto}
@@ -316,6 +319,7 @@ button:disabled{opacity:.5;cursor:default}
 .job{scroll-margin-top:70px}
 .view[data-page=home] .hero{border-bottom:0}
 </style>
+<link rel="stylesheet" href="pages.css">
 </head>
 <body>
 <header class="topbar" id="topbar">
@@ -327,8 +331,11 @@ button:disabled{opacity:.5;cursor:default}
       <a class="step" href="#p=matches" data-p="matches"><i>3</i><span>Top 10</span></a>
     </nav>
     <a class="alljobs" id="navjobs" href="#p=jobs" data-p="jobs">All jobs <b id="navCount"></b></a>
+    <button id="exploreBtn" class="explorebtn" aria-expanded="false" aria-controls="explore" hidden>Explore</button>
+    <button id="cmdBtn" class="ghost cmdbtn" aria-label="Search and jump to a page (Ctrl K)" hidden>Search <kbd>Ctrl K</kbd></button>
     <button id="theme" class="ghost" aria-label="Toggle theme">Theme</button>
   </div>
+  <div class="explore" id="explore" hidden></div>
 </header>
 
 <!-- page 1: start -->
@@ -341,9 +348,11 @@ button:disabled{opacity:.5;cursor:default}
         <a class="btnp" href="#p=details" data-p="details">Upload my CV</a>
         <a class="btng" href="#p=jobs" data-p="jobs">Browse all <span id="homeCount">the</span> jobs</a>
       </div>
-      <div class="hometrail" aria-hidden="true">
+      <div class="bigstats" id="bigstats" aria-live="polite"></div>
+      <div class="hometrail">
         <div class="trail" id="htrail"></div>
-        <p class="stagenote">Five stages, from student to executive. Your CV shows which one you are at, and the postings that fit it come first.</p>
+        <p class="stagenote">Five stages, from student to executive. Tap one to see what is out there. Your CV shows which one you are at, and the postings that fit it come first.</p>
+        <div class="stageprev" id="stageprev" aria-live="polite"></div>
       </div>
       <p class="herostat" id="herostat">Loading postings…</p>
     </div>
@@ -354,6 +363,7 @@ button:disabled{opacity:.5;cursor:default}
       <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h9m4 0h3M4 17h3m4 0h9M15 4.5v5m-8 4.5v5"/></svg><h2>Tell us what you want</h2><p>Your stage, where you want to work, the kind of work and the languages you use.</p></li>
       <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11M4 5.5l1 1 1.8-2M4 11.5l1 1 1.8-2M4 17.5l1 1 1.8-2"/></svg><h2>Get your top 10</h2><p>The ten postings that fit your CV best, with the keywords that matched and the ones missing.</p></li>
     </ol>
+    <div id="x-home"></div>
     <p class="note skipline">No CV at hand? <a href="#p=jobs" data-p="jobs">Browse every posting</a> or <a href="#p=details" data-p="details">try an example CV</a>.</p>
   </section>
 </main>
@@ -524,9 +534,17 @@ button:disabled{opacity:.5;cursor:default}
   </div>
 </main>
 
+<!-- the extra pages: their code is in pages.js -->
+<main id="pg-market" class="view" data-page="market" hidden><div class="wrap pagein" id="x-market"></div></main>
+<main id="pg-lab" class="view" data-page="lab" hidden><div class="wrap pagein" id="x-lab"></div></main>
+<main id="pg-ladder" class="view" data-page="ladder" hidden><div class="wrap pagein" id="x-ladder"></div></main>
+<main id="pg-swipe" class="view" data-page="swipe" hidden><div class="wrap pagein" id="x-swipe"></div></main>
+<main id="pg-board" class="view" data-page="board" hidden><div class="wrap pagein" id="x-board"></div></main>
+
 <script src="jobmeta.js"></script>
 <script src="scoring.js"></script>
 <script src="matcher.js"></script>
+<script src="pages.js"></script>
 <script>
 const $=id=>document.getElementById(id);
 const norm=s=>(s||"").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/[\r\n\t]+/g," ").replace(/\s+/g," ");
@@ -568,7 +586,7 @@ function layoutTrail(){
   const c=$("trail").cloneNode(true);
   c.removeAttribute("id");c.removeAttribute("role");c.querySelectorAll("[id]").forEach(e=>e.removeAttribute("id"));
   c.querySelector(".pin").remove();
-  c.querySelectorAll("button.stop").forEach(b=>{const d=document.createElement("span");d.className="stop";d.innerHTML=b.innerHTML;b.replaceWith(d);});
+  c.querySelectorAll("button.stop").forEach(b=>b.setAttribute("aria-pressed","false"));   // the start page trail is a preview: tap a stop to see what sits at that stage
   $("htrail").replaceWith(c);
 })();
 function paintStage(){
@@ -923,7 +941,7 @@ function scoreJob(j){
   if(FED.test(co))flags.push(["b","Federal security clearance and citizenship rules likely: verify"]);
   else if(DEFENCE.test(co))flags.push(["w","Aerospace / defence employer: security screening or Controlled Goods may apply"]);
   if(hasText(j))descFlags(j,flags);
-  return{role:sc.role,level:sc.level,overlap:sc.overlap,total:sc.total,rows,cov:sc.cov,matched:sc.matched,close:sc.close,n:sc.n,flags,lv,rel,fit,past,conf:hasText(j)?(j.partial?"Short snippet":"Full text"):"Title only"};
+  return{role:sc.role,level:sc.level,overlap:sc.overlap,total:sc.total,rows,cov:sc.cov,matched:sc.matched,close:sc.close,n:sc.n,flags,lv,rel,fit,past,ti:{past,intern,tgt,anyTerm},conf:hasText(j)?(j.partial?"Short snippet":"Full text"):"Title only"};
 }
 
 let tab="full",RES=[],RES_VER=-1,RUN=0,SCORING="",SCORED_FOR=null,SCORE_PC=0;
@@ -958,9 +976,14 @@ const starBtn=k=>`<button class="star${SAVED.has(k)?" on":""}" data-star="${esc(
 const whenOf=j=>{const a=age(j),d=a<24?0:Math.floor(a/24);return a<24?(j.ageH!=null?`Posted ${Math.max(1,Math.round(a))}h ago`:"Posted today"):d===1?"Posted 1 day ago":`Posted ${d} days ago`;};
 const srcLinks=j=>j.sources.map(x=>`<a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.src)}</a>`).join(" · ");
 /* level, how it relates to the person, field and type: the tags under a title */
+/* a field gets one of eight hues (the same field always has the same colour); "other" is grey */
+const FIELD_HUE={software:1,data:1,product:7,hr:7,engineering:2,trades:2,construction:4,ops:4,finance:6,legal:6,admin:6,marketing:5,creative:5,health:3,science:3,education:3,hospitality:8};
+const hueOf=id=>"var(--h"+(FIELD_HUE[id]||9)+")";
+const fieldPill=fd=>`<span class="pill fd" style="--fc:${hueOf(fd.id)}">${esc(fd.label)}</span>`;
+const scCls=t=>t>=60?"sc-hi":t>=45?"sc-mid":"sc-lo";
 function tagsHtml(j,rel){
   const lv=lvOf(j),fd=fdOf(j),r=REL_PILL[rel];
-  return `<div class="tags"><span class="pill lvl lv${lv.lvl}" title="${esc(lv.why||"")}">${esc(LV[lv.lvl].label)}</span>${r?pill(r[0],r[1]):""}${pill("",fd.label)}${j.type?pill("",j.type):""}</div>`;
+  return `<div class="tags"><span class="pill lvl lv${lv.lvl}" title="${esc(lv.why||"")}">${esc(LV[lv.lvl].label)}</span>${r?pill(r[0],r[1]):""}${fieldPill(fd)}${j.type?pill("",j.type):""}</div>`;
 }
 /* how the three parts of the score were counted */
 function breakdown(j,s){
@@ -973,13 +996,13 @@ function breakdown(j,s){
 }
 function jobHtml(r,rank,top){
   const {j,s}=r,a=age(j),jk=jkey(j);
-  const bar=(v,m,l)=>`<div class="sb">${l} ${v}/${m}<i><b style="width:${v/m*100}%"></b></i></div>`;
+  const bar=(v,m,l)=>`<div class="sb sb-${l.toLowerCase()}">${l} ${v}/${m}<i><b style="width:${v/m*100}%"></b></i></div>`;
   return `<details class="job${top?" top":""} lv${s.lv.lvl}" data-k="${esc(jk)}"${OPEN.has(jk)?" open":""}><summary>
-    ${top?`<div class="rank"><b>${rank}</b><small>${starBtn(jk)}</small></div>`:`<div class="score"><b>${s.total}</b><small>#${rank}</small>${starBtn(jk)}</div>`}
+    ${top?`<div class="rank"><b>${rank}</b><small>${starBtn(jk)}</small></div>`:`<div class="score"><b class="${scCls(s.total)}">${s.total}</b><small>#${rank}</small>${starBtn(jk)}</div>`}
     <div>
       <div class="t">${esc(j.title)}</div>
       <div class="meta"><span>${esc(j.company)}</span><span>${esc(j.loc)}</span><span>${whenOf(j)}${a<24?" · within 24h":""}</span><span>${srcLinks(j)}</span></div>
-      ${top?`<div class="topscore"><b>${s.total}</b><span>out of 100 · ${s.conf==="Full text"?"scored from the full text":s.conf==="Short snippet"?"scored from a short snippet":"scored from the title only"}</span></div>`:""}
+      ${top?`<div class="topscore"><b class="${scCls(s.total)}">${s.total}</b><span>out of 100 · ${s.conf==="Full text"?"scored from the full text":s.conf==="Short snippet"?"scored from a short snippet":"scored from the title only"}</span></div>`:""}
       ${tagsHtml(j,s.rel)}
       ${skillsRow(j)}
       <div class="subs">${bar(s.role,40,"Role")}${bar(s.level,25,"Level")}${bar(s.overlap,35,"Keywords")}</div>
@@ -1342,8 +1365,11 @@ $("topview").addEventListener("click",onAct);
 $("tabs").onclick=e=>{const b=e.target.closest(".tab");if(b&&b.dataset.t!==tab){tab=b.dataset.t;SHOW=PAGE;render();writeHash(true);window.scrollTo({top:Math.max(0,$("tabs").getBoundingClientRect().top+scrollY-64)});}};
 
 /* ---------- the pages: start, your CV and details, top 10, all jobs ---------- */
-const PAGES=["home","details","matches","jobs"];
+/* the extra pages (market map, skill lab, ladder, quick sort, board) live in pages.js; the site still works if that file does not load */
+const XP=window.XP||{pages:{},init(){},home(){}};
+const PAGES=["home","details","matches","jobs",...Object.keys(XP.pages)];
 const PG_TITLE={home:"Path Match",details:"Your CV and details · Path Match",matches:"Your top 10 · Path Match",jobs:"All jobs · Path Match"};
+for(const k of Object.keys(XP.pages))PG_TITLE[k]=XP.pages[k].title+" · Path Match";
 let PG="home",LASTHASH=null;
 const T={shown:10};                       // how many ranked postings the top 10 page shows (10, then 20, 30...)
 /* what the person told us on the details page; kept in this browser */
@@ -1378,12 +1404,15 @@ function paintNav(){
     if(on)a.setAttribute("aria-current","step");else a.removeAttribute("aria-current");
   });
   $("navjobs").classList.toggle("on",PG==="jobs");
+  $("exploreBtn").classList.toggle("on",!!XP.pages[PG]);
 }
 function showPage(p,push){
   if(p==="matches"&&!CV){p="details";$("dnote").textContent="Add your CV first, and your top 10 will appear here.";}
   const changed=p!==PG;
   PG=p;
+  document.body.dataset.pg=p;
   PAGES.forEach(x=>$("pg-"+x).hidden=x!==p);
+  if(XP.close)XP.close();
   document.title=PG_TITLE[p];
   paintNav();writeHash(!!push&&changed);
   render();layoutTrail();
@@ -1396,6 +1425,8 @@ function render(){
   if(PG==="jobs")renderJobs();
   else if(PG==="matches")renderMatches();
   else if(PG==="details")renderDetails();
+  else if(XP.pages[PG])XP.pages[PG].render();
+  else if(PG==="home")XP.home();
 }
 /* every link with data-p goes to a page without reloading */
 document.addEventListener("click",e=>{
@@ -1455,7 +1486,7 @@ $("dclear").onclick=()=>{
 
 /* ---------- page 3: the top 10 ---------- */
 /* The best postings for this CV among those that fit the details: ranked by score, at most 2 per employer so one company cannot fill the list. */
-function topMatches(){
+function rankPool(cap,maxPer){
   const fit=RES.filter(r=>r.s&&prefOk(r.j)&&!r.s.past);
   const full=fit.filter(r=>hasText(r.j)&&!r.j.partial);
   const relaxed=P.fullOnly&&full.length<10&&fit.length>full.length;
@@ -1463,11 +1494,24 @@ function topMatches(){
   const per=new Map(),all=[];
   for(const r of pool){
     const c=norm(r.j.company),n=per.get(c)||0;
-    if(n>=2)continue;
+    if(n>=maxPer)continue;
     per.set(c,n+1);all.push(r);
-    if(all.length>=50)break;
+    if(all.length>=cap)break;
   }
-  return {out:all.slice(0,T.shown),more:all.length>T.shown&&T.shown<50,fit:fit.length,full:full.length,relaxed};
+  return {all,fit:fit.length,full:full.length,relaxed};
+}
+function topMatches(){
+  const p=rankPool(50,2);
+  return {out:p.all.slice(0,T.shown),more:p.all.length>T.shown&&T.shown<50,fit:p.fit,full:p.full,relaxed:p.relaxed};
+}
+/* open the list of all jobs with some filters set (used by the map, the heat grid, the ladder and the jump bar) */
+function goJobs(o){
+  o=o||{};
+  Object.assign(F,{q:"",qw:[],loc:"",src:"",sort:"",min:0,saved:false,desc:false,lvl:"fit",fd:""},o.f||{});
+  F.qw=norm(F.q).split(" ").filter(Boolean);
+  tab=o.tab||"full";SHOW=PAGE;
+  $("window").value=o.w||DEFAULT_W;
+  showPage("jobs",true);
 }
 function prefSummary(){
   const b=meBand(),out=[];
@@ -1591,6 +1635,7 @@ function starClick(e){
     const k=st.dataset.star;
     if(SAVED.has(k))SAVED.delete(k);else SAVED.add(k);
     saveSaved();
+    if(XP.onStar)XP.onStar(k,SAVED.has(k));
     if(F.saved){render();}
     else{document.querySelectorAll(".star").forEach(b=>{if(b.dataset.star===k){const on=SAVED.has(k);b.classList.toggle("on",on);b.textContent=on?"★":"☆";b.setAttribute("aria-pressed",on);b.title=on?"Remove from saved":"Save this posting";}});syncControls();}
   }
@@ -1611,6 +1656,7 @@ if(P.term!==null&&[...$("term").options].some(o=>o.value===P.term))$("term").val
 readHash();
 $("theme").onclick=()=>{const r=document.documentElement,d=r.dataset.theme==="dark"||(!r.dataset.theme&&matchMedia("(prefers-color-scheme:dark)").matches);r.dataset.theme=d?"light":"dark"};
 paintStage();renderCvRead();
+XP.init();
 showPage(PG,false);
 setTimeout(()=>$("pin").style.setProperty("--pd","0s"),2200);
 run();
