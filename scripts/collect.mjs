@@ -12,6 +12,7 @@ import crypto from "node:crypto";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { loadJobMeta, loadMatcher, loadSkills } from "./umd.mjs";
 import * as nocLib from "../docs/noc/noc_library.js";
+import * as openData from "./jobbank_open.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = path.join(ROOT, "docs", "jobs.json");
@@ -782,6 +783,32 @@ export function addOccupations(jobs, lib, log = console.log) {
   return n;
 }
 
+/* ---------- Job Bank open data (the newest month, all of Canada), grouped by occupation in docs/jobs/noc ---------- */
+export async function jobBankOpenData(cfg, { lib, found = [], log = console.log, root = ROOT, fetchFn = fetch, force = false } = {}) {
+  const E = loadMatcher().engine(loadSkills());
+  const memo = new Map();
+  /* the occupation of a NOC code: its first OaSIS profile, its names, and the keywords of its official description */
+  const occupation = (noc) => {
+    if (memo.has(noc)) return memo.get(noc);
+    const n = lib && lib.nocs[noc];
+    const o = n ? { code: n.profiles[0], en: n.name.en, fr: n.name.fr,
+      kw: { en: E.profile("", occupationText(lib, n.profiles[0], "en")).kw, fr: E.profile("", occupationText(lib, n.profiles[0], "fr")).kw } } : null;
+    memo.set(noc, o);
+    return o;
+  };
+  const version = profileVersion();
+  const data = await openData.download(cfg, { root, log, fetchFn, force });
+  if (data.skipped) {
+    const idx = openData.readIndex(openData.OUT_DIR(root));
+    if (idx && idx.profileV !== version) { openData.refreshKeywords(root, occupation, version); log("Job Bank open data: occupation keywords refreshed"); }
+    log(`Job Bank open data: ${data.skipped}`);
+    return { jobs: idx ? idx.total : 0, month: data.label, newMonth: false };
+  }
+  const seen = new Set(found.map((j) => openData.sameKey(j.title, String(j.loc || "").split(",")[0], j.province, j.date)));
+  const r = openData.write(data, { root, occupation, seen, log, profileV: version });
+  return { jobs: r.kept, newMonth: true, ...r };
+}
+
 export function merge(list) {
   const m = new Map();
   for (const j of list) {
@@ -894,6 +921,11 @@ export async function main({ nowMs = Date.now(), log = console.log, write = true
   let lib = null;
   try { lib = loadNocLibrary(); addOccupations(kept, lib, log); } catch (e) { log("NOC library not used: " + e.message); }
   const jobs = addProfiles(kept, log, write ? readPrevious() : new Map(), lib);
+  const oc = searches.jobbankOpen;
+  if (write && oc && oc.enabled !== false && lib) {
+    try { sources["Job Bank open data"] = await jobBankOpenData(oc, { lib, found, log }); }
+    catch (e) { sources["Job Bank open data"] = { error: String(e.message || e).slice(0, 160) }; log("Job Bank open data: " + e.message); }
+  }
   const provinces = {}, fields = {};
   const meta = loadJobMeta();
   for (const j of jobs) { provinces[j.province] = (provinces[j.province] || 0) + 1; const f = meta.fieldOf(j.title).id; fields[f] = (fields[f] || 0) + 1; }
