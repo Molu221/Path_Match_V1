@@ -1,0 +1,19 @@
+{
+"probes": [
+{
+"name": "jobbank open data catalogue",
+"url": "https://open.canada.ca/data/api/action/package_show?id=ea639e28-c0fc-48bf-b5dd-b8899bd43072",
+"save": "jobbank_open_catalogue.json",
+"saveChars": 400000,
+"headChars": 300,
+"accept": "application/json"
+},
+{
+"name": "jobbank open data sept 2026 en",
+"url": "https://open.canada.ca/data/dataset/ea639e28-c0fc-48bf-b5dd-b8899bd43072/resource/03523cbf-a005-40ee-81ad-aca5bb74cf03/download/job-bank-open-data-all-job-postings-en-sept2026.csv",
+"save": "jobbank_open_sept2026_en_head.csv",
+"saveChars": 150000,
+"headChars": 1500
+}
+]
+}
