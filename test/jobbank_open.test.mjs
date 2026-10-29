@@ -39,11 +39,14 @@ assert.equal(O.newestMonth(cat).month, "2026-08", "September has no French file 
 // the files: one per occupation, an index, the postings also collected elsewhere left out
 const root = fs.mkdtempSync(path.join(os.tmpdir(), "jbod-"));
 const occupation = (noc) => ({ "63201": { code: "63201.00", en: "Butchers", fr: "Bouchers", kw: { en: ["Kt|cut meat"], fr: ["Kt|couper la viande"] } } })[noc] || null;
-const rep = O.write({ month: "2026-09", label: "September 2026", ...data }, { root, occupation, log: () => {}, seen: new Set([O.sameKey("cook", "Toronto", "ON", "2026-09-20")]) });
+const rep = O.write({ month: "2026-09", label: "September 2026", ...data }, { root, occupation, titleKw: (t) => ["Tt|" + t.toLowerCase()], log: () => {}, seen: new Set([O.sameKey("cook", "Toronto", "ON", "2026-09-20")]) });
 assert.deepEqual([rep.kept, rep.alsoCollectedElsewhere, rep.occupations], [1, 1, 1]);
 const idx = O.readIndex(O.OUT_DIR(root));
 assert.deepEqual([idx.month, idx.total, idx.nocs["63201"].n, idx.nocs["63201"].code, idx.nocs["63201"].prov.QC], ["2026-09", 1, 1, "63201.00", 1]);
-assert.equal(JSON.parse(fs.readFileSync(path.join(O.OUT_DIR(root), "63201.json"), "utf8"))[0].i, "101");
+const all = JSON.parse(fs.readFileSync(path.join(O.OUT_DIR(root), O.POSTINGS), "utf8"));
+assert.deepEqual(Object.keys(all), ["63201"]);
+assert.equal(all["63201"][0].i, "101");
+assert.deepEqual(all["63201"][0].k, ['Tt|butcher "a"'], "the keywords of the title are saved with the posting");
 // the same month is not downloaded again
 const fetchFn = async () => ({ json: async () => ({ result: { resources: [
   { name: "September 2026 Job Postings Advertised", url: "https://x/a-en-sept2026.csv" }, { name: "September 2026 Job Postings Advertised", url: "https://x/a-fr-sept2026.csv" }] } }) });

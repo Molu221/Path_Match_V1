@@ -6,9 +6,9 @@
 
    The files have no employer name, no description and no posting link, but every posting has its official occupation
    (NOC 2021 code), its place, date, pay, and the language, education and experience it asks for. So the postings are
-   grouped by occupation: docs/jobs/noc/<noc>.json holds the postings of one occupation, and docs/jobs/noc/index.json lists
-   the occupations (name, number of postings, provinces, pay, languages and the keywords of the occupation's official
-   description). The page compares a CV with the occupations first, then loads only the files of the closest ones.
+   grouped by occupation: docs/jobs/noc/postings.json holds every posting by occupation (with the keywords of its title),
+   and docs/jobs/noc/index.json lists the occupations (name, number of postings, provinces, pay, languages and the keywords
+   of the occupation's official description). The page loads both and lists every posting.
 
    The files change once a month: a run only downloads them when the catalogue has a newer month than index.json. */
 import fs from "node:fs";
@@ -135,7 +135,7 @@ export async function download(cfg, { root, log = console.log, fetchFn = fetch, 
   const m = newestMonth(cat);
   if (!m) throw new Error("no month with both an English and a French file in the catalogue");
   const old = readIndex(OUT_DIR(root));
-  if (!force && old && old.month === m.month) return { skipped: `${m.label} is already on disk`, month: m.month, label: m.label };
+  if (!force && old && old.month === m.month && fs.existsSync(path.join(OUT_DIR(root), POSTINGS))) return { skipped: `${m.label} is already on disk`, month: m.month, label: m.label };
   log(`Job Bank open data: downloading ${m.label} (English and French)`);
   const get = async (u) => decodeUtf16(await (await fetchFn(u, { signal: AbortSignal.timeout(300000) })).arrayBuffer());
   const [en, fr] = [parseTsv(await get(m.en)), parseTsv(await get(m.fr))];
@@ -158,7 +158,8 @@ export const sameKey = (title, city, prov, date) => [key(title), key(city), prov
 
 /* Writes docs/jobs/noc/<noc>.json and index.json. `occupation(noc)` gives {code, en, fr, kw: {en, fr}} from docs/noc;
    `seen` holds sameKey() of the postings collected elsewhere (they are left out: the other copy has the employer and a link). */
-export function write(data, { root, occupation, seen = new Set(), log = console.log, profileV = "" }) {
+export const POSTINGS = "postings.json";
+export function write(data, { root, occupation, titleKw = null, seen = new Set(), log = console.log, profileV = "" }) {
   const dir = OUT_DIR(root);
   fs.rmSync(dir, { recursive: true, force: true });
   fs.mkdirSync(dir, { recursive: true });
@@ -171,12 +172,13 @@ export function write(data, { root, occupation, seen = new Set(), log = console.
   }
   const index = { month: data.month, label: data.label, updatedAt: new Date().toISOString(), profileV, total: 0, nocs: {},
     source: "Job Bank open data (ESDC), Open Government Licence - Canada" };
-  const provinces = {};
+  const provinces = {}, all = {};
   for (const [noc, list] of [...by.entries()].sort()) {
     const o = occupation(noc);
     if (!o) unknown += list.length;
     list.sort((a, b) => (a.d < b.d ? 1 : a.d > b.d ? -1 : a.i < b.i ? -1 : 1));   // newest first
-    fs.writeFileSync(path.join(dir, noc + ".json"), JSON.stringify(list));
+    if (titleKw) for (const r of list) r.k = titleKw(r.t);   // the keywords of the title, read once here
+    all[noc] = list;
     const prov = {}, lang = {}, pays = [];
     for (const r of list) {
       prov[r.p || "?"] = (prov[r.p || "?"] || 0) + 1; provinces[r.p || "?"] = (provinces[r.p || "?"] || 0) + 1;
@@ -190,6 +192,7 @@ export function write(data, { root, occupation, seen = new Set(), log = console.
     index.total += list.length;
   }
   fs.writeFileSync(path.join(dir, "index.json"), JSON.stringify(index));
+  fs.writeFileSync(path.join(dir, POSTINGS), JSON.stringify(all));   // every posting, by occupation: the page shows them all
   const report = { month: data.label, inFile: data.total, kept: index.total, occupations: by.size, noNocCode: data.noNoc,
     alsoCollectedElsewhere: dup, notInLibrary: unknown, provinces };
   log(`Job Bank open data (${data.label}): ${data.total} postings in the file, ${index.total} kept in ${by.size} occupations; ` +
@@ -197,11 +200,18 @@ export function write(data, { root, occupation, seen = new Set(), log = console.
   return report;
 }
 /* the occupation keywords only (same month, but the dictionary, the keyword engine or the NOC library changed) */
-export function refreshKeywords(root, occupation, profileV) {
+export function refreshKeywords(root, occupation, profileV, titleKw = null) {
   const dir = OUT_DIR(root), idx = readIndex(dir);
   if (!idx) return false;
   for (const [noc, x] of Object.entries(idx.nocs)) { const o = occupation(noc); if (o) { x.kw = o.kw; x.code = o.code; x.en = o.en; x.fr = o.fr; } }
   idx.profileV = profileV;
   fs.writeFileSync(path.join(dir, "index.json"), JSON.stringify(idx));
+  if (titleKw) {
+    try {
+      const all = JSON.parse(fs.readFileSync(path.join(dir, POSTINGS), "utf8"));
+      for (const list of Object.values(all)) for (const r of list) r.k = titleKw(r.t);
+      fs.writeFileSync(path.join(dir, POSTINGS), JSON.stringify(all));
+    } catch { /* no postings file yet */ }
+  }
   return true;
 }

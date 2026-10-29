@@ -179,14 +179,16 @@ Licence – Canada). The daily run checks the catalogue and downloads the Englis
 out (a few days after each month ends). The files have no employer, description or link, but each posting has its
 official occupation (NOC), place, date, pay, and the language, education and experience it asks for.
 
-- `docs/jobs/noc/<noc>.json`: the postings of one occupation, newest first; `docs/jobs/noc/index.json`: each occupation
-  with its number of postings, provinces, pay (25th, 50th and 75th percentile, yearly), languages asked and the keywords
-  of its official description. Settings: `jobbankOpen` in `config/searches.json` (`"enabled": false` switches it off).
-- On the page, once a CV is added, the CV is compared with the occupations (a job title or field of study of the
-  occupation on the CV, plus the keywords of its description), and the postings of the 10 closest occupations join the
-  list, from every province. Each card says "Occupation profile – NOC …", shows pay, education, experience, language
-  and positions, compares the CV with the occupation (including the language the posting asks for) and links to a Job
-  Bank search for the same title and place. A posting also collected from another source (same title, city, province
-  and day) is left out, since the other copy has the employer and a link.
+- `docs/jobs/noc/postings.json`: every posting, by occupation, with the keywords of its title;
+  `docs/jobs/noc/index.json`: each occupation with its number of postings, provinces, pay (25th, 50th and 75th percentile,
+  yearly), languages asked and the keywords of its official description. Settings: `jobbankOpen` in
+  `config/searches.json` (`"enabled": false` switches it off).
+- On the page, every open-data posting is listed (source "Job Bank open data"), after the regular collection has loaded
+  (about 1.5 MB more). Each card says "Occupation profile – NOC …", shows pay, education, experience, language and
+  positions, compares the CV with the occupation (including the language the posting asks for), and has two links: a
+  Job Bank search for the same title and place (the open data has no posting link) and the full description of the
+  occupation on the Government of Canada's OaSIS site. A posting also collected from another source (same title, city,
+  province and day) is left out, since the other copy has the employer and a link.
+- Every Job Bank job with an occupation (feed or open data) links to the occupation's full description.
 - The data is about a month old when it comes out, so some postings may already be filled: the age is on every card.
 

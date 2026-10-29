@@ -796,16 +796,18 @@ export async function jobBankOpenData(cfg, { lib, found = [], log = console.log,
     memo.set(noc, o);
     return o;
   };
+  const tk = new Map();
+  const titleKw = (t) => { if (!tk.has(t)) tk.set(t, E.profile(t, "", 10).kw); return tk.get(t); };
   const version = profileVersion();
   const data = await openData.download(cfg, { root, log, fetchFn, force });
   if (data.skipped) {
     const idx = openData.readIndex(openData.OUT_DIR(root));
-    if (idx && idx.profileV !== version) { openData.refreshKeywords(root, occupation, version); log("Job Bank open data: occupation keywords refreshed"); }
+    if (idx && idx.profileV !== version) { openData.refreshKeywords(root, occupation, version, titleKw); log("Job Bank open data: occupation keywords refreshed"); }
     log(`Job Bank open data: ${data.skipped}`);
     return { jobs: idx ? idx.total : 0, month: data.label, newMonth: false };
   }
   const seen = new Set(found.map((j) => openData.sameKey(j.title, String(j.loc || "").split(",")[0], j.province, j.date)));
-  const r = openData.write(data, { root, occupation, seen, log, profileV: version });
+  const r = openData.write(data, { root, occupation, titleKw, seen, log, profileV: version });
   return { jobs: r.kept, newMonth: true, ...r };
 }
 
