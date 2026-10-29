@@ -35,10 +35,10 @@ jobs:
         run: |
           git config user.name "path-match-bot"
           git config user.email "path-match-bot@users.noreply.github.com"
-          git add docs/jobs.json docs/d
+          git add docs/jobs.json docs/d docs/jobs   # docs/jobs: Job Bank open data, changes once a month
           git diff --cached --quiet && echo "No changes" && exit 0
           git commit -m "Refresh postings"
-          # another run or a code change may have been pushed meanwhile: the data of this run wins in docs/jobs.json and docs/d
+          # another run or a code change may have been pushed meanwhile: the data of this run wins in docs/jobs.json, docs/d and docs/jobs
           for i in 1 2 3; do
             git pull --rebase -X theirs origin main && git push && exit 0
             git rebase --abort 2>/dev/null || true

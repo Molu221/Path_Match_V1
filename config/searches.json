@@ -206,5 +206,10 @@
       "technician",
       "analyst"
     ]
+  },
+  "jobbankOpen": {
+    "_note": "Job Bank open data (open.canada.ca, Open Government Licence - Canada): every posting first published on Job Bank in the newest month, all of Canada, with its official occupation (NOC). No employer, no description, no link. Downloaded only when a new month is out (a few days after each month ends); grouped by occupation in docs/jobs/noc. The page loads the occupations closest to a CV.",
+    "enabled": true,
+    "dataset": "ea639e28-c0fc-48bf-b5dd-b8899bd43072"
   }
 }
