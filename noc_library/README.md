@@ -26,6 +26,21 @@ This library is an *occupation* library: for each NOC code it holds the duties, 
 certifications and similar occupations, so a job that only has a title (most Job Bank jobs) can be compared
 with a CV through its occupation. The two work side by side; neither replaces the other.
 
+## Job Bank jobs that only have a title
+
+Job Bank's terms forbid reading most postings with a script, so the collector reads the full text of only the newest ~50.
+For every other Job Bank job, `scripts/collect.mjs` finds the occupation from the title with `nocForTitle` and scores the
+job from that occupation's official description (`occupationText`): its core competencies, main duties and required
+certifications. The job card says **"Occupation profile – NOC …"**, compares the CV with the occupation (Matched / Missing /
+Guess, without languages since the posting does not say which one it needs), shows the occupation description and keeps the
+link to the real posting and the box to paste it. Pasting the employer's text scores the job on that text instead.
+
+`nocForTitle(lib, title)` (Python: `noc_for_title`) returns the occupation and how it was found:
+- **exact title**: the title is a title of exactly one occupation ("supermarket butcher" → 63201);
+- **closest title**: the same words in the usual order ("driver, truck" → truck driver, 73300) or the closest known title
+  with the same main word and most of the other words ("transportation coordinator" → transportation planning coordinator, 13201);
+- **none**: nothing close enough (the job stays title only).
+
 ## What is inside, for each occupation
 
 | Part | Example: 13201.01 Production logistics coordinators |
@@ -41,8 +56,8 @@ with a CV through its occupation. The two work side by side; neither replaces th
 | Similar occupations | 13201.02 (very similar), 10019.00, 12010.00 … |
 | Languages in postings (per NOC) | English 47, English or French 14, French 13, Bilingual 2, no data 34 (Job Bank, September 2026) |
 
-Plus three indexes: **job title → occupations** (65,854 titles, EN/FR, including 4,166 titles used in
-real Job Bank postings; vague one-word titles such as "intern" or "assistant" are left out), **keyword → occupations**, and **English ↔ French** pairs (206 duty
+Plus three indexes: **job title → occupations** (65,831 titles, EN/FR, including 4,166 titles used in
+real Job Bank postings; vague one-word titles such as "intern" or "assistant" are left out), **keyword → occupations**, and **English ↔ French** pairs (179 duty
 keywords, 192 skills/competencies, 4,220 job titles).
 
 ## Use it

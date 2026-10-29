@@ -242,6 +242,70 @@ export function compare(lib, cvText, code, { postingLanguage = null, fits = null
   return { code, noc: p.noc, name: p.name, summary, items: out };
 }
 
+// ------------------------------------------------------------------ job title -> one occupation
+// Job Bank titles are standard titles, often written backwards ("driver, truck") or with a field ("sales advisor - retail").
+// Returns { noc, code, name, how: "exact title" | "closest title", via } or { noc: null, how: "none" }.
+const TITLE_FILLER = new Set("general part full time level and of the for in de du des la le et ou a au senior junior assistant lead specialist specialiste temporary seasonal remote"
+  .split(" ").map(stem));
+const nocsOf = (codes) => [...new Set(codes.map((c) => c.slice(0, 5)))];
+function titleVariants(title) {
+  const t = String(title ?? "").replace(/\([^)]*\)/g, " ").replace(/\s+/g, " ").trim();
+  const out = [];
+  const push = (x) => { const n = norm(x); if (n && !out.includes(n)) out.push(n); };
+  push(t);
+  const dash = t.split(/\s+[-–—]\s+|\s*\/\s*/);
+  for (const part of [t, ...dash]) { const c = part.split(/\s*,\s*/); if (c.length === 2) { push(c[1] + " " + c[0]); push(c[0]); } }
+  if (dash.length > 1) { push(dash[1] + " " + dash[0]); push(dash[0]); }
+  return out;
+}
+const TOKEN_INDEX = new WeakMap();
+function titleTokens(lib) {
+  if (!TOKEN_INDEX.has(lib)) {
+    const byToken = new Map(), sets = new Map();
+    for (const k of Object.keys(lib.title_index)) {
+      const ts = new Set(tokens(k));
+      sets.set(k, ts);
+      for (const x of ts) { if (!byToken.has(x)) byToken.set(x, []); byToken.get(x).push(k); }
+    }
+    TOKEN_INDEX.set(lib, { byToken, sets });
+  }
+  return TOKEN_INDEX.get(lib);
+}
+export function nocForTitle(lib, title, { minOverlap = 0.6, minLead = 0.1 } = {}) {
+  const v = titleVariants(title);
+  const found = (code, how, via) => ({ noc: code.slice(0, 5), code, name: lib.profiles[code].name, how, via });
+  // 1) the title itself (or the same words in the usual order) is a title of exactly one occupation
+  for (let i = 0; i < v.length; i++) {
+    const c = lib.title_index[v[i]];
+    if (c && nocsOf(c).length === 1) return found(c[0], i === 0 ? "exact title" : "closest title", v[i]);
+  }
+  // 2) the closest known title: the same main word (the last one: "coordinator", "engineer") and most of the other words
+  const { byToken, sets } = titleTokens(lib);
+  const best = new Map();
+  for (const s of v) {
+    const t = [...new Set(tokens(s))];
+    if (!t.length) continue;
+    const head = t[t.length - 1], core = t.filter((x) => !TITLE_FILLER.has(x));
+    for (const k of byToken.get(head) || []) {
+      const ks = sets.get(k);
+      if (core.filter((x) => ks.has(x)).length < Math.min(2, core.length)) continue;
+      const inter = t.filter((x) => ks.has(x)).length;
+      const overlap = Math.round((100 * inter) / (t.length + ks.size - inter)) / 100;
+      for (const n of nocsOf(lib.title_index[k])) {
+        const o = best.get(n);
+        if (!o || overlap > o[0] || (overlap === o[0] && k < o[1])) best.set(n, [overlap, k]);
+      }
+    }
+  }
+  const r = [...best.entries()].sort((a, b) => b[1][0] - a[1][0] || (a[0] < b[0] ? -1 : 1));
+  if (r.length && r[0][1][0] >= minOverlap && r[0][1][0] - (r[1] ? r[1][1][0] : 0) >= minLead - 1e-9) {
+    const [n, [, k]] = r[0];
+    const code = lib.title_index[k].find((c) => c.startsWith(n));
+    return found(code, "closest title", k);
+  }
+  return { noc: null, code: null, name: null, how: "none", via: null };
+}
+
 // ------------------------------------------------------------------ small lookups
 export function translate(lib, term) {
   const t = norm(term), tr = lib.translations, hits = [];

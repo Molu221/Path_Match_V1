@@ -11,6 +11,7 @@ import path from "node:path";
 import crypto from "node:crypto";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { loadJobMeta, loadMatcher, loadSkills } from "./umd.mjs";
+import * as nocLib from "../docs/noc/noc_library.js";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = path.join(ROOT, "docs", "jobs.json");
@@ -688,7 +689,7 @@ export function writeOutput(out, { indexFile = OUT, textDir = OUT_TEXT } = {}) {
    yesterday keeps yesterday's record (reading a text takes about 40 ms, so 10,000 postings would take minutes). */
 export function profileVersion(dir = path.join(ROOT, "docs")) {
   const h = crypto.createHash("sha1");
-  for (const f of ["skills.json", "matcher.js", "jobmeta.js"]) { try { h.update(fs.readFileSync(path.join(dir, f))); } catch { h.update(f); } }
+  for (const f of ["skills.json", "matcher.js", "jobmeta.js", "noc/noc_library.lite.json", "noc/noc_library.js"]) { try { h.update(fs.readFileSync(path.join(dir, f))); } catch { h.update(f); } }
   return h.digest("hex").slice(0, 10);
 }
 export function readPrevious(file = OUT, version = profileVersion()) {
@@ -701,17 +702,18 @@ export function readPrevious(file = OUT, version = profileVersion()) {
 
 /* What the page needs to rank a posting without its text, worked out here once: its id, its main keywords (kw, kt), its level (lv), its language (lg),
    things to check in the wording (df) and the length of the text (dl). */
-export function addProfiles(jobs, log = console.log, prev = new Map()) {
+export function addProfiles(jobs, log = console.log, prev = new Map(), lib = null) {
   let E;
   try { E = loadMatcher().engine(loadSkills()); } catch (e) { log("Keyword profiles skipped: " + e.message); E = null; }
   const meta = loadJobMeta();
+  const occ = new Map();   // the keywords of one occupation, once per occupation and language
   let reused = 0;
   for (const j of jobs) {
     const text = j.desc || "";
     j.id = jobId(j);
     j.dl = text.length;
     const old = prev.get(j.id);
-    if (old && old.dl === j.dl) {
+    if (old && old.dl === j.dl && (old.op ? old.noc && old.noc.c : null) === (j.op ? j.noc.c : null)) {
       j.lv = old.lv; j.lg = old.lg; j.kw = old.kw; j.kt = old.kt;
       if (old.df) j.df = old.df;
       reused++;
@@ -722,10 +724,62 @@ export function addProfiles(jobs, log = console.log, prev = new Map()) {
     j.lg = meta.langOf(j.title, text);
     const df = meta.descFlags(text);
     if (df.length) j.df = df;
-    if (E) { const p = E.profile(j.title, text); j.kw = p.kw; j.kt = p.kt; }
+    if (E && j.op && lib) {
+      /* no text of its own: the keywords of the title, then those of its occupation's official description */
+      const k = j.noc.c + "|" + j.lg;
+      if (!occ.has(k)) occ.set(k, occupationText(lib, j.noc.c, j.lg));
+      const p = E.profile(j.title, occ.get(k)); j.kw = p.kw; j.kt = p.kt;
+    } else if (E) { const p = E.profile(j.title, text); j.kw = p.kw; j.kt = p.kt; }
   }
   if (prev.size) log(`Records: ${reused} reused from the previous collection, ${jobs.length - reused} read.`);
   return jobs;
+}
+
+/* ---------- Job Bank jobs: their occupation (NOC) ----------
+   Job Bank shows the full text of only a few postings to a script (its terms forbid reading the rest), so most Job Bank jobs have
+   only a title. Their title is a standard occupation title, so it gives the occupation (NOC code) from docs/noc, and the official
+   description of that occupation (duties, skills, education, certifications) stands in for the employer's text. */
+export function loadNocLibrary(file = path.join(ROOT, "docs", "noc", "noc_library.lite.json")) {
+  return nocLib.prepare(JSON.parse(fs.readFileSync(file, "utf8")));
+}
+const isJobBank = (j) => j.sources.some((s) => s.src === "Job Bank");
+/* a posting whose own text was not read: no text, or only a short part of it */
+export const unread = (j) => !!j.partial || !j.desc;
+/* The occupation written as a posting (French when the posting is French), so the keyword engine reads it like any other posting:
+   its core competencies, the main duties under a "duties" heading, then the required certifications under "requirements". */
+export function occupationText(lib, code, lang = "en") {
+  const p = lib.profiles[code], L = lang === "fr" ? "fr" : "en";
+  if (!p) return "";
+  const skills = [];
+  for (const c of p.core_competencies) for (const x of c.parts) if (!skills.includes(x)) skills.push(x);
+  for (const x of p.skills) if (x.rating >= 4 && !skills.includes(x.en)) skills.push(x.en);
+  const comp = lib.translations.competencies_en_fr;
+  const skillNames = skills.slice(0, 12).map((x) => (L === "fr" && comp[x.toLowerCase()]) || x);
+  const req = [];   // education is left out: the card checks it against the CV on its own (Matched / Guess / Missing)
+  for (const c of p.requirements.certifications) if (c.required) req.push(L === "fr" ? c.fr || c.name : c.name);
+  /* the core competencies come before any heading (not tagged "required": OaSIS lists abilities such as stamina there) */
+  return [p.lead[L], ...skillNames.map((x) => "- " + x),
+    L === "fr" ? "Fonctions principales" : "Main duties", ...p.duties.slice(0, 12).map((d) => "- " + (d[L] || d.en)),
+    ...(req.length ? [L === "fr" ? "Exigences" : "Requirements", ...req.map((x) => "- " + x)] : [])].join("\n");
+}
+/* Gives every Job Bank job its occupation: noc = {c: profile code, en, fr: occupation name, how: "exact title" | "closest title"};
+   a job whose text was not read is marked op (scored from its occupation profile). Returns the counts for the log. */
+export function addOccupations(jobs, lib, log = console.log) {
+  const n = { fullText: 0, exact: 0, closest: 0, none: 0 };
+  const memo = new Map();
+  for (const j of jobs) {
+    delete j.noc; delete j.op;
+    if (!isJobBank(j)) continue;
+    const key = String(j.title || "");
+    if (!memo.has(key)) memo.set(key, nocLib.nocForTitle(lib, key));
+    const r = memo.get(key);
+    if (r.code) j.noc = { c: r.code, en: r.name.en, fr: r.name.fr, how: r.how };
+    if (!unread(j)) n.fullText++;
+    else if (!r.code) n.none++;
+    else { j.op = 1; n[r.how === "exact title" ? "exact" : "closest"]++; }
+  }
+  log(`Job Bank: ${n.fullText} with their full text, ${n.exact + n.closest} scored from their occupation profile (${n.exact} exact title, ${n.closest} closest title), ${n.none} with no occupation found (title only).`);
+  return n;
 }
 
 export function merge(list) {
@@ -836,7 +890,10 @@ export async function main({ nowMs = Date.now(), log = console.log, write = true
 
   /* every kept job is in Canada: save its province (QC, ON, BC... or "Remote – Canada" / "Canada" when the text names no province) */
   const found = merge(all).map((j) => ({ ...j, province: provinceOf(j.loc) })).filter((j) => j.province);
-  const jobs = addProfiles(selectJobs(found, selection), log, write ? readPrevious() : new Map());
+  const kept = selectJobs(found, selection);
+  let lib = null;
+  try { lib = loadNocLibrary(); addOccupations(kept, lib, log); } catch (e) { log("NOC library not used: " + e.message); }
+  const jobs = addProfiles(kept, log, write ? readPrevious() : new Map(), lib);
   const provinces = {}, fields = {};
   const meta = loadJobMeta();
   for (const j of jobs) { provinces[j.province] = (provinces[j.province] || 0) + 1; const f = meta.fieldOf(j.title).id; fields[f] = (fields[f] || 0) + 1; }

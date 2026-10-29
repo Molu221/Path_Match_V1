@@ -192,14 +192,27 @@ for (_, e), (_, f) in zip(duty_en.iterrows(), duty_fr.iterrows()):
     for a in pe:
         for b in pf:
             pair_count[(a, b)] += 1
-best = {}
-for (a, b), c in pair_count.items():
+cand = collections.defaultdict(list)
+for (a, b), c in sorted(pair_count.items()):
     if c < 3:
         continue
-    dice = 2 * c / (n_en[a] + n_fr[b])
-    if dice >= 0.8 and b.split(" ")[0] not in LINK_FR and (a not in best or dice > best[a][1]):
-        best[a] = (b, round(dice, 2))
-kw_pairs = {a: b for a, (b, _) in best.items()}
+    dice = round(2 * c / (n_en[a] + n_fr[b]), 2)
+    if dice >= 0.8 and b.split(" ")[0] not in LINK_FR:
+        cand[a].append((dice, b))
+# a pair is kept only when it is the single best on both sides (a tie means the duties cannot tell the words apart)
+best = {}
+for a, lst in cand.items():
+    lst.sort(reverse=True)
+    if len(lst) == 1 or lst[0][0] > lst[1][0]:
+        best[a] = (lst[0][1], lst[0][0])
+by_fr = collections.defaultdict(list)
+for a, (b, d) in best.items():
+    by_fr[b].append((d, a))
+for b, lst in by_fr.items():
+    lst.sort(reverse=True)
+    for d, a in (lst if len(lst) > 1 and lst[0][0] == lst[1][0] else lst[1:]):
+        del best[a]
+kw_pairs = dict(sorted((a, b) for a, (b, _) in best.items()))
 kw_pair_strength = {a: d for a, (_, d) in best.items()}
 
 # ---------------------------------------------------------------- titles
@@ -457,7 +470,14 @@ administrator advisor adviser attendant volunteer employee staff member partner 
 stagiaire stagiaires etudiant etudiante apprenti apprentie adjoint adjointe aide commis conseiller conseillere technicien technicienne
 analyste coordonnateur coordonnatrice gestionnaire directeur directrice superviseur superviseure ingenieur ingenieure operateur
 operatrice prepose preposee representant representante employe employee agente""".split())
-title_index = {k: sorted(v) for k, v in title_index.items() if k and len(v) <= 12 and k not in VAGUE}
+# keys are written the way the helpers (noc_library.py / .js) normalize text, so "cook's helper" or "foreman/woman" can be looked up
+def key_norm(t):
+    t = re.sub(r"[’'`]", " ", norm(t))
+    return re.sub(r"\s+", " ", re.sub(r"[^a-z0-9+#&\-\. ]+", " ", t)).strip()
+merged = collections.defaultdict(set)
+for k, v in title_index.items():
+    merged[key_norm(k)] |= v
+title_index = {k: sorted(v) for k, v in merged.items() if k and len(v) <= 12 and k not in VAGUE}
 
 keyword_index = collections.defaultdict(set)
 for code, p in profiles.items():
@@ -504,3 +524,15 @@ lib = {"meta": meta, "rules": RULES, "nocs": nocs, "profiles": profiles, "title_
 with open(os.path.join(OUT, "noc_library.json"), "w", encoding="utf-8") as fh:
     json.dump(lib, fh, ensure_ascii=False, separators=(",", ":"))
 print(json.dumps(meta["counts"]))
+
+# the lite file the website loads: the same, without the example titles (already in title_index), the "why" texts of the
+# core competencies and the full requirement texts
+for p in profiles.values():
+    p.pop("titles", None)
+    p["requirements"].pop("text_en", None)
+    p["requirements"].pop("text_fr", None)
+    for c in p["core_competencies"]:
+        c.pop("why_en", None)
+        c.pop("why_fr", None)
+with open(os.path.join(OUT, "noc_library.lite.json"), "w", encoding="utf-8") as fh:
+    json.dump(lib, fh, ensure_ascii=False, separators=(",", ":"))
