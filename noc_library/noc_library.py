@@ -288,6 +288,94 @@ def compare(lib, cv_text, code, posting_language=None, fits=None, max_duties=12,
 
 
 # ------------------------------------------------------------------ small lookups
+# ------------------------------------------------------------------ job title -> one occupation
+# Job Bank titles are standard titles, often written backwards ("driver, truck") or with a field ("sales advisor - retail").
+# Returns {"noc", "code", "name", "how": "exact title" | "closest title" | "none", "via"}.
+TITLE_FILLER = {stem(w) for w in ("general part full time level and of the for in de du des la le et ou a au senior junior assistant lead "
+                                  "specialist specialiste temporary seasonal remote").split()}
+
+
+def _nocs_of(codes):
+    out = []
+    for c in codes:
+        if c[:5] not in out:
+            out.append(c[:5])
+    return out
+
+
+def _title_variants(title):
+    t = re.sub(r"\s+", " ", re.sub(r"\([^)]*\)", " ", str(title or ""))).strip()
+    out = []
+
+    def push(x):
+        n = norm(x)
+        if n and n not in out:
+            out.append(n)
+    push(t)
+    dash = re.split(r"\s+[-–—]\s+|\s*/\s*", t)
+    for part in [t] + dash:
+        c = re.split(r"\s*,\s*", part)
+        if len(c) == 2:
+            push(c[1] + " " + c[0])
+            push(c[0])
+    if len(dash) > 1:
+        push(dash[1] + " " + dash[0])
+        push(dash[0])
+    return out
+
+
+_TOKEN_INDEX = {}
+
+
+def _title_tokens(lib):
+    key = id(lib)
+    if key not in _TOKEN_INDEX:
+        by_token, sets = {}, {}
+        for k in lib["title_index"]:
+            ts = set(tokens(k))
+            sets[k] = ts
+            for x in ts:
+                by_token.setdefault(x, []).append(k)
+        _TOKEN_INDEX[key] = (by_token, sets)
+    return _TOKEN_INDEX[key]
+
+
+def noc_for_title(lib, title, min_overlap=0.6, min_lead=0.1):
+    v = _title_variants(title)
+
+    def found(code, how, via):
+        return {"noc": code[:5], "code": code, "name": lib["profiles"][code]["name"], "how": how, "via": via}
+    # 1) the title itself (or the same words in the usual order) is a title of exactly one occupation
+    for i, t in enumerate(v):
+        c = lib["title_index"].get(t)
+        if c and len(_nocs_of(c)) == 1:
+            return found(c[0], "exact title" if i == 0 else "closest title", t)
+    # 2) the closest known title: the same main word (the last one) and most of the other words
+    by_token, sets = _title_tokens(lib)
+    best = {}
+    for s in v:
+        t = list(dict.fromkeys(tokens(s)))
+        if not t:
+            continue
+        head, core = t[-1], [x for x in t if x not in TITLE_FILLER]
+        for k in by_token.get(head, []):
+            ks = sets[k]
+            if sum(1 for x in core if x in ks) < min(2, len(core)):
+                continue
+            inter = sum(1 for x in t if x in ks)
+            overlap = math.floor(100 * inter / (len(t) + len(ks) - inter) + 0.5) / 100
+            for n in _nocs_of(lib["title_index"][k]):
+                o = best.get(n)
+                if not o or overlap > o[0] or (overlap == o[0] and k < o[1]):
+                    best[n] = (overlap, k)
+    r = sorted(best.items(), key=lambda x: (-x[1][0], x[0]))
+    if r and r[0][1][0] >= min_overlap and r[0][1][0] - (r[1][1][0] if len(r) > 1 else 0) >= min_lead - 1e-9:
+        n, (_, k) = r[0]
+        code = next(c for c in lib["title_index"][k] if c.startswith(n))
+        return found(code, "closest title", k)
+    return {"noc": None, "code": None, "name": None, "how": "none", "via": None}
+
+
 def translate(lib, term):
     """English <-> French for keywords, competencies and job titles."""
     t = norm(term)

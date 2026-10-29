@@ -312,3 +312,27 @@ assert.equal(c.shardOf("ffffffffff"), "63"); assert.equal(c.shardOf("0000000000"
 fsx.rmSync(dir, { recursive: true });
 
 console.log("all tests passed:", out.jobs.length, "merged postings;", JSON.stringify(out.sources.Greenhouse));
+
+/* Job Bank jobs whose text was not read get their occupation (NOC) and are scored from its official description */
+{
+  const lib = c.loadNocLibrary();
+  const jbJob = (title, desc, partial) => ({ company: "Shop", title, loc: "Laval, QC", sources: [{ src: "Job Bank", url: "https://www.jobbank.gc.ca/jobsearch/jobposting/1" }], desc, ...(partial ? { partial: true } : {}) });
+  const jobs = [jbJob("supermarket butcher", "", true), jbJob("driver, truck", "", true), jbJob("intern", "", true),
+    jbJob("supermarket butcher", "Cut meat. Requirements: food safety.", false),
+    { company: "Other", title: "supermarket butcher", loc: "Laval, QC", sources: [{ src: "Workday", url: "https://x" }], desc: "", partial: true }];
+  const n = c.addOccupations(jobs, lib, () => {});
+  assert.deepEqual(n, { fullText: 1, exact: 1, closest: 1, none: 1 });
+  assert.deepEqual([jobs[0].noc.c, jobs[0].noc.how, jobs[0].op], ["63201.00", "exact title", 1]);
+  assert.equal(jobs[1].noc.how, "closest title");
+  assert.ok(!jobs[2].noc && !jobs[2].op, "no occupation: the job stays title only");
+  assert.ok(jobs[3].noc && !jobs[3].op, "a job with its full text keeps its own text, and shows its occupation");
+  assert.ok(!jobs[4].noc, "only Job Bank jobs");
+  const t = c.occupationText(lib, "63201.00", "en");
+  assert.ok(t.includes("Main duties") && /cut/i.test(t));
+  assert.ok(c.occupationText(lib, "63201.00", "fr").includes("Fonctions principales"));
+  c.addProfiles(jobs, () => {}, new Map(), lib);
+  assert.ok(jobs[0].kw.length > 10 && jobs[0].kw.some((k) => k[0] === "K"), "scored from the duties of the occupation");
+  assert.ok(jobs[2].kw.length < 5, "a job with no occupation keeps the keywords of its title only");
+  console.log("occupation profile tests passed:", jobs[0].kw.length, "keywords for", jobs[0].title);
+}
+

@@ -195,6 +195,18 @@ mark.m-chk{background:none;border-bottom:2px dotted var(--accent)}
 .legend mark{padding:0 6px}
 .paste{border:1px dashed var(--accent);border-radius:8px;padding:10px;margin:6px 0 10px;background:var(--accent-soft);font-size:13px}
 .paste textarea{min-height:110px;margin-top:4px}
+.occ{font-size:12.5px;color:var(--mute);margin:3px 0}
+.occ b{color:var(--ink,inherit);font-weight:600}
+.occ.on{border-left:3px solid var(--accent);padding:2px 0 2px 8px;background:var(--accent-soft);border-radius:0 6px 6px 0}
+.occparts{display:grid;gap:10px;margin:8px 0}
+.occparts h4{margin:0 0 4px;font-size:13px}
+.occparts ul{list-style:none;margin:0;padding:0;display:grid;gap:3px}
+.occparts li{display:grid;grid-template-columns:86px 1fr;gap:8px;align-items:start;font-size:13px}
+.occparts li .why{grid-column:2;color:var(--mute);font-size:12px;margin-top:-2px}
+.lab{font-size:12px;padding:1px 6px;border-radius:5px;text-align:center}
+.lab.M{background:var(--ok-soft);color:var(--ok)}
+.lab.Gs{background:var(--warn-soft);color:var(--warn)}
+.lab.X{background:var(--bad-soft);color:var(--bad)}
 details.old{margin-top:12px;border-top:1px solid var(--line);padding-top:6px}
 details.old>summary{cursor:pointer;color:var(--mute);font-size:13px;display:block;padding:4px 0}
 details.old>summary::before{content:"▸ "}
@@ -643,7 +655,7 @@ const age=j=>j.ageH!=null?j.ageH:dayDiff(j.date)*24;
 /* ---------- where the postings come from ---------- */
 let SRC={},SRC_TIME="not yet";
 const SRC_INFO={
-  "Job Bank":["Job Bank Canada (Government of Canada): searches across the country for every kind of work, English and French","Full text for the newest postings; title, employer, place and date for the rest. Some partner posts only link out"],
+  "Job Bank":["Job Bank Canada (Government of Canada): searches across the country for every kind of work, English and French","Full text for the newest postings. The rest (title, employer, place and date) are compared through the official description of their occupation (NOC), found from the title. Some partner posts only link out"],
   "The Muse":["The Muse free public API: internships, entry-level, mid-level and senior roles in the biggest cities","Full text"],
   "Workday":["Career sites of large Canadian employers on Workday: every posting in Canada","Full text for the newest 100 of each employer; title, place and date for the rest"],
   "Greenhouse":["Open job boards of employers on Greenhouse","Full text"],
@@ -717,6 +729,10 @@ function refreshSlot(j){
 /* the card of a posting on the page that is showing (the same posting can sit on two pages) */
 const cardEl=k=>[...document.querySelectorAll("details.job")].find(x=>x.dataset.k===k&&!x.closest("[hidden]"));
 function descPanel(j){
+  if(isOcc(j)){
+    if(!NOCLIB){loadNoc().then(()=>refreshSlot(j)).catch(()=>{});return '<p class="note">Loading the occupation description…</p>';}
+    return '<p class="note">The employer\'s own posting could not be read. This is the official description of its occupation.</p>'+occDescription(j,true);
+  }
   if(needsText(j)){ensureText(j).then(()=>refreshSlot(j));return '<p class="note">Loading the posting…</p>';}
   if(j._tfail&&!j.desc)return '<p class="note">The text of this posting could not be loaded. Check the connection and open the card again, or open it on the employer\'s page.</p>';
   const text=bodyOf(j);
@@ -812,8 +828,8 @@ const half=x=>String(Math.round(x*10)/10);
 /* the keywords row directly under the job title: the main keywords the score counts */
 function skillsRow(j){
   if(!DICT)return '<div class="skills"><span class="note">Reading the keywords…</span></div>';
-  const rows=rowsOf(j)||[],where=hasText(j)?"posting":"title";
-  const need=hasText(j)&&!j.partial&&!j.pasted?"":" Only "+(hasText(j)?"a short snippet":"the title")+" is available: open the card and paste the full description.";
+  const rows=rowsOf(j)||[],where=isOcc(j)?"occupation profile":hasText(j)?"posting":"title";
+  const need=isOcc(j)||(hasText(j)&&!j.partial&&!j.pasted)?"":" Only "+(hasText(j)?"a short snippet":"the title")+" is available: open the card and paste the full description.";
   if(!rows.length)return `<div class="skills"><span class="note">No keywords were found in the ${where}.${need}</span></div>`;
   const M=rows.filter(x=>x.st==="M").length,C=rows.filter(x=>x.st==="R").length,MAX=16;
   const chips=rows.slice(0,MAX).map(x=>{
@@ -821,7 +837,7 @@ function skillsRow(j){
     return `<span class="${x.st}${x.kind==="t"?" t":""}" title="${esc((TAGNAME[x.tag]?TAGNAME[x.tag]+": ":"")+t)}">${esc(x.n)}</span>`;
   }).join("");
   const more=rows.length-MAX;
-  return `<div class="skills"><div class="sk-h"><b>${M} of the ${rows.length}</b> main keywords of this ${where} are on your CV${C?` (${C} close, not counted)`:""}${j.pasted?" · from the text you pasted":j.partial?" · short snippet only: open the card to paste the full text":hasText(j)?"":" · title only: open the card to paste the full text"}</div>
+  return `<div class="skills"><div class="sk-h"><b>${M} of the ${rows.length}</b> main keywords of this ${where} are on your CV${C?` (${C} close, not counted)`:""}${j.pasted?" · from the text you pasted":isOcc(j)?" · from the official description of the occupation":j.partial?" · short snippet only: open the card to paste the full text":hasText(j)?"":" · title only: open the card to paste the full text"}</div>
     <div class="kw sk">${chips}${more>0?`<span class="more">+${more} more, open the card</span>`:""}</div></div>`;
 }
 function pasteBox(j){
@@ -833,8 +849,61 @@ function pasteBox(j){
     <textarea aria-label="Full job description" data-pk="${k}" placeholder="Paste the full posting text here: tasks, requirements, assets, language and eligibility"></textarea>
     <div class="row" style="margin-top:6px"><button class="primary" data-act="usepaste" data-pk="${k}">Extract keywords from this text</button>${j.pasted?`<button data-act="clearpaste" data-pk="${k}">Remove the pasted text</button>`:""}<span class="note" data-msg="${k}">Stays in this browser only.</span></div></div>`;
 }
+/* ---------- Job Bank jobs scored from their occupation (NOC) ----------
+   Most Job Bank postings cannot be read by a script (Job Bank's terms), so the collector found their occupation from the title
+   (j.noc) and scored them from the official description of that occupation (j.op). The library (docs/noc) is loaded only when such a
+   card is opened. Pasting the employer's text turns the card back into a normal one. */
+const isOcc=j=>!!(j.op&&j.noc&&!j.pasted);
+const nocCode=j=>j.noc.c.slice(0,5);
+function occLine(j){
+  if(!j.noc)return "";
+  if(isOcc(j))return `<div class="occ on"><b>Occupation profile – NOC ${esc(nocCode(j))} ${esc(j.noc.en)}</b><br>Based on the official description of this occupation; the employer's own posting could not be read.${j.noc.how==="closest title"?" Occupation found from the closest standard title.":""}</div>`;
+  return `<div class="occ">Occupation: NOC ${esc(nocCode(j))} ${esc(j.noc.en)}</div>`;
+}
+let NOC=null,NOCLIB=null;
+function loadNoc(){
+  if(!NOC)NOC=Promise.all([import("./noc/noc_library.js"),fetch("noc/noc_library.lite.json?v="+encodeURIComponent(DATA_V)).then(r=>{if(!r.ok)throw new Error("HTTP "+r.status);return r.json();})])
+    .then(([m,json])=>{NOCLIB={m,lib:m.prepare(json)};return NOCLIB;}).catch(e=>{NOC=null;throw e;});
+  return NOC;
+}
+/* the occupations the CV fits, once per CV (the Guess labels need them) */
+function cvFits(){const L=NOCLIB;if(!L||!CV)return null;if(!CV.nocFits)CV.nocFits=L.m.findOccupations(L.lib,CV.raw);return CV.nocFits;}
+const OCC_PART={duties:"Main duties",skills:"Skills",education:"Education",certifications:"Certifications"};
+const OCC_LAB={Matched:["M","Matched"],Guess:["Gs","Guess"],Missing:["X","Missing"]};
+const occLang=j=>j.lg==="fr"?"fr":"en";
+function occDescription(j,open){
+  const L=NOCLIB,p=L&&L.lib.profiles[j.noc.c];
+  if(!p)return "";
+  const one=lg=>`<p style="margin:6px 0">${esc(p.lead[lg])}</p><b>${lg==="fr"?"Fonctions principales":"Main duties"}</b><ul style="margin:4px 0 0;padding-left:18px">${p.duties.map(d=>`<li>${esc(d[lg]||d.en)}</li>`).join("")}</ul>`;
+  const lg=occLang(j),other=lg==="fr"?"en":"fr";
+  return `<details class="old"${open?" open":""}><summary>See the occupation description (NOC ${esc(nocCode(j))} ${esc(p.name[lg])})</summary><div style="font-size:13px">${one(lg)}
+    <details class="old"><summary>${other==="fr"?"En français":"In English"}</summary>${one(other)}</details></div></details>`;
+}
+function occPanel(j){
+  const k=esc(jkey(j));
+  const paste=`<div class="paste"><b>The employer's posting could not be read, so this job is compared with its occupation.</b>
+    <div class="note" style="margin-top:6px">Paste the employer's description (from <a href="${esc(j.sources[0].url)}" target="_blank" rel="noopener">Job Bank</a> or anywhere else) to score this job on the employer's own text.</div>
+    <textarea aria-label="Full job description" data-pk="${k}" placeholder="Paste the full posting text here: tasks, requirements, assets, language and eligibility"></textarea>
+    <div class="row" style="margin-top:6px"><button class="primary" data-act="usepaste" data-pk="${k}">Extract keywords from this text</button><span class="note" data-msg="${k}">Stays in this browser only.</span></div></div>`;
+  const head=`<h3>Your CV against the occupation: NOC ${esc(nocCode(j))} ${esc(j.noc.en)}</h3>`;
+  if(!NOCLIB){loadNoc().then(()=>refreshSlot(j)).catch(()=>{j._noErr=true;refreshSlot(j);});
+    return head+(j._noErr?'<p class="note">The occupation library could not be loaded. Check the connection and open the card again.</p>':'<p class="note">Loading the occupation description…</p>')+paste;}
+  if(!CV)return head+occDescription(j,true)+paste;
+  const r=NOCLIB.m.compare(NOCLIB.lib,CV.raw,j.noc.c,{fits:cvFits()});
+  const items=r.items.filter(x=>x.part!=="languages");
+  const n=l=>items.filter(x=>x.label===l).length;
+  const lg=occLang(j);
+  const parts=Object.keys(OCC_PART).map(part=>{
+    const it=items.filter(x=>x.part===part);
+    if(!it.length)return "";
+    return `<div><h4>${OCC_PART[part]}</h4><ul>${it.map(x=>{const L=OCC_LAB[x.label];return `<li><span class="lab ${L[0]}">${L[1]}</span><span>${esc((lg==="fr"&&x.fr)||x.en)}</span>${x.label==="Missing"?"":`<span class="why">${esc(x.why)}</span>`}</li>`;}).join("")}</ul></div>`;
+  }).join("");
+  return head+`<p class="note"><b>${n("Matched")} Matched · ${n("Guess")} Guess · ${n("Missing")} Missing.</b> Matched: written on your CV. Guess: not written, but very likely from an occupation your CV clearly fits (or a degree in progress). Missing: not on your CV. The language is not checked: the posting does not say which one it needs.</p>
+    <div class="occparts">${parts}</div>${occDescription(j,false)}${paste}`;
+}
 /* the mapping panel inside the card (built when the card is opened) */
 function mapPanel(j){
+  if(isOcc(j))return occPanel(j);
   if(needsText(j)){ensureText(j).then(()=>refreshSlot(j));return '<p class="note">Loading the posting text…</p>';}
   const head='<h3>Every keyword of the posting against your CV</h3>'+pasteBox(j);
   if(!DICT)return head+'<p class="note">The dictionary is loading…</p>';
@@ -941,7 +1010,7 @@ function scoreJob(j){
   if(FED.test(co))flags.push(["b","Federal security clearance and citizenship rules likely: verify"]);
   else if(DEFENCE.test(co))flags.push(["w","Aerospace / defence employer: security screening or Controlled Goods may apply"]);
   if(hasText(j))descFlags(j,flags);
-  return{role:sc.role,level:sc.level,overlap:sc.overlap,total:sc.total,rows,cov:sc.cov,matched:sc.matched,close:sc.close,n:sc.n,flags,lv,rel,fit,past,ti:{past,intern,tgt,anyTerm},conf:hasText(j)?(j.partial?"Short snippet":"Full text"):"Title only"};
+  return{role:sc.role,level:sc.level,overlap:sc.overlap,total:sc.total,rows,cov:sc.cov,matched:sc.matched,close:sc.close,n:sc.n,flags,lv,rel,fit,past,ti:{past,intern,tgt,anyTerm},conf:isOcc(j)?"Occupation profile":hasText(j)?(j.partial?"Short snippet":"Full text"):"Title only"};
 }
 
 let tab="full",RES=[],RES_VER=-1,RUN=0,SCORING="",SCORED_FOR=null,SCORE_PC=0;
@@ -1002,10 +1071,11 @@ function jobHtml(r,rank,top){
     <div>
       <div class="t">${esc(j.title)}</div>
       <div class="meta"><span>${esc(j.company)}</span><span>${esc(j.loc)}</span><span>${whenOf(j)}${a<24?" · within 24h":""}</span><span>${srcLinks(j)}</span></div>
-      ${top?`<div class="topscore"><b class="${scCls(s.total)}">${s.total}</b><span>out of 100 · ${s.conf==="Full text"?"scored from the full text":s.conf==="Short snippet"?"scored from a short snippet":"scored from the title only"}</span></div>`:""}
+      ${occLine(j)}
+      ${top?`<div class="topscore"><b class="${scCls(s.total)}">${s.total}</b><span>out of 100 · ${s.conf==="Full text"?"scored from the full text":s.conf==="Occupation profile"?"scored from the occupation profile":s.conf==="Short snippet"?"scored from a short snippet":"scored from the title only"}</span></div>`:""}
       ${tagsHtml(j,s.rel)}
       ${skillsRow(j)}
-      <div class="subs">${bar(s.role,40,"Role")}${bar(s.level,25,"Level")}${bar(s.overlap,35,"Keywords")}</div>
+      <div class="subs">${bar(s.role,40,"Role")}${bar(s.level,25,"Level")}${bar(s.overlap,35,"Keywords")}${top?"":`<span class="note" style="font-size:12px">${esc(s.conf)}</span>`}</div>
       <div>${s.flags.map(f=>pill(f[0]==="g"?"g":f[0],f[1])).join("")}${a<24?pill("n","24h"):""}${j.fresh?pill("n","New since you opened the page"):""}</div>
     </div></summary>
     <div class="det">
@@ -1013,13 +1083,14 @@ function jobHtml(r,rank,top){
       <details class="old"><summary>How the 0–100 score was counted</summary>${breakdown(j,s)}</details>
       <h3>Before you apply</h3>
       <p class="note">Open the posting and read the full text. Required skills, security rules, degree level and exact dates may not be visible from the title.</p>
-      <div class="row">${j.sources.slice(0,3).map(x=>`<a class="btn" href="${esc(x.url)}" target="_blank" rel="noopener">Open on ${esc(x.src)}</a>`).join(" ")}</div>
+      <div class="row">${openBtns(j)}</div>
     </div></details>`;
 }
+const openBtns=j=>j.sources.slice(0,3).map(x=>`<a class="btn" href="${esc(x.url)}" target="_blank" rel="noopener">${isOcc(j)&&x.src==="Job Bank"?"Read the employer's posting":"Open on "+esc(x.src)}</a>`).join(" ");
 /* a posting before a CV is added: nothing is scored, the text is there to read */
 function browseHtml(j,rank){
   const a=age(j),jk=jkey(j),lv=lvOf(j);
-  const open=j.sources.slice(0,3).map(x=>`<a class="btn" href="${esc(x.url)}" target="_blank" rel="noopener">Open on ${esc(x.src)}</a>`).join(" ");
+  const open=openBtns(j);
   const rel=JobMeta.relation(meBand(),lv.lvl);
   const kws=(j.kw||[]).slice(0,10).map(c=>`<span class="N${c[1]==="t"?" t":""}">${esc(c.slice(3))}</span>`).join("");
   return `<details class="job lv${lv.lvl}" data-k="${esc(jk)}"${OPEN.has(jk)?" open":""}><summary>
@@ -1027,8 +1098,9 @@ function browseHtml(j,rank){
     <div>
       <div class="t">${esc(j.title)}</div>
       <div class="meta"><span>${esc(j.company)}</span><span>${esc(j.loc)}</span><span>${whenOf(j)}</span><span>${srcLinks(j)}</span></div>
+      ${occLine(j)}
       ${tagsHtml(j,rel)}
-      ${kws?`<div class="skills"><div class="sk-h">What the posting asks for</div><div class="kw sk">${kws}</div></div>`:""}
+      ${kws?`<div class="skills"><div class="sk-h">${isOcc(j)?"What the occupation asks for":"What the posting asks for"}</div><div class="kw sk">${kws}</div></div>`:""}
       <div>${a<24?pill("n","24h"):""}${j.fresh?pill("n","New since you opened the page"):""}${j.partial?pill("","Short snippet only"):""}</div>
     </div></summary>
     <div class="det">
@@ -1687,7 +1759,7 @@ async function loadServer(){
       const k=norm(x.company)+"|"+norm(x.title)+(x.province?"|"+x.province:"");
       if(m.has(k))continue;
       m.set(k,{company:x.company,title:x.title,loc:x.loc,date:x.date,type:x.type||"",sources:x.sources,desc:x.desc||"",id:x.id||"",dl:x.dl!=null?x.dl:(x.desc||"").length,lv:x.lv||null,lg:x.lg||null,df:x.df||null,province:x.province||"",kw:x.kw||null,kt:x.kt||0,
-        ageH:x.postedAt?(Date.now()-Date.parse(x.postedAt))/36e5:x.ageH!=null?x.ageH+(Date.now()-at)/36e5:null,snap:!!d.mock,partial:!!x.partial});
+        ageH:x.postedAt?(Date.now()-Date.parse(x.postedAt))/36e5:x.ageH!=null?x.ageH+(Date.now()-at)/36e5:null,snap:!!d.mock,partial:!!x.partial,noc:x.noc||null,op:x.op||0});
     }
     const before=new Set(JOBS.map(jkey)),wasFresh=new Set(JOBS.filter(j=>j.fresh).map(jkey));
     JOBS.length=0;SHARD=new Map();BYID=new Map();ALLTEXT=null;DATA_V=d.updatedAt;
