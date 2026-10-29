@@ -656,7 +656,7 @@ const age=j=>j.ageH!=null?j.ageH:dayDiff(j.date)*24;
 let SRC={},SRC_TIME="not yet";
 const SRC_INFO={
   "Job Bank":["Job Bank Canada (Government of Canada): searches across the country for every kind of work, English and French","Full text for the newest postings. The rest (title, employer, place and date) are compared through the official description of their occupation (NOC), found from the title. Some partner posts only link out"],
-  "Job Bank open data":["Job Bank's official open data (Government of Canada): every posting first published on Job Bank in the newest month, all of Canada, with its official occupation (NOC). Loaded for the occupations closest to your CV","No employer, description or link: compared through the official description of the occupation"],
+  "Job Bank open data":["Job Bank's official open data (Government of Canada): every posting first published on Job Bank in the newest month, all of Canada, with its official occupation (NOC). All of them are listed","No employer, description or link: compared through the official description of the occupation"],
   "The Muse":["The Muse free public API: internships, entry-level, mid-level and senior roles in the biggest cities","Full text"],
   "Workday":["Career sites of large Canadian employers on Workday: every posting in Canada","Full text for the newest 100 of each employer; title, place and date for the rest"],
   "Greenhouse":["Open job boards of employers on Greenhouse","Full text"],
@@ -732,7 +732,7 @@ const cardEl=k=>[...document.querySelectorAll("details.job")].find(x=>x.dataset.
 function descPanel(j){
   if(isOcc(j)){
     if(!NOCLIB){loadNoc().then(()=>refreshSlot(j)).catch(()=>{});return '<p class="note">Loading the occupation description…</p>';}
-    return '<p class="note">The employer\'s own posting could not be read. This is the official description of its occupation.</p>'+occDescription(j,true);
+    return `<p class="note">${j.od?"Job Bank's open data does not include the employer's description":"The employer's own posting could not be read"}. This is the official description of its occupation (${nocLink(j)}).</p>`+occDescription(j,true);
   }
   if(needsText(j)){ensureText(j).then(()=>refreshSlot(j));return '<p class="note">Loading the posting…</p>';}
   if(j._tfail&&!j.desc)return '<p class="note">The text of this posting could not be loaded. Check the connection and open the card again, or open it on the employer\'s page.</p>';
@@ -778,6 +778,7 @@ function ensureKw(j){
 }
 /* the keywords of one posting against the CV: [{n, kind, tag, st}] */
 function rowsOf(j){
+  if(j.od&&!j.pasted&&ODIDX&&CV&&DICT)return odRows(j);
   const kw=ensureKw(j);
   if(!kw||!CV||!DICT)return null;
   if(j._st&&j._st.cv===CV&&j._st.kw===kw)return j._st.rows;
@@ -856,14 +857,19 @@ function pasteBox(j){
    card is opened. Pasting the employer's text turns the card back into a normal one. */
 const isOcc=j=>!!(j.op&&j.noc&&!j.pasted);
 const nocCode=j=>j.noc.c.slice(0,5);
+/* the official description of the occupation on the Government of Canada site (OaSIS 2025) */
+const nocUrl=j=>"https://noc.esdc.gc.ca/OASIS/OASISOccProfile?"+(j.lg==="fr"?"GocTemplateCulture=fr-CA&":"")+"code="+encodeURIComponent(j.noc.c)+"&version=2025.0";
+const nocLink=j=>`<a href="${esc(nocUrl(j))}" target="_blank" rel="noopener" onclick="event.stopPropagation()">Full description of NOC ${esc(nocCode(j))} ↗</a>`;
 function occLine(j){
   if(!j.noc)return "";
-  if(isOcc(j)&&j.od)return `<div class="occ on"><b>Occupation profile – NOC ${esc(nocCode(j))} ${esc(j.noc.en)}</b><br>From Job Bank's open data: the official occupation of this posting. The employer's name and description are not published there.<br>${esc(odFacts(j))}</div>`;
-  if(isOcc(j))return `<div class="occ on"><b>Occupation profile – NOC ${esc(nocCode(j))} ${esc(j.noc.en)}</b><br>Based on the official description of this occupation; the employer's own posting could not be read.${j.noc.how==="closest title"?" Occupation found from the closest standard title.":""}</div>`;
-  return `<div class="occ">Occupation: NOC ${esc(nocCode(j))} ${esc(j.noc.en)}</div>`;
+  if(isOcc(j)&&j.od)return `<div class="occ on"><b>Occupation profile – NOC ${esc(nocCode(j))} ${esc(j.noc.en)}</b> · ${nocLink(j)}<br>From Job Bank's open data: the official occupation of this posting. The employer's name, description and posting link are not published there.<br>${esc(odFacts(j))}</div>`;
+  if(isOcc(j))return `<div class="occ on"><b>Occupation profile – NOC ${esc(nocCode(j))} ${esc(j.noc.en)}</b> · ${nocLink(j)}<br>Based on the official description of this occupation; the employer's own posting could not be read.${j.noc.how==="closest title"?" Occupation found from the closest standard title.":""}</div>`;
+  return `<div class="occ">Occupation: NOC ${esc(nocCode(j))} ${esc(j.noc.en)} · ${nocLink(j)}</div>`;
 }
-/* ---------- Job Bank open data: postings of the newest month, grouped by occupation (jobs/noc) ----------
-   Loaded once a CV is added: the CV is compared with the occupations, then the postings of the closest ones join the list. */
+/* ---------- Job Bank open data: every posting of the newest month, all of Canada (jobs/noc) ----------
+   jobs/noc/postings.json holds every posting by occupation, with the keywords of its title; jobs/noc/index.json the occupations
+   with the keywords of their official description. All of them are listed, after the regular collection has loaded. */
+const OD_SRC="Job Bank open data";
 const EDU_ASKED=["","No degree","High school","College, CEGEP or trade","Bachelor's degree","Master's degree or medicine","Doctorate"];
 const money=v=>"$"+Math.round(v/1000)+"k";
 function odFacts(j){
@@ -876,7 +882,7 @@ function odFacts(j){
   if(r.tm)f.push(r.tm);
   return f.join(" · ");
 }
-let ODIDX=null,OPENJOBS=[],OPENNOTE="",OD_FOR=null;
+let ODIDX=null,OPENJOBS=[],OPENNOTE="",OD_LOADING=null,OD_ST=null;
 /* the language the CV is written in: "fr" or "en" */
 function cvLang(){
   if(!CV)return "en";
@@ -885,46 +891,46 @@ function cvLang(){
   return CV.lang;
 }
 const odUrl=r=>"https://www.jobbank.gc.ca/jobsearch/jobsearch?"+new URLSearchParams({searchstring:r.s||r.t,locationstring:[r.c,r.p].filter(Boolean).join(", ")}).toString();
-function odJob(r,o){
+/* the main keywords of an open-data posting: those of its title, then those of its occupation (shared by the occupation's postings) */
+const mergeKw=(a,b)=>{const seen=new Set();return [...a,...b].filter(c=>{const k=c.slice(3).toLowerCase();if(seen.has(k))return false;seen.add(k);return true;}).slice(0,40);};
+function odJob(r,noc,o){
   const lg=r.l==="French"?"fr":r.l==="Bilingual"?"bi":r.l?"en":null;
-  const j={company:"Job Bank posting "+r.i,title:r.t,loc:[r.c,r.p].filter(Boolean).join(", ")||"Canada",date:r.d,type:r.ty==="Part-time"?"Part-time":"",
-    sources:[{src:"Job Bank",url:odUrl(r)}],desc:"",id:"",dl:0,lv:null,lg,df:null,province:r.p||"Canada",kw:null,kt:0,
-    ageH:(Date.now()-Date.parse(r.d+"T12:00:00"))/36e5,snap:false,partial:true,noc:{c:o.code,en:o.en,fr:o.fr,how:"official"},op:1,od:r};
-  if(DICT&&o.kw){
-    const t=DICT.profile(r.t,"",10).kw,occ=o.kw[cvLang()]||o.kw.en||[],seen=new Set();   /* the occupation's keywords in the language of the CV */
-    j.kw=[...t,...occ].filter(c=>{const k=c.slice(3).toLowerCase();if(seen.has(k))return false;seen.add(k);return true;}).slice(0,40);j.kt=j.kw.length;
-  }
-  classify(j);return j;
+  const j={company:"Employer not named (posting "+r.i+")",title:r.t,loc:[r.c,r.p].filter(Boolean).join(", ")||"Canada",date:r.d,type:r.ty==="Part-time"?"Part-time":"",
+    sources:[{src:OD_SRC,url:odUrl(r)}],desc:"",id:"",dl:0,lv:null,lg,df:null,province:r.p||"Canada",kw:mergeKw(r.k||[],(o.kw&&o.kw.en)||[]),kt:0,
+    ageH:(Date.now()-Date.parse(r.d+"T12:00:00"))/36e5,snap:false,partial:true,noc:{c:o.code,en:o.en,fr:o.fr,how:"official"},op:1,od:r,odn:noc};
+  j.kt=j.kw.length;
+  classify(j);j._s+=" "+norm(o.en||"");   /* the occupation's name is searchable too ("cooks") */
+  return j;
 }
-async function addOpenJobs(){
-  const cv=CV;
-  if(!cv||OD_FOR===cv)return;
-  OD_FOR=cv;
-  try{
-    if(!ODIDX)ODIDX=await fetch("jobs/noc/index.json?v="+encodeURIComponent(DATA_V)).then(r=>{if(!r.ok)throw new Error("HTTP "+r.status);return r.json();});
-    const L=await loadNoc();
-    if(cv!==CV)return;
-    /* the occupations the CV is closest to (only those with postings this month): a job title or field of study of the
-       occupation on the CV (x3), plus the keywords of its official description found on the CV; at most 10, and only
-       those at least 60% as close as the closest one */
-    const fo=new Map();
-    for(const f of L.m.findOccupations(L.lib,cv.raw,60)){const n=f.code.slice(0,5);fo.set(n,Math.max(fo.get(n)||0,f.score));}
-    const lk=cvLang(),cf=cvFound(),ci=cvIx();
-    const ranked=Object.entries(ODIDX.nocs).filter(([n,o])=>o.kw&&o.code).map(([n,o])=>{
-      const st=DICT.profileStatus(o.kw[lk]||o.kw.en,cf,ci),M=st.filter(x=>x.st==="M").length,R=st.filter(x=>x.st==="R").length;
-      return [n,Math.min(fo.get(n)||0,4)*3+M+0.5*R];
-    }).sort((a,b)=>b[1]-a[1]);
-    const best=ranked.length?ranked[0][1]:0;
-    const codes=ranked.filter(x=>x[1]>0&&x[1]>=best*0.6).slice(0,10).map(x=>x[0]);
-    const lists=await Promise.all(codes.map(n=>fetch("jobs/noc/"+n+".json?v="+encodeURIComponent(DATA_V)).then(r=>r.ok?r.json():[]).catch(()=>[])));
-    if(cv!==CV)return;
-    OPENJOBS=lists.flatMap((l,k)=>l.map(r=>odJob(r,ODIDX.nocs[codes[k]])));
-    OPENNOTE=OPENJOBS.length?`+ ${nf(OPENJOBS.length)} Job Bank postings of ${ODIDX.label} (open data) in the ${codes.length} occupations closest to your CV: ${codes.map(n=>ODIDX.nocs[n].en).join(", ")}.`:"";
+/* the keywords of an open-data posting against the CV: the title part per title and the occupation part per occupation are
+   worked out once (50,000 postings share a few thousand titles and 490 occupations) */
+function odRows(j){
+  if(!OD_ST||OD_ST.cv!==CV||OD_ST.dict!==DICT)OD_ST={cv:CV,dict:DICT,t:new Map(),o:new Map()};
+  const cf=cvFound(),ci=cvIx(),lk=cvLang(),o=ODIDX.nocs[j.odn];
+  let a=OD_ST.t.get(j.title);if(!a){a=DICT.profileStatus(j.od.k||[],cf,ci);OD_ST.t.set(j.title,a);}
+  let b=OD_ST.o.get(j.odn+lk);if(!b){b=DICT.profileStatus((o.kw&&(o.kw[lk]||o.kw.en))||[],cf,ci);OD_ST.o.set(j.odn+lk,b);}
+  const seen=new Set();
+  return [...a,...b].filter(x=>{const k=x.n.toLowerCase();if(seen.has(k))return false;seen.add(k);return true;}).slice(0,40);
+}
+function loadOpenData(){
+  if(OD_LOADING)return OD_LOADING;
+  const v=encodeURIComponent(DATA_V);
+  OD_LOADING=Promise.all([fetch("jobs/noc/index.json?v="+v),fetch("jobs/noc/postings.json?v="+v)]).then(async([a,b])=>{
+    if(!a.ok||!b.ok)throw new Error("HTTP "+(a.ok?b.status:a.status));
+    const idx=await a.json(),all=await b.json();
+    ODIDX=idx;
+    const out=[];
+    for(const noc in all){const o=idx.nocs[noc];if(!o||!o.code)continue;for(const r of all[noc])out.push(odJob(r,noc,o));}
+    OPENJOBS=out;
+    OPENNOTE=`Including ${nf(out.length)} Job Bank postings first published in ${idx.label}, all of Canada (Job Bank open data: no employer name or posting link; matched through their official occupation).`;
     for(let i=JOBS.length-1;i>=0;i--)if(JOBS[i].od)JOBS.splice(i,1);
-    JOBS.push(...OPENJOBS);JOBS_VER++;
-    const note=$("liveNote");if(note&&OPENNOTE&&!note.textContent.includes("(open data)"))note.textContent+=" "+OPENNOTE;
+    for(const j of OPENJOBS){applyPasted(j);JOBS.push(j);}
+    JOBS_VER++;
+    const note=$("liveNote");if(note&&!note.textContent.includes("open data"))note.textContent=note.textContent.replace(/^[\d,]+ postings/,nf(JOBS.length)+" postings")+" "+OPENNOTE;
+    heroStat();paintNav();
     run();
-  }catch(e){OD_FOR=null;}
+  }).catch(e=>{OD_LOADING=null;console.warn("Job Bank open data not loaded: "+e.message);});
+  return OD_LOADING;
 }
 let NOC=null,NOCLIB=null;
 function loadNoc(){
@@ -1096,7 +1102,6 @@ function run(){
   const id=++RUN;
   if(RES_VER!==JOBS_VER||!CV||!DICT){RES=JOBS.map(j=>({j,s:null}));RES_VER=JOBS_VER;}
   if(!CV||!DICT){SCORING="";render();return;}
-  if(OD_FOR!==CV)addOpenJobs();   /* the Job Bank open-data postings of the occupations closest to this CV (once per CV) */
   const out=new Array(JOBS.length);let i=0;
   const step=()=>{
     if(id!==RUN)return;
@@ -1154,7 +1159,8 @@ function jobHtml(r,rank,top){
       <div class="row">${openBtns(j)}</div>
     </div></details>`;
 }
-const openBtns=j=>j.sources.slice(0,3).map(x=>`<a class="btn" href="${esc(x.url)}" target="_blank" rel="noopener">${j.od?"Find it on Job Bank":isOcc(j)&&x.src==="Job Bank"?"Read the employer's posting":"Open on "+esc(x.src)}</a>`).join(" ");
+const openBtns=j=>j.sources.slice(0,3).map(x=>`<a class="btn" href="${esc(x.url)}" target="_blank" rel="noopener">${j.od?"Search for it on Job Bank":isOcc(j)&&x.src==="Job Bank"?"Read the employer's posting":"Open on "+esc(x.src)}</a>`).join(" ")
+  +(j.noc?` <a class="btn" href="${esc(nocUrl(j))}" target="_blank" rel="noopener">Full description of NOC ${esc(nocCode(j))}</a>`:"");
 /* a posting before a CV is added: nothing is scored, the text is there to read */
 function browseHtml(j,rank){
   const a=age(j),jk=jkey(j),lv=lvOf(j);
@@ -1169,7 +1175,7 @@ function browseHtml(j,rank){
       ${occLine(j)}
       ${tagsHtml(j,rel)}
       ${kws?`<div class="skills"><div class="sk-h">${isOcc(j)?"What the occupation asks for":"What the posting asks for"}</div><div class="kw sk">${kws}</div></div>`:""}
-      <div>${a<24?pill("n","24h"):""}${j.fresh?pill("n","New since you opened the page"):""}${j.partial?pill("","Short snippet only"):""}</div>
+      <div>${a<24?pill("n","24h"):""}${j.fresh?pill("n","New since you opened the page"):""}${j.partial&&!isOcc(j)?pill("","Short snippet only"):""}</div>
     </div></summary>
     <div class="det">
       <h3>The posting</h3><div class="descslot">${OPEN.has(jk)?descPanel(j):""}</div>
@@ -1834,8 +1840,9 @@ async function loadServer(){
     for(const j of m.values()){classify(j);const k=jkey(j);j.fresh=!first&&(!before.has(k)||wasFresh.has(k));applyPasted(j);JOBS.push(j);if(j.id)BYID.set(j.id,j);}
     for(const j of OPENJOBS){applyPasted(j);JOBS.push(j);}
     JOBS_VER++;
+    if(!OPENJOBS.length)setTimeout(loadOpenData,0);   /* then every Job Bank open-data posting (about 1.5 MB) */
     const nNew=JOBS.filter(j=>j.fresh).length;
-    note.textContent=(d.mock?"Demo data until the first scheduled collection runs. ":"")+nf(JOBS.length-OPENJOBS.length)+" postings, collected "+SRC_TIME+". The collector re-runs once a day and this page checks for a new collection every 5 minutes."+(nNew?" "+nNew+" new since you opened this page.":"")+(OPENNOTE?" "+OPENNOTE:"");
+    note.textContent=(d.mock?"Demo data until the first scheduled collection runs. ":"")+nf(JOBS.length)+" postings, collected "+SRC_TIME+". The collector re-runs once a day and this page checks for a new collection every 5 minutes."+(nNew?" "+nNew+" new since you opened this page.":"")+(OPENNOTE?" "+OPENNOTE:"");
     log.textContent=Object.entries(SRC).filter(([k,v])=>!v.skipped).map(([k,v])=>k+": "+(v.jobs||0)).join(" · ")+" postings by source. The Method tab shows what each source did on the last run.";
     heroStat();fillDetails();paintProfile();
     run();
