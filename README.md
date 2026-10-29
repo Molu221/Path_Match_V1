@@ -159,3 +159,15 @@ Rules for a new spelling: lowercase, no accents, singular, no short common word,
 On the page, **under each job title** you see the skills written in that posting (its full text when we have it, otherwise only the title): green = the same skill is on your CV, amber = close but not the same word (not counted), red = not on your CV. **Open a card** for the mapping, in the style of the progress presentation: *Found on both*, *In the post, not on your CV*, *Close, not counted* (with Strong or Likely and the reason), *Check yourself, not scored*; a table with the posting words and your CV words for each skill (and Required / Task / Preferred from the headings); the posting and your CV shown highlighted side by side; and two figures, "X of N = P% exact words" and "with close skills at half credit". The 0-100 score is unchanged. `test/test_oasis.py` checks that the website and the Python file give the same answers, on the sample posts, on the three posts and the CV from the presentation (`test/fixtures/deck/`) and on a French posting and CV (`test/fixtures/fr/`). The **Build OaSIS dictionary** and **Keyword report** workflows refresh `docs/skills.json`.
 
 Run it from the **Actions** tab (**Build OaSIS dictionary**, choose release 2025 or 2022), or locally with `python3 scripts/build_oasis_dictionary.py [--version 2022]`. The data is licensed under the Open Government Licence - Canada. The column layout of the official files is detected from the data; if a file does not look as expected, the script stops and prints its headers. Offline tests use small made-up files: `python3 -m unittest test.test_oasis`. Tuning for the inferred links is at the top of `python/oasis.py`.
+
+## NOC library (occupations, English and French)
+
+`docs/noc/` holds a bilingual library of all 516 NOC 2021 occupations (900 OaSIS 2025 profiles): duties,
+skills, education, certifications, similar occupations, a job title → occupation index (including titles used
+in real Job Bank postings) and English ↔ French pairs. `docs/noc/noc_library.js` (browser and Node) and
+`noc_library/noc_library.py` (Python) find the occupations a CV fits and compare a CV with any occupation on 5
+parts (duties, skills, education, certifications, languages), labelling each item **Matched**, **Missing** or
+**Guess**. It is meant for jobs that only have a title, such as most Job Bank jobs. Details:
+[noc_library/README.md](noc_library/README.md). Contains information licensed under the Open Government
+Licence – Canada.
+

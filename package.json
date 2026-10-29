@@ -6,7 +6,7 @@
   "scripts": {
     "collect": "node scripts/collect.mjs",
     "find": "node scripts/find-boards.mjs",
-    "test": "node test/collect.test.mjs && node test/jobmeta.test.mjs && node test/scoring.test.mjs && node test/pages.test.mjs",
+    "test": "node test/collect.test.mjs && node test/jobmeta.test.mjs && node test/scoring.test.mjs && node test/pages.test.mjs && node test/noc_library.test.mjs",
     "serve": "node scripts/serve.mjs"
   },
   "engines": {
