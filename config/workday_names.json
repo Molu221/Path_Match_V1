@@ -1,0 +1,23 @@
+{
+ "_note": "Display names for Workday tenants found by the finders (tenant: name), used by scripts/apply-finds.mjs. A tenant without a name here is shown as its capitalised tenant.",
+ "carleton": "Carleton University",
+ "nait": "NAIT",
+ "thermofisher": "Thermo Fisher Scientific",
+ "statestreet": "State Street",
+ "paypal": "PayPal",
+ "boeing": "Boeing",
+ "thales": "Thales",
+ "stelco": "Stelco",
+ "riotinto": "Rio Tinto",
+ "alcoa": "Alcoa",
+ "maersk": "Maersk",
+ "amgen": "Amgen",
+ "gilead": "Gilead Sciences",
+ "capitalpower": "Capital Power",
+ "jabil": "Jabil",
+ "kimberlyclark": "Kimberly-Clark",
+ "dupont": "DuPont",
+ "ppg": "PPG",
+ "ecolab": "Ecolab",
+ "redriver": "Red River College"
+}

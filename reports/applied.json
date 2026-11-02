@@ -1,0 +1,127 @@
+{
+ "at": "2026-11-02T17:43:15.331Z",
+ "boards": {},
+ "workday": [
+  {
+   "tenant": "carleton",
+   "site": "carletoncareers",
+   "canada": null,
+   "total": 19
+  },
+  {
+   "tenant": "nait",
+   "site": "Nait_Careers",
+   "canada": null,
+   "total": 20
+  },
+  {
+   "tenant": "thermofisher",
+   "site": "ThermofisherCareers",
+   "canada": 66,
+   "total": 3162
+  },
+  {
+   "tenant": "statestreet",
+   "site": "Global",
+   "canada": 38,
+   "total": 1115
+  },
+  {
+   "tenant": "paypal",
+   "site": "Jobs",
+   "canada": null,
+   "total": 323
+  },
+  {
+   "tenant": "boeing",
+   "site": "External_Careers",
+   "canada": 7,
+   "total": 653
+  },
+  {
+   "tenant": "thales",
+   "site": "Careers",
+   "canada": 87,
+   "total": 2000
+  },
+  {
+   "tenant": "stelco",
+   "site": "stelco",
+   "canada": null,
+   "total": 8
+  },
+  {
+   "tenant": "riotinto",
+   "site": "Riotinto_Careers",
+   "canada": 50,
+   "total": 213
+  },
+  {
+   "tenant": "alcoa",
+   "site": "Careers",
+   "canada": 20,
+   "total": 92
+  },
+  {
+   "tenant": "maersk",
+   "site": "Maersk_Careers",
+   "canada": 8,
+   "total": 1182
+  },
+  {
+   "tenant": "amgen",
+   "site": "Careers",
+   "canada": 17,
+   "total": 1986
+  },
+  {
+   "tenant": "gilead",
+   "site": "gileadcareers",
+   "canada": 9,
+   "total": 390
+  },
+  {
+   "tenant": "capitalpower",
+   "site": "External",
+   "canada": 21,
+   "total": 36
+  },
+  {
+   "tenant": "jabil",
+   "site": "Jabil_Careers",
+   "canada": 4,
+   "total": 2000
+  },
+  {
+   "tenant": "kimberlyclark",
+   "site": "Global",
+   "canada": 5,
+   "total": 145
+  },
+  {
+   "tenant": "dupont",
+   "site": "jobs",
+   "canada": 5,
+   "total": 204
+  },
+  {
+   "tenant": "ppg",
+   "site": "Ppg_Careers",
+   "canada": 8,
+   "total": 679
+  },
+  {
+   "tenant": "ecolab",
+   "site": "ecolab_external",
+   "canada": 82,
+   "total": 987
+  }
+ ],
+ "review": [],
+ "workdaySkipped": [
+  {
+   "tenant": "redriver",
+   "why": "no Canadian postings"
+  }
+ ]
+}
