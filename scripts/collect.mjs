@@ -185,14 +185,16 @@ export async function smartrecruiters(slug, nowMs) {
   return out;
 }
 /* ---------- Adzuna ---------- */
+/* the main place (`where`, with `queries`) plus any `extraPlaces` ([{ where, queries? }], the main queries when none are given): the same search in more cities */
+export const placesOf = (cfg) => [{ where: cfg.where, queries: cfg.queries }, ...(cfg.extraPlaces || []).map((p) => ({ where: p.where, queries: p.queries || cfg.queries }))];
 export async function adzuna(cfg, id, key, nowMs, log) {
   const out = [];
   let ok = 0, failed = 0;
-  for (const q of cfg.queries) {
+  for (const place of placesOf(cfg)) for (const q of place.queries) {
     for (let page = 1; page <= cfg.pages; page++) {
       const u = new URL(`https://api.adzuna.com/v1/api/jobs/${cfg.country}/search/${page}`);
       u.search = new URLSearchParams({
-        app_id: id, app_key: key, results_per_page: String(cfg.resultsPerPage), what: q, where: cfg.where,
+        app_id: id, app_key: key, results_per_page: String(cfg.resultsPerPage), what: q, where: place.where,
         distance: String(cfg.distanceKm), max_days_old: String(cfg.maxDaysOld), sort_by: "date", "content-type": "application/json",
       }).toString();
       try {
@@ -207,7 +209,7 @@ export async function adzuna(cfg, id, key, nowMs, log) {
           });
         }
         if ((d.results || []).length < cfg.resultsPerPage) break;
-      } catch (e) { failed++; log(`Adzuna "${q}" page ${page}: ${e.message}`); if (e.status === 401 || e.status === 403) return { jobs: out, ok, failed, stop: e.message }; }
+      } catch (e) { failed++; log(`Adzuna "${q}" in ${place.where} page ${page}: ${e.message}`); if (e.status === 401 || e.status === 403) return { jobs: out, ok, failed, stop: e.message }; }
       await sleep(cfg.delayMs);
     }
   }
@@ -590,13 +592,13 @@ export async function pages(urls, nowMs, log) {
 export async function jooble(cfg, key, nowMs, log) {
   const out = [];
   let ok = 0, failed = 0;
-  for (const q of cfg.queries) {
+  for (const place of placesOf(cfg)) for (const q of place.queries) {
     try {
-      const d = await postJson(`https://jooble.org/api/${key}`, { keywords: q, location: cfg.where, page: 1 });
+      const d = await postJson(`https://jooble.org/api/${key}`, { keywords: q, location: place.where, page: 1 });
       ok++;
       for (const x of d.jobs || []) out.push({ company: x.company || "Unknown", title: stripHtml(x.title), loc: x.location || "", date: String(x.updated || "").slice(0, 10), ageH: hoursSince(x.updated, nowMs),
         type: typeFrom((x.type || "") + " " + x.title), sources: [{ src: "Jooble", url: x.link }], desc: cut(stripHtml(x.snippet)), partial: true });
-    } catch (e) { failed++; log(`Jooble "${q}": ${e.message}`); if (e.status === 401 || e.status === 403) break; }
+    } catch (e) { failed++; log(`Jooble "${q}" in ${place.where}: ${e.message}`); if (e.status === 401 || e.status === 403) break; }
     await sleep(cfg.delayMs || 1000);
   }
   return { jobs: out.filter((j) => j.title && keep(j)), ok, failed };
@@ -905,7 +907,7 @@ export async function main({ nowMs = Date.now(), log = console.log, write = true
   const id = env.ADZUNA_APP_ID, key = env.ADZUNA_APP_KEY;
   if (id && key) {
     const r = await adzuna(searches.adzuna, id, key, nowMs, log);
-    sources.Adzuna = { queries: searches.adzuna.queries.length, requestsOk: r.ok, requestsFailed: r.failed, jobs: r.jobs.length, ...(r.stop ? { error: r.stop } : {}) };
+    sources.Adzuna = { queries: placesOf(searches.adzuna).reduce((n, p) => n + p.queries.length, 0), requestsOk: r.ok, requestsFailed: r.failed, jobs: r.jobs.length, ...(r.stop ? { error: r.stop } : {}) };
     all.push(...r.jobs);
   } else {
     sources.Adzuna = { skipped: "ADZUNA_APP_ID and ADZUNA_APP_KEY are not set" };

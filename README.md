@@ -167,7 +167,7 @@ skills, education, certifications, similar occupations, a job title → occupati
 in real Job Bank postings) and English ↔ French pairs. `docs/noc/noc_library.js` (browser and Node) and
 `noc_library/noc_library.py` (Python) find the occupations a CV fits and compare a CV with any occupation on 5
 parts (duties, skills, education, certifications, languages), labelling each item **Matched**, **Missing** or
-**Guess**. The collector uses it for Job Bank jobs whose posting could not be read: they are scored from the official description of their occupation (found from the title) and their card is labelled "Occupation profile – NOC …". Details:
+**Guess** (the site shows these as **Match**, **Gap** and **Close**, the same three tags as on every other posting). The collector uses it for Job Bank jobs whose posting could not be read: they are scored from the official description of their occupation (found from the title) and their card is labelled "Occupation profile – NOC …". Details:
 [noc_library/README.md](noc_library/README.md). Contains information licensed under the Open Government
 Licence – Canada.
 
