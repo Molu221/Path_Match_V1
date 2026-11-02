@@ -1,197 +1,185 @@
 {
- "at": "2026-10-27T00:52:48.640Z",
+ "at": "2026-11-02T17:42:33.546Z",
  "known": [
-  {
-   "name": "TD",
-   "host": "td.wd3.myworkdayjobs.com",
-   "tenant": "td",
-   "site": "TD_Bank_Careers",
-   "total": 1663,
-   "canada": 965
-  },
   {
    "name": "University of Ottawa",
    "host": "uottawa.wd3.myworkdayjobs.com",
    "tenant": "uottawa",
    "site": "uOttawa_External_Career_Site",
-   "total": 944,
-   "canada": null
+   "total": 870,
+   "canada": null,
+   "facet": null
+  },
+  {
+   "name": "TD",
+   "host": "td.wd3.myworkdayjobs.com",
+   "tenant": "td",
+   "site": "TD_Bank_Careers",
+   "total": 1502,
+   "canada": 825,
+   "facet": "locationCountry"
   },
   {
    "name": "RBC",
    "host": "rbc.wd3.myworkdayjobs.com",
    "tenant": "rbc",
    "site": "RBCGLOBAL1",
-   "total": 865,
-   "canada": 639
-  },
-  {
-   "name": "BMO",
-   "host": "bmo.wd3.myworkdayjobs.com",
-   "tenant": "bmo",
-   "site": "External",
-   "total": 984,
-   "canada": 533
+   "total": 728,
+   "canada": 537,
+   "facet": "Country"
   },
   {
    "name": "CIBC",
    "host": "cibc.wd3.myworkdayjobs.com",
    "tenant": "cibc",
    "site": "search",
-   "total": 606,
-   "canada": 510
+   "total": 597,
+   "canada": 501,
+   "facet": "Country"
+  },
+  {
+   "name": "BMO",
+   "host": "bmo.wd3.myworkdayjobs.com",
+   "tenant": "bmo",
+   "site": "External",
+   "total": 852,
+   "canada": 444,
+   "facet": "Country"
   },
   {
    "name": "McGill University",
    "host": "mcgill.wd3.myworkdayjobs.com",
    "tenant": "mcgill",
    "site": "McGill_Careers",
-   "total": 426,
-   "canada": null
+   "total": 314,
+   "canada": null,
+   "facet": null
   },
   {
    "name": "Aritzia",
    "host": "aritzia.wd3.myworkdayjobs.com",
    "tenant": "aritzia",
    "site": "External",
-   "total": 489,
-   "canada": 204
-  },
-  {
-   "name": "Manulife",
-   "host": "manulife.wd3.myworkdayjobs.com",
-   "tenant": "manulife",
-   "site": "MFCJH_Jobs",
-   "total": 619,
-   "canada": 156
-  },
-  {
-   "name": "Best Buy Canada",
-   "host": "bestbuycanada.wd3.myworkdayjobs.com",
-   "tenant": "bestbuycanada",
-   "site": "BestBuyCA_Career",
-   "total": 140,
-   "canada": null
-  },
-  {
-   "name": "Canadian Tire",
-   "host": "canadiantirecorporation.wd3.myworkdayjobs.com",
-   "tenant": "canadiantirecorporation",
-   "site": "Enterprise_External_Careers_Site",
-   "total": 131,
-   "canada": 131
-  },
-  {
-   "name": "Fairstone",
-   "host": "fairstone.wd3.myworkdayjobs.com",
-   "tenant": "fairstone",
-   "site": "FairstoneCareers",
-   "total": 124,
-   "canada": 124
+   "total": 495,
+   "canada": 210,
+   "facet": "Location_Country"
   },
   {
    "name": "iA Financial Group",
    "host": "ia.wd3.myworkdayjobs.com",
    "tenant": "ia",
    "site": "Professional",
-   "total": 112,
-   "canada": null
+   "total": 106,
+   "canada": 205,
+   "facet": "locations"
+  },
+  {
+   "name": "Manulife",
+   "host": "manulife.wd3.myworkdayjobs.com",
+   "tenant": "manulife",
+   "site": "MFCJH_Jobs",
+   "total": 534,
+   "canada": 166,
+   "facet": "Location_Country"
+  },
+  {
+   "name": "Canadian Tire",
+   "host": "canadiantirecorporation.wd3.myworkdayjobs.com",
+   "tenant": "canadiantirecorporation",
+   "site": "Enterprise_External_Careers_Site",
+   "total": 124,
+   "canada": 124,
+   "facet": "locationCountry"
+  },
+  {
+   "name": "Fairstone",
+   "host": "fairstone.wd3.myworkdayjobs.com",
+   "tenant": "fairstone",
+   "site": "FairstoneCareers",
+   "total": 117,
+   "canada": 117,
+   "facet": "Location_Country"
   },
   {
    "name": "University of Waterloo",
    "host": "uwaterloo.wd3.myworkdayjobs.com",
    "tenant": "uwaterloo",
    "site": "uw_careers",
-   "total": 105,
-   "canada": 105
+   "total": 112,
+   "canada": 112,
+   "facet": "locationCountry"
   },
   {
    "name": "Sun Life",
    "host": "sunlife.wd3.myworkdayjobs.com",
    "tenant": "sunlife",
    "site": "Experienced-Jobs",
-   "total": 278,
-   "canada": 103
+   "total": 261,
+   "canada": 108,
+   "facet": "Location_Country"
   },
   {
    "name": "TELUS Health",
    "host": "lifeworks.wd3.myworkdayjobs.com",
    "tenant": "lifeworks",
    "site": "External",
-   "total": 140,
-   "canada": 98
+   "total": 147,
+   "canada": 101,
+   "facet": "Country"
+  },
+  {
+   "name": "Best Buy Canada",
+   "host": "bestbuycanada.wd3.myworkdayjobs.com",
+   "tenant": "bestbuycanada",
+   "site": "BestBuyCA_Career",
+   "total": 92,
+   "canada": 92,
+   "facet": "locationRegionStateProvince"
   },
   {
    "name": "TMX Group",
    "host": "tmx.wd3.myworkdayjobs.com",
    "tenant": "tmx",
    "site": "TMX_Careers",
-   "total": 93,
-   "canada": null
+   "total": 94,
+   "canada": 86,
+   "facet": "locations"
   },
   {
    "name": "BDC",
    "host": "bdc.wd10.myworkdayjobs.com",
    "tenant": "bdc",
    "site": "BDC_Careers",
-   "total": 51,
-   "canada": null
+   "total": 54,
+   "canada": 65,
+   "facet": "locations"
   },
   {
    "name": "Moneris",
    "host": "moneris.wd3.myworkdayjobs.com",
    "tenant": "moneris",
    "site": "Moneris",
-   "total": 36,
-   "canada": null
+   "total": 37,
+   "canada": 38,
+   "facet": "locations"
   },
   {
    "name": "CHEO",
    "host": "cheo.wd10.myworkdayjobs.com",
    "tenant": "cheo",
    "site": "External_Site",
-   "total": 36,
-   "canada": null
-  },
-  {
-   "name": "TC Energy",
-   "host": "tcenergy.wd3.myworkdayjobs.com",
-   "tenant": "tcenergy",
-   "site": "CAREER_SITE_TC",
-   "total": 80,
-   "canada": 32
-  },
-  {
-   "name": "Suncor",
-   "host": "suncor.wd1.myworkdayjobs.com",
-   "tenant": "suncor",
-   "site": "Suncor_External",
-   "total": 33,
-   "canada": 28
+   "total": 39,
+   "canada": 31,
+   "facet": "locations"
   },
   {
    "name": "Cenovus",
    "host": "cenovus.wd3.myworkdayjobs.com",
    "tenant": "cenovus",
    "site": "careers",
-   "total": 40,
-   "canada": 27
-  },
-  {
-   "name": "Enbridge",
-   "host": "enbridge.wd3.myworkdayjobs.com",
-   "tenant": "enbridge",
-   "site": "enbridge_careers",
-   "total": 49,
-   "canada": 24
-  },
-  {
-   "name": "RBC early talent",
-   "host": "rbc.wd3.myworkdayjobs.com",
-   "tenant": "rbc",
-   "site": "RBCEARLYTALENT1",
-   "total": 33,
-   "canada": 16
+   "total": 36,
+   "canada": 29,
+   "facet": "Location_Country"
   },
   {
    "name": "Canem Systems",
@@ -199,23 +187,71 @@
    "tenant": "bird",
    "site": "CanemCareers",
    "total": 14,
-   "canada": null
+   "canada": 27,
+   "facet": "locations"
   },
   {
-   "name": "Ontario Clean Water Agency",
-   "host": "ocwa.wd10.myworkdayjobs.com",
-   "tenant": "ocwa",
-   "site": "External",
-   "total": 12,
-   "canada": null
+   "name": "Suncor",
+   "host": "suncor.wd1.myworkdayjobs.com",
+   "tenant": "suncor",
+   "site": "Suncor_External",
+   "total": 28,
+   "canada": 23,
+   "facet": "locationCountry"
+  },
+  {
+   "name": "TC Energy",
+   "host": "tcenergy.wd3.myworkdayjobs.com",
+   "tenant": "tcenergy",
+   "site": "CAREER_SITE_TC",
+   "total": 47,
+   "canada": 23,
+   "facet": "Country"
+  },
+  {
+   "name": "Enbridge",
+   "host": "enbridge.wd3.myworkdayjobs.com",
+   "tenant": "enbridge",
+   "site": "enbridge_careers",
+   "total": 53,
+   "canada": 23,
+   "facet": "locationCountry"
+  },
+  {
+   "name": "RBC early talent",
+   "host": "rbc.wd3.myworkdayjobs.com",
+   "tenant": "rbc",
+   "site": "RBCEARLYTALENT1",
+   "total": 38,
+   "canada": 13,
+   "facet": "Country"
   },
   {
    "name": "Hydro Ottawa",
    "host": "hydroottawa.wd3.myworkdayjobs.com",
    "tenant": "hydroottawa",
    "site": "hydro_ottawa_careersite",
+   "total": 11,
+   "canada": 11,
+   "facet": "locations"
+  },
+  {
+   "name": "Ontario Clean Water Agency",
+   "host": "ocwa.wd10.myworkdayjobs.com",
+   "tenant": "ocwa",
+   "site": "External",
+   "total": 9,
+   "canada": 9,
+   "facet": "locationHierarchy1"
+  },
+  {
+   "name": "ENMAX",
+   "host": "enmax.wd3.myworkdayjobs.com",
+   "tenant": "enmax",
+   "site": "ENMAXCareers",
    "total": 8,
-   "canada": null
+   "canada": null,
+   "facet": null
   },
   {
    "name": "Public Health Ontario",
@@ -223,31 +259,17 @@
    "tenant": "publichealthontario",
    "site": "PHOCareerSite",
    "total": 7,
-   "canada": null
+   "canada": 7,
+   "facet": "locations"
   },
   {
    "name": "Sun Life campus",
    "host": "sunlife.wd3.myworkdayjobs.com",
    "tenant": "sunlife",
    "site": "Campus",
-   "total": 9,
-   "canada": 5
-  },
-  {
-   "name": "ENMAX",
-   "host": "enmax.wd3.myworkdayjobs.com",
-   "tenant": "enmax",
-   "site": "ENMAXCareers",
-   "total": 4,
-   "canada": null
-  },
-  {
-   "name": "Loblaw distribution",
-   "host": "myview.wd3.myworkdayjobs.com",
-   "tenant": "myview",
-   "site": "loblaw_DC_jobs",
-   "total": 0,
-   "canada": null
+   "total": 10,
+   "canada": 5,
+   "facet": "Location_Country"
   },
   {
    "name": "Loblaw",
@@ -255,15 +277,17 @@
    "tenant": "myview",
    "site": "loblaw_careers",
    "total": 0,
-   "canada": null
+   "canada": null,
+   "facet": null
   },
   {
-   "name": "Shoppers Drug Mart",
+   "name": "Loblaw distribution",
    "host": "myview.wd3.myworkdayjobs.com",
    "tenant": "myview",
-   "site": "sdm_careers",
+   "site": "loblaw_DC_jobs",
    "total": 0,
-   "canada": null
+   "canada": null,
+   "facet": null
   },
   {
    "name": "Loblaw Digital",
@@ -271,7 +295,17 @@
    "tenant": "myview",
    "site": "Loblaw-Digital_Careers_Carrieres",
    "total": 0,
-   "canada": null
+   "canada": null,
+   "facet": null
+  },
+  {
+   "name": "Shoppers Drug Mart",
+   "host": "myview.wd3.myworkdayjobs.com",
+   "tenant": "myview",
+   "site": "sdm_careers",
+   "total": 0,
+   "canada": null,
+   "facet": null
   },
   {
    "name": "CWB Financial",
@@ -298,39 +332,43 @@
    "failed": true
   }
  ],
- "checked": 331,
- "found": 40,
+ "checked": 424,
+ "found": 55,
  "hits": {
   "desjardins": [
    {
     "host": "desjardins.wd10.myworkdayjobs.com",
     "tenant": "desjardins",
-    "site": "Desjardins",
-    "total": 284,
-    "canada": null
+    "site": "desjardins",
+    "total": 290,
+    "canada": 474,
+    "facet": "locations"
    },
    {
     "host": "desjardins.wd10.myworkdayjobs.com",
     "tenant": "desjardins",
-    "site": "desjardins",
-    "total": 284,
-    "canada": null
+    "site": "Desjardins",
+    "total": 290,
+    "canada": 474,
+    "facet": "locations"
    }
   ],
   "intactfc": [
    {
     "host": "intactfc.wd3.myworkdayjobs.com",
     "tenant": "intactfc",
-    "site": "Intactfc",
-    "total": 159,
-    "canada": null
+    "site": "intactfc",
+    "total": 152,
+    "canada": 346,
+    "facet": "locations"
    },
    {
     "host": "intactfc.wd3.myworkdayjobs.com",
     "tenant": "intactfc",
-    "site": "intactfc",
-    "total": 159,
-    "canada": null
+    "site": "Intactfc",
+    "total": 152,
+    "canada": 346,
+    "facet": "locations"
    }
   ],
   "aviva": [
@@ -338,40 +376,27 @@
     "host": "aviva.wd1.myworkdayjobs.com",
     "tenant": "aviva",
     "site": "External",
-    "total": 132,
-    "canada": 102
+    "total": 134,
+    "canada": 104,
+    "facet": "Location_Country"
    },
    {
     "host": "aviva.wd1.myworkdayjobs.com",
     "tenant": "aviva",
     "site": "external",
-    "total": 132,
-    "canada": 102
-   }
-  ],
-  "brookfield": [
-   {
-    "host": "brookfield.wd5.myworkdayjobs.com",
-    "tenant": "brookfield",
-    "site": "Brookfield",
-    "total": 141,
-    "canada": 60
-   },
-   {
-    "host": "brookfield.wd5.myworkdayjobs.com",
-    "tenant": "brookfield",
-    "site": "brookfield",
-    "total": 141,
-    "canada": 60
+    "total": 134,
+    "canada": 104,
+    "facet": "Location_Country"
    }
   ],
   "cdpq": [
    {
     "host": "cdpq.wd10.myworkdayjobs.com",
     "tenant": "cdpq",
-    "site": "cdpq",
-    "total": 40,
-    "canada": 36
+    "site": "Cdpq",
+    "total": 39,
+    "canada": 35,
+    "facet": "locationCountry"
    }
   ],
   "cogeco": [
@@ -379,8 +404,17 @@
     "host": "cogeco.wd3.myworkdayjobs.com",
     "tenant": "cogeco",
     "site": "Cogeco_Careers",
-    "total": 50,
-    "canada": 47
+    "total": 53,
+    "canada": 49,
+    "facet": "Country_-_Location"
+   },
+   {
+    "host": "cogeco.wd3.myworkdayjobs.com",
+    "tenant": "cogeco",
+    "site": "cogeco_careers",
+    "total": 53,
+    "canada": 49,
+    "facet": "Country_-_Location"
    }
   ],
   "gianttiger": [
@@ -388,31 +422,27 @@
     "host": "gianttiger.wd3.myworkdayjobs.com",
     "tenant": "gianttiger",
     "site": "gianttiger",
-    "total": 530,
-    "canada": null
+    "total": 536,
+    "canada": 550,
+    "facet": "locations"
    },
    {
     "host": "gianttiger.wd3.myworkdayjobs.com",
     "tenant": "gianttiger",
     "site": "Gianttiger",
-    "total": 530,
-    "canada": null
+    "total": 536,
+    "canada": 550,
+    "facet": "locations"
    }
   ],
   "mosaic": [
    {
     "host": "mosaic.wd5.myworkdayjobs.com",
     "tenant": "mosaic",
-    "site": "Mosaic",
-    "total": 94,
-    "canada": null
-   },
-   {
-    "host": "mosaic.wd5.myworkdayjobs.com",
-    "tenant": "mosaic",
     "site": "mosaic",
-    "total": 94,
-    "canada": null
+    "total": 93,
+    "canada": 3,
+    "facet": "locations"
    }
   ],
   "shell": [
@@ -420,15 +450,17 @@
     "host": "shell.wd3.myworkdayjobs.com",
     "tenant": "shell",
     "site": "shellcareers",
-    "total": 138,
-    "canada": 9
+    "total": 110,
+    "canada": 8,
+    "facet": "locationCountry"
    },
    {
     "host": "shell.wd3.myworkdayjobs.com",
     "tenant": "shell",
     "site": "ShellCareers",
-    "total": 138,
-    "canada": 9
+    "total": 110,
+    "canada": 8,
+    "facet": "locationCountry"
    }
   ],
   "keyera": [
@@ -436,8 +468,9 @@
     "host": "keyera.wd10.myworkdayjobs.com",
     "tenant": "keyera",
     "site": "Keyera_Careers",
-    "total": 6,
-    "canada": 6
+    "total": 9,
+    "canada": 9,
+    "facet": "locationCountry"
    }
   ],
   "western": [
@@ -445,15 +478,35 @@
     "host": "western.wd1.myworkdayjobs.com",
     "tenant": "western",
     "site": "western",
-    "total": 8,
-    "canada": null
+    "total": 3,
+    "canada": null,
+    "facet": null
    },
    {
     "host": "western.wd1.myworkdayjobs.com",
     "tenant": "western",
     "site": "Western",
-    "total": 8,
-    "canada": null
+    "total": 3,
+    "canada": null,
+    "facet": null
+   }
+  ],
+  "carleton": [
+   {
+    "host": "carleton.wd1.myworkdayjobs.com",
+    "tenant": "carleton",
+    "site": "carletoncareers",
+    "total": 19,
+    "canada": null,
+    "facet": null
+   },
+   {
+    "host": "carleton.wd1.myworkdayjobs.com",
+    "tenant": "carleton",
+    "site": "CarletonCareers",
+    "total": 19,
+    "canada": null,
+    "facet": null
    }
   ],
   "brocku": [
@@ -461,31 +514,53 @@
     "host": "brocku.wd3.myworkdayjobs.com",
     "tenant": "brocku",
     "site": "Brocku_Careers",
-    "total": 197,
-    "canada": null
+    "total": 222,
+    "canada": 221,
+    "facet": "locations"
    },
    {
     "host": "brocku.wd3.myworkdayjobs.com",
     "tenant": "brocku",
     "site": "brocku_careers",
-    "total": 197,
-    "canada": null
+    "total": 222,
+    "canada": 221,
+    "facet": "locations"
    }
   ],
   "wlu": [
    {
     "host": "wlu.wd5.myworkdayjobs.com",
     "tenant": "wlu",
-    "site": "WluCareers",
-    "total": 19,
-    "canada": null
+    "site": "wlucareers",
+    "total": 17,
+    "canada": null,
+    "facet": null
    },
    {
     "host": "wlu.wd5.myworkdayjobs.com",
     "tenant": "wlu",
-    "site": "wlucareers",
-    "total": 19,
-    "canada": null
+    "site": "WluCareers",
+    "total": 17,
+    "canada": null,
+    "facet": null
+   }
+  ],
+  "nait": [
+   {
+    "host": "nait.wd10.myworkdayjobs.com",
+    "tenant": "nait",
+    "site": "Nait_Careers",
+    "total": 20,
+    "canada": null,
+    "facet": null
+   },
+   {
+    "host": "nait.wd10.myworkdayjobs.com",
+    "tenant": "nait",
+    "site": "nait_careers",
+    "total": 20,
+    "canada": null,
+    "facet": null
    }
   ],
   "redriver": [
@@ -494,55 +569,70 @@
     "tenant": "redriver",
     "site": "RedriverCareers",
     "total": 0,
-    "canada": null
+    "canada": null,
+    "facet": null
    },
    {
     "host": "redriver.wd5.myworkdayjobs.com",
     "tenant": "redriver",
     "site": "redrivercareers",
     "total": 0,
-    "canada": null
+    "canada": null,
+    "facet": null
    }
   ],
   "mitel": [
    {
     "host": "mitel.wd3.myworkdayjobs.com",
     "tenant": "mitel",
-    "site": "mitelcareers",
-    "total": 56,
-    "canada": 8
+    "site": "MitelCareers",
+    "total": 61,
+    "canada": 11,
+    "facet": "locationCountry"
    },
    {
     "host": "mitel.wd3.myworkdayjobs.com",
     "tenant": "mitel",
-    "site": "MitelCareers",
-    "total": 56,
-    "canada": 8
+    "site": "mitelcareers",
+    "total": 61,
+    "canada": 11,
+    "facet": "locationCountry"
    }
   ],
   "ciena": [
    {
     "host": "ciena.wd5.myworkdayjobs.com",
     "tenant": "ciena",
-    "site": "Careers",
-    "total": 146,
-    "canada": 72
+    "site": "careers",
+    "total": 153,
+    "canada": 79,
+    "facet": "Location_Country"
    },
    {
     "host": "ciena.wd5.myworkdayjobs.com",
     "tenant": "ciena",
-    "site": "careers",
-    "total": 146,
-    "canada": 72
+    "site": "Careers",
+    "total": 153,
+    "canada": 79,
+    "facet": "Location_Country"
    }
   ],
   "cisco": [
    {
     "host": "cisco.wd5.myworkdayjobs.com",
     "tenant": "cisco",
+    "site": "Cisco_Careers",
+    "total": 1436,
+    "canada": 51,
+    "facet": "locations"
+   },
+   {
+    "host": "cisco.wd5.myworkdayjobs.com",
+    "tenant": "cisco",
     "site": "cisco_careers",
-    "total": 1512,
-    "canada": null
+    "total": 1436,
+    "canada": 51,
+    "facet": "locations"
    }
   ],
   "hp": [
@@ -550,8 +640,9 @@
     "host": "hp.wd5.myworkdayjobs.com",
     "tenant": "hp",
     "site": "ExternalCareerSite",
-    "total": 851,
-    "canada": 17
+    "total": 898,
+    "canada": 16,
+    "facet": "Location_Country"
    }
   ],
   "salesforce": [
@@ -559,42 +650,45 @@
     "host": "salesforce.wd12.myworkdayjobs.com",
     "tenant": "salesforce",
     "site": "External_Career_Site",
-    "total": 1572,
-    "canada": 51
-   }
-  ],
-  "intel": [
-   {
-    "host": "intel.wd1.myworkdayjobs.com",
-    "tenant": "intel",
-    "site": "External",
-    "total": 794,
-    "canada": null
+    "total": 1536,
+    "canada": 49,
+    "facet": "CF_-_REC_-_LRV_-_Job_Posting_Anchor_-_Country_from_Job_Posting_Location_Extended"
    }
   ],
   "workday": [
    {
     "host": "workday.wd5.myworkdayjobs.com",
     "tenant": "workday",
-    "site": "workday",
-    "total": 375,
-    "canada": 38
+    "site": "Workday",
+    "total": 359,
+    "canada": 34,
+    "facet": "Location_Country"
    },
    {
     "host": "workday.wd5.myworkdayjobs.com",
     "tenant": "workday",
-    "site": "Workday_Jobs",
-    "total": 22,
-    "canada": null
+    "site": "workday",
+    "total": 359,
+    "canada": 34,
+    "facet": "Location_Country"
    }
   ],
   "magna": [
    {
     "host": "magna.wd3.myworkdayjobs.com",
     "tenant": "magna",
+    "site": "magna",
+    "total": 1380,
+    "canada": 196,
+    "facet": "Country"
+   },
+   {
+    "host": "magna.wd3.myworkdayjobs.com",
+    "tenant": "magna",
     "site": "Magna",
-    "total": 1425,
-    "canada": 208
+    "total": 1380,
+    "canada": 196,
+    "facet": "Country"
    }
   ],
   "cae": [
@@ -603,37 +697,50 @@
     "tenant": "cae",
     "site": "cae",
     "total": 0,
-    "canada": null
-   },
-   {
-    "host": "cae.wd3.myworkdayjobs.com",
-    "tenant": "cae",
-    "site": "career",
-    "total": 385,
-    "canada": 102
+    "canada": null,
+    "facet": null
    },
    {
     "host": "cae.wd3.myworkdayjobs.com",
     "tenant": "cae",
     "site": "Cae",
     "total": 0,
-    "canada": null
+    "canada": null,
+    "facet": null
+   },
+   {
+    "host": "cae.wd3.myworkdayjobs.com",
+    "tenant": "cae",
+    "site": "Career",
+    "total": 385,
+    "canada": 103,
+    "facet": "Location_Country"
+   },
+   {
+    "host": "cae.wd3.myworkdayjobs.com",
+    "tenant": "cae",
+    "site": "career",
+    "total": 385,
+    "canada": 103,
+    "facet": "Location_Country"
    }
   ],
   "3m": [
    {
     "host": "3m.wd1.myworkdayjobs.com",
     "tenant": "3m",
-    "site": "Search",
-    "total": 755,
-    "canada": 13
+    "site": "search",
+    "total": 756,
+    "canada": 14,
+    "facet": "Location_Country"
    },
    {
     "host": "3m.wd1.myworkdayjobs.com",
     "tenant": "3m",
-    "site": "search",
-    "total": 755,
-    "canada": 13
+    "site": "Search",
+    "total": 756,
+    "canada": 14,
+    "facet": "Location_Country"
    }
   ],
   "medtronic": [
@@ -641,8 +748,17 @@
     "host": "medtronic.wd1.myworkdayjobs.com",
     "tenant": "medtronic",
     "site": "MedtronicCareers",
-    "total": 1061,
-    "canada": 7
+    "total": 966,
+    "canada": 6,
+    "facet": "locationCountry"
+   },
+   {
+    "host": "medtronic.wd1.myworkdayjobs.com",
+    "tenant": "medtronic",
+    "site": "medtroniccareers",
+    "total": 966,
+    "canada": 6,
+    "facet": "locationCountry"
    }
   ],
   "pfizer": [
@@ -650,15 +766,17 @@
     "host": "pfizer.wd1.myworkdayjobs.com",
     "tenant": "pfizer",
     "site": "PfizerCareers",
-    "total": 564,
-    "canada": 6
+    "total": 559,
+    "canada": 16,
+    "facet": "Location_Country"
    },
    {
     "host": "pfizer.wd1.myworkdayjobs.com",
     "tenant": "pfizer",
     "site": "pfizercareers",
-    "total": 564,
-    "canada": 6
+    "total": 559,
+    "canada": 16,
+    "facet": "Location_Country"
    }
   ],
   "astrazeneca": [
@@ -666,31 +784,17 @@
     "host": "astrazeneca.wd3.myworkdayjobs.com",
     "tenant": "astrazeneca",
     "site": "Careers",
-    "total": 1305,
-    "canada": null
+    "total": 1188,
+    "canada": 12,
+    "facet": "locations"
    },
    {
     "host": "astrazeneca.wd3.myworkdayjobs.com",
     "tenant": "astrazeneca",
     "site": "careers",
-    "total": 1305,
-    "canada": null
-   }
-  ],
-  "gsk": [
-   {
-    "host": "gsk.wd5.myworkdayjobs.com",
-    "tenant": "gsk",
-    "site": "gskcareers",
-    "total": 910,
-    "canada": 31
-   },
-   {
-    "host": "gsk.wd5.myworkdayjobs.com",
-    "tenant": "gsk",
-    "site": "GskCareers",
-    "total": 910,
-    "canada": 31
+    "total": 1188,
+    "canada": 12,
+    "facet": "locations"
    }
   ],
   "novartis": [
@@ -698,56 +802,35 @@
     "host": "novartis.wd3.myworkdayjobs.com",
     "tenant": "novartis",
     "site": "Novartis_Careers",
-    "total": 844,
-    "canada": 2
+    "total": 854,
+    "canada": 4,
+    "facet": "locationCountry"
    },
    {
     "host": "novartis.wd3.myworkdayjobs.com",
     "tenant": "novartis",
     "site": "novartis_careers",
-    "total": 844,
-    "canada": 2
+    "total": 854,
+    "canada": 4,
+    "facet": "locationCountry"
    }
   ],
   "sanofi": [
    {
     "host": "sanofi.wd3.myworkdayjobs.com",
     "tenant": "sanofi",
-    "site": "sanoficareers",
-    "total": 1028,
-    "canada": 29
+    "site": "SanofiCareers",
+    "total": 956,
+    "canada": 21,
+    "facet": "locationCountry"
    },
    {
     "host": "sanofi.wd3.myworkdayjobs.com",
     "tenant": "sanofi",
-    "site": "SanofiCareers",
-    "total": 1028,
-    "canada": 29
-   }
-  ],
-  "thermofisher": [
-   {
-    "host": "thermofisher.wd5.myworkdayjobs.com",
-    "tenant": "thermofisher",
-    "site": "thermofishercareers",
-    "total": 3012,
-    "canada": null
-   },
-   {
-    "host": "thermofisher.wd5.myworkdayjobs.com",
-    "tenant": "thermofisher",
-    "site": "ThermofisherCareers",
-    "total": 3012,
-    "canada": null
-   }
-  ],
-  "baxter": [
-   {
-    "host": "baxter.wd1.myworkdayjobs.com",
-    "tenant": "baxter",
-    "site": "Baxter",
-    "total": 523,
-    "canada": 14
+    "site": "sanoficareers",
+    "total": 956,
+    "canada": 21,
+    "facet": "locationCountry"
    }
   ],
   "abbott": [
@@ -756,14 +839,52 @@
     "tenant": "abbott",
     "site": "AbbottCareers",
     "total": 2000,
-    "canada": 21
+    "canada": 22,
+    "facet": "Location_Country"
    },
    {
     "host": "abbott.wd5.myworkdayjobs.com",
     "tenant": "abbott",
     "site": "abbottcareers",
     "total": 2000,
-    "canada": 21
+    "canada": 22,
+    "facet": "Location_Country"
+   }
+  ],
+  "thermofisher": [
+   {
+    "host": "thermofisher.wd5.myworkdayjobs.com",
+    "tenant": "thermofisher",
+    "site": "ThermofisherCareers",
+    "total": 3162,
+    "canada": 66,
+    "facet": "locations"
+   },
+   {
+    "host": "thermofisher.wd5.myworkdayjobs.com",
+    "tenant": "thermofisher",
+    "site": "thermofishercareers",
+    "total": 3162,
+    "canada": 66,
+    "facet": "locations"
+   }
+  ],
+  "baxter": [
+   {
+    "host": "baxter.wd1.myworkdayjobs.com",
+    "tenant": "baxter",
+    "site": "Baxter",
+    "total": 509,
+    "canada": 8,
+    "facet": "Country"
+   },
+   {
+    "host": "baxter.wd1.myworkdayjobs.com",
+    "tenant": "baxter",
+    "site": "baxter",
+    "total": 509,
+    "canada": 8,
+    "facet": "Country"
    }
   ],
   "stryker": [
@@ -771,17 +892,37 @@
     "host": "stryker.wd1.myworkdayjobs.com",
     "tenant": "stryker",
     "site": "StrykerCareers",
-    "total": 1482,
-    "canada": 13
+    "total": 1455,
+    "canada": 14,
+    "facet": "Location_Country"
+   }
+  ],
+  "statestreet": [
+   {
+    "host": "statestreet.wd1.myworkdayjobs.com",
+    "tenant": "statestreet",
+    "site": "Global",
+    "total": 1115,
+    "canada": 38,
+    "facet": "Location_Country"
    }
   ],
   "carrier": [
    {
     "host": "carrier.wd5.myworkdayjobs.com",
     "tenant": "carrier",
+    "site": "Jobs",
+    "total": 997,
+    "canada": 20,
+    "facet": "location_Country"
+   },
+   {
+    "host": "carrier.wd5.myworkdayjobs.com",
+    "tenant": "carrier",
     "site": "jobs",
-    "total": 1031,
-    "canada": 21
+    "total": 997,
+    "canada": 20,
+    "facet": "location_Country"
    }
   ],
   "mastercard": [
@@ -789,8 +930,9 @@
     "host": "mastercard.wd1.myworkdayjobs.com",
     "tenant": "mastercard",
     "site": "Campus",
-    "total": 40,
-    "canada": null
+    "total": 37,
+    "canada": null,
+    "facet": null
    }
   ],
   "visa": [
@@ -798,47 +940,63 @@
     "host": "visa.wd5.myworkdayjobs.com",
     "tenant": "visa",
     "site": "visa",
-    "total": 838,
-    "canada": 14
+    "total": 833,
+    "canada": 10,
+    "facet": "locationCountry"
    },
    {
     "host": "visa.wd5.myworkdayjobs.com",
     "tenant": "visa",
     "site": "Visa",
-    "total": 838,
-    "canada": 14
+    "total": 833,
+    "canada": 10,
+    "facet": "locationCountry"
+   }
+  ],
+  "paypal": [
+   {
+    "host": "paypal.wd1.myworkdayjobs.com",
+    "tenant": "paypal",
+    "site": "Jobs",
+    "total": 323,
+    "canada": null,
+    "facet": null
+   },
+   {
+    "host": "paypal.wd1.myworkdayjobs.com",
+    "tenant": "paypal",
+    "site": "jobs",
+    "total": 323,
+    "canada": null,
+    "facet": null
    }
   ],
   "accenture": [
    {
     "host": "accenture.wd103.myworkdayjobs.com",
     "tenant": "accenture",
-    "site": "AccentureCareers",
-    "total": 2000,
-    "canada": 145
-   },
-   {
-    "host": "accenture.wd103.myworkdayjobs.com",
-    "tenant": "accenture",
     "site": "accenturecareers",
     "total": 2000,
-    "canada": 145
+    "canada": 138,
+    "facet": "locationCountry"
    }
   ],
   "costar": [
    {
     "host": "costar.wd1.myworkdayjobs.com",
     "tenant": "costar",
-    "site": "costarcareers",
-    "total": 419,
-    "canada": 9
+    "site": "CostarCareers",
+    "total": 385,
+    "canada": 10,
+    "facet": "locationCountry"
    },
    {
     "host": "costar.wd1.myworkdayjobs.com",
     "tenant": "costar",
-    "site": "CostarCareers",
-    "total": 419,
-    "canada": 9
+    "site": "costarcareers",
+    "total": 385,
+    "canada": 10,
+    "facet": "locationCountry"
    }
   ],
   "jll": [
@@ -847,7 +1005,244 @@
     "tenant": "jll",
     "site": "JllCareers",
     "total": 2000,
-    "canada": 92
+    "canada": 76,
+    "facet": "locationCountry"
+   },
+   {
+    "host": "jll.wd1.myworkdayjobs.com",
+    "tenant": "jll",
+    "site": "jllcareers",
+    "total": 2000,
+    "canada": 76,
+    "facet": "locationCountry"
+   }
+  ],
+  "boeing": [
+   {
+    "host": "boeing.wd1.myworkdayjobs.com",
+    "tenant": "boeing",
+    "site": "External_Careers",
+    "total": 653,
+    "canada": 7,
+    "facet": "locationCountry"
+   }
+  ],
+  "thales": [
+   {
+    "host": "thales.wd3.myworkdayjobs.com",
+    "tenant": "thales",
+    "site": "Careers",
+    "total": 2000,
+    "canada": 87,
+    "facet": "locationCountry"
+   },
+   {
+    "host": "thales.wd3.myworkdayjobs.com",
+    "tenant": "thales",
+    "site": "careers",
+    "total": 2000,
+    "canada": 87,
+    "facet": "locationCountry"
+   }
+  ],
+  "stelco": [
+   {
+    "host": "stelco.wd3.myworkdayjobs.com",
+    "tenant": "stelco",
+    "site": "stelco",
+    "total": 8,
+    "canada": null,
+    "facet": null
+   },
+   {
+    "host": "stelco.wd3.myworkdayjobs.com",
+    "tenant": "stelco",
+    "site": "Stelco",
+    "total": 8,
+    "canada": null,
+    "facet": null
+   }
+  ],
+  "riotinto": [
+   {
+    "host": "riotinto.wd3.myworkdayjobs.com",
+    "tenant": "riotinto",
+    "site": "Riotinto_Careers",
+    "total": 213,
+    "canada": 50,
+    "facet": "locations"
+   },
+   {
+    "host": "riotinto.wd3.myworkdayjobs.com",
+    "tenant": "riotinto",
+    "site": "riotinto_careers",
+    "total": 213,
+    "canada": 50,
+    "facet": "locations"
+   }
+  ],
+  "alcoa": [
+   {
+    "host": "alcoa.wd5.myworkdayjobs.com",
+    "tenant": "alcoa",
+    "site": "Careers",
+    "total": 92,
+    "canada": 20,
+    "facet": "Location_Country"
+   },
+   {
+    "host": "alcoa.wd5.myworkdayjobs.com",
+    "tenant": "alcoa",
+    "site": "careers",
+    "total": 92,
+    "canada": 20,
+    "facet": "Location_Country"
+   }
+  ],
+  "maersk": [
+   {
+    "host": "maersk.wd3.myworkdayjobs.com",
+    "tenant": "maersk",
+    "site": "Maersk_Careers",
+    "total": 1182,
+    "canada": 8,
+    "facet": "locations"
+   },
+   {
+    "host": "maersk.wd3.myworkdayjobs.com",
+    "tenant": "maersk",
+    "site": "maersk_careers",
+    "total": 1182,
+    "canada": 8,
+    "facet": "locations"
+   }
+  ],
+  "amgen": [
+   {
+    "host": "amgen.wd1.myworkdayjobs.com",
+    "tenant": "amgen",
+    "site": "Careers",
+    "total": 1986,
+    "canada": 17,
+    "facet": "LocationCountry"
+   },
+   {
+    "host": "amgen.wd1.myworkdayjobs.com",
+    "tenant": "amgen",
+    "site": "careers",
+    "total": 1986,
+    "canada": 17,
+    "facet": "LocationCountry"
+   }
+  ],
+  "gilead": [
+   {
+    "host": "gilead.wd1.myworkdayjobs.com",
+    "tenant": "gilead",
+    "site": "gileadcareers",
+    "total": 390,
+    "canada": 9,
+    "facet": "locations"
+   },
+   {
+    "host": "gilead.wd1.myworkdayjobs.com",
+    "tenant": "gilead",
+    "site": "GileadCareers",
+    "total": 390,
+    "canada": 9,
+    "facet": "locations"
+   }
+  ],
+  "capitalpower": [
+   {
+    "host": "capitalpower.wd10.myworkdayjobs.com",
+    "tenant": "capitalpower",
+    "site": "External",
+    "total": 36,
+    "canada": 21,
+    "facet": "locationCountry"
+   },
+   {
+    "host": "capitalpower.wd10.myworkdayjobs.com",
+    "tenant": "capitalpower",
+    "site": "external",
+    "total": 36,
+    "canada": 21,
+    "facet": "locationCountry"
+   }
+  ],
+  "jabil": [
+   {
+    "host": "jabil.wd5.myworkdayjobs.com",
+    "tenant": "jabil",
+    "site": "Jabil_Careers",
+    "total": 2000,
+    "canada": 4,
+    "facet": "Location_Country"
+   },
+   {
+    "host": "jabil.wd5.myworkdayjobs.com",
+    "tenant": "jabil",
+    "site": "jabil_careers",
+    "total": 2000,
+    "canada": 4,
+    "facet": "Location_Country"
+   }
+  ],
+  "kimberlyclark": [
+   {
+    "host": "kimberlyclark.wd1.myworkdayjobs.com",
+    "tenant": "kimberlyclark",
+    "site": "Global",
+    "total": 145,
+    "canada": 5,
+    "facet": "Location_Country"
+   }
+  ],
+  "dupont": [
+   {
+    "host": "dupont.wd5.myworkdayjobs.com",
+    "tenant": "dupont",
+    "site": "jobs",
+    "total": 204,
+    "canada": 5,
+    "facet": "locations"
+   },
+   {
+    "host": "dupont.wd5.myworkdayjobs.com",
+    "tenant": "dupont",
+    "site": "Jobs",
+    "total": 204,
+    "canada": 5,
+    "facet": "locations"
+   }
+  ],
+  "ppg": [
+   {
+    "host": "ppg.wd5.myworkdayjobs.com",
+    "tenant": "ppg",
+    "site": "Ppg_Careers",
+    "total": 679,
+    "canada": 8,
+    "facet": "locationCountry"
+   },
+   {
+    "host": "ppg.wd5.myworkdayjobs.com",
+    "tenant": "ppg",
+    "site": "ppg_careers",
+    "total": 679,
+    "canada": 8,
+    "facet": "locationCountry"
+   }
+  ],
+  "ecolab": [
+   {
+    "host": "ecolab.wd1.myworkdayjobs.com",
+    "tenant": "ecolab",
+    "site": "ecolab_external",
+    "total": 987,
+    "canada": 82,
+    "facet": "locations"
    }
   ]
  }
