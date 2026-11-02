@@ -150,6 +150,33 @@ const joDeep = await c.jooble({ where: "Montréal, QC", delayMs: 0, queries: [{ 
 assert.equal(joDeep.ok, 3); assert.ok(calls.some((u) => /"page":2/.test(u)), "Jooble asks for page 2 of the busy search");
 globalThis.fetch = fetchBefore;
 
+// career sites with a sitemap: robots.txt is respected, only the matching addresses are read, and the JobPosting data gives the posting
+assert.equal(c.robotsAllows("User-agent: *\nDisallow: /private/\nAllow: /private/jobs/", "/private/x"), false);
+assert.equal(c.robotsAllows("User-agent: *\nDisallow: /private/\nAllow: /private/jobs/", "/private/jobs/1"), true, "the longest rule wins");
+assert.equal(c.robotsAllows("User-agent: *\nDisallow: /", "/careers"), false);
+assert.equal(c.robotsAllows("", "/x"), true);
+assert.equal(c.robotsAllows("User-agent: googlebot\nDisallow: /", "/x"), true, "a rule for another robot does not apply");
+assert.equal(c.robotsAllows("User-agent: *\nDisallow: /*.pdf$", "/a/b.pdf"), false);
+assert.equal(c.sitemapEntries("<urlset><url><loc>https://x.example/jobs/1</loc><lastmod>2026-11-01</lastmod></url><url><loc>https://x.example/about</loc></url></urlset>").urls.length, 2);
+assert.equal(c.sitemapEntries("<sitemapindex><sitemap><loc>https://x.example/s1.xml</loc></sitemap></sitemapindex>").children.length, 1);
+const ldPage = (t) => `<script type="application/ld+json">${JSON.stringify({ "@type": "JobPosting", title: t, hiringOrganization: { name: "Acme" }, jobLocation: { address: { addressLocality: "Montréal", addressRegion: "QC", addressCountry: "CA" } }, datePosted: "2026-11-01", description: "<p>Lean projects</p>" })}</script>`;
+const smSeen = [];
+globalThis.fetch = async (url) => {
+  const u = String(url); smSeen.push(u);
+  const body = /robots\.txt/.test(u) ? "User-agent: *\nDisallow: /jobs/secret"
+    : /sitemap\.xml/.test(u) ? "<urlset><url><loc>https://x.example/jobs/1</loc><lastmod>2026-11-02</lastmod></url><url><loc>https://x.example/jobs/secret/2</loc></url><url><loc>https://x.example/news/3</loc></url></urlset>"
+    : ldPage("Process Engineer Intern");
+  return { ok: true, status: 200, text: async () => body, json: async () => ({}) };
+};
+const smj = await c.sitemapSource({ name: "Acme careers", sitemap: "https://x.example/sitemap.xml", include: "/jobs/", max: 10, delayMs: 0 }, NOW, () => {}, async () => {});
+assert.equal(smj.listed, 2, "the news page is left out by `include`"); assert.equal(smj.blocked, 1, "the path robots.txt disallows is not fetched");
+assert.equal(smj.jobs.length, 1); assert.equal(smj.jobs[0].title, "Process Engineer Intern"); assert.equal(smj.jobs[0].company, "Acme");
+assert.ok(!smSeen.some((u) => /secret\/2/.test(u)), "never fetched");
+globalThis.fetch = async (url) => ({ ok: true, status: 200, text: async () => (/robots/.test(String(url)) ? "User-agent: *\nDisallow: /" : "<urlset></urlset>"), json: async () => ({}) });
+const smBlocked = await c.sitemapSource({ name: "Closed", sitemap: "https://y.example/sitemap.xml" }, NOW, () => {}, async () => {});
+assert.equal(smBlocked.jobs.length, 0); assert.match(smBlocked.stop, /robots/);
+globalThis.fetch = fetchBefore;
+
 
 // helpers for the new sources
 assert.equal(c.breakHeadings("Intro. Requirements: Excel. Preferred Qualifications: Lean.").split("\n").filter(Boolean).length, 5);

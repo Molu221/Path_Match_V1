@@ -986,5 +986,7 @@
    "site": "JllCareers"
   }
  ],
- "pages": []
+ "pages": [],
+ "sitemaps": [],
+ "_note_sitemaps": "Career sites that list their postings in a sitemap and publish schema.org JobPosting data on each posting page: { name, sitemap, include (regex on the posting address), max, company }. robots.txt is read first and a disallowed path is never fetched. Empty until a site is checked with the Probe job sites workflow."
 }

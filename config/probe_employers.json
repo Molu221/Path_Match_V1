@@ -1,0 +1,389 @@
+{
+ "_note": "Probe of employer and job-board sites that might be added (robots.txt first, then one page). Run with the Probe job sites workflow: config=config/probe_employers.json out=probe_employers.json. Nothing here is collected; it only shows what answers, what robots.txt allows and where the postings and sitemaps are.",
+ "probes": [
+  {
+   "name": "Quebec public service jobs platform robots.txt",
+   "url": "https://emplois.carrieres.gouv.qc.ca/robots.txt",
+   "headChars": 1500
+  },
+  {
+   "name": "Quebec public service jobs platform page",
+   "url": "https://emplois.carrieres.gouv.qc.ca/plateforme-emploi",
+   "discover": true,
+   "links": "href=\"([^\"]*(?:sitemap|jobs?|emplois?|careers?|carrieres?|offres?)[^\"]*)\"",
+   "headers": {
+    "Accept": "text/html"
+   }
+  },
+  {
+   "name": "Quebec student jobs and internships robots.txt",
+   "url": "https://www.quebec.ca/robots.txt",
+   "headChars": 1500
+  },
+  {
+   "name": "Quebec student jobs and internships page",
+   "url": "https://www.quebec.ca/gouvernement/travailler-gouvernement/emplois-fonction-publique/emplois-etudiants-stages",
+   "discover": true,
+   "links": "href=\"([^\"]*(?:sitemap|jobs?|emplois?|careers?|carrieres?|offres?)[^\"]*)\"",
+   "headers": {
+    "Accept": "text/html"
+   }
+  },
+  {
+   "name": "Ontario Public Service GoJobs robots.txt",
+   "url": "https://www.gojobs.gov.on.ca/robots.txt",
+   "headChars": 1500
+  },
+  {
+   "name": "Ontario Public Service GoJobs page",
+   "url": "https://www.gojobs.gov.on.ca/",
+   "discover": true,
+   "links": "href=\"([^\"]*(?:sitemap|jobs?|emplois?|careers?|carrieres?|offres?)[^\"]*)\"",
+   "headers": {
+    "Accept": "text/html"
+   }
+  },
+  {
+   "name": "Hydro-Quebec robots.txt",
+   "url": "https://www.hydroquebec.com/robots.txt",
+   "headChars": 1500
+  },
+  {
+   "name": "Hydro-Quebec page",
+   "url": "https://www.hydroquebec.com/carrieres/",
+   "discover": true,
+   "links": "href=\"([^\"]*(?:sitemap|jobs?|emplois?|careers?|carrieres?|offres?)[^\"]*)\"",
+   "headers": {
+    "Accept": "text/html"
+   }
+  },
+  {
+   "name": "STM robots.txt",
+   "url": "https://www.stm.info/robots.txt",
+   "headChars": 1500
+  },
+  {
+   "name": "STM page",
+   "url": "https://www.stm.info/fr/a-propos/carrieres",
+   "discover": true,
+   "links": "href=\"([^\"]*(?:sitemap|jobs?|emplois?|careers?|carrieres?|offres?)[^\"]*)\"",
+   "headers": {
+    "Accept": "text/html"
+   }
+  },
+  {
+   "name": "Ville de Montreal robots.txt",
+   "url": "https://montreal.ca/robots.txt",
+   "headChars": 1500
+  },
+  {
+   "name": "Ville de Montreal page",
+   "url": "https://montreal.ca/emplois",
+   "discover": true,
+   "links": "href=\"([^\"]*(?:sitemap|jobs?|emplois?|careers?|carrieres?|offres?)[^\"]*)\"",
+   "headers": {
+    "Accept": "text/html"
+   }
+  },
+  {
+   "name": "CHUM robots.txt",
+   "url": "https://www.chumontreal.qc.ca/robots.txt",
+   "headChars": 1500
+  },
+  {
+   "name": "CHUM page",
+   "url": "https://www.chumontreal.qc.ca/",
+   "discover": true,
+   "links": "href=\"([^\"]*(?:sitemap|jobs?|emplois?|careers?|carrieres?|offres?)[^\"]*)\"",
+   "headers": {
+    "Accept": "text/html"
+   }
+  },
+  {
+   "name": "McGill robots.txt",
+   "url": "https://www.mcgill.ca/robots.txt",
+   "headChars": 1500
+  },
+  {
+   "name": "McGill page",
+   "url": "https://www.mcgill.ca/hr/",
+   "discover": true,
+   "links": "href=\"([^\"]*(?:sitemap|jobs?|emplois?|careers?|carrieres?|offres?)[^\"]*)\"",
+   "headers": {
+    "Accept": "text/html"
+   }
+  },
+  {
+   "name": "Concordia robots.txt",
+   "url": "https://www.concordia.ca/robots.txt",
+   "headChars": 1500
+  },
+  {
+   "name": "Concordia page",
+   "url": "https://www.concordia.ca/about/hr.html",
+   "discover": true,
+   "links": "href=\"([^\"]*(?:sitemap|jobs?|emplois?|careers?|carrieres?|offres?)[^\"]*)\"",
+   "headers": {
+    "Accept": "text/html"
+   }
+  },
+  {
+   "name": "Polytechnique Montreal robots.txt",
+   "url": "https://www.polymtl.ca/robots.txt",
+   "headChars": 1500
+  },
+  {
+   "name": "Polytechnique Montreal page",
+   "url": "https://www.polymtl.ca/",
+   "discover": true,
+   "links": "href=\"([^\"]*(?:sitemap|jobs?|emplois?|careers?|carrieres?|offres?)[^\"]*)\"",
+   "headers": {
+    "Accept": "text/html"
+   }
+  },
+  {
+   "name": "HEC Montreal robots.txt",
+   "url": "https://www.hec.ca/robots.txt",
+   "headChars": 1500
+  },
+  {
+   "name": "HEC Montreal page",
+   "url": "https://www.hec.ca/",
+   "discover": true,
+   "links": "href=\"([^\"]*(?:sitemap|jobs?|emplois?|careers?|carrieres?|offres?)[^\"]*)\"",
+   "headers": {
+    "Accept": "text/html"
+   }
+  },
+  {
+   "name": "Universite de Montreal robots.txt",
+   "url": "https://www.umontreal.ca/robots.txt",
+   "headChars": 1500
+  },
+  {
+   "name": "Universite de Montreal page",
+   "url": "https://www.umontreal.ca/",
+   "discover": true,
+   "links": "href=\"([^\"]*(?:sitemap|jobs?|emplois?|careers?|carrieres?|offres?)[^\"]*)\"",
+   "headers": {
+    "Accept": "text/html"
+   }
+  },
+  {
+   "name": "Ubisoft robots.txt",
+   "url": "https://www.ubisoft.com/robots.txt",
+   "headChars": 1500
+  },
+  {
+   "name": "Ubisoft page",
+   "url": "https://www.ubisoft.com/en-us/company/careers/search",
+   "discover": true,
+   "links": "href=\"([^\"]*(?:sitemap|jobs?|emplois?|careers?|carrieres?|offres?)[^\"]*)\"",
+   "headers": {
+    "Accept": "text/html"
+   }
+  },
+  {
+   "name": "Alstom robots.txt",
+   "url": "https://www.alstom.com/robots.txt",
+   "headChars": 1500
+  },
+  {
+   "name": "Alstom page",
+   "url": "https://www.alstom.com/careers",
+   "discover": true,
+   "links": "href=\"([^\"]*(?:sitemap|jobs?|emplois?|careers?|carrieres?|offres?)[^\"]*)\"",
+   "headers": {
+    "Accept": "text/html"
+   }
+  },
+  {
+   "name": "Ordre des ingenieurs du Quebec robots.txt",
+   "url": "https://www.oiq.qc.ca/robots.txt",
+   "headChars": 1500
+  },
+  {
+   "name": "Ordre des ingenieurs du Quebec page",
+   "url": "https://www.oiq.qc.ca/",
+   "discover": true,
+   "links": "href=\"([^\"]*(?:sitemap|jobs?|emplois?|careers?|carrieres?|offres?)[^\"]*)\"",
+   "headers": {
+    "Accept": "text/html"
+   }
+  },
+  {
+   "name": "Aero Montreal robots.txt",
+   "url": "https://www.aeromontreal.ca/robots.txt",
+   "headChars": 1500
+  },
+  {
+   "name": "Aero Montreal page",
+   "url": "https://www.aeromontreal.ca/",
+   "discover": true,
+   "links": "href=\"([^\"]*(?:sitemap|jobs?|emplois?|careers?|carrieres?|offres?)[^\"]*)\"",
+   "headers": {
+    "Accept": "text/html"
+   }
+  },
+  {
+   "name": "Supply Chain Canada robots.txt",
+   "url": "https://www.scm.ca/robots.txt",
+   "headChars": 1500
+  },
+  {
+   "name": "Supply Chain Canada page",
+   "url": "https://www.scm.ca/",
+   "discover": true,
+   "links": "href=\"([^\"]*(?:sitemap|jobs?|emplois?|careers?|carrieres?|offres?)[^\"]*)\"",
+   "headers": {
+    "Accept": "text/html"
+   }
+  },
+  {
+   "name": "Canadian Manufacturers and Exporters robots.txt",
+   "url": "https://cme-mec.ca/robots.txt",
+   "headChars": 1500
+  },
+  {
+   "name": "Canadian Manufacturers and Exporters page",
+   "url": "https://cme-mec.ca/",
+   "discover": true,
+   "links": "href=\"([^\"]*(?:sitemap|jobs?|emplois?|careers?|carrieres?|offres?)[^\"]*)\"",
+   "headers": {
+    "Accept": "text/html"
+   }
+  },
+  {
+   "name": "Mitacs robots.txt",
+   "url": "https://www.mitacs.ca/robots.txt",
+   "headChars": 1500
+  },
+  {
+   "name": "Mitacs page",
+   "url": "https://www.mitacs.ca/",
+   "discover": true,
+   "links": "href=\"([^\"]*(?:sitemap|jobs?|emplois?|careers?|carrieres?|offres?)[^\"]*)\"",
+   "headers": {
+    "Accept": "text/html"
+   }
+  },
+  {
+   "name": "Jobboom robots.txt",
+   "url": "https://www.jobboom.com/robots.txt",
+   "headChars": 1500
+  },
+  {
+   "name": "Jobboom page",
+   "url": "https://www.jobboom.com/",
+   "discover": true,
+   "links": "href=\"([^\"]*(?:sitemap|jobs?|emplois?|careers?|carrieres?|offres?)[^\"]*)\"",
+   "headers": {
+    "Accept": "text/html"
+   }
+  },
+  {
+   "name": "Jobillico robots.txt",
+   "url": "https://www.jobillico.com/robots.txt",
+   "headChars": 1500
+  },
+  {
+   "name": "Jobillico page",
+   "url": "https://www.jobillico.com/",
+   "discover": true,
+   "links": "href=\"([^\"]*(?:sitemap|jobs?|emplois?|careers?|carrieres?|offres?)[^\"]*)\"",
+   "headers": {
+    "Accept": "text/html"
+   }
+  },
+  {
+   "name": "Eluta robots.txt",
+   "url": "https://www.eluta.ca/robots.txt",
+   "headChars": 1500
+  },
+  {
+   "name": "Eluta page",
+   "url": "https://www.eluta.ca/",
+   "discover": true,
+   "links": "href=\"([^\"]*(?:sitemap|jobs?|emplois?|careers?|carrieres?|offres?)[^\"]*)\"",
+   "headers": {
+    "Accept": "text/html"
+   }
+  },
+  {
+   "name": "Jobs.ca robots.txt",
+   "url": "https://www.jobs.ca/robots.txt",
+   "headChars": 1500
+  },
+  {
+   "name": "Jobs.ca page",
+   "url": "https://www.jobs.ca/",
+   "discover": true,
+   "links": "href=\"([^\"]*(?:sitemap|jobs?|emplois?|careers?|carrieres?|offres?)[^\"]*)\"",
+   "headers": {
+    "Accept": "text/html"
+   }
+  },
+  {
+   "name": "CharityVillage robots.txt",
+   "url": "https://charityvillage.com/robots.txt",
+   "headChars": 1500
+  },
+  {
+   "name": "CharityVillage page",
+   "url": "https://charityvillage.com/",
+   "discover": true,
+   "links": "href=\"([^\"]*(?:sitemap|jobs?|emplois?|careers?|carrieres?|offres?)[^\"]*)\"",
+   "headers": {
+    "Accept": "text/html"
+   }
+  },
+  {
+   "name": "Jooble terms",
+   "url": "https://jooble.org/robots.txt",
+   "headChars": 900,
+   "headers": {
+    "Accept": "*/*"
+   }
+  },
+  {
+   "name": "Careerjet terms",
+   "url": "https://www.careerjet.ca/robots.txt",
+   "headChars": 900,
+   "headers": {
+    "Accept": "*/*"
+   }
+  },
+  {
+   "name": "Remotive Canada",
+   "url": "https://remotive.com/api/remote-jobs?limit=2",
+   "headChars": 900,
+   "headers": {
+    "Accept": "*/*"
+   }
+  },
+  {
+   "name": "Arbeitnow",
+   "url": "https://www.arbeitnow.com/api/job-board-api",
+   "headChars": 900,
+   "headers": {
+    "Accept": "*/*"
+   }
+  },
+  {
+   "name": "Himalayas",
+   "url": "https://himalayas.app/jobs/api?limit=2",
+   "headChars": 900,
+   "headers": {
+    "Accept": "*/*"
+   }
+  },
+  {
+   "name": "RemoteOK",
+   "url": "https://remoteok.com/api",
+   "headChars": 900,
+   "headers": {
+    "Accept": "*/*"
+   }
+  }
+ ]
+}

@@ -501,6 +501,19 @@ button:disabled{opacity:.5;cursor:default}
             <option value="99" selected>Everything collected</option>
           </select>
         </div>
+        <details class="panel" id="addpost">
+          <summary><strong>Add a posting you found elsewhere</strong></summary>
+          <form id="addform" autocomplete="off" novalidate>
+            <p class="note">Found a job on any site? Paste it here and it is scored against your CV like the others. It stays in this browser only.</p>
+            <label for="ap-title">Job title</label><input type="text" id="ap-title" maxlength="160">
+            <label for="ap-co">Employer</label><input type="text" id="ap-co" maxlength="120">
+            <label for="ap-loc">Place (optional)</label><input type="text" id="ap-loc" maxlength="120" placeholder="Montréal, QC">
+            <label for="ap-kind">Kind of job</label><select id="ap-kind"><option value="">Full-time</option><option value="Part-time">Part-time</option><option value="Internship">Internship or co-op</option></select>
+            <label for="ap-url">Link to the posting (optional)</label><input type="text" id="ap-url" maxlength="500" placeholder="https://">
+            <label for="ap-desc">Full text of the posting</label><textarea id="ap-desc" placeholder="Paste the tasks, requirements, tools, language and eligibility"></textarea>
+            <div class="row" style="margin-top:8px"><button class="primary" type="submit">Add and score it</button><span class="note" id="ap-msg" aria-live="polite"></span></div>
+          </form>
+        </details>
         <div class="panel">
           <h2>The postings</h2>
           <p class="note" id="liveNote">Loading postings…</p>
@@ -638,6 +651,17 @@ function applyPasted(j){
   else if(j.pasted&&j._orig){j.desc=j._orig.desc;j.partial=j._orig.partial;j.pasted=false;j.kw=j._orig.kw;j.kt=j._orig.kt;}
   j._map=null;j._st=null;j._lv=null;j._d=null;
 }
+/* Postings the person adds by hand (found on any site and pasted here). Kept in this browser only; scored and filtered like the collected ones. */
+let MINE=[];try{MINE=JSON.parse(localStorage.getItem("pm_mine")||"[]");if(!Array.isArray(MINE))MINE=[];}catch(e){MINE=[];}
+function saveMine(){try{localStorage.setItem("pm_mine",JSON.stringify(MINE.slice(-30)));}catch(e){}}
+const PROV_WORDS=[[/\b(QC|ON|BC|AB|MB|SK|NS|NB|NL|PE|YT|NT|NU)\b/,null],[/qu[eé]bec/i,"QC"],[/ontario/i,"ON"],[/british columbia/i,"BC"],[/alberta/i,"AB"],[/manitoba/i,"MB"],[/saskatchewan/i,"SK"],[/nova scotia/i,"NS"],[/new brunswick/i,"NB"],[/newfoundland/i,"NL"]];
+function provOfLoc(loc){for(const [re,p] of PROV_WORDS){const m=re.exec(loc||"");if(m)return p||m[1];}return "";}
+function mineJob(x){
+  const j={company:x.company,title:x.title,loc:x.loc||"",date:x.date,type:x.type||"",sources:[{src:"Added by you",url:x.url||""}],desc:x.desc||"",id:"",dl:(x.desc||"").length,lv:null,lg:null,df:null,
+    province:provOfLoc(x.loc),kw:null,kt:0,ageH:null,snap:false,partial:false,mine:true};
+  classify(j);return j;
+}
+function addMineToJobs(){const have=new Set(JOBS.map(jkey));for(const x of MINE){const j=mineJob(x),k=jkey(j);if(have.has(k))continue;have.add(k);JOBS.push(j);}}
 const OPEN=new Set();
 /* Montreal area, same list as AREA in scripts/collect.mjs */
 const MTL=/montr[eé]al|laval\b|longueuil|brossard|dorval|saint[- ]laurent|st[- ]laurent|pointe[- ]claire|sainte?[- ]anne[- ]de[- ]bellevue|boucherville|saint[- ]hubert|st[- ]hubert|vaudreuil|terrebonne|mirabel|varennes|candiac|la prairie|saint[- ]bruno|kirkland|lachine|anjou|westmount|verdun|mont[- ]royal|mount royal|saint[- ]eustache|repentigny|blainville|dollard|beaconsfield|pierrefonds|lasalle|ahuntsic|greater montr/i;
@@ -1114,10 +1138,18 @@ function run(){
   };
   SCORING="Scoring postings against your CV…";SCORE_PC=0;render();setTimeout(step,0);
 }
+/* a person's own posting was added or removed: when everything is already scored, score or drop just that one instead of everything again */
+function resync(j,add){
+  if(CV&&DICT&&SCORED_FOR===CV&&!SCORING&&RES_VER===JOBS_VER-1){
+    if(add)RES.push({j,s:scoreJob(j)});else{const i=RES.findIndex(r=>r.j===j);if(i>=0)RES.splice(i,1);}
+    RES_VER=JOBS_VER;render();return;
+  }
+  run();
+}
 function pill(c,t,title){return `<span class="pill ${c}"${title?` title="${esc(title)}"`:""}>${esc(t)}</span>`}
 const starBtn=k=>`<button class="star${SAVED.has(k)?" on":""}" data-star="${esc(k)}" aria-pressed="${SAVED.has(k)}" title="${SAVED.has(k)?"Remove from saved":"Save this posting"}">${SAVED.has(k)?"★":"☆"}</button>`;
-const whenOf=j=>{const a=age(j),d=a<24?0:Math.floor(a/24);return a<24?(j.ageH!=null?`Posted ${Math.max(1,Math.round(a))}h ago`:"Posted today"):d===1?"Posted 1 day ago":`Posted ${d} days ago`;};
-const srcLinks=j=>j.sources.map(x=>`<a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.src)}</a>`).join(" · ");
+const whenOf=j=>{if(j.mine)return "Added by you";const a=age(j),d=a<24?0:Math.floor(a/24);return a<24?(j.ageH!=null?`Posted ${Math.max(1,Math.round(a))}h ago`:"Posted today"):d===1?"Posted 1 day ago":`Posted ${d} days ago`;};
+const srcLinks=j=>j.sources.map(x=>x.url?`<a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.src)}</a>`:esc(x.src)).join(" · ");
 /* level, how it relates to the person, field and type: the tags under a title */
 /* a field gets one of eight hues (the same field always has the same colour); "other" is grey */
 const FIELD_HUE={software:1,data:1,product:7,hr:7,engineering:2,trades:2,construction:4,ops:4,finance:6,legal:6,admin:6,marketing:5,creative:5,health:3,science:3,education:3,hospitality:8};
@@ -1144,24 +1176,25 @@ function jobHtml(r,rank,top){
     ${top?`<div class="rank"><b>${rank}</b><small>${starBtn(jk)}</small></div>`:`<div class="score"><b class="${scCls(s.total)}">${s.total}</b><small>#${rank}</small>${starBtn(jk)}</div>`}
     <div>
       <div class="t">${esc(j.title)}</div>
-      <div class="meta"><span>${esc(j.company)}</span><span>${esc(j.loc)}</span><span>${whenOf(j)}${a<24?" · within 24h":""}</span><span>${srcLinks(j)}</span></div>
+      <div class="meta"><span>${esc(j.company)}</span><span>${esc(j.loc)}</span><span>${whenOf(j)}${a<24&&!j.mine?" · within 24h":""}</span><span>${srcLinks(j)}</span></div>
       ${occLine(j)}
       ${top?`<div class="topscore"><b class="${scCls(s.total)}">${s.total}</b><span>out of 100 · ${s.conf==="Full text"?"scored from the full text":s.conf==="Occupation profile"?"scored from the occupation profile":s.conf==="Short snippet"?"scored from a short snippet":"scored from the title only"}</span></div>`:""}
       ${tagsHtml(j,s.rel)}
       ${skillsRow(j)}
       <div class="subs">${bar(s.role,40,"Role")}${bar(s.level,25,"Level")}${bar(s.overlap,35,"Keywords")}${top?"":`<span class="note" style="font-size:12px">${esc(s.conf)}</span>`}</div>
-      <div>${s.flags.map(f=>pill(f[0]==="g"?"g":f[0],f[1])).join("")}${a<24?pill("n","24h"):""}${j.fresh?pill("n","New since you opened the page"):""}</div>
+      <div>${s.flags.map(f=>pill(f[0]==="g"?"g":f[0],f[1])).join("")}${a<24&&!j.mine?pill("n","24h"):""}${j.fresh?pill("n","New since you opened the page"):""}</div>
     </div></summary>
     <div class="det">
       <div class="mapslot" data-k="${esc(jk)}">${OPEN.has(jk)?mapPanel(j):""}</div>
       <details class="old"><summary>How the 0–100 score was counted</summary>${breakdown(j,s)}</details>
       <h3>Before you apply</h3>
       <p class="note">Open the posting and read the full text. Required skills, security rules, degree level and exact dates may not be visible from the title.</p>
-      <div class="row">${openBtns(j)}</div>
+      <div class="row">${openBtns(j)}</div>${mineBtn(j,jk)}
     </div></details>`;
 }
-const openBtns=j=>j.sources.slice(0,3).map(x=>`<a class="btn" href="${esc(x.url)}" target="_blank" rel="noopener">${j.od?"Search for it on Job Bank":isOcc(j)&&x.src==="Job Bank"?"Read the employer's posting":"Open on "+esc(x.src)}</a>`).join(" ")
+const openBtns=j=>j.sources.filter(x=>x.url).slice(0,3).map(x=>`<a class="btn" href="${esc(x.url)}" target="_blank" rel="noopener">${j.mine?"Open the link you saved":j.od?"Search for it on Job Bank":isOcc(j)&&x.src==="Job Bank"?"Read the employer's posting":"Open on "+esc(x.src)}</a>`).join(" ")
   +(j.noc?` <a class="btn" href="${esc(nocUrl(j))}" target="_blank" rel="noopener">Full description of NOC ${esc(nocCode(j))}</a>`:"");
+const mineBtn=(j,jk)=>j.mine?`<div class="row" style="margin-top:8px"><button data-act="rmmine" data-pk="${esc(jk)}">Remove this posting from my list</button></div>`:"";
 /* a posting before a CV is added: nothing is scored, the text is there to read */
 function browseHtml(j,rank){
   const a=age(j),jk=jkey(j),lv=lvOf(j);
@@ -1176,12 +1209,12 @@ function browseHtml(j,rank){
       ${occLine(j)}
       ${tagsHtml(j,rel)}
       ${kws?`<div class="skills"><div class="sk-h">${isOcc(j)?"What the occupation asks for":"What the posting asks for"}</div><div class="kw sk">${kws}</div></div>`:""}
-      <div>${a<24?pill("n","24h"):""}${j.fresh?pill("n","New since you opened the page"):""}${j.partial&&!isOcc(j)?pill("","Short snippet only"):""}</div>
+      <div>${a<24&&!j.mine?pill("n","24h"):""}${j.fresh?pill("n","New since you opened the page"):""}${j.partial&&!isOcc(j)?pill("","Short snippet only"):""}</div>
     </div></summary>
     <div class="det">
       <h3>The posting</h3><div class="descslot">${OPEN.has(jk)?descPanel(j):""}</div>
       <p class="note"><a href="#p=details" data-p="details"><b>Add your CV</b></a> to score this posting and see which of its keywords are on your CV.</p>
-      <div class="row">${open}</div>
+      <div class="row">${open}</div>${mineBtn(j,jk)}
     </div></details>`;
 }
 const cardOf=(r,i)=>r.s?jobHtml(r,i+1):browseHtml(r.j,i+1);
@@ -1499,6 +1532,11 @@ $("topview").addEventListener("toggle",onCardToggle,true);
 function onAct(e){
   const b=e.target.closest("[data-act]");if(!b)return;
   const k=b.dataset.pk,card=b.closest("details.job");
+  if(b.dataset.act==="rmmine"){
+    MINE=MINE.filter(x=>jkey(mineJob(x))!==k);saveMine();
+    const i=JOBS.findIndex(x=>x.mine&&jkey(x)===k),gone=i>=0?JOBS.splice(i,1)[0]:null;
+    OPEN.delete(k);JOBS_VER++;resync(gone,false);return;
+  }
   if(b.dataset.act==="usepaste"){
     const t=((card.querySelector("textarea[data-pk]")||{}).value||"").trim();
     if(t.length<80){const m=card.querySelector("[data-msg]");if(m)m.textContent="Paste at least a few lines of the posting.";return;}
@@ -1765,6 +1803,25 @@ $("fsaved").onclick=()=>{F.saved=!F.saved;refilter(false);};
 $("chips").addEventListener("click",e=>{const b=e.target.closest("[data-w]");if(b){$("window").value=b.dataset.w;refilter(false);}});
 function resetFilters(){Object.assign(F,{q:"",qw:[],loc:"",src:"",sort:"",min:0,saved:false,desc:false,lvl:"fit",fd:""});$("fq").value="";$("window").value=DEFAULT_W;refilter(false);}
 $("freset").onclick=resetFilters;
+/* the form: add a posting found elsewhere, score it, and show it */
+$("addform").addEventListener("submit",e=>{
+  e.preventDefault();
+  const v=id=>$(id).value.trim(),msg=t=>{$("ap-msg").textContent=t;};
+  const title=v("ap-title"),company=v("ap-co"),desc=v("ap-desc");let url=v("ap-url");
+  if(title.length<3){msg("Add the job title.");$("ap-title").focus();return;}
+  if(company.length<2){msg("Add the employer.");$("ap-co").focus();return;}
+  if(desc.length<80){msg("Paste at least a few lines of the posting, so it can be scored.");$("ap-desc").focus();return;}
+  if(url&&!/^https?:\/\//i.test(url))url=/^[\w.-]+\.[a-z]{2,}(\/|$)/i.test(url)?"https://"+url:"";   /* only web links; anything else is dropped */
+  const x={title,company,loc:v("ap-loc"),type:$("ap-kind").value,url,desc:desc.slice(0,30000),date:TODAY};
+  const j=mineJob(x),k=jkey(j);
+  if(JOBS.some(y=>jkey(y)===k)){msg("This posting is already in the list.");$("fq").value=title;$("fq").dispatchEvent(new Event("input",{bubbles:true}));return;}
+  MINE.push(x);saveMine();JOBS.push(j);JOBS_VER++;
+  $("addform").reset();msg("Added. It is scored in the list.");
+  resetFilters();F.lvl="";OPEN.add(k);
+  const t=document.querySelector('#tabs .tab[data-t="'+j.kind+'"]');if(t)t.click();
+  $("fq").value=title;$("fq").dispatchEvent(new Event("input",{bubbles:true}));
+  resync(j,true);setTimeout(()=>{const el=cardEl(k);if(el)el.scrollIntoView({block:"center"});},400);
+});
 $("copy").onclick=()=>copyList(CUR.list);
 $("view").addEventListener("click",e=>{
   if(e.target.closest("#more")){showMore();return;}
@@ -1840,6 +1897,7 @@ async function loadServer(){
     JOBS.length=0;SHARD=new Map();BYID=new Map();ALLTEXT=null;DATA_V=d.updatedAt;
     for(const j of m.values()){classify(j);const k=jkey(j);j.fresh=!first&&(!before.has(k)||wasFresh.has(k));applyPasted(j);JOBS.push(j);if(j.id)BYID.set(j.id,j);}
     for(const j of OPENJOBS){applyPasted(j);JOBS.push(j);}
+    addMineToJobs();
     JOBS_VER++;
     if(!OPENJOBS.length)setTimeout(loadOpenData,0);   /* then every Job Bank open-data posting (about 1.5 MB) */
     const nNew=JOBS.filter(j=>j.fresh).length;
