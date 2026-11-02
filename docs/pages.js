@@ -18,16 +18,18 @@
     lab: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-5-9V3M8 14h8"/></svg>',
     ladder: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21h5v-5h5v-5h5V6h3"/></svg>',
     swipe: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="4" width="14" height="16" rx="2"/><path d="M9 12.5l2 2 4-4.5"/></svg>',
-    board: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="5" height="16" rx="1"/><rect x="10" y="4" width="5" height="10" rx="1"/><rect x="17" y="4" width="4" height="13" rx="1"/></svg>'
+    board: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="5" height="16" rx="1"/><rect x="10" y="4" width="5" height="10" rx="1"/><rect x="17" y="4" width="4" height="13" rx="1"/></svg>',
+    plan: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4M9 15l2 2 4-4"/></svg>'
   };
   const META = {
     market: { name: "Market map", title: "Market map", hue: "var(--violet)", blurb: "See where the postings are: by province, field and stage." },
     lab: { name: "Skill lab", title: "Skill lab", hue: "var(--mint)", blurb: "Try a skill before you learn it and watch your top 10 move." },
     ladder: { name: "Career ladder", title: "Career ladder", hue: "var(--coral)", blurb: "What each rung asks for in your field, and what is new on the next one." },
     swipe: { name: "Quick sort", title: "Quick sort", hue: "var(--berry)", blurb: "Go through postings one card at a time: save or skip." },
-    board: { name: "Application board", title: "Application board", hue: "var(--peach)", blurb: "Track what you saved, applied to, and heard back about." }
+    board: { name: "Application board", title: "Application board", hue: "var(--peach)", blurb: "Track what you saved, applied to, and heard back about." },
+    plan: { name: "Week plan", title: "Week plan", hue: "var(--sun)", blurb: "The few postings worth your applications this week, with a score range for each." }
   };
-  const ORDER = ["market", "lab", "ladder", "swipe", "board"];
+  const ORDER = ["market", "lab", "plan", "ladder", "swipe", "board"];
   const LANGSKILL = new Set(["english", "french", "anglais", "francais", "bilingual", "bilingue", "bilingual (en/fr)"]);
   /* general strengths: postings name them, but they are not something to "learn first". They are shown apart from role skills. */
   const SOFT = new Set(("leadership|attention to detail|initiative|autonomy|organizational skills|explaining complex ideas|patience|perseverance|curiosity|takes on challenges|problem solving|analytical skills|communication|teamwork|collaboration|interpersonal skills|time management|prioritization|multitasking|works under pressure|meets deadlines|adaptability|critical thinking|creativity|innovation|proactivity|resourcefulness|rigor|accountability|dependability|punctuality|professionalism|integrity|discretion and confidentiality|active listening|empathy|emotional intelligence|diplomacy and tact|conflict resolution|negotiation|persuasion and influence|decision making|presentation skills|written communication|verbal communication|strategic thinking|synthesis|learning agility|resilience|motivation|enthusiasm|entrepreneurial spirit|cultural awareness|results orientation|mentoring and coaching|stakeholder management|cross-functional work|team management|facilitation|diversity and inclusion").split("|"));
@@ -625,6 +627,152 @@
   }
 
   /* =====================================================================
+     WEEK PLAN: the few postings worth this week's applications (the maths is in planner.js)
+     ===================================================================== */
+  const PLAN = { n: store.get("pm_plan_n", null), half: store.get("pm_plan_half", "balanced"), noelig: !!store.get("pm_plan_elig", false), msg: "" };
+  const planN = () => Math.max(3, Math.min(15, +PLAN.n || GOAL || 5));
+  const dayAge = (j) => Math.max(0, age(j) / 24);
+  const whenTxt = (d) => { d = Math.round(d); return d < 1 ? "Posted today" : d === 1 ? "Posted 1 day ago" : "Posted " + d + " days ago"; };
+  const onBoardKeys = () => new Set(Object.keys(BOARD).filter((k) => BOARD[k].c && BOARD[k].c !== "saved"));
+  /* postings of named employers with a full text that fit the person's details, minus what is already on the board as applied */
+  function planPool(done) {
+    const out = [];
+    for (const r of RES) {
+      const j = r.j, s = r.s;
+      if (!s || j.od || isOcc(j) || s.past || !hasText(j) || j.partial || !prefOk(j) || done.has(jkey(j))) continue;
+      out.push(r);
+    }
+    return out;
+  }
+  function planData() {
+    const half = Planner.HALF[PLAN.half] || Planner.HALF.balanced, done = onBoardKeys(), pool = planPool(done);
+    const top = pool.map((r) => ({ r, u: r.s.total * Planner.fresh(dayAge(r.j), half) })).sort((a, b) => b.u - a.u).slice(0, 300);
+    const cands = top.map(({ r }) => {
+      if (!r._rg || r._rg.s !== r.s) { const x = Planner.range(Scoring, r.s.rows, r.s.fit, r.s.ti, jkey(r.j)); r._rg = { s: r.s, lo: x.lo, mid: x.mid, hi: x.hi }; }
+      return { key: jkey(r.j), company: r.j.company, lo: r._rg.lo, mid: r._rg.mid, hi: r._rg.hi, ageDays: dayAge(r.j), block: PLAN.noelig && eligOf(r.j).sec ? "security" : "", r };
+    });
+    const res = Planner.pick(cands, { n: planN(), half, perEmployer: 2 });
+    const mean = pool.length ? pool.reduce((a, r) => a + r.s.total, 0) / pool.length : 0;
+    return { chosen: res.chosen, skipped: res.skipped, cands, front: Planner.pareto(cands), half, considered: pool.length, mean };
+  }
+  const WHY = {
+    block: () => "Mentions a security check or citizenship, which you chose to leave out",
+    employer: (s) => "Your plan already has two postings from " + esc(s.company),
+    old: (s) => "Posted " + s.note + " days ago: older postings count for less",
+    wide: (s) => "Wide score range (" + s.note + "): less to go on",
+    lower: (s) => "Lower priority than your last pick (" + s.note + ")",
+    full: () => "All places are taken"
+  };
+  function planRow(c, i) {
+    const j = c.r.j, s = c.r.s, e = eligOf(j), url = j.sources.find((x) => x.url);
+    const kws = s.rows.filter((x) => x.st === "M" && (x.tag === "T" || x.tag === "R")).slice(0, 3).map((x) => x.n);
+    return `<li class="wkrow" data-k="${esc(c.key)}"><span class="wkrk">${i + 1}</span><div class="wkb"><b class="wkt">${esc(j.title)}</b>
+      <span class="wkm">${esc(j.company)} · ${esc(j.loc || "Location not stated")} · ${whenTxt(c.ageDays)}</span>
+      <div class="wkrg"><span class="rg" role="img" aria-label="Score ${c.mid}, likely range ${c.lo} to ${c.hi}"><i style="left:${c.lo}%;width:${Math.max(2, c.hi - c.lo)}%"></i><b style="left:${c.mid}%"></b></span><span class="wks"><b>${c.mid}</b> <small>range ${c.lo}–${c.hi}</small></span></div>
+      ${kws.length ? `<span class="wkm">On your CV: ${kws.map(esc).join(", ")}</span>` : ""}
+      ${e.sec || e.grad ? `<span class="wkf">${e.sec ? '<span class="pill w">Security or citizenship wording: verify</span>' : ""}${e.grad ? '<span class="pill w">May be for new graduates only</span>' : ""}</span>` : ""}
+      <div class="row">${url ? `<a class="xbtn" href="${esc(url.url)}" target="_blank" rel="noopener">Open posting</a>` : ""}<button class="xbtn solid" data-act="applied" data-k="${esc(c.key)}">I applied</button></div></div></li>`;
+  }
+  /* score against age: grey dots are all candidates, the line is the Pareto front, numbered dots are the plan */
+  function planChart(d) {
+    const pts = d.cands; if (pts.length < 5) return "";
+    const W = 640, H = 300, L = 40, R = 14, T = 12, B = 42;
+    const maxAge = Math.max(14, Math.min(120, Math.ceil(Math.max(...pts.map((p) => p.ageDays)) / 7) * 7));
+    const ys = pts.map((p) => p.lo), y0 = Math.max(0, Math.floor((Math.min(...ys) - 4) / 10) * 10), y1 = Math.min(100, Math.ceil((Math.max(...ys) + 4) / 10) * 10);
+    const X = (a) => +(L + (Math.min(a, maxAge) / maxAge) * (W - L - R)).toFixed(1), Y = (v) => +(T + (1 - (v - y0) / Math.max(1, y1 - y0)) * (H - T - B)).toFixed(1);
+    const rank = new Map(d.chosen.map((c, i) => [c.key, i + 1]));
+    const front = d.front.map((i) => pts[i]).sort((a, b) => a.ageDays - b.ageDays);
+    let path = ""; front.forEach((p, i) => { path += i ? `H${X(p.ageDays)}V${Y(p.lo)}` : `M${X(p.ageDays)} ${Y(p.lo)}`; }); if (front.length) path += `H${W - R}`;
+    const grid = []; for (let v = y0; v <= y1; v += 10) grid.push(`<line class="pcg" x1="${L}" x2="${W - R}" y1="${Y(v)}" y2="${Y(v)}"/><text class="pct" x="${L - 6}" y="${Y(v) + 4}" text-anchor="end">${v}</text>`);
+    for (let a = 0; a <= maxAge; a += maxAge > 60 ? 14 : 7) grid.push(`<text class="pct" x="${X(a)}" y="${H - B + 16}" text-anchor="middle">${a}</text>`);
+    const dots = pts.filter((p) => !rank.has(p.key)).map((p) => `<circle class="pcd" cx="${X(p.ageDays)}" cy="${Y(p.lo)}" r="3"/>`).join("");
+    const picks = d.chosen.map((c, i) => `<g><circle class="pcp" cx="${X(c.ageDays)}" cy="${Y(c.lo)}" r="10"/><text class="pcn" x="${X(c.ageDays)}" y="${Y(c.lo) + 4}" text-anchor="middle">${i + 1}</text></g>`).join("");
+    return `<svg class="wkchart" viewBox="0 0 ${W} ${H}" role="img" aria-label="${pts.length} candidate postings by days since posted and cautious score. The ${d.chosen.length} numbered points are your plan; the line joins the postings that no other posting beats on both newness and score.">${grid.join("")}<path class="pcl" d="${path}"/>${dots}${picks}
+      <text class="pct" x="${(L + W - R) / 2}" y="${H - 6}" text-anchor="middle">Days since posted (newer on the left)</text><text class="pct" transform="translate(11 ${(T + H - B) / 2}) rotate(-90)" text-anchor="middle">Cautious score</text></svg>`;
+  }
+  function savedPlanHtml() {
+    const sp = store.get("pm_plan", null);
+    if (!sp || !Array.isArray(sp.items) || !sp.items.length || !JOBS.length) return "";
+    const rows = sp.items.map((it) => { const j = jobByKey(it.k), b = BOARD[it.k]; return { it, st: b && b.c !== "saved" ? "applied" : !j ? "gone" : dayAge(j) >= 30 ? "old" : "listed" }; });
+    const n = (st) => rows.filter((r) => r.st === st).length;
+    const lab = { applied: ["g", "Applied"], listed: ["", "Still listed"], old: ["w", "Listed, 30+ days old"], gone: ["b", "No longer listed"] };
+    const when = new Date(sp.at).toLocaleDateString("en-CA");
+    return `<section class="xp" style="margin-top:16px" aria-labelledby="wkSaved"><h2 id="wkSaved">Your saved plan, checked again today</h2>
+      <p class="note">Saved on ${esc(when)}. Today: <b>${n("listed") + n("old")}</b> still listed, <b>${n("applied")}</b> applied, <b>${n("gone")}</b> no longer listed${n("gone") ? " (probably filled or taken down)" : ""}. The list of postings is collected again every day.</p>
+      <ul class="wkchk">${rows.map((r) => `<li><span>${esc(r.it.t)} <small>${esc(r.it.co)}</small></span><span class="pill ${lab[r.st][0]}">${lab[r.st][1]}</span></li>`).join("")}</ul>
+      <div class="row" style="margin-top:10px"><button class="xbtn" data-act="clearplan" data-f="clearplan">Delete the saved plan</button></div></section>`;
+  }
+  function renderPlan() {
+    const root = g("x-plan");
+    const intro = head("Week plan", "The few postings worth your applications this week. Each one gets a cautious score, a range for how sure that score is, and a weight for how fresh it is. Nothing is applied for you.");
+    if (!CV) { paint(root, intro + `<div class="xempty"><b>Add your CV to plan your week</b>The plan compares your CV with the postings, so it needs your CV first.<div class="row"><a class="xbtn solid" href="#p=details" data-p="details">Add my CV</a></div></div>`); return; }
+    if (SCORING || SCORED_FOR !== CV || !DICT) { paint(root, intro + `<div class="xempty"><b>Reading your CV against every posting…</b>${esc(SCORING || "One moment.")}</div>`); return; }
+    const d = planData();
+    if (d.considered < 5) { paint(root, intro + `<div class="xempty"><b>Too few postings fit your details</b>The plan needs at least five employer postings with a full text. Widen your choices on the details page.<div class="row"><a class="xbtn solid" href="#p=details" data-p="details">Edit my details</a></div></div>`); return; }
+    const N = planN(), ch = d.chosen, avgLo = ch.length ? Math.round(ch.reduce((a, c) => a + c.lo, 0) / ch.length) : 0, avgMid = ch.length ? Math.round(ch.reduce((a, c) => a + c.mid, 0) / ch.length) : 0;
+    const fresh7 = ch.filter((c) => c.ageDays < 7).length, meanR = Math.round(d.mean);
+    const doneWk = sprint(entries()).now;
+    const halves = [["fit", "Fit first", "weight halves every " + Planner.HALF.fit + " days"], ["balanced", "Balanced", "weight halves every " + Planner.HALF.balanced + " days"], ["fresh", "Newest first", "weight halves every " + Planner.HALF.fresh + " days"]];
+    const skip = d.skipped.filter((x) => x.why !== "full").sort((a, b) => b.mid - a.mid).slice(0, 5);
+    const msg = PLAN.msg; PLAN.msg = "";
+    paint(root, intro + `${msg ? `<p class="wkmsg" role="status">${esc(msg)}</p>` : ""}
+    <section class="xp" aria-labelledby="wkSet"><h2 id="wkSet">Set up the week</h2>
+      <div class="wkset">
+        <div><label for="plN"><b>Applications this week</b></label><div class="wkn"><input type="range" id="plN" min="3" max="15" step="1" value="${N}" data-f="plN" aria-describedby="plNo"><output id="plNo" for="plN">${N}</output></div><p class="note">${doneWk} already logged on your board this week.</p></div>
+        <fieldset><legend><b>How much should newness count?</b></legend>${halves.map((h) => `<label class="wkopt"><input type="radio" name="plHalf" value="${h[0]}" ${PLAN.half === h[0] ? "checked" : ""}> <span>${h[1]} <small>${h[2]}</small></span></label>`).join("")}</fieldset>
+        <div><label class="wkopt"><input type="checkbox" id="plElig" ${PLAN.noelig ? "checked" : ""}> <span>Leave out postings that mention a security check or citizenship</span></label><p class="note">Read from the posting text. Your place, kinds of work, language and field come from <a href="#p=details" data-p="details">your details</a>.</p></div>
+      </div></section>
+    <div class="kpis wkk"><div class="kpi"><b>${avgMid}</b><span>average score of the plan, against ${meanR} for a posting picked at random from the same ${nf(d.considered)}</span></div><div class="kpi"><b>${avgLo}</b><span>average cautious score (the low end of each range)</span></div><div class="kpi"><b>${fresh7} of ${ch.length}</b><span>posted in the last 7 days</span></div></div>
+    <div class="xgrid two">
+      <section class="xp" aria-labelledby="wkList"><h2 id="wkList">Your ${ch.length} for this week</h2><p class="note">In order of priority: cautious score times freshness, at most two from one employer. The bar shows the range, the tick the score.</p>
+        <ol class="wklist">${ch.map(planRow).join("") || '<li class="note">Nothing to plan with these choices.</li>'}</ol>
+        <div class="row" style="margin-top:12px"><button class="xbtn solid" data-act="saveplan" data-f="saveplan">Save this plan</button><button class="xbtn" data-act="copyplan" data-f="copyplan">Copy the plan</button><a class="xbtn" href="#p=board" data-p="board">Open the board</a></div></section>
+      <div>
+        <section class="xp" aria-labelledby="wkChart"><h2 id="wkChart">Where your picks sit</h2><p class="note">Each dot is a posting. The line joins the ones no other posting beats on both newness and score.</p>${planChart(d)}</section>
+        <section class="xp" style="margin-top:16px" aria-labelledby="wkWhy"><h2 id="wkWhy">Next in line, and why they missed out</h2>${skip.length ? `<ul class="wkchk">${skip.map((x) => `<li><span>${esc(x.r.j.title)} <small>${esc(x.company)} · score ${x.mid}</small><em>${(WHY[x.why] || WHY.full)(x)}</em></span></li>`).join("")}</ul>` : '<p class="note">Nothing close was left out.</p>'}</section>
+      </div>
+    </div>
+    ${savedPlanHtml()}
+    <details class="xp wkhow" style="margin-top:16px"><summary>How the plan is worked out</summary>
+      <ol><li><b>Range.</b> A score depends on which keywords were found in the text. Each posting's keywords are re-drawn 120 times and scored again; the 20th to 80th percentile is the range. Few keywords make a wide range.</li>
+      <li><b>Cautious score.</b> The low end of the range. A posting has to look good even if the reading was a little unlucky.</li>
+      <li><b>Freshness.</b> An older posting is more likely filled, so its weight halves every ${Planner.HALF[PLAN.half]} days (your choice above).</li>
+      <li><b>Priority</b> is cautious score times freshness. The plan takes the highest priorities, at most two per employer.</li>
+      <li><b>Left out</b> are postings that already sit on your board as applied, occupation profiles and the Job Bank monthly file (no employer to apply to), and postings with only a title or snippet.</li></ol>
+      <p class="note">A heuristic, not an applicant tracking system and not a forecast of interviews: scores within 5 points are ties. Log what you apply for and the board will show, in your own data, whether higher scores led to more replies.</p></details>`);
+  }
+  function planText(d) {
+    return ["Week plan (" + new Date().toLocaleDateString("en-CA") + ")", ...d.chosen.map((c, i) => { const j = c.r.j, u = j.sources.find((x) => x.url); return `${i + 1}. ${j.title}, ${j.company} (${j.loc || "location not stated"}) · score ${c.mid}, range ${c.lo}-${c.hi} · ${whenTxt(c.ageDays).toLowerCase()}${u ? " · " + u.url : ""}`; })].join("\n");
+  }
+  function onPlanClick(e) {
+    const b = e.target.closest("button[data-act]"); if (!b) return;
+    if (b.dataset.act === "applied") {
+      const k = b.dataset.k, j = jobByKey(k); if (!j) return;
+      move(k, "applied"); PLAN.msg = `Logged on your board as applied: ${j.title}, ${j.company}. Its score at the time (${BOARD[k] && BOARD[k].sc != null ? BOARD[k].sc : "not scored"}) is kept for the board's chart.`;
+      renderPlan(); return;
+    }
+    if (b.dataset.act === "saveplan") {
+      const d = planData();
+      store.set("pm_plan", { at: Date.now(), items: d.chosen.map((c) => ({ k: c.key, t: c.r.j.title, co: c.r.j.company })) });
+      PLAN.msg = "Plan saved in this browser. Come back later and it is checked against what is still listed."; renderPlan(); return;
+    }
+    if (b.dataset.act === "clearplan") { store.set("pm_plan", null); PLAN.msg = "Saved plan deleted."; renderPlan(); return; }
+    if (b.dataset.act === "copyplan") {
+      const t = planText(planData()), o = b.textContent, ok = () => { b.textContent = "Copied"; setTimeout(() => { b.textContent = o; }, 1500); };
+      const fb = () => { const ta = document.createElement("textarea"); ta.value = t; document.body.appendChild(ta); ta.select(); try { document.execCommand("copy"); ok(); } catch (x) { b.textContent = "Select and copy manually"; } ta.remove(); };
+      try { navigator.clipboard.writeText(t).then(ok, fb); } catch (x) { fb(); }
+    }
+  }
+  function onPlanChange(e) {
+    const t = e.target;
+    if (t.id === "plN") { PLAN.n = +t.value; store.set("pm_plan_n", PLAN.n); }
+    else if (t.name === "plHalf") { PLAN.half = t.value; store.set("pm_plan_half", PLAN.half); }
+    else if (t.id === "plElig") { PLAN.noelig = t.checked; store.set("pm_plan_elig", PLAN.noelig); }
+    else return;
+    renderPlan();
+  }
+
+  /* =====================================================================
      START PAGE: numbers that count up, the stage preview, the Explore tiles
      ===================================================================== */
   let HKEY = "", counted = false;
@@ -663,7 +811,7 @@
     if (el.dataset.key === key) return; el.dataset.key = key;
     let lead = "";
     if (JOBS.length) { const st = stats("all"), top = Object.entries(st.prov).filter(([p]) => /^[A-Z]{2}$/.test(p)).sort((a, b) => b[1] - a[1])[0]; if (top) lead = `${PROV_NAME[top[0]]} leads with ${nf(top[1])} postings`; }
-    const extra = { market: lead, lab: CV ? "Your CV is loaded: open the lab" : "Needs your CV", ladder: "From intern to director, by field", swipe: "Up to 80 cards, ready to sort", board: SAVED.size ? `${SAVED.size} saved so far` : "Nothing saved yet" };
+    const extra = { market: lead, lab: CV ? "Your CV is loaded: open the lab" : "Needs your CV", ladder: "From intern to director, by field", swipe: "Up to 80 cards, ready to sort", board: SAVED.size ? `${SAVED.size} saved so far` : "Nothing saved yet", plan: CV ? "Pick this week's applications" : "Needs your CV" };
     el.innerHTML = `<section class="xsec" aria-labelledby="xsH"><h2 id="xsH">Go further than a list</h2><div class="xtiles">${ORDER.map((id) => `<a class="xtile" style="--c:${META[id].hue}" href="#p=${id}" data-p="${id}">${ICON[id]}<b>${META[id].name}</b><span>${META[id].blurb}</span><em>${esc(extra[id] || "")}</em></a>`).join("")}</div></section>`;
   }
   function home() { bigStats(); homeTiles(); }
@@ -728,7 +876,8 @@
       lab: { title: META.lab.title, render: renderLab },
       ladder: { title: META.ladder.title, render: renderLadder },
       swipe: { title: META.swipe.title, render: renderSwipe },
-      board: { title: META.board.title, render: renderBoard }
+      board: { title: META.board.title, render: renderBoard },
+      plan: { title: META.plan.title, render: renderPlan }
     },
     home,
     close() { /* replaced when the menu is built */ },
@@ -745,6 +894,9 @@
       g("x-ladder").addEventListener("change", (e) => { if (e.target.id === "ladField") { LAD.fd = e.target.value; renderLadder(); } });
       g("x-swipe").addEventListener("click", onSwipeClick);
       bindBoard(g("x-board"));
+      g("x-plan").addEventListener("click", onPlanClick);
+      g("x-plan").addEventListener("change", onPlanChange);
+      g("x-plan").addEventListener("input", (e) => { if (e.target.id === "plN") g("plNo").textContent = e.target.value; });
       const trail = document.querySelector(".hometrail");
       if (trail) trail.addEventListener("click", (e) => {
         const a = e.target.closest("a[data-act]");
