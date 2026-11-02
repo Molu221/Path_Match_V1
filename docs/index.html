@@ -327,6 +327,50 @@ button:disabled{opacity:.5;cursor:default}
 .tactions{margin-top:14px}
 #tgaps{margin-top:18px}
 #tgaps h2{font-size:16px;margin-bottom:6px}
+.talk{margin:14px 0 4px;padding:10px 14px;border:1px solid var(--line);border-radius:8px;background:var(--bg)}
+.talk h4{margin:0 0 4px;font:700 14px/1.3 var(--f-body)}
+.talk ul{margin:6px 0;padding-left:18px}.talk li{margin:5px 0}
+.talk .tq{display:block;color:var(--mute);font-size:12.5px}
+.views{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:8px 0;font-size:13px;color:var(--mute)}
+.views .vchip{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:999px;background:var(--bg);max-width:100%}
+.views .vchip button{border:0;background:none;padding:2px 8px;font-size:13px;border-radius:999px}
+.views .vchip button:first-child{padding-left:11px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:360px}
+#cmptray{position:fixed;left:0;right:0;margin:0 auto;bottom:14px;z-index:30;display:flex;gap:10px;align-items:center;flex-wrap:wrap;width:max-content;max-width:min(980px,calc(100vw - 20px));padding:8px 12px;border-radius:12px;background:var(--hero);color:var(--hero-ink);box-shadow:0 8px 28px rgba(0,0,0,.3)}
+#cmptray[hidden]{display:none}
+body.cmpon{padding-bottom:84px}
+@media (max-width:600px){body.cmpon{padding-bottom:190px}}
+#cmptray .cl{display:flex;gap:6px;flex-wrap:wrap}
+.cmpchip{display:inline-flex;align-items:center;gap:2px;padding:2px 3px 2px 10px;border-radius:999px;background:rgba(234,246,243,.15);font-size:13px;max-width:210px}
+.cmpchip span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#cmptray button{font-size:13px;padding:4px 10px}
+.cmpchip button{border:0;background:none;color:inherit;padding:0 7px;border-radius:50%}
+#cmptray #cmpgo{background:var(--pin);color:var(--pin-ink);border-color:var(--pin);font-weight:700}
+#cmptray #cmpgo:disabled{opacity:.6;cursor:default}
+#cmptray .clr{background:none;color:var(--hero-ink);border-color:rgba(234,246,243,.35)}
+#cmpmsg{font-size:12.5px;color:var(--hero-mute)}
+#cmpdlg{width:min(1120px,96vw);max-height:92vh;padding:0;border:1px solid var(--line);border-radius:12px;background:var(--panel);color:var(--ink)}
+#cmpdlg::backdrop{background:rgba(8,20,22,.6)}
+.cmphead{position:sticky;top:0;z-index:2;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 16px;background:var(--panel);border-bottom:1px solid var(--line)}
+.cmpwrap{padding:4px 16px 16px;overflow-x:auto}
+.cmpt{border-collapse:collapse;width:100%;min-width:600px;table-layout:fixed}
+.cmpt th,.cmpt td{border-top:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top;font-size:13px;overflow-wrap:anywhere}
+.cmpt tbody th{width:150px;font-weight:600;color:var(--mute)}
+.cmpt thead th,.cmpt thead td{border-top:0;font-size:14px;color:var(--ink)}
+.cmpt .big{font:800 30px/1 var(--f-disp);font-stretch:85%}
+.cmpt .win{background:var(--ok-soft)}
+.cmpt .kw{margin:0}
+.cmpt .row{margin:0}
+#tmarket{margin-top:18px}
+#tmarket h2{font-size:16px;margin-bottom:4px}
+.mk{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:10px}
+@media (max-width:760px){.mk{grid-template-columns:1fr}}
+.mk h3{font:700 13.5px/1.3 var(--f-body);margin:0 0 8px}
+.mrow{display:grid;grid-template-columns:minmax(96px,34%) 1fr auto;gap:8px;align-items:center;margin:5px 0;font-size:13px}
+.mrow .tr{height:10px;border-radius:5px;background:var(--accent-soft);overflow:hidden}
+.mrow .tr i{display:block;height:100%;border-radius:5px;background:var(--c,var(--accent))}
+.mrow b{font-variant-numeric:tabular-nums;min-width:2.2em;text-align:right}
+.mrow button{all:unset;cursor:pointer;color:var(--accent);text-decoration:underline;text-underline-offset:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mrow button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .sr{position:absolute;left:-9999px}
 .job{scroll-margin-top:70px}
 .view[data-page=home] .hero{border-bottom:0}
@@ -477,10 +521,12 @@ button:disabled{opacity:.5;cursor:default}
     <div class="row tactions" id="tactions" hidden>
       <button id="tmore">Show the next 10</button>
       <button id="tcopy">Copy my top 10</button>
+      <button id="tcsv">Download CSV</button>
       <a class="btn" href="#p=jobs" data-p="jobs">Browse all <span id="tall"></span> postings</a>
     </div>
     <label class="inl chk" id="tfullL" style="margin-top:14px" hidden><input type="checkbox" id="tfull"> Rank only postings with their full text or an occupation profile (a title alone is too little to score)</label>
     <div class="panel" id="tgaps" hidden></div>
+    <div class="panel" id="tmarket" hidden></div>
     <p class="note" style="margin-top:14px">This is a heuristic, not an applicant tracking system: scores that differ by 5 points or less are ties, and no employer sees this ranking. <a href="#p=jobs&amp;t=method" data-p="jobs" data-t="method">How the score is worked out</a>.</p>
   </div>
 </main>
@@ -498,6 +544,7 @@ button:disabled{opacity:.5;cursor:default}
           <select id="window">
             <option value="1">Last 24 hours</option>
             <option value="7">Last 7 days</option>
+            <option value="30">Last 30 days</option>
             <option value="99" selected>Everything collected</option>
           </select>
         </div>
@@ -539,18 +586,22 @@ button:disabled{opacity:.5;cursor:default}
             <select id="ffield" aria-label="Field"></select>
             <select id="floc" aria-label="Location"></select>
             <select id="fsrc" aria-label="Source"></select>
+            <select id="felig" aria-label="Eligibility" title="Read from the text of the posting. A posting without text cannot be checked, so it is kept."><option value="">Any eligibility wording</option><option value="nosec">No security, background-check or citizenship wording</option><option value="stud">Not aimed at new graduates only</option></select>
             <select id="fsort" aria-label="Sort by"><option value="match">Best match</option><option value="stage">Fits my stage</option><option value="level">Level, lowest first</option><option value="new">Newest first</option><option value="company">Company A–Z</option><option value="title">Title A–Z</option></select>
             <select id="fmin" aria-label="Minimum score"><option value="0">Any score</option><option value="30">Score 30+</option><option value="45">Score 45+</option><option value="60">Score 60+</option></select>
           </div>
           <div class="chips" id="chips">
-            <span>Posted</span><button data-w="1">24 h</button><button data-w="7">7 days</button><button data-w="99">All</button>
+            <span>Posted</span><button data-w="1">24 h</button><button data-w="7">7 days</button><button data-w="30">30 days</button><button data-w="99">All</button>
             <span class="sep"></span>
             <label class="inl"><input type="checkbox" id="fdesc"> search inside the descriptions too</label>
             <span class="sep"></span>
             <button id="fsaved" aria-pressed="false">★ Saved (0)</button>
             <button id="freset">Reset filters</button>
             <button id="copy">Copy list</button>
+            <button id="fcsv">Download CSV</button>
+            <button id="fview" title="Keep these filters as a shortcut in this browser">Save this search</button>
           </div>
+          <div class="views" id="views" hidden></div>
           <div class="note" id="fstat" aria-live="polite"></div>
         </div>
         <div id="view"></div>
@@ -565,6 +616,9 @@ button:disabled{opacity:.5;cursor:default}
 <main id="pg-ladder" class="view" data-page="ladder" hidden><div class="wrap pagein" id="x-ladder"></div></main>
 <main id="pg-swipe" class="view" data-page="swipe" hidden><div class="wrap pagein" id="x-swipe"></div></main>
 <main id="pg-board" class="view" data-page="board" hidden><div class="wrap pagein" id="x-board"></div></main>
+
+<div id="cmptray" hidden role="region" aria-label="Postings to compare"><b>Compare</b><span class="cl"></span><button id="cmpgo" disabled>Add one more to compare</button><button class="clr" id="cmpclr">Clear</button><span id="cmpmsg" role="status"></span></div>
+<dialog id="cmpdlg" aria-labelledby="cmph"><div class="cmphead"><h2 id="cmph">Compare postings</h2><button id="cmpclose" aria-label="Close the comparison">Close</button></div><div class="cmpwrap" id="cmpbody"></div></dialog>
 
 <script src="jobmeta.js"></script>
 <script src="scoring.js"></script>
@@ -649,7 +703,7 @@ function applyPasted(j){
   const t=PASTED[jkey(j)];
   if(t){if(!j._orig)j._orig={desc:j.desc||"",partial:!!j.partial,kw:j.kw||null,kt:j.kt||0};j.desc=t;j.partial=false;j.pasted=true;j.kw=null;}
   else if(j.pasted&&j._orig){j.desc=j._orig.desc;j.partial=j._orig.partial;j.pasted=false;j.kw=j._orig.kw;j.kt=j._orig.kt;}
-  j._map=null;j._st=null;j._lv=null;j._d=null;
+  j._map=null;j._st=null;j._lv=null;j._d=null;j._el=null;
 }
 /* Postings the person adds by hand (found on any site and pasted here). Kept in this browser only; scored and filtered like the collected ones. */
 let MINE=[];try{MINE=JSON.parse(localStorage.getItem("pm_mine")||"[]");if(!Array.isArray(MINE))MINE=[];}catch(e){MINE=[];}
@@ -1046,7 +1100,7 @@ function mapPanel(j){
       <div><h4>Close (${near.length}) <span class="note">counts half, never a match</span></h4>${nearHtml}</div>
       <div><h4>Gap (${miss.length}) <span class="note">in the post, not on your CV</span></h4><div class="kw">${miss.map(x=>chip(x,"G")).join("")||'<span class="note">None.</span>'}</div></div>
       <div><h4>Check yourself, not scored (${m.fl.length})</h4>${flHtml}</div>
-    </div>${aboutHtml}
+    </div>${talkHtml(j,m)}${aboutHtml}
     <div class="mapfilter">Show: <button class="on" data-f="all">All ${cnt.length}</button><button data-f="M">Match ${both.length}</button><button data-f="R">Close ${near.length}</button><button data-f="G">Gap ${miss.length}</button><button data-f="skill">Skills ${t.skills.total}</button><button data-f="term">Other phrases ${t.terms.total}</button></div>
     <div class="mapscroll"><table class="maptab"><thead><tr><th>Keyword</th><th>Type</th><th>Where</th><th>In the posting</th><th>On your CV</th><th>Result</th></tr></thead><tbody>${rows}</tbody></table></div>
     <div class="texts"><div><h4>The posting</h4><div class="legend"><mark class="m-ok">Match</mark><mark class="m-near">Close</mark><mark class="m-bad">Gap</mark><mark class="m-off">company / benefits</mark><mark class="m-chk">check yourself</mark></div><pre class="hl">${Matcher.highlight(m.text,pm,sm)}</pre></div>
@@ -1117,7 +1171,7 @@ const KIND_LABEL={full:"full-time jobs",part:"part-time jobs",intern:"internship
 const KIND_SHORT={full:"Full-time",part:"Part-time",intern:"Intern"};
 const PROV_NAME={QC:"Quebec",ON:"Ontario",BC:"British Columbia",AB:"Alberta",MB:"Manitoba",SK:"Saskatchewan",NS:"Nova Scotia",NB:"New Brunswick",NL:"Newfoundland & Labrador",PE:"Prince Edward Island",YT:"Yukon",NT:"Northwest Territories",NU:"Nunavut","Remote – Canada":"Remote – Canada",Canada:"Canada, no province named","":"Location not stated"};
 const PAGE=25;
-const F={q:"",qw:[],loc:"",src:"",sort:"",min:0,saved:false,desc:false,lvl:"fit",fd:""};
+const F={q:"",qw:[],loc:"",src:"",sort:"",min:0,saved:false,desc:false,lvl:"fit",fd:"",el:""};
 let SHOW=PAGE,CUR={list:[],shown:0};
 let SAVED=new Set();try{SAVED=new Set(JSON.parse(localStorage.getItem("pm_saved")||"[]"));}catch(e){}
 function saveSaved(){try{localStorage.setItem("pm_saved",JSON.stringify([...SAVED].slice(-500)));}catch(e){}}
@@ -1182,18 +1236,20 @@ function jobHtml(r,rank,top){
       ${tagsHtml(j,s.rel)}
       ${skillsRow(j)}
       <div class="subs">${bar(s.role,40,"Role")}${bar(s.level,25,"Level")}${bar(s.overlap,35,"Keywords")}${top?"":`<span class="note" style="font-size:12px">${esc(s.conf)}</span>`}</div>
-      <div>${s.flags.map(f=>pill(f[0]==="g"?"g":f[0],f[1])).join("")}${a<24&&!j.mine?pill("n","24h"):""}${j.fresh?pill("n","New since you opened the page"):""}</div>
+      <div>${s.flags.map(f=>pill(f[0]==="g"?"g":f[0],f[1])).join("")}${a<24&&!j.mine?pill("n","24h"):""}${staleBadge(j,a)}${j.fresh?pill("n","New since you opened the page"):""}</div>
     </div></summary>
     <div class="det">
       <div class="mapslot" data-k="${esc(jk)}">${OPEN.has(jk)?mapPanel(j):""}</div>
       <details class="old"><summary>How the 0–100 score was counted</summary>${breakdown(j,s)}</details>
       <h3>Before you apply</h3>
       <p class="note">Open the posting and read the full text. Required skills, security rules, degree level and exact dates may not be visible from the title.</p>
-      <div class="row">${openBtns(j)}</div>${mineBtn(j,jk)}
+      <div class="row">${openBtns(j)} ${cmpBtn(jk)}</div>${mineBtn(j,jk)}
     </div></details>`;
 }
 const openBtns=j=>j.sources.filter(x=>x.url).slice(0,3).map(x=>`<a class="btn" href="${esc(x.url)}" target="_blank" rel="noopener">${j.mine?"Open the link you saved":j.od?"Search for it on Job Bank":isOcc(j)&&x.src==="Job Bank"?"Read the employer's posting":"Open on "+esc(x.src)}</a>`).join(" ")
   +(j.noc?` <a class="btn" href="${esc(nocUrl(j))}" target="_blank" rel="noopener">Full description of NOC ${esc(nocCode(j))}</a>`:"");
+/* a posting that is more than 30 days old may already be filled */
+const staleBadge=(j,a)=>a>=720&&!j.mine?pill("w","30+ days old: may be closed"):"";
 const mineBtn=(j,jk)=>j.mine?`<div class="row" style="margin-top:8px"><button data-act="rmmine" data-pk="${esc(jk)}">Remove this posting from my list</button></div>`:"";
 /* a posting before a CV is added: nothing is scored, the text is there to read */
 function browseHtml(j,rank){
@@ -1209,7 +1265,7 @@ function browseHtml(j,rank){
       ${occLine(j)}
       ${tagsHtml(j,rel)}
       ${kws?`<div class="skills"><div class="sk-h">${isOcc(j)?"What the occupation asks for":"What the posting asks for"}</div><div class="kw sk">${kws}</div></div>`:""}
-      <div>${a<24&&!j.mine?pill("n","24h"):""}${j.fresh?pill("n","New since you opened the page"):""}${j.partial&&!isOcc(j)?pill("","Short snippet only"):""}</div>
+      <div>${a<24&&!j.mine?pill("n","24h"):""}${staleBadge(j,a)}${j.fresh?pill("n","New since you opened the page"):""}${j.partial&&!isOcc(j)?pill("","Short snippet only"):""}</div>
     </div></summary>
     <div class="det">
       <h3>The posting</h3><div class="descslot">${OPEN.has(jk)?descPanel(j):""}</div>
@@ -1233,10 +1289,22 @@ function poolFilter(w){
     if(w!==99&&age(j)>=w*24)return false;
     if(F.saved&&!SAVED.has(jkey(j)))return false;
     if(F.src&&!j.sources.some(s=>s.src===F.src))return false;
+    if(F.el&&!eligOk(j))return false;
     if(F.min&&(!r.s||r.s.total<F.min))return false;
     return textOk(j);
   });
 }
+/* what the text of a posting says about who may apply: security / background checks and citizenship, or new graduates only. A posting without text cannot be checked and is kept. */
+function eligOf(j){
+  if(j._el)return j._el;
+  const f=(j.df&&!j.pasted)?j.df:(hasText(j)?JobMeta.descFlags(j.desc||""):[]);
+  const txt=f.map(x=>x[1]).join(" | "),co=norm(j.company),T=norm(j.title);
+  return j._el={
+    sec:/Security \/ background check|Work eligibility wording in text \((canadian citizen|citoyen|citoyennete|permanent resident|resident permanent)/i.test(txt)||FED.test(co)||DEFENCE.test(co),
+    grad:/Aimed at new graduates/.test(txt)||/management trainee|leadership program|programme de leadership|graduate program/.test(T)
+  };
+}
+const eligOk=j=>{const e=eligOf(j);return F.el==="nosec"?!e.sec:F.el==="stud"?!e.grad:true;};
 const locOk=j=>!F.loc||(F.loc==="MTL"?MTL.test(j.loc||""):(j.province||"")===F.loc);
 /* "fits my level" hides what is far above or far below the stage */
 function fitsLevel(j){
@@ -1263,7 +1331,7 @@ function syncControls(){
   if($("fq").value!==F.q)$("fq").value=F.q;
   $("fqx").hidden=!F.q;
   $("fdesc").checked=F.desc;
-  $("fmin").value=String(F.min);$("fmin").disabled=!CV;
+  $("fmin").value=String(F.min);$("fmin").disabled=!CV;$("felig").value=F.el;
   const mo=$("fsort").querySelector("[value=match]");if(mo)mo.disabled=!CV;
   const so=$("fsort").querySelector("[value=stage]");if(so)so.disabled=meBand()===null;
   $("fsaved").classList.toggle("on",F.saved);$("fsaved").setAttribute("aria-pressed",F.saved);
@@ -1281,9 +1349,9 @@ function renderList(v){
   for(const r of poolAll)if(passAll(r.j))cnt[r.j.kind]++;
   document.querySelectorAll(".tab").forEach(t=>{const c=t.querySelector(".cnt");if(c)c.textContent=nf(cnt[t.dataset.t]);});
   /* the posted-window chips show how many postings each window holds */
-  const base0=RES.filter(r=>r.j.kind===tab&&passAll(r.j)&&(!F.saved||SAVED.has(jkey(r.j)))&&(!F.src||r.j.sources.some(s=>s.src===F.src))&&(!F.min||(r.s&&r.s.total>=F.min))&&textOk(r.j));
-  const wc={1:0,7:0,99:base0.length};base0.forEach(r=>{const a=age(r.j);if(a<24)wc[1]++;if(a<168)wc[7]++;});
-  document.querySelectorAll("#chips [data-w]").forEach(bt=>{bt.classList.toggle("on",+bt.dataset.w===w);bt.textContent=({1:"24 h",7:"7 days",99:"All"})[bt.dataset.w]+" ("+nf(wc[bt.dataset.w])+")";});
+  const base0=RES.filter(r=>r.j.kind===tab&&passAll(r.j)&&(!F.saved||SAVED.has(jkey(r.j)))&&(!F.src||r.j.sources.some(s=>s.src===F.src))&&(!F.el||eligOk(r.j))&&(!F.min||(r.s&&r.s.total>=F.min))&&textOk(r.j));
+  const wc={1:0,7:0,30:0,99:base0.length};base0.forEach(r=>{const a=age(r.j);if(a<24)wc[1]++;if(a<168)wc[7]++;if(a<720)wc[30]++;});
+  document.querySelectorAll("#chips [data-w]").forEach(bt=>{bt.classList.toggle("on",+bt.dataset.w===w);bt.textContent=({1:"24 h",7:"7 days",30:"30 days",99:"All"})[bt.dataset.w]+" ("+nf(wc[bt.dataset.w])+")";});
   /* every filter shows the counts it would give with the others applied */
   const inTab=poolAll.filter(r=>r.j.kind===tab);
   const forLoc=inTab.filter(r=>lvOk(r.j)&&fdOk(r.j));
@@ -1529,9 +1597,167 @@ function onCardToggle(e){
 }
 $("view").addEventListener("toggle",onCardToggle,true);
 $("topview").addEventListener("toggle",onCardToggle,true);
+/* ---------- talking points: only what the posting asks for AND the CV already says ---------- */
+function lineAt(text,sp){
+  if(!sp)return "";
+  const a=sp[0],ls=text.lastIndexOf("\n",a-1)+1;let le=text.indexOf("\n",a);if(le<0)le=text.length;
+  return text.slice(ls,le).replace(/\s+/g," ").trim().slice(0,200);
+}
+function talkOf(m){
+  const cv=m.cvf;
+  const pts=m.rows.filter(x=>x.counted&&x.st==="M"&&(x.tag==="Title"||x.tag==="Required")).map(x=>{
+    const sp=x.kind==="skill"?(cv[x.n]&&cv[x.n].spans&&cv[x.n].spans[0]):(x.hit&&x.hit.spans&&x.hit.spans[0]);
+    return {k:x.n,ev:lineAt(CV.raw,sp)};
+  }).filter(p=>p.ev).slice(0,6);
+  const gaps=m.rows.filter(x=>x.counted&&x.st==="G"&&(x.tag==="Title"||x.tag==="Required")&&(x.kind==="skill"||/\s/.test(x.n))).slice(0,6).map(x=>x.n);
+  return {pts,gaps};
+}
+function talkHtml(j,m){
+  const t=talkOf(m);
+  if(!t.pts.length&&!t.gaps.length)return "";
+  return `<div class="talk"><h4>Talking points for this posting</h4>
+    ${t.pts.length?`<p class="note" style="margin:0">What the posting asks for that your CV already says. Lead with these in a cover letter or an interview.</p><ul>${t.pts.map(p=>`<li><b>${esc(p.k)}</b><span class="tq">On your CV: ${esc(p.ev)}</span></li>`).join("")}</ul>`:'<p class="note" style="margin:0">None of the title or required keywords of this posting is written on your CV yet.</p>'}
+    ${t.gaps.length?`<p style="margin:6px 0"><b>Not on your CV:</b> ${t.gaps.map(esc).join(", ")}. Mention these only if you have really done them. Nothing is added to your CV for you.</p>`:""}
+    <button data-act="talkcopy" data-pk="${esc(jkey(j))}">Copy the talking points</button></div>`;
+}
+function copyTalk(j,btn){
+  const m=mapData(j);if(!m)return;
+  const t=talkOf(m);
+  const txt=["Talking points: "+j.title+" at "+j.company,"",...t.pts.map(p=>"- "+p.k+": "+p.ev),...(t.gaps.length?["","Not on my CV (add only if true): "+t.gaps.join(", ")]:[])].join("\n");
+  const ok=()=>{const o=btn.textContent;btn.textContent="Copied";setTimeout(()=>btn.textContent=o,1500);};
+  try{navigator.clipboard.writeText(txt).then(ok,()=>fallback(txt,btn));}catch(e){fallback(txt,btn);}
+}
+
+/* ---------- compare up to three postings ---------- */
+let CMP=[];
+const CMP_MAX=3;
+const cmpBtn=jk=>`<button data-act="cmp" data-pk="${esc(jk)}" aria-pressed="${CMP.includes(jk)}">${CMP.includes(jk)?"✓ In the comparison":"Compare"}</button>`;
+const resOf=k=>RES.find(r=>jkey(r.j)===k);
+function paintTray(){
+  const t=$("cmptray"),ks=CMP.filter(resOf);
+  t.hidden=!ks.length;document.body.classList.toggle("cmpon",!!ks.length);
+  if(!ks.length)return;
+  t.querySelector(".cl").innerHTML=ks.map(k=>{const j=resOf(k).j;return `<span class="cmpchip" title="${esc(j.company+": "+j.title)}"><span>${esc(j.company)}</span><button data-cmprm="${esc(k)}" aria-label="Remove ${esc(j.title)} from the comparison">✕</button></span>`;}).join("");
+  $("cmpgo").disabled=ks.length<2;
+  $("cmpgo").textContent=ks.length<2?"Add one more to compare":"Compare "+ks.length+" postings";
+}
+function syncCmpBtns(){document.querySelectorAll('[data-act="cmp"]').forEach(b=>{const on=CMP.includes(b.dataset.pk);b.setAttribute("aria-pressed",on);b.textContent=on?"✓ In the comparison":"Compare";});}
+function toggleCmp(k){
+  const i=CMP.indexOf(k);
+  if(i>=0)CMP.splice(i,1);
+  else if(CMP.length>=CMP_MAX){$("cmpmsg").textContent="Up to "+CMP_MAX+" postings. Remove one first.";return;}
+  else CMP.push(k);
+  $("cmpmsg").textContent="";
+  syncCmpBtns();paintTray();
+}
+function cmpHtml(){
+  const rs=CMP.map(resOf).filter(r=>r&&r.s);
+  if(rs.length<2)return '<p class="note">Add the postings from their cards (press Compare) once your CV is scored.</p>';
+  const tops=rs.map(r=>r.s.total).sort((a,b)=>b-a),best=tops[0];
+  const row=(l,f,hl)=>`<tr><th scope="row">${l}</th>${rs.map(r=>`<td${hl&&hl(r)?' class="win"':""}>${f(r)}</td>`).join("")}</tr>`;
+  const mx=k=>Math.max(...rs.map(r=>r.s[k]));
+  const kws=(r,st)=>{
+    const rows=(r.s.rows||[]).filter(x=>x.st===st&&(st==="M"||((x.tag==="T"||x.tag==="R"||x.tag==="K")&&(x.kind==="s"||/\s/.test(x.n))))).slice(0,6);
+    return rows.length?`<div class="kw">${rows.map(x=>`<span class="${st}">${esc(x.n)}</span>`).join("")}</div>`:'<span class="note">None.</span>';
+  };
+  const lead=tops[0]-tops[1]<=5?"The top scores are within 5 points of each other. Treat them as a tie and decide on the flags and the keywords below.":`The highest score leads by ${tops[0]-tops[1]} points. Scores are a heuristic, not an applicant tracking system.`;
+  const weak=rs.some(r=>r.s.conf==="Title only"||r.s.conf==="Short snippet");
+  return `<p class="note" style="margin:8px 0">${lead}${weak?" A score read from a title or a short snippet is less reliable than one read from a full text.":""}</p>
+  <table class="cmpt"><thead><tr><td></td>${rs.map(r=>`<th scope="col"><div>${esc(r.j.title)}</div><div class="note" style="font-weight:400">${esc(r.j.company)}</div></th>`).join("")}</tr></thead><tbody>
+  ${row("Score out of 100",r=>`<span class="big ${scCls(r.s.total)}">${r.s.total}</span>`,r=>r.s.total===best&&tops[0]-tops[1]>5)}
+  ${row("Role fit (of 40)",r=>r.s.role,r=>r.s.role===mx("role"))}
+  ${row("Level fit (of 25)",r=>r.s.level,r=>r.s.level===mx("level"))}
+  ${row("Keywords (of 35)",r=>r.s.overlap,r=>r.s.overlap===mx("overlap"))}
+  ${row("Keyword coverage",r=>Math.round(r.s.cov*100)+"%")}
+  ${row("Match · Close · Gap",r=>`${r.s.matched} · ${r.s.close} · ${Math.max(0,r.s.n-r.s.matched-r.s.close)}`)}
+  ${row("Level",r=>esc(LV[lvOf(r.j).lvl].label))}
+  ${row("Field",r=>esc(fdOf(r.j).label))}
+  ${row("Place",r=>esc(r.j.loc||"Not stated"))}
+  ${row("Posted",r=>esc(whenOf(r.j)))}
+  ${row("Read from",r=>esc(r.s.conf))}
+  ${row("On your CV",r=>kws(r,"M"))}
+  ${row("Not on your CV",r=>kws(r,"G"))}
+  ${row("Check yourself",r=>r.s.flags.length?r.s.flags.map(f=>pill(f[0]==="g"?"g":f[0],f[1])).join(""):'<span class="note">Nothing flagged.</span>')}
+  ${row("Posting",r=>`<div class="row">${openBtns(r.j)}</div>`)}
+  </tbody></table>`;
+}
+$("cmptray").addEventListener("click",e=>{
+  const rm=e.target.closest("[data-cmprm]");
+  if(rm){CMP=CMP.filter(x=>x!==rm.dataset.cmprm);$("cmpmsg").textContent="";syncCmpBtns();paintTray();return;}
+});
+$("cmpclr").onclick=()=>{CMP=[];$("cmpmsg").textContent="";syncCmpBtns();paintTray();};
+$("cmpgo").onclick=()=>{$("cmpbody").innerHTML=cmpHtml();const d=$("cmpdlg");if(d.showModal){if(!d.open)d.showModal();}else d.setAttribute("open","");};
+$("cmpclose").onclick=()=>{const d=$("cmpdlg");if(d.close)d.close();else d.removeAttribute("open");};
+$("cmpdlg").addEventListener("click",e=>{if(e.target===$("cmpdlg"))$("cmpclose").click();});
+
+/* ---------- download the list as a spreadsheet file ---------- */
+function csvCell(v){
+  let t=v==null?"":String(v);
+  if(typeof v==="string"&&/^[=+\-@\t\r]/.test(t))t="'"+t;      /* a cell that starts like a formula stays text */
+  return /[",\n\r]/.test(t)?'"'+t.replace(/"/g,'""')+'"':t;
+}
+function csvOf(list){
+  const head=["Rank","Score","Role fit (of 40)","Level fit (of 25)","Keywords (of 35)","Match","Close","Gap","Company","Role","Level","Field","Location","Province","Posted","Type","Board","Link","Flags"];
+  const rows=list.map((r,i)=>{
+    const s=r.s,j=r.j;
+    return [i+1,s?s.total:"",s?s.role:"",s?s.level:"",s?s.overlap:"",s?s.matched:"",s?s.close:"",s?Math.max(0,s.n-s.matched-s.close):"",j.company,j.title,LV[lvOf(j).lvl].label,fdOf(j).label,j.loc,j.province||"",j.date,j.type||"",j.sources[0].src,j.sources[0].url||"",s?s.flags.map(f=>f[1]).join("; "):""];
+  });
+  return "\ufeff"+[head,...rows].map(r=>r.map(csvCell).join(",")).join("\r\n");
+}
+function downloadCsv(list,name,btn){
+  if(!list.length)return;
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(new Blob([csvOf(list)],{type:"text/csv;charset=utf-8"}));
+  a.download=name+"-"+new Date().toLocaleDateString("en-CA")+".csv";
+  document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),3000);
+  if(btn){const o=btn.textContent;btn.textContent="Downloaded "+nf(list.length);setTimeout(()=>btn.textContent=o,1600);}
+}
+$("fcsv").onclick=()=>downloadCsv(CUR.list,"path-match-jobs",$("fcsv"));
+$("tcsv").onclick=()=>downloadCsv(topMatches().out,"path-match-top",$("tcsv"));
+
+/* ---------- saved searches: a filter set kept in this browser ---------- */
+let VIEWS=[];
+try{VIEWS=(JSON.parse(localStorage.getItem("pm_views")||"[]")||[]).filter(v=>v&&typeof v.n==="string"&&typeof v.h==="string").slice(0,12);}catch(e){}
+function saveViews(){try{localStorage.setItem("pm_views",JSON.stringify(VIEWS));}catch(e){}}
+function viewHash(){const p=new URLSearchParams(location.hash.slice(1));p.delete("p");p.delete("me");return p.toString();}
+function viewName(){
+  const w=$("window").value,bits=[KIND_NAME[tab]||"All jobs"];
+  if(F.loc)bits.push(F.loc==="MTL"?"Montréal area":(PROV_NAME[F.loc]||F.loc));
+  if(F.fd){const f=JobMeta.FIELD_LIST.find(x=>x.id===F.fd);bits.push(f?f.label:F.fd);}
+  if(F.lvl==="")bits.push("all levels");else if(F.lvl!=="fit")bits.push(LV[+F.lvl].label);
+  if(F.q)bits.push("“"+F.q+"”");
+  if(F.src)bits.push(F.src);
+  if(w!=="99")bits.push(w==="1"?"last 24 h":"last "+w+" days");
+  if(F.el)bits.push(F.el==="nosec"?"no security wording":"not new graduates only");
+  if(F.min)bits.push("score "+F.min+"+");
+  if(F.saved)bits.push("saved only");
+  return bits.join(" · ").slice(0,90);
+}
+function paintViews(){
+  const el=$("views");el.hidden=!VIEWS.length;
+  if(!VIEWS.length)return;
+  el.innerHTML="Saved searches:"+VIEWS.map((v,i)=>`<span class="vchip"><button data-view="${i}" title="Open this search">${esc(v.n)}</button><button data-vdel="${i}" aria-label="Delete the saved search ${esc(v.n)}">✕</button></span>`).join("");
+}
+$("fview").onclick=()=>{
+  const b=$("fview"),h=viewHash(),o="Save this search",say=t=>{b.textContent=t;setTimeout(()=>b.textContent=o,1500);};
+  if(!LIST_TABS.includes(tab)){say("Open a job tab first");return;}
+  if(VIEWS.some(v=>v.h===h)){say("Already saved");return;}
+  if(VIEWS.length>=12){say("12 saved: delete one first");return;}
+  VIEWS.push({n:viewName(),h});saveViews();paintViews();say("Saved");
+};
+$("views").addEventListener("click",e=>{
+  const d=e.target.closest("[data-vdel]");
+  if(d){VIEWS.splice(+d.dataset.vdel,1);saveViews();paintViews();return;}
+  const b=e.target.closest("[data-view]");
+  if(b){const v=VIEWS[+b.dataset.view];if(v){const h="#p=jobs&"+v.h;if(location.hash===h)return;history.pushState(null,"",h);onNav();}}
+});
+paintViews();
+
 function onAct(e){
   const b=e.target.closest("[data-act]");if(!b)return;
   const k=b.dataset.pk,card=b.closest("details.job");
+  if(b.dataset.act==="cmp"){toggleCmp(k);return;}
+  if(b.dataset.act==="talkcopy"){const j=JOBS.find(x=>jkey(x)===k);if(j)copyTalk(j,b);return;}
   if(b.dataset.act==="rmmine"){
     MINE=MINE.filter(x=>jkey(mineJob(x))!==k);saveMine();
     const i=JOBS.findIndex(x=>x.mine&&jkey(x)===k),gone=i>=0?JOBS.splice(i,1)[0]:null;
@@ -1607,6 +1833,7 @@ function showPage(p,push){
   }
 }
 function render(){
+  if(typeof paintTray==="function")paintTray();
   if(PG==="jobs")renderJobs();
   else if(PG==="matches")renderMatches();
   else if(PG==="details")renderDetails();
@@ -1692,7 +1919,7 @@ function topMatches(){
 /* open the list of all jobs with some filters set (used by the map, the heat grid, the ladder and the jump bar) */
 function goJobs(o){
   o=o||{};
-  Object.assign(F,{q:"",qw:[],loc:"",src:"",sort:"",min:0,saved:false,desc:false,lvl:"fit",fd:""},o.f||{});
+  Object.assign(F,{q:"",qw:[],loc:"",src:"",sort:"",min:0,saved:false,desc:false,lvl:"fit",fd:"",el:""},o.f||{});
   F.qw=norm(F.q).split(" ").filter(Boolean);
   tab=o.tab||"full";SHOW=PAGE;
   $("window").value=o.w||DEFAULT_W;
@@ -1721,13 +1948,13 @@ function renderMatches(){
   $("tall").textContent=nf(JOBS.length);
   const v=$("topview"),busy=!!(SCORING||SCORED_FOR!==CV||!DICT);
   paintProgress();
-  if(busy){v.innerHTML="";$("tactions").hidden=true;$("tgaps").hidden=true;$("tfullL").hidden=true;$("tlead").textContent="Reading your CV against every posting…";return;}
+  if(busy){v.innerHTML="";$("tactions").hidden=true;$("tgaps").hidden=true;$("tmarket").hidden=true;$("tfullL").hidden=true;$("tlead").textContent="Reading your CV against every posting…";return;}
   const t=topMatches();
   $("tfullL").hidden=false;$("tfull").checked=!!P.fullOnly;
   if(!t.out.length){
     $("tlead").textContent=`None of the ${nf(JOBS.length)} postings fits all of your choices.`;
     v.innerHTML=`<div class="empty">Nothing fits these choices${t.fit?` with a full text to score`:""}.<br>Widen the place, the kind of work or the language.<br><a class="btn" style="margin-top:10px" href="#p=details" data-p="details">Edit my details</a></div>`;
-    $("tactions").hidden=false;$("tmore").hidden=true;$("tcopy").hidden=true;$("tgaps").hidden=true;
+    $("tactions").hidden=false;$("tmore").hidden=true;$("tcopy").hidden=true;$("tgaps").hidden=true;$("tmarket").hidden=true;
     return;
   }
   $("tlead").innerHTML=`From ${nf(JOBS.length)} postings, <b>${nf(t.fit)}</b> fit your details. ${t.out.length>10?`Showing ranks 1 to ${t.out.length}`:t.out.length===10?"These 10":t.out.length===1?"This 1":"These "+t.out.length} fit${t.out.length===1?"s":""} your CV best.${t.relaxed?" Fewer than 10 have a full text, so postings with only a title or snippet are included.":""}`;
@@ -1737,9 +1964,31 @@ function renderMatches(){
   const gaps={};
   t.out.forEach(r=>r.s.rows.filter(x=>x.st==="G"&&(x.tag==="T"||x.tag==="R"||x.tag==="K")&&(x.kind==="s"||/\s/.test(x.n))).forEach(x=>gaps[x.n]=(gaps[x.n]||0)+1));
   const g=Object.entries(gaps).sort((a,b)=>b[1]-a[1]).slice(0,8);
+  const mk=marketHtml(),mp=$("tmarket");mp.hidden=!mk;mp.innerHTML=mk;
   const gp=$("tgaps");gp.hidden=!g.length;
   if(g.length)gp.innerHTML=`<h2>Keywords your best postings ask for that are not on your CV</h2><div class="kw">${g.map(x=>`<span class="G">${esc(x[0])} · ${x[1]}</span>`).join("")}</div><p class="note" style="margin:8px 0 0">If you have this experience, write it on your CV in the posting's words. If not, it is a gap to close. Nothing is added to your CV for you.</p>`;
 }
+/* where the whole market stands for this CV: how many postings fall in each score band, and which employers hold the most strong matches */
+function marketHtml(){
+  /* postings of named employers with a full text: the monthly Job Bank file and the occupation profiles name no employer, so they are left out here */
+  const pool=RES.filter(r=>r.s&&!r.j.od&&!isOcc(r.j)&&prefOk(r.j)&&!r.s.past&&hasText(r.j)&&!r.j.partial);
+  if(pool.length<20)return "";
+  const bands=[["80 and above",80,101,"var(--l0)"],["60 to 79",60,80,"var(--l1)"],["40 to 59",40,60,"var(--l3)"],["Below 40",0,40,"var(--l4)"]];
+  const cnt=bands.map(b=>pool.filter(r=>r.s.total>=b[1]&&r.s.total<b[2]).length),mx=Math.max(...cnt,1);
+  const emp=new Map();
+  pool.forEach(r=>{
+    if(r.s.total<60||r.j.od)return;
+    const k=norm(r.j.company),e=emp.get(k)||{n:0,name:r.j.company,best:0,kinds:{}};
+    e.n++;e.best=Math.max(e.best,r.s.total);e.kinds[r.j.kind]=(e.kinds[r.j.kind]||0)+1;emp.set(k,e);
+  });
+  const top=[...emp.values()].sort((a,b)=>b.n-a.n||b.best-a.best||a.name.localeCompare(b.name)).slice(0,8),mn=Math.max(1,...top.map(e=>e.n));
+  const strong=cnt[0]+cnt[1],pc=100*strong/pool.length,pcTxt=pc<1?"under 1%":Math.round(pc)+"%";
+  return `<h2>The market for your CV</h2><p class="note" style="margin:0">Of the <b>${nf(pool.length)}</b> employer postings that fit your details and have a full text, <b>${nf(strong)}</b> (${pcTxt}) score 60 or more. Aim your applications there.</p>
+  <div class="mk"><div><h3>Postings by score</h3>${bands.map((b,i)=>`<div class="mrow" style="--c:${b[3]}"><span>${b[0]}</span><span class="tr"><i style="width:${Math.max(cnt[i]?3:0,Math.round(100*cnt[i]/mx))}%"></i></span><b>${nf(cnt[i])}</b></div>`).join("")}</div>
+  <div><h3>Employers with the most postings scoring 60 or more</h3>${top.length?top.map(e=>{const tb=Object.keys(e.kinds).sort((a,b)=>e.kinds[b]-e.kinds[a])[0];return `<div class="mrow"><button data-mk="${esc(e.name)}" data-tab="${tb}" title="Open ${esc(e.name)} postings that score 60 or more">${esc(e.name)}</button><span class="tr"><i style="width:${Math.round(100*e.n/mn)}%"></i></span><b>${e.n}</b></div>`}).join(""):'<p class="note" style="margin:0">No employer has a posting scoring 60 or more yet.</p>'}</div></div>
+  <p class="note" style="margin:10px 0 0">A heuristic, not an applicant tracking system: scores within 5 points are ties. Counts cover only the employer postings that fit your details. Postings with only a title are left out because a title is too little to score, and so is the monthly Job Bank file, which names no employer.</p>`;
+}
+$("tmarket").addEventListener("click",e=>{const b=e.target.closest("[data-mk]");if(!b)return;goJobs({f:{q:b.dataset.mk,min:60},tab:b.dataset.tab});});
 $("tmore").onclick=()=>{T.shown=Math.min(50,T.shown+10);renderMatches();};
 $("tcopy").onclick=()=>copyList(topMatches().out,$("tcopy"),"Copy my top 10");
 $("tfull").onchange=e=>{P.fullOnly=e.target.checked;T.shown=10;savePrefs();renderMatches();};
@@ -1759,15 +2008,16 @@ const FIELD_IDS=new Set(JobMeta.FIELD_LIST.map(f=>f.id));
 function readHash(){
   const p=new URLSearchParams(location.hash.slice(1));
   const pg=p.get("p");
-  PG=PAGES.includes(pg)?pg:["t","q","loc","src","o","min","saved","d","lv","fd","me","w"].some(k=>p.has(k))?"jobs":"home";   // an old link with filters opens the list
+  PG=PAGES.includes(pg)?pg:["t","q","loc","src","o","min","saved","d","lv","fd","me","w","el"].some(k=>p.has(k))?"jobs":"home";   // an old link with filters opens the list
   const t=p.get("t");tab=["full","part","intern","cv","method"].includes(t)?t:"full";
   F.q=p.get("q")||"";F.qw=norm(F.q).split(" ").filter(Boolean);
   F.loc=p.get("loc")||"";F.src=p.get("src")||"";F.sort=["match","stage","level","new","company","title"].includes(p.get("o"))?p.get("o"):"";
   F.min=+(p.get("min")||0)||0;F.saved=p.get("saved")==="1";F.desc=p.get("d")==="1";
   const lv=p.get("lv");F.lvl=lv===null?"fit":lv==="all"?"":/^[0-4]$/.test(lv)?lv:"fit";
   const fd=p.get("fd");F.fd=FIELD_IDS.has(fd)?fd:"";
+  F.el=["nosec","stud"].includes(p.get("el"))?p.get("el"):"";
   const me=p.get("me");if(/^[0-4]$/.test(me||""))ME=+me;
-  const w=p.get("w");$("window").value=["1","7","99"].includes(w)?w:DEFAULT_W;
+  const w=p.get("w");$("window").value=["1","7","30","99"].includes(w)?w:DEFAULT_W;
 }
 function writeHash(push){
   const p=new URLSearchParams();
@@ -1777,7 +2027,7 @@ function writeHash(push){
     if(F.q)p.set("q",F.q);if(F.loc)p.set("loc",F.loc);if(F.src)p.set("src",F.src);if(F.sort)p.set("o",F.sort);
     if(F.min)p.set("min",F.min);if(F.saved)p.set("saved","1");if(F.desc)p.set("d","1");
     if(F.lvl==="")p.set("lv","all");else if(F.lvl!=="fit")p.set("lv",F.lvl);
-    if(F.fd)p.set("fd",F.fd);
+    if(F.fd)p.set("fd",F.fd);if(F.el)p.set("el",F.el);
     if(ME!==null)p.set("me",ME);
     if($("window").value!==DEFAULT_W)p.set("w",$("window").value);
   }
@@ -1798,10 +2048,11 @@ $("floc").onchange=e=>{F.loc=e.target.value;refilter(false);};
 $("fsrc").onchange=e=>{F.src=e.target.value;refilter(false);};
 $("fsort").onchange=e=>{F.sort=e.target.value;refilter(false);};
 $("fmin").onchange=e=>{F.min=+e.target.value;refilter(false);};
+$("felig").onchange=e=>{F.el=e.target.value;refilter(false);};
 $("fdesc").onchange=e=>{F.desc=e.target.checked;refilter(false);if(F.desc)loadAllText().then(()=>{if(F.desc)render();});};
 $("fsaved").onclick=()=>{F.saved=!F.saved;refilter(false);};
 $("chips").addEventListener("click",e=>{const b=e.target.closest("[data-w]");if(b){$("window").value=b.dataset.w;refilter(false);}});
-function resetFilters(){Object.assign(F,{q:"",qw:[],loc:"",src:"",sort:"",min:0,saved:false,desc:false,lvl:"fit",fd:""});$("fq").value="";$("window").value=DEFAULT_W;refilter(false);}
+function resetFilters(){Object.assign(F,{q:"",qw:[],loc:"",src:"",sort:"",min:0,saved:false,desc:false,lvl:"fit",fd:"",el:""});$("fq").value="";$("window").value=DEFAULT_W;refilter(false);}
 $("freset").onclick=resetFilters;
 /* the form: add a posting found elsewhere, score it, and show it */
 $("addform").addEventListener("submit",e=>{
