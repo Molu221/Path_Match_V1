@@ -128,6 +128,12 @@ const dup = m.find((j) => /Industrial Engineering Intern/.test(j.title));
 assert.equal(dup.sources.length, 2); assert.equal(dup.partial, undefined); assert.match(dup.desc, /Six Sigma/);
 assert.equal(m.length, 7);
 
+// the same search in more cities: the main place plus `extraPlaces` (which may have their own queries)
+const places = c.placesOf({ where: "Montreal", queries: ["a", "b"], extraPlaces: [{ where: "Toronto" }, { where: "Ottawa", queries: ["c"] }] });
+assert.deepEqual(places.map((p) => [p.where, p.queries.join(",")]), [["Montreal", "a,b"], ["Toronto", "a,b"], ["Ottawa", "c"]]);
+const azMore = await c.adzuna({ queries: ["q"], extraPlaces: [{ where: "Toronto", queries: ["r", "s"] }], pages: 1, resultsPerPage: 50, country: "ca", where: "Montreal", distanceKm: 40, maxDaysOld: 7, delayMs: 0 }, "x", "y", NOW, () => {});
+assert.equal(azMore.ok, 3);
+
 
 // helpers for the new sources
 assert.equal(c.breakHeadings("Intro. Requirements: Excel. Preferred Qualifications: Lean.").split("\n").filter(Boolean).length, 5);

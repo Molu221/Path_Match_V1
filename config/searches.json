@@ -1,5 +1,6 @@
 {
   "adzuna": {
+    "_note": "Free key from https://developer.adzuna.com (repository secrets ADZUNA_APP_ID and ADZUNA_APP_KEY). One request per query and place (20 in the main place + 5 places x 6 = 50 a run); the free plan allows 250 a day, 1,000 a week and 2,500 a month, so keep a daily run under about 80.",
     "country": "ca",
     "where": "Montreal",
     "distanceKm": 40,
@@ -15,7 +16,76 @@
       "assistant",
       "coordinator",
       "technician",
-      "analyst"
+      "analyst",
+      "industrial engineer",
+      "quality engineer",
+      "supply chain",
+      "operations",
+      "continuous improvement",
+      "logistics",
+      "manufacturing",
+      "co-op",
+      "ingénieur",
+      "amélioration continue",
+      "qualité",
+      "chaîne d'approvisionnement"
+    ],
+    "extraPlaces": [
+      {
+        "where": "Toronto",
+        "queries": [
+          "student",
+          "intern",
+          "entry level",
+          "part-time",
+          "industrial engineer",
+          "operations"
+        ]
+      },
+      {
+        "where": "Ottawa",
+        "queries": [
+          "student",
+          "intern",
+          "entry level",
+          "part-time",
+          "industrial engineer",
+          "operations"
+        ]
+      },
+      {
+        "where": "Vancouver",
+        "queries": [
+          "student",
+          "intern",
+          "entry level",
+          "part-time",
+          "industrial engineer",
+          "operations"
+        ]
+      },
+      {
+        "where": "Calgary",
+        "queries": [
+          "student",
+          "intern",
+          "entry level",
+          "part-time",
+          "industrial engineer",
+          "operations"
+        ]
+      },
+      {
+        "where": "Quebec City",
+        "queries": [
+          "student",
+          "intern",
+          "entry level",
+          "part-time",
+          "industrial engineer",
+          "operations"
+        ]
+      }
     ]
   },
   "jobbank": {
@@ -153,7 +223,9 @@
   "workable": {
     "_note": "Workable's own job search (jobs.workable.com): every open posting in Canada of every company that hires through Workable, with its full text, about 20 per request.",
     "enabled": true,
-    "locations": ["Canada"],
+    "locations": [
+      "Canada"
+    ],
     "limit": 20,
     "delayMs": 700,
     "maxPages": 600,
@@ -177,7 +249,7 @@
     ]
   },
   "jooble": {
-    "_note": "Needs a free key from https://jooble.org/api/about. Add it as the repository secret JOOBLE_API_KEY.",
+    "_note": "Needs a free key from https://jooble.org/api/about. Add it as the repository secret JOOBLE_API_KEY. 20 searches in the main place + 2 places x 6.",
     "where": "Montréal, QC",
     "delayMs": 1000,
     "queries": [
@@ -188,7 +260,43 @@
       "assistant",
       "coordinator",
       "technician",
-      "analyst"
+      "analyst",
+      "industrial engineer",
+      "quality engineer",
+      "supply chain",
+      "operations",
+      "continuous improvement",
+      "logistics",
+      "manufacturing",
+      "co-op",
+      "ingénieur",
+      "amélioration continue",
+      "qualité",
+      "chaîne d'approvisionnement"
+    ],
+    "extraPlaces": [
+      {
+        "where": "Toronto, ON",
+        "queries": [
+          "student",
+          "intern",
+          "entry level",
+          "part-time",
+          "industrial engineer",
+          "operations"
+        ]
+      },
+      {
+        "where": "Vancouver, BC",
+        "queries": [
+          "student",
+          "intern",
+          "entry level",
+          "part-time",
+          "industrial engineer",
+          "operations"
+        ]
+      }
     ]
   },
   "careerjet": {
