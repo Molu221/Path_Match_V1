@@ -1,6 +1,6 @@
 {
   "adzuna": {
-    "_note": "Free key from https://developer.adzuna.com (repository secrets ADZUNA_APP_ID and ADZUNA_APP_KEY). One request per query and place (20 in the main place + 5 places x 6 = 50 a run); the free plan allows 250 a day, 1,000 a week and 2,500 a month, so keep a daily run under about 80.",
+    "_note": "Free key from https://developer.adzuna.com (repository secrets ADZUNA_APP_ID and ADZUNA_APP_KEY). 70 requests a run: 20 searches in Montreal (the 10 busiest read 2 pages) + 5 cities x 6 + Gatineau and Sherbrooke x 5. Free plan limits: about 250 a day, 1,000 a week and 2,500 a month, so one run a day (2,100 a month) leaves room for a few manual runs. A search is a text, or {\"q\": text, \"pages\": 2} to read the second page of a busy one (most searches fill the 50 results of page 1).",
     "country": "ca",
     "where": "Montreal",
     "distanceKm": 40,
@@ -9,18 +9,48 @@
     "resultsPerPage": 50,
     "delayMs": 1500,
     "queries": [
-      "student",
-      "stagiaire",
-      "entry level",
-      "part-time",
-      "assistant",
-      "coordinator",
-      "technician",
-      "analyst",
+      {
+        "q": "student",
+        "pages": 2
+      },
+      {
+        "q": "stagiaire",
+        "pages": 2
+      },
+      {
+        "q": "entry level",
+        "pages": 2
+      },
+      {
+        "q": "part-time",
+        "pages": 2
+      },
+      {
+        "q": "assistant",
+        "pages": 2
+      },
+      {
+        "q": "coordinator",
+        "pages": 2
+      },
+      {
+        "q": "technician",
+        "pages": 2
+      },
+      {
+        "q": "analyst",
+        "pages": 2
+      },
       "industrial engineer",
       "quality engineer",
-      "supply chain",
-      "operations",
+      {
+        "q": "supply chain",
+        "pages": 2
+      },
+      {
+        "q": "operations",
+        "pages": 2
+      },
       "continuous improvement",
       "logistics",
       "manufacturing",
@@ -84,6 +114,26 @@
           "part-time",
           "industrial engineer",
           "operations"
+        ]
+      },
+      {
+        "where": "Gatineau",
+        "queries": [
+          "student",
+          "stagiaire",
+          "entry level",
+          "part-time",
+          "industrial engineer"
+        ]
+      },
+      {
+        "where": "Sherbrooke",
+        "queries": [
+          "student",
+          "stagiaire",
+          "entry level",
+          "part-time",
+          "industrial engineer"
         ]
       }
     ]
@@ -249,22 +299,52 @@
     ]
   },
   "jooble": {
-    "_note": "Needs a free key from https://jooble.org/api/about. Add it as the repository secret JOOBLE_API_KEY. 20 searches in the main place + 2 places x 6.",
+    "_note": "Needs a free key from https://jooble.org/api/about. Add it as the repository secret JOOBLE_API_KEY. 52 requests a run: 20 searches in Montreal (the 10 busiest read 2 pages) + Toronto and Vancouver x 6 + Ottawa and Quebec x 5. A search is a text, or {\"q\": text, \"pages\": 2}.",
     "where": "Montréal, QC",
     "delayMs": 1000,
     "queries": [
-      "student",
-      "stagiaire",
-      "entry level",
-      "part-time",
-      "assistant",
-      "coordinator",
-      "technician",
-      "analyst",
+      {
+        "q": "student",
+        "pages": 2
+      },
+      {
+        "q": "stagiaire",
+        "pages": 2
+      },
+      {
+        "q": "entry level",
+        "pages": 2
+      },
+      {
+        "q": "part-time",
+        "pages": 2
+      },
+      {
+        "q": "assistant",
+        "pages": 2
+      },
+      {
+        "q": "coordinator",
+        "pages": 2
+      },
+      {
+        "q": "technician",
+        "pages": 2
+      },
+      {
+        "q": "analyst",
+        "pages": 2
+      },
       "industrial engineer",
       "quality engineer",
-      "supply chain",
-      "operations",
+      {
+        "q": "supply chain",
+        "pages": 2
+      },
+      {
+        "q": "operations",
+        "pages": 2
+      },
       "continuous improvement",
       "logistics",
       "manufacturing",
@@ -295,6 +375,26 @@
           "part-time",
           "industrial engineer",
           "operations"
+        ]
+      },
+      {
+        "where": "Ottawa, ON",
+        "queries": [
+          "student",
+          "stagiaire",
+          "entry level",
+          "part-time",
+          "industrial engineer"
+        ]
+      },
+      {
+        "where": "Québec, QC",
+        "queries": [
+          "student",
+          "stagiaire",
+          "entry level",
+          "part-time",
+          "industrial engineer"
         ]
       }
     ]

@@ -1,6 +1,6 @@
 // Finds which hiring systems publish a company's open board.
 //   npm run find -- "Lion Electric" "Vention" "Moderna"          prints what it finds
-//   node scripts/find-boards.mjs --file config/candidates.json    checks a long list and writes reports/boards.json
+//   node scripts/find-boards.mjs --file config/candidates.json [--file more.json] [--out reports/boards.json]    checks long lists and writes the report
 // A company can use several systems; the slug is the company's name in the system's public address.
 // Only boards that currently list at least one relevant Montreal-area posting are reported.
 import fs from "node:fs";
@@ -39,15 +39,16 @@ export async function find(names, { only, concurrency = 8, log = () => {} } = {}
 
 if (process.argv[1] && fileURLToPath(import.meta.url) === path.resolve(process.argv[1])) {
   const args = process.argv.slice(2);
-  const fi = args.indexOf("--file");
-  if (fi >= 0) {
-    const names = JSON.parse(fs.readFileSync(path.resolve(ROOT, args[fi + 1]), "utf8")).names;
+  const files = args.flatMap((a, i) => (a === "--file" ? [args[i + 1]] : []));
+  const oi = args.indexOf("--out");
+  if (files.length) {
+    const names = [...new Set(files.flatMap((f) => JSON.parse(fs.readFileSync(path.resolve(ROOT, f), "utf8")).names))];
     const hits = await find(names, { log: console.log });
     const byKind = {};
     for (const h of Object.values(hits)) for (const [k, slugs] of Object.entries(h)) for (const x of slugs) (byKind[k] ||= new Set()).add(x.slug);
     const out = { at: new Date().toISOString(), checked: names.length, found: Object.keys(hits).length, hits, slugsByKind: Object.fromEntries(Object.entries(byKind).map(([k, v]) => [k, [...v].sort()])) };
     fs.mkdirSync(path.join(ROOT, "reports"), { recursive: true });
-    fs.writeFileSync(path.join(ROOT, "reports", "boards.json"), JSON.stringify(out, null, 1));
+    fs.writeFileSync(path.resolve(ROOT, oi >= 0 ? args[oi + 1] : "reports/boards.json"), JSON.stringify(out, null, 1));
     console.log(`${out.found} of ${out.checked} companies have an open board`);
   } else if (args.length) {
     const hits = await find(args);

@@ -134,6 +134,22 @@ assert.deepEqual(places.map((p) => [p.where, p.queries.join(",")]), [["Montreal"
 const azMore = await c.adzuna({ queries: ["q"], extraPlaces: [{ where: "Toronto", queries: ["r", "s"] }], pages: 1, resultsPerPage: 50, country: "ca", where: "Montreal", distanceKm: 40, maxDaysOld: 7, delayMs: 0 }, "x", "y", NOW, () => {});
 assert.equal(azMore.ok, 3);
 
+// a busy search can read a second page ({ q, pages }); a plain text reads one page, and a short page stops the loop
+assert.deepEqual(c.queryOf("a"), { q: "a", pages: 1 });
+assert.deepEqual(c.queryOf({ q: "b", pages: 2 }, 1), { q: "b", pages: 2 });
+const calls = [], fetchBefore = globalThis.fetch;
+const page50 = JSON.stringify({ results: Array.from({ length: 50 }, (_, i) => ({ title: "T" + i, company: { display_name: "C" }, location: { display_name: "Montreal" }, created: "2026-11-01T00:00:00Z", redirect_url: "https://x.example/" + i, description: "d" })) });
+globalThis.fetch = async (url) => { calls.push(String(url)); return { ok: true, status: 200, text: async () => page50, json: async () => JSON.parse(page50) }; };
+const azDeep = await c.adzuna({ queries: [{ q: "busy", pages: 2 }, "quiet"], pages: 1, resultsPerPage: 50, country: "ca", where: "Montreal", distanceKm: 40, maxDaysOld: 7, delayMs: 0 }, "x", "y", NOW, () => {});
+assert.equal(azDeep.ok, 3, "busy: 2 pages, quiet: 1 page");
+assert.equal(calls.filter((u) => /\/search\/2\?/.test(u)).length, 1, "only the busy search asks for page 2");
+calls.length = 0;
+const jooPage = JSON.stringify({ jobs: [{ title: "Intern", company: "Acme", location: "Montréal, QC", updated: "2026-11-01", link: "https://j.example/1", snippet: "s" }] });
+globalThis.fetch = async (url, o) => { calls.push(String(url) + " " + (o && o.body)); return { ok: true, status: 200, text: async () => jooPage, json: async () => JSON.parse(jooPage) }; };
+const joDeep = await c.jooble({ where: "Montréal, QC", delayMs: 0, queries: [{ q: "student", pages: 2 }, "intern"] }, "k", NOW, () => {});
+assert.equal(joDeep.ok, 3); assert.ok(calls.some((u) => /"page":2/.test(u)), "Jooble asks for page 2 of the busy search");
+globalThis.fetch = fetchBefore;
+
 
 // helpers for the new sources
 assert.equal(c.breakHeadings("Intro. Requirements: Excel. Preferred Qualifications: Lean.").split("\n").filter(Boolean).length, 5);

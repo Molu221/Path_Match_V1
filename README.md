@@ -68,6 +68,8 @@ npm run find -- "Lion Electric" "Vention" "Moderna"
 
 To check a long list, edit `config/candidates.json` and run the **Find boards** workflow from the Actions tab. It tries every name on all ten open systems and writes `reports/boards.json`; add the slugs it finds to `config/companies.json`. Edit the search phrases in `config/searches.json`.
 
+**Employer discovery (runs by itself every Sunday).** The **Find boards** workflow reads the latest `docs/jobs.json`, picks the employers that appear in the search services (Adzuna, Jooble, The Muse, Job Bank) but have no direct board yet, and looks for their own board on all ten open systems (`scripts/discover-employers.mjs`). For the 40 busiest it also tries Workday. A board is added to `config/companies.json` automatically (`scripts/apply-finds.mjs`) when the company name on the board looks like the employer; names that do not match are listed as "review" in `reports/applied.json` and are not added. A direct board gives the full posting text and every open posting, where a search service gives a short snippet. An employer is looked up again after 90 days (`config/discovered.json`). Run it by hand with scope `curated` or `both` to check the starter list again. Workday site names come from `config/workday_names.json` (tenant to display name) when it has one.
+
 ## Put it online
 
 1. Create a **public** GitHub repository and upload this whole folder (keep the `.github` folder).
