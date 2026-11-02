@@ -58,7 +58,7 @@ def main():
            "note": "Heuristic keyword coverage = matched / job skills. Related skills are listed, not counted. Flags are to verify, not scored."}
     (ROOT / "docs" / "reports.json").write_text(json.dumps(out, indent=2, ensure_ascii=False), encoding="utf-8")
     md = ["# Keyword report", "", f"CV: `{cv_path.name}`", "",
-          "| Company | Role | Skill coverage | Matched | Missing | All-phrase coverage | Flags to verify |", "|---|---|---|---|---|---|---|"]
+          "| Company | Role | Skill coverage | Match | Gap | All-phrase coverage | Flags to verify |", "|---|---|---|---|---|---|---|"]
     for r in rows:
         md.append(f"| {r['company']} | {r['title']} | {r['coverage_pct']}% | {len(r['matched'])} | {len(r['missing'])} | {r['phrase_coverage_pct']}% of {r['phrases_counted']} | {', '.join(r['flags'])} |")
     (ROOT / "reports" / "summary.md").write_text("\n".join(md) + "\n", encoding="utf-8")

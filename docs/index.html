@@ -833,13 +833,13 @@ function skillsRow(j){
   const rows=rowsOf(j)||[],where=isOcc(j)?"occupation profile":hasText(j)?"posting":"title";
   const need=isOcc(j)||(hasText(j)&&!j.partial&&!j.pasted)?"":" Only "+(hasText(j)?"a short snippet":"the title")+" is available: open the card and paste the full description.";
   if(!rows.length)return `<div class="skills"><span class="note">No keywords were found in the ${where}.${need}</span></div>`;
-  const M=rows.filter(x=>x.st==="M").length,C=rows.filter(x=>x.st==="R").length,MAX=16;
+  const M=rows.filter(x=>x.st==="M").length,C=rows.filter(x=>x.st==="R").length,G=rows.length-M-C,MAX=16;
   const chips=rows.slice(0,MAX).map(x=>{
-    const t=x.st==="M"?"On your CV.":x.st==="R"?"Close, not the same words. Not counted as a match.":"Not written on your CV.";
+    const t=x.st==="M"?"Match: on your CV.":x.st==="R"?"Close: not the same words. Counts half, never a match.":"Gap: not written on your CV.";
     return `<span class="${x.st}${x.kind==="t"?" t":""}" title="${esc((TAGNAME[x.tag]?TAGNAME[x.tag]+": ":"")+t)}">${esc(x.n)}</span>`;
   }).join("");
   const more=rows.length-MAX;
-  return `<div class="skills"><div class="sk-h"><b>${M} of the ${rows.length}</b> main keywords of this ${where} are on your CV${C?` (${C} close, not counted)`:""}${j.pasted?" · from the text you pasted":isOcc(j)?" · from the official description of the occupation":j.partial?" · short snippet only: open the card to paste the full text":hasText(j)?"":" · title only: open the card to paste the full text"}</div>
+  return `<div class="skills"><div class="sk-h"><b>${M} Match · ${C} Close · ${G} Gap</b> of the ${rows.length} main keywords of this ${where}${j.pasted?" · from the text you pasted":isOcc(j)?" · from the official description of the occupation":j.partial?" · short snippet only: open the card to paste the full text":hasText(j)?"":" · title only: open the card to paste the full text"}</div>
     <div class="kw sk">${chips}${more>0?`<span class="more">+${more} more, open the card</span>`:""}</div></div>`;
 }
 function pasteBox(j){
@@ -941,7 +941,8 @@ function loadNoc(){
 /* the occupations the CV fits, once per CV (the Guess labels need them) */
 function cvFits(){const L=NOCLIB;if(!L||!CV)return null;if(!CV.nocFits)CV.nocFits=L.m.findOccupations(L.lib,CV.raw);return CV.nocFits;}
 const OCC_PART={duties:"Main duties",skills:"Skills",education:"Education",certifications:"Certifications",languages:"Languages (asked in the posting)"};
-const OCC_LAB={Matched:["M","Matched"],Guess:["Gs","Guess"],Missing:["X","Missing"]};
+/* the NOC library says Matched / Guess / Missing; the site shows the same three tags as everywhere else: Match / Close / Gap */
+const OCC_LAB={Matched:["M","Match"],Guess:["Gs","Close"],Missing:["X","Gap"]};
 const occLang=j=>CV?cvLang():j.lg==="fr"?"fr":"en";   /* the language of the CV, else the posting's */
 function occDescription(j,open){
   const L=NOCLIB,p=L&&L.lib.profiles[j.noc.c];
@@ -971,7 +972,7 @@ function occPanel(j){
     if(!it.length)return "";
     return `<div><h4>${OCC_PART[part]}</h4><ul>${it.map(x=>{const L=OCC_LAB[x.label];return `<li><span class="lab ${L[0]}">${L[1]}</span><span>${esc((lg==="fr"&&x.fr)||x.en)}</span>${x.label==="Missing"?"":`<span class="why">${esc(x.why)}</span>`}</li>`;}).join("")}</ul></div>`;
   }).join("");
-  return head+`<p class="note"><b>${n("Matched")} Matched · ${n("Guess")} Guess · ${n("Missing")} Missing.</b> Matched: written on your CV. Guess: not written, but very likely from an occupation your CV clearly fits (or a degree in progress). Missing: not on your CV. ${lang?"":"The language is not checked: the posting does not say which one it needs."}${j.od&&j.od.e?" This posting asks for: "+esc(EDU_ASKED[j.od.e])+".":""}</p>
+  return head+`<p class="note"><b>${n("Matched")} Match · ${n("Guess")} Close · ${n("Missing")} Gap.</b> Match: written on your CV. Close: not written, but very likely from an occupation your CV clearly fits (or a degree in progress), so please confirm it. Gap: not on your CV. ${lang?"":"The language is not checked: the posting does not say which one it needs."}${j.od&&j.od.e?" This posting asks for: "+esc(EDU_ASKED[j.od.e])+".":""}</p>
     <div class="occparts">${parts}</div>${occDescription(j,false)}${paste}`;
 }
 /* the mapping panel inside the card (built when the card is opened) */
@@ -994,38 +995,38 @@ function mapPanel(j){
     if(x.st==="M"){
       if(x.kind==="skill"){const c=cv[x.n];onCv=snip(CV.raw,c.spans[0])+(c.section&&c.section!=="HEADER"?` <i class="note">· ${esc(c.section)}</i>`:"");}
       else onCv=snip(CV.raw,x.hit.spans[0]);
-      res='<span class="pill g">Match</span>';
+      res='<span class="pill g" title="The same words are on your CV.">Match</span>';
     }else if(x.st==="R"){
       onCv=x.links.map(l=>{
         if(x.kind==="skill"){const c=cv[l.cv];return `≈ <b>${esc(l.cv)}</b> (${l.label}, ½): ${esc(l.why)}${c?`<br>${snip(CV.raw,c.spans[0],40)}`:""}`;}
         return `≈ <b>${esc(l.cv)}</b> (${l.label}, ½): ${esc(l.why)}<br>${snip(CV.raw,x.hit.spans[0],40)}`;
       }).join("<br>");
-      res='<span class="pill w">Close ½, not a match</span>';
-    }else{onCv="Not written on your CV.";res='<span class="pill b">Gap</span>';}
+      res='<span class="pill w" title="Counts half. Never a match.">Close</span>';
+    }else{onCv="Not written on your CV.";res='<span class="pill b" title="Not written on your CV.">Gap</span>';}
     return `<tr class="r-${x.st} k-${x.kind}"><td class="sn">${esc(x.n)}</td><td>${kindOf(x)}</td><td>${esc(x.tag||"—")}</td><td class="q">${inPost}</td><td class="q">${onCv}</td><td>${res}</td></tr>`;
   }).join("");
   /* posting text: green = on the CV, amber = close, red = not on the CV, grey = company / benefits text, dotted = check yourself */
   const pm=[];
-  m.rows.forEach(x=>x.e.spans.forEach(([a,b])=>pm.push({a,b,cls:!x.counted?"m-off":x.st==="M"?"m-ok":x.st==="R"?"m-near":"m-bad",title:x.n+(x.tag?" · "+x.tag:"")+(!x.counted?": company / benefits text, not counted":x.st==="M"?": on your CV":x.st==="R"?": close, not counted":": not on your CV")})));
+  m.rows.forEach(x=>x.e.spans.forEach(([a,b])=>pm.push({a,b,cls:!x.counted?"m-off":x.st==="M"?"m-ok":x.st==="R"?"m-near":"m-bad",title:x.n+(x.tag?" · "+x.tag:"")+(!x.counted?": company / benefits text, not counted":x.st==="M"?": Match, on your CV":x.st==="R"?": Close, counts half":": Gap, not on your CV")})));
   const sm=[];m.fl.forEach(f=>f.spans.forEach(([a,b])=>sm.push({a,b,cls:"m-chk",title:"Check yourself: "+f.name})));
   /* CV text: green = the posting asks for it, amber = close to something the posting asks for, grey = on the CV, not asked */
   const closeCv=new Set(m.r.links.map(l=>l.cv)),cm=[];
-  Object.keys(cv).forEach(n=>cv[n].spans.forEach(([a,b])=>cm.push({a,b,cls:m.job[n]?"m-ok":closeCv.has(n)?"m-near":"m-off",title:n+(cv[n].section&&cv[n].section!=="HEADER"?" · "+cv[n].section:"")+(m.job[n]?": the posting asks for it":closeCv.has(n)?": close to a skill in the posting":": the posting does not ask for it")})));
-  m.rows.filter(x=>x.kind==="term"&&x.counted&&x.hit.spans).forEach(x=>x.hit.spans.forEach(([a,b])=>cm.push({a,b,cls:x.st==="M"?"m-ok":"m-near",title:x.n+(x.st==="M"?": the posting asks for it":": close to a phrase in the posting")})));
-  const aboutHtml=abt.length?`<details class="old"><summary>From the company / benefits part of the posting (${abt.length} phrases, listed but not counted)</summary><div class="kw" style="margin-top:6px;max-height:200px;overflow:auto">${abt.map(x=>`<span class="off${x.kind==="term"?" t":""}" title="${esc(x.st==="M"?"on your CV":x.st==="R"?"close to something on your CV":"not on your CV")}">${esc(x.n)}</span>`).join("")}</div></details>`:"";
-  return head+`<div class="mapbody" data-f="all" onclick="const b=event.target.closest('.mapfilter button');if(b){this.dataset.f=b.dataset.f;this.querySelectorAll('.mapfilter button').forEach(x=>x.classList.toggle('on',x===b));}"><div class="mapnums"><div><b>${t.matched} of ${t.total} = ${t.pct}%</b>exact words: the same keyword is written on both (${t.skills.matched} of ${t.skills.total} dictionary skills + ${t.terms.matched} of ${t.terms.total} other phrases)</div>
-      <div><b>${half(t.matched+0.5*t.close)} of ${t.total} = ${t.pctRel}%</b>with close keywords at half credit</div></div>
-    <p class="note">This table reads <b>every phrase of the posting</b>. The score above counts the main keywords only (up to 40, the ones in the title and the requirements first), so these totals can differ from the line under the title. Filler words (the, experience, skills, benefits…) are never keywords. A close keyword is never shown as a match.</p>
+  Object.keys(cv).forEach(n=>cv[n].spans.forEach(([a,b])=>cm.push({a,b,cls:m.job[n]?"m-ok":closeCv.has(n)?"m-near":"m-off",title:n+(cv[n].section&&cv[n].section!=="HEADER"?" · "+cv[n].section:"")+(m.job[n]?": Match, the posting asks for it":closeCv.has(n)?": Close to a skill in the posting":": not asked by this posting")})));
+  m.rows.filter(x=>x.kind==="term"&&x.counted&&x.hit.spans).forEach(x=>x.hit.spans.forEach(([a,b])=>cm.push({a,b,cls:x.st==="M"?"m-ok":"m-near",title:x.n+(x.st==="M"?": Match, the posting asks for it":": Close to a phrase in the posting")})));
+  const aboutHtml=abt.length?`<details class="old"><summary>From the company / benefits part of the posting (${abt.length} phrases, listed but not counted)</summary><div class="kw" style="margin-top:6px;max-height:200px;overflow:auto">${abt.map(x=>`<span class="off${x.kind==="term"?" t":""}" title="${esc(x.st==="M"?"Match: on your CV":x.st==="R"?"Close: to something on your CV":"Gap: not on your CV")}">${esc(x.n)}</span>`).join("")}</div></details>`:"";
+  return head+`<div class="mapbody" data-f="all" onclick="const b=event.target.closest('.mapfilter button');if(b){this.dataset.f=b.dataset.f;this.querySelectorAll('.mapfilter button').forEach(x=>x.classList.toggle('on',x===b));}"><div class="mapnums"><div><b>${t.matched} of ${t.total} = ${t.pct}%</b>Match only: the same keyword is written on both (${t.skills.matched} of ${t.skills.total} dictionary skills + ${t.terms.matched} of ${t.terms.total} other phrases)</div>
+      <div><b>${half(t.matched+0.5*t.close)} of ${t.total} = ${t.pctRel}%</b>Match + Close at half credit</div></div>
+    <p class="note">This table reads <b>every phrase of the posting</b>. The score above counts the main keywords only (up to 40, the ones in the title and the requirements first), so these totals can differ from the line under the title. Filler words (the, experience, skills, benefits…) are never keywords. A Close keyword is never shown as a Match.</p>
     <div class="mapgrid">
-      <div><h4>Found on both (${both.length})</h4><div class="kw">${both.map(x=>chip(x,"M")).join("")||'<span class="note">None.</span>'}</div></div>
-      <div><h4>In the post, not on your CV (${miss.length})</h4><div class="kw">${miss.map(x=>chip(x,"G")).join("")||'<span class="note">None.</span>'}</div></div>
-      <div><h4>Close, not counted (${near.length})</h4>${nearHtml}</div>
+      <div><h4>Match (${both.length}) <span class="note">on your CV</span></h4><div class="kw">${both.map(x=>chip(x,"M")).join("")||'<span class="note">None.</span>'}</div></div>
+      <div><h4>Close (${near.length}) <span class="note">counts half, never a match</span></h4>${nearHtml}</div>
+      <div><h4>Gap (${miss.length}) <span class="note">in the post, not on your CV</span></h4><div class="kw">${miss.map(x=>chip(x,"G")).join("")||'<span class="note">None.</span>'}</div></div>
       <div><h4>Check yourself, not scored (${m.fl.length})</h4>${flHtml}</div>
     </div>${aboutHtml}
     <div class="mapfilter">Show: <button class="on" data-f="all">All ${cnt.length}</button><button data-f="M">Match ${both.length}</button><button data-f="R">Close ${near.length}</button><button data-f="G">Gap ${miss.length}</button><button data-f="skill">Skills ${t.skills.total}</button><button data-f="term">Other phrases ${t.terms.total}</button></div>
     <div class="mapscroll"><table class="maptab"><thead><tr><th>Keyword</th><th>Type</th><th>Where</th><th>In the posting</th><th>On your CV</th><th>Result</th></tr></thead><tbody>${rows}</tbody></table></div>
-    <div class="texts"><div><h4>The posting</h4><div class="legend"><mark class="m-ok">on your CV</mark><mark class="m-near">close, not counted</mark><mark class="m-bad">not on your CV</mark><mark class="m-off">company / benefits</mark><mark class="m-chk">check yourself</mark></div><pre class="hl">${Matcher.highlight(m.text,pm,sm)}</pre></div>
-      <div><h4>Your CV</h4><div class="legend"><mark class="m-ok">in the post</mark><mark class="m-near">close, not counted</mark><mark class="m-off">not asked by this post</mark></div><pre class="hl">${Matcher.highlight(CV.raw,cm)}</pre></div></div></div>`;
+    <div class="texts"><div><h4>The posting</h4><div class="legend"><mark class="m-ok">Match</mark><mark class="m-near">Close</mark><mark class="m-bad">Gap</mark><mark class="m-off">company / benefits</mark><mark class="m-chk">check yourself</mark></div><pre class="hl">${Matcher.highlight(m.text,pm,sm)}</pre></div>
+      <div><h4>Your CV</h4><div class="legend"><mark class="m-ok">Match</mark><mark class="m-near">Close</mark><mark class="m-off">not asked by this post</mark></div><pre class="hl">${Matcher.highlight(CV.raw,cm)}</pre></div></div></div>`;
 }
 
 /* ---------- the score: role fit + level fit + keyword overlap (scoring.js) ---------- */
@@ -1132,9 +1133,9 @@ function breakdown(j,s){
   const b=meBand(),lv=s.lv;
   const lvTxt=`The posting reads as <b>${esc(LV[lv.lvl].label)}</b>${lv.why?` (${esc(lv.why)})`:""}. ${b===null?"Your stage is not known, so this part is a middle value.":`Your stage is <b>${esc(BAND[b].label)}</b>, a ${Math.round(s.fit*100)}% fit.`}${s.past?" The term has passed, so it is capped at 3.":""}`;
   return `<table class="how"><tbody>
-    <tr><th>Role fit ${s.role}/40</th><td>How much of the title and the required keywords of the posting your CV covers. A close keyword counts half.</td></tr>
+    <tr><th>Role fit ${s.role}/40</th><td>How much of the title and the required keywords of the posting your CV covers. A Close keyword counts half.</td></tr>
     <tr><th>Level fit ${s.level}/25</th><td>${lvTxt}</td></tr>
-    <tr><th>Keywords ${s.overlap}/35</th><td>${s.matched} matched and ${s.close} close, out of the ${s.n} main keywords counted (${Math.round(s.cov*100)}% weighted coverage; 40% earns the full 35). Few keywords means a cautious score. Confidence: ${s.conf}.</td></tr></tbody></table>`;
+    <tr><th>Keywords ${s.overlap}/35</th><td>${s.matched} Match and ${s.close} Close, out of the ${s.n} main keywords counted (${Math.round(s.cov*100)}% weighted coverage; 40% earns the full 35). Few keywords means a cautious score. Confidence: ${s.conf}.</td></tr></tbody></table>`;
 }
 function jobHtml(r,rank,top){
   const {j,s}=r,a=age(j),jk=jkey(j);
@@ -1338,13 +1339,13 @@ function renderJobs(){
       <li><b>The level of a posting</b> is read from its title first (intern, junior, senior, manager, director, vice-president and their French forms), then from the years of experience its text asks for.</li>
       <li><b>Role fit (0–40):</b> how much of the title and the required keywords of the posting your CV covers.</li>
       <li><b>Level fit (0–25):</b> how well the level of the posting suits your stage. The same level earns all 25; a neighbouring level earns most of them (a new graduate gets 23 for an entry-level job but only about 9 for a mid-level one); two or more levels away earns little or nothing. An internship whose term is not the one you want loses a few points, and a term that has passed scores almost nothing. The table is in <code>docs/jobmeta.js</code>.</li>
-      <li><b>Keyword overlap (0–35):</b> the main keywords of the posting (up to 40, title and requirements first) against your CV: a match counts 1, a close keyword ½. A posting that covers 40% of its weighted keywords earns all 35 points. A posting with only a few keywords is scored cautiously, so 2 of 3 does not read as 67%.</li>
+      <li><b>Keyword overlap (0–35):</b> the main keywords of the posting (up to 40, title and requirements first) against your CV: a Match counts 1, a Close keyword ½. A posting that covers 40% of its weighted keywords earns all 35 points. A posting with only a few keywords is scored cautiously, so 2 of 3 does not read as 67%.</li>
       <li><b>Flags, not points:</b> language, work permit, security, degree level and term are shown beside the score so a hidden rule never silently lowers or raises a rank.</li>
       <li>This is a heuristic, not a real applicant tracking system. Differences of 5 points or less are ties. A level reading from a CV or a title can be wrong: that is why the filter can be changed, and why every score shows its reason.</li></ul></div>
       <div class="panel method" style="margin-top:12px"><h2>Keywords and the mapping to your CV (any field)</h2><ul>
       <li><b>Every keyword of the posting is read, not only a fixed list.</b> The whole text (title and description) is cut into phrases at the filler words, so "root cause analysis", "génie informatique" or "patient assessment" are keywords even if no list contains them. This works for any job in any field, in English and French.</li>
       <li>Two kinds of keyword appear: a <b>skill</b> is a name the dictionary knows (the ${DICT?DICT.meta.curated:"curated"} hand-written skills of <code>python/keyword_extractor.py</code> plus the English and French skill names of <b>${DICT?esc(DICT.meta.source||"OaSIS"):"OaSIS"}</b>, ${DICT?DICT.size:"?"} in all); an <b>other phrase</b> is any other run of words taken as written (dashed outline on the chips). The two are never counted twice.</li>
-      <li><b>Under each job title</b> you see the main keywords. <span class="kw" style="display:inline"><span class="M">green</span></span> = the same words are written on your CV, <span class="kw" style="display:inline"><span class="R">amber</span></span> = close but not the same (half credit, never shown as a match), <span class="kw" style="display:inline"><span class="G">red</span></span> = not on your CV. Open the card for every keyword, a filter (Match, Close, Gap, Skills, Other phrases), the exact lines of your CV and the posting highlighted next to your CV.</li>
+      <li><b>Under each job title</b> you see the main keywords. <span class="kw" style="display:inline"><span class="M">Match</span></span> (green) = the same words are written on your CV, <span class="kw" style="display:inline"><span class="R">Close</span></span> (amber) = close but not the same (half credit, never shown as a Match), <span class="kw" style="display:inline"><span class="G">Gap</span></span> (red) = not on your CV. Open the card for every keyword, a filter (Match, Close, Gap, Skills, Other phrases), the exact lines of your CV and the posting highlighted next to your CV.</li>
       <li><b>Match</b> = the same words, in the same order, are on your CV (plural and accents do not matter: "dashboards" = "dashboard", "qualité" = "qualite"). <b>Close</b> = not the same, but a single word with the same stem ("planning" / "planner"), or a phrase that shares its main word(s) with one line of your CV, or a hand-written / OaSIS-linked skill pair.</li>
       <li>Each keyword shows where it sits in the posting (Title, Required, Task or Preferred, read from the headings). Phrases from the company, benefits, equal-opportunity and application parts of the posting are <b>listed but not counted</b>, so the employer's advertising does not lower your percentage.</li>
       <li><b>Known limits.</b> No list of filler words is perfect, so a few ordinary words slip through as keywords (and a few real ones are dropped). The phrase cutting is mechanical, not a language model. A keyword written in the other language is never a match ("project" / "projet" is Close at best). The text can be cut short. Most postings carry their full text; a card that has only a title or a short snippet has a box where you can paste the full description, and everything is recalculated from it (it stays in your browser).</li>
