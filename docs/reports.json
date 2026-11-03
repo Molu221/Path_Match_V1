@@ -1008,10 +1008,10 @@
         }
       },
       "phrases_counted": 47,
-      "phrases_matched": 7,
+      "phrases_matched": 5,
       "phrases_close": 3,
-      "phrase_coverage_pct": 14.9,
-      "phrase_coverage_with_close_pct": 18.1,
+      "phrase_coverage_pct": 10.6,
+      "phrase_coverage_with_close_pct": 13.8,
       "phrases": [
         {
           "phrase": "industrial",
@@ -1163,7 +1163,7 @@
           "where": "-",
           "status": "M",
           "counted": true,
-          "cv_line": "projects",
+          "cv_line": "inventory simulation (course project)",
           "shared_words": []
         },
         {
@@ -1244,7 +1244,7 @@
           "where": "-",
           "status": "R",
           "counted": true,
-          "cv_line": "projects",
+          "cv_line": "inventory simulation (course project)",
           "shared_words": [
             "project"
           ]
@@ -1309,18 +1309,18 @@
           "phrase": "certification",
           "count": 1,
           "where": "Preferred",
-          "status": "M",
+          "status": "G",
           "counted": true,
-          "cv_line": "certifications",
+          "cv_line": "",
           "shared_words": []
         },
         {
           "phrase": "education",
           "count": 1,
           "where": "Preferred",
-          "status": "M",
+          "status": "G",
           "counted": true,
-          "cv_line": "education",
+          "cv_line": "",
           "shared_words": []
         },
         {
@@ -2339,7 +2339,7 @@
           "where": "Task",
           "status": "R",
           "counted": true,
-          "cv_line": "projects",
+          "cv_line": "inventory simulation (course project)",
           "shared_words": [
             "project"
           ]

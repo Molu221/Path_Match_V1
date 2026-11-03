@@ -252,12 +252,38 @@ def term_tag(entry, tags):
 # ---------------------------------------------------------------------------------------------------------
 # THE CV SIDE
 # ---------------------------------------------------------------------------------------------------------
-def index_cv(text):
-    """The CV as lines of words: [{"line": folded text, "toks": [(nw, stem, start, end), ...]}]."""
-    lines = []
+# What a CV line holds that is not a skill or a phrase of the person: a heading line ("EDUCATION"), the name at the top
+# ("Alex Example" in "Alex Example, RN") and dates ("Sep 2025", "- Present"). Same rule as docs/matcher.js.
+CV_DATE_RE = re.compile(r"\b(?:jan(?:uary)?|janv(?:ier)?|feb(?:ruary)?|fev(?:rier)?|mar(?:ch|s)?|apr(?:il)?|avr(?:il)?|may|mai|june?|juin|"
+                        r"july?|juil(?:let)?|aug(?:ust)?|aout|sept?(?:ember|embre)?|oct(?:ober|obre)?|nov(?:ember|embre)?|dec(?:ember|embre)?)"
+                        r"\.?\s*(?:19|20)\d\d\b|(?:-|\bto\b|\bau\b|\buntil\b)\s*(?:present|current|now|today|aujourd'hui|ce jour|presentement|maintenant|en cours)\b")
+NAME_SEP_RE = re.compile(r",|\||•|·|\s[-–—]\s")
+
+
+def _cv_skips(raw, line, first):
+    skip = [(m.start(), m.end()) for m in CV_DATE_RE.finditer(line)]
+    if first:
+        # the first line of a CV starts with the person's name: 2 to 4 capitalized words before a comma or a dash
+        seg = NAME_SEP_RE.split(raw)[0].strip()
+        words = seg.split()
+        if 2 <= len(words) <= 4 and not re.search(r"\d", seg) and all(w[0].isupper() for w in words):
+            cut = NAME_SEP_RE.search(line)
+            skip.append((0, cut.start() if cut else len(line)))
+    return skip
+
+
+def index_cv(text, headings=()):
+    """The CV as lines of words: [{"line": folded text, "toks": [(nw, stem, start, end), ...]}].
+    Heading lines (`headings`), the name at the top and dates are left out."""
+    heads = {oasis.fold(h).strip() for h in headings}
+    lines, first = [], True
     for raw in str(text).split("\n"):
         line = oasis.fold(raw)
-        toks = [(nw(m.group()), stem(m.group()), m.start(), m.end()) for m in TOKEN_RE.finditer(line)]
+        skip = [(0, len(line))] if line.strip() in heads else _cv_skips(raw, line, first and line.strip() != "")
+        if line.strip():
+            first = False
+        toks = [(nw(m.group()), stem(m.group()), m.start(), m.end()) for m in TOKEN_RE.finditer(line)
+                if not any(x <= m.start() and m.end() <= y for x, y in skip)]
         lines.append({"line": line.strip(), "toks": toks, "text": line})
     return lines
 
