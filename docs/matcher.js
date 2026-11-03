@@ -115,6 +115,39 @@
   function engine(dict) {
     const noPlural = new Set(dict.noPlural || []);
     const skills = dict.skills.map(s => ({ name: s.n, source: s.s, re: pattern(s.a, noPlural) }));
+    /* A word index, so a line is only searched for the skills it could hold (with thousands of skills, testing every
+       skill on every line is slow). Each spelling is filed under its longest run of letters and digits: wherever the
+       spelling matches, that run is a whole word of the line, or that word with a plural "s". The answers are the
+       same as testing every skill. A spelling with no letter or digit is tested on every line. */
+    const byWord = new Map(), always = [];
+    skills.forEach((s, i) => {
+      for (const a of dict.skills[i].a) {
+        const runs = a.match(/[a-z0-9]+/g);
+        if (!runs) { always.push(i); continue; }
+        const key = runs.reduce((x, y) => (y.length > x.length ? y : x));
+        let list = byWord.get(key);
+        if (!list) byWord.set(key, list = []);
+        if (list[list.length - 1] !== i) list.push(i);
+      }
+    });
+    /* A skill added by the skills library never hides a skill that was there before it ("aerospace manufacturing" does
+       not hide "Aerospace experience"), so everything found before the library is still found. */
+    const fromLibrary = new Set(dict.skills.filter(s => s.s === "library").map(s => s.n));
+    const canHide = (longer, shorter) => !fromLibrary.has(longer) || fromLibrary.has(shorter);
+    /* the skills to test on one folded line, in dictionary order */
+    function candidates(line) {
+      const pick = new Set(always);
+      const words = line.match(/[a-z0-9]+/g) || [];
+      for (const w of words) {
+        const a = byWord.get(w);
+        if (a) for (const i of a) pick.add(i);
+        if (w.length > 1 && w[w.length - 1] === "s") {
+          const b = byWord.get(w.slice(0, -1));
+          if (b) for (const i of b) pick.add(i);
+        }
+      }
+      return [...pick].sort((x, y) => x - y).map(i => skills[i]);
+    }
     const related = dict.related || {};
     const inferred = dict.inferred || {};
     const why = dict.why || {};
@@ -142,7 +175,8 @@
         }
         const fm = foldMap(raw), line = fm.s;
         const spans = {};
-        for (const s of skills) {
+        const here = candidates(line);
+        for (const s of here) {
           s.re.lastIndex = 0;
           let m;
           while ((m = s.re.exec(line))) {
@@ -152,11 +186,11 @@
         }
         const all = [];
         for (const name in spans) for (const sp of spans[name]) all.push([name, sp]);
-        for (const s of skills) {
+        for (const s of here) {
           const own = spans[s.name];
           if (!own) continue;
           const inside = own.every(([a, b]) => all.some(([other, [x, y]]) =>
-            other !== s.name && x <= a && b <= y && (y - x) > (b - a)));
+            other !== s.name && canHide(other, s.name) && x <= a && b <= y && (y - x) > (b - a)));
           if (inside) continue;
           const real = own.map(([a, b]) => [lineStart + toStart(fm, a), lineStart + toEnd(fm, b)]);
           let entry = out[s.name];
@@ -201,7 +235,7 @@
     /* where the dictionary skills sit on an already folded line (nested ones left out), in folded positions */
     function keptSpans(line) {
       const spans = {};
-      for (const s of skills) {
+      for (const s of candidates(line)) {
         s.re.lastIndex = 0;
         let m;
         while ((m = s.re.exec(line))) (spans[s.name] = spans[s.name] || []).push([m.index + m[1].length, m.index + m[0].length]);
@@ -211,7 +245,7 @@
       const out = [];
       for (const name in spans) {
         const own = spans[name];
-        if (own.every(([a, b]) => all.some(([o, [x, y]]) => o !== name && x <= a && b <= y && (y - x) > (b - a)))) continue;
+        if (own.every(([a, b]) => all.some(([o, [x, y]]) => o !== name && canHide(o, name) && x <= a && b <= y && (y - x) > (b - a)))) continue;
         out.push(...own);
       }
       return out;
@@ -469,7 +503,15 @@
         pos = Bn;
       }
       out += title.slice(pos);
-      return out.replace(/\s+/g, " ").replace(/(?:\s*[,|\-–—/:()]\s*){2,}/g, " , ").replace(/^[\s,|\-–—/:.]+|[\s,|\-–—/:.]+$/g, "").trim();
+      /* a bracket that stays (it names a skill) is set aside while the leftover separators are tidied, so its ")" is not
+         taken for one ("Registered Nurse (RN), Part Time" gives "Registered Nurse (RN)", not "Registered Nurse (RN") */
+      const kept = [];
+      out = out.replace(/\(([^()]*[a-z0-9][^()]*)\)/gi, (m, inner) => {
+        kept.push("(" + inner.replace(/\s+/g, " ").replace(/(?:\s*[,|\-–—/:]\s*){2,}/g, " , ").replace(/^[\s,|\-–—/:]+|[\s,|\-–—/:]+$/g, "") + ")");
+        return "\u0000" + (kept.length - 1) + "\u0001";
+      });
+      out = out.replace(/\s+/g, " ").replace(/(?:\s*[,|\-–—/:()]\s*){2,}/g, " , ").replace(/^[\s,|\-–—/:.]+|[\s,|\-–—/:.]+$/g, "").trim();
+      return out.replace(/\u0000(\d+)\u0001/g, (_, i) => kept[+i]);
     }
 
     function profile(title, body, max) {
@@ -553,7 +595,7 @@
       });
     }
 
-    return { profile, cleanTitle, profileStatus, termWords, find, findCv, report, flags, sections, tagOf, terms, indexCv, matchTerms, termsOn, stopWords: [...stop].sort(), weakWords: [...weak].sort(), meta: dict.meta || {}, size: skills.length };
+    return { profile, cleanTitle, profileStatus, termWords, find, findCv, report, flags, sections, tagOf, terms, indexCv, matchTerms, termsOn, stopWords: [...stop].sort(), weakWords: [...weak].sort(), meta: dict.meta || {}, size: skills.length, soft: dict.soft || [] };
   }
 
   /* The text as safe HTML, with <mark class="..."> around each mark {a, b, cls, title}. Where marks overlap, the one

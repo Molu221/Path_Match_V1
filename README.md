@@ -139,6 +139,20 @@ Besides the first list in `keyword_extractor.py`, `python/skills_extra.py` holds
 
 Rules for a new spelling: lowercase, no accents, singular, no short common word, no company-advertising word, and never the same spelling under two skills (it would be counted twice). `scripts/build_site_dictionary.py` copies everything to `docs/skills.json`, so the website uses the same list; the tests compare both engines on English and French postings.
 
+### The bilingual skills library (`python/skills_library.py`)
+
+A library of 43 fields, 2,446 skills and about 20,000 English and French spellings, laid **over** the lists above (after the OaSIS names), so the site now knows about 2,150 skills and 21,000 spellings. It is added without changing what was found before:
+
+- a library skill that is already in the dictionary (same name, or its main spelling or most of its spellings belong to one skill) only brings its new spellings, and the skill keeps its name; any other library skill is added;
+- a spelling that already belongs to a skill stays with that skill, and a new spelling of an existing skill is left out when it would contain another existing skill's spelling;
+- a skill added by the library never hides a skill that was there before it (*aerospace manufacturing* still counts *Aerospace experience* and *Manufacturing experience*);
+- `LIBRARY_PRUNE` in `python/skills_extra.py` lists about 130 library spellings that are left out, each with its reason. They were found by running the library over 5,000 real postings: perks (*dental*, *gym*, *time off*), equal-opportunity text (*veteran*, *genetics*), company advertising (*innovative*, *startup*), and words that become something else without accents (*thèse* → *these*, *défi* → DeFi, *revenus* → *revenu*). Delete a line to bring a spelling back;
+- the library's "related" lists are not used (a close pair earns half credit in the score here); its CV headings are added; its new soft skills are shown under "General strengths".
+
+To change the library: edit `python/skills_library.py`, then run `python3 scripts/build_site_dictionary.py` (writes `docs/skills.json`) and `npm run reprofile` (works out again the keywords stored with every posting, from the texts already saved, in about 7 minutes). The daily collection would also redo them, the next morning.
+
+The matcher only tests, on each line, the skills whose words are on that line (a word index built from the spellings), so 2,150 skills read as fast as 375 did; the answers are the same as testing every skill.
+
 ## OaSIS dictionary (all NOC occupations, English and French)
 
 `scripts/build_oasis_dictionary.py` downloads the official OaSIS **2025** CSV files ([open.canada.ca dataset](https://open.canada.ca/data/en/dataset/10ce43bd-fb58-4969-806b-4bffebc87bec); the same release the [ESDC OaSIS site](https://noc.esdc.gc.ca/OaSIS/) displays, which has web pages only) and builds:

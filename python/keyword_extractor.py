@@ -317,10 +317,99 @@ def build_patterns(skills=None):
     return patterns
 
 
-# Add the English and French OaSIS names as extra spellings (if python/oasis_data.json was built).
+# ----------------------------------------------------------------------------
+# The bilingual skills library (python/skills_library.py): 43 fields, 2,446 skills, about 20,000 spellings.
+# It is laid OVER the list above, so nothing that is found today stops being found:
+#   * a library skill that is already here (same name, or its main spelling or most of its spellings belong to
+#     one skill here) only brings its new spellings to that skill, which keeps its name;
+#   * any other library skill is added, with the spellings that no skill here owns yet;
+#   * a spelling already owned by a skill here stays with that skill;
+#   * the spellings taken out in skills_extra.PRUNE, and the library spellings listed in skills_extra.LIBRARY_PRUNE,
+#     are left out: they fired on the wrong thing in real postings (perks, hiring text, company advertising...);
+#   * a library skill never hides a skill that was here before it (see can_hide below).
+# Its "related" lists are not used: here a close pair earns half credit in the score, and the library says its
+# related skills must NOT count.
+# ----------------------------------------------------------------------------
+import skills_library
+
+LIBRARY_SOURCE = "library"
+
+
+def merge_library(skills, source=None, library=None, targets=None):
+    """Lay the skills library over `skills` ({name: [aliases]}). Returns (merged, source); `source` says where each
+    skill came from (a skill added by the library is "library"). With a dict `targets`, it also records, for each
+    library skill, the name of the skill it became part of."""
+    library = skills_library.SKILLS if library is None else library
+    merged = {name: list(aliases) for name, aliases in skills.items()}
+    source = dict(source) if source else {name: "curated" for name in merged}
+    owner = {}
+    for name, aliases in merged.items():
+        for alias in aliases:
+            owner.setdefault(oasis.fold(alias).strip(), name)
+    by_name = {oasis.fold(name).strip(): name for name in merged}
+    before = {k.replace("-", " "): v for k, v in owner.items()}          # the spellings that were here before the library
+    blocked = {a for remove, _ in skills_extra.PRUNE.values() for a in _fold_all(remove)}
+    blocked |= set(_fold_all(skills_extra.LIBRARY_PRUNE))
+    for name, aliases in library.items():
+        spellings = [a for a in _fold_all(aliases) if a not in blocked]
+        key = oasis.fold(name).strip()
+        target = by_name.get(key) or by_name.get(key.rstrip("s"))
+        if target is None and spellings and spellings[0] in owner:
+            target = owner[spellings[0]]
+        if target is None:
+            owners = {}
+            for a in spellings:
+                if a in owner:
+                    owners[owner[a]] = owners.get(owner[a], 0) + 1
+            if owners:
+                top = max(owners, key=owners.get)
+                if 2 * owners[top] >= len(spellings):
+                    target = top
+        fresh = [a for a in spellings if a not in owner]
+        if target is not None and source.get(target) != LIBRARY_SOURCE:
+            # a new spelling of a skill that was here before must not swallow another such skill's spelling
+            # ('aerospace industry' for Aerospace engineering would hide 'aerospace', Aerospace experience)
+            fresh = [a for a in fresh if not _holds_other(a, target, before)]
+        if target is None:
+            if not fresh or name in merged:
+                continue
+            target = name
+            merged[name] = []
+            source[name] = LIBRARY_SOURCE
+            by_name[key] = name
+        if targets is not None:
+            targets[name] = target
+        for a in fresh:
+            merged[target].append(a)
+            owner[a] = target
+    return merged, source
+
+
+def _holds_other(alias, name, before):
+    """True when `alias` holds, as whole words, a spelling (or its plural) that belonged to a skill other than `name`
+    before the library was added."""
+    words = alias.replace("-", " ").split()
+    for i in range(len(words)):
+        for j in range(i + 1, len(words) + 1):
+            if j - i == len(words):
+                continue
+            part = " ".join(words[i:j])
+            for key in (part, part[:-1] if part.endswith("s") else None):
+                if key and before.get(key, name) != name:
+                    return True
+    return False
+
+
+# Add the English and French OaSIS names as extra spellings (if python/oasis_data.json was built), then the library.
 OASIS = oasis.load()
-SKILLS_ALL, SKILL_SOURCE = oasis.merge_skills(SKILLS, OASIS)
+LIBRARY_TARGET = {}          # library skill name -> the skill it is part of here
+SKILLS_ALL, SKILL_SOURCE = merge_library(*oasis.merge_skills(SKILLS, OASIS), targets=LIBRARY_TARGET)
 PATTERNS = build_patterns(SKILLS_ALL)
+
+# The soft skills the library added ("Growth mindset", "Sense of urgency"...): the website lists them apart from role
+# and tool skills ("General strengths"). Skills that were already here keep the grouping the website gives them.
+SOFT_SKILLS = sorted({LIBRARY_TARGET[name] for name, dom in skills_library.DOMAIN_OF.items()
+                      if dom == "soft_skills" and SKILL_SOURCE.get(LIBRARY_TARGET.get(name)) == LIBRARY_SOURCE})
 
 
 def clean(text):
@@ -341,11 +430,17 @@ def find_skills_in_line(line):
             spans[name] = found
     kept = []
     for name, own in spans.items():
-        others = [sp for other, lst in spans.items() if other != name for sp in lst]
+        others = [sp for other, lst in spans.items() if other != name and can_hide(other, name) for sp in lst]
         if all(any(o[0] <= a and b <= o[1] and (o[1] - o[0]) > (b - a) for o in others) for a, b in own):
             continue
         kept.append(name)
     return kept
+
+
+def can_hide(longer, shorter):
+    """A skill added by the skills library never hides a skill that was here before it ('aerospace manufacturing'
+    does not hide 'Aerospace experience'), so everything found before the library is still found."""
+    return SKILL_SOURCE.get(longer) != LIBRARY_SOURCE or SKILL_SOURCE.get(shorter) == LIBRARY_SOURCE
 
 
 def kept_spans(line):
@@ -356,7 +451,8 @@ def kept_spans(line):
     allsp = [(n, sp) for n, lst in spans.items() for sp in lst]
     out = []
     for name, own in spans.items():
-        if all(any(o != name and x <= a and b <= y and (y - x) > (b - a) for o, (x, y) in allsp) for a, b in own):
+        if all(any(o != name and can_hide(o, name) and x <= a and b <= y and (y - x) > (b - a) for o, (x, y) in allsp)
+               for a, b in own):
             continue
         out.extend(own)
     return out
@@ -417,6 +513,14 @@ CV_HEADINGS = ["summary", "education", "experience", "projects", "skills",
                "work experience", "professional experience", "technical skills", "volunteer experience",
                "sommaire", "profil", "formation", "experience professionnelle", "projets", "competences",
                "langues", "certificats", "activites"]
+# ...and the English and French CV headings of the skills library ("Profil professionnel", "Core competencies"...),
+# except a heading that is also the spelling of a skill.
+_ALIASES = {a for aliases in SKILLS_ALL.values() for a in aliases}
+for _h in skills_library.CV_HEADINGS:
+    _h = oasis.fold(_h).strip()
+    if _h and _h not in CV_HEADINGS and _h not in _ALIASES:
+        CV_HEADINGS.append(_h)
+del _ALIASES
 
 
 def split_cv_sections(cv_text):

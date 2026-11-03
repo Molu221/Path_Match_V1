@@ -4,7 +4,9 @@ build_site_dictionary.py - export the Python skill list for the website.
 Writes docs/skills.json, read by docs/matcher.js, so the page finds the same skills as
 python/keyword_extractor.py does:
     skills    every skill with its spellings: the curated list in the extractor plus the English and
-              French OaSIS names (python/oasis_data.json, built by build_oasis_dictionary.py)
+              French OaSIS names (python/oasis_data.json, built by build_oasis_dictionary.py), then the
+              bilingual skills library (python/skills_library.py)
+    soft      the soft skills the library added, listed apart from role and tool skills on the website
     cv_headings  lines of a CV that are only a heading ("Languages") and are not skills
     related   the hand-written "looks related, not the same word" pairs from the extractor, with a reason (why)
     flags     the things to check yourself (degree level, years of experience...), never scored
@@ -57,7 +59,9 @@ def build():
     for name, aliases in kx.SKILLS_ALL.items():
         folded = list(dict.fromkeys(oasis.fold(a).strip() for a in aliases if a.strip()))
         skills.append({"n": name, "a": folded, "s": kx.SKILL_SOURCE.get(name, "curated")})
-    meta = {"skills": len(skills), "curated": sum(1 for s in skills if s["s"] == "curated")}
+    meta = {"skills": len(skills), "curated": sum(1 for s in skills if s["s"] == "curated"),
+            "library": sum(1 for s in skills if s["s"] == kx.LIBRARY_SOURCE),
+            "aliases": sum(len(s["a"]) for s in skills)}
     if kx.OASIS:
         meta.update({"source": kx.OASIS["meta"]["source"], "built": kx.OASIS["meta"]["built"],
                      "occupations": kx.OASIS["meta"]["occupations"], "titles": kx.OASIS["meta"]["titles"],
@@ -67,7 +71,7 @@ def build():
     return {"meta": meta, "skills": skills, "related": kx.RELATED, "inferred": inferred_table(kx.OASIS),
             "why": {f"{a}|{b}": reason for (a, b), reason in kx.RELATED_WHY.items()},
             "flags": [{"n": name, "p": pat} for name, pat in kx.FLAG_PATTERNS.items()],
-            "cv_headings": kx.CV_HEADINGS, "noPlural": sorted(kx.skills_extra.NO_PLURAL),
+            "cv_headings": kx.CV_HEADINGS, "noPlural": sorted(kx.skills_extra.NO_PLURAL), "soft": kx.SOFT_SKILLS,
             "terms": {"stop": sorted(terms.STOP), "weak": sorted(terms.WEAK)}}
 
 

@@ -83,7 +83,9 @@ assert.equal(empty.role, 2);
   assert.ok(title("Infirmier(ère) - Urgence Sept-Îles | Côte-Nord.").includes("Urgence"), "the specialty stays");
   // places, the contract and the schedule
   assert.equal(E.cleanTitle("Cook - Toronto, ON"), "Cook");
-  assert.equal(E.cleanTitle("Registered Nurse (RN), Part Time"), "Registered Nurse");
+  // "RN" is a spelling of a skill (skills library), so the bracket stays, closed
+  assert.equal(E.cleanTitle("Registered Nurse (RN), Part Time"), "Registered Nurse (RN)");
+  assert.equal(title("Registered Nurse (RN), Part Time").join(" | "), "Healthcare and clinical | Registered Nurse");
   assert.equal(E.cleanTitle("Rope Access Technician / Wind Turbine Technician - Canada | Open Applications"), "Rope Access Technician / Wind Turbine Technician");
   assert.equal(E.cleanTitle("Sales Associate on call"), "Sales Associate", "on call is a schedule");
   // brackets: kept when they name a skill, removed otherwise
