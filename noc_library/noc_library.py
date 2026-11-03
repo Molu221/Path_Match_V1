@@ -116,7 +116,8 @@ def find_occupations(lib, cv_text, top=5):
                     continue
                 gram, label, factor = field, "field of study: ", 0.5
             codes = lib["title_index"][gram]
-            weight = factor * w["title_found_on_cv"] * (1.0 if size >= 2 else 0.35) / max(1, len(codes)) ** 0.5
+            # shared among the occupations (NOC codes) the title names, not among their sub-profiles
+            weight = factor * w["title_found_on_cv"] * (1.0 if size >= 2 else 0.35) / max(1, len({c[:5] for c in codes})) ** 0.5
             for c in codes:
                 score[c] = score.get(c, 0) + weight
                 evidence.setdefault(c, []).append(label + gram)
@@ -131,12 +132,17 @@ def find_occupations(lib, cv_text, top=5):
         if comp:
             score[code] = score.get(code, 0) + w["core_competency_found"] * min(len(comp), 4) * 0.5
     ranked = sorted(score.items(), key=lambda x: -x[1])[:top]
+    # clear: a job title of the occupation on the CV and enough points; partial: a title or a field of study, with fewer points
+    partial_min = w.get("partial_fit_min_score", 1.5)
     out = []
     for code, s in ranked:
         p = lib["profiles"][code]
+        ev = evidence.get(code, [])
+        clear = s >= w["clear_fit_min_score"] and any(e.startswith("title:") for e in ev)
+        partial = not clear and s >= partial_min and any(e.startswith(("title:", "field of study:")) for e in ev)
         out.append({"code": code, "noc": p["noc"], "name": p["name"], "score": math.floor(s * 100 + 0.5) / 100,  # same rounding as JavaScript
-                    "clear_fit": s >= w["clear_fit_min_score"] and any(e.startswith("title:") for e in evidence[code]),
-                    "evidence": evidence[code][:8]})
+                    "clear_fit": clear, "fit": "clear" if clear else "partial" if partial else None,
+                    "evidence": ev[:8]})
     return out
 
 
@@ -202,12 +208,14 @@ def compare(lib, cv_text, code, posting_language=None, fits=None, max_duties=12,
     p = lib["profiles"][code]
     fits = fits if fits is not None else find_occupations(lib, cv)
     clear = [lib["profiles"][f["code"]] for f in fits if f["clear_fit"]]
+    partial = [lib["profiles"][f["code"]] for f in fits if f.get("fit") == "partial"]
     pairs = lib["translations"]["keywords_en_fr"]
     out = []
 
     # 1) duties: each main duty sentence of the occupation
     clear_codes = {c["code"] for c in clear}
     near = {x["code"] for c in clear for x in c["similar"] if x["level"] == "very similar"}
+    partial_codes = {c["code"] for c in partial}
     for d in p["duties"][:max_duties]:
         keys = d["keys"] + d.get("keys_fr", [])
         found = [k for k in keys if cv.has(k)]
@@ -215,6 +223,8 @@ def compare(lib, cv_text, code, posting_language=None, fits=None, max_duties=12,
             out.append(item("duties", d["en"], d["fr"], "Matched", "on the CV: " + ", ".join(found[:3])))
         elif code in clear_codes or code in near:
             out.append(item("duties", d["en"], d["fr"], "Guess", "usual duty of an occupation your CV clearly fits"))
+        elif code in partial_codes and found:
+            out.append(item("duties", d["en"], d["fr"], "Guess", "partly on the CV (" + ", ".join(found[:3]) + "), in an occupation your CV points to"))
         else:
             out.append(item("duties", d["en"], d["fr"], "Missing", "not on the CV"))
 
@@ -234,10 +244,14 @@ def compare(lib, cv_text, code, posting_language=None, fits=None, max_duties=12,
         if cv.has(s, loose=True) or (fr and cv.has(fr, loose=True)):
             out.append(item("skills", s, fr, "Matched", "written on the CV"))
         else:
-            src = next((c for c in clear if any(s in cc["parts"] for cc in c["core_competencies"])
-                        or any(x["en"] == s and x["rating"] >= 4 for x in c["skills"])), None)
+            def core(c):
+                return any(s in cc["parts"] for cc in c["core_competencies"]) or any(x["en"] == s and x["rating"] >= 4 for x in c["skills"])
+            src = next((c for c in clear if core(c)), None)
+            part = None if src else next((c for c in partial if core(c)), None)
             if src:
                 out.append(item("skills", s, fr, "Guess", "core skill of " + src["name"]["en"] + ", an occupation your CV fits"))
+            elif part:
+                out.append(item("skills", s, fr, "Guess", "core skill of " + part["name"]["en"] + ", an occupation your degree or titles point to"))
             else:
                 out.append(item("skills", s, fr, "Missing", "not on the CV"))
 
