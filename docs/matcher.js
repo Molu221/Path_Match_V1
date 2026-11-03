@@ -70,9 +70,12 @@
     }
     return w;
   }
+  /* words a suffix rule would merge with an unrelated word ("career" / "care", "united" / "unit") */
+  const NO_STEM = new Set(["career", "united"]);
   /* a rough stem: "planning", "planner" and "plan" share one */
   function stem(word) {
     let w = nw(word).replace(/z/g, "s");
+    if (NO_STEM.has(w)) return w;
     for (const suf of SUFFIXES) {
       if (w.endsWith(suf) && w.length - suf.length >= 4) {
         w = w.slice(0, -suf.length);
@@ -302,9 +305,13 @@
         }
         return { st: "G" };
       }
+      /* a phrase of 2 or 3 words: all its words (of 3 letters or more) on one CV line, in any form or order ("assess patients" /
+         "patient assessment"); a longer phrase: at least half of its main words, and at least 2. One shared word is not enough:
+         "cutting edge" is not close to "cut changeover time". Same rule as python/terms.py. */
       const main = [];
-      words.forEach((w, i) => { if (!weak.has(w) && w.length >= 4) main.push([w, stems[i]]); });
-      const need = n <= 3 ? 1 : 2;
+      words.forEach((w, i) => { if (n <= 3 ? w.length >= 3 : !weak.has(w) && w.length >= 4) main.push([w, stems[i]]); });
+      if (!main.length) return { st: "G" };
+      const need = n <= 3 ? main.length : Math.max(2, Math.ceil(main.length / 2));
       let best = null;
       for (const L of ix) {
         const have = L.have;

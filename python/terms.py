@@ -19,9 +19,10 @@ HOW A PHRASE IS FOUND  (the same steps run in docs/matcher.js, and test/test_oas
 
 HOW A PHRASE IS COMPARED WITH THE CV  (nothing is guessed)
     MATCH  the same words, next to each other, are written on the CV.
-    CLOSE  not the same phrase, but the CV has the same word stem ("planning" ~ "plan") or, for a phrase of two
-           or more words, one of its main words on the same CV line. Listed with the CV line, never counted
-           as a match, worth half in the second coverage figure.
+    CLOSE  not the same phrase, but for one word the CV has the same word stem ("planning" ~ "plan"); for a phrase
+           of two or three words, all its words are on one CV line in another form or order ("assess patients" ~
+           "patient assessment"); for a longer phrase, at least half of its main words (and at least two) are on one
+           CV line. Listed with the CV line, never counted as a match, worth half in the second coverage figure.
     GAP    nothing like it on the CV.
 
 Standard library only.
@@ -138,9 +139,15 @@ def nw(word):
     return word
 
 
+# words a suffix rule would merge with an unrelated word ("career" / "care", "united" / "unit")
+NO_STEM = {"career", "united"}
+
+
 def stem(word):
     """A rough word stem: 'planning', 'planner' and 'plan' share one."""
     w = nw(word).replace("z", "s")
+    if w in NO_STEM:
+        return w
     for suf in SUFFIXES:
         if w.endswith(suf) and len(w) - len(suf) >= 4:
             w = w[: -len(suf)]
@@ -283,8 +290,15 @@ def match_term(words, ix):
                 if t[1] == stems[0] and len(stems[0]) >= 3:
                     return "R", {"line": item["line"], "shared": [words[0]], "cv_word": t[0]}
         return "G", None
-    main = [(w, s) for w, s in zip(words, stems) if w not in WEAK and len(w) >= 4]
-    need = 1 if n <= 3 else 2
+    # a phrase of 2 or 3 words: all its words (of 3 letters or more) on one CV line, in any form or order;
+    # a longer phrase: at least half of its main words, and at least 2. One shared word is not enough.
+    if n <= 3:
+        main = [(w, s) for w, s in zip(words, stems) if len(w) >= 3]
+    else:
+        main = [(w, s) for w, s in zip(words, stems) if w not in WEAK and len(w) >= 4]
+    if not main:
+        return "G", None
+    need = len(main) if n <= 3 else max(2, -(-len(main) // 2))
     best = None
     for item in ix:
         have = {t[1] for t in item["toks"]}
