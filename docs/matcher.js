@@ -413,6 +413,29 @@
         if (e.words.every(w => LEVEL_WORDS.has(w))) continue;
         rows.push({ code: t + "t|" + e.name, t, k: 1, w: e.words.length, c: e.count, f: e.first });
       }
+      /* A broad skill can swallow the job itself: "Registered Nurse", "Physiotherapist" and "Préposé aux bénéficiaires" are all the
+         skill "Healthcare and clinical", "Line cook" and "Cashier" are "Food safety and hospitality". In the title, the words a
+         skill was found by are also kept as a title phrase when they are not the skill's own name and they end the job's name
+         (followed by the end of the title or a break), so a nurse's CV tells a nurse posting from a physiotherapist posting.
+         A skill word that only qualifies the job is not added ("Nursing" in "Nursing Unit Clerk": the job is "Unit Clerk"),
+         nor a title that is the skill's own name ("Sales"), nor the industry after the job ("general labourer - manufacturing"). */
+      const own = (x) => fold(x).split(/[^a-z0-9+#]+/).filter(Boolean).map(nw).join(" ");
+      const seenT = new Set(rows.filter((r) => r.t === "T").map((r) => own(r.code.slice(3))));
+      const endsName = (b) => /^\s*(?:$|[,|\-–—/:(\[*.;])/.test(text.slice(b, tl).replace(/^(?:\s+(?:i{1,3}|iv|[1-5]|senior|junior|sr|jr)\b\.?)+/i, ""));
+      /* only in the first part of the title: after " - " or a comma, Job Bank titles name the industry ("manager, operations - manufacturing") */
+      const cut = text.slice(0, tl).search(/\s[-–—]\s|\s*\|\s*|,/), firstPart = cut < 0 ? tl : cut;
+      for (const n in job) {
+        /* a title that also writes the skill's own name (a bilingual title: "Amélioration continue / Continuous Improvement") needs no more */
+        if (job[n].spans.some(([a, b]) => b <= tl && own(text.slice(a, b)) === own(n))) continue;
+        for (const [a, b] of job[n].spans) {
+          if (b > firstPart || !endsName(b)) continue;
+          const name = text.slice(a, b).replace(/\s+/g, " ").trim(), key = own(name);
+          if (!key || key === own(n) || seenT.has(key) || key.length < 3 || key.split(" ").every((w) => LEVEL_WORDS.has(w))) continue;
+          seenT.add(key);
+          kt++;
+          rows.push({ code: "Tt|" + name, t: "T", k: 1, w: key.split(" ").length, c: 1, f: a });
+        }
+      }
       rows.sort((a, b) => TAGRANK[a.t] - TAGRANK[b.t] || a.k - b.k || b.w - a.w || b.c - a.c || a.f - b.f);
       const keep = rows.filter(r => r.t !== "A");
       return { kw: keep.slice(0, max).map(r => r.code), kt };
