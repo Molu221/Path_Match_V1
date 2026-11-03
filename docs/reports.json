@@ -123,9 +123,9 @@
       },
       "phrases_counted": 73,
       "phrases_matched": 4,
-      "phrases_close": 4,
+      "phrases_close": 1,
       "phrase_coverage_pct": 5.5,
-      "phrase_coverage_with_close_pct": 8.2,
+      "phrase_coverage_with_close_pct": 6.2,
       "phrases": [
         {
           "phrase": "material logsitics",
@@ -347,12 +347,10 @@
           "phrase": "world class",
           "count": 1,
           "where": "-",
-          "status": "R",
+          "status": "G",
           "counted": true,
-          "cv_line": "- used minitab for statistical analysis and presented results to the class",
-          "shared_words": [
-            "class"
-          ]
+          "cv_line": "",
+          "shared_words": []
         },
         {
           "phrase": "set",
@@ -547,23 +545,19 @@
           "phrase": "datas quality",
           "count": 1,
           "where": "Task",
-          "status": "R",
+          "status": "G",
           "counted": true,
-          "cv_line": "master's student in industrial engineering. interested in operations, quality and process improvement. bilingual (english and french).",
-          "shared_words": [
-            "quality"
-          ]
+          "cv_line": "",
+          "shared_words": []
         },
         {
           "phrase": "internal process",
           "count": 1,
           "where": "Task",
-          "status": "R",
+          "status": "G",
           "counted": true,
-          "cv_line": "quality intern, abc manufacturing, summer 2023",
-          "shared_words": [
-            "internal"
-          ]
+          "cv_line": "",
+          "shared_words": []
         },
         {
           "phrase": "internal",
@@ -1009,9 +1003,9 @@
       },
       "phrases_counted": 47,
       "phrases_matched": 7,
-      "phrases_close": 3,
+      "phrases_close": 1,
       "phrase_coverage_pct": 14.9,
-      "phrase_coverage_with_close_pct": 18.1,
+      "phrase_coverage_with_close_pct": 16.0,
       "phrases": [
         {
           "phrase": "industrial",
@@ -1242,12 +1236,10 @@
           "phrase": "project progress",
           "count": 1,
           "where": "-",
-          "status": "R",
+          "status": "G",
           "counted": true,
-          "cv_line": "projects",
-          "shared_words": [
-            "project"
-          ]
+          "cv_line": "",
+          "shared_words": []
         },
         {
           "phrase": "initiatives",
@@ -1327,12 +1319,10 @@
           "phrase": "university degree",
           "count": 1,
           "where": "Preferred",
-          "status": "R",
+          "status": "G",
           "counted": true,
-          "cv_line": "m.eng. industrial engineering, concordia university, 2025 - 2027 (expected)",
-          "shared_words": [
-            "university"
-          ]
+          "cv_line": "",
+          "shared_words": []
         },
         {
           "phrase": "master",
@@ -1726,9 +1716,9 @@
       },
       "phrases_counted": 88,
       "phrases_matched": 6,
-      "phrases_close": 17,
+      "phrases_close": 2,
       "phrase_coverage_pct": 6.8,
-      "phrase_coverage_with_close_pct": 16.5,
+      "phrase_coverage_with_close_pct": 8.0,
       "phrases": [
         {
           "phrase": "abb",
@@ -1842,12 +1832,10 @@
           "phrase": "industries run leaner",
           "count": 1,
           "where": "-",
-          "status": "R",
+          "status": "G",
           "counted": true,
-          "cv_line": "lean six sigma green belt, 2024",
-          "shared_words": [
-            "leaner"
-          ]
+          "cv_line": "",
+          "shared_words": []
         },
         {
           "phrase": "cleaner",
@@ -1898,12 +1886,10 @@
           "phrase": "updating internal",
           "count": 1,
           "where": "Task",
-          "status": "R",
+          "status": "G",
           "counted": true,
-          "cv_line": "quality intern, abc manufacturing, summer 2023",
-          "shared_words": [
-            "internal"
-          ]
+          "cv_line": "",
+          "shared_words": []
         },
         {
           "phrase": "structure",
@@ -1918,12 +1904,10 @@
           "phrase": "document internal procedures",
           "count": 1,
           "where": "Task",
-          "status": "R",
+          "status": "G",
           "counted": true,
-          "cv_line": "quality intern, abc manufacturing, summer 2023",
-          "shared_words": [
-            "internal"
-          ]
+          "cv_line": "",
+          "shared_words": []
         },
         {
           "phrase": "operational processes",
@@ -1947,12 +1931,10 @@
           "phrase": "actual operations",
           "count": 1,
           "where": "Task",
-          "status": "R",
+          "status": "G",
           "counted": true,
-          "cv_line": "master's student in industrial engineering. interested in operations, quality and process improvement. bilingual (english and french).",
-          "shared_words": [
-            "operation"
-          ]
+          "cv_line": "",
+          "shared_words": []
         },
         {
           "phrase": "comply",
@@ -1978,12 +1960,10 @@
           "phrase": "production supervisors",
           "count": 1,
           "where": "Task",
-          "status": "R",
+          "status": "G",
           "counted": true,
-          "cv_line": "courses: production systems and inventory control, scheduling theory, quality control, simulation",
-          "shared_words": [
-            "production"
-          ]
+          "cv_line": "",
+          "shared_words": []
         },
         {
           "phrase": "engineers",
@@ -2088,12 +2068,10 @@
           "phrase": "critical points",
           "count": 1,
           "where": "Task",
-          "status": "R",
+          "status": "G",
           "counted": true,
-          "cv_line": "- modelled stock levels and reorder points in python, compared two inventory policies",
-          "shared_words": [
-            "point"
-          ]
+          "cv_line": "",
+          "shared_words": []
         },
         {
           "phrase": "improvement",
@@ -2108,12 +2086,10 @@
           "phrase": "flow analysis",
           "count": 1,
           "where": "Task",
-          "status": "R",
+          "status": "G",
           "counted": true,
-          "cv_line": "- supported 5s audits and ran a root cause analysis on a recurring packaging defect",
-          "shared_words": [
-            "analysis"
-          ]
+          "cv_line": "",
+          "shared_words": []
         },
         {
           "phrase": "centralized",
@@ -2218,12 +2194,10 @@
           "phrase": "quality decisions impact",
           "count": 1,
           "where": "Task",
-          "status": "R",
+          "status": "G",
           "counted": true,
-          "cv_line": "master's student in industrial engineering. interested in operations, quality and process improvement. bilingual (english and french).",
-          "shared_words": [
-            "quality"
-          ]
+          "cv_line": "",
+          "shared_words": []
         },
         {
           "phrase": "production schedules",
@@ -2241,12 +2215,10 @@
           "phrase": "quality supervisor",
           "count": 1,
           "where": "Task",
-          "status": "R",
+          "status": "G",
           "counted": true,
-          "cv_line": "master's student in industrial engineering. interested in operations, quality and process improvement. bilingual (english and french).",
-          "shared_words": [
-            "quality"
-          ]
+          "cv_line": "",
+          "shared_words": []
         },
         {
           "phrase": "resolve issues",
@@ -2261,23 +2233,19 @@
           "phrase": "engineering project involvement",
           "count": 1,
           "where": "Task",
-          "status": "R",
+          "status": "G",
           "counted": true,
-          "cv_line": "master's student in industrial engineering. interested in operations, quality and process improvement. bilingual (english and french).",
-          "shared_words": [
-            "engineering"
-          ]
+          "cv_line": "",
+          "shared_words": []
         },
         {
           "phrase": "engineering projects",
           "count": 1,
           "where": "Task",
-          "status": "R",
+          "status": "G",
           "counted": true,
-          "cv_line": "master's student in industrial engineering. interested in operations, quality and process improvement. bilingual (english and french).",
-          "shared_words": [
-            "engineering"
-          ]
+          "cv_line": "",
+          "shared_words": []
         },
         {
           "phrase": "disciplines",
@@ -2337,12 +2305,10 @@
           "phrase": "small sub projects",
           "count": 1,
           "where": "Task",
-          "status": "R",
+          "status": "G",
           "counted": true,
-          "cv_line": "projects",
-          "shared_words": [
-            "project"
-          ]
+          "cv_line": "",
+          "shared_words": []
         },
         {
           "phrase": "guidance",
@@ -2375,23 +2341,19 @@
           "phrase": "real engineering challenges",
           "count": 1,
           "where": "Task",
-          "status": "R",
+          "status": "G",
           "counted": true,
-          "cv_line": "master's student in industrial engineering. interested in operations, quality and process improvement. bilingual (english and french).",
-          "shared_words": [
-            "engineering"
-          ]
+          "cv_line": "",
+          "shared_words": []
         },
         {
           "phrase": "professional environment",
           "count": 1,
           "where": "Task",
-          "status": "R",
+          "status": "G",
           "counted": true,
-          "cv_line": "english (fluent), french (professional)",
-          "shared_words": [
-            "professional"
-          ]
+          "cv_line": "",
+          "shared_words": []
         },
         {
           "phrase": "meetings",
@@ -2415,12 +2377,10 @@
           "phrase": "engineering decisions",
           "count": 1,
           "where": "Task",
-          "status": "R",
+          "status": "G",
           "counted": true,
-          "cv_line": "master's student in industrial engineering. interested in operations, quality and process improvement. bilingual (english and french).",
-          "shared_words": [
-            "engineering"
-          ]
+          "cv_line": "",
+          "shared_words": []
         },
         {
           "phrase": "made",

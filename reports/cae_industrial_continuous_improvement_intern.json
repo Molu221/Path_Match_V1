@@ -205,9 +205,9 @@
   },
   "phrases_counted": 47,
   "phrases_matched": 7,
-  "phrases_close": 3,
+  "phrases_close": 1,
   "phrase_coverage_pct": 14.9,
-  "phrase_coverage_with_close_pct": 18.1,
+  "phrase_coverage_with_close_pct": 16.0,
   "phrases": [
     {
       "phrase": "industrial",
@@ -438,12 +438,10 @@
       "phrase": "project progress",
       "count": 1,
       "where": "-",
-      "status": "R",
+      "status": "G",
       "counted": true,
-      "cv_line": "projects",
-      "shared_words": [
-        "project"
-      ]
+      "cv_line": "",
+      "shared_words": []
     },
     {
       "phrase": "initiatives",
@@ -523,12 +521,10 @@
       "phrase": "university degree",
       "count": 1,
       "where": "Preferred",
-      "status": "R",
+      "status": "G",
       "counted": true,
-      "cv_line": "m.eng. industrial engineering, concordia university, 2025 - 2027 (expected)",
-      "shared_words": [
-        "university"
-      ]
+      "cv_line": "",
+      "shared_words": []
     },
     {
       "phrase": "master",
