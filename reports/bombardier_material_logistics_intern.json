@@ -2,7 +2,7 @@
   "file": "bombardier_material_logistics_intern.txt",
   "title": "Intern, Material Logsitics (Winter 2027)",
   "company": "Bombardier",
-  "coverage_pct": 31.3,
+  "coverage_pct": 26.3,
   "matched": [
     "Industrial engineering",
     "Manufacturing experience",
@@ -13,15 +13,18 @@
   "missing": [
     "Teamwork",
     "Environmental sustainability",
+    "Aerospace engineering",
     "ERP",
     "KPIs",
     "Integrity",
     "Action planning",
     "Logistics",
     "Operations management",
+    "Business administration",
     "SAP",
     "Microsoft Office",
-    "Planning"
+    "Planning",
+    "Communication"
   ],
   "related_not_counted": [
     [
@@ -61,6 +64,10 @@
       "tag": "OTHER",
       "evidence": "Bombardier is a global leader in aviation, creating innovative and game-changing planes. Our products and services provide world-class experiences that set new standards in passenger comfort, energy efficiency, reliability and safety. We are a global organization focused on working together with a team spirit."
     },
+    "Aerospace engineering": {
+      "tag": "OTHER",
+      "evidence": "Bombardier is a global leader in aviation, creating innovative and game-changing planes. Our products and services provide world-class experiences that set new standards in passenger comfort, energy efficiency, reliability and safety. We are a global organization focused on working together with a team spirit."
+    },
     "ERP": {
       "tag": "TASK",
       "evidence": "- Analyse ERP’s datas quality"
@@ -93,6 +100,10 @@
       "tag": "REQUIRED",
       "evidence": "- Study at BAA in logistic or operation management"
     },
+    "Business administration": {
+      "tag": "REQUIRED",
+      "evidence": "- Study at BAA in logistic or operation management"
+    },
     "Excel": {
       "tag": "REQUIRED",
       "evidence": "- Master SAP and office suite (Excel)"
@@ -116,13 +127,17 @@
     "Planning": {
       "tag": "REQUIRED",
       "evidence": "- Have great planning habilities"
+    },
+    "Communication": {
+      "tag": "REQUIRED",
+      "evidence": "- Are a god communicator"
     }
   },
-  "phrases_counted": 73,
+  "phrases_counted": 71,
   "phrases_matched": 4,
   "phrases_close": 1,
-  "phrase_coverage_pct": 5.5,
-  "phrase_coverage_with_close_pct": 6.2,
+  "phrase_coverage_pct": 5.6,
+  "phrase_coverage_with_close_pct": 6.3,
   "phrases": [
     {
       "phrase": "material logsitics",
@@ -197,7 +212,7 @@
       "shared_words": []
     },
     {
-      "phrase": "apify actor",
+      "phrase": "apify",
       "count": 1,
       "where": "-",
       "status": "G",
@@ -297,15 +312,6 @@
     },
     {
       "phrase": "global leader",
-      "count": 1,
-      "where": "-",
-      "status": "G",
-      "counted": true,
-      "cv_line": "",
-      "shared_words": []
-    },
-    {
-      "phrase": "aviation",
       "count": 1,
       "where": "-",
       "status": "G",
@@ -640,15 +646,6 @@
       "shared_words": []
     },
     {
-      "phrase": "baa",
-      "count": 1,
-      "where": "Required",
-      "status": "G",
-      "counted": true,
-      "cv_line": "",
-      "shared_words": []
-    },
-    {
       "phrase": "program",
       "count": 1,
       "where": "Required",
@@ -685,7 +682,7 @@
       "shared_words": []
     },
     {
-      "phrase": "god communicator",
+      "phrase": "god",
       "count": 1,
       "where": "Required",
       "status": "G",
@@ -788,8 +785,16 @@
     "loaded": true,
     "built": "2026-10-24"
   },
-  "skills_from_oasis": [],
+  "skills_from_oasis": [
+    "Academic research",
+    "Business administration",
+    "Engineering degrees",
+    "Inventory optimization",
+    "Kitting and picking",
+    "Packaging",
+    "Production systems"
+  ],
   "inferred_related": [],
   "occupation_alignment": [],
-  "coverage_with_related_pct": 46.9
+  "coverage_with_related_pct": 39.5
 }

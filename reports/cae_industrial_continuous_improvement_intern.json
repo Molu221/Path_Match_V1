@@ -203,23 +203,14 @@
       "evidence": "All applicants must be legally entitled to work in Canada and must meet the requirements of the Canadian Controlled Goods Program (CGP). All students with a work permit must provide a copy of it and a police clearance certificate from the country or countries where they have resided in the past five years."
     }
   },
-  "phrases_counted": 47,
-  "phrases_matched": 5,
+  "phrases_counted": 46,
+  "phrases_matched": 4,
   "phrases_close": 1,
-  "phrase_coverage_pct": 10.6,
-  "phrase_coverage_with_close_pct": 11.7,
+  "phrase_coverage_pct": 8.7,
+  "phrase_coverage_with_close_pct": 9.8,
   "phrases": [
     {
       "phrase": "industrial",
-      "count": 1,
-      "where": "-",
-      "status": "M",
-      "counted": true,
-      "cv_line": "master's student in industrial engineering. interested in operations, quality and process improvement. bilingual (english and french).",
-      "shared_words": []
-    },
-    {
-      "phrase": "engineering",
       "count": 1,
       "where": "-",
       "status": "M",
@@ -282,7 +273,7 @@
       "shared_words": []
     },
     {
-      "phrase": "apify actor",
+      "phrase": "apify",
       "count": 1,
       "where": "-",
       "status": "G",
@@ -639,7 +630,14 @@
     "loaded": true,
     "built": "2026-10-24"
   },
-  "skills_from_oasis": [],
+  "skills_from_oasis": [
+    "Academic research",
+    "Engineering degrees",
+    "Inventory optimization",
+    "Kitting and picking",
+    "Packaging",
+    "Production systems"
+  ],
   "inferred_related": [],
   "occupation_alignment": [],
   "coverage_with_related_pct": 37.5
