@@ -69,4 +69,31 @@ const empty = S.compute([], 1, {});
 assert.equal(empty.overlap, 0);
 assert.equal(empty.role, 2);
 
+// ---- the title the keywords are read from (docs/matcher.js cleanTitle): words that are not the job are left out ----
+{
+  const { loadMatcher, loadSkills } = await import("../scripts/umd.mjs");
+  const E = loadMatcher().engine(loadSkills());
+  const title = (t) => E.profile(t, "", 40).kw.filter((k) => k[0] === "T").map((k) => k.slice(3));
+
+  // French gender endings are removed, and the words around them stay one phrase
+  assert.equal(E.cleanTitle("Préposé(e) aux bénéficiaires - Temps plein - Laval"), "Préposé aux bénéficiaires");
+  assert.equal(E.cleanTitle("Conseiller·ère en communication"), "Conseiller en communication");
+  assert.equal(E.cleanTitle("Agent de bureau H/F"), "Agent de bureau");
+  assert.ok(!title("Infirmier(ère) - Urgence Sept-Îles | Côte-Nord.").some((k) => /^(ère|Îles|Côte-Nord)$/i.test(k)), "no ending or place as a title keyword");
+  assert.ok(title("Infirmier(ère) - Urgence Sept-Îles | Côte-Nord.").includes("Urgence"), "the specialty stays");
+  // places, the contract and the schedule
+  assert.equal(E.cleanTitle("Cook - Toronto, ON"), "Cook");
+  assert.equal(E.cleanTitle("Registered Nurse (RN), Part Time"), "Registered Nurse");
+  assert.equal(E.cleanTitle("Rope Access Technician / Wind Turbine Technician - Canada | Open Applications"), "Rope Access Technician / Wind Turbine Technician");
+  assert.equal(E.cleanTitle("Sales Associate on call"), "Sales Associate", "on call is a schedule");
+  // brackets: kept when they name a skill, removed otherwise
+  assert.equal(E.cleanTitle("VP of Operations (Emailable)"), "VP of Operations");
+  assert.equal(E.cleanTitle("Full-Stack Developer (Go, Javascript)"), "Full-Stack Developer (Go, Javascript)");
+  assert.ok(title("Python Full-Stack Software Engineer -(React)").includes("Python"));
+  // "on" is a word, ON only a province code in capitals
+  assert.equal(E.cleanTitle("Sign-on bonus: Welder"), "Sign-on bonus: Welder");
+  // a title with nothing to remove is unchanged
+  assert.equal(E.cleanTitle("Financial Analyst – Manufacturing Operations"), "Financial Analyst – Manufacturing Operations");
+}
+
 console.log("scoring tests passed");

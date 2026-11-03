@@ -392,8 +392,56 @@
     const LEVEL_WORDS = new Set(["senior", "junior", "sr", "jr", "intern", "internship", "stage", "stagiaire", "coop", "co-op", "student", "etudiant", "entry", "level", "trainee", "graduate", "lead", "apprentice", "associate", "i", "ii", "iii"]);
     const TAGCODE = { Title: "T", Required: "R", Task: "K", "": "N", Preferred: "P", About: "A" };
     const TAGRANK = { T: 0, R: 1, K: 2, N: 3, P: 4, A: 5 };
+
+    /* A title holds words that are not the job: French gender endings ("Infirmier(ère)", "Conseiller·ère", "H/F"), places
+       ("Sept-Îles | Côte-Nord", "Toronto, ON"), the kind of contract or schedule ("Part Time", "Temps plein", "Hybrid") and
+       brackets with no skill in them ("(Emailable)", "(12 months)"). They never match a CV, yet the title is most of Role fit,
+       so they are taken out of the title before its keywords are read. Brackets that name a skill ("(React)") stay. */
+    const T_GENDER = /\((?:\s*-\s*)?(?:e|es|ne|nes|se|ses|ere|eres|euse|euses|trice|trices|ice|le|te|ve|fe|eur)\s*\)|[·•/](?:e|es|ne|ere|euse|trice)\b|\.(?:ere|euse|trice)\b|\(?\b[hfm]\s*\/\s*[hfmx](?:\s*\/\s*[hfmx])?\b\)?/g;
+    const T_PLACE = new RegExp("\\b(?:" + [
+      "quebec|ontario|alberta|manitoba|saskatchewan|nova scotia|nouvelle-ecosse|new brunswick|nouveau-brunswick|newfoundland(?: and labrador)?|terre-neuve(?:-et-labrador)?",
+      "prince edward island|ile-du-prince-edouard|british columbia|colombie-britannique|yukon|nunavut|northwest territories|territoires du nord-ouest|canada",
+      "abitibi(?:-temiscamingue)?|cote-nord|gaspesie|bas-saint-laurent|saguenay(?:-lac-saint-jean)?|lac-saint-jean|monteregie|laurentides|lanaudiere|estrie",
+      "outaouais|mauricie|chaudiere-appalaches|centre-du-quebec|nord-du-quebec|capitale-nationale|iles-de-la-madeleine",
+      "montreal|toronto|vancouver|calgary|edmonton|ottawa|gatineau|laval|longueuil|mississauga|brampton|hamilton|winnipeg|halifax|saskatoon|regina|kitchener",
+      "markham|vaughan|burnaby|surrey|sherbrooke|trois-rivieres|levis|sept-iles|rimouski|chicoutimi|saint-jerome|saint-jean-sur-richelieu|drummondville|granby",
+      "boucherville|brossard|terrebonne|repentigny|blainville|mirabel|dorval|pointe-claire|kingston|windsor|oshawa|barrie|guelph|burlington|oakville|moncton",
+      "fredericton|charlottetown|kelowna|kamloops|nanaimo|red deer|lethbridge|whitehorse|yellowknife|iqaluit|val-d'or|rouyn-noranda|baie-comeau|joliette",
+      "victoriaville|shawinigan|thetford mines|saint-hyacinthe|valleyfield|vaudreuil|chateauguay|amos|alma|gaspe|matane"].join("|") + ")\\b", "g");
+    const T_CODE = /\b(?:QC|ON|AB|BC|MB|SK|NS|NB|NL|PE|PEI|YT|NT|NU)\b/g;   // province codes, only in capitals ("on" is a word)
+    const T_NOISE = /\b(?:full[- ]time|part[- ]time|temps (?:plein|partiel)|permanent|temporary|temporaire|contract|contractuel|contrat|seasonal|saisonnier|casual|occasionnel|on[- ]call|sur appel|remote|hybrid|hybride|on[- ]site|onsite|teletravail|sur place|en presentiel|open applications?|general application(?: form)?|candidature spontanee|job fair|urgent(?:ly)?|immediate (?:start|hire)|now hiring|hiring|day shift|night shift|evening shift|quart de (?:jour|nuit|soir))\b/g;
+    function cleanTitle(title) {
+      title = String(title || "");
+      const fm = foldMap(title), s = fm.s, cut = [];
+      /* a gender ending is removed outright ("Préposé(e) aux bénéficiaires" -> "Préposé aux bénéficiaires"); anything else leaves a break */
+      const take = (re, str, join) => { re.lastIndex = 0; let m; while ((m = re.exec(str))) { if (!m[0].length) { re.lastIndex++; continue; } cut.push([m.index, m.index + m[0].length, join]); } };
+      take(T_GENDER, s, true); take(T_PLACE, s); take(T_NOISE, s);
+      /* province codes: on the original title (they must be capitals), whose positions are those of s when the title is plain ASCII */
+      if (!fm.idx) take(T_CODE, title);
+      else { T_CODE.lastIndex = 0; let m; while ((m = T_CODE.exec(title))) { const a = fm.idx.indexOf(m.index); if (a >= 0) cut.push([a, a + m[0].length]); } }
+      /* brackets with no skill of the dictionary in them */
+      const B = /\(([^()]*)\)|\[([^[\]]*)\]/g;
+      let m;
+      while ((m = B.exec(s))) {
+        const inner = title.slice(toStart(fm, m.index + 1), toEnd(fm, m.index + m[0].length - 1));
+        if (!Object.keys(find(inner)).length) cut.push([m.index, m.index + m[0].length]);
+      }
+      if (!cut.length) return title;
+      cut.sort((a, b) => a[0] - b[0]);
+      let out = "", pos = 0;
+      for (const [a, b, join] of cut) {
+        const A = toStart(fm, a), Bn = toEnd(fm, b);
+        if (A < pos) { pos = Math.max(pos, Bn); continue; }
+        out += title.slice(pos, A) + (join ? "" : " , ");   // a comma: the words on each side are not one phrase
+        pos = Bn;
+      }
+      out += title.slice(pos);
+      return out.replace(/\s+/g, " ").replace(/(?:\s*[,|\-–—/:()]\s*){2,}/g, " , ").replace(/^[\s,|\-–—/:.]+|[\s,|\-–—/:.]+$/g, "").trim();
+    }
+
     function profile(title, body, max) {
       max = max || 40;
+      title = cleanTitle(title);
       const text = body ? title + "\n" + body : title;
       const tl = String(title).length;
       const job = find(text), secs = sections(text), rows = [];
@@ -472,7 +520,7 @@
       });
     }
 
-    return { profile, profileStatus, termWords, find, findCv, report, flags, sections, tagOf, terms, indexCv, matchTerms, termsOn, stopWords: [...stop].sort(), weakWords: [...weak].sort(), meta: dict.meta || {}, size: skills.length };
+    return { profile, cleanTitle, profileStatus, termWords, find, findCv, report, flags, sections, tagOf, terms, indexCv, matchTerms, termsOn, stopWords: [...stop].sort(), weakWords: [...weak].sort(), meta: dict.meta || {}, size: skills.length };
   }
 
   /* The text as safe HTML, with <mark class="..."> around each mark {a, b, cls, title}. Where marks overlap, the one
