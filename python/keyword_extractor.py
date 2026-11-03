@@ -370,7 +370,7 @@ def extract_terms(text):
 def term_report(job_text, cv_text):
     """The phrases of a posting compared with the CV: {key: (status, info)}, status M / R / G."""
     found = extract_terms(job_text)
-    return found, terms.match_terms(found, terms.index_cv(cv_text))
+    return found, terms.match_terms(found, terms.index_cv(cv_text, CV_HEADINGS))
 
 
 def term_summary(job_text, cv_text):

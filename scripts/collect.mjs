@@ -688,11 +688,13 @@ export function writeOutput(out, { indexFile = OUT, textDir = OUT_TEXT } = {}) {
   return { jobs: index.jobs.length, indexBytes: fs.statSync(indexFile).size, textBytes: texts.reduce((n, t) => n + JSON.stringify(t).length, 0) };
 }
 
-/* The records need the dictionary, the keyword engine and the level rules; when none of these changed, a posting whose text has the same length as
-   yesterday keeps yesterday's record (reading a text takes about 40 ms, so 10,000 postings would take minutes). */
+/* The records need the dictionary, the keyword engine, the level rules and the text that stands in for an occupation; when none of these
+   changed, a posting whose text has the same length as yesterday keeps yesterday's record (reading a text takes about 40 ms, so 10,000
+   postings would take minutes). */
 export function profileVersion(dir = path.join(ROOT, "docs")) {
   const h = crypto.createHash("sha1");
   for (const f of ["skills.json", "matcher.js", "jobmeta.js", "noc/noc_library.lite.json", "noc/noc_library.js"]) { try { h.update(fs.readFileSync(path.join(dir, f))); } catch { h.update(f); } }
+  h.update(occupationText.toString());
   return h.digest("hex").slice(0, 10);
 }
 export function readPrevious(file = OUT, version = profileVersion()) {
@@ -749,7 +751,10 @@ const isJobBank = (j) => j.sources.some((s) => s.src === "Job Bank");
 /* a posting whose own text was not read: no text, or only a short part of it */
 export const unread = (j) => !!j.partial || !j.desc;
 /* The occupation written as a posting (French when the posting is French), so the keyword engine reads it like any other posting:
-   its core competencies, the main duties under a "duties" heading, then the required certifications under "requirements". */
+   its core competencies, then the main duties under a "duties" heading.
+   Education and certifications are left out: the card checks them against the CV on its own (Matched / Guess / Missing), and as
+   keywords a licence such as "Registration with a provincial or territorial regulatory body" became the Required keywords
+   "Registration" and "body", which no CV writes, so registered nurses scored lower on nursing jobs than support workers. */
 export function occupationText(lib, code, lang = "en") {
   const p = lib.profiles[code], L = lang === "fr" ? "fr" : "en";
   if (!p) return "";
@@ -758,12 +763,9 @@ export function occupationText(lib, code, lang = "en") {
   for (const x of p.skills) if (x.rating >= 4 && !skills.includes(x.en)) skills.push(x.en);
   const comp = lib.translations.competencies_en_fr;
   const skillNames = skills.slice(0, 12).map((x) => (L === "fr" && comp[x.toLowerCase()]) || x);
-  const req = [];   // education is left out: the card checks it against the CV on its own (Matched / Guess / Missing)
-  for (const c of p.requirements.certifications) if (c.required) req.push(L === "fr" ? c.fr || c.name : c.name);
   /* the core competencies come before any heading (not tagged "required": OaSIS lists abilities such as stamina there) */
   return [p.lead[L], ...skillNames.map((x) => "- " + x),
-    L === "fr" ? "Fonctions principales" : "Main duties", ...p.duties.slice(0, 12).map((d) => "- " + (d[L] || d.en)),
-    ...(req.length ? [L === "fr" ? "Exigences" : "Requirements", ...req.map((x) => "- " + x)] : [])].join("\n");
+    L === "fr" ? "Fonctions principales" : "Main duties", ...p.duties.slice(0, 12).map((d) => "- " + (d[L] || d.en))].join("\n");
 }
 /* Gives every Job Bank job its occupation: noc = {c: profile code, en, fr: occupation name, how: "exact title" | "closest title"};
    a job whose text was not read is marked op (scored from its occupation profile). Returns the counts for the log. */

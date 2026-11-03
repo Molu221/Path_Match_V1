@@ -43,4 +43,19 @@ assert.equal(nl.nocForTitle(lib, "").how, "none");
 // English <-> French
 assert.deepEqual(nl.translate(lib, "Coordinating"), ["Coordination"]);
 
+// fit: a title shared by several sub-profiles of one NOC is not weaker for it; a field of study gives a partial fit
+const NURSE = "Amina Example, RN\nRegistered Nurse\nRegistered Nurse, Hôpital Général, Jan 2025 - Present\nMedical-surgical unit: patient assessment, medication administration, IV therapy, wound care.\nB.Sc.N. Nursing, Université de Montréal, 2020 - 2024";
+const nf = nl.findOccupations(lib, NURSE);
+assert.equal(nf[0].code.slice(0, 5), "31301");
+assert.equal(nf[0].fit, "clear", "a registered nurse clearly fits registered nurses (score " + nf[0].score + ")");
+const nr = nl.compare(lib, NURSE, "31301.01", { fits: nf });
+assert.ok(!nr.items.some((i) => i.part === "duties" && i.label === "Missing"), "a registered nurse gets no nursing duty as Missing");
+const STUDENT = "M.Eng. Industrial Engineering, Concordia University (in progress). Operations intern: Lean 5S, kaizen, simulation in Arena, SPC, FMEA.";
+const sf = nl.findOccupations(lib, STUDENT);
+const ie = sf.find((f) => f.code.startsWith("21321"));
+assert.ok(ie && ie.fit === "partial" && !ie.clear_fit, "a degree in the field is a partial fit, never a clear one");
+const sr = nl.compare(lib, STUDENT, ie.code, { fits: sf });
+assert.ok(sr.items.some((i) => i.part === "skills" && i.label === "Guess" && /degree or titles/.test(i.why)), "core skills of a partial fit are guesses");
+assert.ok(sr.items.filter((i) => i.part === "duties" && i.label === "Guess").every((i) => /partly on the CV/.test(i.why)), "with a partial fit, a duty is guessed only when part of it is on the CV");
+
 console.log("noc library tests passed:", fits.slice(0, 3).map((f) => f.code + " " + f.name.en).join(" | "));

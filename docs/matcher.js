@@ -272,15 +272,41 @@
       return out;
     }
 
+    /* What a CV line holds that is not a skill or a phrase of the person: a heading line ("EDUCATION"), the name at the top
+       ("Alex Example" in "Alex Example, RN") and dates ("Sep 2025", "- Present"). Same rule as python/terms.py. */
+    const CV_DATE = /\b(?:jan(?:uary)?|janv(?:ier)?|feb(?:ruary)?|fev(?:rier)?|mar(?:ch|s)?|apr(?:il)?|avr(?:il)?|may|mai|june?|juin|july?|juil(?:let)?|aug(?:ust)?|aout|sept?(?:ember|embre)?|oct(?:ober|obre)?|nov(?:ember|embre)?|dec(?:ember|embre)?)\.?\s*(?:19|20)\d\d\b|(?:-|\bto\b|\bau\b|\buntil\b)\s*(?:present|current|now|today|aujourd'hui|ce jour|presentement|maintenant|en cours)\b/g;
+    const NAME_SEP = /,|\||•|·|\s[-–—]\s/;
+    function cvSkips(raw, s, first) {
+      const skip = [];
+      CV_DATE.lastIndex = 0;
+      let m;
+      while ((m = CV_DATE.exec(s))) skip.push([m.index, m.index + m[0].length]);
+      if (first) {
+        /* the first line of a CV starts with the person's name: 2 to 4 capitalized words before a comma or a dash */
+        const seg = raw.split(NAME_SEP)[0].trim(), words = seg.split(/\s+/).filter(Boolean);
+        if (words.length >= 2 && words.length <= 4 && !/\d/.test(seg) && words.every((w) => /^\p{Lu}/u.test(w))) {
+          const cut = s.search(NAME_SEP);
+          skip.push([0, cut < 0 ? s.length : cut]);
+        }
+      }
+      return skip;
+    }
+
     /* the CV as lines of words, built once per CV */
     function indexCv(text) {
       const lines = [];
-      let offset = 0;
+      let offset = 0, first = true;
       for (const raw of String(text).split("\n")) {
         const fm = foldMap(raw), s = fm.s, toks = [];
+        const skip = headings.has(fold(raw).trim()) ? [[0, s.length]] : cvSkips(raw, s, first && s.trim() !== "");
+        if (s.trim()) first = false;
         TOKEN.lastIndex = 0;
         let m;
-        while ((m = TOKEN.exec(s))) toks.push({ n: nw(m[0]), st: stem(m[0]), a: m.index, b: m.index + m[0].length, w: m[0] });
+        while ((m = TOKEN.exec(s))) {
+          const a = m.index, b = a + m[0].length;
+          if (skip.some(([x, y]) => x <= a && b <= y)) continue;
+          toks.push({ n: nw(m[0]), st: stem(m[0]), a, b, w: m[0] });
+        }
         lines.push({ raw: raw.trim(), s, fm, start: offset, toks, have: new Set(toks.map(k => k.st)) });
         offset += raw.length + 1;
       }
@@ -399,8 +425,56 @@
     const LEVEL_WORDS = new Set(["senior", "junior", "sr", "jr", "intern", "internship", "stage", "stagiaire", "coop", "co-op", "student", "etudiant", "entry", "level", "trainee", "graduate", "lead", "apprentice", "associate", "i", "ii", "iii"]);
     const TAGCODE = { Title: "T", Required: "R", Task: "K", "": "N", Preferred: "P", About: "A" };
     const TAGRANK = { T: 0, R: 1, K: 2, N: 3, P: 4, A: 5 };
+
+    /* A title holds words that are not the job: French gender endings ("Infirmier(ère)", "Conseiller·ère", "H/F"), places
+       ("Sept-Îles | Côte-Nord", "Toronto, ON"), the kind of contract or schedule ("Part Time", "Temps plein", "Hybrid") and
+       brackets with no skill in them ("(Emailable)", "(12 months)"). They never match a CV, yet the title is most of Role fit,
+       so they are taken out of the title before its keywords are read. Brackets that name a skill ("(React)") stay. */
+    const T_GENDER = /\((?:\s*-\s*)?(?:e|es|ne|nes|se|ses|ere|eres|euse|euses|trice|trices|ice|le|te|ve|fe|eur)\s*\)|[·•/](?:e|es|ne|ere|euse|trice)\b|\.(?:ere|euse|trice)\b|\(?\b[hfm]\s*\/\s*[hfmx](?:\s*\/\s*[hfmx])?\b\)?/g;
+    const T_PLACE = new RegExp("\\b(?:" + [
+      "quebec|ontario|alberta|manitoba|saskatchewan|nova scotia|nouvelle-ecosse|new brunswick|nouveau-brunswick|newfoundland(?: and labrador)?|terre-neuve(?:-et-labrador)?",
+      "prince edward island|ile-du-prince-edouard|british columbia|colombie-britannique|yukon|nunavut|northwest territories|territoires du nord-ouest|canada",
+      "abitibi(?:-temiscamingue)?|cote-nord|gaspesie|bas-saint-laurent|saguenay(?:-lac-saint-jean)?|lac-saint-jean|monteregie|laurentides|lanaudiere|estrie",
+      "outaouais|mauricie|chaudiere-appalaches|centre-du-quebec|nord-du-quebec|capitale-nationale|iles-de-la-madeleine",
+      "montreal|toronto|vancouver|calgary|edmonton|ottawa|gatineau|laval|longueuil|mississauga|brampton|hamilton|winnipeg|halifax|saskatoon|regina|kitchener",
+      "markham|vaughan|burnaby|surrey|sherbrooke|trois-rivieres|levis|sept-iles|rimouski|chicoutimi|saint-jerome|saint-jean-sur-richelieu|drummondville|granby",
+      "boucherville|brossard|terrebonne|repentigny|blainville|mirabel|dorval|pointe-claire|kingston|windsor|oshawa|barrie|guelph|burlington|oakville|moncton",
+      "fredericton|charlottetown|kelowna|kamloops|nanaimo|red deer|lethbridge|whitehorse|yellowknife|iqaluit|val-d'or|rouyn-noranda|baie-comeau|joliette",
+      "victoriaville|shawinigan|thetford mines|saint-hyacinthe|valleyfield|vaudreuil|chateauguay|amos|alma|gaspe|matane"].join("|") + ")\\b", "g");
+    const T_CODE = /\b(?:QC|ON|AB|BC|MB|SK|NS|NB|NL|PE|PEI|YT|NT|NU)\b/g;   // province codes, only in capitals ("on" is a word)
+    const T_NOISE = /\b(?:full[- ]time|part[- ]time|temps (?:plein|partiel)|permanent|temporary|temporaire|contract|contractuel|contrat|seasonal|saisonnier|casual|occasionnel|on[- ]call|sur appel|remote|hybrid|hybride|on[- ]site|onsite|teletravail|sur place|en presentiel|open applications?|general application(?: form)?|candidature spontanee|job fair|urgent(?:ly)?|immediate (?:start|hire)|now hiring|hiring|day shift|night shift|evening shift|quart de (?:jour|nuit|soir))\b/g;
+    function cleanTitle(title) {
+      title = String(title || "");
+      const fm = foldMap(title), s = fm.s, cut = [];
+      /* a gender ending is removed outright ("Préposé(e) aux bénéficiaires" -> "Préposé aux bénéficiaires"); anything else leaves a break */
+      const take = (re, str, join) => { re.lastIndex = 0; let m; while ((m = re.exec(str))) { if (!m[0].length) { re.lastIndex++; continue; } cut.push([m.index, m.index + m[0].length, join]); } };
+      take(T_GENDER, s, true); take(T_PLACE, s); take(T_NOISE, s);
+      /* province codes: on the original title (they must be capitals), whose positions are those of s when the title is plain ASCII */
+      if (!fm.idx) take(T_CODE, title);
+      else { T_CODE.lastIndex = 0; let m; while ((m = T_CODE.exec(title))) { const a = fm.idx.indexOf(m.index); if (a >= 0) cut.push([a, a + m[0].length]); } }
+      /* brackets with no skill of the dictionary in them */
+      const B = /\(([^()]*)\)|\[([^[\]]*)\]/g;
+      let m;
+      while ((m = B.exec(s))) {
+        const inner = title.slice(toStart(fm, m.index + 1), toEnd(fm, m.index + m[0].length - 1));
+        if (!Object.keys(find(inner)).length) cut.push([m.index, m.index + m[0].length]);
+      }
+      if (!cut.length) return title;
+      cut.sort((a, b) => a[0] - b[0]);
+      let out = "", pos = 0;
+      for (const [a, b, join] of cut) {
+        const A = toStart(fm, a), Bn = toEnd(fm, b);
+        if (A < pos) { pos = Math.max(pos, Bn); continue; }
+        out += title.slice(pos, A) + (join ? "" : " , ");   // a comma: the words on each side are not one phrase
+        pos = Bn;
+      }
+      out += title.slice(pos);
+      return out.replace(/\s+/g, " ").replace(/(?:\s*[,|\-–—/:()]\s*){2,}/g, " , ").replace(/^[\s,|\-–—/:.]+|[\s,|\-–—/:.]+$/g, "").trim();
+    }
+
     function profile(title, body, max) {
       max = max || 40;
+      title = cleanTitle(title);
       const text = body ? title + "\n" + body : title;
       const tl = String(title).length;
       const job = find(text), secs = sections(text), rows = [];
@@ -419,6 +493,29 @@
         kt++;
         if (e.words.every(w => LEVEL_WORDS.has(w))) continue;
         rows.push({ code: t + "t|" + e.name, t, k: 1, w: e.words.length, c: e.count, f: e.first });
+      }
+      /* A broad skill can swallow the job itself: "Registered Nurse", "Physiotherapist" and "Préposé aux bénéficiaires" are all the
+         skill "Healthcare and clinical", "Line cook" and "Cashier" are "Food safety and hospitality". In the title, the words a
+         skill was found by are also kept as a title phrase when they are not the skill's own name and they end the job's name
+         (followed by the end of the title or a break), so a nurse's CV tells a nurse posting from a physiotherapist posting.
+         A skill word that only qualifies the job is not added ("Nursing" in "Nursing Unit Clerk": the job is "Unit Clerk"),
+         nor a title that is the skill's own name ("Sales"), nor the industry after the job ("general labourer - manufacturing"). */
+      const own = (x) => fold(x).split(/[^a-z0-9+#]+/).filter(Boolean).map(nw).join(" ");
+      const seenT = new Set(rows.filter((r) => r.t === "T").map((r) => own(r.code.slice(3))));
+      const endsName = (b) => /^\s*(?:$|[,|\-–—/:(\[*.;])/.test(text.slice(b, tl).replace(/^(?:\s+(?:i{1,3}|iv|[1-5]|senior|junior|sr|jr)\b\.?)+/i, ""));
+      /* only in the first part of the title: after " - " or a comma, Job Bank titles name the industry ("manager, operations - manufacturing") */
+      const cut = text.slice(0, tl).search(/\s[-–—]\s|\s*\|\s*|,/), firstPart = cut < 0 ? tl : cut;
+      for (const n in job) {
+        /* a title that also writes the skill's own name (a bilingual title: "Amélioration continue / Continuous Improvement") needs no more */
+        if (job[n].spans.some(([a, b]) => b <= tl && own(text.slice(a, b)) === own(n))) continue;
+        for (const [a, b] of job[n].spans) {
+          if (b > firstPart || !endsName(b)) continue;
+          const name = text.slice(a, b).replace(/\s+/g, " ").trim(), key = own(name);
+          if (!key || key === own(n) || seenT.has(key) || key.length < 3 || key.split(" ").every((w) => LEVEL_WORDS.has(w))) continue;
+          seenT.add(key);
+          kt++;
+          rows.push({ code: "Tt|" + name, t: "T", k: 1, w: key.split(" ").length, c: 1, f: a });
+        }
       }
       rows.sort((a, b) => TAGRANK[a.t] - TAGRANK[b.t] || a.k - b.k || b.w - a.w || b.c - a.c || a.f - b.f);
       const keep = rows.filter(r => r.t !== "A");
@@ -456,7 +553,7 @@
       });
     }
 
-    return { profile, profileStatus, termWords, find, findCv, report, flags, sections, tagOf, terms, indexCv, matchTerms, termsOn, stopWords: [...stop].sort(), weakWords: [...weak].sort(), meta: dict.meta || {}, size: skills.length };
+    return { profile, cleanTitle, profileStatus, termWords, find, findCv, report, flags, sections, tagOf, terms, indexCv, matchTerms, termsOn, stopWords: [...stop].sort(), weakWords: [...weak].sort(), meta: dict.meta || {}, size: skills.length };
   }
 
   /* The text as safe HTML, with <mark class="..."> around each mark {a, b, cls, title}. Where marks overlap, the one

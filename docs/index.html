@@ -895,8 +895,10 @@ const odUrl=r=>"https://www.jobbank.gc.ca/jobsearch/jobsearch?"+new URLSearchPar
 const mergeKw=(a,b)=>{const seen=new Set();return [...a,...b].filter(c=>{const k=c.slice(3).toLowerCase();if(seen.has(k))return false;seen.add(k);return true;}).slice(0,40);};
 function odJob(r,noc,o){
   const lg=r.l==="French"?"fr":r.l==="Bilingual"?"bi":r.l?"en":null;
-  const j={company:"Employer not named (posting "+r.i+")",title:r.t,loc:[r.c,r.p].filter(Boolean).join(", ")||"Canada",date:r.d,type:r.ty==="Part-time"?"Part-time":"",
-    sources:[{src:OD_SRC,url:odUrl(r)}],desc:"",id:"",dl:0,lv:null,lg,df:null,province:r.p||"Canada",kw:mergeKw(r.k||[],(o.kw&&o.kw.en)||[]),kt:0,
+  const type=r.ty==="Part-time"?"Part-time":"";
+  const L=JobMeta.factsLevel(r.t,r.x,r.e,type);   /* the experience and education the posting asks for, when the title has no clear level word */
+  const j={company:"Employer not named (posting "+r.i+")",title:r.t,loc:[r.c,r.p].filter(Boolean).join(", ")||"Canada",date:r.d,type,
+    sources:[{src:OD_SRC,url:odUrl(r)}],desc:"",id:"",dl:0,lv:[L.lvl,L.why],lg,df:null,province:r.p||"Canada",kw:mergeKw(r.k||[],(o.kw&&o.kw.en)||[]),kt:0,
     ageH:(Date.now()-Date.parse(r.d+"T12:00:00"))/36e5,snap:false,partial:true,noc:{c:o.code,en:o.en,fr:o.fr,how:"official"},op:1,od:r,odn:noc};
   j.kt=j.kw.length;
   classify(j);j._s+=" "+norm(o.en||"");   /* the occupation's name is searchable too ("cooks") */
@@ -972,7 +974,7 @@ function occPanel(j){
     if(!it.length)return "";
     return `<div><h4>${OCC_PART[part]}</h4><ul>${it.map(x=>{const L=OCC_LAB[x.label];return `<li><span class="lab ${L[0]}">${L[1]}</span><span>${esc((lg==="fr"&&x.fr)||x.en)}</span>${x.label==="Missing"?"":`<span class="why">${esc(x.why)}</span>`}</li>`;}).join("")}</ul></div>`;
   }).join("");
-  return head+`<p class="note"><b>${n("Matched")} Match · ${n("Guess")} Close · ${n("Missing")} Gap.</b> Match: written on your CV. Close: not written, but very likely from an occupation your CV clearly fits (or a degree in progress), so please confirm it. Gap: not on your CV. ${lang?"":"The language is not checked: the posting does not say which one it needs."}${j.od&&j.od.e?" This posting asks for: "+esc(EDU_ASKED[j.od.e])+".":""}</p>
+  return head+`<p class="note"><b>${n("Matched")} Match · ${n("Guess")} Close · ${n("Missing")} Gap.</b> Match: written on your CV. Close: not written, but likely from an occupation your CV fits (or your degree points to, or a degree in progress), so please confirm it. Gap: not on your CV. ${lang?"":"The language is not checked: the posting does not say which one it needs."}${j.od&&j.od.e?" This posting asks for: "+esc(EDU_ASKED[j.od.e])+".":""}</p>
     <div class="occparts">${parts}</div>${occDescription(j,false)}${paste}`;
 }
 /* the mapping panel inside the card (built when the card is opened) */
@@ -1349,6 +1351,7 @@ function renderJobs(){
       <li><b>Match</b> = the same words, in the same order, are on your CV (plural and accents do not matter: "dashboards" = "dashboard", "qualité" = "qualite"). <b>Close</b> = not the same, but a single word with the same stem ("planning" / "planner"), or a phrase whose words are all on one line of your CV in another form or order ("assess patients" / "patient assessment"; for a phrase of four words or more, at least half of its main words), or a hand-written / OaSIS-linked skill pair.</li>
       <li>Each keyword shows where it sits in the posting (Title, Required, Task or Preferred, read from the headings). Phrases from the company, benefits, equal-opportunity and application parts of the posting are <b>listed but not counted</b>, so the employer's advertising does not lower your percentage.</li>
       <li><b>Known limits.</b> No list of filler words is perfect, so a few ordinary words slip through as keywords (and a few real ones are dropped). The phrase cutting is mechanical, not a language model. A keyword written in the other language is never a match ("project" / "projet" is Close at best). The text can be cut short. Most postings carry their full text; a card that has only a title or a short snippet has a box where you can paste the full description, and everything is recalculated from it (it stays in your browser).</li>
+      <li>On your CV, the headings ("Education"), your name at the top and the dates ("Sep 2025 - Present") are not compared with the postings.</li>
       <li>Things to check yourself (degree level, years of experience, work authorization, security, language) are listed beside the mapping and are never scored.</li>
       <li>The same rules run in <code>python/keyword_extractor.py</code> (<code>python/terms.py</code>) and in <a href="reports.html">the keyword reports</a>. ${DICT?`Dictionary built ${esc(DICT.meta.built||"")} from ${DICT.meta.occupations||"?"} occupations (Open Government Licence - Canada).`:"The dictionary file could not be loaded."}</li></ul>
       ${DICT&&DICT.stopWords&&DICT.stopWords.length?`<details class="old"><summary>The ${DICT.stopWords.length} filler words that cut phrases and are never keywords (English and French, accents removed)</summary><p class="note" style="margin:6px 0">Words like these end a phrase: articles, pronouns, verbs of the job-ad voice, benefits words, months, numbers. You can read them in <code>python/terms.py</code>.</p><div class="kw sk" style="max-height:220px;overflow:auto"><span class="off">${DICT.stopWords.map(esc).join('</span><span class="off">')}</span></div></details>
