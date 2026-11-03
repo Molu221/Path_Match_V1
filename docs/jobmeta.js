@@ -127,6 +127,32 @@
     return L(2, "default", "no level word in the title and no years named");
   }
 
+  /* Level of a posting whose text cannot be read but whose facts are published (Job Bank open data):
+     exp = the experience asked ("No experience", "1 year to less than 2 years", "5 years or more"...), edu = the education asked (1 no degree … 6 doctorate).
+     A clear level word in the title still wins ("Senior", "Director", "Student"). A weak one (a role noun such as "assistant" or "clerk",
+     or no level word at all) gives way to the experience asked, the same years rule as jobLevel(): up to 1 year entry, up to 4 mid, more senior. */
+  const WEAK_TITLE_WHY = /^“(assistants?|assistantes?|associates?|clerks?|commis|receptionists?|aides?|helpers?)” in the title$|^mid-level wording$/;
+  function expYears(exp) {
+    const t = fold(exp);
+    if (!t) return null;
+    if (/\bno experience\b|\baucune experience\b/.test(t)) return 0;
+    const m = /(\d+)\s*(months?|mois|years?|ans?)\b/.exec(t);
+    if (!m) return null;
+    return /^(month|mois)/.test(m[2]) ? 0 : +m[1];
+  }
+  function factsLevel(title, exp, edu, type) {
+    const t = jobLevel(title, "", type);
+    const weak = t.src === "default" || (t.src === "title" && WEAK_TITLE_WHY.test(t.why));
+    if (!weak) return t;
+    const y = expYears(exp);
+    if (y != null) {
+      const lvl = y <= 1 ? 1 : y <= 4 ? 2 : 3;
+      return { lvl: t.src === "default" ? lvl : Math.max(t.lvl, lvl), src: "facts", why: "the posting asks for “" + String(exp).trim().toLowerCase() + "” of experience" };
+    }
+    if (t.src === "default" && (edu === 1 || edu === 2)) return { lvl: 1, src: "facts", why: "the posting asks for " + (edu === 1 ? "no degree" : "high school") + " and names no experience" };
+    return t;
+  }
+
   /* ------------------------------------------------------------------ level of a person ------------------------------------------------------------------ */
 
   const MON = "(?:jan\\w*|feb\\w*|fev\\w*|mar\\w*|apr\\w*|avr\\w*|may|mai|jun\\w*|juin|jul\\w*|juil\\w*|aug\\w*|aou\\w*|sep\\w*|oct\\w*|nov\\w*|dec\\w*)\\.?";
@@ -336,5 +362,5 @@
     return flags;
   }
 
-  return { fold, LEVELS, BANDS, FIT, FIT_MIN, FIELD_LIST, jobLevel, cvLevel, fit, relation, fieldOf, isStudentTitle, yearsAsked, langOf, descFlags };
+  return { fold, LEVELS, BANDS, FIT, FIT_MIN, FIELD_LIST, jobLevel, factsLevel, cvLevel, fit, relation, fieldOf, isStudentTitle, yearsAsked, langOf, descFlags };
 });
