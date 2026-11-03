@@ -972,7 +972,7 @@ function occPanel(j){
     if(!it.length)return "";
     return `<div><h4>${OCC_PART[part]}</h4><ul>${it.map(x=>{const L=OCC_LAB[x.label];return `<li><span class="lab ${L[0]}">${L[1]}</span><span>${esc((lg==="fr"&&x.fr)||x.en)}</span>${x.label==="Missing"?"":`<span class="why">${esc(x.why)}</span>`}</li>`;}).join("")}</ul></div>`;
   }).join("");
-  return head+`<p class="note"><b>${n("Matched")} Match · ${n("Guess")} Close · ${n("Missing")} Gap.</b> Match: written on your CV. Close: not written, but very likely from an occupation your CV clearly fits (or a degree in progress), so please confirm it. Gap: not on your CV. ${lang?"":"The language is not checked: the posting does not say which one it needs."}${j.od&&j.od.e?" This posting asks for: "+esc(EDU_ASKED[j.od.e])+".":""}</p>
+  return head+`<p class="note"><b>${n("Matched")} Match · ${n("Guess")} Close · ${n("Missing")} Gap.</b> Match: written on your CV. Close: not written, but likely from an occupation your CV fits (or your degree points to, or a degree in progress), so please confirm it. Gap: not on your CV. ${lang?"":"The language is not checked: the posting does not say which one it needs."}${j.od&&j.od.e?" This posting asks for: "+esc(EDU_ASKED[j.od.e])+".":""}</p>
     <div class="occparts">${parts}</div>${occDescription(j,false)}${paste}`;
 }
 /* the mapping panel inside the card (built when the card is opened) */

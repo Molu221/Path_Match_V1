@@ -94,7 +94,8 @@ export function findOccupations(lib, cvText, top = 5) {
         key = field; label = "field of study: "; factor = 0.5;
       }
       const codes = lib.title_index[key];
-      const weight = (factor * w.title_found_on_cv * (size >= 2 ? 1 : 0.35)) / Math.sqrt(Math.max(1, codes.length));
+      // shared among the occupations (NOC codes) the title names, not among their sub-profiles: "registered nurse" names one NOC with 6 profiles
+      const weight = (factor * w.title_found_on_cv * (size >= 2 ? 1 : 0.35)) / Math.sqrt(Math.max(1, nocsOf(codes).length));
       for (const c of codes) add(c, weight, label + key);
     }
   }
@@ -108,10 +109,14 @@ export function findOccupations(lib, cvText, top = 5) {
     const parts = [...new Set(p.core_competencies.flatMap((c) => c.parts))].filter((c) => cv.has(c));
     if (parts.length) add(code, w.core_competency_found * Math.min(parts.length, 4) * 0.5);
   }
+  // clear: a job title of the occupation on the CV and enough points; partial: a title or a field of study, with fewer points
+  const partialMin = w.partial_fit_min_score ?? 1.5;
   return [...score.entries()].sort((a, b) => b[1] - a[1]).slice(0, top).map(([code, s]) => {
     const p = lib.profiles[code], ev = evidence.get(code) || [];
+    const clear = s >= w.clear_fit_min_score && ev.some((e) => e.startsWith("title:"));
+    const partial = !clear && s >= partialMin && ev.some((e) => e.startsWith("title:") || e.startsWith("field of study:"));
     return { code, noc: p.noc, name: p.name, score: Math.round(s * 100) / 100,
-             clear_fit: s >= w.clear_fit_min_score && ev.some((e) => e.startsWith("title:")), evidence: ev.slice(0, 8) };
+             clear_fit: clear, fit: clear ? "clear" : partial ? "partial" : null, evidence: ev.slice(0, 8) };
   });
 }
 
@@ -170,12 +175,14 @@ export function compare(lib, cvText, code, { postingLanguage = null, fits = null
   const p = lib.profiles[code];
   fits = fits || findOccupations(lib, cv);
   const clear = fits.filter((f) => f.clear_fit).map((f) => lib.profiles[f.code]);
+  const partial = fits.filter((f) => f.fit === "partial").map((f) => lib.profiles[f.code]);
   const pairs = lib.translations.keywords_en_fr;
   const out = [];
 
   // 1) duties: each main duty sentence of the occupation
   const clearCodes = new Set(clear.map((c) => c.code));
   const near = new Set(clear.flatMap((c) => c.similar.filter((x) => x.level === "very similar").map((x) => x.code)));
+  const partialCodes = new Set(partial.map((c) => c.code));
   for (const d of p.duties.slice(0, maxDuties)) {
     const keys = [...d.keys, ...(d.keys_fr || [])];
     const found = keys.filter((k) => cv.has(k));
@@ -184,6 +191,8 @@ export function compare(lib, cvText, code, { postingLanguage = null, fits = null
       out.push(item("duties", d.en, d.fr, "Matched", "on the CV: " + found.slice(0, 3).join(", ")));
     else if (clearCodes.has(code) || near.has(code))
       out.push(item("duties", d.en, d.fr, "Guess", "usual duty of an occupation your CV clearly fits"));
+    else if (partialCodes.has(code) && found.length)
+      out.push(item("duties", d.en, d.fr, "Guess", "partly on the CV (" + found.slice(0, 3).join(", ") + "), in an occupation your CV points to"));
     else out.push(item("duties", d.en, d.fr, "Missing", "not on the CV"));
   }
 
@@ -196,8 +205,10 @@ export function compare(lib, cvText, code, { postingLanguage = null, fits = null
   for (const s of skills) {
     const fr = compFr[s.toLowerCase()] || "";
     if (cv.has(s, { loose: true }) || (fr && cv.has(fr, { loose: true }))) { out.push(item("skills", s, fr, "Matched", "written on the CV")); continue; }
-    const src = clear.find((c) => c.core_competencies.some((cc) => cc.parts.includes(s)) || c.skills.some((x) => x.en === s && x.rating >= 4));
+    const core = (c) => c.core_competencies.some((cc) => cc.parts.includes(s)) || c.skills.some((x) => x.en === s && x.rating >= 4);
+    const src = clear.find(core), part = src ? null : partial.find(core);
     out.push(src ? item("skills", s, fr, "Guess", "core skill of " + src.name.en + ", an occupation your CV fits")
+           : part ? item("skills", s, fr, "Guess", "core skill of " + part.name.en + ", an occupation your degree or titles point to")
                  : item("skills", s, fr, "Missing", "not on the CV"));
   }
 

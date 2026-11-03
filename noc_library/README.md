@@ -67,7 +67,7 @@ keywords, 192 skills/competencies, 4,220 job titles).
 <script type="module">
   import * as nl from "./noc/noc_library.js";
   const lib = await nl.load("./noc/noc_library.lite.json");
-  const fits = nl.findOccupations(lib, cvText);           // [{code, name:{en,fr}, score, clear_fit, evidence}]
+  const fits = nl.findOccupations(lib, cvText);           // [{code, name:{en,fr}, score, clear_fit, fit: "clear"|"partial"|null, evidence}]
   const result = nl.compare(lib, cvText, "13201", { postingLanguage: "English and French" });
   // result.items: [{part, en, fr, label: "Matched"|"Missing"|"Guess", why}]
 </script>
@@ -93,12 +93,15 @@ nl.similar(lib, "13201.01")            # nearby occupations
 | **Missing** | Nothing on the CV shows it. |
 | **Guess** | The CV suggests it without saying it. Shown as a guess; the applicant is asked to confirm. |
 
-A field of study on the CV ("M.Eng. Industrial Engineering") also points to its occupation, but as weaker
-evidence: it never counts as a clear fit on its own.
+A job title on the CV counts the same whether it names one occupation profile or several profiles of the same
+NOC ("registered nurse" names six profiles of NOC 31301). A field of study on the CV ("M.Eng. Industrial
+Engineering") also points to its occupation, but as weaker evidence: it never counts as a clear fit on its own,
+only as a **partial fit** (`fit: "partial"`, from 1.5 points; a clear fit needs 3 points and a job title).
 
-A **Guess** is only made from strong evidence:
+A **Guess** is only made from evidence:
 - the item is a usual duty or a core skill of an occupation the CV **clearly fits** (a job title of that
   occupation is written on the CV);
+- partial fit: a core skill of that occupation, or a duty of it whose key words are partly on the CV;
 - education: the required degree is **in progress** on the CV;
 - language: the CV is **written in** that language, or shows studies at a French-language school.
 
