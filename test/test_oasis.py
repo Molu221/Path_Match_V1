@@ -675,6 +675,20 @@ class OpenVocabularyTest(unittest.TestCase):
         self.assertEqual(s["counted"], len(s["phrases"]) - len(about))
         self.assertLessEqual(s["pct"], s["pct_with_close"])
 
+    def test_cv_headings_name_and_dates_are_not_matched(self):
+        """A heading line, the name at the top and dates are not the person's skills (same rule in docs/matcher.js)."""
+        import terms
+        cv = "Alex Example, RN\nEDUCATION\nB.Sc.N. Nursing, Sep 2020 - Dec 2024\nRegistered Nurse, Jan 2025 - Present\n"
+        ix = terms.index_cv(cv, self.kx.CV_HEADINGS)
+        for word in ("education", "example", "alex", "dec", "present", "jan"):
+            self.assertEqual(terms.match_term([word], ix)[0], "G", word)
+        self.assertEqual(terms.match_term(["rn"], ix)[0], "M", "what follows the name on the first line is kept")
+        self.assertEqual(terms.match_term(["registered", "nurse"], ix)[0], "M")
+        self.assertEqual(terms.match_term(["nursing"], ix)[0], "M")
+        # a first line that is not a name is kept whole
+        ix2 = terms.index_cv("Registered nurse with 2 years in surgery\n", self.kx.CV_HEADINGS)
+        self.assertEqual(terms.match_term(["registered", "nurse"], ix2)[0], "M")
+
     def test_filler_words_are_not_keywords(self):
         s = self.kx.term_summary("Responsibilities\n- You will be able to work with the team and support our clients\n", self.CV)
         for r in s["phrases"]:

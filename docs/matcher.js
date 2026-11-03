@@ -269,15 +269,41 @@
       return out;
     }
 
+    /* What a CV line holds that is not a skill or a phrase of the person: a heading line ("EDUCATION"), the name at the top
+       ("Alex Example" in "Alex Example, RN") and dates ("Sep 2025", "- Present"). Same rule as python/terms.py. */
+    const CV_DATE = /\b(?:jan(?:uary)?|janv(?:ier)?|feb(?:ruary)?|fev(?:rier)?|mar(?:ch|s)?|apr(?:il)?|avr(?:il)?|may|mai|june?|juin|july?|juil(?:let)?|aug(?:ust)?|aout|sept?(?:ember|embre)?|oct(?:ober|obre)?|nov(?:ember|embre)?|dec(?:ember|embre)?)\.?\s*(?:19|20)\d\d\b|(?:-|\bto\b|\bau\b|\buntil\b)\s*(?:present|current|now|today|aujourd'hui|ce jour|presentement|maintenant|en cours)\b/g;
+    const NAME_SEP = /,|\||•|·|\s[-–—]\s/;
+    function cvSkips(raw, s, first) {
+      const skip = [];
+      CV_DATE.lastIndex = 0;
+      let m;
+      while ((m = CV_DATE.exec(s))) skip.push([m.index, m.index + m[0].length]);
+      if (first) {
+        /* the first line of a CV starts with the person's name: 2 to 4 capitalized words before a comma or a dash */
+        const seg = raw.split(NAME_SEP)[0].trim(), words = seg.split(/\s+/).filter(Boolean);
+        if (words.length >= 2 && words.length <= 4 && !/\d/.test(seg) && words.every((w) => /^\p{Lu}/u.test(w))) {
+          const cut = s.search(NAME_SEP);
+          skip.push([0, cut < 0 ? s.length : cut]);
+        }
+      }
+      return skip;
+    }
+
     /* the CV as lines of words, built once per CV */
     function indexCv(text) {
       const lines = [];
-      let offset = 0;
+      let offset = 0, first = true;
       for (const raw of String(text).split("\n")) {
         const fm = foldMap(raw), s = fm.s, toks = [];
+        const skip = headings.has(fold(raw).trim()) ? [[0, s.length]] : cvSkips(raw, s, first && s.trim() !== "");
+        if (s.trim()) first = false;
         TOKEN.lastIndex = 0;
         let m;
-        while ((m = TOKEN.exec(s))) toks.push({ n: nw(m[0]), st: stem(m[0]), a: m.index, b: m.index + m[0].length, w: m[0] });
+        while ((m = TOKEN.exec(s))) {
+          const a = m.index, b = a + m[0].length;
+          if (skip.some(([x, y]) => x <= a && b <= y)) continue;
+          toks.push({ n: nw(m[0]), st: stem(m[0]), a, b, w: m[0] });
+        }
         lines.push({ raw: raw.trim(), s, fm, start: offset, toks, have: new Set(toks.map(k => k.st)) });
         offset += raw.length + 1;
       }
