@@ -356,6 +356,12 @@ console.log("all tests passed:", out.jobs.length, "merged postings;", JSON.strin
   const t = c.occupationText(lib, "63201.00", "en");
   assert.ok(t.includes("Main duties") && /cut/i.test(t));
   assert.ok(c.occupationText(lib, "63201.00", "fr").includes("Fonctions principales"));
+  // a licence is checked by the card, not turned into keywords: a registered nurse has no "Registration" or "body" to match
+  const rn = c.occupationText(lib, "31301.01", "en");
+  assert.ok(!/requirements|regulatory body/i.test(rn), "no requirements in the occupation text");
+  const E = (await import("../scripts/umd.mjs")).loadMatcher().engine((await import("../scripts/umd.mjs")).loadSkills());
+  const kw = E.profile("registered nurse", rn).kw;
+  assert.ok(!kw.some((k) => k[0] === "R"), "no Required keywords from the occupation: " + kw.filter((k) => k[0] === "R").join(", "));
   c.addProfiles(jobs, () => {}, new Map(), lib);
   assert.ok(jobs[0].kw.length > 10 && jobs[0].kw.some((k) => k[0] === "K"), "scored from the duties of the occupation");
   assert.ok(jobs[2].kw.length < 5, "a job with no occupation keeps the keywords of its title only");
