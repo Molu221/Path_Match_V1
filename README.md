@@ -122,7 +122,7 @@ npm run collect                # collect now (add ADZUNA_APP_ID=... ADZUNA_APP_K
 The dictionary only names skills it knows. To read **all** the keywords of a posting, whatever the field, `python/terms.py` also cuts the whole text (title and description) into phrases at the filler words (articles, pronouns, job-ad verbs, benefits words, months, numbers, English and French, about 870 words you can read in the file). "Root cause analysis", "génie informatique" or "boiler code" are keywords with no list needed. Skills of the dictionary are taken out first, so nothing is counted twice.
 
 - **Match**: the same words, in the same order, are on the CV (plural and accents do not matter).
-- **Close**: not the same, but a single word with the same stem, or a phrase that shares its main word(s) with one CV line. Never counted as a match; half credit in the second figure.
+- **Close**: not the same, but a single word with the same stem, or a phrase whose words are all on one CV line in another form or order (for a phrase of four words or more, at least half of its main words). One shared word is not enough. Never counted as a match; half credit in the second figure.
 - **Gap**: not on the CV.
 - Phrases under company, benefits, equal-opportunity and application headings are **listed but not counted**.
 - It is mechanical: a few ordinary words slip through and a few real keywords are cut. A keyword written in the other language is never a match.

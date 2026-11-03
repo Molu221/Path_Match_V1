@@ -665,8 +665,20 @@ class OpenVocabularyTest(unittest.TestCase):
         self.assertEqual(st["boiler code"], "M")
         self.assertEqual(st["flange alignment"], "G")
         self.assertEqual(st["pressure vessels"], "G")
-        # a close phrase (shares "boiler" with a CV line) is never reported as a match
-        self.assertEqual(st["boiler tubes"], "R")
+        # one shared word ("boiler") is not enough to be close
+        self.assertEqual(st["boiler tubes"], "G")
+
+    def test_close_needs_every_word_of_a_short_phrase(self):
+        """Close: the words of a 2-3 word phrase all on one CV line, in another form or order (same rule in docs/matcher.js)."""
+        import terms
+        ix = terms.index_cv("Medical-surgical unit: patient assessment, medication administration, wound care.\n"
+                            "Led a kaizen project that cut changeover time.\n")
+        self.assertEqual(terms.match_term(["assess", "patient"], ix)[0], "R")
+        self.assertEqual(terms.match_term(["cutting", "edge"], ix)[0], "G", "one shared word is not close")
+        self.assertEqual(terms.match_term(["career", "development"], ix)[0], "G")
+        self.assertEqual(terms.match_term(["united", "state"], ix)[0], "G")
+        self.assertEqual(terms.match_term(["career"], ix)[0], "G", "career is not care")
+        self.assertEqual(terms.match_term(["planning"], terms.index_cv("Production planner"))[0], "R", "one word: same stem")
 
     def test_company_part_is_listed_but_not_counted(self):
         s = self.kx.term_summary(self.POST, self.CV)

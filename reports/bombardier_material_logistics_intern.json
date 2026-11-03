@@ -120,9 +120,9 @@
   },
   "phrases_counted": 73,
   "phrases_matched": 4,
-  "phrases_close": 4,
+  "phrases_close": 1,
   "phrase_coverage_pct": 5.5,
-  "phrase_coverage_with_close_pct": 8.2,
+  "phrase_coverage_with_close_pct": 6.2,
   "phrases": [
     {
       "phrase": "material logsitics",
@@ -344,12 +344,10 @@
       "phrase": "world class",
       "count": 1,
       "where": "-",
-      "status": "R",
+      "status": "G",
       "counted": true,
-      "cv_line": "- used minitab for statistical analysis and presented results to the class",
-      "shared_words": [
-        "class"
-      ]
+      "cv_line": "",
+      "shared_words": []
     },
     {
       "phrase": "set",
@@ -544,23 +542,19 @@
       "phrase": "datas quality",
       "count": 1,
       "where": "Task",
-      "status": "R",
+      "status": "G",
       "counted": true,
-      "cv_line": "master's student in industrial engineering. interested in operations, quality and process improvement. bilingual (english and french).",
-      "shared_words": [
-        "quality"
-      ]
+      "cv_line": "",
+      "shared_words": []
     },
     {
       "phrase": "internal process",
       "count": 1,
       "where": "Task",
-      "status": "R",
+      "status": "G",
       "counted": true,
-      "cv_line": "quality intern, abc manufacturing, summer 2023",
-      "shared_words": [
-        "internal"
-      ]
+      "cv_line": "",
+      "shared_words": []
     },
     {
       "phrase": "internal",
