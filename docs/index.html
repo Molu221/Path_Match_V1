@@ -895,8 +895,10 @@ const odUrl=r=>"https://www.jobbank.gc.ca/jobsearch/jobsearch?"+new URLSearchPar
 const mergeKw=(a,b)=>{const seen=new Set();return [...a,...b].filter(c=>{const k=c.slice(3).toLowerCase();if(seen.has(k))return false;seen.add(k);return true;}).slice(0,40);};
 function odJob(r,noc,o){
   const lg=r.l==="French"?"fr":r.l==="Bilingual"?"bi":r.l?"en":null;
-  const j={company:"Employer not named (posting "+r.i+")",title:r.t,loc:[r.c,r.p].filter(Boolean).join(", ")||"Canada",date:r.d,type:r.ty==="Part-time"?"Part-time":"",
-    sources:[{src:OD_SRC,url:odUrl(r)}],desc:"",id:"",dl:0,lv:null,lg,df:null,province:r.p||"Canada",kw:mergeKw(r.k||[],(o.kw&&o.kw.en)||[]),kt:0,
+  const type=r.ty==="Part-time"?"Part-time":"";
+  const L=JobMeta.factsLevel(r.t,r.x,r.e,type);   /* the experience and education the posting asks for, when the title has no clear level word */
+  const j={company:"Employer not named (posting "+r.i+")",title:r.t,loc:[r.c,r.p].filter(Boolean).join(", ")||"Canada",date:r.d,type,
+    sources:[{src:OD_SRC,url:odUrl(r)}],desc:"",id:"",dl:0,lv:[L.lvl,L.why],lg,df:null,province:r.p||"Canada",kw:mergeKw(r.k||[],(o.kw&&o.kw.en)||[]),kt:0,
     ageH:(Date.now()-Date.parse(r.d+"T12:00:00"))/36e5,snap:false,partial:true,noc:{c:o.code,en:o.en,fr:o.fr,how:"official"},op:1,od:r,odn:noc};
   j.kt=j.kw.length;
   classify(j);j._s+=" "+norm(o.en||"");   /* the occupation's name is searchable too ("cooks") */
