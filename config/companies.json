@@ -185,7 +185,12 @@
   "tenstorrent",
   "toast",
   "unbounce",
-  "zscaler"
+  "zscaler",
+  "laportefr",
+  "latys",
+  "agapyo",
+  "sonypicturesimageworks",
+  "studiokraftonboard"
  ],
  "lever": [
   "vention",
@@ -273,7 +278,12 @@
   "pelmorex",
   "sait",
   "waabi",
-  "wattpad"
+  "wattpad",
+  "gorh",
+  "aviyatech",
+  "syntronic",
+  "vo2-group",
+  "gomaterials"
  ],
  "ashby": [
   "ramp",
@@ -340,7 +350,8 @@
   "rewind",
   "trulioo",
   "visier",
-  "webflow"
+  "webflow",
+  "Fuse"
  ],
  "smartrecruiters": [
   "bosch",
@@ -465,7 +476,9 @@
   "abbvie",
   "genetec",
   "hootsuite",
-  "metroinc"
+  "metroinc",
+  "MattelInc",
+  "Trigo"
  ],
  "workable": [
   "export-development-canada",
@@ -478,7 +491,8 @@
   "veritree",
   "sideinc",
   "tehora",
-  "nuvei"
+  "nuvei",
+  "montrealanalytics"
  ],
  "recruitee": [
   "huaweicanada",
@@ -489,7 +503,9 @@
  ],
  "breezy": [
   "telus",
-  "ywca"
+  "ywca",
+  "alphanumeric-systems",
+  "microhabitat"
  ],
  "bamboohr": [
   "taigamotors",
@@ -507,7 +523,11 @@
   "walmart"
  ],
  "personio": [],
- "teamtailor": [],
+ "teamtailor": [
+  "nordastelo",
+  "cammecanique",
+  "workinquebec"
+ ],
  "workday": [
   {
    "name": "CAE",
@@ -1098,6 +1118,48 @@
    "host": "ecolab.wd1.myworkdayjobs.com",
    "tenant": "ecolab",
    "site": "ecolab_external"
+  },
+  {
+   "name": "Investissement Québec",
+   "host": "investquebec.wd10.myworkdayjobs.com",
+   "tenant": "investquebec",
+   "site": "ext"
+  },
+  {
+   "name": "CAA-Québec",
+   "host": "caaquebec.wd3.myworkdayjobs.com",
+   "tenant": "caaquebec",
+   "site": "CarrieresCAA-Quebec"
+  },
+  {
+   "name": "CDPQ Infra and subsidiaries",
+   "host": "cdpqfiliales.wd10.myworkdayjobs.com",
+   "tenant": "cdpqfiliales",
+   "site": "CDPQ-Infra"
+  },
+  {
+   "name": "Promutuel Assurance",
+   "host": "promutuel.wd3.myworkdayjobs.com",
+   "tenant": "promutuel",
+   "site": "promutuel_carrieres"
+  },
+  {
+   "name": "Danaher",
+   "host": "danaher.wd1.myworkdayjobs.com",
+   "tenant": "danaher",
+   "site": "DanaherJobs"
+  },
+  {
+   "name": "Expedia Group",
+   "host": "expedia.wd5.myworkdayjobs.com",
+   "tenant": "expedia",
+   "site": "private"
+  },
+  {
+   "name": "F5",
+   "host": "ffive.wd5.myworkdayjobs.com",
+   "tenant": "ffive",
+   "site": "f5jobs"
   }
  ],
  "pages": [],
