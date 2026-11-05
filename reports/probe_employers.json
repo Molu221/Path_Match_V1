@@ -1,0 +1,976 @@
+{
+ "at": "2026-11-05T05:02:37.070Z",
+ "results": [
+  {
+   "name": "Aero Montreal page",
+   "url": "https://www.aeromontreal.ca/",
+   "method": "GET",
+   "status": 200,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": "Accept-Encoding"
+   },
+   "finalUrl": "https://aeromontreal.ca/",
+   "contentType": "text/html; charset=UTF-8",
+   "bytes": 327242,
+   "head": "",
+   "title": "Aéro Montréal - La grappe aérospatiale du Québec - Aéro Montréal",
+   "jsonLdJobPostings": 0,
+   "links": [],
+   "ms": 514
+  },
+  {
+   "name": "Aero Montreal robots.txt",
+   "url": "https://www.aeromontreal.ca/robots.txt",
+   "method": "GET",
+   "status": 200,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": "Accept-Encoding"
+   },
+   "finalUrl": "https://aeromontreal.ca/robots.txt",
+   "contentType": "text/plain; charset=utf-8",
+   "bytes": 265,
+   "head": "# START YOAST BLOCK # --------------------------- User-agent: * Disallow: Sitemap: https://aeromontreal.ca/sitemap_index.xml # --------------------------- # END YOAST BLOCK Sitemap: https://aeromontreal.ca/sitemap.xml Sitemap: https://aeromontreal.ca/sitemap.html ",
+   "jsonLdJobPostings": 0,
+   "ms": 797
+  },
+  {
+   "name": "Alstom page",
+   "url": "https://www.alstom.com/careers",
+   "method": "GET",
+   "status": 200,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": "X-Acquia-Cookie-A,Accept-Encoding"
+   },
+   "contentType": "text/html; charset=UTF-8",
+   "bytes": 280343,
+   "head": "",
+   "title": "Your career at Alstom starts here | Alstom",
+   "jsonLdJobPostings": 0,
+   "links": [],
+   "ms": 844
+  },
+  {
+   "name": "Alstom robots.txt",
+   "url": "https://www.alstom.com/robots.txt",
+   "method": "GET",
+   "status": 200,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": "X-Acquia-Cookie-A"
+   },
+   "contentType": "text/plain; charset=UTF-8",
+   "bytes": 2762,
+   "head": "# # robots.txt # # This file is to prevent the crawling and indexing of certain parts # of your site by web crawlers and spiders run by sites like Yahoo! # and Google. By telling these \"robots\" where not to go on your site, # you save bandwidth and server resources. # # This file will be ignored unless it is at the root of your host: # Used: http://example.com/robots.txt # Ignored: http://example.com/site/robots.txt # # For more information about the robots.txt standard, see: # http://www.robotstxt.org/robotstxt.html User-agent: * # CSS, JS, Images Allow: /core/*.css$ Allow: /core/*.css? Allow: /core/*.js$ Allow: /core/*.js? Allow: /core/*.gif Allow: /core/*.jpg Allow: /core/*.jpeg Allow: /core/*.png Allow: /core/*.svg Allow: /profiles/*.css$ Allow: /profiles/*.css? Allow: /profiles/*.js$ Allow: /profiles/*.js? Allow: /profiles/*.gif Allow: /profiles/*.jpg Allow: /profiles/*.jpeg Allow: /profiles/*.png Allow: /profiles/*.svg # Directories Disallow: /core/ Disallow: /profiles/ # Files Disallow: /README.txt Disallow: /web.config # Paths (clean URLs) Disallow: /admin/ Disallow: /comment/reply/ Disallow: /filter/tips Disallow: /node/add/ Disallow: /search/ Disallow: /user/register/ Disallow: /user/password/ Disallow: /user/login/ Disallow: /user/logout/ # Paths (no clean URLs) Disallow: /index.php/admin/ Disallow: /index.php/comment/reply/ Disallow: /index.php/filter/tips Disallow: /index.php/node/add/ Disallow: /index.php/search/ Disallow: /index.php/user/password/ Disallow: /in",
+   "jsonLdJobPostings": 0,
+   "ms": 670
+  },
+  {
+   "name": "Arbeitnow",
+   "url": "https://www.arbeitnow.com/api/job-board-api",
+   "method": "GET",
+   "status": 200,
+   "cors": {
+    "allowOrigin": "*",
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": "accept-encoding"
+   },
+   "contentType": "application/json",
+   "bytes": 4268836,
+   "head": "{\"data\":[{\"slug\":\"full-stack-engineer-berlin-473243\",\"company_name\":\"Tilla Technologies\",\"title\":\"Full Stack Engineer\",\"description\":\"<p style=\\\"min-height:1.5em\\\"><\\/p><p style=\\\"min-height:1.5em\\\">We are a growing SaaS start-up with an international team, operating on the intersection between two of the world's most fascinating industries - global shipping and global travel.<\\/p><p style=\\\"min-height:1.5em\\\">Over 90% of global trade depends on ships, and the shipping industry depends on the 2 million seafarers who operate them. What most people don't know is there's a complex, mission-critical travel operation going on 24\\/7 to bring seafarers to the ships where they're needed, when they're needed. That's called crew logistics, and without it, global trade wouldn't function.<\\/p><p style=\\\"min-height:1.5em\\\">But it's an operation often built on manual processes and legacy systems, mean",
+   "jsonLdJobPostings": 0,
+   "ms": 429
+  },
+  {
+   "name": "Canadian Manufacturers and Exporters page",
+   "url": "https://cme-mec.ca/",
+   "method": "GET",
+   "status": 200,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": "Accept-Encoding"
+   },
+   "contentType": "text/html; charset=UTF-8",
+   "bytes": 58620,
+   "head": "",
+   "title": "Home - Departments &#8212; CME",
+   "jsonLdJobPostings": 0,
+   "links": [],
+   "ms": 77
+  },
+  {
+   "name": "Canadian Manufacturers and Exporters robots.txt",
+   "url": "https://cme-mec.ca/robots.txt",
+   "method": "GET",
+   "status": 200,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": "Accept-Encoding"
+   },
+   "finalUrl": "https://cme-mec.ca/?robots=1",
+   "contentType": "text/plain; charset=utf-8",
+   "bytes": 429,
+   "head": "User-agent: * Disallow: /gf-entries-in-excel/ Disallow: /gravityexport-lite/ Disallow: /gravityexport/ Disallow: /wp-admin/ Allow: /wp-admin/admin-ajax.php # START YOAST BLOCK # --------------------------- User-agent: * Disallow: Sitemap: https://cme-mec.ca/sitemap_index.xml Sitemap: https://meq.ca/sitemap_index.xml Sitemap: https://manufacturingourfuture.ca/sitemap_index.xml # --------------------------- # END YOAST BLOCK",
+   "jsonLdJobPostings": 0,
+   "ms": 250
+  },
+  {
+   "name": "Careerjet terms",
+   "url": "https://www.careerjet.ca/robots.txt",
+   "method": "GET",
+   "status": 200,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": null
+   },
+   "contentType": "text/plain;charset=UTF-8;name=\"robots.txt\"",
+   "bytes": 1386,
+   "head": "User-agent: * Disallow: /my/ Disallow: /css/ Disallow: /js/ Disallow: /job/ Disallow: /jobview/ Disallow: /jobviewx/ Disallow: /jobviewex/ Disallow: /clk/ Disallow: /images/ Disallow: /apply/ Disallow: /apply2/ Disallow: /advertiser/ Disallow: /recruiter/posting/post-your-job Disallow: /recruiter/billing-information Disallow: /search/query.html Disallow: /search/rss.html Disallow: /forums/ Disallow: /clicks/ Disallow: /popup/sendpage.html Disallow: /popup/social_network.html Disallow: /partners/jsjobbox.html Disallow: /partners/jssearchbox.html Disallow: /partners/jssearchform.html Disallow: /partners/js_jobbox.html Disallow: /partners/js_searchbox.html Disallow: /partners/js_searchform.html Disallow: /partners/remote.html Disallow: /partners/api/dotnet/doc/Client.html Disallow: /*&ct= Disallow: /*?ct= Disallow: /*&cp= Disallow: /*?cp= Disallow: /*&cmp= Disallow: /*?cmp= Disallow: /*&ay=",
+   "jsonLdJobPostings": 0,
+   "ms": 591
+  },
+  {
+   "name": "CharityVillage page",
+   "url": "https://charityvillage.com/",
+   "method": "GET",
+   "status": 200,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": "Accept-Encoding"
+   },
+   "finalUrl": "https://www.charityvillage.com/",
+   "contentType": "text/html; charset=utf-8",
+   "bytes": 331321,
+   "head": "",
+   "jsonLdJobPostings": 0,
+   "links": [],
+   "ms": 625
+  },
+  {
+   "name": "CharityVillage robots.txt",
+   "url": "https://charityvillage.com/robots.txt",
+   "method": "GET",
+   "status": 200,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": "Accept-Encoding"
+   },
+   "finalUrl": "https://www.charityvillage.com/robots.txt",
+   "contentType": "text/plain; charset=utf-8",
+   "bytes": 170,
+   "head": "Sitemap: https://www.charityvillage.com/sitemap.xml Sitemap: https://www.charityvillage.com/search/sitemap.xml User-agent: * Crawl-delay: 10 Allow: / Disallow: /api/gmapi",
+   "jsonLdJobPostings": 0,
+   "ms": 574
+  },
+  {
+   "name": "CHUM page",
+   "url": "https://www.chumontreal.qc.ca/",
+   "method": "GET",
+   "status": 200,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": "Accept-Encoding, Cookie, Cookie, Cookie"
+   },
+   "contentType": "text/html; charset=UTF-8",
+   "bytes": 269845,
+   "head": "",
+   "title": "Centre hospitalier de l&#039;Université de Montréal | CHUM",
+   "jsonLdJobPostings": 0,
+   "links": [],
+   "ms": 161
+  },
+  {
+   "name": "CHUM robots.txt",
+   "url": "https://www.chumontreal.qc.ca/robots.txt",
+   "method": "GET",
+   "status": 200,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": "Accept-Encoding"
+   },
+   "contentType": "text/plain",
+   "bytes": 1661,
+   "head": "# # robots.txt # # This file is to prevent the crawling and indexing of certain parts # of your site by web crawlers and spiders run by sites like Yahoo! # and Google. By telling these \"robots\" where not to go on your site, # you save bandwidth and server resources. # # This file will be ignored unless it is at the root of your host: # Used: http://example.com/robots.txt # Ignored: http://example.com/site/robots.txt # # For more information about the robots.txt standard, see: # http://www.robotstxt.org/robotstxt.html User-agent: * # CSS, JS, Images Allow: /core/*.css$ Allow: /core/*.css? Allow: /core/*.js$ Allow: /core/*.js? Allow: /core/*.gif Allow: /core/*.jpg Allow: /core/*.jpeg Allow: /core/*.png Allow: /core/*.svg Allow: /profiles/*.css$ Allow: /profiles/*.css? Allow: /profiles/*.js$ Allow: /profiles/*.js? Allow: /profiles/*.gif Allow: /profiles/*.jpg Allow: /profiles/*.jpeg Allow: /profiles/*.png Allow: /profiles/*.svg # Directories Disallow: /core/ Disallow: /profiles/ # Files Disallow: /README.txt Disallow: /web.config # Paths (clean URLs) Disallow: /admin/ Disallow: /comment/reply/ Disallow: /filter/tips Disallow: /node/add/ Disallow: /search/ Disallow: /user/register Disallow: /user/password Disallow: /user/login Disallow: /user/logout # Paths (no clean URLs) Disallow: /index.php/admin/ Disallow: /index.php/comment/reply/ Disallow: /index.php/filter/tips Disallow: /index.php/node/add/ Disallow: /index.php/search/ Disallow: /index.php/user/password Disallow: /index.p",
+   "jsonLdJobPostings": 0,
+   "ms": 197
+  },
+  {
+   "name": "Concordia page",
+   "url": "https://www.concordia.ca/about/hr.html",
+   "method": "GET",
+   "status": 404,
+   "cors": {
+    "allowOrigin": "*",
+    "allowHeaders": null,
+    "allowMethods": "GET",
+    "vary": null
+   },
+   "contentType": "text/html;charset=utf8",
+   "bytes": 116345,
+   "head": "",
+   "title": "404 - Concordia University",
+   "jsonLdJobPostings": 0,
+   "links": [],
+   "ms": 488
+  },
+  {
+   "name": "Concordia robots.txt",
+   "url": "https://www.concordia.ca/robots.txt",
+   "method": "GET",
+   "status": 200,
+   "cors": {
+    "allowOrigin": "*",
+    "allowHeaders": null,
+    "allowMethods": "GET",
+    "vary": "Accept-Encoding"
+   },
+   "contentType": "text/plain",
+   "bytes": 1023,
+   "head": "user-agent: * # #control parameterization on scientific monitoring pages Disallow: *scientific-monitoring.html?* Disallow: *veille-scientifique.html?* # #control calendar indexation Disallow: *calendar-deseve.html?* Disallow: *calendar-va114.html?* # #control search spam Disallow: /search.html?search-mode=* # #disallow crawling of old events pages - 2021 & 2022 still produce traffic disallow: /cuevents/*/200* disallow: /cuevents/*/201* disallow: /cuevents/*/2020/* Disallow: /ucactualites/*/200* Disallow: /ucactualites/*/201* Disallow: /ucactualites/*/2020/* # #Control crawling of errant social media site URLs being appended to all-groups.html Disallow: */all-groups.html*.com # #Block empty root faculty page from crawling so primary faculty page ranks Disallow: /faculty.html$ Disallow: /news/newsletters/* Disallow: /services/profile/attachment* Disallow: /etc/designs/concordia/resources* User-Agent: Googlebot-news Disallow: /profiles/ Disallow: /content/shared/en/profiles/*",
+   "jsonLdJobPostings": 0,
+   "ms": 239
+  },
+  {
+   "name": "Eluta page",
+   "url": "https://www.eluta.ca/",
+   "method": "GET",
+   "status": 200,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": "User-Agent, Accept-Encoding"
+   },
+   "contentType": "text/html; charset=UTF-8",
+   "bytes": 19947,
+   "head": "",
+   "title": "Job Search Canada | Eluta.ca",
+   "jsonLdJobPostings": 0,
+   "links": [],
+   "ms": 348
+  },
+  {
+   "name": "Eluta robots.txt",
+   "url": "https://www.eluta.ca/robots.txt",
+   "method": "GET",
+   "status": 200,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": "User-Agent, Accept-Encoding"
+   },
+   "contentType": "text/plain; charset=UTF-8",
+   "bytes": 346,
+   "head": "User-agent: * Disallow: /asp/ Disallow: /cache? Disallow: /cache/ Disallow: /notification_search Disallow: /notify? Disallow: /rss? Disallow: /sandbox? Disallow: /search/ Disallow: /static/ Disallow: /system/ User-agent: 008 User-agent: ia_archiver User-Agent: OmniExplorer_Bot User-agent: Baiduspider-image User-agent: YandexImages Disallow: / ",
+   "jsonLdJobPostings": 0,
+   "ms": 346
+  },
+  {
+   "name": "HEC Montreal page",
+   "url": "https://www.hec.ca/",
+   "method": "GET",
+   "status": 200,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": "Cookie,Accept-Encoding"
+   },
+   "contentType": "text/html; charset=UTF-8",
+   "bytes": 139184,
+   "head": "",
+   "title": "HEC Montréal. Là où les possibilités se créent.",
+   "jsonLdJobPostings": 0,
+   "links": [],
+   "ms": 348
+  },
+  {
+   "name": "HEC Montreal robots.txt",
+   "url": "https://www.hec.ca/robots.txt",
+   "method": "GET",
+   "status": 200,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": null
+   },
+   "contentType": "text/plain",
+   "bytes": 2966,
+   "head": "# # robots.txt # # This file is to prevent the crawling and indexing of certain parts # of your site by web crawlers and spiders run by sites like Yahoo! # and Google. By telling these \"robots\" where not to go on your site, # you save bandwidth and server resources. # # This file will be ignored unless it is at the root of your host: # Used: http://example.com/robots.txt # Ignored: http://example.com/site/robots.txt # # For more information about the robots.txt standard, see: # http://www.robotstxt.org/robotstxt.html User-agent: * # CSS, JS, Images Allow: /core/*.css$ Allow: /core/*.css? Allow: /core/*.js$ Allow: /core/*.js? Allow: /core/*.gif Allow: /core/*.jpg Allow: /core/*.jpeg Allow: /core/*.png Allow: /core/*.svg Allow: /profiles/*.css$ Allow: /profiles/*.css? Allow: /profiles/*.js$ Allow: /profiles/*.js? Allow: /profiles/*.gif Allow: /profiles/*.jpg Allow: /profiles/*.jpeg Allow: /profiles/*.png Allow: /profiles/*.svg # Directories Disallow: /core/ Disallow: /profiles/ # Files Disallow: /README.md Disallow: /composer/Metapackage/README.txt Disallow: /composer/Plugin/ProjectMessage/README.md Disallow: /composer/Plugin/Scaffold/README.md Disallow: /composer/Plugin/VendorHardening/README.txt Disallow: /composer/Template/README.txt Disallow: /modules/README.txt Disallow: /sites/README.txt Disallow: /themes/README.txt Disallow: /web.config # Paths (clean URLs) Disallow: /admin/ Disallow: /comment/reply/ Disallow: /filter/tips Disallow: /node/add/ Disallow: /search/ Disallow",
+   "jsonLdJobPostings": 0,
+   "ms": 126
+  },
+  {
+   "name": "Himalayas",
+   "url": "https://himalayas.app/jobs/api?limit=2",
+   "method": "GET",
+   "status": 200,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": "Accept-Encoding, rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch"
+   },
+   "contentType": "application/json",
+   "bytes": 9419,
+   "head": "{\"comments\":\"21/08/2026: Cursor pagination is now available and is the preferred way to page through the feed. Pass the nextCursor value from each response back as ?cursor=. It is faster than offset and will never return the same job twice. The offset parameter is deprecated and will be removed in a future release. 13/03/2026: The API has been updated to include the companySlug field in the response.\",\"updatedAt\":1793853122,\"offset\":0,\"limit\":2,\"totalCount\":113067,\"nextCursor\":\"MjAyNi0xMS0wNVQwNDozMTo1MC42MDI5MTRafDI1MTA4NDE\",\"jobs\":[{\"title\":\"Senior Technical Customer Success Manager\",\"excerpt\":\"Are you ready to unlock intelligence? If you don’t think you meet all of the criteria below but are still interested in the job, please apply.\",\"companyName\":\"Kong\",\"companySlug\":\"kong\",\"companyLogo\":\"https://cdn-images.himalayas.app/iiscvtmpw5x6mkao4ncys1rrdclh\",\"employmentType\":\"Full Time\",\"mi",
+   "jsonLdJobPostings": 0,
+   "ms": 261
+  },
+  {
+   "name": "Hydro-Quebec page",
+   "url": "https://www.hydroquebec.com/carrieres/",
+   "method": "GET",
+   "status": 200,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": null
+   },
+   "finalUrl": "https://emploi.hydroquebec.com//",
+   "contentType": "text/html;charset=UTF-8",
+   "bytes": 67522,
+   "head": "",
+   "title": "Carrières | Hydro-Québec",
+   "jsonLdJobPostings": 0,
+   "links": [],
+   "ms": 940
+  },
+  {
+   "name": "Hydro-Quebec robots.txt",
+   "url": "https://www.hydroquebec.com/robots.txt",
+   "method": "GET",
+   "status": 200,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": "Accept-Encoding"
+   },
+   "contentType": "text/plain",
+   "bytes": 4188,
+   "head": "User-agent: * Disallow: /bigip.html Disallow: /normes/* Disallow: /sefco2012/formulaires/fr/formuler-une-plainte-overlay/ Disallow: /sefco2012/formulaires/en/formuler-une-plainte-overlay/ Disallow: /sefco2012/formulaires/fr/commentaires/ Disallow: /sefco2012/formulaires/en/comments/ Disallow: /sefco2012/formulaires/fr/piscines-efficaces/ Disallow: /sefco2016/interne/* Disallow: /sefco2016/fr/facebook.html Disallow: /sefco2015/fr/twitter.html Disallow: /sefco2016/fr/twitter.html Disallow: /sefco2016/en/facebook.html Disallow: /sefco2015/en/twitter.html Disallow: /sefco2016/en/twitter.html Disallow: /sefco2016/fournisseurs/fourn-plainte-tests-ti.html Disallow: /sefco2016/fournisseurs/fourn-retirer-plainte-tests-ti.html Disallow: /data/formation-entrepreneurs/ Disallow: /design Disallow: /design/ Disallow: /design/* # JLX - 2019-04-26 # Blocage des repertoires suite à la migration fournisseurs https Disallow: /soumissionnez/documents_consultation/ Disallow: /sefco2016/fr/employes-coronavirus.html # JLX - 2020-06-23 # Blocage de la page de gestion des cookies Disallow: /gerer-temoins-navigation.html Disallow: /manage-cookies.html # RA - 2020-09-14 Disallow: /resultats-recherche/ Disallow: /search-results/ Disallow: /langagiers/ # Provient de https://pro-sitemaps.com/ Sitemap: https://a115779.sitemaphosting.com/4008130/sitemap.xml #BE 880 Disallow: /data/webinaires/* Disallow: /data/webinaires/pdf/* Disallow: /data/webinaires/pdf/*.pdf #CBUSTER-348 Disallow: /ti-lab/ Disallow: /ti",
+   "jsonLdJobPostings": 0,
+   "ms": 408
+  },
+  {
+   "name": "Jobboom page",
+   "url": "https://www.jobboom.com/",
+   "method": "GET",
+   "status": 403,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": null
+   },
+   "contentType": "text/html; charset=UTF-8",
+   "bytes": 5672,
+   "head": "",
+   "title": "Just a moment...",
+   "jsonLdJobPostings": 0,
+   "links": [],
+   "ms": 124
+  },
+  {
+   "name": "Jobboom robots.txt",
+   "url": "https://www.jobboom.com/robots.txt",
+   "method": "GET",
+   "status": 403,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": null
+   },
+   "contentType": "text/html; charset=UTF-8",
+   "bytes": 5702,
+   "head": "<!DOCTYPE html><html lang=\"en-US\"><head><title>Just a moment...</title><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"><meta http-equiv=\"X-UA-Compatible\" content=\"IE=Edge\"><meta name=\"robots\" content=\"noindex,nofollow\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><meta http-equiv=\"content-security-policy\" content=\"default-src &#39;none&#39;; script-src &#39;nonce-z7O2w9SBkpLLlwPhEcpGzE&#39; &#39;unsafe-eval&#39; https://challenges.cloudflare.com; script-src-attr &#39;none&#39;; style-src &#39;unsafe-inline&#39;; img-src &#39;self&#39; https://challenges.cloudflare.com; connect-src &#39;self&#39; https://challenges.cloudflare.com; frame-src &#39;self&#39; https://challenges.cloudflare.com blob:; child-src &#39;self&#39; https://challenges.cloudflare.com blob:; worker-src blob:; form-action http: https:; base-uri &#39;self&#39;\"><style>*{box-sizing:border-box;margin:0;padding:0}html{line-height:1.15;-webkit-text-size-adjust:100%;color:#313131;font-family:system-ui,-apple-system,BlinkMacSystemFont,\"Segoe UI\",Roboto,\"Helvetica Neue\",Arial,\"Noto Sans\",sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\",\"Noto Color Emoji\"}body{display:flex;flex-direction:column;height:100vh;min-height:100vh}.main-content{margin:8rem auto;padding-left:1.5rem;max-width:60rem}@media (width <= 720px){.main-content{margin-top:4rem}}#challenge-error-text{background-image:url(\"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zd",
+   "jsonLdJobPostings": 0,
+   "ms": 126
+  },
+  {
+   "name": "Jobillico page",
+   "url": "https://www.jobillico.com/",
+   "method": "GET",
+   "status": 403,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": "accept-encoding"
+   },
+   "contentType": "text/html; charset=UTF-8",
+   "bytes": 5674,
+   "head": "",
+   "title": "Just a moment...",
+   "jsonLdJobPostings": 0,
+   "links": [],
+   "ms": 62
+  },
+  {
+   "name": "Jobillico robots.txt",
+   "url": "https://www.jobillico.com/robots.txt",
+   "method": "GET",
+   "status": 403,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": "accept-encoding"
+   },
+   "contentType": "text/html; charset=UTF-8",
+   "bytes": 5725,
+   "head": "<!DOCTYPE html><html lang=\"en-US\"><head><title>Just a moment...</title><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"><meta http-equiv=\"X-UA-Compatible\" content=\"IE=Edge\"><meta name=\"robots\" content=\"noindex,nofollow\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><meta http-equiv=\"content-security-policy\" content=\"default-src &#39;none&#39;; script-src &#39;nonce-4Gd87xSqV7cnKKTUGhW8zJ&#39; &#39;unsafe-eval&#39; https://challenges.cloudflare.com; script-src-attr &#39;none&#39;; style-src &#39;unsafe-inline&#39;; img-src &#39;self&#39; https://challenges.cloudflare.com; connect-src &#39;self&#39; https://challenges.cloudflare.com; frame-src &#39;self&#39; https://challenges.cloudflare.com blob:; child-src &#39;self&#39; https://challenges.cloudflare.com blob:; worker-src blob:; form-action http: https:; base-uri &#39;self&#39;\"><style>*{box-sizing:border-box;margin:0;padding:0}html{line-height:1.15;-webkit-text-size-adjust:100%;color:#313131;font-family:system-ui,-apple-system,BlinkMacSystemFont,\"Segoe UI\",Roboto,\"Helvetica Neue\",Arial,\"Noto Sans\",sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\",\"Noto Color Emoji\"}body{display:flex;flex-direction:column;height:100vh;min-height:100vh}.main-content{margin:8rem auto;padding-left:1.5rem;max-width:60rem}@media (width <= 720px){.main-content{margin-top:4rem}}#challenge-error-text{background-image:url(\"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zd",
+   "jsonLdJobPostings": 0,
+   "ms": 158
+  },
+  {
+   "name": "Jobs.ca page",
+   "url": "https://www.jobs.ca/",
+   "method": "GET",
+   "status": 200,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": "Host"
+   },
+   "contentType": "text/html; charset=utf-8",
+   "bytes": 154762,
+   "head": "",
+   "title": "Jobs in Canada | Jobs.ca",
+   "jsonLdJobPostings": 0,
+   "links": [],
+   "ms": 189
+  },
+  {
+   "name": "Jobs.ca robots.txt",
+   "url": "https://www.jobs.ca/robots.txt",
+   "method": "GET",
+   "status": 200,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": "Host, Accept-Encoding"
+   },
+   "contentType": "text/plain; charset=utf-8",
+   "bytes": 1632,
+   "head": "User-agent: * Allow: / Disallow: /report Disallow: /sign-in Disallow: /*cursor= Disallow: /jobs.data Disallow: /jobs? User-agent: ClaudeBot Allow: / Disallow: /report Disallow: /sign-in Disallow: /*cursor= Disallow: /jobs.data Disallow: /jobs? Crawl-delay: 5 User-agent: GPTBot Allow: / Disallow: /report Disallow: /sign-in Disallow: /*cursor= Disallow: /jobs.data Disallow: /jobs? Crawl-delay: 5 User-agent: OAI-SearchBot Allow: / Disallow: /report Disallow: /sign-in Disallow: /*cursor= Disallow: /jobs.data Disallow: /jobs? Crawl-delay: 5 User-agent: PerplexityBot Allow: / Disallow: /report Disallow: /sign-in Disallow: /*cursor= Disallow: /jobs.data Disallow: /jobs? Crawl-delay: 5 User-agent: ExaSearchBot Allow: / Disallow: /report Disallow: /sign-in Disallow: /*cursor= Disallow: /jobs.data Disallow: /jobs? Crawl-delay: 5 User-agent: Applebot Allow: / Disallow: /report Disallow: /sign-in Disallow: /*cursor= Disallow: /jobs.data Disallow: /jobs? Crawl-delay: 5 User-agent: PetalBot Allow: / Disallow: /report Disallow: /sign-in Disallow: /*cursor= Disallow: /jobs.data Disallow: /jobs? Crawl-delay: 5 User-agent: Amazonbot Allow: / Disallow: /report Disallow: /sign-in Disallow: /*cursor= Disallow: /jobs.data Disallow: /jobs? Crawl-delay: 5 User-agent: CCBot Allow: / Disallow: /report Disallow: /sign-in Disallow: /*cursor= Disallow: /jobs.data Disallow: /jobs? Crawl-delay: 5 User-agent: Bytespider Allow: / Disallow: /report Disallow: /sign-in Disallow: /*cursor= Disallow: /jobs.data D",
+   "jsonLdJobPostings": 0,
+   "ms": 221
+  },
+  {
+   "name": "Jooble terms",
+   "url": "https://jooble.org/robots.txt",
+   "method": "GET",
+   "status": 200,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": "accept-encoding"
+   },
+   "contentType": "text/plain",
+   "bytes": 1648,
+   "head": "User-agent: * User-agent: GoogleBot User-agent: GoogleBot-Mobile User-agent: Mediapartners-Google User-agent: Yandex Disallow: /*.ashx Disallow: /*.aspx Disallow: /*?closedJob=True Disallow: /Account/ Disallow: /account/ Disallow: /alert-vacancy Disallow: /away/ Disallow: /click/AFSClick Disallow: /desc/ Disallow: /employer/api Disallow: /employer/company Disallow: /employer/employerpage Disallow: /employer/payment Disallow: /Export/ Disallow: /Header/AccountMenu Disallow: /Handlers Disallow: /m/Account Disallow: /m/account Disallow: /m/alert-vacancy Disallow: /m/away/ Disallow: /m/desc/ Disallow: /m/Handlers Disallow: /m/JobDesc Disallow: /m/MobileCompanyInfo/Redirect Disallow: /m/redir Disallow: /m/Subscribe Disallow: /m/sub-vacancy Disallow: /MobileCompanyInfo/Redirect Disallow: /msg-vacancy/* Disallow: /redir Disallow: /saved Disallow: /search1-* Disallow: /SearchResult.aspx Disallow",
+   "jsonLdJobPostings": 0,
+   "ms": 213
+  },
+  {
+   "name": "McGill page",
+   "url": "https://www.mcgill.ca/hr/",
+   "method": "GET",
+   "status": 200,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": "Cookie,Accept-Encoding"
+   },
+   "contentType": "text/html; charset=utf-8",
+   "bytes": 64489,
+   "head": "",
+   "title": "Human Resources - McGill University",
+   "jsonLdJobPostings": 0,
+   "links": [],
+   "ms": 279
+  },
+  {
+   "name": "McGill robots.txt",
+   "url": "https://www.mcgill.ca/robots.txt",
+   "method": "GET",
+   "status": 200,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": null
+   },
+   "contentType": "text/plain; charset=UTF-8",
+   "bytes": 3386,
+   "head": "# # robots.txt # # This file is to prevent the crawling and indexing of certain parts # of your site by web crawlers and spiders run by sites like Yahoo! # and Google. By telling these \"robots\" where not to go on your site, # you save bandwidth and server resources. # # This file will be ignored unless it is at the root of your host: # Used: http://example.com/robots.txt # Ignored: http://example.com/site/robots.txt # # For more information about the robots.txt standard, see: # http://www.robotstxt.org/robotstxt.html Sitemap: https://www.mcgill.ca/root/sitemap-index.xml Sitemap: https://www.mcgill.ca/sitemap.xml User-agent: Lucidworks-Anda/2.0 Crawl-delay: 0 User-agent: Elastic-Crawler Crawl-delay: 0 User-agent: * Crawl-delay: 5 User-agent: archive.org_bot Allow: /study/* # CSS, JS, Images Allow: */misc/*.css$ Allow: */misc/*.css? Allow: */misc/*.js$ Allow: */misc/*.js? Allow: */misc/*.gif Allow: */misc/*.jpg Allow: */misc/*.jpeg Allow: */misc/*.png Allow: */modules/*.css$ Allow: */modules/*.css? Allow: */modules/*.js$ Allow: */modules/*.js? Allow: */modules/*.gif Allow: */modules/*.jpg Allow: */modules/*.jpeg Allow: */modules/*.png Allow: */profiles/*.css$ Allow: */profiles/*.css? Allow: */profiles/*.js$ Allow: */profiles/*.js? Allow: */profiles/*.gif Allow: */profiles/*.jpg Allow: */profiles/*.jpeg Allow: */profiles/*.png Allow: */themes/*.css$ Allow: */themes/*.css? Allow: */themes/*.js$ Allow: */themes/*.js? Allow: */themes/*.gif Allow: */themes/*.jpg Allow: */themes/*.jp",
+   "jsonLdJobPostings": 0,
+   "ms": 129
+  },
+  {
+   "name": "Mitacs page",
+   "url": "https://www.mitacs.ca/",
+   "method": "GET",
+   "status": 200,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": "Accept-Encoding, accept, content-type"
+   },
+   "contentType": "text/html; charset=UTF-8",
+   "bytes": 702909,
+   "head": "",
+   "title": "Mitacs: Return on Innovation",
+   "jsonLdJobPostings": 0,
+   "links": [],
+   "ms": 95
+  },
+  {
+   "name": "Mitacs robots.txt",
+   "url": "https://www.mitacs.ca/robots.txt",
+   "method": "GET",
+   "status": 200,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": "Accept-Encoding, accept, content-type"
+   },
+   "contentType": "text/plain; charset=utf-8",
+   "bytes": 231,
+   "head": "# START YOAST BLOCK # --------------------------- User-agent: * Disallow: /*? Disallow: /wp-admin/ Allow: /wp-admin/admin-ajax.php Sitemap: https://www.mitacs.ca/sitemap_index.xml # --------------------------- # END YOAST BLOCK ",
+   "jsonLdJobPostings": 0,
+   "ms": 220
+  },
+  {
+   "name": "Ontario Public Service GoJobs page",
+   "url": "https://www.gojobs.gov.on.ca/",
+   "method": "GET",
+   "status": 200,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": "Accept-Encoding"
+   },
+   "contentType": "text/html; charset=utf-8",
+   "bytes": 499331,
+   "head": "",
+   "title": "\r\n\tOntario Public Service Careers - Search for Jobs \r\n",
+   "jsonLdJobPostings": 0,
+   "links": [],
+   "ms": 1448
+  },
+  {
+   "name": "Ontario Public Service GoJobs robots.txt",
+   "url": "https://www.gojobs.gov.on.ca/robots.txt",
+   "method": "GET",
+   "status": 200,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": "Accept-Encoding"
+   },
+   "contentType": "text/plain",
+   "bytes": 65,
+   "head": "User-Agent: * Disallow: /alljobs.aspx Disallow: /ReadPDF.aspx ",
+   "jsonLdJobPostings": 0,
+   "ms": 833
+  },
+  {
+   "name": "Ordre des ingenieurs du Quebec page",
+   "url": "https://www.oiq.qc.ca/",
+   "method": "GET",
+   "status": 200,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": "Accept-Encoding, Accept-Encoding,Cookie"
+   },
+   "contentType": "text/html; charset=UTF-8",
+   "bytes": 263801,
+   "head": "",
+   "title": "OIQ &#8211; Ordre des ingénieurs du Québec &#8211; Ordre des Ingénieurs du Québec",
+   "jsonLdJobPostings": 0,
+   "links": [],
+   "ms": 180
+  },
+  {
+   "name": "Ordre des ingenieurs du Quebec robots.txt",
+   "url": "https://www.oiq.qc.ca/robots.txt",
+   "method": "GET",
+   "status": 200,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": "Accept-Encoding"
+   },
+   "contentType": "text/plain",
+   "bytes": 845,
+   "head": "User-Agent: * Allow: /wp-content/uploads/ Disallow: /wp-admin/ Disallow: /decisions-jugements/ Disallow: https://www.oiq.qc.ca/wp-content/uploads/2023/01/form_paiement_cotisation_employeur.xlsx Disallow: https://www.oiq.qc.ca/wp-content/uploads/2023/01/employer_payment_form.xlsx Sitemap: https://www.oiq.qc.ca/page-sitemap.xml Sitemap: https://www.oiq.qc.ca/activite-sitemap.xml Sitemap: https://www.oiq.qc.ca/publication-sitemap.xml Sitemap: https://www.oiq.qc.ca/nous_joindre-sitemap.xml Sitemap: https://www.oiq.qc.ca/revue_plan-sitemap.xml Sitemap: https://www.oiq.qc.ca/regionaux-sitemap.xml Sitemap: https://www.oiq.qc.ca/maestro-sitemap.xml Sitemap: https://www.oiq.qc.ca/pub_category-sitemap.xml Sitemap: https://www.oiq.qc.ca/grands_dossiers-sitemap.xml Sitemap: https://www.oiq.qc.ca/nous_joindre_category-sitemap.xml ",
+   "jsonLdJobPostings": 0,
+   "ms": 334
+  },
+  {
+   "name": "Polytechnique Montreal page",
+   "url": "https://www.polymtl.ca/",
+   "method": "GET",
+   "status": 200,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": null
+   },
+   "contentType": "text/html",
+   "bytes": 73378,
+   "head": "",
+   "title": "Polytechnique Montréal | Polytechnique Montréal est l’un des plus importants établissements d’enseignement et de recherche en génie au Canada",
+   "jsonLdJobPostings": 0,
+   "links": [],
+   "ms": 168
+  },
+  {
+   "name": "Polytechnique Montreal robots.txt",
+   "url": "https://www.polymtl.ca/robots.txt",
+   "method": "GET",
+   "status": 200,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": "Accept-Encoding"
+   },
+   "contentType": "text/plain",
+   "bytes": 2189,
+   "head": "# # robots.txt # # This file is to prevent the crawling and indexing of certain parts # of your site by web crawlers and spiders run by sites like Yahoo! # and Google. By telling these \"robots\" where not to go on your site, # you save bandwidth and server resources. # # This file will be ignored unless it is at the root of your host: # Used: http://example.com/robots.txt # Ignored: http://example.com/site/robots.txt # # For more information about the robots.txt standard, see: # http://www.robotstxt.org/robotstxt.html User-agent: * Crawl-delay: 10 # CSS, JS, Images Allow: /misc/*.css$ Allow: /misc/*.css? Allow: /misc/*.js$ Allow: /misc/*.js? Allow: /misc/*.gif Allow: /misc/*.jpg Allow: /misc/*.jpeg Allow: /misc/*.png Allow: /modules/*.css$ Allow: /modules/*.css? Allow: /modules/*.js$ Allow: /modules/*.js? Allow: /modules/*.gif Allow: /modules/*.jpg Allow: /modules/*.jpeg Allow: /modules/*.png Allow: /profiles/*.css$ Allow: /profiles/*.css? Allow: /profiles/*.js$ Allow: /profiles/*.js? Allow: /profiles/*.gif Allow: /profiles/*.jpg Allow: /profiles/*.jpeg Allow: /profiles/*.png Allow: /themes/*.css$ Allow: /themes/*.css? Allow: /themes/*.js$ Allow: /themes/*.js? Allow: /themes/*.gif Allow: /themes/*.jpg Allow: /themes/*.jpeg Allow: /themes/*.png # Directories Disallow: /includes/ Disallow: /misc/ Disallow: /modules/ Disallow: /profiles/ Disallow: /scripts/ Disallow: /themes/ # Files Disallow: /CHANGELOG.txt Disallow: /cron.php Disallow: /INSTALL.mysql.txt Disallow: /INSTALL.pgsq",
+   "jsonLdJobPostings": 0,
+   "ms": 317
+  },
+  {
+   "name": "Quebec public service jobs platform page",
+   "url": "https://emplois.carrieres.gouv.qc.ca/plateforme-emploi",
+   "method": "GET",
+   "status": 200,
+   "cors": {
+    "allowOrigin": "https://emplois.carrieres.gouv.qc.ca",
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": "Origin"
+   },
+   "contentType": "text/html",
+   "bytes": 2081,
+   "head": "",
+   "title": "Emplois en ligne",
+   "jsonLdJobPostings": 0,
+   "links": [],
+   "ms": 643
+  },
+  {
+   "name": "Quebec public service jobs platform robots.txt",
+   "url": "https://emplois.carrieres.gouv.qc.ca/robots.txt",
+   "method": "GET",
+   "status": 200,
+   "cors": {
+    "allowOrigin": "https://emplois.carrieres.gouv.qc.ca",
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": "Origin"
+   },
+   "contentType": "text/plain",
+   "bytes": 67,
+   "head": "# https://www.robotstxt.org/robotstxt.html User-agent: * Disallow: ",
+   "jsonLdJobPostings": 0,
+   "ms": 686
+  },
+  {
+   "name": "Quebec student jobs and internships page",
+   "url": "https://www.quebec.ca/gouvernement/travailler-gouvernement/emplois-fonction-publique/emplois-etudiants-stages",
+   "method": "GET",
+   "status": 200,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": "Accept-Encoding"
+   },
+   "contentType": "text/html; charset=utf-8",
+   "bytes": 78234,
+   "head": "",
+   "title": "Emplois étudiants et stages dans la fonction publique | Gouvernement du Québec",
+   "jsonLdJobPostings": 0,
+   "links": [],
+   "ms": 594
+  },
+  {
+   "name": "Quebec student jobs and internships robots.txt",
+   "url": "https://www.quebec.ca/robots.txt",
+   "method": "GET",
+   "status": 200,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": null
+   },
+   "contentType": "text/plain;charset=utf-8",
+   "bytes": 861,
+   "head": "User-agent: * # Only allow URLs generated with routing Disallow: /*?id=* Disallow: /*&id=* # L=0 is the default language Disallow: /*?L=0* Disallow: /*&L=0* # typeNum = 98 is usually the print version. Disallow: /*?type=98* Disallow: /*&type=98* Disallow: /*?q=* Disallow: /*&q=* Disallow: /*tx_solr* # Should always be protected (.htaccess) Disallow: /*/Private/* Disallow: /*/Configuration/* Disallow: *.sql Disallow: *.sql.gz Disallow: /typo3temp/* Allow: /typo3temp/*.css Allow: /typo3temp/*.css.*.gz Allow: /typo3temp/*.js Allow: /typo3temp/*.js.*.gz Allow: /typo3temp/*.jpg Allow: /typo3temp/*.gif Allow: /typo3temp/*.png # Autoriser l'accès aux fichiers sitemaps contenant un cHash Allow: /sitemap.xml* # Bloquer toutes les autres pages du site utilisant le paramètre cHash Disallow: /*cHash # sitemap Sitemap: https://www.quebec.ca/sitemap.xml",
+   "jsonLdJobPostings": 0,
+   "ms": 523
+  },
+  {
+   "name": "RemoteOK",
+   "url": "https://remoteok.com/api",
+   "method": "GET",
+   "status": 200,
+   "cors": {
+    "allowOrigin": "*",
+    "allowHeaders": null,
+    "allowMethods": "GET",
+    "vary": null
+   },
+   "contentType": "application/json",
+   "bytes": 647886,
+   "head": "[{\"last_updated\":1793836804,\"legal\":\"API Terms of Service: Please link back (with follow, and without nofollow!) to the URL on Remote OK and mention Remote OK as a source, so we get traffic back from your site. If you do not we'll have to suspend API access.\\n\\nPlease don't use the Remote OK logo without written permission as it's a registered trademark, please DO use our name Remote OK though.\"},{\"slug\":\"remote-entry-level-scheduling-amp-coordinating-reservations-online-destination-careers-1137680\",\"id\":\"1137680\",\"epoch\":1793750406,\"date\":\"2026-11-04T00:00:06+00:00\",\"company\":\"Destination Careers\",\"company_logo\":\"\",\"position\":\"Entry Level Scheduling &amp; Coordinating Reservations Online\",\"tags\":[\"education\",\"coordinator\",\"customer support\",\"exec\",\"ops\"],\"description\":\"<p><strong>About Us:<\\/strong><\\/p>\\n<p>We are a client coordination and services company that supports individuals and",
+   "jsonLdJobPostings": 0,
+   "ms": 608
+  },
+  {
+   "name": "Remotive Canada",
+   "url": "https://remotive.com/api/remote-jobs?limit=2",
+   "method": "GET",
+   "status": 200,
+   "cors": {
+    "allowOrigin": "*",
+    "allowHeaders": null,
+    "allowMethods": "GET",
+    "vary": null
+   },
+   "contentType": "application/json; charset=utf-8",
+   "bytes": 166406,
+   "head": "{\"00-warning\": \"Remotive main domain moved to remotive.com ! Please make your API calls on remotive.com/api/remote-jobs instead of remotive.io now ;) Legacy endpoint remotive.io/api/remote-jobs will be terminated in June 2022. Thank you!\", \"0-legal-notice\": \"Legal warning - Hey, thanks for using Remotive's API, we appreciate it! Please note that API documentation and access is granted so that developers can share our jobs further. Please do not submit Remotive jobs to third Party websites, including but not limited to: Jooble, Neuvoo, Google Jobs, LinkedIn Jobs. Please link back to the URL found on Remotive AND mention Remotive as a source in order to Remotive to get traffic from your listing. If you don't do that, we'll terminate your API access, sorry! Jobs displayed are delayed by 24 hours, the goal being that jobs are attributed to Remotive on various platforms. Displaying our jobs i",
+   "jsonLdJobPostings": 0,
+   "ms": 196
+  },
+  {
+   "name": "STM page",
+   "url": "https://www.stm.info/fr/a-propos/carrieres",
+   "method": "GET",
+   "status": 404,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": null
+   },
+   "contentType": "text/html; charset=utf-8",
+   "bytes": 59633,
+   "head": "",
+   "title": "404 | STM",
+   "jsonLdJobPostings": 0,
+   "links": [],
+   "ms": 466
+  },
+  {
+   "name": "STM robots.txt",
+   "url": "https://www.stm.info/robots.txt",
+   "method": "GET",
+   "status": 200,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": null
+   },
+   "contentType": "text/plain; charset=utf-8",
+   "bytes": 268,
+   "head": "User-agent: * Disallow: /*.pdf$ Disallow: /*.css$ Disallow: /*.js$ Disallow: /*.otf$ Disallow: /*.svg$ Disallow: /*.png$ Disallow: /*.jpg$ Disallow: /*.jpeg$ Disallow: /*.webp$ Disallow: /*search Disallow: /*getcontentasset Sitemap: https://www.stm.info/sitemap.xml",
+   "jsonLdJobPostings": 0,
+   "ms": 368
+  },
+  {
+   "name": "Supply Chain Canada page",
+   "url": "https://www.scm.ca/",
+   "method": "GET",
+   "status": 200,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": "*"
+   },
+   "finalUrl": "https://www1.scm.ca/",
+   "contentType": "text/html; charset=utf-8",
+   "bytes": 23312,
+   "head": "",
+   "title": "SCM Insurance Services- SCM Insurance Services",
+   "jsonLdJobPostings": 0,
+   "links": [],
+   "ms": 825
+  },
+  {
+   "name": "Supply Chain Canada robots.txt",
+   "url": "https://www.scm.ca/robots.txt",
+   "method": "GET",
+   "status": 404,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": null
+   },
+   "contentType": "text/html",
+   "bytes": 1245,
+   "head": "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\"> <html xmlns=\"http://www.w3.org/1999/xhtml\"> <head> <meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\"/> <title>404 - File or directory not found.</title> <style type=\"text/css\"> <!-- body{margin:0;font-size:.7em;font-family:Verdana, Arial, Helvetica, sans-serif;background:#EEEEEE;} fieldset{padding:0 15px 10px 15px;} h1{font-size:2.4em;margin:0;color:#FFF;} h2{font-size:1.7em;margin:0;color:#CC0000;} h3{font-size:1.2em;margin:10px 0 0 0;color:#000000;} #header{width:96%;margin:0 0 0 0;padding:6px 2% 6px 2%;font-family:\"trebuchet MS\", Verdana, sans-serif;color:#FFF; background-color:#555555;} #content{margin:0 0 0 2%;position:relative;} .content-container{background:#FFF;width:96%;margin-top:8px;padding:10px;position:relative;} --> </style> </head> <body> <div id=\"header\"><h1>Server Error</h1></div> <div id=\"content\"> <div class=\"content-container\"><fieldset> <h2>404 - File or directory not found.</h2> <h3>The resource you are looking for might have been removed, had its name changed, or is temporarily unavailable.</h3> </fieldset></div> </div> </body> </html> ",
+   "jsonLdJobPostings": 0,
+   "ms": 415
+  },
+  {
+   "name": "Ubisoft page",
+   "url": "https://www.ubisoft.com/en-us/company/careers/search",
+   "method": "GET",
+   "status": 200,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": "Accept-Encoding"
+   },
+   "contentType": "text/html; charset=utf-8",
+   "bytes": 53724,
+   "head": "",
+   "jsonLdJobPostings": 0,
+   "links": [],
+   "ms": 350
+  },
+  {
+   "name": "Ubisoft robots.txt",
+   "url": "https://www.ubisoft.com/robots.txt",
+   "method": "GET",
+   "status": 200,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": null
+   },
+   "contentType": "text/plain",
+   "bytes": 318,
+   "head": "User-Agent: * Disallow: /entertainment/parks-experiences/escape-games/downloads Disallow: /search?gss-q=* Disallow: /legal/documents/PrivacyNoticeSmartrecruiters/ Disallow: /legal/documents/PrivacyNoticeMicrosoftTeams/ Disallow: /legal/documents/PrivacyNoticeRecruitment/ Sitemap: https://www.ubisoft.com/sitemap.xml ",
+   "jsonLdJobPostings": 0,
+   "ms": 225
+  },
+  {
+   "name": "Universite de Montreal page",
+   "url": "https://www.umontreal.ca/",
+   "method": "GET",
+   "status": 200,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": "Accept-Encoding"
+   },
+   "contentType": "text/html; charset=utf-8",
+   "bytes": 65256,
+   "head": "",
+   "title": "Université de Montréal",
+   "jsonLdJobPostings": 0,
+   "links": [],
+   "ms": 367
+  },
+  {
+   "name": "Universite de Montreal robots.txt",
+   "url": "https://www.umontreal.ca/robots.txt",
+   "method": "GET",
+   "status": 200,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": null
+   },
+   "contentType": "text/plain; charset=UTF-8",
+   "bytes": 64,
+   "head": "# Accepter l'indexation User-agent: * Crawl-delay: 1 Disallow: ",
+   "jsonLdJobPostings": 0,
+   "ms": 413
+  },
+  {
+   "name": "Ville de Montreal page",
+   "url": "https://montreal.ca/emplois",
+   "method": "GET",
+   "status": 404,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": "Accept-Encoding"
+   },
+   "contentType": "text/html; charset=utf-8",
+   "bytes": 35064,
+   "head": "",
+   "title": "Ville de Montréal",
+   "jsonLdJobPostings": 0,
+   "links": [],
+   "ms": 432
+  },
+  {
+   "name": "Ville de Montreal robots.txt",
+   "url": "https://montreal.ca/robots.txt",
+   "method": "GET",
+   "status": 200,
+   "cors": {
+    "allowOrigin": null,
+    "allowHeaders": null,
+    "allowMethods": null,
+    "vary": "Accept-Encoding"
+   },
+   "contentType": "text/plain; charset=UTF-8",
+   "bytes": 1330,
+   "head": "User-Agent: * Disallow: /en/search?* Disallow: /recherche?* Disallow: /*?*q=* # Disallow: /*?arrondissement=* Disallow: /*?*dc_* Disallow: /*?*sioc_* Disallow: /*?*mtl_* ### Calendriers # prévenir le crawling dans les calendriers thématiques - on le fait déjà dans le calendrier global Disallow: /calendrier-culturel?* Disallow: /calendrier-expositions?* Disallow: /calendrier-loisirs-et-sports?* Disallow: /calendrier-participation-publique?* Disallow: /calendrier-vie-de-quartier?* Disallow: /en/arts-and-culture-calendar?* Disallow: /en/exhibitions-calendar?* Disallow: /en/sports-and-recreation-calendar?* Disallow: /en/public-participation-calendar?* Disallow: /en/neighbourhood-life-calendar?* ### règles par \"section\" du site # Avis et alertes - ne pas indexer les alertes # = on bloque tout à partir d'une \"recherche\", incluant la pagination Disallow: /avis-et-alertes?* Disallow: /alertes/* Disallow: /en/notices-and-alerts?page=* Disallow: /en/alerts/* # Règlements (SN) ne pas indexer les règlements # = on bloque tout à partir d'une \"recherche\", incluant la pagination Disallow: /*reglements-municipaux/recherche* ### règles diverses - en vrac Disallow: /*?fbclid* ### Ajout du fichier sitemap.xml # En attente d'un fichier optimisé et mis à jour # Sera également renseigné dans la Google Search Console ",
+   "jsonLdJobPostings": 0,
+   "ms": 181
+  }
+ ]
+}
