@@ -190,7 +190,8 @@
   "latys",
   "agapyo",
   "sonypicturesimageworks",
-  "studiokraftonboard"
+  "studiokraftonboard",
+  "clutch"
  ],
  "lever": [
   "vention",
@@ -283,7 +284,8 @@
   "aviyatech",
   "syntronic",
   "vo2-group",
-  "gomaterials"
+  "gomaterials",
+  "telesat"
  ],
  "ashby": [
   "ramp",
@@ -351,7 +353,10 @@
   "trulioo",
   "visier",
   "webflow",
-  "Fuse"
+  "Fuse",
+  "solink",
+  "baseten",
+  "remarcable-inc"
  ],
  "smartrecruiters": [
   "bosch",
@@ -478,7 +483,15 @@
   "hootsuite",
   "metroinc",
   "MattelInc",
-  "Trigo"
+  "Trigo",
+  "1pertinentinc",
+  "dominos",
+  "americanironandmetal",
+  "acumatica",
+  "bantrelco",
+  "artelia",
+  "crystalcleanmaintenance",
+  "egisgroup"
  ],
  "workable": [
   "export-development-canada",
@@ -505,7 +518,8 @@
   "telus",
   "ywca",
   "alphanumeric-systems",
-  "microhabitat"
+  "microhabitat",
+  "1pertinent"
  ],
  "bamboohr": [
   "taigamotors",
@@ -520,13 +534,17 @@
   "unilever",
   "vanier",
   "vertex",
-  "walmart"
+  "walmart",
+  "smardt",
+  "astra",
+  "booxi"
  ],
  "personio": [],
  "teamtailor": [
   "nordastelo",
   "cammecanique",
-  "workinquebec"
+  "workinquebec",
+  "brownsshoes"
  ],
  "workday": [
   {
@@ -1160,6 +1178,36 @@
    "host": "ffive.wd5.myworkdayjobs.com",
    "tenant": "ffive",
    "site": "f5jobs"
+  },
+  {
+   "name": "Tjx",
+   "host": "tjx.wd1.myworkdayjobs.com",
+   "tenant": "tjx",
+   "site": "tjx_external"
+  },
+  {
+   "name": "Mckesson",
+   "host": "mckesson.wd3.myworkdayjobs.com",
+   "tenant": "mckesson",
+   "site": "External_Careers"
+  },
+  {
+   "name": "Oxford",
+   "host": "oxford.wd5.myworkdayjobs.com",
+   "tenant": "oxford",
+   "site": "oxford"
+  },
+  {
+   "name": "Aptiv",
+   "host": "aptiv.wd5.myworkdayjobs.com",
+   "tenant": "aptiv",
+   "site": "Aptiv_Careers"
+  },
+  {
+   "name": "Bdo",
+   "host": "bdo.wd3.myworkdayjobs.com",
+   "tenant": "bdo",
+   "site": "Bdo"
   }
  ],
  "pages": [],
