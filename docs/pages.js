@@ -33,6 +33,12 @@
   const LANGSKILL = new Set(["english", "french", "anglais", "francais", "bilingual", "bilingue", "bilingual (en/fr)"]);
   /* general strengths: postings name them, but they are not something to "learn first". They are shown apart from role skills. */
   const SOFT = new Set(("leadership|attention to detail|initiative|autonomy|organizational skills|explaining complex ideas|patience|perseverance|curiosity|takes on challenges|problem solving|analytical skills|communication|teamwork|collaboration|interpersonal skills|time management|prioritization|multitasking|works under pressure|meets deadlines|adaptability|critical thinking|creativity|innovation|proactivity|resourcefulness|rigor|accountability|dependability|punctuality|professionalism|integrity|discretion and confidentiality|active listening|empathy|emotional intelligence|diplomacy and tact|conflict resolution|negotiation|persuasion and influence|decision making|presentation skills|written communication|verbal communication|strategic thinking|synthesis|learning agility|resilience|motivation|enthusiasm|entrepreneurial spirit|cultural awareness|results orientation|mentoring and coaching|stakeholder management|cross-functional work|team management|facilitation|diversity and inclusion").split("|"));
+  /* ...plus the soft skills the skills library added (skills.json "soft"), read once the dictionary has loaded */
+  let SOFT_FROM = null;
+  const isSoft = (k) => {
+    if (typeof DICT !== "undefined" && DICT && DICT.soft && SOFT_FROM !== DICT) { DICT.soft.forEach((n) => SOFT.add(norm(n))); SOFT_FROM = DICT; }
+    return SOFT.has(k);
+  };
   const KINDS = [["all", "All kinds"], ["full", "Full-time"], ["part", "Part-time"], ["intern", "Internships & co-ops"]];
   const KIND_TAB = { full: "full", part: "part", intern: "intern" };
   const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1);
@@ -163,7 +169,7 @@
     const employers = `<ul class="barlist">${emp.map(([c, n]) => `<li><button data-f="e-${esc(c)}" data-emp="${esc(c)}"><span>${esc(c)}</span><span class="n">${nf(n)}</span><i style="--w:${pct(n, emp[0][1])}%"></i></button></li>`).join("")}</ul>`;
 
     /* skills */
-    const sk = [...st.skill.entries()].filter(([k]) => SOFT.has(k) === (MK.sk === "soft")).sort((a, b) => b[1].n - a[1].n).slice(0, 36);
+    const sk = [...st.skill.entries()].filter(([k]) => isSoft(k) === (MK.sk === "soft")).sort((a, b) => b[1].n - a[1].n).slice(0, 36);
     const smax = sk.length ? sk[0][1].n : 1, smin = sk.length ? sk[sk.length - 1][1].n : 1, mine = cvSkills();
     const cloud = `<div class="cloud">${sk.map(([k, e]) => `<button data-f="s-${esc(k)}" data-skill="${esc(k)}" aria-pressed="${MK.skill === k}" class="${mine && mine.has(k) ? "mine" : ""}" style="--t:${(smin === smax ? 1 : (Math.log(e.n) - Math.log(smin)) / (Math.log(smax) - Math.log(smin))).toFixed(2)}" title="${nf(e.n)} postings">${esc(e.name)}</button>`).join("")}</div><div class="skillread" id="skillread" aria-live="polite">${skillRead(st)}</div>`;
 
@@ -249,7 +255,7 @@
         e.idx.push(i);
       });
     });
-    return [...m.values()].filter((e) => e.idx.length >= 3).map((e) => { e.soft = SOFT.has(e.k); return e; });
+    return [...m.values()].filter((e) => e.idx.length >= 3).map((e) => { e.soft = isSoft(e.k); return e; });
   }
   function gainOf(pool, e, L, base) {
     const L2 = new Set(L); L2.add(e.k);
@@ -356,7 +362,7 @@
     const out = [];
     for (const [k, e] of r.skills) {
       const sh = e.n / r.n, ps = p && p.n >= 15 ? (p.skills.get(k) ? p.skills.get(k).n / p.n : 0) : 0;
-      if (sh >= 0.05 && sh >= 1.5 * ps && e.n >= 5) out.push({ k, name: e.name, sh, lift: sh - ps, soft: SOFT.has(k) });
+      if (sh >= 0.05 && sh >= 1.5 * ps && e.n >= 5) out.push({ k, name: e.name, sh, lift: sh - ps, soft: isSoft(k) });
     }
     out.sort((a, b) => b.lift - a.lift);
     return out.filter((x) => !x.soft).slice(0, 9).concat(out.filter((x) => x.soft).slice(0, 5));
@@ -377,7 +383,7 @@
     const tlist = [...R.titles.values()].sort((a, b) => b.n - a.n).slice(0, 7);
     const repeated = tlist.length && tlist[0].n > 1;
     const allSk = [...R.skills.entries()].sort((a, b) => b[1].n - a[1].n);
-    const skills = allSk.filter(([k]) => !SOFT.has(k)).slice(0, 9).map(([, e]) => e), strengths = allSk.filter(([k]) => SOFT.has(k)).slice(0, 5).map(([, e]) => e);
+    const skills = allSk.filter(([k]) => !isSoft(k)).slice(0, 9).map(([, e]) => e), strengths = allSk.filter(([k]) => isSoft(k)).slice(0, 5).map(([, e]) => e);
     const nw = newOn(rungs, sel);
     const next = sel < 4 ? newOn(rungs, sel + 1) : [];
     const chip = (x) => `<span class="${mine && mine.has(x.k) ? "mine" : ""}${x.soft ? " soft" : ""}">${esc(x.name)}</span>`;

@@ -19,9 +19,10 @@ HOW A PHRASE IS FOUND  (the same steps run in docs/matcher.js, and test/test_oas
 
 HOW A PHRASE IS COMPARED WITH THE CV  (nothing is guessed)
     MATCH  the same words, next to each other, are written on the CV.
-    CLOSE  not the same phrase, but the CV has the same word stem ("planning" ~ "plan") or, for a phrase of two
-           or more words, one of its main words on the same CV line. Listed with the CV line, never counted
-           as a match, worth half in the second coverage figure.
+    CLOSE  not the same phrase, but for one word the CV has the same word stem ("planning" ~ "plan"); for a phrase
+           of two or three words, all its words are on one CV line in another form or order ("assess patients" ~
+           "patient assessment"); for a longer phrase, at least half of its main words (and at least two) are on one
+           CV line. Listed with the CV line, never counted as a match, worth half in the second coverage figure.
     GAP    nothing like it on the CV.
 
 Standard library only.
@@ -138,9 +139,15 @@ def nw(word):
     return word
 
 
+# words a suffix rule would merge with an unrelated word ("career" / "care", "united" / "unit")
+NO_STEM = {"career", "united"}
+
+
 def stem(word):
     """A rough word stem: 'planning', 'planner' and 'plan' share one."""
     w = nw(word).replace("z", "s")
+    if w in NO_STEM:
+        return w
     for suf in SUFFIXES:
         if w.endswith(suf) and len(w) - len(suf) >= 4:
             w = w[: -len(suf)]
@@ -252,12 +259,38 @@ def term_tag(entry, tags):
 # ---------------------------------------------------------------------------------------------------------
 # THE CV SIDE
 # ---------------------------------------------------------------------------------------------------------
-def index_cv(text):
-    """The CV as lines of words: [{"line": folded text, "toks": [(nw, stem, start, end), ...]}]."""
-    lines = []
+# What a CV line holds that is not a skill or a phrase of the person: a heading line ("EDUCATION"), the name at the top
+# ("Alex Example" in "Alex Example, RN") and dates ("Sep 2025", "- Present"). Same rule as docs/matcher.js.
+CV_DATE_RE = re.compile(r"\b(?:jan(?:uary)?|janv(?:ier)?|feb(?:ruary)?|fev(?:rier)?|mar(?:ch|s)?|apr(?:il)?|avr(?:il)?|may|mai|june?|juin|"
+                        r"july?|juil(?:let)?|aug(?:ust)?|aout|sept?(?:ember|embre)?|oct(?:ober|obre)?|nov(?:ember|embre)?|dec(?:ember|embre)?)"
+                        r"\.?\s*(?:19|20)\d\d\b|(?:-|\bto\b|\bau\b|\buntil\b)\s*(?:present|current|now|today|aujourd'hui|ce jour|presentement|maintenant|en cours)\b")
+NAME_SEP_RE = re.compile(r",|\||•|·|\s[-–—]\s")
+
+
+def _cv_skips(raw, line, first):
+    skip = [(m.start(), m.end()) for m in CV_DATE_RE.finditer(line)]
+    if first:
+        # the first line of a CV starts with the person's name: 2 to 4 capitalized words before a comma or a dash
+        seg = NAME_SEP_RE.split(raw)[0].strip()
+        words = seg.split()
+        if 2 <= len(words) <= 4 and not re.search(r"\d", seg) and all(w[0].isupper() for w in words):
+            cut = NAME_SEP_RE.search(line)
+            skip.append((0, cut.start() if cut else len(line)))
+    return skip
+
+
+def index_cv(text, headings=()):
+    """The CV as lines of words: [{"line": folded text, "toks": [(nw, stem, start, end), ...]}].
+    Heading lines (`headings`), the name at the top and dates are left out."""
+    heads = {oasis.fold(h).strip() for h in headings}
+    lines, first = [], True
     for raw in str(text).split("\n"):
         line = oasis.fold(raw)
-        toks = [(nw(m.group()), stem(m.group()), m.start(), m.end()) for m in TOKEN_RE.finditer(line)]
+        skip = [(0, len(line))] if line.strip() in heads else _cv_skips(raw, line, first and line.strip() != "")
+        if line.strip():
+            first = False
+        toks = [(nw(m.group()), stem(m.group()), m.start(), m.end()) for m in TOKEN_RE.finditer(line)
+                if not any(x <= m.start() and m.end() <= y for x, y in skip)]
         lines.append({"line": line.strip(), "toks": toks, "text": line})
     return lines
 
@@ -283,8 +316,15 @@ def match_term(words, ix):
                 if t[1] == stems[0] and len(stems[0]) >= 3:
                     return "R", {"line": item["line"], "shared": [words[0]], "cv_word": t[0]}
         return "G", None
-    main = [(w, s) for w, s in zip(words, stems) if w not in WEAK and len(w) >= 4]
-    need = 1 if n <= 3 else 2
+    # a phrase of 2 or 3 words: all its words (of 3 letters or more) on one CV line, in any form or order;
+    # a longer phrase: at least half of its main words, and at least 2. One shared word is not enough.
+    if n <= 3:
+        main = [(w, s) for w, s in zip(words, stems) if len(w) >= 3]
+    else:
+        main = [(w, s) for w, s in zip(words, stems) if w not in WEAK and len(w) >= 4]
+    if not main:
+        return "G", None
+    need = len(main) if n <= 3 else max(2, -(-len(main) // 2))
     best = None
     for item in ix:
         have = {t[1] for t in item["toks"]}

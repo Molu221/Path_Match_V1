@@ -528,3 +528,87 @@ CLOSE_PAIRS = [
     ("Digital transformation", "Automation", "automation is one part of digital transformation"),
 ]
 CLOSE_PAIRS = [p for p in CLOSE_PAIRS if p[0] != p[1]]
+
+
+
+# ---------------------------------------------------------------------------------------------------------
+# LIBRARY_PRUNE: spellings of python/skills_library.py that are NOT taken into the dictionary.
+# Found by running the library over 5,000 real postings (docs/d) and reading where each new spelling fired:
+# these mostly name something else in a posting. The skill keeps all its other spellings (and a plural "s" is
+# still added by the matcher, so "food bank" also stops "food banks"). Applied by keyword_extractor.merge_library,
+# together with the spellings taken out in PRUNE above. Delete a line to bring a spelling back.
+# ---------------------------------------------------------------------------------------------------------
+LIBRARY_PRUNE = {
+    # words that are something else once accents are removed, or that sit inside other words
+    "these": "French 'thèse' becomes the English word 'these' (18% of postings)",
+    "cad": "the Canadian dollar in salaries ('$80,000 CAD')",
+    "boxe": "'boxes' as in 'tick all the boxes'",
+    "5m": "inside amounts such as '$2.5M'",
+    "dna": "'part of our DNA'",
+    "running": "'keeps fleets running'",
+    "autonomous": "'autonomous driving', 'autonomous systems'",
+    "translate": "'translate business requirements'",
+    "charge complete": "'prise en charge complète' (fully covered)",
+    "cle en main": "'clé en main' (turnkey) in perks",
+    "classification": "'classifications protected by law', job classification",
+    # hiring, application and equal-opportunity text
+    "hiring": "'we're hiring', 'hiring process'", "embauche": "'entretien d'embauche', 'processus d'embauche'",
+    "veteran": "equal-opportunity statements", "military": "equal-opportunity statements",
+    "armed forces": "equal-opportunity statements", "genetics": "equal-opportunity statements",
+    "first nations": "equal-opportunity statements",
+    "talent partner": "the recruiter contact", "relocation": "relocation perks",
+    "privacy": "privacy notices for candidates", "privacy policy": "privacy notices for candidates",
+    "vie privee": "'équilibre travail - vie privée'",
+    # benefits and perks
+    "dental": "health and dental benefits", "dentaire": "assurance dentaire, soins dentaires",
+    "insurance": "group insurance benefits", "group insurance": "a benefit", "assurance vie": "a benefit",
+    "total rewards": "the pay and benefits package", "time off": "a benefit", "retirement plans": "a benefit",
+    "maternity": "parental leave benefits", "virtual care": "a benefit (like 'telemedicine', pruned above)",
+    "wellness program": "a benefit", "mental well-being": "a benefit", "gym": "an office gym",
+    "personal trainer": "an office gym", "personal training": "an office gym",
+    "conditionnement physique": "'centre de conditionnement physique' in perks",
+    "centre de conditionnement physique": "an office gym", "entraineur personnel": "an office gym",
+    "stationnement": "free parking", "transport en commun": "transit passes", "public transit": "transit passes",
+    "dry cleaning": "a perk", "food bank": "company charity",
+    "professional development": "a training budget", "career development": "a perk",
+    "career growth": "a perk", "career advancement": "a perk", "cheminement de carriere": "a perk",
+    "career path": "a perk", "career goals": "a perk",
+    "volunteer": "volunteering days", "volunteering": "volunteering days",
+    # the company describing itself
+    "innovation": "company advertising (see the rules at the top of this file)", "innovative": "company advertising",
+    "ambitious": "company advertising", "respectful": "company advertising", "high standards": "company advertising",
+    "performance-driven": "company advertising", "data-driven": "company advertising",
+    "culture d'entreprise": "company culture", "organizational culture": "company culture",
+    "multidisciplinaire": "'firme multidisciplinaire'", "multidisciplinary": "'the most multidisciplinary team'",
+    "startup": "the kind of company", "founder": "the company's founders", "entrepreneurs": "company advertising",
+    "small business owner": "the company's customers",
+    "saas": "the kind of company", "ai-powered": "the company's product", "ai-driven": "the company's product",
+    "ai-assisted": "the application tracking system", "ai tool": "using a chatbot is not machine learning",
+    "stripe": "a company name", "doordash": "a company name", "uber": "a company name",
+    "youtube": "'follow us on YouTube'", "workday": "a company name as often as the HR software",
+    "consulting": "'Strategy & Consulting' (company units)", "consultant": "job titles of sales roles",
+    "advisory": "'stakeholder advisory'",
+    # everyday words that do not name the skill
+    "productivity": "'productivity budget'", "reliability": "'uptime and reliability' of software",
+    "fluency": "'digital fluency'", "fluent": "'digitally fluent'", "s'adapter": "'pour s'adapter à vos obligations'",
+    "roadmap": "a product roadmap is not product design", "cross-functional team": "already 'Cross-functional work'",
+    "identify opportunities": "not sales", "new business": "'new business domains'", "sell": "'build and sell'",
+    "customer success": "a team, not sales",
+    "specifications": "'hardware specifications' is reading them, not writing them",
+    "policies and procedures": "'safety policies and procedures'", "messaging": "message queues as often as marketing copy",
+    "best practices": "too general", "security policy": "a condition of employment",
+    "hiring process": "the application process", "rewards program": "'Total Rewards program'",
+    "eap": "an employee assistance program is a benefit (pruned above too)", "mental wellbeing": "a benefit",
+    "volunteer opportunities": "a perk", "startups": "the company's customers", "start-up": "the kind of company",
+    "business owner": "the company's customers", "state of the art": "company advertising",
+    "defi": "French 'défi' (a challenge) becomes DeFi", "revenu": "French 'revenus' (income) is not tempering",
+    "bas": "French 'bas' (low, bottom)", "ged": "the GED high-school diploma", "calibre": "'high-calibre candidates'",
+    "traction": "'gain traction'", "placements": "co-op placements, not investments", "servers": "restaurant servers",
+    "learning platform": "inside 'machine learning platform'", "requisition": "the requisition number of the posting",
+    "cadence": "'release cadence'", "traduire": "translating is not social media", "displays": "store displays",
+    "haute direction": "'senior management', not executive presentations", "backup": "'backup support'",
+    "triage": "triaging tickets as often as patients", "remediation": "security remediation", "lean": "'lean team'",
+    "agility": "'the agility to learn'", "product manager": "working with product managers is not product design",
+    "high volume": "'high-volume production'", "segment": "customer segments",
+    "benchmark": "'benchmarks' in general", "cfo": "'reporting to the CFO'",
+}

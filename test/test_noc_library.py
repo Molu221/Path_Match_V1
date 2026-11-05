@@ -23,5 +23,27 @@ class NocForTitle(unittest.TestCase):
                 self.assertEqual(r["how"], how, title)
 
 
+class Fit(unittest.TestCase):
+    NURSE = ("Amina Example, RN\nRegistered Nurse\nRegistered Nurse, Hôpital Général, Jan 2025 - Present\n"
+             "Medical-surgical unit: patient assessment, medication administration, IV therapy, wound care.\n"
+             "B.Sc.N. Nursing, Université de Montréal, 2020 - 2024")
+    STUDENT = "M.Eng. Industrial Engineering, Concordia University (in progress). Operations intern: Lean 5S, kaizen, simulation in Arena, SPC, FMEA."
+
+    def test_title_shared_by_sub_profiles(self):
+        fits = nl.find_occupations(LIB, self.NURSE)
+        self.assertEqual(fits[0]["code"][:5], "31301")
+        self.assertEqual(fits[0]["fit"], "clear")
+        r = nl.compare(LIB, self.NURSE, "31301.01", fits=fits)
+        self.assertFalse(any(i["part"] == "duties" and i["label"] == "Missing" for i in r["items"]))
+
+    def test_field_of_study_is_partial(self):
+        fits = nl.find_occupations(LIB, self.STUDENT)
+        ie = next(f for f in fits if f["code"].startswith("21321"))
+        self.assertEqual(ie["fit"], "partial")
+        self.assertFalse(ie["clear_fit"])
+        r = nl.compare(LIB, self.STUDENT, ie["code"], fits=fits)
+        self.assertTrue(any(i["part"] == "skills" and i["label"] == "Guess" and "degree or titles" in i["why"] for i in r["items"]))
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -2,7 +2,7 @@
   "file": "abb_quality_engineering_intern.txt",
   "title": "Quality Engineering Intern - Winter 2027",
   "company": "ABB",
-  "coverage_pct": 21.4,
+  "coverage_pct": 19.1,
   "matched": [
     "Quality management",
     "Process mapping",
@@ -19,6 +19,7 @@
     "Standard operating procedures",
     "Compliance",
     "Stakeholder management",
+    "Production supervision",
     "Flowcharts and process flows",
     "Supply chain",
     "Bottleneck analysis",
@@ -32,8 +33,12 @@
     "Collaboration",
     "Cross-functional work",
     "Research and development",
+    "Manufacturing engineering",
+    "Process engineering",
     "Employee and labour relations",
+    "Accountability",
     "Problem solving",
+    "Product design",
     "Operations management",
     "Electrical engineering",
     "Continuous improvement",
@@ -83,6 +88,14 @@
       "Dashboards"
     ],
     [
+      "Process engineering",
+      "Process improvement"
+    ],
+    [
+      "Process engineering",
+      "Industrial engineering"
+    ],
+    [
       "Operations management",
       "Industrial engineering"
     ],
@@ -118,6 +131,10 @@
       "evidence": "- Ensure that all procedures accurately reflect actual operations and comply with regulatory and internal requirements."
     },
     "Stakeholder management": {
+      "tag": "TASK",
+      "evidence": "- Work closely with production supervisors, engineers, and other stakeholders to ensure accuracy in the documented processes."
+    },
+    "Production supervision": {
       "tag": "TASK",
       "evidence": "- Work closely with production supervisors, engineers, and other stakeholders to ensure accuracy in the documented processes."
     },
@@ -185,13 +202,29 @@
       "tag": "TASK",
       "evidence": "- Support ongoing engineering projects across disciplines, including R&D, Manufacturing Engineering, and Production."
     },
+    "Manufacturing engineering": {
+      "tag": "TASK",
+      "evidence": "- Support ongoing engineering projects across disciplines, including R&D, Manufacturing Engineering, and Production."
+    },
+    "Process engineering": {
+      "tag": "TASK",
+      "evidence": "- Work alongside multi-disciplinary teams to gain exposure to how different functions contribute to product and process development."
+    },
     "Employee and labour relations": {
       "tag": "TASK",
       "evidence": "- Work alongside multi-disciplinary teams to gain exposure to how different functions contribute to product and process development."
     },
+    "Accountability": {
+      "tag": "TASK",
+      "evidence": "- Take responsibility for defined tasks or small sub-projects under the guidance of senior engineers."
+    },
     "Problem solving": {
       "tag": "TASK",
       "evidence": "- Participate in cross-functional meetings and contribute to problem-solving discussions."
+    },
+    "Product design": {
+      "tag": "TASK",
+      "evidence": "- Develop an understanding of how engineering decisions are made across the product lifecycle, from design to production."
     },
     "Industrial engineering": {
       "tag": "REQUIRED",
@@ -270,11 +303,11 @@
       "evidence": "-  French is required. English is also required to communicate with customers outside Quebec on a regular basis."
     }
   },
-  "phrases_counted": 88,
+  "phrases_counted": 85,
   "phrases_matched": 6,
-  "phrases_close": 17,
-  "phrase_coverage_pct": 6.8,
-  "phrase_coverage_with_close_pct": 16.5,
+  "phrases_close": 2,
+  "phrase_coverage_pct": 7.1,
+  "phrase_coverage_with_close_pct": 8.2,
   "phrases": [
     {
       "phrase": "abb",
@@ -340,7 +373,7 @@
       "shared_words": []
     },
     {
-      "phrase": "apify actor",
+      "phrase": "apify",
       "count": 1,
       "where": "-",
       "status": "G",
@@ -388,12 +421,10 @@
       "phrase": "industries run leaner",
       "count": 1,
       "where": "-",
-      "status": "R",
+      "status": "G",
       "counted": true,
-      "cv_line": "lean six sigma green belt, 2024",
-      "shared_words": [
-        "leaner"
-      ]
+      "cv_line": "",
+      "shared_words": []
     },
     {
       "phrase": "cleaner",
@@ -444,12 +475,10 @@
       "phrase": "updating internal",
       "count": 1,
       "where": "Task",
-      "status": "R",
+      "status": "G",
       "counted": true,
-      "cv_line": "quality intern, abc manufacturing, summer 2023",
-      "shared_words": [
-        "internal"
-      ]
+      "cv_line": "",
+      "shared_words": []
     },
     {
       "phrase": "structure",
@@ -464,12 +493,10 @@
       "phrase": "document internal procedures",
       "count": 1,
       "where": "Task",
-      "status": "R",
+      "status": "G",
       "counted": true,
-      "cv_line": "quality intern, abc manufacturing, summer 2023",
-      "shared_words": [
-        "internal"
-      ]
+      "cv_line": "",
+      "shared_words": []
     },
     {
       "phrase": "operational processes",
@@ -493,12 +520,10 @@
       "phrase": "actual operations",
       "count": 1,
       "where": "Task",
-      "status": "R",
+      "status": "G",
       "counted": true,
-      "cv_line": "master's student in industrial engineering. interested in operations, quality and process improvement. bilingual (english and french).",
-      "shared_words": [
-        "operation"
-      ]
+      "cv_line": "",
+      "shared_words": []
     },
     {
       "phrase": "comply",
@@ -518,17 +543,6 @@
       "cv_line": "quality intern, abc manufacturing, summer 2023",
       "shared_words": [
         "internal"
-      ]
-    },
-    {
-      "phrase": "production supervisors",
-      "count": 1,
-      "where": "Task",
-      "status": "R",
-      "counted": true,
-      "cv_line": "courses: production systems and inventory control, scheduling theory, quality control, simulation",
-      "shared_words": [
-        "production"
       ]
     },
     {
@@ -596,7 +610,7 @@
     },
     {
       "phrase": "engineering",
-      "count": 2,
+      "count": 1,
       "where": "Task",
       "status": "M",
       "counted": true,
@@ -634,12 +648,10 @@
       "phrase": "critical points",
       "count": 1,
       "where": "Task",
-      "status": "R",
+      "status": "G",
       "counted": true,
-      "cv_line": "- modelled stock levels and reorder points in python, compared two inventory policies",
-      "shared_words": [
-        "point"
-      ]
+      "cv_line": "",
+      "shared_words": []
     },
     {
       "phrase": "improvement",
@@ -654,12 +666,10 @@
       "phrase": "flow analysis",
       "count": 1,
       "where": "Task",
-      "status": "R",
+      "status": "G",
       "counted": true,
-      "cv_line": "- supported 5s audits and ran a root cause analysis on a recurring packaging defect",
-      "shared_words": [
-        "analysis"
-      ]
+      "cv_line": "",
+      "shared_words": []
     },
     {
       "phrase": "centralized",
@@ -764,12 +774,10 @@
       "phrase": "quality decisions impact",
       "count": 1,
       "where": "Task",
-      "status": "R",
+      "status": "G",
       "counted": true,
-      "cv_line": "master's student in industrial engineering. interested in operations, quality and process improvement. bilingual (english and french).",
-      "shared_words": [
-        "quality"
-      ]
+      "cv_line": "",
+      "shared_words": []
     },
     {
       "phrase": "production schedules",
@@ -787,12 +795,10 @@
       "phrase": "quality supervisor",
       "count": 1,
       "where": "Task",
-      "status": "R",
+      "status": "G",
       "counted": true,
-      "cv_line": "master's student in industrial engineering. interested in operations, quality and process improvement. bilingual (english and french).",
-      "shared_words": [
-        "quality"
-      ]
+      "cv_line": "",
+      "shared_words": []
     },
     {
       "phrase": "resolve issues",
@@ -807,23 +813,19 @@
       "phrase": "engineering project involvement",
       "count": 1,
       "where": "Task",
-      "status": "R",
+      "status": "G",
       "counted": true,
-      "cv_line": "master's student in industrial engineering. interested in operations, quality and process improvement. bilingual (english and french).",
-      "shared_words": [
-        "engineering"
-      ]
+      "cv_line": "",
+      "shared_words": []
     },
     {
       "phrase": "engineering projects",
       "count": 1,
       "where": "Task",
-      "status": "R",
+      "status": "G",
       "counted": true,
-      "cv_line": "master's student in industrial engineering. interested in operations, quality and process improvement. bilingual (english and french).",
-      "shared_words": [
-        "engineering"
-      ]
+      "cv_line": "",
+      "shared_words": []
     },
     {
       "phrase": "disciplines",
@@ -871,24 +873,13 @@
       "shared_words": []
     },
     {
-      "phrase": "process development",
+      "phrase": "small sub projects",
       "count": 1,
       "where": "Task",
       "status": "G",
       "counted": true,
       "cv_line": "",
       "shared_words": []
-    },
-    {
-      "phrase": "small sub projects",
-      "count": 1,
-      "where": "Task",
-      "status": "R",
-      "counted": true,
-      "cv_line": "projects",
-      "shared_words": [
-        "project"
-      ]
     },
     {
       "phrase": "guidance",
@@ -921,23 +912,19 @@
       "phrase": "real engineering challenges",
       "count": 1,
       "where": "Task",
-      "status": "R",
+      "status": "G",
       "counted": true,
-      "cv_line": "master's student in industrial engineering. interested in operations, quality and process improvement. bilingual (english and french).",
-      "shared_words": [
-        "engineering"
-      ]
+      "cv_line": "",
+      "shared_words": []
     },
     {
       "phrase": "professional environment",
       "count": 1,
       "where": "Task",
-      "status": "R",
+      "status": "G",
       "counted": true,
-      "cv_line": "english (fluent), french (professional)",
-      "shared_words": [
-        "professional"
-      ]
+      "cv_line": "",
+      "shared_words": []
     },
     {
       "phrase": "meetings",
@@ -961,24 +948,13 @@
       "phrase": "engineering decisions",
       "count": 1,
       "where": "Task",
-      "status": "R",
-      "counted": true,
-      "cv_line": "master's student in industrial engineering. interested in operations, quality and process improvement. bilingual (english and french).",
-      "shared_words": [
-        "engineering"
-      ]
-    },
-    {
-      "phrase": "made",
-      "count": 1,
-      "where": "Task",
       "status": "G",
       "counted": true,
       "cv_line": "",
       "shared_words": []
     },
     {
-      "phrase": "product lifecycle",
+      "phrase": "made",
       "count": 1,
       "where": "Task",
       "status": "G",
@@ -1108,7 +1084,16 @@
     "loaded": true,
     "built": "2026-10-24"
   },
-  "skills_from_oasis": [],
+  "skills_from_oasis": [
+    "Academic research",
+    "Engineering degrees",
+    "Inventory optimization",
+    "Kitting and picking",
+    "Manufacturing engineering",
+    "Packaging",
+    "Production supervision",
+    "Production systems"
+  ],
   "inferred_related": [
     [
       "Quality assurance",
@@ -1118,5 +1103,5 @@
     ]
   ],
   "occupation_alignment": [],
-  "coverage_with_related_pct": 32.1
+  "coverage_with_related_pct": 29.8
 }

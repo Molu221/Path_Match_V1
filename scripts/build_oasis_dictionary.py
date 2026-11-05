@@ -582,7 +582,7 @@ def main():
                     links.setdefault(oasis.fold(name).strip(), set()).update(c_en, c_fr)
 
     # skill -> occupations, for the curated skills plus the descriptors
-    merged, _ = oasis.merge_skills(kx.SKILLS, {"descriptors": desc})
+    merged, _ = kx.merge_library(*oasis.merge_skills(kx.SKILLS, {"descriptors": desc}))   # same list as the website
     patterns = kx.build_patterns(merged)
     folded = {c: oasis.fold(corpus["en"].get(c, "") + " " + corpus["fr"].get(c, "")) for c in codes}
     skill_occ = {}

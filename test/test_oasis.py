@@ -363,10 +363,14 @@ class DeckExamplesTest(unittest.TestCase):
             matched, missing, extra, related = kx.compare(job_kw, cv_kw)
             self.assertTrue(set(want["both"]) <= set(matched), f"{name}: lost {set(want['both']) - set(matched)}")
             # "Manufacturing experience" was "not on the CV" in the presentation; the word "manufacturing" is now a
-            # spelling of it and the CV does write it, so it is found. Every other skill keeps its status.
-            still_missing = set(want["not_on_cv"]) - {"Manufacturing experience"}
+            # spelling of it and the CV does write it, so it is found. Likewise "fixture" is a spelling of "Tooling" in the
+            # skills library, and the CV writes "packaging line fixture redesign". Every other skill keeps its status.
+            found_now = {"Manufacturing experience", "Tooling"}
+            still_missing = set(want["not_on_cv"]) - found_now
             self.assertTrue(still_missing <= set(missing), f"{name}: {still_missing - set(missing)}")
             for pair in want["close"]:
+                if pair[0] in found_now:              # a close pair is only listed for a skill missing from the CV
+                    continue
                 self.assertIn(tuple(pair), related, name)
             for flag in want["flags"]:
                 self.assertIn(flag, kx.find_flags(text), name)
@@ -523,6 +527,50 @@ class MatcherParityTest(unittest.TestCase):
         self.assertIn("Time management", got)
 
 
+class SkillsLibraryTest(unittest.TestCase):
+    """The bilingual skills library (python/skills_library.py) is laid over the dictionary without changing what was found before."""
+
+    def setUp(self):
+        import keyword_extractor as kx
+        self.kx = kx
+
+    def test_library_is_loaded(self):
+        kx = self.kx
+        self.assertGreater(len(kx.SKILLS_ALL), 2000)
+        self.assertEqual(kx.SKILL_SOURCE["Optimization solvers"], kx.LIBRARY_SOURCE)
+        self.assertIn("Optimization solvers", kx.find_skills_in_line("Built the model in Gurobi and Pyomo"))
+        # merged into a skill that was already here: its French spelling now finds that skill
+        self.assertEqual(kx.LIBRARY_TARGET["Linear and integer programming"], "Optimization")
+        self.assertIn("Optimization", kx.find_skills_in_line("Programmation linéaire en nombres entiers"))
+        self.assertIn("Simulation software", kx.find_skills_in_line("Modèle de simulation sous AnyLogic"))
+
+    def test_existing_skills_keep_their_names(self):
+        kx = self.kx
+        for name in ("Industrial engineering", "Excel", "Lean Six Sigma", "KPIs", "Planning"):
+            self.assertNotEqual(kx.SKILL_SOURCE[name], kx.LIBRARY_SOURCE, name)
+
+    def test_a_library_skill_never_hides_an_older_one(self):
+        found = self.kx.find_skills_in_line("2 years in aerospace manufacturing")
+        self.assertIn("Aerospace experience", found)
+        self.assertIn("Manufacturing experience", found)
+        self.assertIn("Aerospace experience", self.kx.find_skills_in_line("You have knowledge of the aerospace industry."))
+
+    def test_pruned_spellings_stay_out(self):
+        kx = self.kx
+        for line, skill in (("operate these components", "Academic research"), ("$80,000 - $95,000 CAD", "CAD"),
+                            ("Health, dental and vision benefits", "Dentistry"), ("we are hiring", "Recruitment"),
+                            ("deux entretiens d'embauche", "Recruitment"), ("Relevez des défis", "Cryptocurrency and digital assets"),
+                            ("Revenus de placements", "Heat treating"), ("tick all the boxes", "Martial arts and combat sports")):
+            self.assertNotIn(skill, kx.find_skills_in_line(line), line)
+        self.assertTrue(set(kx.skills_extra.LIBRARY_PRUNE) <= {oasis.fold(a).strip() for al in kx.skills_library.SKILLS.values() for a in al},
+                        "every LIBRARY_PRUNE entry is a spelling of the library")
+
+    def test_new_soft_skills_are_listed_apart(self):
+        kx = self.kx
+        self.assertIn("Growth mindset", kx.SOFT_SKILLS)
+        self.assertNotIn("Communication", kx.SOFT_SKILLS)        # already there: the website keeps its own grouping
+
+
 class OverlapTest(unittest.TestCase):
     """A skill is not counted again inside a longer skill's words ('Writing' in 'technical writing')."""
 
@@ -655,18 +703,37 @@ class OpenVocabularyTest(unittest.TestCase):
     def test_phrases_come_from_the_text_not_from_a_list(self):
         s = self.kx.term_summary(self.POST, self.CV)
         names = {r["phrase"].lower(): r for r in s["phrases"]}
-        for phrase in ("stainless steel pipes", "flange alignment", "pressure vessels", "boiler code"):
+        for phrase in ("stainless steel pipes", "flange alignment"):
             self.assertIn(phrase, names, phrase)
+        # "pressure vessels" and "boiler" are skills of the skills library now: found as skills, never listed twice
+        job = self.kx.extract_job_keywords(self.POST)
+        self.assertIn("Pressure vessels and piping", job)
+        self.assertIn("Building systems maintenance", job)
+        self.assertNotIn("pressure vessels", names)
+        self.assertFalse(any("boiler" in n for n in names))
 
     def test_match_close_and_gap(self):
         s = self.kx.term_summary(self.POST, self.CV)
         st = {r["phrase"].lower(): r["status"] for r in s["phrases"]}
         self.assertEqual(st["stainless steel pipes"], "M")
-        self.assertEqual(st["boiler code"], "M")
         self.assertEqual(st["flange alignment"], "G")
-        self.assertEqual(st["pressure vessels"], "G")
-        # a close phrase (shares "boiler" with a CV line) is never reported as a match
-        self.assertEqual(st["boiler tubes"], "R")
+        self.assertEqual(st["tubes"], "G")
+        # the skills: "boiler" is on the CV, "pressure vessels" is not
+        matched, missing, _, _ = self.kx.compare(self.kx.extract_job_keywords(self.POST), self.kx.extract_cv_keywords(self.CV))
+        self.assertIn("Building systems maintenance", matched)
+        self.assertIn("Pressure vessels and piping", missing)
+
+    def test_close_needs_every_word_of_a_short_phrase(self):
+        """Close: the words of a 2-3 word phrase all on one CV line, in another form or order (same rule in docs/matcher.js)."""
+        import terms
+        ix = terms.index_cv("Medical-surgical unit: patient assessment, medication administration, wound care.\n"
+                            "Led a kaizen project that cut changeover time.\n")
+        self.assertEqual(terms.match_term(["assess", "patient"], ix)[0], "R")
+        self.assertEqual(terms.match_term(["cutting", "edge"], ix)[0], "G", "one shared word is not close")
+        self.assertEqual(terms.match_term(["career", "development"], ix)[0], "G")
+        self.assertEqual(terms.match_term(["united", "state"], ix)[0], "G")
+        self.assertEqual(terms.match_term(["career"], ix)[0], "G", "career is not care")
+        self.assertEqual(terms.match_term(["planning"], terms.index_cv("Production planner"))[0], "R", "one word: same stem")
 
     def test_company_part_is_listed_but_not_counted(self):
         s = self.kx.term_summary(self.POST, self.CV)
@@ -674,6 +741,20 @@ class OpenVocabularyTest(unittest.TestCase):
         self.assertTrue(any("coffee" in r["phrase"].lower() for r in about))
         self.assertEqual(s["counted"], len(s["phrases"]) - len(about))
         self.assertLessEqual(s["pct"], s["pct_with_close"])
+
+    def test_cv_headings_name_and_dates_are_not_matched(self):
+        """A heading line, the name at the top and dates are not the person's skills (same rule in docs/matcher.js)."""
+        import terms
+        cv = "Alex Example, RN\nEDUCATION\nB.Sc.N. Nursing, Sep 2020 - Dec 2024\nRegistered Nurse, Jan 2025 - Present\n"
+        ix = terms.index_cv(cv, self.kx.CV_HEADINGS)
+        for word in ("education", "example", "alex", "dec", "present", "jan"):
+            self.assertEqual(terms.match_term([word], ix)[0], "G", word)
+        self.assertEqual(terms.match_term(["rn"], ix)[0], "M", "what follows the name on the first line is kept")
+        self.assertEqual(terms.match_term(["registered", "nurse"], ix)[0], "M")
+        self.assertEqual(terms.match_term(["nursing"], ix)[0], "M")
+        # a first line that is not a name is kept whole
+        ix2 = terms.index_cv("Registered nurse with 2 years in surgery\n", self.kx.CV_HEADINGS)
+        self.assertEqual(terms.match_term(["registered", "nurse"], ix2)[0], "M")
 
     def test_filler_words_are_not_keywords(self):
         s = self.kx.term_summary("Responsibilities\n- You will be able to work with the team and support our clients\n", self.CV)

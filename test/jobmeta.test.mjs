@@ -85,4 +85,23 @@ assert.ok(has(/Security/) && has(/French\/English/) && has(/bachelor/) && has(/4
 assert.equal(J.descFlags("").length, 0);
 assert.ok(J.descFlags("English only. Nothing else.").some((f) => f[0] === "g"));
 
+// ---- Job Bank open data: no text, but the experience and education asked are published ----
+const facts = [
+  // [title, experience, education, level wanted, why]
+  ["research assistant, university", "3 years to less than 5 years", 6, 2, "a role noun gives way to the experience asked"],
+  ["cook", "5 years or more", 2, 3, "no level word: the experience decides"],
+  ["cook", "1 year to less than 2 years", 2, 1, ""],
+  ["cook", "7 months to less than 1 year", null, 1, ""],
+  ["cook", "No experience", 1, 1, ""],
+  ["cook", undefined, 2, 1, "no experience named, high school asked: entry"],
+  ["cook", undefined, 4, 2, "nothing to go on: the default"],
+  ["marketing assistant", "No experience", 4, 1, "the title already says entry"],
+  ["senior cook", "1 year to less than 2 years", 2, 3, "a clear level word in the title wins"],
+  ["co-op student - engineering", "No experience", 4, 0, "a student title wins"],
+  ["director of operations", "1 year to less than 2 years", 4, 4, ""],
+];
+for (const [t, x, e, want, why] of facts) assert.equal(J.factsLevel(t, x, e, "").lvl, want, t + " / " + x + ": " + why);
+assert.match(J.factsLevel("cook", "5 years or more", 2, "").why, /5 years or more/);
+assert.equal(J.factsLevel("cook", "", null, "").src, "default");
+
 console.log("jobmeta tests passed:", levels.length, "titles,", Object.keys(CVS).length, "CVs,", fields.length, "fields");

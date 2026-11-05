@@ -362,6 +362,26 @@ fsx.rmSync(dir, { recursive: true });
 
 console.log("all tests passed:", out.jobs.length, "merged postings;", JSON.stringify(out.sources.Greenhouse));
 
+/* A title keeps its job word even when a broad skill holds it: "Registered Nurse" is "Healthcare and clinical" and also "Registered Nurse" */
+{
+  const { loadMatcher, loadSkills } = await import("../scripts/umd.mjs");
+  const E = loadMatcher().engine(loadSkills());
+  const T = (t) => [...E.profile(t, "", 40).kw.filter((k) => k[0] === "T")];   // a plain array: the engine runs in its own sandbox
+  assert.deepEqual(T("Registered Nurse"), ["Ts|Healthcare and clinical", "Tt|Registered Nurse"]);
+  assert.ok(T("Registered Physiotherapist").includes("Tt|Physiotherapist"), "the job word of another health job stays too");
+  assert.ok(T("Line Cook").includes("Tt|Line Cook"));
+  assert.deepEqual(T("Sales"), ["Ts|Sales"], "a title that is the skill's own name adds nothing");
+  assert.ok(!T("Nursing Unit Clerk").includes("Tt|Nursing"), "a skill word that only qualifies the job is not added");
+  assert.ok(!T("Stagiaire - Génie industriel / Industrial Engineering Intern").some((k) => /génie/i.test(k)), "a bilingual title adds no French name for an English CV to miss");
+  assert.ok(T("personal support worker – nursing care").includes("Tt|personal support worker"));
+  assert.ok(!T("general labourer - manufacturing").includes("Tt|manufacturing"), "the industry after the job is not the job");
+  // a nurse CV now covers more of a nurse title than of a physiotherapist title
+  const cv = "Registered Nurse, Hôpital Général, 2025 - Present\nPatient assessment, medication administration, wound care.";
+  const found = E.findCv(cv), ix = E.indexCv(cv);
+  const share = (t) => { const r = E.profileStatus(T(t), found, ix); return r.filter((x) => x.st === "M").length / r.length; };
+  assert.ok(share("Registered Nurse") > share("Registered Physiotherapist"), "nurse title: " + share("Registered Nurse") + ", physiotherapist title: " + share("Registered Physiotherapist"));
+}
+
 /* Job Bank jobs whose text was not read get their occupation (NOC) and are scored from its official description */
 {
   const lib = c.loadNocLibrary();
@@ -379,6 +399,12 @@ console.log("all tests passed:", out.jobs.length, "merged postings;", JSON.strin
   const t = c.occupationText(lib, "63201.00", "en");
   assert.ok(t.includes("Main duties") && /cut/i.test(t));
   assert.ok(c.occupationText(lib, "63201.00", "fr").includes("Fonctions principales"));
+  // a licence is checked by the card, not turned into keywords: a registered nurse has no "Registration" or "body" to match
+  const rn = c.occupationText(lib, "31301.01", "en");
+  assert.ok(!/requirements|regulatory body/i.test(rn), "no requirements in the occupation text");
+  const E = (await import("../scripts/umd.mjs")).loadMatcher().engine((await import("../scripts/umd.mjs")).loadSkills());
+  const kw = E.profile("registered nurse", rn).kw;
+  assert.ok(!kw.some((k) => k[0] === "R"), "no Required keywords from the occupation: " + kw.filter((k) => k[0] === "R").join(", "));
   c.addProfiles(jobs, () => {}, new Map(), lib);
   assert.ok(jobs[0].kw.length > 10 && jobs[0].kw.some((k) => k[0] === "K"), "scored from the duties of the occupation");
   assert.ok(jobs[2].kw.length < 5, "a job with no occupation keeps the keywords of its title only");

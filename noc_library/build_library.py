@@ -501,13 +501,14 @@ RULES = {
     "guess_sources": [
         "The item is a core competency or a skill rated 4-5 of an occupation the CV clearly fits (title found on the CV).",
         "The item is a duty keyword of an occupation the CV clearly fits.",
+        "Partial fit (a field of study, or a title with fewer points): core skills of that occupation, and duties partly written on the CV.",
         "Language: the CV is written in that language or lists studies done in it.",
         "Education: the required degree is in progress on the CV.",
     ],
     "never_guess": ["certifications and licences (always Matched or Missing)", "items from weak links (a single shared word)"],
     "written_proof_wins": True,
     "occupation_detection": {"title_found_on_cv": 3.0, "keyword_found": 1.0, "core_competency_found": 0.5,
-                             "clear_fit_min_score": 3.0},
+                             "clear_fit_min_score": 3.0, "partial_fit_min_score": 1.5},
 }
 
 meta = {
