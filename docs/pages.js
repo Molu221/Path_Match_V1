@@ -19,7 +19,8 @@
     ladder: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21h5v-5h5v-5h5V6h3"/></svg>',
     swipe: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="4" width="14" height="16" rx="2"/><path d="M9 12.5l2 2 4-4.5"/></svg>',
     board: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="5" height="16" rx="1"/><rect x="10" y="4" width="5" height="10" rx="1"/><rect x="17" y="4" width="4" height="13" rx="1"/></svg>',
-    plan: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4M9 15l2 2 4-4"/></svg>'
+    plan: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4M9 15l2 2 4-4"/></svg>',
+    target: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2"/></svg>'
   };
   const META = {
     market: { name: "Market map", title: "Market map", hue: "var(--violet)", blurb: "See where the postings are: by province, field and stage." },
@@ -27,9 +28,10 @@
     ladder: { name: "Career ladder", title: "Career ladder", hue: "var(--coral)", blurb: "What each rung asks for in your field, and what is new on the next one." },
     swipe: { name: "Quick sort", title: "Quick sort", hue: "var(--berry)", blurb: "Go through postings one card at a time: save or skip." },
     board: { name: "Application board", title: "Application board", hue: "var(--peach)", blurb: "Track what you saved, applied to, and heard back about." },
-    plan: { name: "Week plan", title: "Week plan", hue: "var(--sun)", blurb: "The few postings worth your applications this week, with a score range for each." }
+    plan: { name: "Week plan", title: "Week plan", hue: "var(--sun)", blurb: "The few postings worth your applications this week, with a score range for each." },
+    target: { name: "Target or spray?", title: "Target or spray?", hue: "#19a7b8", blurb: "How much a high score must help before a few tailored applications beat many quick ones." }
   };
-  const ORDER = ["market", "lab", "plan", "ladder", "swipe", "board"];
+  const ORDER = ["market", "lab", "plan", "target", "ladder", "swipe", "board"];
   const LANGSKILL = new Set(["english", "french", "anglais", "francais", "bilingual", "bilingue", "bilingual (en/fr)"]);
   /* general strengths: postings name them, but they are not something to "learn first". They are shown apart from role skills. */
   const SOFT = new Set(("leadership|attention to detail|initiative|autonomy|organizational skills|explaining complex ideas|patience|perseverance|curiosity|takes on challenges|problem solving|analytical skills|communication|teamwork|collaboration|interpersonal skills|time management|prioritization|multitasking|works under pressure|meets deadlines|adaptability|critical thinking|creativity|innovation|proactivity|resourcefulness|rigor|accountability|dependability|punctuality|professionalism|integrity|discretion and confidentiality|active listening|empathy|emotional intelligence|diplomacy and tact|conflict resolution|negotiation|persuasion and influence|decision making|presentation skills|written communication|verbal communication|strategic thinking|synthesis|learning agility|resilience|motivation|enthusiasm|entrepreneurial spirit|cultural awareness|results orientation|mentoring and coaching|stakeholder management|cross-functional work|team management|facilitation|diversity and inclusion").split("|"));
@@ -650,14 +652,14 @@
     }
     return out;
   }
-  function planData() {
+  function planData(nOverride) {
     const half = Planner.HALF[PLAN.half] || Planner.HALF.balanced, done = onBoardKeys(), pool = planPool(done);
     const top = pool.map((r) => ({ r, u: r.s.total * Planner.fresh(dayAge(r.j), half) })).sort((a, b) => b.u - a.u).slice(0, 300);
     const cands = top.map(({ r }) => {
       if (!r._rg || r._rg.s !== r.s) { const x = Planner.range(Scoring, r.s.rows, r.s.fit, r.s.ti, jkey(r.j)); r._rg = { s: r.s, lo: x.lo, mid: x.mid, hi: x.hi }; }
       return { key: jkey(r.j), company: r.j.company, lo: r._rg.lo, mid: r._rg.mid, hi: r._rg.hi, ageDays: dayAge(r.j), block: PLAN.noelig && eligOf(r.j).sec ? "security" : "", r };
     });
-    const res = Planner.pick(cands, { n: planN(), half, perEmployer: 2 });
+    const res = Planner.pick(cands, { n: nOverride || planN(), half, perEmployer: 2 });
     const mean = pool.length ? pool.reduce((a, r) => a + r.s.total, 0) / pool.length : 0;
     return { chosen: res.chosen, skipped: res.skipped, cands, front: Planner.pareto(cands), half, considered: pool.length, mean };
   }
@@ -779,6 +781,85 @@
   }
 
   /* =====================================================================
+     TARGET OR SPRAY?: how much must a high score help before a few tailored applications beat many quick ones (maths in planner.js)
+     ===================================================================== */
+  const TG_DEFAULT = { base: 3, m: 1.5, hours: 8, quick: 15, tailor: 3 };
+  const TG = Object.assign({}, TG_DEFAULT, store.get("pm_tgt", {}) || {});
+  const TG_LIMITS = { base: [1, 10, 0.5], m: [1, 3, 0.05], hours: [2, 20, 1], quick: [5, 45, 5], tailor: [1, 6, 0.5] };
+  const pc1 = (x) => (x * 100 < 10 ? (x * 100).toFixed(1) : Math.round(x * 100)) + "%";
+  const f1 = (x) => (Math.round(x * 10) / 10).toFixed(1);
+  /* applications on the board that are old enough to have had an answer (14 days), with the score they had when sent */
+  function boardOutcomes() {
+    const cut = Date.now() - 14 * 864e5;
+    return entries().filter((e) => e.c !== "saved" && e.sc != null && e.a && e.a <= cut).map((e) => ({ score: e.sc, iv: !!e.iv }));
+  }
+  function targetChart(hist, picks, nSpray, mean, r0, mNow, be) {
+    const W = 640, H = 280, L = 44, R = 16, T = 14, B = 42, ms = [];
+    for (let m = 1; m <= 3.0001; m += 0.05) ms.push(Math.round(m * 100) / 100);
+    const sp = ms.map((m) => Planner.expectedSpray(hist, nSpray, mean, r0, m)), tg = ms.map((m) => Planner.expectedTarget(picks, mean, r0, m));
+    const ymax = Math.max(0.5, ...sp, ...tg) * 1.08;
+    const X = (m) => +(L + ((m - 1) / 2) * (W - L - R)).toFixed(1), Y = (v) => +(T + (1 - v / ymax) * (H - T - B)).toFixed(1);
+    const line = (a) => a.map((v, i) => (i ? "L" : "M") + X(ms[i]) + " " + Y(v)).join("");
+    const step = ymax > 8 ? 2 : ymax > 3 ? 1 : 0.5, grid = [];
+    for (let v = 0; v <= ymax; v += step) grid.push(`<line class="pcg" x1="${L}" x2="${W - R}" y1="${Y(v)}" y2="${Y(v)}"/><text class="pct" x="${L - 6}" y="${Y(v) + 4}" text-anchor="end">${v % 1 ? v.toFixed(1) : v}</text>`);
+    for (let m = 1; m <= 3.001; m += 0.5) grid.push(`<text class="pct" x="${X(m)}" y="${H - B + 16}" text-anchor="middle">×${m.toFixed(1)}</text>`);
+    const bx = be.kind === "found" ? X(be.m) : null;
+    return `<svg class="wkchart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Expected interviews this week against the multiplier per 10 score points, for spraying and for targeting. Targeting catches up at ${be.kind === "found" ? "about ×" + be.m : be.kind === "always" ? "any multiplier" : "no multiplier up to ×6"}.">${grid.join("")}
+      <line class="tgnow" x1="${X(mNow)}" x2="${X(mNow)}" y1="${T}" y2="${H - B}"/><text class="pct" x="${X(mNow)}" y="${T + 10}" text-anchor="${mNow > 2.5 ? "end" : "start"}" dx="${mNow > 2.5 ? -4 : 4}">your guess ×${mNow.toFixed(2).replace(/0$/, "")}</text>
+      <path class="tgsp" d="${line(sp)}"/><path class="tgtg" d="${line(tg)}"/>
+      ${bx !== null ? `<circle class="pcp" cx="${bx}" cy="${Y(Planner.expectedTarget(picks, mean, r0, be.m))}" r="6"/>` : ""}
+      <text class="pct tgl" x="${W - R}" y="${Y(sp[sp.length - 1]) - 6}" text-anchor="end">spray</text><text class="pct tgl" x="${W - R}" y="${Y(tg[tg.length - 1]) - 6}" text-anchor="end">target</text>
+      <text class="pct" x="${(L + W - R) / 2}" y="${H - 6}" text-anchor="middle">Odds multiply by this for every +10 score points</text><text class="pct" transform="translate(11 ${(T + H - B) / 2}) rotate(-90)" text-anchor="middle">Expected interviews</text></svg>`;
+  }
+  function renderTarget() {
+    const root = g("x-target");
+    const intro = head("Target or spray?", "Is it better to send many quick applications or a few tailored ones? This lab shows how much a high score has to raise your chance of an interview before targeting wins. The scores are your real ones. The chances are guesses you set, so nothing here is a forecast.");
+    if (!CV) { paint(root, intro + `<div class="xempty"><b>Add your CV to run the lab</b>The lab uses your scores, so it needs your CV first.<div class="row"><a class="xbtn solid" href="#p=details" data-p="details">Add my CV</a></div></div>`); return; }
+    if (SCORING || SCORED_FOR !== CV || !DICT) { paint(root, intro + `<div class="xempty"><b>Reading your CV against every posting…</b>${esc(SCORING || "One moment.")}</div>`); return; }
+    const pool = planPool(onBoardKeys());
+    if (pool.length < 20) { paint(root, intro + `<div class="xempty"><b>Too few postings fit your details</b>The lab needs at least twenty employer postings with a full text. Widen your choices on the details page.<div class="row"><a class="xbtn solid" href="#p=details" data-p="details">Edit my details</a></div></div>`); return; }
+    const scores = pool.map((r) => r.s.total), hist = Planner.histogram(scores), mean = Planner.meanOf(scores), r0 = TG.base / 100;
+    const nSpray = Math.max(1, Math.min(300, Math.round((TG.hours * 60) / TG.quick))), nTarget = Math.max(1, Math.min(40, Math.floor((TG.hours * 60) / (TG.quick * TG.tailor))));
+    const picks = planData(nTarget).chosen.map((c) => c.mid);
+    if (!picks.length) { paint(root, intro + '<div class="xempty"><b>Nothing to target</b>No posting fits your choices.</div>'); return; }
+    const sim = Planner.simulate(hist, picks, nSpray, mean, r0, TG.m, 2000, "tgt|" + nSpray + "|" + picks.join()), be = Planner.breakEven(hist, picks, nSpray, mean, r0, 6);
+    const pS = Planner.poolChance(hist, mean, r0, TG.m), pT = picks.reduce((t, sc) => t + Planner.chance(sc, mean, r0, TG.m), 0) / picks.length;
+    const eS = sim.spray.mean, eT = sim.target.mean, win = eT > eS * 1.1 ? "target" : eS > eT * 1.1 ? "spray" : "close";
+    const sentence = win === "target" ? `With the same ${TG.hours} hours, targeting expects about <b>${f1(eT)}</b> interviews against <b>${f1(eS)}</b> for spraying.` : win === "spray" ? `With the same ${TG.hours} hours, spraying expects about <b>${f1(eS)}</b> interviews against <b>${f1(eT)}</b> for targeting. Volume wins at these settings.` : `At these settings the two are too close to call: about <b>${f1(eT)}</b> interviews for targeting and <b>${f1(eS)}</b> for spraying.`;
+    const beText = be.kind === "found" ? `Targeting catches up once every +10 score points multiplies your odds by about <b>×${be.m.toFixed(2)}</b>. You guessed ×${TG.m.toFixed(2)}, which is ${TG.m >= be.m ? "above" : "below"} that line.` : be.kind === "always" ? "Targeting wins whatever the multiplier: it costs no more time than sending quickly." : "No multiplier up to ×6 lets targeting catch up: your picks are not far enough above a typical posting, or tailoring takes too long.";
+    const out = boardOutcomes(), imp = Planner.impliedMultiplier(out), k = out.filter((x) => x.iv).length;
+    const own = !out.length ? "Nothing here yet. Press “I applied” on the <a href=\"#p=plan\" data-p=\"plan\">Week plan</a> (or move cards on the <a href=\"#p=board\" data-p=\"board\">board</a>) and mark who answered. Only applications sent at least 14 days ago count, so late replies are not missed."
+      : `You logged <b>${out.length}</b> applications with a score that are at least 14 days old. <b>${k}</b> led to an interview (${pc1(k / out.length)}). ${imp ? `Splitting them at the middle score, the higher half did ${imp.m >= 1 ? "better" : "worse"} by about <b>×${imp.m.toFixed(2)}</b> per +10 points. A rough number from a small sample: do not lean on it.` : out.length < 20 || k < 3 ? "After about 20 applications with at least 3 interviews, this page compares your real results with your guess above." : "The scores are too close together to tell."}`;
+    const slider = (id, key, label, unit, note) => { const l = TG_LIMITS[key]; return `<div><label for="${id}"><b>${label}</b></label><div class="wkn"><input type="range" id="${id}" min="${l[0]}" max="${l[1]}" step="${l[2]}" value="${TG[key]}" data-f="${id}" aria-describedby="${id}o"><output id="${id}o" for="${id}" data-fmt="${key}">${tgFmt(key, TG[key])}</output></div><p class="note">${note}</p></div>`; };
+    const row = (l, a, b) => `<tr><th scope="row">${l}</th><td${win === "spray" ? ' class="win"' : ""}>${a}</td><td${win === "target" ? ' class="win"' : ""}>${b}</td></tr>`;
+    paint(root, intro + `<section class="xp" aria-labelledby="tgSet"><h2 id="tgSet">Your guesses</h2>
+      <div class="wkset tgset">${slider("tgBase", "base", "Interview chance for a typical posting", "%", "Across all postings that fit you, the average-score one.")}${slider("tgM", "m", "Odds multiply by this for every +10 score points", "×", "×1.0 means the score does not matter.")}${slider("tgHours", "hours", "Hours for applications this week", "h", "Your time budget.")}${slider("tgQuick", "quick", "A quick application takes", "min", "Send the CV, little tailoring.")}${slider("tgTailor", "tailor", "A tailored one takes this many times longer", "×", "Reading the posting, tuning the CV and the message.")}</div>
+      <div class="row" style="margin-top:8px"><button class="xbtn" data-act="tgreset" data-f="tgreset">Back to the starting guesses</button></div></section>
+    <section class="xp" style="margin-top:16px" aria-labelledby="tgRes"><h2 id="tgRes">Same hours, two strategies</h2><p class="note">${sentence}</p>
+      <div class="tgtab"><table><thead><tr><td></td><th scope="col">Spray: ${nSpray} quick applications to postings picked at random</th><th scope="col">Target: your best ${picks.length}, tailored</th></tr></thead><tbody>
+        ${row("Average score", Math.round(mean), Math.round(Planner.meanOf(picks)))}
+        ${row("Interview chance per application", pc1(pS), pc1(pT))}
+        ${row("Expected interviews (middle 80% of 2,000 runs)", `<b>${f1(eS)}</b> <small>${sim.spray.lo}–${sim.spray.hi}</small>`, `<b>${f1(eT)}</b> <small>${sim.target.lo}–${sim.target.hi}</small>`)}
+        ${row("Chance of at least one interview", pc1(sim.spray.any), pc1(sim.target.any))}
+        ${row("Applications for each interview", pS ? Math.round(1 / pS) : "–", pT ? Math.round(1 / pT) : "–")}
+        ${row("Interviews per hour of work", (eS / TG.hours).toFixed(2), (eT / TG.hours).toFixed(2))}</tbody></table></div></section>
+    <div class="xgrid eq">
+      <section class="xp" aria-labelledby="tgBe"><h2 id="tgBe">The break-even line</h2><p class="note" style="margin:2px 0 8px">${beText}</p>${targetChart(hist, picks, nSpray, mean, r0, TG.m, be)}</section>
+      <section class="xp" aria-labelledby="tgOwn"><h2 id="tgOwn">What your own applications say</h2><p class="note">${own}</p>
+        <details class="wkhow" style="margin-top:12px"><summary>How this is worked out</summary><ol>
+          <li><b>Your scores.</b> The pool is the employer postings with a full text that fit your details. Spray picks postings from it at random; target takes the best ones for your Week plan.</li>
+          <li><b>Hours.</b> The hours you give buy ${nSpray} quick or ${picks.length} tailored applications.</li>
+          <li><b>Chance.</b> A typical posting (average score ${Math.round(mean)}) has the chance you set; the odds change by your multiplier for every 10 points above or below it.</li>
+          <li><b>Runs.</b> 2,000 simulated weeks give the range. The break-even line is the smallest multiplier at which targeting expects as many interviews as spraying.</li></ol>
+          <p class="note">The shape is an assumption. The page does not show that targeting works; it shows how strong the effect would have to be, and your board is where the real number comes from. A heuristic: scores within 5 points are ties.</p></details></section>
+    </div>`);
+  }
+  const tgFmt = (key, v) => key === "base" ? v + "%" : key === "m" ? "×" + (+v).toFixed(2) : key === "hours" ? v + " h" : key === "quick" ? v + " min" : "×" + v;
+  const TG_IDS = { tgBase: "base", tgM: "m", tgHours: "hours", tgQuick: "quick", tgTailor: "tailor" };
+  function onTargetInput(e) { const k = TG_IDS[e.target.id]; if (k) g(e.target.id + "o").textContent = tgFmt(k, e.target.value); }
+  function onTargetChange(e) { const k = TG_IDS[e.target.id]; if (!k) return; const l = TG_LIMITS[k]; TG[k] = Math.max(l[0], Math.min(l[1], +e.target.value)); store.set("pm_tgt", TG); renderTarget(); }
+
+  /* =====================================================================
      START PAGE: numbers that count up, the stage preview, the Explore tiles
      ===================================================================== */
   let HKEY = "", counted = false;
@@ -817,7 +898,7 @@
     if (el.dataset.key === key) return; el.dataset.key = key;
     let lead = "";
     if (JOBS.length) { const st = stats("all"), top = Object.entries(st.prov).filter(([p]) => /^[A-Z]{2}$/.test(p)).sort((a, b) => b[1] - a[1])[0]; if (top) lead = `${PROV_NAME[top[0]]} leads with ${nf(top[1])} postings`; }
-    const extra = { market: lead, lab: CV ? "Your CV is loaded: open the lab" : "Needs your CV", ladder: "From intern to director, by field", swipe: "Up to 80 cards, ready to sort", board: SAVED.size ? `${SAVED.size} saved so far` : "Nothing saved yet", plan: CV ? "Pick this week's applications" : "Needs your CV" };
+    const extra = { market: lead, lab: CV ? "Your CV is loaded: open the lab" : "Needs your CV", ladder: "From intern to director, by field", swipe: "Up to 80 cards, ready to sort", board: SAVED.size ? `${SAVED.size} saved so far` : "Nothing saved yet", plan: CV ? "Pick this week's applications" : "Needs your CV", target: "Does a high score pay off?" };
     el.innerHTML = `<section class="xsec" aria-labelledby="xsH"><h2 id="xsH">Go further than a list</h2><div class="xtiles">${ORDER.map((id) => `<a class="xtile" style="--c:${META[id].hue}" href="#p=${id}" data-p="${id}">${ICON[id]}<b>${META[id].name}</b><span>${META[id].blurb}</span><em>${esc(extra[id] || "")}</em></a>`).join("")}</div></section>`;
   }
   function home() { bigStats(); homeTiles(); }
@@ -883,7 +964,8 @@
       ladder: { title: META.ladder.title, render: renderLadder },
       swipe: { title: META.swipe.title, render: renderSwipe },
       board: { title: META.board.title, render: renderBoard },
-      plan: { title: META.plan.title, render: renderPlan }
+      plan: { title: META.plan.title, render: renderPlan },
+      target: { title: META.target.title, render: renderTarget }
     },
     home,
     close() { /* replaced when the menu is built */ },
@@ -903,6 +985,9 @@
       g("x-plan").addEventListener("click", onPlanClick);
       g("x-plan").addEventListener("change", onPlanChange);
       g("x-plan").addEventListener("input", (e) => { if (e.target.id === "plN") g("plNo").textContent = e.target.value; });
+      g("x-target").addEventListener("input", onTargetInput);
+      g("x-target").addEventListener("change", onTargetChange);
+      g("x-target").addEventListener("click", (e) => { if (e.target.closest("[data-act=tgreset]")) { Object.assign(TG, TG_DEFAULT); store.set("pm_tgt", TG); renderTarget(); } });
       const trail = document.querySelector(".hometrail");
       if (trail) trail.addEventListener("click", (e) => {
         const a = e.target.closest("a[data-act]");

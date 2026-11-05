@@ -22,7 +22,7 @@ const XP = win.XP;
 assert.ok(XP, "pages.js sets window.XP");
 for (const fn of ["home", "init", "onStar", "close"]) assert.equal(typeof XP[fn], "function", "XP." + fn);
 const ids = Object.keys(XP.pages);
-assert.equal(ids.slice().sort().join(), ["board", "ladder", "lab", "market", "plan", "swipe"].sort().join(), "the six extra pages");
+assert.equal(ids.slice().sort().join(), ["board", "ladder", "lab", "market", "plan", "swipe", "target"].sort().join(), "the seven extra pages");
 for (const id of ids) {
   assert.equal(typeof XP.pages[id].render, "function", id + " has render()");
   assert.ok(XP.pages[id].title, id + " has a title");

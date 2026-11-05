@@ -94,5 +94,67 @@
     return front;
   }
 
-  return { DRAWS, HALF, hash, rng, range, fresh, pick, pareto };
+  /* ---------- Target or spray? ----------
+   * Sending many quick applications (spray) against a few tailored ones (target) at the same number of hours.
+   * The chance of an interview for a posting with score s is a guess the person sets: a typical posting (the average score of the pool)
+   * has chance r0, and the odds multiply by m for every +10 points. Nothing here is a forecast. The page uses it to find the break-even
+   * multiplier: how much a high score has to help before targeting wins. The Application board later shows the real one. */
+  function chance(score, mean, r0, m) {
+    const o = (r0 / (1 - r0)) * Math.pow(m, (score - mean) / 10);
+    return Math.min(0.9, o / (1 + o));
+  }
+  function histogram(scores) {
+    const h = new Array(101).fill(0);
+    for (const s of scores) h[Math.max(0, Math.min(100, Math.round(s)))]++;
+    return h;
+  }
+  const meanOf = (a) => (a.length ? a.reduce((x, y) => x + y, 0) / a.length : 0);
+  /* average chance for a posting drawn at random from the pool (hist) */
+  function poolChance(hist, mean, r0, m) {
+    let n = 0, t = 0;
+    for (let s = 0; s <= 100; s++) { n += hist[s]; t += hist[s] * chance(s, mean, r0, m); }
+    return n ? t / n : 0;
+  }
+  const expectedSpray = (hist, n, mean, r0, m) => n * poolChance(hist, mean, r0, m);
+  const expectedTarget = (picks, mean, r0, m) => picks.reduce((t, s) => t + chance(s, mean, r0, m), 0);
+  /* the smallest multiplier, from 1.00 in steps of 0.01 up to maxM, at which targeting expects at least as many interviews as spraying */
+  function breakEven(hist, picks, nSpray, mean, r0, maxM) {
+    maxM = maxM || 6;
+    const f = (m) => expectedTarget(picks, mean, r0, m) - expectedSpray(hist, nSpray, mean, r0, m);
+    if (f(1) >= 0) return { kind: "always", m: 1 };
+    for (let i = 1; i <= Math.round((maxM - 1) * 100); i++) { const m = 1 + i / 100; if (f(m) >= 0) return { kind: "found", m: Math.round(m * 100) / 100 }; }
+    return { kind: "never", m: null };
+  }
+  /* Monte Carlo (seeded): interviews after sending the applications. Spray draws postings at random from the pool; target sends the picks. */
+  function simulate(hist, picks, nSpray, mean, r0, m, trials, seed) {
+    trials = trials || 2000;
+    const r = rng(hash(seed || "target"));
+    const total = hist.reduce((x, y) => x + y, 0), cdf = [], pr = [];
+    let run = 0;
+    for (let s = 0; s <= 100; s++) { run += hist[s]; cdf.push(total ? run / total : 0); pr.push(chance(s, mean, r0, m)); }
+    const pickP = picks.map((s) => chance(s, mean, r0, m));
+    const draw = () => { const u = r(); let lo = 0, hi = 100; while (lo < hi) { const mid = (lo + hi) >> 1; if (cdf[mid] >= u) hi = mid; else lo = mid + 1; } return lo; };
+    const sp = [], tg = [];
+    for (let t = 0; t < trials; t++) {
+      let a = 0, b = 0;
+      if (total) for (let i = 0; i < nSpray; i++) if (r() < pr[draw()]) a++;
+      for (let i = 0; i < pickP.length; i++) if (r() < pickP[i]) b++;
+      sp.push(a); tg.push(b);
+    }
+    const sum = (x) => { const o = x.slice().sort((p, q) => p - q), q = (f) => o[Math.min(o.length - 1, Math.round(f * (o.length - 1)))]; return { mean: meanOf(x), lo: q(0.1), hi: q(0.9), any: x.filter((v) => v > 0).length / x.length }; };
+    return { spray: sum(sp), target: sum(tg) };
+  }
+  /* what a person's own applications imply: rows [{score, iv}]. Splits at the median score, compares the interview odds of the two halves
+     and turns the ratio into a multiplier per +10 points. A small sample gives a rough number: the page says so. Returns null when it cannot be told. */
+  function impliedMultiplier(rows) {
+    const n = rows.length;
+    if (n < 6) return null;
+    const o = rows.slice().sort((a, b) => a.score - b.score), half = Math.floor(n / 2), lo = o.slice(0, half), hi = o.slice(n - half);
+    const odds = (g) => { const k = g.filter((x) => x.iv).length, p = (k + 0.5) / (g.length + 1); return p / (1 - p); };
+    const gap = meanOf(hi.map((x) => x.score)) - meanOf(lo.map((x) => x.score));
+    if (gap < 8) return null;
+    return { m: Math.round(Math.pow(odds(hi) / odds(lo), 10 / gap) * 100) / 100, n, k: rows.filter((x) => x.iv).length, gap: Math.round(gap) };
+  }
+
+  return { DRAWS, HALF, hash, rng, range, fresh, pick, pareto, chance, histogram, meanOf, poolChance, expectedSpray, expectedTarget, breakEven, simulate, impliedMultiplier };
 });

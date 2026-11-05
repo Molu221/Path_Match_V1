@@ -54,4 +54,35 @@ assert.equal(Planner.pareto(pts).sort((x, y) => x - y).join(), "0,1,3,5", "front
 for (const i of Planner.pareto(pts)) assert.ok(!pts.some((q) => q !== pts[i] && q.ageDays <= pts[i].ageDays && q.lo >= pts[i].lo && (q.ageDays < pts[i].ageDays || q.lo > pts[i].lo)), "point " + i + " is not beaten");
 assert.equal(Planner.pareto([]).length, 0);
 
-console.log("planner tests passed: range, freshness, pick, Pareto front");
+// ---------- Target or spray? ----------
+const near = (x, y, e, msg) => assert.ok(Math.abs(x - y) <= e, msg + " (" + x + " vs " + y + ")");
+near(Planner.chance(30, 30, 0.03, 1.7), 0.03, 1e-9, "a typical posting has the chance the person set");
+assert.ok(Planner.chance(60, 30, 0.03, 1.5) > Planner.chance(40, 30, 0.03, 1.5) && Planner.chance(20, 30, 0.03, 1.5) < 0.03, "the chance rises with the score when the multiplier is above 1");
+near(Planner.chance(90, 30, 0.03, 1), 0.03, 1e-9, "with a multiplier of 1 the score does not matter");
+assert.ok(Planner.chance(100, 10, 0.5, 3) <= 0.9, "the chance is capped");
+const pool = Array.from({ length: 1000 }, (_, i) => 5 + (i % 40));            // scores 5..44, mean 24.5
+const hist = Planner.histogram(pool), mean = Planner.meanOf(pool);
+near(Planner.expectedSpray(hist, 30, mean, 0.03, 1), 0.9, 1e-9, "at a multiplier of 1, spraying 30 applications expects 30 x 3%");
+const picks = [70, 68, 66, 65, 64, 62, 60, 60, 59, 58];
+const be = Planner.breakEven(hist, picks, 30, mean, 0.03, 6);
+assert.equal(be.kind, "found"); assert.ok(be.m > 1 && be.m < 3, "break-even multiplier is plausible: " + be.m);
+const at = (m) => Planner.expectedTarget(picks, mean, 0.03, m) - Planner.expectedSpray(hist, 30, mean, 0.03, m);
+assert.ok(at(be.m) >= 0 && at(be.m - 0.01) < 0, "break-even is the first multiplier where targeting catches up");
+assert.ok(Planner.breakEven(hist, picks, 60, mean, 0.03, 6).m > be.m, "the more volume spraying buys, the higher the break-even");
+assert.equal(Planner.breakEven(hist, picks, 10, mean, 0.03, 6).kind, "always", "with equal numbers of applications targeting wins whatever the multiplier");
+assert.equal(Planner.breakEven(hist, [25, 24, 26, 25], 30, mean, 0.03, 6).kind, "never", "picks no better than average never catch up with more volume");
+const sim = Planner.simulate(hist, picks, 30, mean, 0.03, 1.6, 2000, "t1"), sim2 = Planner.simulate(hist, picks, 30, mean, 0.03, 1.6, 2000, "t1");
+assert.ok(sim.spray.mean === sim2.spray.mean && sim.target.mean === sim2.target.mean, "the simulation is repeatable");
+const eS = Planner.expectedSpray(hist, 30, mean, 0.03, 1.6), eT = Planner.expectedTarget(picks, mean, 0.03, 1.6);
+near(sim.spray.mean, eS, 0.12, "simulated spray matches its expected value"); near(sim.target.mean, eT, 0.12, "simulated target matches its expected value");
+assert.ok(sim.target.lo <= sim.target.mean && sim.target.mean <= sim.target.hi && sim.target.any >= 0 && sim.target.any <= 1, "ranges are ordered");
+// what the person's own applications imply
+assert.equal(Planner.impliedMultiplier([{ score: 50, iv: true }]), null, "too few applications to say anything");
+const mine = [];
+for (let i = 0; i < 20; i++) mine.push({ score: 70, iv: i < 5 });             // 5 of 20 interviews at 70
+for (let i = 0; i < 20; i++) mine.push({ score: 30, iv: i < 1 });             // 1 of 20 at 30
+const imp = Planner.impliedMultiplier(mine);
+assert.ok(imp && imp.m > 1.2 && imp.n === 40 && imp.k === 6, "higher scores that got more interviews imply a multiplier above 1: " + JSON.stringify(imp));
+assert.equal(Planner.impliedMultiplier(mine.map((x) => ({ score: 50, iv: x.iv }))), null, "no spread in the scores: cannot tell");
+
+console.log("planner tests passed: range, freshness, pick, Pareto front, target or spray");
