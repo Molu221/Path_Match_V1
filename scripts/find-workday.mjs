@@ -1,6 +1,6 @@
 // Finds the Workday career sites of employers. A site is https://{tenant}.{wdN}.myworkdayjobs.com/{site}; the tenant is nearly always the company's name,
 // but the number (wd1, wd3, wd5...) and the site name vary, so each tenant is tried against the usual ones.
-//   node scripts/find-workday.mjs [config/workday_candidates.json]     writes reports/workday.json (workflow: Find Workday sites)
+//   node scripts/find-workday.mjs [config/workday_candidates.json] [reports/workday.json]     writes the report (workflow: Find Workday sites)
 // A site counts as found when its answer has a number of postings; the report also gives how many of them are in Canada.
 import fs from "node:fs";
 import path from "node:path";
@@ -49,6 +49,6 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === path.resolve(process.a
   const hits = await find(cfg.tenants || [], console.log);
   const out = { at: new Date().toISOString(), known: known.sort((a, b) => (b.canada ?? b.total ?? -1) - (a.canada ?? a.total ?? -1)), checked: (cfg.tenants || []).length, found: Object.keys(hits).length, hits };
   fs.mkdirSync(path.join(ROOT, "reports"), { recursive: true });
-  fs.writeFileSync(path.join(ROOT, "reports", "workday.json"), JSON.stringify(out, null, 1));
+  fs.writeFileSync(path.resolve(ROOT, process.argv[3] || "reports/workday.json"), JSON.stringify(out, null, 1));
   console.log(`${out.found} of ${out.checked} tenants have a Workday site; ${known.filter((k) => !k.failed).length} of ${known.length} known sites answered`);
 }

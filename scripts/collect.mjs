@@ -186,12 +186,15 @@ export async function smartrecruiters(slug, nowMs) {
 }
 /* ---------- Adzuna ---------- */
 /* the main place (`where`, with `queries`) plus any `extraPlaces` ([{ where, queries? }], the main queries when none are given): the same search in more cities */
+/* a query is a text (one page) or { q, pages } to read more than one page of a busy search */
+export const queryOf = (q, dflt = 1) => (typeof q === "string" ? { q, pages: dflt } : { q: q.q, pages: q.pages || dflt });
 export const placesOf = (cfg) => [{ where: cfg.where, queries: cfg.queries }, ...(cfg.extraPlaces || []).map((p) => ({ where: p.where, queries: p.queries || cfg.queries }))];
 export async function adzuna(cfg, id, key, nowMs, log) {
   const out = [];
   let ok = 0, failed = 0;
-  for (const place of placesOf(cfg)) for (const q of place.queries) {
-    for (let page = 1; page <= cfg.pages; page++) {
+  for (const place of placesOf(cfg)) for (const qi of place.queries) {
+    const { q, pages } = queryOf(qi, cfg.pages || 1);
+    for (let page = 1; page <= pages; page++) {
       const u = new URL(`https://api.adzuna.com/v1/api/jobs/${cfg.country}/search/${page}`);
       u.search = new URLSearchParams({
         app_id: id, app_key: key, results_per_page: String(cfg.resultsPerPage), what: q, where: place.where,
@@ -588,18 +591,85 @@ export async function pages(urls, nowMs, log) {
   return { jobs: out.filter((j) => j.title && j.company && keep(j)), ok, failed };
 }
 
+/* ---------- career sites that list their postings in a sitemap and publish schema.org JobPosting data on each posting page ---------- */
+/* { name, sitemap, include?, max? }: `include` is a regular expression on the posting address (to leave out news and product pages), `max` the number of postings read
+   (default 150, newest first when the sitemap gives dates). robots.txt is read first, and a path it disallows for everyone is never fetched. */
+export function robotsAllows(robotsTxt, pathname) {
+  const groups = [];
+  let cur = null, lastWasAgent = false;
+  for (const raw of String(robotsTxt || "").split(/\r?\n/)) {
+    const line = raw.replace(/#.*/, "").trim();
+    const m = /^([A-Za-z-]+)\s*:\s*(.*)$/.exec(line);
+    if (!m) { if (!line) lastWasAgent = false; continue; }
+    const k = m[1].toLowerCase(), v = m[2].trim();
+    if (k === "user-agent") { if (!lastWasAgent) { cur = { agents: [], rules: [] }; groups.push(cur); } cur.agents.push(v.toLowerCase()); lastWasAgent = true; continue; }
+    lastWasAgent = false;
+    if (cur && (k === "disallow" || k === "allow")) cur.rules.push([k, v]);
+  }
+  const mine = groups.filter((g) => g.agents.includes("path-match")), star = groups.filter((g) => g.agents.includes("*"));
+  const rules = (mine.length ? mine : star).flatMap((g) => g.rules);
+  let best = null;   /* the longest matching rule wins; Allow wins a tie */
+  for (const [k, v] of rules) {
+    if (!v) continue;
+    const re = new RegExp("^" + v.replace(/[.+?^${}()|[\]\\]/g, "\\$&").replace(/\*/g, ".*").replace(/\\\$$/, "$"));
+    if (re.test(pathname) && (!best || v.length > best[1].length || (v.length === best[1].length && k === "allow"))) best = [k, v];
+  }
+  return !best || best[0] === "allow";
+}
+export function sitemapEntries(xml) {
+  const children = [], urls = [];
+  for (const m of String(xml).matchAll(/<(sitemap|url)>([\s\S]*?)<\/\1>/gi)) {
+    const loc = xmlGet(m[2], "loc"), last = xmlGet(m[2], "lastmod");
+    if (loc) (m[1].toLowerCase() === "sitemap" ? children : urls).push({ loc, last });
+  }
+  return { children, urls };
+}
+export async function sitemapSource(cfg, nowMs, log, pause = sleep) {
+  const out = [];
+  let ok = 0, failed = 0, listed = 0, blocked = 0;
+  const host = new URL(cfg.sitemap).origin;
+  let robots = "";
+  try { robots = await fetchText(host + "/robots.txt"); } catch { /* no robots.txt: nothing is disallowed */ }
+  if (!robotsAllows(robots, new URL(cfg.sitemap).pathname)) return { jobs: [], ok, failed, listed, blocked: 1, stop: "robots.txt disallows the sitemap" };
+  const include = cfg.include ? new RegExp(cfg.include, "i") : null;
+  let urls = [];
+  try {
+    const top = sitemapEntries(await fetchText(cfg.sitemap)); ok++;
+    urls = top.urls;
+    for (const c of top.children.slice(0, cfg.maxSitemaps || 6)) {
+      if (cfg.childInclude && !new RegExp(cfg.childInclude, "i").test(c.loc)) continue;
+      try { urls.push(...sitemapEntries(await fetchText(c.loc)).urls); ok++; } catch (e) { failed++; log(`Sitemap ${c.loc}: ${e.message}`); }
+      await pause(500);
+    }
+  } catch (e) { return { jobs: [], ok, failed: failed + 1, listed, blocked, stop: e.message }; }
+  urls = urls.filter((u) => !include || include.test(u.loc)).sort((a, b) => String(b.last).localeCompare(String(a.last)));
+  listed = urls.length;
+  for (const u of urls.slice(0, cfg.max || 150)) {
+    if (!robotsAllows(robots, new URL(u.loc).pathname)) { blocked++; continue; }
+    try { const html = await fetchText(u.loc, { headers: { Accept: "text/html" } }); ok++; for (const x of jsonLdJobs(html)) out.push(jobFromJsonLd(x, nowMs, cfg.name || "Career site", u.loc)); }
+    catch (e) { failed++; if (failed <= 3) log(`${cfg.name} ${u.loc}: ${e.message}`); }
+    await pause(cfg.delayMs ?? 700);
+  }
+  const jobs = out.filter((j) => j.title && (j.company || cfg.company) && keep(j)).map((j) => ({ ...j, company: j.company || cfg.company }));
+  return { jobs, ok, failed, listed, blocked };
+}
+
 /* ---------- search services that give a free key (set the key as a repository secret to switch them on) ---------- */
 export async function jooble(cfg, key, nowMs, log) {
   const out = [];
   let ok = 0, failed = 0;
-  for (const place of placesOf(cfg)) for (const q of place.queries) {
+  for (const place of placesOf(cfg)) for (const qi of place.queries) {
+    const { q, pages } = queryOf(qi, 1);
+    for (let page = 1; page <= pages; page++) {
     try {
-      const d = await postJson(`https://jooble.org/api/${key}`, { keywords: q, location: place.where, page: 1 });
+      const d = await postJson(`https://jooble.org/api/${key}`, { keywords: q, location: place.where, page });
       ok++;
       for (const x of d.jobs || []) out.push({ company: x.company || "Unknown", title: stripHtml(x.title), loc: x.location || "", date: String(x.updated || "").slice(0, 10), ageH: hoursSince(x.updated, nowMs),
         type: typeFrom((x.type || "") + " " + x.title), sources: [{ src: "Jooble", url: x.link }], desc: cut(stripHtml(x.snippet)), partial: true });
-    } catch (e) { failed++; log(`Jooble "${q}" in ${place.where}: ${e.message}`); if (e.status === 401 || e.status === 403) break; }
+      if (!(d.jobs || []).length) break;
+    } catch (e) { failed++; log(`Jooble "${q}" in ${place.where} page ${page}: ${e.message}`); if (e.status === 401 || e.status === 403) return { jobs: out.filter((j) => j.title && keep(j)), ok, failed, stop: e.message }; break; }
     await sleep(cfg.delayMs || 1000);
+    }
   }
   return { jobs: out.filter((j) => j.title && keep(j)), ok, failed };
 }
@@ -896,6 +966,13 @@ export async function main({ nowMs = Date.now(), log = console.log, write = true
     all.push(...r.jobs);
   }
 
+  /* 3b. career sites that list their postings in a sitemap (robots.txt respected) */
+  for (const site of companies.sitemaps || []) {
+    const r = await sitemapSource(site, nowMs, log);
+    sources["Career site: " + (site.name || site.sitemap)] = { listed: r.listed, requestsOk: r.ok, requestsFailed: r.failed, jobs: r.jobs.length, ...(r.blocked ? { blockedByRobots: r.blocked } : {}), ...(r.stop ? { error: r.stop } : {}) };
+    all.push(...r.jobs);
+  }
+
   /* 4. public search boards */
   await run("The Muse", searches.muse, () => muse(searches.muse, nowMs, log));
 
@@ -909,7 +986,7 @@ export async function main({ nowMs = Date.now(), log = console.log, write = true
   const id = env.ADZUNA_APP_ID, key = env.ADZUNA_APP_KEY;
   if (id && key) {
     const r = await adzuna(searches.adzuna, id, key, nowMs, log);
-    sources.Adzuna = { queries: placesOf(searches.adzuna).reduce((n, p) => n + p.queries.length, 0), requestsOk: r.ok, requestsFailed: r.failed, jobs: r.jobs.length, ...(r.stop ? { error: r.stop } : {}) };
+    sources.Adzuna = { queries: placesOf(searches.adzuna).reduce((n, p) => n + p.queries.reduce((m, q) => m + queryOf(q, searches.adzuna.pages || 1).pages, 0), 0), requestsOk: r.ok, requestsFailed: r.failed, jobs: r.jobs.length, ...(r.stop ? { error: r.stop } : {}) };
     all.push(...r.jobs);
   } else {
     sources.Adzuna = { skipped: "ADZUNA_APP_ID and ADZUNA_APP_KEY are not set" };

@@ -22,7 +22,7 @@ const XP = win.XP;
 assert.ok(XP, "pages.js sets window.XP");
 for (const fn of ["home", "init", "onStar", "close"]) assert.equal(typeof XP[fn], "function", "XP." + fn);
 const ids = Object.keys(XP.pages);
-assert.deepEqual(ids.slice().sort(), ["board", "ladder", "lab", "market", "swipe"].sort(), "the five extra pages");
+assert.equal(ids.slice().sort().join(), ["board", "ladder", "lab", "market", "plan", "swipe", "target"].sort().join(), "the seven extra pages");
 for (const id of ids) {
   assert.equal(typeof XP.pages[id].render, "function", id + " has render()");
   assert.ok(XP.pages[id].title, id + " has a title");
@@ -34,6 +34,7 @@ for (const id of ids) {
 // index.html loads the files in the right order: the page code before the script that reads window.XP
 const at = (s) => html.indexOf(s);
 assert.ok(at('<link rel="stylesheet" href="pages.css">') > 0, "pages.css is linked");
+assert.ok(at('<script src="planner.js"></script>') > 0 && at('<script src="planner.js"></script>') < at('<script src="pages.js"></script>'), "planner.js loads before pages.js");
 assert.ok(at('<script src="pages.js"></script>') > 0 && at('<script src="pages.js"></script>') < at("const XP=window.XP"), "pages.js loads before index.html reads XP");
 // a missing pages.js must not break the site
 assert.ok(/window\.XP\|\|\{pages:\{\}/.test(html), "index.html has a fallback when pages.js is missing");

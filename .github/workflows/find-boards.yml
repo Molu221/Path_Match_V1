@@ -1,30 +1,71 @@
 name: Find boards
 
-# Checks the employers in config/candidates.json against every open hiring system and writes reports/boards.json.
-# Add the slugs it finds to config/companies.json.
+# Looks for employers' own job boards in every open hiring system, then adds the ones it finds to config/companies.json,
+# so the next collection reads them (full posting text, every open posting).
+#   discovered: employers that show up in Adzuna, Jooble, The Muse and Job Bank results without a direct board yet (scripts/discover-employers.mjs),
+#               plus Workday guesses for the busiest of them. This is what runs every Sunday.
+#   curated:    the long starter list in config/candidates.json (run it by hand to check it again)
+# What was added is listed in reports/applied.json; board names that did not look like the employer are listed there as "review" and are not added.
 on:
-  workflow_dispatch: {}
+  schedule:
+    - cron: "37 9 * * 0"
+  workflow_dispatch:
+    inputs:
+      scope:
+        description: "What to look up"
+        type: choice
+        options: [discovered, curated, both]
+        default: discovered
 
 permissions:
   contents: write
 
+concurrency:
+  group: find-boards
+  cancel-in-progress: false
+
 jobs:
   find:
     runs-on: ubuntu-latest
-    timeout-minutes: 55
+    timeout-minutes: 90
+    env:
+      SCOPE: ${{ inputs.scope || 'discovered' }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: main
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - name: Check every candidate against every system
-        run: node scripts/find-boards.mjs --file config/candidates.json
-      - name: Save the report
+      - name: Pick the employers to look up from the latest postings
+        if: env.SCOPE != 'curated'
+        run: node scripts/discover-employers.mjs --limit 300 --workday 40
+      - name: Look for their job boards
+        run: |
+          FILES=""
+          [ "$SCOPE" != "discovered" ] && FILES="$FILES --file config/candidates.json"
+          [ "$SCOPE" != "curated" ] && FILES="$FILES --file config/candidates_discovered.json"
+          node scripts/find-boards.mjs $FILES
+      - name: Look for Workday sites of the busiest employers
+        if: env.SCOPE != 'curated'
+        run: node scripts/find-workday.mjs config/workday_discovered.json reports/workday_discovered.json
+      - name: Add what was found to the config
+        run: |
+          WD=""
+          [ -f reports/workday_discovered.json ] && WD="--workday reports/workday_discovered.json"
+          node scripts/apply-finds.mjs $WD
+      - name: Save the reports and the config
         run: |
           git config user.name "path-match-bot"
           git config user.email "path-match-bot@users.noreply.github.com"
-          git add reports/boards.json
+          for f in config/companies.json config/discovered.json config/candidates_discovered.json config/workday_discovered.json reports/boards.json reports/workday_discovered.json reports/applied.json; do
+            [ -e "$f" ] && git add "$f"
+          done
           git diff --cached --quiet && echo "No changes" && exit 0
           git commit -m "Find boards"
-          git pull --rebase origin main
-          git push
+          for i in 1 2 3; do
+            git pull --rebase -X theirs origin main && git push && exit 0
+            git rebase --abort 2>/dev/null || true
+            sleep 5
+          done
+          exit 1

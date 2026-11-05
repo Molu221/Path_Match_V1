@@ -185,7 +185,12 @@
   "tenstorrent",
   "toast",
   "unbounce",
-  "zscaler"
+  "zscaler",
+  "laportefr",
+  "latys",
+  "agapyo",
+  "sonypicturesimageworks",
+  "studiokraftonboard"
  ],
  "lever": [
   "vention",
@@ -273,7 +278,12 @@
   "pelmorex",
   "sait",
   "waabi",
-  "wattpad"
+  "wattpad",
+  "gorh",
+  "aviyatech",
+  "syntronic",
+  "vo2-group",
+  "gomaterials"
  ],
  "ashby": [
   "ramp",
@@ -340,7 +350,8 @@
   "rewind",
   "trulioo",
   "visier",
-  "webflow"
+  "webflow",
+  "Fuse"
  ],
  "smartrecruiters": [
   "bosch",
@@ -465,7 +476,9 @@
   "abbvie",
   "genetec",
   "hootsuite",
-  "metroinc"
+  "metroinc",
+  "MattelInc",
+  "Trigo"
  ],
  "workable": [
   "export-development-canada",
@@ -478,7 +491,8 @@
   "veritree",
   "sideinc",
   "tehora",
-  "nuvei"
+  "nuvei",
+  "montrealanalytics"
  ],
  "recruitee": [
   "huaweicanada",
@@ -489,7 +503,9 @@
  ],
  "breezy": [
   "telus",
-  "ywca"
+  "ywca",
+  "alphanumeric-systems",
+  "microhabitat"
  ],
  "bamboohr": [
   "taigamotors",
@@ -507,7 +523,11 @@
   "walmart"
  ],
  "personio": [],
- "teamtailor": [],
+ "teamtailor": [
+  "nordastelo",
+  "cammecanique",
+  "workinquebec"
+ ],
  "workday": [
   {
    "name": "CAE",
@@ -984,7 +1004,165 @@
    "host": "jll.wd1.myworkdayjobs.com",
    "tenant": "jll",
    "site": "JllCareers"
+  },
+  {
+   "name": "Carleton University",
+   "host": "carleton.wd1.myworkdayjobs.com",
+   "tenant": "carleton",
+   "site": "carletoncareers"
+  },
+  {
+   "name": "NAIT",
+   "host": "nait.wd10.myworkdayjobs.com",
+   "tenant": "nait",
+   "site": "Nait_Careers"
+  },
+  {
+   "name": "Thermo Fisher Scientific",
+   "host": "thermofisher.wd5.myworkdayjobs.com",
+   "tenant": "thermofisher",
+   "site": "ThermofisherCareers"
+  },
+  {
+   "name": "State Street",
+   "host": "statestreet.wd1.myworkdayjobs.com",
+   "tenant": "statestreet",
+   "site": "Global"
+  },
+  {
+   "name": "PayPal",
+   "host": "paypal.wd1.myworkdayjobs.com",
+   "tenant": "paypal",
+   "site": "Jobs"
+  },
+  {
+   "name": "Boeing",
+   "host": "boeing.wd1.myworkdayjobs.com",
+   "tenant": "boeing",
+   "site": "External_Careers"
+  },
+  {
+   "name": "Thales",
+   "host": "thales.wd3.myworkdayjobs.com",
+   "tenant": "thales",
+   "site": "Careers"
+  },
+  {
+   "name": "Stelco",
+   "host": "stelco.wd3.myworkdayjobs.com",
+   "tenant": "stelco",
+   "site": "stelco"
+  },
+  {
+   "name": "Rio Tinto",
+   "host": "riotinto.wd3.myworkdayjobs.com",
+   "tenant": "riotinto",
+   "site": "Riotinto_Careers"
+  },
+  {
+   "name": "Alcoa",
+   "host": "alcoa.wd5.myworkdayjobs.com",
+   "tenant": "alcoa",
+   "site": "Careers"
+  },
+  {
+   "name": "Maersk",
+   "host": "maersk.wd3.myworkdayjobs.com",
+   "tenant": "maersk",
+   "site": "Maersk_Careers"
+  },
+  {
+   "name": "Amgen",
+   "host": "amgen.wd1.myworkdayjobs.com",
+   "tenant": "amgen",
+   "site": "Careers"
+  },
+  {
+   "name": "Gilead Sciences",
+   "host": "gilead.wd1.myworkdayjobs.com",
+   "tenant": "gilead",
+   "site": "gileadcareers"
+  },
+  {
+   "name": "Capital Power",
+   "host": "capitalpower.wd10.myworkdayjobs.com",
+   "tenant": "capitalpower",
+   "site": "External"
+  },
+  {
+   "name": "Jabil",
+   "host": "jabil.wd5.myworkdayjobs.com",
+   "tenant": "jabil",
+   "site": "Jabil_Careers"
+  },
+  {
+   "name": "Kimberly-Clark",
+   "host": "kimberlyclark.wd1.myworkdayjobs.com",
+   "tenant": "kimberlyclark",
+   "site": "Global"
+  },
+  {
+   "name": "DuPont",
+   "host": "dupont.wd5.myworkdayjobs.com",
+   "tenant": "dupont",
+   "site": "jobs"
+  },
+  {
+   "name": "PPG",
+   "host": "ppg.wd5.myworkdayjobs.com",
+   "tenant": "ppg",
+   "site": "Ppg_Careers"
+  },
+  {
+   "name": "Ecolab",
+   "host": "ecolab.wd1.myworkdayjobs.com",
+   "tenant": "ecolab",
+   "site": "ecolab_external"
+  },
+  {
+   "name": "Investissement Québec",
+   "host": "investquebec.wd10.myworkdayjobs.com",
+   "tenant": "investquebec",
+   "site": "ext"
+  },
+  {
+   "name": "CAA-Québec",
+   "host": "caaquebec.wd3.myworkdayjobs.com",
+   "tenant": "caaquebec",
+   "site": "CarrieresCAA-Quebec"
+  },
+  {
+   "name": "CDPQ Infra and subsidiaries",
+   "host": "cdpqfiliales.wd10.myworkdayjobs.com",
+   "tenant": "cdpqfiliales",
+   "site": "CDPQ-Infra"
+  },
+  {
+   "name": "Promutuel Assurance",
+   "host": "promutuel.wd3.myworkdayjobs.com",
+   "tenant": "promutuel",
+   "site": "promutuel_carrieres"
+  },
+  {
+   "name": "Danaher",
+   "host": "danaher.wd1.myworkdayjobs.com",
+   "tenant": "danaher",
+   "site": "DanaherJobs"
+  },
+  {
+   "name": "Expedia Group",
+   "host": "expedia.wd5.myworkdayjobs.com",
+   "tenant": "expedia",
+   "site": "private"
+  },
+  {
+   "name": "F5",
+   "host": "ffive.wd5.myworkdayjobs.com",
+   "tenant": "ffive",
+   "site": "f5jobs"
   }
  ],
- "pages": []
+ "pages": [],
+ "sitemaps": [],
+ "_note_sitemaps": "Career sites that list their postings in a sitemap and publish schema.org JobPosting data on each posting page: { name, sitemap, include (regex on the posting address), max, company }. robots.txt is read first and a disallowed path is never fetched. Empty until a site is checked with the Probe job sites workflow."
 }
