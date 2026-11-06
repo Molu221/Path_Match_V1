@@ -229,6 +229,8 @@ label.inl{display:inline-flex;gap:5px;align-items:center;margin:0;font-weight:40
 /* describe the job you want */
 .dscr{margin:0 0 10px;padding:0 0 10px;border-bottom:1px dashed var(--line)}
 .dlab{display:block;margin:0 0 4px;font-weight:650;font-size:13.5px}
+.dlab .wfname{font-size:15px}
+.dlab .wfname svg{stroke:var(--accent)}
 .drow{display:flex;gap:8px;flex-wrap:wrap}
 .drow input{flex:1 1 300px;min-width:0;width:auto}
 .drow .go{background:var(--accent);color:var(--panel);border-color:var(--accent);font-weight:650}
@@ -280,6 +282,20 @@ label.inl{display:inline-flex;gap:5px;align-items:center;margin:0;font-weight:40
 .btnp:hover{filter:brightness(1.07)}
 .btng{display:inline-block;color:var(--hero-ink);font-weight:600;padding:13px 20px;border:1px solid rgba(234,246,243,.35);border-radius:8px;text-decoration:none}
 .btng:hover{border-color:var(--hero-ink)}
+/* Wayfinder: say the job you want */
+.wfname{display:inline-flex;align-items:center;gap:6px;font:800 14px/1 var(--f-disp);font-stretch:112%;letter-spacing:.01em}
+.wfname svg{width:17px;height:17px;stroke:var(--pin);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.wf{margin:24px 0 0;max-width:740px}
+.wf label{display:block;margin:0 0 8px;color:var(--hero-ink);font-size:15px;font-weight:400}
+.wf .wfname{font-size:18px;margin-right:6px}
+.wfrow{display:flex;gap:8px;flex-wrap:wrap}
+.wfrow input{flex:1 1 320px;min-width:0;width:auto;background:#fff;color:#0f2628;border-color:transparent;padding:12px 14px;font-size:15.5px;border-radius:8px}
+.wfrow input::placeholder{color:#5d7273}
+.wfrow button{background:var(--pin);color:var(--pin-ink);border-color:transparent;font-weight:700;padding:12px 20px;border-radius:8px}
+.wfrow button:hover{filter:brightness(1.07)}
+.wfex{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
+.wfex button{background:rgba(234,246,243,.1);color:var(--hero-ink);border:1px solid rgba(234,246,243,.3);border-radius:999px;padding:3px 11px;font-size:13px}
+.wfex button:hover{border-color:var(--hero-ink)}
 .hometrail{margin-top:34px;max-width:900px;pointer-events:none}
 .hometrail .stop{cursor:default}
 .how{padding:30px 16px 50px}
@@ -416,11 +432,16 @@ body.cmpon{padding-bottom:84px}
   <section class="hero">
     <div class="wrap">
       <h1 tabindex="-1">Jobs that fit where you are in your career.</h1>
-      <p class="lead">Upload your CV and tell us what you are looking for. Path Match reads your stage, from student to executive, scores every posting against your CV and gives you a ranked top 10, with the reason behind every score.</p>
+      <p class="lead">Upload your CV and tell us what you are looking for. Path Match reads your stage, from student to executive, scores every posting against your CV and gives you a ranked top 10, with the reason behind every score. Or skip the forms: tell <b>Wayfinder</b> the job you want in one sentence, in English or French.</p>
       <div class="cta">
         <a class="btnp" href="#p=details" data-p="details">Upload my CV</a>
         <a class="btng" href="#p=jobs" data-p="jobs">Browse all <span id="homeCount">the</span> jobs</a>
       </div>
+      <form class="wf" id="wform" role="search" autocomplete="off">
+        <label for="wq"><span class="wfname"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/></svg>Wayfinder</span> Say the job you want, in English or French</label>
+        <div class="wfrow"><input type="text" id="wq" maxlength="400" placeholder="e.g. part-time operations job near Longueuil, or: stage en chaîne d'approvisionnement à Montréal" enterkeyhint="search"><button type="submit">Find jobs</button></div>
+        <div class="wfex" id="wex"><button type="button" data-ex="Winter 2027 engineering or quality co-op in Montréal, bilingual, no security clearance">Co-op, Montréal, no clearance</button><button type="button" data-ex="part-time operations or warehouse job near Longueuil, about 20 hours a week">Part-time, about 20 h a week</button><button type="button" data-ex="stage en chaîne d'approvisionnement à Montréal">Stage en français</button><button type="button" data-ex="data analyst in Toronto, posted this week">Data analyst, this week</button></div>
+      </form>
       <div class="bigstats" id="bigstats" aria-live="polite"></div>
       <div class="hometrail">
         <div class="trail" id="htrail"></div>
@@ -599,7 +620,7 @@ body.cmpon{padding-bottom:84px}
         </div>
         <div class="toolbar" id="toolbar">
           <form class="dscr" id="dform" role="search" autocomplete="off">
-            <label class="dlab" for="dq">Describe the job you want</label>
+            <label class="dlab" for="dq"><span class="wfname"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/></svg>Wayfinder</span> · describe the job you want</label>
             <div class="drow"><input type="text" id="dq" maxlength="400" placeholder="e.g. engineering or quality co-op in Montréal, bilingual, no security clearance" enterkeyhint="search"><button type="submit" class="go" id="dsub">Find</button><button type="button" id="dclr" hidden>Clear</button></div>
             <div class="dex" id="dex"><span>Try</span><button type="button" data-ex="Winter 2027 engineering or quality co-op in Montréal, bilingual, no security clearance">Co-op, Montréal, no clearance</button><button type="button" data-ex="part-time operations or warehouse job near Longueuil, about 20 hours a week">Part-time, about 20 h a week</button><button type="button" data-ex="stage en chaîne d'approvisionnement à Montréal">Stage en français</button><button type="button" data-ex="data analyst in Toronto, posted this week">Data analyst, this week</button></div>
             <div class="dchips" id="dchips" aria-live="polite" hidden></div>
@@ -1326,7 +1347,7 @@ function tabCounts(){
   for(const r of poolFilter(+$("window").value))if(locOk(r.j)&&lvOk(r.j)&&fdOk(r.j))c[r.j.kind]++;
   return c;
 }
-function applyDescribe(text){
+function applyDescribe(text,push){
   text=String(text||"").trim();
   if(!text){resetFilters();return;}
   const r=Describe.parse(text,describeCtx());
@@ -1342,7 +1363,15 @@ function applyDescribe(text){
     if(c[best]>0)tab=best;else tab="full";
     DPICK={lead:c[tab]?"No type named, so showing "+TAB_NAME[tab]+" ("+nf(c[tab])+").":"Nothing matches all of this. Take a chip off to widen it.",others:["full","intern","part"].filter(t=>t!==tab&&c[t]>0).map(t=>[t,TAB_NAME[t]+" ("+nf(c[t])+")"])};
   }
-  refilter(true);
+  refilter(push!==false);
+}
+/* from the start page: open All jobs and apply the sentence there */
+function wayfind(text){
+  text=String(text||"").trim();
+  if(!text){$("wq").focus();return;}
+  DDRAFT=false;$("dq").value=text;
+  showPage("jobs",true);
+  applyDescribe(text,false);
 }
 function paintDescribe(){
   const box=$("dchips");
@@ -1373,6 +1402,8 @@ function paintDescribe(){
   box.innerHTML=out.length||pick?`<span class="rd">Read as:</span>${out.join("")}${pick?`<span class="rd">${pick}</span>`:""}`:`<span class="rd">Nothing in that sentence matched a filter. Try a role, a place, or a type such as co-op or part-time.</span>`;
   box.hidden=false;
 }
+$("wform").addEventListener("submit",e=>{e.preventDefault();wayfind($("wq").value);});
+$("wex").addEventListener("click",e=>{const b=e.target.closest("[data-ex]");if(!b)return;$("wq").value=b.dataset.ex;wayfind(b.dataset.ex);});
 $("dq").addEventListener("input",()=>{DDRAFT=true;});
 $("dform").addEventListener("submit",e=>{e.preventDefault();DDRAFT=false;applyDescribe($("dq").value);});
 $("dclr").onclick=()=>{$("dq").value="";DDRAFT=false;resetFilters();};
