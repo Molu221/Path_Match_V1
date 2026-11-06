@@ -35,6 +35,10 @@ for (const id of ids) {
 const at = (s) => html.indexOf(s);
 assert.ok(at('<link rel="stylesheet" href="pages.css">') > 0, "pages.css is linked");
 assert.ok(at('<script src="planner.js"></script>') > 0 && at('<script src="planner.js"></script>') < at('<script src="pages.js"></script>'), "planner.js loads before pages.js");
+// the Describe box: describe.js loads before the page script, its form and chips container exist once, and the ids it adds do not clash with older ones
+assert.ok(at('<script src="describe.js"></script>') > 0 && at('<script src="describe.js"></script>') < at('<script src="pages.js"></script>'), "describe.js loads before pages.js");
+for (const id of ["dform", "dq", "dsub", "dclr", "dex", "dchips"]) assert.equal((html.match(new RegExp(`id="${id}"`, "g")) || []).length, 1, `id ${id} appears once`);
+assert.ok(html.includes('$("dform").addEventListener("submit"'), "the Describe form is wired");
 assert.ok(at('<script src="pages.js"></script>') > 0 && at('<script src="pages.js"></script>') < at("const XP=window.XP"), "pages.js loads before index.html reads XP");
 // a missing pages.js must not break the site
 assert.ok(/window\.XP\|\|\{pages:\{\}/.test(html), "index.html has a fallback when pages.js is missing");
