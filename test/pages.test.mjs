@@ -39,6 +39,10 @@ assert.ok(at('<script src="planner.js"></script>') > 0 && at('<script src="plann
 assert.ok(at('<script src="describe.js"></script>') > 0 && at('<script src="describe.js"></script>') < at('<script src="pages.js"></script>'), "describe.js loads before pages.js");
 for (const id of ["dform", "dq", "dsub", "dclr", "dex", "dchips"]) assert.equal((html.match(new RegExp(`id="${id}"`, "g")) || []).length, 1, `id ${id} appears once`);
 assert.ok(html.includes('$("dform").addEventListener("submit"'), "the Describe form is wired");
+// Wayfinder on the start page: one form, one input, one list of examples, and the name appears on the start page and over the All jobs box
+for (const id of ["wform", "wq", "wex"]) assert.equal((html.match(new RegExp(`id="${id}"`, "g")) || []).length, 1, `id ${id} appears once`);
+assert.ok(html.includes('$("wform").addEventListener("submit"') && /function wayfind\(/.test(html), "the start page form is wired");
+assert.ok((html.match(/Wayfinder/g) || []).length >= 4, "the name Wayfinder is on the start page and over the All jobs box");
 assert.ok(at('<script src="pages.js"></script>') > 0 && at('<script src="pages.js"></script>') < at("const XP=window.XP"), "pages.js loads before index.html reads XP");
 // a missing pages.js must not break the site
 assert.ok(/window\.XP\|\|\{pages:\{\}/.test(html), "index.html has a fallback when pages.js is missing");
