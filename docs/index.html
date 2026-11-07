@@ -119,10 +119,22 @@ button.primary:hover{filter:brightness(1.06)}
 .t{font-weight:650;font-size:15.5px;overflow-wrap:anywhere;line-height:1.3}
 .meta{color:var(--mute);font-size:13px;display:flex;flex-wrap:wrap;gap:2px 14px;margin-top:3px}
 .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
-.subs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:10px;max-width:420px}
-.sb{font-size:11.5px;color:var(--mute)}
-.sb i{display:block;height:5px;background:var(--line);border-radius:3px;margin-top:3px;overflow:hidden}
-.sb i b{display:block;height:100%;background:var(--accent)}
+/* score meter: Role, Level and Keywords drawn at the length of their points on one 0 to 100 track */
+.meter{margin-top:12px;max-width:440px;--tick:color-mix(in srgb,var(--ink) 28%,transparent)}
+.mtrack{position:relative;height:10px;border-radius:5px;margin:5px 0 0;
+  background:linear-gradient(90deg,transparent calc(45% - .5px),var(--tick) calc(45% - .5px) calc(45% + .5px),transparent calc(45% + .5px) calc(60% - .5px),var(--tick) calc(60% - .5px) calc(60% + .5px),transparent calc(60% + .5px)),color-mix(in srgb,var(--line) 70%,var(--panel))}
+.mfill{position:absolute;inset:0;display:flex;border-radius:5px;overflow:hidden}
+.mfill i{display:block;height:100%;flex:none}
+.mfill .mr{background:var(--sky)}.mfill .ml{background:var(--mint)}.mfill .mk{background:var(--violet)}
+.mfill i+i{box-shadow:inset 2px 0 0 var(--panel)}
+.mtie{position:absolute;top:-5px;bottom:-5px;border-radius:4px;background:color-mix(in srgb,var(--ink) 9%,transparent);border:1px solid color-mix(in srgb,var(--ink) 24%,transparent);pointer-events:none}
+.mpin{position:absolute;top:-5px;bottom:-5px;width:2px;margin-left:-1px;background:var(--ink);border-radius:1px;pointer-events:none}
+.mleg{display:flex;flex-wrap:wrap;gap:2px 14px;margin-top:8px;font-size:12px;color:var(--mute)}
+.mleg b{color:var(--ink);font-weight:700}
+.mleg span::before{content:"";display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:5px;background:var(--sky)}
+.mleg .l::before{background:var(--mint)}.mleg .k::before{background:var(--violet)}
+.meter.slim{margin-top:6px;max-width:none}
+@media(prefers-reduced-motion:no-preference){.job.top .mfill{animation:msweep .7s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--i,0)*55ms)}@keyframes msweep{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}}
 .pill{display:inline-block;font-size:12px;padding:2px 8px;border-radius:999px;margin:6px 6px 0 0;background:var(--bg);border:1px solid var(--line)}
 .tags .pill{margin:0}
 .pill.w{background:var(--warn-soft);color:var(--warn);border-color:transparent}
@@ -139,8 +151,8 @@ button.primary:hover{filter:brightness(1.06)}
 .kw .M::before{content:"✓ "}
 .kw .R{background:var(--warn-soft);color:var(--warn)}
 .kw .R::before{content:"~ "}
-.kw .G{background:var(--bad-soft);color:var(--bad)}
-.kw .G::before{content:"✗ "}
+.kw .G{background:none;color:var(--mute);border-style:dashed}
+.kw .G::before{content:"✗ ";color:var(--bad);font-weight:700}
 .kw .N{background:var(--bg);color:var(--mute)}
 .ev{font-size:12.5px;color:var(--mute);margin:3px 0;overflow-wrap:anywhere}
 .inv{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px}
@@ -150,6 +162,12 @@ button.primary:hover{filter:brightness(1.06)}
 .sk-h{font-size:13px;color:var(--mute);margin-bottom:5px}
 .sk-h b{color:var(--ink)}
 .kw.sk span{font-size:12px;padding:1px 7px}
+/* one block per keyword: Match, then Close, then Gap */
+.cov{display:flex;align-items:center;gap:10px;margin:2px 0 8px}
+.cov .cbar{display:flex;gap:2px;flex:0 1 360px;min-width:0;height:10px}
+.cov .cbar i{flex:1 1 0;max-width:16px;min-width:3px;border-radius:2px;background:var(--line)}
+.cov .cbar .M{background:var(--ok)}.cov .cbar .R{background:var(--warn)}.cov .cbar .G{background:color-mix(in srgb,var(--line) 70%,var(--panel));box-shadow:inset 0 0 0 1px var(--line)}
+.cov span{font-size:12.5px;color:var(--mute);white-space:nowrap}.cov span b{color:var(--ink)}
 .kw .t{border-style:dashed;font-weight:400;font-size:12.5px}
 .mapgrid .kw{max-height:200px;overflow:auto;align-content:flex-start}
 .mapscroll{max-height:460px;overflow:auto;border:1px solid var(--line);border-radius:8px}
@@ -239,6 +257,7 @@ label.inl{display:inline-flex;gap:5px;align-items:center;margin:0;font-weight:40
 .dex button:hover{border-color:var(--accent)}
 .dchips{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:8px;font-size:13px}
 .dchips .rd{color:var(--mute)}
+.dprev .dchip{padding:0 11px}
 .dchip{display:inline-flex;align-items:center;border:1px solid var(--accent);background:var(--accent-soft);border-radius:999px;padding:0 2px 0 11px;line-height:1.7}
 .dchip.fix{padding:0 11px}
 .dchip.nt{border-style:dashed;background:transparent;color:var(--mute);padding:0 11px}
@@ -294,6 +313,9 @@ label.inl{display:inline-flex;gap:5px;align-items:center;margin:0;font-weight:40
 .wfrow button{background:var(--pin);color:var(--pin-ink);border-color:transparent;font-weight:700;padding:12px 20px;border-radius:8px}
 .wfrow button:hover{filter:brightness(1.07)}
 .wfex{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
+.wprev{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:10px;font-size:13px;color:var(--hero-mute)}
+.wprev .dchip{background:rgba(234,246,243,.12);border-color:rgba(234,246,243,.45);color:var(--hero-ink);padding:0 11px}
+.wprev .dchip.nt{background:none;border-style:dashed;color:var(--hero-mute)}
 .wfex button{background:rgba(234,246,243,.1);color:var(--hero-ink);border:1px solid rgba(234,246,243,.3);border-radius:999px;padding:3px 11px;font-size:13px}
 .wfex button:hover{border-color:var(--hero-ink)}
 .hometrail{margin-top:34px;max-width:900px;pointer-events:none}
@@ -351,11 +373,13 @@ button:disabled{opacity:.5;cursor:default}
 .job.top summary{grid-template-columns:54px minmax(0,1fr);gap:14px}
 .rank{text-align:center;padding-top:2px}
 .rank b{display:block;font:800 40px/1 var(--f-disp);font-stretch:78%;color:var(--l2)}
-.job.top:first-child .rank b{color:var(--pin)}
+.job.top:first-of-type .rank b{color:var(--pin)}
 .rank small{display:block;font-size:11.5px;color:var(--mute);margin-top:4px}
 .topscore{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 8px;margin-top:8px}
 .topscore b{font:800 30px/1 var(--f-disp);font-stretch:85%}
 .topscore span{color:var(--mute);font-size:13px}
+.tiegrp{margin:14px 0 8px;padding:6px 12px;border-left:4px solid color-mix(in srgb,var(--ink) 30%,transparent);background:color-mix(in srgb,var(--ink) 5%,transparent);border-radius:0 6px 6px 0;font-size:13px;color:var(--mute)}
+.tiegrp b{color:var(--ink)}
 .why{margin:6px 0 0;font-size:13.5px}
 .tactions{margin-top:14px}
 #tgaps{margin-top:18px}
@@ -440,6 +464,7 @@ body.cmpon{padding-bottom:84px}
       <form class="wf" id="wform" role="search" autocomplete="off">
         <label for="wq"><span class="wfname"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/></svg>Wayfinder</span> Say the job you want, in English or French</label>
         <div class="wfrow"><input type="text" id="wq" maxlength="400" placeholder="e.g. part-time operations job near Longueuil, or: stage en chaîne d'approvisionnement à Montréal" enterkeyhint="search"><button type="submit">Find jobs</button></div>
+        <div class="wprev" id="wprev" aria-live="polite" hidden></div>
         <div class="wfex" id="wex"><button type="button" data-ex="Winter 2027 engineering or quality co-op in Montréal, bilingual, no security clearance">Co-op, Montréal, no clearance</button><button type="button" data-ex="part-time operations or warehouse job near Longueuil, about 20 hours a week">Part-time, about 20 h a week</button><button type="button" data-ex="stage en chaîne d'approvisionnement à Montréal">Stage en français</button><button type="button" data-ex="data analyst in Toronto, posted this week">Data analyst, this week</button></div>
       </form>
       <div class="bigstats" id="bigstats" aria-live="polite"></div>
@@ -622,6 +647,7 @@ body.cmpon{padding-bottom:84px}
           <form class="dscr" id="dform" role="search" autocomplete="off">
             <label class="dlab" for="dq"><span class="wfname"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/></svg>Wayfinder</span> · describe the job you want</label>
             <div class="drow"><input type="text" id="dq" maxlength="400" placeholder="e.g. engineering or quality co-op in Montréal, bilingual, no security clearance" enterkeyhint="search"><button type="submit" class="go" id="dsub">Find</button><button type="button" id="dclr" hidden>Clear</button></div>
+            <div class="dchips dprev" id="dprev" aria-live="polite" hidden></div>
             <div class="dex" id="dex"><span>Try</span><button type="button" data-ex="Winter 2027 engineering or quality co-op in Montréal, bilingual, no security clearance">Co-op, Montréal, no clearance</button><button type="button" data-ex="part-time operations or warehouse job near Longueuil, about 20 hours a week">Part-time, about 20 h a week</button><button type="button" data-ex="stage en chaîne d'approvisionnement à Montréal">Stage en français</button><button type="button" data-ex="data analyst in Toronto, posted this week">Data analyst, this week</button></div>
             <div class="dchips" id="dchips" aria-live="polite" hidden></div>
           </form>
@@ -966,7 +992,10 @@ function skillsRow(j){
     return `<span class="${x.st}${x.kind==="t"?" t":""}" title="${esc((TAGNAME[x.tag]?TAGNAME[x.tag]+": ":"")+t)}">${esc(x.n)}</span>`;
   }).join("");
   const more=rows.length-MAX;
-  return `<div class="skills"><div class="sk-h"><b>${M} Match · ${C} Close · ${G} Gap</b> of the ${rows.length} main keywords of this ${where}${j.pasted?" · from the text you pasted":isOcc(j)?" · from the official description of the occupation":j.partial?" · short snippet only: open the card to paste the full text":hasText(j)?"":" · title only: open the card to paste the full text"}</div>
+  const cover=Math.round((M+0.5*C)/rows.length*100);
+  const cbar=["M","R","G"].map(st=>rows.filter(x=>x.st===st).map(x=>`<i class="${st}"></i>`).join("")).join("");
+  const covHtml=`<div class="cov" role="img" aria-label="Keyword coverage ${cover} percent: ${M} Match, ${C} Close at half credit, ${G} Gap, out of ${rows.length}"><span class="cbar" aria-hidden="true">${cbar}</span><span><b>${cover}%</b> coverage</span></div>`;
+  return `<div class="skills"><div class="sk-h"><b>${M} Match · ${C} Close · ${G} Gap</b> of the ${rows.length} main keywords of this ${where}${j.pasted?" · from the text you pasted":isOcc(j)?" · from the official description of the occupation":j.partial?" · short snippet only: open the card to paste the full text":hasText(j)?"":" · title only: open the card to paste the full text"}</div>${covHtml}
     <div class="kw sk">${chips}${more>0?`<span class="more">+${more} more, open the card</span>`:""}</div></div>`;
 }
 function pasteBox(j){
@@ -1274,10 +1303,17 @@ function breakdown(j,s){
     <tr><th>Level fit ${s.level}/25</th><td>${lvTxt}</td></tr>
     <tr><th>Keywords ${s.overlap}/35</th><td>${s.matched} Match and ${s.close} Close, out of the ${s.n} main keywords counted (${Math.round(s.cov*100)}% weighted coverage; 40% earns the full 35). Few keywords means a cautious score. Confidence: ${s.conf}.</td></tr></tbody></table>`;
 }
+/* The score drawn as it is counted: three parts on one 0 to 100 track. The pale band is the
+   plus or minus 5 points inside which two scores are a tie, so the picture never claims more than the number does. */
+function scoreMeter(s,slim){
+  const t=s.total,lo=Math.max(0,t-5),hi=Math.min(100,t+5);
+  const lab=`Score ${t} out of 100: role ${s.role} of 40, level ${s.level} of 25, keywords ${s.overlap} of 35. Scores within 5 points of each other are ties.`;
+  return `<div class="meter${slim?" slim":""}" role="img" aria-label="${lab}"><div class="mtrack" title="Marks at 45 and 60. The pale frame is plus or minus 5 points: scores inside it are ties."><span class="mtie" style="left:${lo}%;width:${hi-lo}%"></span><span class="mfill"><i class="mr" style="width:${s.role}%"></i><i class="ml" style="width:${s.level}%"></i><i class="mk" style="width:${s.overlap}%"></i></span><span class="mpin" style="left:${t}%"></span></div>${slim?"":`
+    <div class="mleg" aria-hidden="true"><span class="r"><b>${s.role}</b>/40 Role</span><span class="l"><b>${s.level}</b>/25 Level</span><span class="k"><b>${s.overlap}</b>/35 Keywords</span></div>`}</div>`;
+}
 function jobHtml(r,rank,top){
   const {j,s}=r,a=age(j),jk=jkey(j);
-  const bar=(v,m,l)=>`<div class="sb sb-${l.toLowerCase()}">${l} ${v}/${m}<i><b style="width:${v/m*100}%"></b></i></div>`;
-  return `<details class="job${top?" top":""} lv${s.lv.lvl}" data-k="${esc(jk)}"${OPEN.has(jk)?" open":""}><summary>
+  return `<details class="job${top?" top":""} lv${s.lv.lvl}" data-k="${esc(jk)}"${top?` style="--i:${rank-1}"`:""}${OPEN.has(jk)?" open":""}><summary>
     ${top?`<div class="rank"><b>${rank}</b><small>${starBtn(jk)}</small></div>`:`<div class="score"><b class="${scCls(s.total)}">${s.total}</b><small>#${rank}</small>${starBtn(jk)}</div>`}
     <div>
       <div class="t">${esc(j.title)}</div>
@@ -1286,7 +1322,7 @@ function jobHtml(r,rank,top){
       ${top?`<div class="topscore"><b class="${scCls(s.total)}">${s.total}</b><span>out of 100 · ${s.conf==="Full text"?"scored from the full text":s.conf==="Occupation profile"?"scored from the occupation profile":s.conf==="Short snippet"?"scored from a short snippet":"scored from the title only"}</span></div>`:""}
       ${tagsHtml(j,s.rel)}
       ${skillsRow(j)}
-      <div class="subs">${bar(s.role,40,"Role")}${bar(s.level,25,"Level")}${bar(s.overlap,35,"Keywords")}${top?"":`<span class="note" style="font-size:12px">${esc(s.conf)}</span>`}</div>
+      ${scoreMeter(s)}${top?"":`<div class="note" style="font-size:12px;margin-top:4px">${esc(s.conf)}</div>`}
       <div>${s.flags.map(f=>pill(f[0]==="g"?"g":f[0],f[1])).join("")}${a<24&&!j.mine?pill("n","24h"):""}${staleBadge(j,a)}${j.fresh?pill("n","New since you opened the page"):""}</div>
     </div></summary>
     <div class="det">
@@ -1369,7 +1405,7 @@ function applyDescribe(text,push){
 function wayfind(text){
   text=String(text||"").trim();
   if(!text){$("wq").focus();return;}
-  DDRAFT=false;$("dq").value=text;
+  DDRAFT=false;$("dq").value=text;clearPrev();$("wprev").hidden=true;
   showPage("jobs",true);
   applyDescribe(text,false);
 }
@@ -1378,6 +1414,7 @@ function paintDescribe(){
   if(DMSG){box.innerHTML=`<span class="rd">${esc(DMSG)}</span>`;box.hidden=false;return;}
   if(F.ds!==DSYNC||(!DDRAFT&&$("dq").value!==F.ds)){$("dq").value=F.ds;DSYNC=F.ds;DDRAFT=false;}
   $("dclr").hidden=!F.ds;
+  if(!DDRAFT)clearPrev();
   if(!F.ds||!DS){box.hidden=true;box.innerHTML="";return;}
   const ch=id=>DS.chips.find(c=>c.id===id)||{text:id,title:""};
   const rm=(id,text,title)=>`<span class="dchip" title="${esc(title||"")}"><span>${esc(text)}</span><button type="button" data-drm="${esc(id)}" aria-label="Remove: ${esc(text)}">×</button></span>`;
@@ -1404,10 +1441,32 @@ function paintDescribe(){
 }
 $("wform").addEventListener("submit",e=>{e.preventDefault();wayfind($("wq").value);});
 $("wex").addEventListener("click",e=>{const b=e.target.closest("[data-ex]");if(!b)return;$("wq").value=b.dataset.ex;wayfind(b.dataset.ex);});
+/* Wayfinder shows how it reads the sentence while it is typed, before anything is applied */
+function readingOf(text){
+  text=String(text||"").trim();
+  if(text.length<3)return"";
+  const r=Describe.parse(text,describeCtx());
+  if(!r.chips.length)return`<span class="rd">Not read yet. Try a role, a place, or a type such as co-op or part-time.</span>`;
+  const bits=r.chips.map(c=>`<span class="dchip ${c.kind==="note"?"nt":"fix"}" title="${esc(c.title||"")}">${esc(c.text)}</span>`).join("");
+  return`<span class="rd">Will read as:</span>${bits}<span class="rd">Press Find to apply.</span>`;
+}
+function livePreview(inp,box,same){
+  let t=0;
+  inp.addEventListener("input",()=>{
+    clearTimeout(t);
+    t=setTimeout(()=>{
+      const h=same&&same()?"":readingOf(inp.value);
+      box.innerHTML=h;box.hidden=!h;
+    },160);
+  });
+}
+const clearPrev=()=>{const b=$("dprev");b.innerHTML="";b.hidden=true;};
+livePreview($("wq"),$("wprev"));
+livePreview($("dq"),$("dprev"),()=>$("dq").value.trim()===F.ds);
 $("dq").addEventListener("input",()=>{DDRAFT=true;});
-$("dform").addEventListener("submit",e=>{e.preventDefault();DDRAFT=false;applyDescribe($("dq").value);});
-$("dclr").onclick=()=>{$("dq").value="";DDRAFT=false;resetFilters();};
-$("dex").addEventListener("click",e=>{const b=e.target.closest("[data-ex]");if(!b)return;$("dq").value=b.dataset.ex;DDRAFT=false;applyDescribe(b.dataset.ex);});
+$("dform").addEventListener("submit",e=>{e.preventDefault();DDRAFT=false;clearPrev();applyDescribe($("dq").value);});
+$("dclr").onclick=()=>{$("dq").value="";DDRAFT=false;clearPrev();resetFilters();};
+$("dex").addEventListener("click",e=>{const b=e.target.closest("[data-ex]");if(!b)return;$("dq").value=b.dataset.ex;DDRAFT=false;clearPrev();applyDescribe(b.dataset.ex);});
 $("dchips").addEventListener("click",e=>{
   const g=e.target.closest("[data-gotab]");
   if(g){tab=g.dataset.gotab;DPICK=null;SHOW=PAGE;render();writeHash(true);return;}
@@ -1818,7 +1877,7 @@ function cmpHtml(){
   const weak=rs.some(r=>r.s.conf==="Title only"||r.s.conf==="Short snippet");
   return `<p class="note" style="margin:8px 0">${lead}${weak?" A score read from a title or a short snippet is less reliable than one read from a full text.":""}</p>
   <table class="cmpt"><thead><tr><td></td>${rs.map(r=>`<th scope="col"><div>${esc(r.j.title)}</div><div class="note" style="font-weight:400">${esc(r.j.company)}</div></th>`).join("")}</tr></thead><tbody>
-  ${row("Score out of 100",r=>`<span class="big ${scCls(r.s.total)}">${r.s.total}</span>`,r=>r.s.total===best&&tops[0]-tops[1]>5)}
+  ${row("Score out of 100",r=>`<span class="big ${scCls(r.s.total)}">${r.s.total}</span>${scoreMeter(r.s,true)}`,r=>r.s.total===best&&tops[0]-tops[1]>5)}
   ${row("Role fit (of 40)",r=>r.s.role,r=>r.s.role===mx("role"))}
   ${row("Level fit (of 25)",r=>r.s.level,r=>r.s.level===mx("level"))}
   ${row("Keywords (of 35)",r=>r.s.overlap,r=>r.s.overlap===mx("overlap"))}
@@ -2116,7 +2175,14 @@ function renderMatches(){
     return;
   }
   $("tlead").innerHTML=`From ${nf(JOBS.length)} postings, <b>${nf(t.fit)}</b> fit your details. ${t.out.length>10?`Showing ranks 1 to ${t.out.length}`:t.out.length===10?"These 10":t.out.length===1?"This 1":"These "+t.out.length} fit${t.out.length===1?"s":""} your CV best.${t.relaxed?" Fewer than 10 have a full text, so postings with only a title or snippet are included.":""}`;
-  v.innerHTML=t.out.map((r,i)=>jobHtml(r,i+1,true)).join("");
+  /* a run of postings whose scores are all within 5 points of the first one is one tie: a heuristic cannot rank them apart */
+  const grp=[];
+  t.out.forEach((r,i)=>{const g=grp[grp.length-1],d=g?t.out[g.a].s.total-r.s.total:99;if(g&&d>=0&&d<=5)g.b=i;else grp.push({a:i,b:i});});
+  const head=new Map(grp.filter(g=>g.b>g.a).map(g=>[g.a,g]));
+  v.innerHTML=t.out.map((r,i)=>{
+    const g=head.get(i);
+    return(g?`<div class="tiegrp"><b>Ranks ${g.a+1} to ${g.b+1} are a tie</b>: within 5 points of ${g.a+1===1?"the top score":"#"+(g.a+1)}. Decide among them on the flags and the keywords, not on the order.</div>`:"")+jobHtml(r,i+1,true);
+  }).join("");
   $("tactions").hidden=false;$("tcopy").hidden=false;
   $("tmore").hidden=!t.more;$("tmore").textContent=`Show the next 10 (ranks ${t.out.length+1} to ${Math.min(50,t.out.length+10)})`;
   const gaps={};

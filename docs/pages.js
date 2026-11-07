@@ -438,7 +438,7 @@
       <h2>${esc(j.title)}</h2>
       <div class="meta"><span>${esc(j.company)}</span><span>${esc(j.loc || PROV_NAME[j.province] || "")}</span></div>
       <div class="tags" style="margin-top:10px"><span class="pill lvl lv${lv.lvl}" title="${esc(lv.why || "")}">${esc(LV[lv.lvl].label)}</span>${fieldPill(fdOf(j))}${j.type ? pill("", j.type) : ""}${a < 24 ? pill("n", "24h") : ""}</div>
-      ${s ? `<div class="sc2score"><b class="${scCls(s.total)}">${s.total}</b><span>out of 100 · ${s.conf === "Full text" ? "from the full text" : s.conf === "Short snippet" ? "from a short snippet" : "from the title only"}</span></div>` : ""}
+      ${s ? `<div class="sc2score"><b class="${scCls(s.total)}">${s.total}</b><span>out of 100 · ${s.conf === "Full text" ? "from the full text" : s.conf === "Occupation profile" ? "from the occupation profile" : s.conf === "Short snippet" ? "from a short snippet" : "from the title only"}</span></div>${scoreMeter(s)}` : ""}
       <div class="why2">${s ? (ms.length ? `<h3>Match <span class="note">on your CV</span></h3><div class="kw">${ms.map((m) => `<span class="M">${esc(m)}</span>`).join("")}</div>` : "") + (gs.length ? `<h3>Gap <span class="note">asked for, not on your CV</span></h3><div class="kw">${gs.map((m) => `<span class="G">${esc(m)}</span>`).join("")}</div>` : "") : (kws.length ? `<h3>What the posting asks for</h3><div class="kw">${kws.map((m) => `<span class="N">${esc(m)}</span>`).join("")}</div><p class="note" style="margin-top:8px">Add your CV and these cards come ranked by how well you fit.</p>` : "")}</div>
       <div class="foot">${s && s.flags.length ? s.flags.filter((f) => f[0] === "b" || f[0] === "w").slice(0, 2).map((f) => esc(f[1])).join(" · ") : ""}</div></article>`;
   }
