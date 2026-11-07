@@ -270,6 +270,7 @@ label.inl{display:inline-flex;gap:5px;align-items:center;margin:0;font-weight:40
 .loadmore{display:block;width:100%;margin:6px 0 14px;padding:10px;border-style:dashed;color:var(--mute)}
 .loadmore:hover{color:var(--ink);border-color:var(--accent)}
 .lvnote{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;margin:0 0 10px;padding:9px 12px;border-radius:8px;background:var(--accent-soft);color:var(--ink);font-size:13.5px}
+.exnote{display:block;margin-top:6px;padding:6px 10px;border-left:3px solid var(--pin);background:var(--accent-soft);border-radius:0 6px 6px 0;font-size:13.5px}
 .lvnote button{padding:2px 10px;border-radius:999px;font-size:13px;background:var(--panel)}
 @media(max-width:560px){.tab{padding:8px 7px;font-size:13.5px}.tools select{flex:1 1 calc(50% - 8px);min-width:0;width:auto}.search{flex-basis:100%}}
 
@@ -301,6 +302,7 @@ label.inl{display:inline-flex;gap:5px;align-items:center;margin:0;font-weight:40
 .btnp:hover{filter:brightness(1.07)}
 .btng{display:inline-block;color:var(--hero-ink);font-weight:600;padding:13px 20px;border:1px solid rgba(234,246,243,.35);border-radius:8px;text-decoration:none}
 .btng:hover{border-color:var(--hero-ink)}
+button.btng{background:none;font:600 16px/1.2 var(--f-body);cursor:pointer}
 /* Wayfinder: say the job you want */
 .wfname{display:inline-flex;align-items:center;gap:6px;font:800 14px/1 var(--f-disp);font-stretch:112%;letter-spacing:.01em}
 .wfname svg{width:17px;height:17px;stroke:var(--pin);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
@@ -460,6 +462,7 @@ body.cmpon{padding-bottom:84px}
       <div class="cta">
         <a class="btnp" href="#p=details" data-p="details">Upload my CV</a>
         <a class="btng" href="#p=jobs" data-p="jobs">Browse all <span id="homeCount">the</span> jobs</a>
+        <button type="button" class="btng" data-tryex>See it with an example CV</button>
       </div>
       <form class="wf" id="wform" role="search" autocomplete="off">
         <label for="wq"><span class="wfname"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/></svg>Wayfinder</span> Say the job you want, in English or French</label>
@@ -1597,7 +1600,7 @@ function renderList(v){
   /* notes above the list: what the level filter did, and where the student roles are */
   let notes="";
   const hidden=(F.lvl==="fit"&&b!==null)?forLv.length-fitN:0;
-  if(b===null)notes+=`<p class="lvnote"><span><b>Tell me where you are</b> and the roles that fit your level come first.</span><a class="btn" href="#p=details" data-p="details">Add my CV or pick my stage</a></p>`;
+  if(b===null)notes+=`<p class="lvnote"><span><b>Tell me where you are</b> and the roles that fit your level come first.</span><a class="btn" href="#p=details" data-p="details">Add my CV or pick my stage</a><button type="button" data-tryex>Try an example CV</button></p>`;
   else if(hidden>0)notes+=`<p class="lvnote"><span><b>${nf(hidden)}</b> posting${hidden===1?" is":"s are"} far above or below your level and hidden.</span><button data-lvall>Show ${hidden===1?"it":"them"}</button></p>`;
   if(b===0&&tab!=="intern"&&cnt.intern)notes+=`<p class="lvnote"><span>Most first roles are internships and co-ops.</span><button data-gotab="intern">See ${nf(cnt.intern)}</button></p>`;
   if(tab==="full")notes+='<p class="note">Includes contract roles and postings that state no employment type.</p>';
@@ -1787,6 +1790,9 @@ $("file").onchange=e=>e.target.files[0]&&handleFile(e.target.files[0]);
 ["dragleave","drop"].forEach(ev=>$("drop").addEventListener(ev,e=>{e.preventDefault();$("drop").classList.remove("over")}));
 $("drop").addEventListener("drop",e=>{const f=e.dataTransfer.files[0];if(f)handleFile(f)});
 $("go").onclick=()=>go();
+/* one click from the start page or All jobs: load the example student CV and open the scored Top 10 */
+function tryExample(){$("paste").value=SAMPLES.student;go("Example CV, not a real person.");showPage("matches",true);}
+document.addEventListener("click",e=>{if(e.target.closest("[data-tryex]")){e.preventDefault();tryExample();}});
 $("samples").onclick=e=>{const b=e.target.closest("[data-s]");if(b){$("paste").value=SAMPLES[b.dataset.s];go("Example CV, not a real person.");}};
 $("permit").onchange=()=>{P.permit=$("permit").value;savePrefs();run();};
 $("term").onchange=()=>{P.term=$("term").value;savePrefs();run();};
@@ -2175,6 +2181,7 @@ function renderMatches(){
     return;
   }
   $("tlead").innerHTML=`From ${nf(JOBS.length)} postings, <b>${nf(t.fit)}</b> fit your details. ${t.out.length>10?`Showing ranks 1 to ${t.out.length}`:t.out.length===10?"These 10":t.out.length===1?"This 1":"These "+t.out.length} fit${t.out.length===1?"s":""} your CV best.${t.relaxed?" Fewer than 10 have a full text, so postings with only a title or snippet are included.":""}`;
+  if(Object.values(SAMPLES).includes(CV.raw))$("tlead").insertAdjacentHTML("beforeend",` <span class="exnote">This is an example CV, not a real person. <a href="#p=details" data-p="details">Add yours</a> to see your own Top 10.</span>`);
   /* a run of postings whose scores are all within 5 points of the first one is one tie: a heuristic cannot rank them apart */
   const grp=[];
   t.out.forEach((r,i)=>{const g=grp[grp.length-1],d=g?t.out[g.a].s.total-r.s.total:99;if(g&&d>=0&&d<=5)g.b=i;else grp.push({a:i,b:i});});
