@@ -33,7 +33,6 @@ body[data-pg=details],body[data-pg=jobs],body[data-pg=market],body[data-pg=swipe
 .view[data-page=jobs] .pghead{padding:0 0 0 14px;margin-left:16px;margin-right:16px}
 .panel{border-top:3px solid color-mix(in srgb,var(--pg) 70%,var(--line))}
 .dgrid .panel:nth-child(2){border-top-color:color-mix(in srgb,var(--violet) 70%,var(--line))}
-.sb-role i b{background:var(--sky)}.sb-level i b{background:var(--mint)}.sb-keywords i b{background:var(--violet)}
 .score b.sc-hi,.topscore b.sc-hi{color:var(--ok)}.score b.sc-mid,.topscore b.sc-mid{color:var(--warn)}.score b.sc-lo,.topscore b.sc-lo{color:var(--mute)}
 .pill.fd{--fc:var(--h9);background:color-mix(in srgb,var(--fc) 15%,var(--panel));border-color:color-mix(in srgb,var(--fc) 45%,var(--line));color:var(--ink)}
 .pill.fd::before{content:"";display:inline-block;width:8px;height:8px;border-radius:2px;background:var(--fc);margin-right:6px}
@@ -371,3 +370,5 @@ body[data-pg=details],body[data-pg=jobs],body[data-pg=market],body[data-pg=swipe
 .wkchart .tgtg{fill:none;stroke:var(--pg);stroke-width:3}
 .wkchart .tgnow{stroke:var(--ink);stroke-width:1;stroke-dasharray:2 3}
 .wkchart .tgl{font-weight:700;fill:var(--ink)}
+
+.sc2 .meter{margin-top:10px;max-width:none}

@@ -43,6 +43,12 @@ assert.ok(html.includes('$("dform").addEventListener("submit"'), "the Describe f
 for (const id of ["wform", "wq", "wex"]) assert.equal((html.match(new RegExp(`id="${id}"`, "g")) || []).length, 1, `id ${id} appears once`);
 assert.ok(html.includes('$("wform").addEventListener("submit"') && /function wayfind\(/.test(html), "the start page form is wired");
 assert.ok((html.match(/Wayfinder/g) || []).length >= 4, "the name Wayfinder is on the start page and over the All jobs box");
+// the live reading under both Wayfinder boxes
+for (const id of ["wprev", "dprev"]) assert.equal((html.match(new RegExp(`id="${id}"`, "g")) || []).length, 1, `id ${id} appears once`);
+assert.ok(/function readingOf\(/.test(html) && html.includes('livePreview($("wq")') && html.includes('livePreview($("dq")'), "both boxes show how the sentence is read while typing");
+// the score meter is the one way the score parts are drawn: posting cards, Quick sort and the compare table all call it, and the old small bars are gone
+assert.ok(/function scoreMeter\(/.test(html) && js.includes("scoreMeter(s)") && html.includes("scoreMeter(r.s,true)"), "cards, Quick sort and compare use scoreMeter");
+assert.ok(!/class="sb sb-/.test(html), "the old three small bars are gone");
 assert.ok(at('<script src="pages.js"></script>') > 0 && at('<script src="pages.js"></script>') < at("const XP=window.XP"), "pages.js loads before index.html reads XP");
 // a missing pages.js must not break the site
 assert.ok(/window\.XP\|\|\{pages:\{\}/.test(html), "index.html has a fallback when pages.js is missing");
