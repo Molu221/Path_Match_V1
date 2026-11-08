@@ -1,71 +1,41 @@
 {
- "at": "2026-11-05T05:11:01.331Z",
+ "at": "2026-11-08T16:21:55.196Z",
  "boards": {
-  "lever": [
-   "telesat"
-  ],
-  "ashby": [
-   "solink",
-   "baseten",
-   "remarcable-inc"
-  ],
   "bamboohr": [
-   "smardt",
-   "astra",
-   "booxi"
+   "ottawasenators",
+   "opalrt",
+   "bnc",
+   "kent",
+   "svante",
+   "baptist",
+   "broccolini",
+   "dcbel",
+   "digitaldays",
+   "independent",
+   "jestais",
+   "marianopoliscollege"
   ],
-  "breezy": [
-   "1pertinent"
-  ],
-  "smartrecruiters": [
-   "1pertinentinc",
-   "dominos",
-   "americanironandmetal",
-   "acumatica",
-   "bantrelco",
-   "artelia",
-   "crystalcleanmaintenance",
-   "egisgroup"
-  ],
-  "teamtailor": [
-   "brownsshoes"
+  "lever": [
+   "carewest",
+   "capital"
   ],
   "greenhouse": [
-   "clutch"
+   "cyclicmaterialsinc",
+   "momentenergy",
+   "aylo",
+   "beyondtrust",
+   "epicgames"
+  ],
+  "smartrecruiters": [
+   "lgihealthcaresolutionssanteinc",
+   "mufginvestorservices",
+   "pilotflyingj"
+  ],
+  "breezy": [
+   "destination-auto-group"
   ]
  },
- "workday": [
-  {
-   "tenant": "tjx",
-   "site": "tjx_external",
-   "canada": 375,
-   "total": 10827
-  },
-  {
-   "tenant": "mckesson",
-   "site": "External_Careers",
-   "canada": 182,
-   "total": 668
-  },
-  {
-   "tenant": "oxford",
-   "site": "oxford",
-   "canada": null,
-   "total": 11
-  },
-  {
-   "tenant": "aptiv",
-   "site": "Aptiv_Careers",
-   "canada": 44,
-   "total": 740
-  },
-  {
-   "tenant": "bdo",
-   "site": "Bdo",
-   "canada": 558,
-   "total": 259
-  }
- ],
+ "workday": [],
  "review": [],
  "workdaySkipped": []
 }

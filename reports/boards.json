@@ -1,344 +1,400 @@
 {
- "at": "2026-11-05T05:09:21.423Z",
+ "at": "2026-11-08T16:19:51.492Z",
  "checked": 300,
- "found": 21,
+ "found": 26,
  "hits": {
-  "Instacart Shoppers": {
-   "greenhouse": [
+  "Ottawa Senators": {
+   "bamboohr": [
     {
-     "slug": "instacart",
-     "montrealJobs": 31,
-     "company": "Instacart",
+     "slug": "ottawasenators",
+     "montrealJobs": 15,
+     "company": "Ottawasenators",
      "sample": [
-      "Billing Operations Lead (Canada - Remote (ON, AB, BC, or NS Only))",
-      "Chief of Staff, Online Grocery (Canada - Remote (ON, AB, BC, or NS Only))",
-      "Deal Desk Specialist (Canada - Remote (ON, AB, BC, or NS Only))"
+      "Ice Crew, Richcraft Sensplex (Part-Time) (Ottawa, Ontario)",
+      "Zamboni Driver, Richcraft Sensplex (Ottawa, Ontario)",
+      "Zamboni Driver, Cavanagh Sensplex (Kinburn, Ontario)"
      ]
     }
    ]
   },
-  "Telesat": {
+  "OPAL-RT": {
+   "bamboohr": [
+    {
+     "slug": "opalrt",
+     "montrealJobs": 17,
+     "company": "Opalrt",
+     "sample": [
+      "Testeur(euse) de Systèmes Intégrés / Integrated Systems Tester (Montreal, Quebec)",
+      "Intégrateur de Systèmes – Intégration Mobilité / Systems Integrator – Integration Mobility (Montreal, Quebec)",
+      "Coordonnateur(trice) aux Licenses Logicielles / Software Licensing Coordinator (Montreal, Quebec)"
+     ]
+    }
+   ]
+  },
+  "Taiga Motors": {
+   "bamboohr": [
+    {
+     "slug": "taigamotors",
+     "montrealJobs": 16,
+     "company": "Taigamotors",
+     "sample": [
+      "Concepteur mécanique / Mechanical Designer (Montréal, Quebec)",
+      "Directeur Marketing / Marketing Director (Montréal, Quebec)",
+      "Analyste nomenclature / BOM and Change Control Analyst (Montréal, Quebec)"
+     ]
+    }
+   ]
+  },
+  "Bnc": {
+   "bamboohr": [
+    {
+     "slug": "bnc",
+     "montrealJobs": 1,
+     "company": "Bnc",
+     "sample": [
+      "Financial Analyst (Ottawa, Ontario)"
+     ]
+    }
+   ]
+  },
+  "Carewest Innovative Healthcare": {
    "lever": [
     {
-     "slug": "telesat",
-     "montrealJobs": 50,
-     "company": "Telesat",
+     "slug": "carewest",
+     "montrealJobs": 60,
+     "company": "Carewest",
      "sample": [
-      "Advanced Product and Solutions Lead (Ottawa, Ontario / Ottawa, Ontario)",
-      "Analyst, IT Governance, Risk, and Compliance (Ottawa, Ontario / Ottawa, Ontario)",
-      "Antenna and UT System Engineer (Ottawa, Canada or Bethesda, US / Ottawa, Canada or Bethesda, US)"
+      "Allied Health Team Lead (2026-1167) (Calgary, AB / Calgary, AB)",
+      "Bus Driver (2025-1206) (Calgary, AB / Calgary, AB)",
+      "Cook I No Cert (2026-0039) (Calgary, AB / Calgary, AB)"
      ]
     }
    ]
   },
-  "MicroHabitat": {
-   "breezy": [
-    {
-     "slug": "microhabitat",
-     "montrealJobs": 33,
-     "company": "MicroHabitat",
-     "sample": [
-      "Administrative Clerk /  Commis administratif (H/F) (Montreal, QC)",
-      "Administrative Manager (H/F) (Montreal, QC)",
-      "Agriculteur(rice) Urbain(e) en chef - Chief Urban Farmer (H/F) (Montreal, QC)"
-     ]
-    }
-   ]
-  },
-  "National Bank of Canada": {
+  "Cyclic Materials Inc.": {
    "greenhouse": [
     {
-     "slug": "national",
-     "montrealJobs": 2,
-     "company": "NATIONAL",
+     "slug": "cyclicmaterialsinc",
+     "montrealJobs": 15,
+     "company": "Cyclic Materials Inc.",
      "sample": [
-      "Director, Public Affairs and Regional Lead (Newfoundland and Labrador, Canada)",
-      "Senior Consultant, Public Affairs and Government Relations (Toronto, Ontario, Canada)"
+      "Account Manager (Toronto)",
+      "Analytical Lab Intern (Kingston, Ontario, Canada)",
+      "Cost Accountant (Toronto )"
      ]
     }
    ]
   },
-  "Solink": {
-   "ashby": [
-    {
-     "slug": "solink",
-     "montrealJobs": 24,
-     "company": "Solink",
-     "sample": [
-      "Senior Director, Product & Customer Marketing (CAN or USA / Canada / United States)",
-      "Senior Software Engineer in Test (SDET) (Ottawa Office)",
-      "Account Executive, Enterprise (Canada)"
-     ]
-    }
-   ]
-  },
-  "Smardt": {
+  "Commissionaires BC": {
    "bamboohr": [
     {
-     "slug": "smardt",
-     "montrealJobs": 23,
-     "company": "Smardt",
+     "slug": "commissionaires",
+     "montrealJobs": 15,
+     "company": "Commissionaires",
      "sample": [
-      "Technicien(ne) de tests CVC/ HVAC Testing Technician (Dorval, Quebec)",
-      "Spécialiste en systèmes de gestion de la qualité / Quality Management System Specialist (QMS) (Dorval, Quebec)",
-      "Responsable de la qualité des fournisseurs / Supplier Quality Leader (Dorval, Quebec)"
+      "Security Guard (Veteran of Canadian Armed Forces / Canadian Military, RCMP, Police and Reservist) (Halifax, Nova Scotia)",
+      "Security Guard - Valley (Greenwood, Nova Scotia)",
+      "Part-Time Spare Security Guards - Sydney (Sydney, Nova Scotia)"
      ]
     }
    ]
   },
-  "1perTInent inc": {
+  "Kent": {
+   "bamboohr": [
+    {
+     "slug": "kent",
+     "montrealJobs": 1,
+     "company": "Kent",
+     "sample": [
+      "Marketing Manager (Vancouver, British Columbia)"
+     ]
+    }
+   ]
+  },
+  "Moment Energy": {
+   "greenhouse": [
+    {
+     "slug": "momentenergy",
+     "montrealJobs": 26,
+     "company": "Moment Energy",
+     "sample": [
+      "Certification Engineer Co-op (Surrey, BC)",
+      "Data Scientist Co-op (Surrey, BC)",
+      "Director of Marketing  (Surrey, BC)"
+     ]
+    }
+   ]
+  },
+  "LGI Healthcare Solutions Santé Inc.": {
+   "smartrecruiters": [
+    {
+     "slug": "lgihealthcaresolutionssanteinc",
+     "montrealJobs": 33,
+     "company": "LGI Healthcare Solutions Santé Inc.",
+     "sample": [
+      "Senior Systems Deployment Specialist (Montréal, QC, ca)",
+      "Analyste d'affaires (Montréal, QC, ca)",
+      "Business Analyst (Montréal, QC, ca)"
+     ]
+    }
+   ]
+  },
+  "MUFG Investor Services": {
+   "smartrecruiters": [
+    {
+     "slug": "mufginvestorservices",
+     "montrealJobs": 40,
+     "company": "MUFG Investor Services",
+     "sample": [
+      "Senior Associate, Portfolio Operations (Halifax, NS, ca)",
+      "Director, Nexus, Client Delivery (Toronto, ON, ca)",
+      "Fund Accounting Supervisor, Capital Activity- Private Markets (Toronto, ON, ca)"
+     ]
+    }
+   ]
+  },
+  "Pilot Flying J": {
+   "smartrecruiters": [
+    {
+     "slug": "pilotflyingj",
+     "montrealJobs": 19,
+     "company": "Pilot Flying J",
+     "sample": [
+      "Deli Baker (Ayr, ON, ca)",
+      "Cashier (Ayr, ON, ca)",
+      "Deli Baker (Tilbury, ON, ca)"
+     ]
+    }
+   ]
+  },
+  "Svante": {
+   "bamboohr": [
+    {
+     "slug": "svante",
+     "montrealJobs": 11,
+     "company": "Svante",
+     "sample": [
+      "Senior Financial Analyst (Burnaby, British Columbia)",
+      "Future Opportunities (Burnaby, British Columbia)",
+      "Machine Structure Design Engineer (Burnaby, British Columbia)"
+     ]
+    }
+   ]
+  },
+  "Aylo": {
+   "greenhouse": [
+    {
+     "slug": "aylo",
+     "montrealJobs": 12,
+     "company": "Aylo Careers",
+     "sample": [
+      "Business Development Manager (Montréal, Quebec)",
+      "Business Development Representative (Montréal, Quebec)",
+      "Data Developer  (Montréal, Quebec)"
+     ]
+    }
+   ]
+  },
+  "Baptist Housing Seniors Living": {
+   "bamboohr": [
+    {
+     "slug": "baptist",
+     "montrealJobs": 2,
+     "company": "Baptist",
+     "sample": [
+      "Facilities Assistant (Utterson, Ontario)",
+      "Office Assistant & Camp Store Coordinator (Utterson, Ontario)"
+     ]
+    }
+   ]
+  },
+  "Beyondtrust": {
+   "greenhouse": [
+    {
+     "slug": "beyondtrust",
+     "montrealJobs": 13,
+     "company": "BeyondTrust",
+     "sample": [
+      "Compliance Analyst - 6 month contract (Remote Canada )",
+      "Cyber Defense Engineer (Remote Canada | Remote United States)",
+      "Principal Software Security Architect (Remote Canada | Remote United States)"
+     ]
+    }
+   ]
+  },
+  "Capital OBGYN": {
+   "lever": [
+    {
+     "slug": "capital",
+     "montrealJobs": 1,
+     "company": "Capital",
+     "sample": [
+      "Director (Ontario / Ontario)"
+     ]
+    }
+   ]
+  },
+  "Broccolini Construction Inc.": {
+   "bamboohr": [
+    {
+     "slug": "broccolini",
+     "montrealJobs": 58,
+     "company": "Broccolini",
+     "sample": [
+      "Senior Site Superintendent  (Ottawa, Ontario)",
+      "Site Superintendent  (Toronto, Ontario)",
+      "Assistant Project Manager (Toronto, Ontario)"
+     ]
+    }
+   ]
+  },
+  "dcbel Inc": {
+   "bamboohr": [
+    {
+     "slug": "dcbel",
+     "montrealJobs": 21,
+     "company": "Dcbel",
+     "sample": [
+      "HR Coordinator (Montréal, Quebec)",
+      "Head of Network Operations Center (NOC) (Montréal, Quebec)",
+      "Senior DevOps Specialist  (Montréal, Quebec)"
+     ]
+    }
+   ]
+  },
+  "Digital Days": {
+   "bamboohr": [
+    {
+     "slug": "digitaldays",
+     "montrealJobs": 2,
+     "company": "Digitaldays",
+     "sample": [
+      "Helpdesk Manager / Responsable du service d'assistance (Montreal, Quebec)",
+      "Information Technology Support Specialist / Spécialiste de l'assistance informatique (Montreal, Quebec)"
+     ]
+    }
+   ]
+  },
+  "Destination Auto Group": {
    "breezy": [
     {
-     "slug": "1pertinent",
-     "montrealJobs": 1,
-     "company": "1perTInent",
+     "slug": "destination-auto-group",
+     "montrealJobs": 13,
+     "company": "Destination Auto Group",
      "sample": [
-      "Développeur FullStack .NET MVC (5-17E) (Montréal, QC)"
-     ]
-    }
-   ],
-   "smartrecruiters": [
-    {
-     "slug": "1pertinentinc",
-     "montrealJobs": 10,
-     "company": "1perTInent inc",
-     "sample": [
-      "Akamai WAF Security Engineer (Montréal, Québec, ca)",
-      "ARCHITECTURE, SÉCURITÉ OPÉRATIONNELLE ET INGÉNIERIE CYBER (Montréal, Québec, ca)",
-      "Level 3 SOC Analyst (Montréal, Québec, ca)"
+      "Auction Buyer - Destination Honda Burnaby (Burnaby, BC)",
+      "Automotive Detailer - Destination Honda Burnaby (Burnaby, BC)",
+      "Body Shop Helper - Destination Toyota Burnaby (Burnaby, BC)"
      ]
     }
    ]
   },
-  "Baseten": {
-   "ashby": [
+  "Epic Games": {
+   "greenhouse": [
     {
-     "slug": "baseten",
-     "montrealJobs": 24,
-     "company": "Baseten",
+     "slug": "epicgames",
+     "montrealJobs": 21,
+     "company": "Epic Games",
      "sample": [
-      "Software Engineer - Dedicated Inference (San Francisco / Toronto / New York / Montreal / Seattle)",
-      "Forward Deployed Engineer (San Francisco / Remote / Toronto / New York / Montreal / Seattle)",
-      "Site Reliability Engineer (San Francisco / Remote / Toronto / New York / Montreal)"
+      "Director, Product Management (Discovery, Search, Personalization) (Vancouver,British Columbia,Canada)",
+      "Lead Gameplay Programmer (Montreal,Quebec,Canada)",
+      "Machine Learning Intern (Montreal,Quebec,Canada)"
      ]
     }
    ]
   },
-  "Domino's Pizza Canada": {
-   "smartrecruiters": [
-    {
-     "slug": "dominos",
-     "montrealJobs": 4,
-     "company": "Domino's",
-     "sample": [
-      "Maintenance Technician (Cambridge, ON, ca)",
-      "Part Time Production Worker - Morning Shift (Winnipeg, MB, ca)",
-      "Full Time Warehouse Worker (Cambridge, ON, ca)"
-     ]
-    }
-   ]
-  },
-  "American Iron and Metal": {
-   "smartrecruiters": [
-    {
-     "slug": "americanironandmetal",
-     "montrealJobs": 280,
-     "company": "American Iron and Metal",
-     "sample": [
-      "Directeur adjoint de succursale (Montréal-Est, QC, ca)",
-      "Labourer (Greater Sudbury, ON, ca)",
-      "Torch Cutter (Road Crew) (Barrie, ON, ca)"
-     ]
-    }
-   ]
-  },
-  "Remarcable, Inc.": {
-   "ashby": [
-    {
-     "slug": "remarcable-inc",
-     "montrealJobs": 9,
-     "company": "Remarcable Inc",
-     "sample": [
-      "Technical Lead (Python) (Vancouver, BC / Vancouver, BC (Hybrid))",
-      "Data Scientist (Vancouver, BC (Hybrid))",
-      "Full Stack Software Engineer (Vancouver, BC / Vancouver, BC (Hybrid))"
-     ]
-    }
-   ]
-  },
-  "Acumatica": {
-   "smartrecruiters": [
-    {
-     "slug": "acumatica",
-     "montrealJobs": 6,
-     "company": "Acumatica",
-     "sample": [
-      "Concepteur de produits principal/ Senior Product Designer (Montreal, QC, ca)",
-      "Senior Product Manager (Montreal, QC, ca)",
-      "Senior System Analyst - Payments (Montreal, QC, ca)"
-     ]
-    }
-   ]
-  },
-  "Astra North Infoteck Inc.": {
+  "Independent Security Services Atlantic Inc": {
    "bamboohr": [
     {
-     "slug": "astra",
+     "slug": "independent",
      "montrealJobs": 1,
-     "company": "Astra",
+     "company": "Independent",
      "sample": [
-      "Mobile Patrol Security Officer - Overnight Shifts (Calgary, Alberta)"
+      "Marketing Manager (Vancouver, British Columbia)"
      ]
     }
    ]
   },
-  "Bantrel Co.": {
-   "smartrecruiters": [
+  "Jesta I.S.": {
+   "bamboohr": [
     {
-     "slug": "bantrelco",
+     "slug": "jestais",
      "montrealJobs": 12,
-     "company": "Bantrel Co. SB",
+     "company": "Jestais",
      "sample": [
-      "Administrative Assistant (Calgary, AB, ca)",
-      "Junior Mechanical EIT (Calgary, AB, ca)",
-      "Business Analyst - Human Resources (Calgary, AB, ca)"
+      "Employee Referral Program (for Jesta employees only) | Programme de référence du personnel (pour le personnel de Jesta seulement) (Montreal, Quebec)",
+      "Senior Mobile Developer | Développeur(euse) mobile senior (Montreal, Quebec)",
+      "Senior Data Scientist | Scientifique de données senior (Montreal, Quebec)"
      ]
     }
    ]
   },
-  "Booxi": {
+  "Marianopolis College": {
    "bamboohr": [
     {
-     "slug": "booxi",
-     "montrealJobs": 6,
-     "company": "Booxi",
+     "slug": "marianopoliscollege",
+     "montrealJobs": 2,
+     "company": "Marianopoliscollege",
      "sample": [
-      "Product Marketing Manager (Retail Tech) (Montreal, Quebec)",
-      "Director of Product | Directeur Produit (Montreal, Quebec)",
-      "Engineering Manager (Montreal, Quebec)"
+      "Agent(e), développement philanthropique / Advancement Associate (Westmount, Quebec)",
+      "Conseillère ou conseiller en développement / Development Officer (Westmount, Quebec)"
      ]
     }
    ]
   },
-  "Browns Shoes": {
+  "Norda Stelo": {
    "teamtailor": [
     {
-     "slug": "brownsshoes",
-     "montrealJobs": 47,
-     "company": "Brownsshoes",
+     "slug": "nordastelo",
+     "montrealJobs": 75,
+     "company": "Nordastelo",
      "sample": [
-      "Full-Time Sales Associate (Toronto)",
-      "Associé(e) aux Ventes à temps partiel / Part-Time Sales Associate (Mont-Royal)",
-      "Caissier(ère) à temps partiel / Part-Time Cashier (Mont-Royal)"
-     ]
-    }
-   ]
-  },
-  "Artelia": {
-   "smartrecruiters": [
-    {
-     "slug": "artelia",
-     "montrealJobs": 102,
-     "company": "Artelia",
-     "sample": [
-      "Coordonnateur·trice aux offres de service (Sherbrooke, QC, ca)",
-      "Coordonnateur·trice aux offres de service (Longueuil, QC, ca)",
-      "Coordonnateur·trice aux offres de service (Montreal, QC, ca)"
-     ]
-    }
-   ]
-  },
-  "Clutch Technologies Inc.": {
-   "greenhouse": [
-    {
-     "slug": "clutch",
-     "montrealJobs": 76,
-     "company": "Clutch Technologies Inc.",
-     "sample": [
-      "Apprentice Automotive Service Technician (Etobicoke, Ontario, Canada)",
-      "Apprentice Automotive Service Technician Level 2-3 (Mississauga, Ontario, Canada)",
-      "Arrivals Vehicle Inspector (Etobicoke, Ontario, Canada)"
-     ]
-    }
-   ]
-  },
-  "Crystal Clean Maintenance": {
-   "smartrecruiters": [
-    {
-     "slug": "crystalcleanmaintenance",
-     "montrealJobs": 1,
-     "company": "Crystal Clean Maintenance",
-     "sample": [
-      "Cleaner (Perth-Andover, NB, ca)"
-     ]
-    }
-   ]
-  },
-  "Faire Wholesale Inc.": {
-   "greenhouse": [
-    {
-     "slug": "faire",
-     "montrealJobs": 13,
-     "company": "Faire",
-     "sample": [
-      "Customer Experience Associate (3 Month Fixed-Term Contract) (Kitchener-Waterloo, ON)",
-      "Growth Platform, Marketing Engineer (Toronto, ON)",
-      "Product Engineer - Ads (Toronto, ON)"
-     ]
-    }
-   ]
-  },
-  "Egis Group": {
-   "smartrecruiters": [
-    {
-     "slug": "egisgroup",
-     "montrealJobs": 175,
-     "company": "Egis Group",
-     "sample": [
-      "Junior Highway Designer (Calgary, AB, ca)",
-      "Senior Municipal Engineer (Calgary, AB, ca)",
-      "Junior Intern Architects & Designers (Toronto, ON, ca)"
+      "Géologue principale en estimation des ressources (Longueuil / Montréal / Québec / Rouyn-Noranda / Saguenay / Toronto / Vancouver / New Brunswick / Labrador City / Kitimat)",
+      "Spécialiste principal.e – Paie (Montréal / Québec / Saguenay / Sherbrooke)",
+      "Ingénieure ou ingénieur senior en infrastructure (municipal) (Québec / Montréal)"
      ]
     }
    ]
   }
  },
  "slugsByKind": {
-  "greenhouse": [
-   "clutch",
-   "faire",
-   "instacart",
-   "national"
+  "bamboohr": [
+   "baptist",
+   "bnc",
+   "broccolini",
+   "commissionaires",
+   "dcbel",
+   "digitaldays",
+   "independent",
+   "jestais",
+   "kent",
+   "marianopoliscollege",
+   "opalrt",
+   "ottawasenators",
+   "svante",
+   "taigamotors"
   ],
   "lever": [
-   "telesat"
+   "capital",
+   "carewest"
   ],
-  "breezy": [
-   "1pertinent",
-   "microhabitat"
-  ],
-  "ashby": [
-   "baseten",
-   "remarcable-inc",
-   "solink"
-  ],
-  "bamboohr": [
-   "astra",
-   "booxi",
-   "smardt"
+  "greenhouse": [
+   "aylo",
+   "beyondtrust",
+   "cyclicmaterialsinc",
+   "epicgames",
+   "momentenergy"
   ],
   "smartrecruiters": [
-   "1pertinentinc",
-   "acumatica",
-   "americanironandmetal",
-   "artelia",
-   "bantrelco",
-   "crystalcleanmaintenance",
-   "dominos",
-   "egisgroup"
+   "lgihealthcaresolutionssanteinc",
+   "mufginvestorservices",
+   "pilotflyingj"
+  ],
+  "breezy": [
+   "destination-auto-group"
   ],
   "teamtailor": [
-   "brownsshoes"
+   "nordastelo"
   ]
  }
 }
