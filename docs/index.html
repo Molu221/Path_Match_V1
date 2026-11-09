@@ -320,6 +320,7 @@ button.btng{background:none;font:600 16px/1.2 var(--f-body);cursor:pointer}
 .wprev .dchip.nt{background:none;border-style:dashed;color:var(--hero-mute)}
 .wfex button{background:rgba(234,246,243,.1);color:var(--hero-ink);border:1px solid rgba(234,246,243,.3);border-radius:999px;padding:3px 11px;font-size:13px}
 .wfex button:hover{border-color:var(--hero-ink)}
+.wfmore{align-self:center;color:var(--hero-ink);font-size:13px;margin-left:4px;text-underline-offset:3px}
 .hometrail{margin-top:34px;max-width:900px;pointer-events:none}
 .hometrail .stop{cursor:default}
 .how{padding:30px 16px 50px}
@@ -468,7 +469,7 @@ body.cmpon{padding-bottom:84px}
         <label for="wq"><span class="wfname"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/></svg>Wayfinder</span> Say the job you want, in English or French</label>
         <div class="wfrow"><input type="text" id="wq" maxlength="400" placeholder="e.g. part-time operations job near Longueuil, or: stage en chaîne d'approvisionnement à Montréal" enterkeyhint="search"><button type="submit">Find jobs</button></div>
         <div class="wprev" id="wprev" aria-live="polite" hidden></div>
-        <div class="wfex" id="wex"><button type="button" data-ex="Winter 2027 engineering or quality co-op in Montréal, bilingual, no security clearance">Co-op, Montréal, no clearance</button><button type="button" data-ex="part-time operations or warehouse job near Longueuil, about 20 hours a week">Part-time, about 20 h a week</button><button type="button" data-ex="stage en chaîne d'approvisionnement à Montréal">Stage en français</button><button type="button" data-ex="data analyst in Toronto, posted this week">Data analyst, this week</button></div>
+        <div class="wfex" id="wex"><button type="button" data-ex="Winter 2027 engineering or quality co-op in Montréal, bilingual, no security clearance">Co-op, Montréal, no clearance</button><button type="button" data-ex="part-time operations or warehouse job near Longueuil, about 20 hours a week">Part-time, about 20 h a week</button><button type="button" data-ex="stage en chaîne d'approvisionnement à Montréal">Stage en français</button><button type="button" data-ex="data analyst in Toronto, posted this week">Data analyst, this week</button><a class="wfmore" href="#p=wayfinder" data-p="wayfinder">More prompts</a></div>
       </form>
       <div class="bigstats" id="bigstats" aria-live="polite"></div>
       <div class="hometrail">
@@ -692,6 +693,7 @@ body.cmpon{padding-bottom:84px}
 <main id="pg-board" class="view" data-page="board" hidden><div class="wrap pagein" id="x-board"></div></main>
 <main id="pg-plan" class="view" data-page="plan" hidden><div class="wrap pagein" id="x-plan"></div></main>
 <main id="pg-target" class="view" data-page="target" hidden><div class="wrap pagein" id="x-target"></div></main>
+<main id="pg-wayfinder" class="view" data-page="wayfinder" hidden><div class="wrap pagein" id="x-wayfinder"></div></main>
 
 <div id="cmptray" hidden role="region" aria-label="Postings to compare"><b>Compare</b><span class="cl"></span><button id="cmpgo" disabled>Add one more to compare</button><button class="clr" id="cmpclr">Clear</button><span id="cmpmsg" role="status"></span></div>
 <dialog id="cmpdlg" aria-labelledby="cmph"><div class="cmphead"><h2 id="cmph">Compare postings</h2><button id="cmpclose" aria-label="Close the comparison">Close</button></div><div class="cmpwrap" id="cmpbody"></div></dialog>
