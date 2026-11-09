@@ -67,6 +67,9 @@ assert.ok(/function readingOf\(/.test(html) && html.includes('livePreview($("wq"
 // the score meter is the one way the score parts are drawn: posting cards, Quick sort and the compare table all call it, and the old small bars are gone
 assert.ok(/function scoreMeter\(/.test(html) && js.includes("scoreMeter(s)") && html.includes("scoreMeter(r.s,true)"), "cards, Quick sort and compare use scoreMeter");
 assert.ok(!/class="sb sb-/.test(html), "the old three small bars are gone");
+// one click to a scored Top 10 without a CV: the start page and the All jobs banner both offer the example
+assert.ok((html.match(/data-tryex/g) || []).length >= 3 && /function tryExample\(/.test(html), "the example CV is one click from the start page and from All jobs");
+assert.ok(html.includes("This is an example CV, not a real person."), "the Top 10 says when it is showing the example CV");
 assert.ok(at('<script src="pages.js"></script>') > 0 && at('<script src="pages.js"></script>') < at("const XP=window.XP"), "pages.js loads before index.html reads XP");
 // a missing pages.js must not break the site
 assert.ok(/window\.XP\|\|\{pages:\{\}/.test(html), "index.html has a fallback when pages.js is missing");
