@@ -20,7 +20,8 @@
     swipe: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="4" width="14" height="16" rx="2"/><path d="M9 12.5l2 2 4-4.5"/></svg>',
     board: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="5" height="16" rx="1"/><rect x="10" y="4" width="5" height="10" rx="1"/><rect x="17" y="4" width="4" height="13" rx="1"/></svg>',
     plan: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4M9 15l2 2 4-4"/></svg>',
-    target: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2"/></svg>'
+    target: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2"/></svg>',
+    wayfinder: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/></svg>'
   };
   const META = {
     market: { name: "Market map", title: "Market map", hue: "var(--violet)", blurb: "See where the postings are: by province, field and stage." },
@@ -29,9 +30,10 @@
     swipe: { name: "Quick sort", title: "Quick sort", hue: "var(--berry)", blurb: "Go through postings one card at a time: save or skip." },
     board: { name: "Application board", title: "Application board", hue: "var(--peach)", blurb: "Track what you saved, applied to, and heard back about." },
     plan: { name: "Week plan", title: "Week plan", hue: "var(--sun)", blurb: "The few postings worth your applications this week, with a score range for each." },
-    target: { name: "Target or spray?", title: "Target or spray?", hue: "#19a7b8", blurb: "How much a high score must help before a few tailored applications beat many quick ones." }
+    target: { name: "Target or spray?", title: "Target or spray?", hue: "#19a7b8", blurb: "How much a high score must help before a few tailored applications beat many quick ones." },
+    wayfinder: { name: "Wayfinder", title: "Wayfinder", hue: "var(--pin)", blurb: "Say the job you want in one sentence, in English or French. Sample prompts for students and graduates." }
   };
-  const ORDER = ["market", "lab", "plan", "target", "ladder", "swipe", "board"];
+  const ORDER = ["wayfinder", "market", "lab", "plan", "target", "ladder", "swipe", "board"];
   const LANGSKILL = new Set(["english", "french", "anglais", "francais", "bilingual", "bilingue", "bilingual (en/fr)"]);
   /* general strengths: postings name them, but they are not something to "learn first". They are shown apart from role skills. */
   const SOFT = new Set(("leadership|attention to detail|initiative|autonomy|organizational skills|explaining complex ideas|patience|perseverance|curiosity|takes on challenges|problem solving|analytical skills|communication|teamwork|collaboration|interpersonal skills|time management|prioritization|multitasking|works under pressure|meets deadlines|adaptability|critical thinking|creativity|innovation|proactivity|resourcefulness|rigor|accountability|dependability|punctuality|professionalism|integrity|discretion and confidentiality|active listening|empathy|emotional intelligence|diplomacy and tact|conflict resolution|negotiation|persuasion and influence|decision making|presentation skills|written communication|verbal communication|strategic thinking|synthesis|learning agility|resilience|motivation|enthusiasm|entrepreneurial spirit|cultural awareness|results orientation|mentoring and coaching|stakeholder management|cross-functional work|team management|facilitation|diversity and inclusion").split("|"));
@@ -898,10 +900,65 @@
     if (el.dataset.key === key) return; el.dataset.key = key;
     let lead = "";
     if (JOBS.length) { const st = stats("all"), top = Object.entries(st.prov).filter(([p]) => /^[A-Z]{2}$/.test(p)).sort((a, b) => b[1] - a[1])[0]; if (top) lead = `${PROV_NAME[top[0]]} leads with ${nf(top[1])} postings`; }
-    const extra = { market: lead, lab: CV ? "Your CV is loaded: open the lab" : "Needs your CV", ladder: "From intern to director, by field", swipe: "Up to 80 cards, ready to sort", board: SAVED.size ? `${SAVED.size} saved so far` : "Nothing saved yet", plan: CV ? "Pick this week's applications" : "Needs your CV", target: "Does a high score pay off?" };
+    const extra = { market: lead, lab: CV ? "Your CV is loaded: open the lab" : "Needs your CV", ladder: "From intern to director, by field", swipe: "Up to 80 cards, ready to sort", board: SAVED.size ? `${SAVED.size} saved so far` : "Nothing saved yet", plan: CV ? "Pick this week's applications" : "Needs your CV", target: "Does a high score pay off?", wayfinder: "Say the job in one sentence" };
     el.innerHTML = `<section class="xsec" aria-labelledby="xsH"><h2 id="xsH">Go further than a list</h2><div class="xtiles">${ORDER.map((id) => `<a class="xtile" style="--c:${META[id].hue}" href="#p=${id}" data-p="${id}">${ICON[id]}<b>${META[id].name}</b><span>${META[id].blurb}</span><em>${esc(extra[id] || "")}</em></a>`).join("")}</div></section>`;
   }
   function home() { bigStats(); homeTiles(); }
+
+  /* =====================================================================
+     WAYFINDER: say the job you want in one sentence
+     The reading is done by describe.js in the browser. The sample prompts below are only sentences: each card shows,
+     from the same reader, how it reads them, so a card can never promise something Wayfinder does not do.
+     ===================================================================== */
+  const WF = {
+    student: { h: "If you are a student", p: "Part-time jobs, internships and co-ops.", q: [
+      "Part-time job in Montréal, about 15 hours a week",
+      "Part-time job in Vancouver, no experience",
+      "Part-time job in Québec City for an international student, 20 hours a week",
+      "Winter 2027 co-op in Montréal, bilingual",
+      "Engineering or data internship in Ontario",
+      "Stage en ingénierie à Montréal"
+    ] },
+    grad: { h: "If you are a graduate", p: "Entry-level and new-grad roles.", q: [
+      "Entry level engineer in Montréal, bilingual",
+      "New grad software developer",
+      "Entry level accountant in Alberta",
+      "Entry level nurse in Alberta",
+      "Analyste débutant à Montréal",
+      "Entry level marketing coordinator in British Columbia"
+    ] }
+  };
+  const wfChips = (text) => Describe.parse(text, describeCtx()).chips.map((c) => `<span class="dchip ${c.kind === "note" ? "nt" : "fix"}">${esc(c.text)}</span>`).join("");
+  function renderWayfinder() {
+    const root = g("x-wayfinder");
+    if (root.dataset.built) return;   /* built once, so what was typed is still there when the page is shown again */
+    root.dataset.built = "1";
+    const col = (k) => `<section class="wfcol" aria-labelledby="wfh-${k}"><h2 id="wfh-${k}">${WF[k].h}</h2><p class="note">${WF[k].p}</p><ul class="wfl">${WF[k].q.map((q) => `<li><button type="button" class="wfs" data-q="${esc(q)}"><span class="wfq">${esc(q)}</span><span class="wfr" aria-hidden="true">${wfChips(q)}</span></button></li>`).join("")}</ul></section>`;
+    root.innerHTML = head("Wayfinder", "Say the job you want in one sentence, in English or French. Wayfinder turns it into filters you can see and change, then opens the matching postings.") +
+      `<form class="wfp" id="wfpForm" role="search" autocomplete="off"><label for="wfpQ">${ICON.wayfinder}Describe the job you want</label>
+        <div class="wfprow"><input type="text" id="wfpQ" maxlength="400" placeholder="e.g. part-time job in Montréal" enterkeyhint="search"><button type="submit" class="xbtn solid">Find jobs</button></div>
+        <div class="dchips" id="wfpRead" aria-live="polite" hidden></div></form>
+      <div class="wfsets">${col("student")}${col("grad")}</div>
+      <p class="note wfnote">Pick a prompt to run it, or write your own. Wayfinder is a rule reader that works in your browser, not an AI model: it sets only the filters it can check, and shows work permit, dates and hours as notes. Nothing you type is sent anywhere.</p>`;
+  }
+  function onWayfinderSubmit(e) {
+    e.preventDefault();
+    const q = g("wfpQ").value.trim();
+    if (!q) { g("wfpQ").focus(); return; }
+    wayfind(q);
+  }
+  function onWayfinderClick(e) {
+    const b = e.target.closest("[data-q]");
+    if (!b) return;
+    g("wfpQ").value = b.dataset.q;
+    wayfind(b.dataset.q);
+  }
+  let WFT = 0;
+  function onWayfinderInput(e) {
+    if (e.target.id !== "wfpQ") return;
+    clearTimeout(WFT);
+    WFT = setTimeout(() => { const h = readingOf(e.target.value), b = g("wfpRead"); b.innerHTML = h; b.hidden = !h; }, 160);
+  }
 
   /* =====================================================================
      EXPLORE MENU AND JUMP BAR
@@ -959,6 +1016,7 @@
      ===================================================================== */
   const XP = {
     pages: {
+      wayfinder: { title: META.wayfinder.title, render: renderWayfinder },
       market: { title: META.market.title, render: renderMarket },
       lab: { title: META.lab.title, render: renderLab },
       ladder: { title: META.ladder.title, render: renderLadder },
@@ -977,6 +1035,8 @@
     init() {
       buildExplore(); buildCmd();
       const m = g("x-market"); m.addEventListener("click", onMarketClick); m.addEventListener("pointerover", onPulse); m.addEventListener("focusin", onPulse);
+      const wf = g("x-wayfinder");
+      wf.addEventListener("submit", onWayfinderSubmit); wf.addEventListener("click", onWayfinderClick); wf.addEventListener("input", onWayfinderInput);
       g("x-lab").addEventListener("click", onLabClick);
       g("x-ladder").addEventListener("click", onLadderClick);
       g("x-ladder").addEventListener("change", (e) => { if (e.target.id === "ladField") { LAD.fd = e.target.value; renderLadder(); } });

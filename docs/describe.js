@@ -191,9 +191,11 @@
       [1, /\b(?:entry[- ]?level|juniors?|jr|new grad(?:uate)?s?|recent grad(?:uate)?s?|graduates?|debutants?|jeunes? diplomes?|nouveaux? diplomes?|early career)\b/]
     ];
     const lvlNames = ["Intern / student", "Entry-level", "Mid-level", "Senior / manager", "Director & executive"];
+    /* "no experience (needed)" asks for entry level: it is not a word to hide */
+    if (take(/\b(?:no|without|zero|sans|aucune?)\s+(?:prior\s+|previous\s+|relevant\s+|work\s+)?experience(?:\s+(?:required|needed|necessary|requise?))?\b/) && out.lvl === null) out.lvl = 1;
     for (const [n, re] of LV) { if (take(re)) { if (out.lvl === null) out.lvl = n; takeAll(new RegExp(re.source, "g")); } }
     /* "student" alone says nothing the type does not already say */
-    takeAll(/\b(?:students?|etudiants?|etudiantes?)\b/);
+    takeAll(/\b(?<!international )(?:students?|etudiants?|etudiantes?)\b(?!\s+internationa)/);
     if (out.lvl !== null && out.tab === "intern" && out.lvl <= 1) out.lvl = null;   /* interns are their own level: the type already says it */
     if (out.lvl !== null) chip("lvl", "filter", lvlNames[out.lvl], "Shows postings of exactly this level instead of the levels that fit your CV.");
 
@@ -233,6 +235,10 @@
     /* --- things a posting rarely states: noted, never filtered, never assumed --- */
     if (take(/\b(?:work permits?|pgwp|post[- ]graduation (?:work )?permit|study permits?|international students?|need(?:s)? sponsorship|sponsorship|visa|permis de travail|permis d'etudes|etudiants? internationa\w+|eligible to work|authori[sz]ed to work|autorise a travailler)\b/)) {
       chip("note:permit", "note", "Work permit: check each posting", "Postings seldom state it, so it cannot be filtered. Nothing is assumed about your status.");
+    }
+    /* pay and hours of the day are rarely stated: noted, never filtered, and never required in the title */
+    if (takeAll(/\b(?:week[- ]?ends?|evenings?|flexible (?:hours|schedule)|flex hours|paid|unpaid|fins? de semaine|soirs?|remunere[es]?)\b/).length) {
+      chip("note:sched", "note", "Pay and schedule: check each posting", "Postings seldom state pay or the hours of the day, so these words are not filters.");
     }
     const term = [];
     for (const re of [new RegExp("\\b(?:" + SEASONS + ")\\s*(?:term\\s*)?(?:20\\d\\d)?\\b", "g"), new RegExp("\\b(?:starting|starts?|start date|beginning|begins?|from|debut|a partir de|commencant)\\s+(?:in\\s+|en\\s+)?(?:" + MONTHS + ")\\b(?:\\s*20\\d\\d)?", "g"), /\b\d{1,2}[- ]?(?:months?|mois)\b/g, /\b20[2-3]\d\b/g]) {

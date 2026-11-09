@@ -22,7 +22,7 @@ const XP = win.XP;
 assert.ok(XP, "pages.js sets window.XP");
 for (const fn of ["home", "init", "onStar", "close"]) assert.equal(typeof XP[fn], "function", "XP." + fn);
 const ids = Object.keys(XP.pages);
-assert.equal(ids.slice().sort().join(), ["board", "ladder", "lab", "market", "plan", "swipe", "target"].sort().join(), "the seven extra pages");
+assert.equal(ids.slice().sort().join(), ["board", "ladder", "lab", "market", "plan", "swipe", "target", "wayfinder"].sort().join(), "the eight extra pages");
 for (const id of ids) {
   assert.equal(typeof XP.pages[id].render, "function", id + " has render()");
   assert.ok(XP.pages[id].title, id + " has a title");
@@ -43,6 +43,24 @@ assert.ok(html.includes('$("dform").addEventListener("submit"'), "the Describe f
 for (const id of ["wform", "wq", "wex"]) assert.equal((html.match(new RegExp(`id="${id}"`, "g")) || []).length, 1, `id ${id} appears once`);
 assert.ok(html.includes('$("wform").addEventListener("submit"') && /function wayfind\(/.test(html), "the start page form is wired");
 assert.ok((html.match(/Wayfinder/g) || []).length >= 4, "the name Wayfinder is on the start page and over the All jobs box");
+// the Wayfinder page: the eighth feature, with a form, a live reading and sample prompts for students and graduates
+assert.ok(/id="pg-wayfinder"[^>]*data-page="wayfinder"/.test(html) && /id="x-wayfinder"/.test(html), "the Wayfinder page has its section");
+assert.ok(/wayfinder: \{ name: "Wayfinder"/.test(js) && /const ORDER = \["wayfinder", /.test(js), "Wayfinder is in the feature list, so it shows in Explore, the start-page tiles and the jump bar");
+const wfq = (js.match(/const WF = \{[\s\S]*?\n  \};/) || [""])[0];
+const stuQ = (wfq.match(/student: \{[\s\S]*?\] \},/) || [""])[0].match(/^\s+"[^"]+",?$/gm) || [];
+const gradQ = (wfq.match(/grad: \{[\s\S]*?\] \}/) || [""])[0].match(/^\s+"[^"]+",?$/gm) || [];
+assert.ok(stuQ.length >= 5 && stuQ.length <= 6 && gradQ.length >= 5 && gradQ.length <= 6, "five or six sample prompts for students and for graduates");
+assert.ok(html.includes('href="#p=wayfinder"'), "the start page links to the Wayfinder page");
+// every sample prompt reads into at least a type or a place plus something more, and never into a word to hide
+{
+  const { loadUmd } = await import("../scripts/umd.mjs");
+  const D = loadUmd("describe.js", "Describe");
+  for (const q of [...stuQ, ...gradQ].map((l) => l.trim().replace(/^"|",?$/g, ""))) {
+    const r = D.parse(q, { hasCv: false });
+    assert.ok(r.chips.length >= 2, `the prompt "${q}" reads into at least two chips`);
+    assert.equal(r.not.length, 0, `the prompt "${q}" hides no words`);
+  }
+}
 // the live reading under both Wayfinder boxes
 for (const id of ["wprev", "dprev"]) assert.equal((html.match(new RegExp(`id="${id}"`, "g")) || []).length, 1, `id ${id} appears once`);
 assert.ok(/function readingOf\(/.test(html) && html.includes('livePreview($("wq")') && html.includes('livePreview($("dq")'), "both boxes show how the sentence is read while typing");
