@@ -174,3 +174,21 @@ const none = jobs.filter((j) => /\bregistered nurse\b/i.test(j.title)).filter((j
 assert.equal(none.length, 0, "unrelated titles are not kept");
 
 console.log("describe tests passed: types, hours, places, levels, language, eligibility, notes, skills, French, titles on the real list");
+
+// --- words students use that are not filters
+r = D.parse("Part-time customer service job in Vancouver, no experience", CV);
+assert.equal(r.lvl, 1, "no experience asks for entry level");
+assert.deepEqual([...r.not], [], "no experience is not a word to hide");
+assert.equal(roles(r), "customer service");
+r = D.parse("internship, no experience needed", CV);
+assert.equal(r.lvl, null, "an internship is its own level");
+r = D.parse("weekend part-time job in Ottawa, entry level", CV);
+assert.equal(roles(r), "", "weekend is not a word the title must have");
+assert.ok(r.chips.some((c) => c.id === "note:sched" && c.kind === "note"), "weekend is shown as a note");
+r = D.parse("Paid software internship, remote", CV);
+assert.equal(roles(r), "software", "paid is not a word the title must have");
+r = D.parse("Part-time job in Québec City for an international student, 20 hours a week", CV);
+assert.ok(r.chips.some((c) => c.id === "note:permit"), "an international student gets the work permit note, nothing is assumed");
+assert.equal(roles(r), "");
+r = D.parse("part-time student job, evenings", CV);
+assert.equal(roles(r), "", "student alone is not a role");
