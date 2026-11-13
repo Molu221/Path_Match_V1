@@ -21,7 +21,8 @@
     board: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="5" height="16" rx="1"/><rect x="10" y="4" width="5" height="10" rx="1"/><rect x="17" y="4" width="4" height="13" rx="1"/></svg>',
     plan: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4M9 15l2 2 4-4"/></svg>',
     target: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2"/></svg>',
-    wayfinder: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/></svg>'
+    wayfinder: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/></svg>',
+    paste: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4h6v3H9zM12 11v6M9 14h6"/></svg>'
   };
   const META = {
     market: { name: "Market map", title: "Market map", hue: "var(--violet)", blurb: "See where the postings are: by province, field and stage." },
@@ -31,9 +32,10 @@
     board: { name: "Application board", title: "Application board", hue: "var(--peach)", blurb: "Track what you saved, applied to, and heard back about." },
     plan: { name: "Week plan", title: "Week plan", hue: "var(--sun)", blurb: "The few postings worth your applications this week, with a score range for each." },
     target: { name: "Target or spray?", title: "Target or spray?", hue: "#19a7b8", blurb: "How much a high score must help before a few tailored applications beat many quick ones." },
-    wayfinder: { name: "Wayfinder", title: "Wayfinder", hue: "var(--pin)", blurb: "Say the job you want in one sentence, in English or French. Sample prompts for students and graduates." }
+    wayfinder: { name: "Wayfinder", title: "Wayfinder", hue: "var(--pin)", blurb: "Say the job you want in one sentence, in English or French. Sample prompts for students and graduates." },
+    paste: { name: "Paste a posting", title: "Paste a posting", hue: "#96b21f", blurb: "Found a job on LinkedIn, Indeed or anywhere else? Paste it and see how it matches your CV." }
   };
-  const ORDER = ["wayfinder", "market", "lab", "plan", "target", "ladder", "swipe", "board"];
+  const ORDER = ["wayfinder", "market", "lab", "plan", "target", "ladder", "swipe", "board", "paste"];
   const LANGSKILL = new Set(["english", "french", "anglais", "francais", "bilingual", "bilingue", "bilingual (en/fr)"]);
   /* general strengths: postings name them, but they are not something to "learn first". They are shown apart from role skills. */
   const SOFT = new Set(("leadership|attention to detail|initiative|autonomy|organizational skills|explaining complex ideas|patience|perseverance|curiosity|takes on challenges|problem solving|analytical skills|communication|teamwork|collaboration|interpersonal skills|time management|prioritization|multitasking|works under pressure|meets deadlines|adaptability|critical thinking|creativity|innovation|proactivity|resourcefulness|rigor|accountability|dependability|punctuality|professionalism|integrity|discretion and confidentiality|active listening|empathy|emotional intelligence|diplomacy and tact|conflict resolution|negotiation|persuasion and influence|decision making|presentation skills|written communication|verbal communication|strategic thinking|synthesis|learning agility|resilience|motivation|enthusiasm|entrepreneurial spirit|cultural awareness|results orientation|mentoring and coaching|stakeholder management|cross-functional work|team management|facilitation|diversity and inclusion").split("|"));
@@ -900,7 +902,7 @@
     if (el.dataset.key === key) return; el.dataset.key = key;
     let lead = "";
     if (JOBS.length) { const st = stats("all"), top = Object.entries(st.prov).filter(([p]) => /^[A-Z]{2}$/.test(p)).sort((a, b) => b[1] - a[1])[0]; if (top) lead = `${PROV_NAME[top[0]]} leads with ${nf(top[1])} postings`; }
-    const extra = { market: lead, lab: CV ? "Your CV is loaded: open the lab" : "Needs your CV", ladder: "From intern to director, by field", swipe: "Up to 80 cards, ready to sort", board: SAVED.size ? `${SAVED.size} saved so far` : "Nothing saved yet", plan: CV ? "Pick this week's applications" : "Needs your CV", target: "Does a high score pay off?", wayfinder: "Say the job in one sentence" };
+    const extra = { market: lead, lab: CV ? "Your CV is loaded: open the lab" : "Needs your CV", ladder: "From intern to director, by field", swipe: "Up to 80 cards, ready to sort", board: SAVED.size ? `${SAVED.size} saved so far` : "Nothing saved yet", plan: CV ? "Pick this week's applications" : "Needs your CV", target: "Does a high score pay off?", wayfinder: "Say the job in one sentence", paste: "Works with any board" };
     el.innerHTML = `<section class="xsec" aria-labelledby="xsH"><h2 id="xsH">Go further than a list</h2><div class="xtiles">${ORDER.map((id) => `<a class="xtile" style="--c:${META[id].hue}" href="#p=${id}" data-p="${id}">${ICON[id]}<b>${META[id].name}</b><span>${META[id].blurb}</span><em>${esc(extra[id] || "")}</em></a>`).join("")}</div></section>`;
   }
   function home() { bigStats(); homeTiles(); }
@@ -961,6 +963,279 @@
   }
 
   /* =====================================================================
+     PASTE A POSTING: a job found on LinkedIn, Indeed or anywhere else, matched against the CV
+     The site cannot read those boards, so the person pastes the posting. It goes through the same pipeline as every collected posting
+     (addMine in index.html: kept in this browser, scored by scoreJob, ranked with the others), and is drawn with the same card as the Top 10.
+     Left: the CV, with its words marked by what this posting asks for. Right: the posting, with its words marked by what the CV has.
+     ===================================================================== */
+  const PS = { key: "", view: "edit", dirty: {}, status: "" };
+  const PP_SAMPLE = `Industrial Engineering Co-op (Winter 2027)
+Example Manufacturing Inc.
+Longueuil, Quebec, Canada
+Internship
+
+About the job
+This is an example posting written for this page. It is not a real job.
+
+As an Industrial Engineering Co-op you will support the plant's continuous improvement program and work with production, quality and supply chain teams.
+
+Responsibilities
+- Lead small Lean and Six Sigma projects: 5S, kaizen events, value stream mapping and root cause analysis
+- Run time studies and map processes in Visio
+- Build simulation models of the assembly line in FlexSim
+- Analyze production and inventory data in Excel, SQL and Power BI
+- Support SPC charts, FMEA and ISO 9001 internal audits
+- Plan project tasks and milestones in MS Project
+- Help with demand forecasting and inventory control in SAP
+
+Requirements
+- Enrolled in a bachelor's or master's program in industrial, mechanical or manufacturing engineering
+- Available for a four-month term starting January 2027
+- Good written and spoken English and French
+- Eligible to work in Canada
+- CATIA or SolidWorks is an asset
+- Strong communication and teamwork skills`;
+  const PP_KINDS = [["", "Full-time"], ["Part-time", "Part-time"], ["Internship", "Internship or co-op"]];
+  const PP_FIELDS = { ppTitle: "title", ppCo: "company", ppLoc: "loc", ppKind: "type", ppUrl: "url" };
+  const LEG_POST = '<div class="legend"><mark class="m-ok">Match</mark><mark class="m-near">Close</mark><mark class="m-bad">Gap</mark><mark class="m-off">company / benefits</mark><mark class="m-chk">check yourself</mark></div>';
+  const LEG_CV = '<div class="legend"><mark class="m-ok">Asked by the posting</mark><mark class="m-near">Close to something asked</mark><mark class="m-off">not asked by this post</mark></div>';
+
+  function renderPaste() {
+    const root = g("x-paste");
+    if (!root.dataset.built) {
+      root.dataset.built = "1";
+      root.innerHTML = head("Paste a posting", "Found a job on LinkedIn, Indeed or any other site? Paste it on the right. It is scored against your CV on the left the same way as your Top 10, and added to your list. Nothing you paste leaves this browser.") + `
+      <div class="psplit" id="ppSplit">
+        <section class="pcol pcv" aria-labelledby="pcvH"><h2 id="pcvH">Your CV</h2>
+          <div id="pcvNo" hidden>
+            <p class="note">Add your CV here, and every posting you paste is compared with it. It stays in this browser.</p>
+            <label for="pcvText">Paste the text of your CV</label>
+            <textarea id="pcvText" rows="9" placeholder="Your education, experience and skills"></textarea>
+            <div class="row"><button type="button" class="xbtn solid" data-pp="cvuse">Use this CV</button><button type="button" class="xbtn" data-pp="cvex">Try an example CV</button><a class="note" href="#p=details" data-p="details">Upload a file instead</a></div>
+            <p class="note" id="pcvMsg" aria-live="polite"></p>
+          </div>
+          <div id="pcvHas" hidden></div>
+        </section>
+        <section class="pcol pjob" aria-labelledby="pjH"><h2 id="pjH">The job post</h2>
+          <form id="ppForm" autocomplete="off" novalidate>
+            <div id="ppEdit">
+              <label for="ppText">Paste the whole posting, from the title down to the last requirement</label>
+              <textarea id="ppText" rows="12" placeholder="Open the posting on LinkedIn, Indeed, Job Bank or the employer's page, select all of it and paste it here."></textarea>
+              <div class="dchips" id="ppRead" aria-live="polite" hidden></div>
+              <div class="ppf">
+                <div><label for="ppTitle">Job title</label><input type="text" id="ppTitle" maxlength="160"></div>
+                <div><label for="ppCo">Employer</label><input type="text" id="ppCo" maxlength="120"></div>
+                <div><label for="ppLoc">Place (optional)</label><input type="text" id="ppLoc" maxlength="120" placeholder="Montréal, QC"></div>
+                <div><label for="ppKind">Kind of job</label><select id="ppKind">${PP_KINDS.map((k) => `<option value="${k[0]}">${k[1]}</option>`).join("")}</select></div>
+                <div class="wide"><label for="ppUrl">Link to the posting (optional)</label><input type="text" id="ppUrl" maxlength="500" placeholder="https://"></div>
+              </div>
+              <div class="row ppact"><button type="submit" class="xbtn solid" id="ppGo">Match it to my CV</button><button type="button" class="xbtn" data-pp="sample">Try an example post</button><button type="button" class="ppx" data-pp="clear">Clear</button></div>
+              <p class="note" id="ppMsg" aria-live="polite"></p>
+            </div>
+            <div id="ppShown" hidden></div>
+          </form>
+        </section>
+      </div>
+      <div id="ppResult" class="ppres" aria-live="polite"></div>
+      <div id="ppMine"></div>
+      <p class="note ppnote">Paste one posting at a time. Fields marked as read were taken from the text by a rule reader (not an AI model), so check them before you rely on the score. This is a heuristic, not an applicant tracking system: scores within 5 points of each other are ties. Open the original posting and read it before you apply. Work permit and eligibility are shown as flags to check, never assumed.</p>`;
+    }
+    paintPasteCv();
+    paintPasteShown();
+    paintPasteResult();
+    paintPasteMine();
+  }
+
+  /* ----- the job a person pasted, as the page and the list know it ----- */
+  const ppJob = () => (PS.key ? jobByKey(PS.key) : null);
+  const ppReady = () => !!CV && !!DICT && SCORED_FOR === CV && !SCORING;
+  const ppResult = (j) => { if (!ppReady()) return null; const r = RES.find((x) => x.j === j); return r && r.s ? r : null; };
+  const hlOf = (m) => m.hl || (m.hl = hlPair(m));   /* the two marked-up texts, worked out once per posting and CV */
+  const kindWord = (j) => ({ full: "Full-time", part: "Part-time", intern: "Internship or co-op" })[j.kind] || "";
+
+  function paintPasteCv() {
+    const no = g("pcvNo"), has = g("pcvHas");
+    if (!no) return;
+    no.hidden = !!CV; has.hidden = !CV;
+    if (!CV) return;
+    const j = ppJob(), m = j && ppReady() && ppResult(j) ? mapData(j) : null;
+    const cf = cvFound(), n = cf ? Object.keys(cf).length : 0;
+    const band = typeof meBand === "function" ? meBand() : null;
+    const example = Object.values(SAMPLES).includes(CV.raw);
+    has.innerHTML = `<div class="pcvfacts">${band !== null && BAND[band] ? `<span class="pill lvl lv${band}">${esc(BAND[band].label)}</span>` : ""}${cf ? `<span class="pill">${n} skills found</span>` : ""}<a class="note" href="#p=details" data-p="details">Change my CV</a></div>
+      ${example ? '<span class="exnote">This is an example CV, not a real person.</span>' : ""}
+      ${m ? LEG_CV : '<p class="note">Paste a posting and the words of your CV it asks for will be marked here.</p>'}
+      <pre class="hl pcvtext" tabindex="0" aria-label="The text of your CV">${m ? hlOf(m).cv : esc(CV.raw)}</pre>`;
+  }
+
+  /* the right-hand panel once a posting is matched: its text with every keyword marked, and a way back to the text */
+  function paintPasteShown() {
+    const ed = g("ppEdit"), sh = g("ppShown");
+    if (!ed) return;
+    const j = ppJob();
+    if (!j) { PS.key = ""; PS.view = "edit"; }
+    const read = PS.view === "read" && !!j;
+    ed.hidden = read; sh.hidden = !read;
+    if (!read) return;
+    const m = ppResult(j) ? mapData(j) : null;
+    sh.innerHTML = `<h3 class="ppt">${esc(j.title)}</h3><div class="ppm"><span>${esc(j.company)}</span>${j.loc ? `<span>${esc(j.loc)}</span>` : ""}<span>${kindWord(j)}</span>${(j.sources[0] || {}).url ? `<a href="${esc(j.sources[0].url)}" target="_blank" rel="noopener">Open the link you saved</a>` : ""}</div>
+      ${m ? LEG_POST : '<p class="note">' + esc(SCORING || (CV ? "Scoring this posting against your CV…" : "Add your CV on the left to score it.")) + "</p>"}
+      <pre class="hl pptext" tabindex="0" aria-label="The text of the posting">${m ? hlOf(m).post : esc(j.title + "\n" + bodyOf(j))}</pre>
+      <div class="row ppact"><button type="button" class="xbtn" data-pp="edit">Edit the text</button><button type="button" class="xbtn solid" data-pp="new">Paste another posting</button></div>`;
+  }
+
+  function ppFill(rd) {
+    for (const [id, f] of Object.entries(PP_FIELDS)) { if (PS.dirty[id]) continue; const el = g(id); if (el) el.value = rd[f] || ""; }
+  }
+  function ppChips(rd, len) {
+    const c = [], ok = (t, title) => c.push(`<span class="dchip fix" title="${esc(title)}">${esc(t)}</span>`), miss = (t) => c.push(`<span class="dchip nt">${esc(t)}</span>`);
+    if (!len) return "";
+    rd.title ? ok("Title read", rd.title) : miss("Add the job title");
+    rd.company ? ok("Employer read", rd.company) : miss("Add the employer");
+    if (rd.loc) ok("Place read", rd.loc);
+    if (rd.typeSeen) ok(rd.type || "Full-time", "Kind of job read from the text");
+    if (rd.mode) c.push(`<span class="dchip nt" title="Shown, not scored">${esc(rd.mode)}</span>`);
+    if (rd.url) ok("Link read", rd.url);
+    if (rd.body.length < Pasteparse.MIN_BODY) miss("A few more lines are needed");
+    return c.join("");
+  }
+  let PPT = 0;
+  function onPasteInput(e) {
+    const id = e.target.id;
+    if (id === "ppText") {
+      clearTimeout(PPT);
+      PPT = setTimeout(() => {
+        const t = g("ppText").value, rd = Pasteparse.read(t);
+        ppFill(rd);
+        const h = ppChips(rd, t.trim().length);
+        g("ppRead").innerHTML = h; g("ppRead").hidden = !h;
+        g("ppMsg").textContent = "";
+      }, 180);
+    } else if (PP_FIELDS[id]) PS.dirty[id] = id === "ppKind" ? true : !!e.target.value.trim();
+  }
+
+  function ppSubmit(e) {
+    e.preventDefault();
+    const msg = (t) => { g("ppMsg").textContent = t; };
+    if (!CV) { msg("Add your CV on the left first, then match the posting."); (g("pcvText") || {}).focus && g("pcvText").focus(); return; }
+    const raw = g("ppText").value, rd = Pasteparse.read(raw), v = (id) => g(id).value.trim();
+    const title = v("ppTitle") || rd.title, company = v("ppCo") || rd.company;
+    const bad = Pasteparse.problem({ title, company, body: rd.body });
+    if (bad) { msg(bad); const f = !title || title.length < 3 ? "ppTitle" : !company || company.length < 2 ? "ppCo" : "ppText"; g(f).focus(); return; }
+    let url = v("ppUrl");
+    if (url && !/^https?:\/\//i.test(url)) url = /^[\w.-]+\.[a-z]{2,}(\/|$)/i.test(url) ? "https://" + url : "";   /* only web links; anything else is dropped */
+    const x = { title, company, loc: v("ppLoc"), type: g("ppKind").value, url, desc: rd.body, date: TODAY };
+    if (raw.trim() === PP_SAMPLE.trim()) x.ex = 1;   /* the example post is scored like any other, but is never put in the Top 10 */
+    PS.key = jkey(mineJob(x)); PS.view = "read";
+    const r = addMine(x);
+    PS.key = r.k; PS.status = r.status;
+    msg("");
+    renderPaste();
+    const sp = g("ppSplit"); if (sp) sp.scrollIntoView({ block: "start", behavior: reduceMotion() ? "auto" : "smooth" });
+  }
+
+  function onPasteClick(e) {
+    const b = e.target.closest("[data-pp]");
+    if (!b) return;
+    const a = b.dataset.pp;
+    if (a === "cvuse") {
+      const t = g("pcvText").value;
+      if (t.trim().length < 80) { g("pcvMsg").textContent = "Paste at least a few lines of your CV."; return; }
+      g("paste").value = t; go(); g("pcvMsg").textContent = "";
+    } else if (a === "cvex") {
+      g("paste").value = SAMPLES.student; go("Example CV, not a real person.");
+    } else if (a === "sample") {
+      g("ppText").value = PP_SAMPLE; PS.dirty = {};
+      clearTimeout(PPT);
+      const rd = Pasteparse.read(PP_SAMPLE); ppFill(rd); g("ppRead").innerHTML = ppChips(rd, 1); g("ppRead").hidden = false;
+      g("ppMsg").textContent = "This is an example posting, not a real job. Press “Match it to my CV” to score it.";
+    } else if (a === "clear" || a === "new") {
+      PS.key = ""; PS.view = "edit"; PS.dirty = {}; PS.status = "";
+      g("ppText").value = ""; for (const id of Object.keys(PP_FIELDS)) g(id).value = ""; g("ppRead").innerHTML = ""; g("ppRead").hidden = true; g("ppMsg").textContent = "";
+      renderPaste(); g("ppText").focus();
+    } else if (a === "edit") {
+      const j = ppJob(); if (!j) return;
+      g("ppText").value = bodyOf(j);
+      g("ppTitle").value = j.title; g("ppCo").value = j.company; g("ppLoc").value = j.loc || ""; g("ppKind").value = j.type || ""; g("ppUrl").value = (j.sources[0] || {}).url || "";
+      PS.dirty = { ppTitle: true, ppCo: true, ppLoc: true, ppKind: true, ppUrl: true };
+      g("ppMsg").textContent = "Change the text and match it again. The posting you added before is replaced.";
+      PS.view = "edit"; renderPaste(); g("ppText").focus();
+    } else if (a === "show") {
+      const j = jobByKey(b.dataset.k); if (!j) return;
+      PS.key = b.dataset.k; PS.view = "read"; PS.status = ""; OPEN.add(PS.key);
+      renderPaste();
+      const sp = g("ppSplit"); if (sp) sp.scrollIntoView({ block: "start", behavior: reduceMotion() ? "auto" : "smooth" });
+    }
+  }
+
+  /* ----- where the posting sits among everything that was collected ----- */
+  function sitsData(j, s) {
+    const fit = RES.filter((r) => r.s && r.j !== j && prefOk(r.j) && !r.s.past);
+    const full = fit.filter((r) => (hasText(r.j) && !r.j.partial) || isOcc(r.j));
+    const relaxed = P.fullOnly && full.length < 10 && fit.length > full.length;
+    const pool = P.fullOnly && !relaxed ? full : fit;
+    const bins = new Array(25).fill(0);
+    let better = 0, tied = 0, lower = 0;
+    for (const r of pool) {
+      bins[Math.min(24, Math.floor(r.s.total / 4))]++;
+      const d = r.s.total - s.total;
+      if (d > 5) better++; else if (d >= -5) tied++; else lower++;
+    }
+    const tp = rankPool(50, 2), idx = tp.all.findIndex((r) => r.j === j);
+    const t10 = tp.all.filter((r) => r.j !== j).slice(0, 10).map((r) => r.s.total);
+    return { n: pool.length, better, tied, lower, bins, idx, t10, why: prefWhy(j), past: !!s.past, fullOnly: P.fullOnly && !relaxed };
+  }
+  function sitsHtml(j, s, d) {
+    const here = Math.min(24, Math.floor(s.total / 4));
+    const lo = d.t10.length ? Math.min(...d.t10) : null, hi = d.t10.length ? Math.max(...d.t10) : null;
+    const mx = Math.max(1, ...d.bins);
+    const bars = d.bins.map((n, i) => {
+      const a = i * 4, inTop = lo !== null && a + 3 >= lo && a <= hi;
+      return `<i class="${i === here ? "me" : inTop ? "t10" : ""}" style="height:${Math.max(n ? 6 : 2, Math.round(100 * Math.sqrt(n / mx)))}%"></i>`;
+    }).join("");
+    let line;
+    if (j.ex) line = `It is the example posting, so it is never put in your Top 10.`;
+    else if (d.past) line = `Its term is in the past, so it stays out of your Top 10.`;
+    else if (d.why) line = `It is outside your details because ${esc(d.why)}, so it will not show in your Top 10. Its score does not change. <a href="#p=details" data-p="details">Edit my details</a> if you want postings like it counted.`;
+    else if (d.idx >= 0 && d.idx < 10) line = `It is in your Top 10, at rank <b>${d.idx + 1}</b>.${d.tied ? ` ${d.tied === 1 ? "One posting is" : nf(d.tied) + " postings are"} within 5 points of it, so treat the order among them as a tie.` : ""}`;
+    else if (d.idx >= 10) line = `It ranks <b>${d.idx + 1}</b> in your list, below your Top 10. The Top 10 page shows more with “Show the next 10”.`;
+    else line = `It is below the first 50 of your list, so it does not show on the Top 10 page.`;
+    const cmp = d.n ? `Of the <b>${nf(d.n)}</b> other postings that fit your details${d.fullOnly ? " and have a full text" : ""}: <b>${nf(d.better)}</b> score clearly higher, <b>${nf(d.tied)}</b> are within 5 points (a tie) and <b>${nf(d.lower)}</b> score lower.` : "There are no other scored postings that fit your details to compare it with yet.";
+    return `<section class="sits" aria-labelledby="sitsH"><div class="sitsh"><b class="sitsn ${scCls(s.total)}">${s.total}</b><div><h2 id="sitsH">Where it sits</h2><p>${line}</p><p>${cmp}</p></div></div>
+      <div class="sitsc" role="img" aria-label="How many postings fall at each score, from 0 to 100. The bar of this posting is at ${s.total}${lo !== null ? `. Your Top 10 scores run from ${lo} to ${hi}` : ""}."><div class="sbars">${bars}</div><div class="saxis" aria-hidden="true"><span>0</span><span>45</span><span>60</span><span>100</span></div>
+        <div class="sleg" aria-hidden="true"><span class="k me">This posting</span>${lo !== null ? '<span class="k t10">Scores of your Top 10</span>' : ""}<span class="k">Other postings that fit your details</span></div></div></section>`;
+  }
+
+  function paintPasteResult() {
+    const root = g("ppResult");
+    if (!root) return;
+    const j = ppJob();
+    if (!j) { if (root.innerHTML) root.innerHTML = ""; return; }
+    const k = jkey(j);
+    OPEN.add(k);
+    if (!CV) { root.innerHTML = `<p class="note ppwait">Your posting is saved in this browser. Add your CV on the left to score it.</p>`; return; }
+    if (!ppReady()) { root.innerHTML = `<p class="note ppwait">${esc(SCORING || "Reading your CV against every posting…")}</p>`; return; }
+    const r = ppResult(j) || { j, s: scoreJob(j) };
+    const d = sitsData(j, r.s), rank = d.idx >= 0 ? d.idx + 1 : "–";   /* a number only when it is on the ranked list: ties make any other number look more exact than it is */
+    const note = PS.status === "dup" ? `<p class="note ppst">A collected posting has the same employer and title. Your pasted text is now its full text.</p>` : PS.status === "updated" ? `<p class="note ppst">Updated: this replaces the posting you added before with the same employer and title.</p>` : "";
+    const ex = j.ex ? `<p class="exnote">This is the example posting, not a real job. It is scored like any other but never put in your Top 10. Use “Remove this posting from my list” at the bottom of the card when you are done.</p>` : "";
+    paint(root, note + ex + sitsHtml(j, r.s, d) + jobHtml(r, rank, true));
+  }
+
+  /* ----- the postings the person has added, best score first ----- */
+  function paintPasteMine() {
+    const root = g("ppMine");
+    if (!root) return;
+    const list = JOBS.filter((j) => j.mine);
+    if (!list.length) { root.innerHTML = ""; return; }
+    const sc = new Map();
+    if (ppReady()) for (const r of RES) if (r.j.mine && r.s) sc.set(r.j, r.s.total);
+    const rows = list.map((j) => ({ j, k: jkey(j), sc: sc.has(j) ? sc.get(j) : null })).sort((a, b) => (b.sc === null ? -1 : b.sc) - (a.sc === null ? -1 : a.sc));
+    root.innerHTML = `<section class="pmine" aria-labelledby="pmH"><h2 id="pmH">Postings you added (${rows.length})</h2><p class="note">Kept in this browser only. They are scored and ranked with all the others, so they can show in your Top 10.</p>
+      <ul>${rows.map((r) => `<li${r.k === PS.key ? ' class="on"' : ""}><b class="pmsc ${r.sc === null ? "" : scCls(r.sc)}">${r.sc === null ? "–" : r.sc}</b><span class="pmt"><b>${esc(r.j.title)}</b><small>${esc(r.j.company)}${r.j.loc ? " · " + esc(r.j.loc) : ""} · ${kindWord(r.j)}</small></span><button type="button" class="xbtn" data-pp="show" data-k="${esc(r.k)}"${r.k === PS.key ? ' aria-current="true"' : ""}>${r.k === PS.key ? "Shown above" : "Show"}</button></li>`).join("")}</ul></section>`;
+  }
+
+  /* =====================================================================
      EXPLORE MENU AND JUMP BAR
      ===================================================================== */
   function buildExplore() {
@@ -1017,6 +1292,7 @@
   const XP = {
     pages: {
       wayfinder: { title: META.wayfinder.title, render: renderWayfinder },
+      paste: { title: META.paste.title, render: renderPaste },
       market: { title: META.market.title, render: renderMarket },
       lab: { title: META.lab.title, render: renderLab },
       ladder: { title: META.ladder.title, render: renderLadder },
@@ -1037,6 +1313,10 @@
       const m = g("x-market"); m.addEventListener("click", onMarketClick); m.addEventListener("pointerover", onPulse); m.addEventListener("focusin", onPulse);
       const wf = g("x-wayfinder");
       wf.addEventListener("submit", onWayfinderSubmit); wf.addEventListener("click", onWayfinderClick); wf.addEventListener("input", onWayfinderInput);
+      const pp = g("x-paste");
+      pp.addEventListener("submit", ppSubmit); pp.addEventListener("click", onPasteClick); pp.addEventListener("input", onPasteInput); pp.addEventListener("change", onPasteInput);
+      /* the card under the match is the Top 10 card, so it takes the same clicks: star, compare, talking points, remove, and opening it */
+      pp.addEventListener("click", starClick, true); pp.addEventListener("click", onAct); pp.addEventListener("toggle", onCardToggle, true);
       g("x-lab").addEventListener("click", onLabClick);
       g("x-ladder").addEventListener("click", onLadderClick);
       g("x-ladder").addEventListener("change", (e) => { if (e.target.id === "ladField") { LAD.fd = e.target.value; renderLadder(); } });
