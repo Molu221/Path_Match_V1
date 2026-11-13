@@ -372,7 +372,7 @@ button:disabled{opacity:.5;cursor:default}
 .prog i{display:block;height:8px;border-radius:4px;background:var(--line);overflow:hidden;position:relative}
 .prog i::after{content:"";position:absolute;left:0;top:0;bottom:0;width:var(--pc,0%);background:var(--accent);border-radius:4px;transition:width .2s}
 .prog span{display:block;margin-top:6px;font-size:13px;color:var(--mute)}
-.job.top{scroll-margin-top:70px}
+.job.top{display:block;scroll-margin-top:70px}   /* the card is also called .top; without this the generic .top row above made an open card two columns and overflowed a phone */
 .job.top summary{grid-template-columns:54px minmax(0,1fr);gap:14px}
 .rank{text-align:center;padding-top:2px}
 .rank b{display:block;font:800 40px/1 var(--f-disp);font-stretch:78%;color:var(--l2)}
@@ -619,7 +619,7 @@ body.cmpon{padding-bottom:84px}
         <details class="panel" id="addpost">
           <summary><strong>Add a posting you found elsewhere</strong></summary>
           <form id="addform" autocomplete="off" novalidate>
-            <p class="note">Found a job on any site? Paste it here and it is scored against your CV like the others. It stays in this browser only.</p>
+            <p class="note">Found a job on any site? Paste it here and it is scored against your CV like the others. It stays in this browser only. The <a href="#p=paste" data-p="paste">Paste a posting</a> page does the same side by side with your CV, and reads the title and employer for you.</p>
             <label for="ap-title">Job title</label><input type="text" id="ap-title" maxlength="160">
             <label for="ap-co">Employer</label><input type="text" id="ap-co" maxlength="120">
             <label for="ap-loc">Place (optional)</label><input type="text" id="ap-loc" maxlength="120" placeholder="Montréal, QC">
@@ -694,6 +694,7 @@ body.cmpon{padding-bottom:84px}
 <main id="pg-plan" class="view" data-page="plan" hidden><div class="wrap pagein" id="x-plan"></div></main>
 <main id="pg-target" class="view" data-page="target" hidden><div class="wrap pagein" id="x-target"></div></main>
 <main id="pg-wayfinder" class="view" data-page="wayfinder" hidden><div class="wrap pagein" id="x-wayfinder"></div></main>
+<main id="pg-paste" class="view" data-page="paste" hidden><div class="wrap pagein" id="x-paste"></div></main>
 
 <div id="cmptray" hidden role="region" aria-label="Postings to compare"><b>Compare</b><span class="cl"></span><button id="cmpgo" disabled>Add one more to compare</button><button class="clr" id="cmpclr">Clear</button><span id="cmpmsg" role="status"></span></div>
 <dialog id="cmpdlg" aria-labelledby="cmph"><div class="cmphead"><h2 id="cmph">Compare postings</h2><button id="cmpclose" aria-label="Close the comparison">Close</button></div><div class="cmpwrap" id="cmpbody"></div></dialog>
@@ -703,6 +704,7 @@ body.cmpon{padding-bottom:84px}
 <script src="matcher.js"></script>
 <script src="planner.js"></script>
 <script src="describe.js"></script>
+<script src="pasteparse.js"></script>
 <script src="pages.js"></script>
 <script>
 const $=id=>document.getElementById(id);
@@ -792,10 +794,29 @@ const PROV_WORDS=[[/\b(QC|ON|BC|AB|MB|SK|NS|NB|NL|PE|YT|NT|NU)\b/,null],[/qu[eé
 function provOfLoc(loc){for(const [re,p] of PROV_WORDS){const m=re.exec(loc||"");if(m)return p||m[1];}return "";}
 function mineJob(x){
   const j={company:x.company,title:x.title,loc:x.loc||"",date:x.date,type:x.type||"",sources:[{src:"Added by you",url:x.url||""}],desc:x.desc||"",id:"",dl:(x.desc||"").length,lv:null,lg:null,df:null,
-    province:provOfLoc(x.loc),kw:null,kt:0,ageH:null,snap:false,partial:false,mine:true};
+    province:provOfLoc(x.loc),kw:null,kt:0,ageH:null,snap:false,partial:false,mine:true,ex:!!x.ex};   /* ex: the example posting of the Paste page, scored but never ranked */
   classify(j);return j;
 }
 function addMineToJobs(){const have=new Set(JOBS.map(jkey));for(const x of MINE){const j=mineJob(x),k=jkey(j);if(have.has(k))continue;have.add(k);JOBS.push(j);}}
+/* Add a posting the person found elsewhere: keep it in this browser, put it with the others and score it. Used by the form on All jobs and by the Paste page.
+   Returns {j, k, status}: "added", "updated" (the person had added the same employer and title before, so this text replaces it) or
+   "dup" (a collected posting has the same employer and title: the pasted text is used as its full text, the same as pasting into its card). */
+function addMine(x){
+  const j=mineJob(x),k=jkey(j),at=JOBS.findIndex(y=>jkey(y)===k);
+  if(at>=0&&!JOBS[at].mine){
+    const o=JOBS[at];PASTED[k]=x.desc.slice(0,30000);savePasted();applyPasted(o);
+    const rr=RES.find(r=>r.j===o);if(rr&&CV&&DICT)rr.s=scoreJob(o);
+    OPEN.add(k);render();return {j:o,k,status:"dup"};
+  }
+  const i=MINE.findIndex(m=>jkey(mineJob(m))===k);
+  if(i>=0)MINE.splice(i,1);
+  MINE.push(x);saveMine();
+  const old=at>=0?JOBS[at]:null;
+  if(old)JOBS[at]=j;else JOBS.push(j);
+  JOBS_VER++;OPEN.add(k);
+  resync(j,true,old);
+  return {j,k,status:old?"updated":"added"};
+}
 const OPEN=new Set();
 /* Montreal area, same list as AREA in scripts/collect.mjs */
 const MTL=/montr[eé]al|laval\b|longueuil|brossard|dorval|saint[- ]laurent|st[- ]laurent|pointe[- ]claire|sainte?[- ]anne[- ]de[- ]bellevue|boucherville|saint[- ]hubert|st[- ]hubert|vaudreuil|terrebonne|mirabel|varennes|candiac|la prairie|saint[- ]bruno|kirkland|lachine|anjou|westmount|verdun|mont[- ]royal|mount royal|saint[- ]eustache|repentigny|blainville|dollard|beaconsfield|pierrefonds|lasalle|ahuntsic|greater montr/i;
@@ -1139,6 +1160,20 @@ function occPanel(j){
     <div class="occparts">${parts}</div>${occDescription(j,false)}${paste}`;
 }
 /* the mapping panel inside the card (built when the card is opened) */
+/* The posting and the CV, each with its words marked: the posting by what the CV has (green = on the CV, amber = close, red = not on the CV, grey = company / benefits text,
+   dotted = check yourself), the CV by what the posting asks for (green = asked, amber = close to something asked, grey = on the CV but not asked). */
+const LEGEND_POST='<div class="legend"><mark class="m-ok">Match</mark><mark class="m-near">Close</mark><mark class="m-bad">Gap</mark><mark class="m-off">company / benefits</mark><mark class="m-chk">check yourself</mark></div>';
+const LEGEND_CV='<div class="legend"><mark class="m-ok">Match</mark><mark class="m-near">Close</mark><mark class="m-off">not asked by this post</mark></div>';
+function hlPair(m){
+  const cv=m.cvf;
+  const pm=[];
+  m.rows.forEach(x=>x.e.spans.forEach(([a,b])=>pm.push({a,b,cls:!x.counted?"m-off":x.st==="M"?"m-ok":x.st==="R"?"m-near":"m-bad",title:x.n+(x.tag?" · "+x.tag:"")+(!x.counted?": company / benefits text, not counted":x.st==="M"?": Match, on your CV":x.st==="R"?": Close, counts half":": Gap, not on your CV")})));
+  const sm=[];m.fl.forEach(f=>f.spans.forEach(([a,b])=>sm.push({a,b,cls:"m-chk",title:"Check yourself: "+f.name})));
+  const closeCv=new Set(m.r.links.map(l=>l.cv)),cm=[];
+  Object.keys(cv).forEach(n=>cv[n].spans.forEach(([a,b])=>cm.push({a,b,cls:m.job[n]?"m-ok":closeCv.has(n)?"m-near":"m-off",title:n+(cv[n].section&&cv[n].section!=="HEADER"?" · "+cv[n].section:"")+(m.job[n]?": Match, the posting asks for it":closeCv.has(n)?": Close to a skill in the posting":": not asked by this posting")})));
+  m.rows.filter(x=>x.kind==="term"&&x.counted&&x.hit.spans).forEach(x=>x.hit.spans.forEach(([a,b])=>cm.push({a,b,cls:x.st==="M"?"m-ok":"m-near",title:x.n+(x.st==="M"?": Match, the posting asks for it":": Close to a phrase in the posting")})));
+  return {post:Matcher.highlight(m.text,pm,sm),cv:Matcher.highlight(CV.raw,cm)};
+}
 function mapPanel(j){
   if(isOcc(j))return occPanel(j);
   if(needsText(j)){ensureText(j).then(()=>refreshSlot(j));return '<p class="note">Loading the posting text…</p>';}
@@ -1168,14 +1203,7 @@ function mapPanel(j){
     }else{onCv="Not written on your CV.";res='<span class="pill b" title="Not written on your CV.">Gap</span>';}
     return `<tr class="r-${x.st} k-${x.kind}"><td class="sn">${esc(x.n)}</td><td>${kindOf(x)}</td><td>${esc(x.tag||"—")}</td><td class="q">${inPost}</td><td class="q">${onCv}</td><td>${res}</td></tr>`;
   }).join("");
-  /* posting text: green = on the CV, amber = close, red = not on the CV, grey = company / benefits text, dotted = check yourself */
-  const pm=[];
-  m.rows.forEach(x=>x.e.spans.forEach(([a,b])=>pm.push({a,b,cls:!x.counted?"m-off":x.st==="M"?"m-ok":x.st==="R"?"m-near":"m-bad",title:x.n+(x.tag?" · "+x.tag:"")+(!x.counted?": company / benefits text, not counted":x.st==="M"?": Match, on your CV":x.st==="R"?": Close, counts half":": Gap, not on your CV")})));
-  const sm=[];m.fl.forEach(f=>f.spans.forEach(([a,b])=>sm.push({a,b,cls:"m-chk",title:"Check yourself: "+f.name})));
-  /* CV text: green = the posting asks for it, amber = close to something the posting asks for, grey = on the CV, not asked */
-  const closeCv=new Set(m.r.links.map(l=>l.cv)),cm=[];
-  Object.keys(cv).forEach(n=>cv[n].spans.forEach(([a,b])=>cm.push({a,b,cls:m.job[n]?"m-ok":closeCv.has(n)?"m-near":"m-off",title:n+(cv[n].section&&cv[n].section!=="HEADER"?" · "+cv[n].section:"")+(m.job[n]?": Match, the posting asks for it":closeCv.has(n)?": Close to a skill in the posting":": not asked by this posting")})));
-  m.rows.filter(x=>x.kind==="term"&&x.counted&&x.hit.spans).forEach(x=>x.hit.spans.forEach(([a,b])=>cm.push({a,b,cls:x.st==="M"?"m-ok":"m-near",title:x.n+(x.st==="M"?": Match, the posting asks for it":": Close to a phrase in the posting")})));
+  const hl=PG==="paste"?null:hlPair(m);   /* the paste page shows the two texts side by side, so the map does not repeat them */
   const aboutHtml=abt.length?`<details class="old"><summary>From the company / benefits part of the posting (${abt.length} phrases, listed but not counted)</summary><div class="kw" style="margin-top:6px;max-height:200px;overflow:auto">${abt.map(x=>`<span class="off${x.kind==="term"?" t":""}" title="${esc(x.st==="M"?"Match: on your CV":x.st==="R"?"Close: to something on your CV":"Gap: not on your CV")}">${esc(x.n)}</span>`).join("")}</div></details>`:"";
   return head+`<div class="mapbody" data-f="all" onclick="const b=event.target.closest('.mapfilter button');if(b){this.dataset.f=b.dataset.f;this.querySelectorAll('.mapfilter button').forEach(x=>x.classList.toggle('on',x===b));}"><div class="mapnums"><div><b>${t.matched} of ${t.total} = ${t.pct}%</b>Match only: the same keyword is written on both (${t.skills.matched} of ${t.skills.total} dictionary skills + ${t.terms.matched} of ${t.terms.total} other phrases)</div>
       <div><b>${half(t.matched+0.5*t.close)} of ${t.total} = ${t.pctRel}%</b>Match + Close at half credit</div></div>
@@ -1188,8 +1216,8 @@ function mapPanel(j){
     </div>${talkHtml(j,m)}${aboutHtml}
     <div class="mapfilter">Show: <button class="on" data-f="all">All ${cnt.length}</button><button data-f="M">Match ${both.length}</button><button data-f="R">Close ${near.length}</button><button data-f="G">Gap ${miss.length}</button><button data-f="skill">Skills ${t.skills.total}</button><button data-f="term">Other phrases ${t.terms.total}</button></div>
     <div class="mapscroll"><table class="maptab"><thead><tr><th>Keyword</th><th>Type</th><th>Where</th><th>In the posting</th><th>On your CV</th><th>Result</th></tr></thead><tbody>${rows}</tbody></table></div>
-    <div class="texts"><div><h4>The posting</h4><div class="legend"><mark class="m-ok">Match</mark><mark class="m-near">Close</mark><mark class="m-bad">Gap</mark><mark class="m-off">company / benefits</mark><mark class="m-chk">check yourself</mark></div><pre class="hl">${Matcher.highlight(m.text,pm,sm)}</pre></div>
-      <div><h4>Your CV</h4><div class="legend"><mark class="m-ok">Match</mark><mark class="m-near">Close</mark><mark class="m-off">not asked by this post</mark></div><pre class="hl">${Matcher.highlight(CV.raw,cm)}</pre></div></div></div>`;
+    ${PG==="paste"?"":`<div class="texts"><div><h4>The posting</h4>${LEGEND_POST}<pre class="hl">${hl.post}</pre></div>
+      <div><h4>Your CV</h4>${LEGEND_CV}<pre class="hl">${hl.cv}</pre></div></div>`}</div>`;
 }
 
 /* ---------- the score: role fit + level fit + keyword overlap (scoring.js) ---------- */
@@ -1277,10 +1305,11 @@ function run(){
   };
   SCORING="Scoring postings against your CV…";SCORE_PC=0;render();setTimeout(step,0);
 }
-/* a person's own posting was added or removed: when everything is already scored, score or drop just that one instead of everything again */
-function resync(j,add){
+/* a person's own posting was added, replaced or removed: when everything is already scored, score or drop just that one instead of everything again */
+function resync(j,add,old){
   if(CV&&DICT&&SCORED_FOR===CV&&!SCORING&&RES_VER===JOBS_VER-1){
-    if(add)RES.push({j,s:scoreJob(j)});else{const i=RES.findIndex(r=>r.j===j);if(i>=0)RES.splice(i,1);}
+    if(old){const i=RES.findIndex(r=>r.j===old);if(i>=0)RES[i]={j,s:scoreJob(j)};else RES.push({j,s:scoreJob(j)});}
+    else if(add)RES.push({j,s:scoreJob(j)});else{const i=RES.findIndex(r=>r.j===j);if(i>=0)RES.splice(i,1);}
     RES_VER=JOBS_VER;render();return;
   }
   run();
@@ -1288,7 +1317,7 @@ function resync(j,add){
 function pill(c,t,title){return `<span class="pill ${c}"${title?` title="${esc(title)}"`:""}>${esc(t)}</span>`}
 const starBtn=k=>`<button class="star${SAVED.has(k)?" on":""}" data-star="${esc(k)}" aria-pressed="${SAVED.has(k)}" title="${SAVED.has(k)?"Remove from saved":"Save this posting"}">${SAVED.has(k)?"★":"☆"}</button>`;
 const whenOf=j=>{if(j.mine)return "Added by you";const a=age(j),d=a<24?0:Math.floor(a/24);return a<24?(j.ageH!=null?`Posted ${Math.max(1,Math.round(a))}h ago`:"Posted today"):d===1?"Posted 1 day ago":`Posted ${d} days ago`;};
-const srcLinks=j=>j.sources.map(x=>x.url?`<a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.src)}</a>`:esc(x.src)).join(" · ");
+const srcLinks=j=>j.sources.map(x=>x.url?`<a href="${esc(x.url)}" target="_blank" rel="noopener">${j.mine?"Link you saved":esc(x.src)}</a>`:j.mine?"":esc(x.src)).filter(Boolean).join(" · ");   /* a posting you added already says so in the line before */
 /* level, how it relates to the person, field and type: the tags under a title */
 /* a field gets one of eight hues (the same field always has the same colour); "other" is grey */
 const FIELD_HUE={software:1,data:1,product:7,hr:7,engineering:2,trades:2,construction:4,ops:4,finance:6,legal:6,admin:6,marketing:5,creative:5,health:3,science:3,education:3,hospitality:8};
@@ -1318,11 +1347,11 @@ function scoreMeter(s,slim){
 }
 function jobHtml(r,rank,top){
   const {j,s}=r,a=age(j),jk=jkey(j);
-  return `<details class="job${top?" top":""} lv${s.lv.lvl}" data-k="${esc(jk)}"${top?` style="--i:${rank-1}"`:""}${OPEN.has(jk)?" open":""}><summary>
+  return `<details class="job${top?" top":""} lv${s.lv.lvl}" data-k="${esc(jk)}"${top&&typeof rank==="number"?` style="--i:${rank-1}"`:""}${OPEN.has(jk)?" open":""}><summary>
     ${top?`<div class="rank"><b>${rank}</b><small>${starBtn(jk)}</small></div>`:`<div class="score"><b class="${scCls(s.total)}">${s.total}</b><small>#${rank}</small>${starBtn(jk)}</div>`}
     <div>
       <div class="t">${esc(j.title)}</div>
-      <div class="meta"><span>${esc(j.company)}</span><span>${esc(j.loc)}</span><span>${whenOf(j)}${a<24&&!j.mine?" · within 24h":""}</span><span>${srcLinks(j)}</span></div>
+      <div class="meta"><span>${esc(j.company)}</span><span>${esc(j.loc)}</span><span>${whenOf(j)}${a<24&&!j.mine?" · within 24h":""}</span>${srcLinks(j)?`<span>${srcLinks(j)}</span>`:""}</div>
       ${occLine(j)}
       ${top?`<div class="topscore"><b class="${scCls(s.total)}">${s.total}</b><span>out of 100 · ${s.conf==="Full text"?"scored from the full text":s.conf==="Occupation profile"?"scored from the occupation profile":s.conf==="Short snippet"?"scored from a short snippet":"scored from the title only"}</span></div>`:""}
       ${tagsHtml(j,s.rel)}
@@ -1353,7 +1382,7 @@ function browseHtml(j,rank){
     <div class="score"><span class="kindtag">${KIND_SHORT[j.kind]}</span>${starBtn(jk)}</div>
     <div>
       <div class="t">${esc(j.title)}</div>
-      <div class="meta"><span>${esc(j.company)}</span><span>${esc(j.loc)}</span><span>${whenOf(j)}</span><span>${srcLinks(j)}</span></div>
+      <div class="meta"><span>${esc(j.company)}</span><span>${esc(j.loc)}</span><span>${whenOf(j)}</span>${srcLinks(j)?`<span>${srcLinks(j)}</span>`:""}</div>
       ${occLine(j)}
       ${tagsHtml(j,rel)}
       ${kws?`<div class="skills"><div class="sk-h">${isOcc(j)?"What the occupation asks for":"What the posting asks for"}</div><div class="kw sk">${kws}</div></div>`:""}
@@ -2017,19 +2046,22 @@ const KIND_NAME={full:"Full-time",part:"Part-time",intern:"Internships & co-ops"
 const LANG_NAME={both:"English and French",en:"English only",fr:"French only"};
 
 /* does a posting fit what the person asked for? (kind of work, place, field, language, level) */
-function prefOk(j){
-  if(!P.kinds.includes(j.kind))return false;
+function prefOk(j){return !prefWhy(j);}
+/* why a posting is outside what the person asked for ("" when it fits): the same checks as prefOk, with the reason in words */
+function prefWhy(j){
+  if(!P.kinds.includes(j.kind))return "its kind of job ("+KIND_NAME[j.kind]+") is not one of the kinds you chose";
   const remote=j.province==="Remote – Canada";
   if(P.loc){
     const here=P.loc==="MTL"?MTL.test(j.loc||""):j.province===P.loc;
-    if(!here&&!(P.remote&&remote))return false;
-  }else if(!P.remote&&remote)return false;
-  if(P.fd&&fdOf(j).id!==P.fd)return false;
-  if(P.within&&age(j)>=P.within*24)return false;          // an old posting is often filled
+    if(!here&&!(P.remote&&remote))return "its place ("+(j.loc||"not stated")+") is outside "+(P.loc==="MTL"?"the Montréal area":PROV_NAME[P.loc]||P.loc);
+  }else if(!P.remote&&remote)return "it is a remote role and you left remote roles out";
+  if(P.fd&&fdOf(j).id!==P.fd)return "its field ("+fdOf(j).label+") is not the field you chose";
+  if(P.within&&age(j)>=P.within*24)return "it is older than "+P.within+" days";          // an old posting is often filled
   const lg=langOf(j);
-  if(P.lang==="en"&&lg==="fr")return false;
-  if(P.lang==="fr"&&lg==="en")return false;
-  return fitsLevel(j);
+  if(P.lang==="en"&&lg==="fr")return "it is written in French and you chose English only";
+  if(P.lang==="fr"&&lg==="en")return "it is written in English and you chose French only";
+  if(!fitsLevel(j))return "its level ("+LV[lvOf(j).lvl].label+") is far from your stage";
+  return "";
 }
 
 function paintNav(){
@@ -2124,7 +2156,7 @@ $("dclear").onclick=()=>{
 /* ---------- page 3: the top 10 ---------- */
 /* The best postings for this CV among those that fit the details: ranked by score, at most 2 per employer so one company cannot fill the list. */
 function rankPool(cap,maxPer){
-  const fit=RES.filter(r=>r.s&&prefOk(r.j)&&!r.s.past);
+  const fit=RES.filter(r=>r.s&&!r.j.ex&&prefOk(r.j)&&!r.s.past);
   const full=fit.filter(r=>(hasText(r.j)&&!r.j.partial)||isOcc(r.j));   /* an occupation profile is the official description of the job */
   const relaxed=P.fullOnly&&full.length<10&&fit.length>full.length;
   const pool=(P.fullOnly&&!relaxed?full:fit).slice().sort(sortFns.match);
@@ -2301,14 +2333,14 @@ $("addform").addEventListener("submit",e=>{
   if(desc.length<80){msg("Paste at least a few lines of the posting, so it can be scored.");$("ap-desc").focus();return;}
   if(url&&!/^https?:\/\//i.test(url))url=/^[\w.-]+\.[a-z]{2,}(\/|$)/i.test(url)?"https://"+url:"";   /* only web links; anything else is dropped */
   const x={title,company,loc:v("ap-loc"),type:$("ap-kind").value,url,desc:desc.slice(0,30000),date:TODAY};
-  const j=mineJob(x),k=jkey(j);
+  const k=jkey(mineJob(x));
   if(JOBS.some(y=>jkey(y)===k)){msg("This posting is already in the list.");$("fq").value=title;$("fq").dispatchEvent(new Event("input",{bubbles:true}));return;}
-  MINE.push(x);saveMine();JOBS.push(j);JOBS_VER++;
+  const {j}=addMine(x);
   $("addform").reset();msg("Added. It is scored in the list.");
-  resetFilters();F.lvl="";OPEN.add(k);
+  resetFilters();F.lvl="";
   const t=document.querySelector('#tabs .tab[data-t="'+j.kind+'"]');if(t)t.click();
   $("fq").value=title;$("fq").dispatchEvent(new Event("input",{bubbles:true}));
-  resync(j,true);setTimeout(()=>{const el=cardEl(k);if(el)el.scrollIntoView({block:"center"});},400);
+  setTimeout(()=>{const el=cardEl(k);if(el)el.scrollIntoView({block:"center"});},400);
 });
 $("copy").onclick=()=>copyList(CUR.list);
 $("view").addEventListener("click",e=>{

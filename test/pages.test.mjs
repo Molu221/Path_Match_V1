@@ -22,7 +22,7 @@ const XP = win.XP;
 assert.ok(XP, "pages.js sets window.XP");
 for (const fn of ["home", "init", "onStar", "close"]) assert.equal(typeof XP[fn], "function", "XP." + fn);
 const ids = Object.keys(XP.pages);
-assert.equal(ids.slice().sort().join(), ["board", "ladder", "lab", "market", "plan", "swipe", "target", "wayfinder"].sort().join(), "the eight extra pages");
+assert.equal(ids.slice().sort().join(), ["board", "ladder", "lab", "market", "paste", "plan", "swipe", "target", "wayfinder"].sort().join(), "the nine extra pages");
 for (const id of ids) {
   assert.equal(typeof XP.pages[id].render, "function", id + " has render()");
   assert.ok(XP.pages[id].title, id + " has a title");
@@ -61,6 +61,19 @@ assert.ok(html.includes('href="#p=wayfinder"'), "the start page links to the Way
     assert.equal(r.not.length, 0, `the prompt "${q}" hides no words`);
   }
 }
+// the Paste a posting page (the ninth feature): the CV on the left, the posting on the right, the match below, through the same pipeline as every posting
+assert.ok(/id="pg-paste"[^>]*data-page="paste"/.test(html) && /id="x-paste"/.test(html), "the Paste page has its section");
+assert.ok(/const ORDER = \[[^\]]*"board", "paste"\]/.test(js), "Paste a posting is the ninth page in the feature list, after the Application board");
+assert.ok(at('<script src="pasteparse.js"></script>') > 0 && at('<script src="pasteparse.js"></script>') < at('<script src="pages.js"></script>'), "pasteparse.js loads before pages.js");
+for (const id of ["ppText", "ppTitle", "ppCo", "ppLoc", "ppKind", "ppUrl", "ppGo", "pcvText", "ppResult", "ppSplit"]) assert.ok(js.includes(`id="${id}"`), `the Paste page has #${id}`);
+assert.ok(js.indexOf('id="pcvH"') < js.indexOf('id="pjH"'), "the CV panel comes first (left) and the posting second (right)");
+for (const fn of ["addMine", "hlPair", "prefWhy"]) assert.ok(new RegExp(`function ${fn}\\(`).test(html), `index.html defines ${fn}, which the Paste page uses`);
+assert.ok(js.includes("addMine(x)") && html.includes("addMine(x)"), "the Paste page and the Add a posting form both add through addMine");
+assert.ok(js.includes("jobHtml(r, rank, true)"), "the match is drawn with the Top 10 card");
+assert.ok(js.includes('pp.addEventListener("toggle", onCardToggle, true)') && js.includes("onAct") && js.includes("starClick"), "the card on the Paste page takes the same clicks as the Top 10 card");
+assert.ok(/!r\.j\.ex&&prefOk/.test(html), "the example posting is kept out of the Top 10");
+assert.ok(js.includes("Example Manufacturing Inc.") && js.includes("not a real job"), "the example posting says it is not a real job");
+assert.ok(!/class="[^"]*\bt10\b/.test(html), "the score-histogram class t10 is not used by index.html");
 // the live reading under both Wayfinder boxes
 for (const id of ["wprev", "dprev"]) assert.equal((html.match(new RegExp(`id="${id}"`, "g")) || []).length, 1, `id ${id} appears once`);
 assert.ok(/function readingOf\(/.test(html) && html.includes('livePreview($("wq")') && html.includes('livePreview($("dq")'), "both boxes show how the sentence is read while typing");
