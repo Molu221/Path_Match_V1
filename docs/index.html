@@ -820,6 +820,28 @@ function addMine(x){
 const OPEN=new Set();
 /* Montreal area, same list as AREA in scripts/collect.mjs */
 const MTL=/montr[eé]al|laval\b|longueuil|brossard|dorval|saint[- ]laurent|st[- ]laurent|pointe[- ]claire|sainte?[- ]anne[- ]de[- ]bellevue|boucherville|saint[- ]hubert|st[- ]hubert|vaudreuil|terrebonne|mirabel|varennes|candiac|la prairie|saint[- ]bruno|kirkland|lachine|anjou|westmount|verdun|mont[- ]royal|mount royal|saint[- ]eustache|repentigny|blainville|dollard|beaconsfield|pierrefonds|lasalle|ahuntsic|greater montr/i;
+/* The biggest job markets besides Montréal, as places a person can pick (the Market map's bubbles and the Location menu of All jobs). A posting belongs to a city when the place it names is the city or one of the towns listed:
+   the same idea as MTL above, and a posting that names two cities counts in both. The map position of each is in docs/geo.js (scripts/build-maps.mjs). */
+const CITIES=[
+  ["TOR","Toronto area",/toronto|mississauga|brampton|markham|vaughan|richmond hill|oakville|pickering|whitby|oshawa|etobicoke|scarborough|north york|\bburlington,? (on|ontario)|\bajax,? (on|ontario)|\bmilton,? (on|ontario)|\baurora,? (on|ontario)|\bnewmarket,? (on|ontario)|\bwoodbridge,? (on|ontario)/i],
+  ["VAN","Vancouver area",/vancouver|burnaby|richmond,? (bc|british)|surrey,? (bc|british)|coquitlam|new westminster|langley,? (bc|british)|\bdelta,? (bc|british)|maple ridge|port moody|white rock/i],
+  ["OTT","Ottawa–Gatineau",/ottawa|gatineau|kanata|nepean|\borl[eé]ans,? (on|ontario)|stittsville/i],
+  ["CGY","Calgary area",/calgary|airdrie|cochrane|okotoks|chestermere/i],
+  ["QUE","Québec City area",/qu[eé]bec city|ville de qu[eé]bec|\bl[eé]vis\b|(?:^|\/\s*)qu[eé]bec,\s*(?:qc|qu[eé]bec|canada)\b|qu[eé]bec \(|qu[eé]bec \(qc\)/i],
+  ["EDM","Edmonton area",/edmonton|st\.? albert|sherwood park|leduc|spruce grove|fort saskatchewan|stony plain/i],
+  ["WPG","Winnipeg",/winnipeg/i],
+  ["HAL","Halifax area",/halifax|dartmouth|bedford,? (ns|nova)|lower sackville/i],
+  ["SAS","Saskatoon",/saskatoon/i],
+  ["REG","Regina",/\bregina\b/i]
+];
+const CITY_RE=Object.fromEntries(CITIES.map(c=>[c[0],c[2]]));
+const CITY_NAME=Object.fromEntries(CITIES.map(c=>[c[0],c[1]]));
+/* the name of a place the person can filter by: Montréal area, a city market, a province */
+const placeLabel=p=>p==="MTL"?"Montréal area":CITY_NAME[p]||PROV_NAME[p]||p;
+/* the city markets a posting belongs to, worked out once per posting */
+const cityKeys=j=>j._ct||(j._ct=CITIES.filter(c=>c[2].test(j.loc||"")).map(c=>c[0]));
+/* does a posting belong to a place: "MTL", a city key, or a province code */
+const inPlaceOf=(j,p)=>p==="MTL"?MTL.test(j.loc||""):CITY_RE[p]?cityKeys(j).includes(p):(j.province||"")===p;
 /* the tab: internships and co-ops, part-time, or full-time */
 function classify(j){
   const t=norm(j.title);
@@ -1550,7 +1572,7 @@ function eligOf(j){
   };
 }
 const eligOk=j=>{const e=eligOf(j);return F.el==="nosec"?!e.sec:F.el==="stud"?!e.grad:true;};
-const locOk=j=>!F.loc||(F.loc==="MTL"?MTL.test(j.loc||""):(j.province||"")===F.loc);
+const locOk=j=>!F.loc||inPlaceOf(j,F.loc);
 /* "fits my level" hides what is far above or far below the stage */
 function fitsLevel(j){
   const b=meBand();
@@ -1601,9 +1623,11 @@ function renderList(v){
   /* every filter shows the counts it would give with the others applied */
   const inTab=poolAll.filter(r=>r.j.kind===tab);
   const forLoc=inTab.filter(r=>lvOk(r.j)&&fdOk(r.j));
-  const lc={},mtl=forLoc.filter(r=>MTL.test(r.j.loc||"")).length;
+  const lc={},mtl=forLoc.filter(r=>MTL.test(r.j.loc||"")).length,cc={};
   forLoc.forEach(r=>{const p=r.j.province||"";lc[p]=(lc[p]||0)+1;});
-  fillSelect($("floc"),[["","All of Canada ("+nf(forLoc.length)+")"],["MTL","Montréal area ("+nf(mtl)+")"],...Object.keys(lc).sort((a,c)=>lc[c]-lc[a]).map(p=>[p,(PROV_NAME[p]||p)+" ("+nf(lc[p])+")"]),...(F.loc&&F.loc!=="MTL"&&!lc[F.loc]&&PROV_NAME[F.loc]?[[F.loc,PROV_NAME[F.loc]+" (0)"]]:[])],F.loc);
+  forLoc.forEach(r=>cityKeys(r.j).forEach(k=>{cc[k]=(cc[k]||0)+1;}));
+  const cityOpts=CITIES.filter(c=>cc[c[0]]).sort((a,b)=>cc[b[0]]-cc[a[0]]).map(c=>[c[0],"· "+c[1]+" ("+nf(cc[c[0]])+")"]);
+  fillSelect($("floc"),[["","All of Canada ("+nf(forLoc.length)+")"],["MTL","Montréal area ("+nf(mtl)+")"],...cityOpts,...Object.keys(lc).sort((a,c)=>lc[c]-lc[a]).map(p=>[p,(PROV_NAME[p]||p)+" ("+nf(lc[p])+")"]),...(F.loc&&F.loc!=="MTL"&&!CITY_RE[F.loc]&&!lc[F.loc]&&PROV_NAME[F.loc]?[[F.loc,PROV_NAME[F.loc]+" (0)"]]:[])],F.loc);
   if(F.loc&&$("floc").value!==F.loc)F.loc="";
   const forLv=inTab.filter(r=>locOk(r.j)&&fdOk(r.j)),lvc=[0,0,0,0,0];
   forLv.forEach(r=>lvc[lvOf(r.j).lvl]++);
@@ -1972,7 +1996,7 @@ function saveViews(){try{localStorage.setItem("pm_views",JSON.stringify(VIEWS));
 function viewHash(){const p=new URLSearchParams(location.hash.slice(1));p.delete("p");p.delete("me");return p.toString();}
 function viewName(){
   const w=$("window").value,bits=[KIND_NAME[tab]||"All jobs"];
-  if(F.loc)bits.push(F.loc==="MTL"?"Montréal area":(PROV_NAME[F.loc]||F.loc));
+  if(F.loc)bits.push(placeLabel(F.loc));
   if(F.fd){const f=JobMeta.FIELD_LIST.find(x=>x.id===F.fd);bits.push(f?f.label:F.fd);}
   if(F.lvl==="")bits.push("all levels");else if(F.lvl!=="fit")bits.push(LV[+F.lvl].label);
   if(F.rt.length)bits.push(F.rt.join(" / "));
