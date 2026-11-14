@@ -39,10 +39,10 @@ assert.ok(at('<script src="planner.js"></script>') > 0 && at('<script src="plann
 assert.ok(at('<script src="describe.js"></script>') > 0 && at('<script src="describe.js"></script>') < at('<script src="pages.js"></script>'), "describe.js loads before pages.js");
 for (const id of ["dform", "dq", "dsub", "dclr", "dex", "dchips"]) assert.equal((html.match(new RegExp(`id="${id}"`, "g")) || []).length, 1, `id ${id} appears once`);
 assert.ok(html.includes('$("dform").addEventListener("submit"'), "the Describe form is wired");
-// Wayfinder on the start page: one form, one input, one list of examples, and the name appears on the start page and over the All jobs box
-for (const id of ["wform", "wq", "wex"]) assert.equal((html.match(new RegExp(`id="${id}"`, "g")) || []).length, 1, `id ${id} appears once`);
-assert.ok(html.includes('$("wform").addEventListener("submit"') && /function wayfind\(/.test(html), "the start page form is wired");
-assert.ok((html.match(/Wayfinder/g) || []).length >= 4, "the name Wayfinder is on the start page and over the All jobs box");
+// the start page no longer carries a Wayfinder box or the career trail; Wayfinder lives on its own page, in the Explore menu and over the All jobs box
+for (const id of ["wform", "wq", "wex", "wprev", "htrail"]) assert.equal((html.match(new RegExp(`id="${id}"`, "g")) || []).length, 0, `the start page has no ${id}`);
+assert.ok(/function wayfind\(/.test(html) && js.includes("wayfind(q)"), "the Wayfinder page still applies a sentence through wayfind()");
+assert.ok((html.match(/Wayfinder/g) || []).length >= 2, "the name Wayfinder is over the All jobs box");
 // the Wayfinder page: the eighth feature, with a form, a live reading and sample prompts for students and graduates
 assert.ok(/id="pg-wayfinder"[^>]*data-page="wayfinder"/.test(html) && /id="x-wayfinder"/.test(html), "the Wayfinder page has its section");
 assert.ok(/wayfinder: \{ name: "Wayfinder"/.test(js) && /const ORDER = \["wayfinder", /.test(js), "Wayfinder is in the feature list, so it shows in Explore, the start-page tiles and the jump bar");
@@ -50,7 +50,7 @@ const wfq = (js.match(/const WF = \{[\s\S]*?\n  \};/) || [""])[0];
 const stuQ = (wfq.match(/student: \{[\s\S]*?\] \},/) || [""])[0].match(/^\s+"[^"]+",?$/gm) || [];
 const gradQ = (wfq.match(/grad: \{[\s\S]*?\] \}/) || [""])[0].match(/^\s+"[^"]+",?$/gm) || [];
 assert.ok(stuQ.length >= 5 && stuQ.length <= 6 && gradQ.length >= 5 && gradQ.length <= 6, "five or six sample prompts for students and for graduates");
-assert.ok(html.includes('href="#p=wayfinder"'), "the start page links to the Wayfinder page");
+assert.ok(/const ORDER = \[[^\]]*"wayfinder"/.test(js) && js.includes('href="#p=${id}"'), "the start page links to the Wayfinder page from its tiles (Go further than a list)");
 // every sample prompt reads into at least a type or a place plus something more, and never into a word to hide
 {
   const { loadUmd } = await import("../scripts/umd.mjs");
@@ -74,9 +74,9 @@ assert.ok(js.includes('pp.addEventListener("toggle", onCardToggle, true)') && js
 assert.ok(/!r\.j\.ex&&prefOk/.test(html), "the example posting is kept out of the Top 10");
 assert.ok(js.includes("Example Manufacturing Inc.") && js.includes("not a real job"), "the example posting says it is not a real job");
 assert.ok(!/class="[^"]*\bt10\b/.test(html), "the score-histogram class t10 is not used by index.html");
-// the live reading under both Wayfinder boxes
-for (const id of ["wprev", "dprev"]) assert.equal((html.match(new RegExp(`id="${id}"`, "g")) || []).length, 1, `id ${id} appears once`);
-assert.ok(/function readingOf\(/.test(html) && html.includes('livePreview($("wq")') && html.includes('livePreview($("dq")'), "both boxes show how the sentence is read while typing");
+// the live reading under the Describe box (and on the Wayfinder page)
+assert.equal((html.match(/id="dprev"/g) || []).length, 1, "id dprev appears once");
+assert.ok(/function readingOf\(/.test(html) && html.includes('livePreview($("dq")'), "the box shows how the sentence is read while typing");
 // the score meter is the one way the score parts are drawn: posting cards, Quick sort and the compare table all call it, and the old small bars are gone
 assert.ok(/function scoreMeter\(/.test(html) && js.includes("scoreMeter(s)") && html.includes("scoreMeter(r.s,true)"), "cards, Quick sort and compare use scoreMeter");
 assert.ok(!/class="sb sb-/.test(html), "the old three small bars are gone");

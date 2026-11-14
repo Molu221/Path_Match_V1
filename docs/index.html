@@ -19,7 +19,7 @@ html{color-scheme:light}
 :root{--bg:#f0f5f4;--panel:#fff;--ink:#0f2628;--mute:#53696a;--line:#d2e0de;--accent:#0d6a72;--accent-soft:#dcefed;
 --pin:#ff6b2c;--pin-ink:#1d0e05;
 --warn:#8a4f00;--warn-soft:#fbecd0;--bad:#a02a2a;--bad-soft:#f6dddd;--ok:#17673a;--ok-soft:#d8efdf;
---hero:#fbfcff;--hero-ink:#0c1b3d;--hero-mute:#4a5877;--hero-rgb:12 27 61;--hero-card:#fff;--hero-line:#dbe2ef;--hero-field:rgb(12 27 61 / .3);--hero-focus:#0c1b3d;--hero-shadow:0 18px 30px -12px rgba(12,27,61,.28);--trail:#31446f;--dot-edge:rgb(12 27 61 / .25);--contours:url(contours-light.svg);
+--hero:#fbfcff;--hero-ink:#0c1b3d;--hero-mute:#4a5877;--hero-rgb:12 27 61;--hero-line:#dbe2ef;--hero-focus:#0c1b3d;--hero-shadow:0 18px 30px -12px rgba(12,27,61,.28);--trail:#31446f;--dot-edge:rgb(12 27 61 / .25);--contours:url(contours-light.svg);
 --l0:#6cc8a6;--l1:#35aa90;--l2:#1b8892;--l3:#1d5f89;--l4:#3a3f8f;
 --sun:#f5a800;--coral:#e8474c;--berry:#cf2f6e;--violet:#6250d6;--sky:#2a78d6;--mint:#0f9f72;--peach:#ee7d25;--on-vio:#fff;
 --h1:#2a78d6;--h2:#eb6834;--h3:#1baf7a;--h4:#eda100;--h5:#e87ba4;--h6:#2f9a2f;--h7:#6250d6;--h8:#e34948;--h9:#8a9a98;
@@ -28,9 +28,9 @@ html{color-scheme:light}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0a1718;--panel:#112527;--ink:#e4f1ef;--mute:#9db7b4;--line:#244245;--accent:#5ec9cf;--accent-soft:#12363a;--warn:#f0b659;--warn-soft:#3a2d12;--bad:#f08a8a;--bad-soft:#3d1c1c;--ok:#7fd49a;--ok-soft:#14321f;--l1:#4fc0a6;--l2:#45b0ba;--l3:#6aa9db;--l4:#a3a8ef;--sun:#ffc933;--coral:#ff7b80;--berry:#f06595;--violet:#9a8cf2;--sky:#5aa9f2;--mint:#3fd0a0;--peach:#ff9f55;--on-vio:#10122b;--h1:#3987e5;--h2:#d95926;--h3:#199e70;--h4:#c98500;--h5:#d55181;--h6:#3aa83a;--h7:#9085e9;--h8:#e66767;color-scheme:dark}}
 :root[data-theme="dark"]{--bg:#0a1718;--panel:#112527;--ink:#e4f1ef;--mute:#9db7b4;--line:#244245;--accent:#5ec9cf;--accent-soft:#12363a;--warn:#f0b659;--warn-soft:#3a2d12;--bad:#f08a8a;--bad-soft:#3d1c1c;--ok:#7fd49a;--ok-soft:#14321f;--l1:#4fc0a6;--l2:#45b0ba;--l3:#6aa9db;--l4:#a3a8ef;--sun:#ffc933;--coral:#ff7b80;--berry:#f06595;--violet:#9a8cf2;--sky:#5aa9f2;--mint:#3fd0a0;--peach:#ff9f55;--on-vio:#10122b;--h1:#3987e5;--h2:#d95926;--h3:#199e70;--h4:#c98500;--h5:#d55181;--h6:#3aa83a;--h7:#9085e9;--h8:#e66767;color-scheme:dark}
 /* the cover and the top bar: light and bright (near-white, navy, one orange accent); the dark theme and the two surfaces that are dark in both themes keep the spruce palette */
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--hero:#0e2c2b;--hero-ink:#eaf6f3;--hero-mute:#a6c6c1;--hero-rgb:234 246 243;--hero-card:rgba(8,24,24,.58);--hero-line:#1d4a47;--hero-field:transparent;--hero-focus:#ff6b2c;--hero-shadow:0 18px 30px -12px rgba(0,0,0,.55);--trail:rgba(121,201,189,.6);--dot-edge:transparent;--contours:url(contours.svg);}}
-:root[data-theme="dark"]{--hero:#0e2c2b;--hero-ink:#eaf6f3;--hero-mute:#a6c6c1;--hero-rgb:234 246 243;--hero-card:rgba(8,24,24,.58);--hero-line:#1d4a47;--hero-field:transparent;--hero-focus:#ff6b2c;--hero-shadow:0 18px 30px -12px rgba(0,0,0,.55);--trail:rgba(121,201,189,.6);--dot-edge:transparent;--contours:url(contours.svg);}
-.stagecard,#cmptray{--hero:#0e2c2b;--hero-ink:#eaf6f3;--hero-mute:#a6c6c1;--hero-rgb:234 246 243;--hero-card:rgba(8,24,24,.58);--hero-line:#1d4a47;--hero-field:transparent;--hero-focus:#ff6b2c;--hero-shadow:0 18px 30px -12px rgba(0,0,0,.55);--trail:rgba(121,201,189,.6);--dot-edge:transparent;--contours:url(contours.svg);}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--hero:#0e2c2b;--hero-ink:#eaf6f3;--hero-mute:#a6c6c1;--hero-rgb:234 246 243;--hero-line:#1d4a47;--hero-focus:#ff6b2c;--hero-shadow:0 18px 30px -12px rgba(0,0,0,.55);--trail:rgba(121,201,189,.6);--dot-edge:transparent;--contours:url(contours.svg);}}
+:root[data-theme="dark"]{--hero:#0e2c2b;--hero-ink:#eaf6f3;--hero-mute:#a6c6c1;--hero-rgb:234 246 243;--hero-line:#1d4a47;--hero-focus:#ff6b2c;--hero-shadow:0 18px 30px -12px rgba(0,0,0,.55);--trail:rgba(121,201,189,.6);--dot-edge:transparent;--contours:url(contours.svg);}
+.stagecard,#cmptray{--hero:#0e2c2b;--hero-ink:#eaf6f3;--hero-mute:#a6c6c1;--hero-rgb:234 246 243;--hero-line:#1d4a47;--hero-focus:#ff6b2c;--hero-shadow:0 18px 30px -12px rgba(0,0,0,.55);--trail:rgba(121,201,189,.6);--dot-edge:transparent;--contours:url(contours.svg);}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:14.5px;line-height:1.5}
 .wrap{max-width:1180px;margin:0 auto}
@@ -310,23 +310,6 @@ button.btng{background:none;font:600 16px/1.2 var(--f-body);cursor:pointer}
 /* Wayfinder: say the job you want */
 .wfname{display:inline-flex;align-items:center;gap:6px;font:800 14px/1 var(--f-disp);font-stretch:112%;letter-spacing:.01em}
 .wfname svg{width:17px;height:17px;stroke:var(--pin);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-.wf{margin:24px 0 0;max-width:740px}
-.wf label{display:block;margin:0 0 8px;color:var(--hero-ink);font-size:15px;font-weight:400}
-.wf .wfname{font-size:18px;margin-right:6px}
-.wfrow{display:flex;gap:8px;flex-wrap:wrap}
-.wfrow input{flex:1 1 320px;min-width:0;width:auto;background:#fff;color:#0f2628;border-color:var(--hero-field);padding:12px 14px;font-size:15.5px;border-radius:8px}
-.wfrow input::placeholder{color:#5d7273}
-.wfrow button{background:var(--pin);color:var(--pin-ink);border-color:transparent;font-weight:700;padding:12px 20px;border-radius:8px}
-.wfrow button:hover{filter:brightness(1.07)}
-.wfex{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
-.wprev{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:10px;font-size:13px;color:var(--hero-mute)}
-.wprev .dchip{background:rgb(var(--hero-rgb) / .12);border-color:rgb(var(--hero-rgb) / .45);color:var(--hero-ink);padding:0 11px}
-.wprev .dchip.nt{background:none;border-style:dashed;color:var(--hero-mute)}
-.wfex button{background:rgb(var(--hero-rgb) / .1);color:var(--hero-ink);border:1px solid rgb(var(--hero-rgb) / .3);border-radius:999px;padding:3px 11px;font-size:13px}
-.wfex button:hover{border-color:var(--hero-ink)}
-.wfmore{align-self:center;color:var(--hero-ink);font-size:13px;margin-left:4px;text-underline-offset:3px}
-.hometrail{margin-top:34px;max-width:900px;pointer-events:none}
-.hometrail .stop{cursor:default}
 .how{padding:30px 16px 50px}
 .how3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));margin:0;padding:0;list-style:none}
 .how3 li{padding:2px 26px 2px 0;margin-right:26px;border-right:1px solid var(--line)}
@@ -463,22 +446,11 @@ body.cmpon{padding-bottom:84px}
   <section class="hero">
     <div class="wrap">
       <h1 tabindex="-1">Jobs that fit where you are in your career.</h1>
-      <p class="lead">Upload your CV and tell us what you are looking for. Path Match reads your stage, from student to executive, scores every posting against your CV and gives you a ranked top 10, with the reason behind every score. Or skip the forms: tell <b>Wayfinder</b> the job you want in one sentence, in English or French.</p>
+      <p class="lead">Upload your CV and tell us what you are looking for. Path Match reads your stage, from student to executive, scores every posting against your CV and gives you a ranked top 10, with the reason behind every score.</p>
       <div class="cta">
         <a class="btnp" href="#p=details" data-p="details">Upload my CV</a>
         <a class="btng" href="#p=jobs" data-p="jobs">Browse all <span id="homeCount">the</span> jobs</a>
         <button type="button" class="btng" data-tryex>See it with an example CV</button>
-      </div>
-      <form class="wf" id="wform" role="search" autocomplete="off">
-        <label for="wq"><span class="wfname"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/></svg>Wayfinder</span> Say the job you want, in English or French</label>
-        <div class="wfrow"><input type="text" id="wq" maxlength="400" placeholder="e.g. part-time operations job near Longueuil, or: stage en chaîne d'approvisionnement à Montréal" enterkeyhint="search"><button type="submit">Find jobs</button></div>
-        <div class="wprev" id="wprev" aria-live="polite" hidden></div>
-        <div class="wfex" id="wex"><button type="button" data-ex="Winter 2027 engineering or quality co-op in Montréal, bilingual, no security clearance">Co-op, Montréal, no clearance</button><button type="button" data-ex="part-time operations or warehouse job near Longueuil, about 20 hours a week">Part-time, about 20 h a week</button><button type="button" data-ex="stage en chaîne d'approvisionnement à Montréal">Stage en français</button><button type="button" data-ex="data analyst in Toronto, posted this week">Data analyst, this week</button><a class="wfmore" href="#p=wayfinder" data-p="wayfinder">More prompts</a></div>
-      </form>
-      <div class="hometrail">
-        <div class="trail" id="htrail"></div>
-        <p class="stagenote">Five stages, from student to executive. Tap one to see what is out there. Your CV shows which one you are at, and the postings that fit it come first.</p>
-        <div class="stageprev" id="stageprev" aria-live="polite"></div>
       </div>
       <p class="herostat" id="herostat">Loading postings…</p>
     </div>
@@ -745,14 +717,6 @@ function layoutTrail(){
     svg.setAttribute("viewBox","0 0 "+W+" "+H);svg.querySelector("path").setAttribute("d",d);
   });
 }
-/* the start page shows the same trail without a pin and without buttons: a picture of the five stages */
-(function(){
-  const c=$("trail").cloneNode(true);
-  c.removeAttribute("id");c.removeAttribute("role");c.querySelectorAll("[id]").forEach(e=>e.removeAttribute("id"));
-  c.querySelector(".pin").remove();
-  c.querySelectorAll("button.stop").forEach(b=>b.setAttribute("aria-pressed","false"));   // the start page trail is a preview: tap a stop to see what sits at that stage
-  $("htrail").replaceWith(c);
-})();
 function paintStage(){
   const b=meBand(),cb=cvBand(),pin=$("pin");
   document.querySelectorAll("#trail .stop").forEach(s=>s.setAttribute("aria-pressed",String(+s.dataset.b===b)));
@@ -1463,11 +1427,11 @@ function applyDescribe(text,push){
   }
   refilter(push!==false);
 }
-/* from the start page: open All jobs and apply the sentence there */
+/* from the Wayfinder page: open All jobs and apply the sentence there */
 function wayfind(text){
   text=String(text||"").trim();
-  if(!text){$("wq").focus();return;}
-  DDRAFT=false;$("dq").value=text;clearPrev();$("wprev").hidden=true;
+  if(!text)return;
+  DDRAFT=false;$("dq").value=text;clearPrev();
   showPage("jobs",true);
   applyDescribe(text,false);
 }
@@ -1501,9 +1465,7 @@ function paintDescribe(){
   box.innerHTML=out.length||pick?`<span class="rd">Read as:</span>${out.join("")}${pick?`<span class="rd">${pick}</span>`:""}`:`<span class="rd">Nothing in that sentence matched a filter. Try a role, a place, or a type such as co-op or part-time.</span>`;
   box.hidden=false;
 }
-$("wform").addEventListener("submit",e=>{e.preventDefault();wayfind($("wq").value);});
-$("wex").addEventListener("click",e=>{const b=e.target.closest("[data-ex]");if(!b)return;$("wq").value=b.dataset.ex;wayfind(b.dataset.ex);});
-/* Wayfinder shows how it reads the sentence while it is typed, before anything is applied */
+/* the Describe box shows how it reads the sentence while it is typed, before anything is applied */
 function readingOf(text){
   text=String(text||"").trim();
   if(text.length<3)return"";
@@ -1523,7 +1485,6 @@ function livePreview(inp,box,same){
   });
 }
 const clearPrev=()=>{const b=$("dprev");b.innerHTML="";b.hidden=true;};
-livePreview($("wq"),$("wprev"));
 livePreview($("dq"),$("dprev"),()=>$("dq").value.trim()===F.ds);
 $("dq").addEventListener("input",()=>{DDRAFT=true;});
 $("dform").addEventListener("submit",e=>{e.preventDefault();DDRAFT=false;clearPrev();applyDescribe($("dq").value);});
@@ -2416,7 +2377,7 @@ setTimeout(()=>$("pin").style.setProperty("--pd","0s"),2200);
 run();
 
 /* ---------- live postings from the server ---------- */
-/* the numbers of the start page (the line under the search box, the count on the Browse button) are counted once a day by the collector's workflow (scripts/cover-stats.mjs -> docs/stats.json), so the cover shows them before the postings arrive and no visitor's browser has to read 79,000 titles to count them. When that file is missing, or is not the one of the postings now loaded, the page counts for itself as before. */
+/* the numbers of the start page (the line under the buttons, the count on the Browse button) are counted once a day by the collector's workflow (scripts/cover-stats.mjs -> docs/stats.json), so the cover shows them before the postings arrive and no visitor's browser has to read 79,000 titles to count them. When that file is missing, or is not the one of the postings now loaded, the page counts for itself as before. */
 async function loadCover(){
   try{
     const r=await fetch("stats.json",{cache:"no-cache"});if(!r.ok)return;

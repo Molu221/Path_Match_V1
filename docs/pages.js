@@ -1075,18 +1075,8 @@
   function onTargetChange(e) { const k = TG_IDS[e.target.id]; if (!k) return; const l = TG_LIMITS[k]; TG[k] = Math.max(l[0], Math.min(l[1], +e.target.value)); store.set("pm_tgt", TG); renderTarget(); }
 
   /* =====================================================================
-     START PAGE: the stage preview, the Explore tiles
+     START PAGE: the Explore tiles
      ===================================================================== */
-  function stagePreview(b) {
-    const el = g("stageprev"); if (!el) return;
-    document.querySelectorAll(".hometrail .stop").forEach((s) => s.setAttribute("aria-pressed", String(+s.dataset.b === b)));
-    const list = JOBS.filter((j) => lvOf(j).lvl === b);
-    const fd = {}, tt = new Map(); for (const j of list) { const f = fdOf(j).id; fd[f] = (fd[f] || 0) + 1; const k = norm(j.title); const e = tt.get(k); if (e) e.n++; else tt.set(k, { t: j.title, n: 1 }); }
-    const topF = Object.entries(fd).sort((a, c) => c[1] - a[1]).slice(0, 4), topT = [...tt.values()].sort((a, c) => c.n - a.n).slice(0, 4);
-    el.innerHTML = `<div class="sp" style="--c:var(--l${b})"><div><h3>${esc(BAND[b].label)}<small>${nf(list.length)} postings, ${pct(list.length, JOBS.length)}% of the collection</small></h3></div>
-      <ul><li><b>Most postings in:</b> ${topF.map(([f, n]) => `${esc(fieldLabel(f))} (${nf(n)})`).join(", ")}</li><li><b>${topT[0] && topT[0].n > 1 ? "Titles that come up most:" : "Examples:"}</b> ${topT.map((t) => esc(t.t)).join("; ")}</li></ul>
-      <div class="row"><a class="btng" href="#p=jobs" data-act="stagejobs" data-b="${b}">Show these jobs</a><a class="btng" href="#p=ladder" data-act="stageladder" data-b="${b}">Climb from here</a></div></div>`;
-  }
   function homeTiles() {
     const el = g("x-home"); if (!el) return;
     const key = JOBS_VER + "|" + JOBS.length + "|" + SAVED.size + "|" + (CV ? 1 : 0);
@@ -1523,12 +1513,6 @@ Requirements
       g("x-target").addEventListener("input", onTargetInput);
       g("x-target").addEventListener("change", onTargetChange);
       g("x-target").addEventListener("click", (e) => { if (e.target.closest("[data-act=tgreset]")) { Object.assign(TG, TG_DEFAULT); store.set("pm_tgt", TG); renderTarget(); } });
-      const trail = document.querySelector(".hometrail");
-      if (trail) trail.addEventListener("click", (e) => {
-        const a = e.target.closest("a[data-act]");
-        if (a) { e.preventDefault(); const b = +a.dataset.b; if (a.dataset.act === "stagejobs") { const c = { full: 0, part: 0, intern: 0 }; JOBS.forEach((j) => { if (lvOf(j).lvl === b) c[j.kind]++; }); goJobs({ f: { lvl: String(b) }, tab: bestTab(c) }); } else { LAD.sel = b; LAD.fd = P.fd || ""; showPage("ladder", true); } return; }
-        const s = e.target.closest("button.stop"); if (s) stagePreview(+s.dataset.b);
-      });
     }
   };
   window.XP = XP;

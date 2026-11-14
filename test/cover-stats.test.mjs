@@ -66,7 +66,7 @@ assert.ok(html.includes('fetch("stats.json"'), "the page reads docs/stats.json")
 assert.ok(/COVER\.updatedAt===DATA_V/.test(html), "it uses those numbers only when they describe the postings loaded (otherwise it counts for itself)");
 assert.ok(/function heroStat\(\)\{\s*const el=\$\("herostat"\),c=coverNow\(\);/.test(html), "the line under the search box and the Browse button read those numbers");
 assert.ok(!html.includes("bigstats") && !/\.bs\b/.test(read("docs/pages.css")) && !js.includes("bigStats"), "the four number cards are gone from the cover");
-assert.ok(html.includes('class="hometrail"') && js.includes("function stagePreview"), "the climb trail and its stage preview stay");
+assert.ok(!html.includes("hometrail") && !html.includes("htrail") && !js.includes("stagePreview") && !html.includes('id="wform"'), "the cover has no career trail and no Wayfinder box");
 // --- the colours: the cover and the top bar are light by default (near-white, navy ink, one orange accent), the dark theme keeps its spruce palette,
 // and the two surfaces that are dark in both themes (the stage card, the compare tray) pin that palette on themselves
 const css = read("docs/pages.css");
