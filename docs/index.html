@@ -20,7 +20,6 @@ html{color-scheme:light}
 --pin:#ff6b2c;--pin-ink:#1d0e05;
 --warn:#8a4f00;--warn-soft:#fbecd0;--bad:#a02a2a;--bad-soft:#f6dddd;--ok:#17673a;--ok-soft:#d8efdf;
 --hero:#fbfcff;--hero-ink:#0c1b3d;--hero-mute:#4a5877;--hero-rgb:12 27 61;--hero-card:#fff;--hero-line:#dbe2ef;--hero-field:rgb(12 27 61 / .3);--hero-focus:#0c1b3d;--hero-shadow:0 18px 30px -12px rgba(12,27,61,.28);--trail:#31446f;--dot-edge:rgb(12 27 61 / .25);--contours:none;
---stat1:var(--pin);--stat2:var(--hero-ink);--stat3:var(--hero-ink);--stat4:var(--hero-ink);
 --l0:#6cc8a6;--l1:#35aa90;--l2:#1b8892;--l3:#1d5f89;--l4:#3a3f8f;
 --sun:#f5a800;--coral:#e8474c;--berry:#cf2f6e;--violet:#6250d6;--sky:#2a78d6;--mint:#0f9f72;--peach:#ee7d25;--on-vio:#fff;
 --h1:#2a78d6;--h2:#eb6834;--h3:#1baf7a;--h4:#eda100;--h5:#e87ba4;--h6:#2f9a2f;--h7:#6250d6;--h8:#e34948;--h9:#8a9a98;
@@ -29,9 +28,9 @@ html{color-scheme:light}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0a1718;--panel:#112527;--ink:#e4f1ef;--mute:#9db7b4;--line:#244245;--accent:#5ec9cf;--accent-soft:#12363a;--warn:#f0b659;--warn-soft:#3a2d12;--bad:#f08a8a;--bad-soft:#3d1c1c;--ok:#7fd49a;--ok-soft:#14321f;--l1:#4fc0a6;--l2:#45b0ba;--l3:#6aa9db;--l4:#a3a8ef;--sun:#ffc933;--coral:#ff7b80;--berry:#f06595;--violet:#9a8cf2;--sky:#5aa9f2;--mint:#3fd0a0;--peach:#ff9f55;--on-vio:#10122b;--h1:#3987e5;--h2:#d95926;--h3:#199e70;--h4:#c98500;--h5:#d55181;--h6:#3aa83a;--h7:#9085e9;--h8:#e66767;color-scheme:dark}}
 :root[data-theme="dark"]{--bg:#0a1718;--panel:#112527;--ink:#e4f1ef;--mute:#9db7b4;--line:#244245;--accent:#5ec9cf;--accent-soft:#12363a;--warn:#f0b659;--warn-soft:#3a2d12;--bad:#f08a8a;--bad-soft:#3d1c1c;--ok:#7fd49a;--ok-soft:#14321f;--l1:#4fc0a6;--l2:#45b0ba;--l3:#6aa9db;--l4:#a3a8ef;--sun:#ffc933;--coral:#ff7b80;--berry:#f06595;--violet:#9a8cf2;--sky:#5aa9f2;--mint:#3fd0a0;--peach:#ff9f55;--on-vio:#10122b;--h1:#3987e5;--h2:#d95926;--h3:#199e70;--h4:#c98500;--h5:#d55181;--h6:#3aa83a;--h7:#9085e9;--h8:#e66767;color-scheme:dark}
 /* the cover and the top bar: light and bright (near-white, navy, one orange accent); the dark theme and the two surfaces that are dark in both themes keep the spruce palette */
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--hero:#0e2c2b;--hero-ink:#eaf6f3;--hero-mute:#a6c6c1;--hero-rgb:234 246 243;--hero-card:rgba(8,24,24,.58);--hero-line:#1d4a47;--hero-field:transparent;--hero-focus:#ff6b2c;--hero-shadow:0 18px 30px -12px rgba(0,0,0,.55);--trail:rgba(121,201,189,.6);--dot-edge:transparent;--contours:url(contours.svg);--stat1:var(--pin);--stat2:#9a8cf2;--stat3:#3fd0a0;--stat4:#5aa9f2;}}
-:root[data-theme="dark"]{--hero:#0e2c2b;--hero-ink:#eaf6f3;--hero-mute:#a6c6c1;--hero-rgb:234 246 243;--hero-card:rgba(8,24,24,.58);--hero-line:#1d4a47;--hero-field:transparent;--hero-focus:#ff6b2c;--hero-shadow:0 18px 30px -12px rgba(0,0,0,.55);--trail:rgba(121,201,189,.6);--dot-edge:transparent;--contours:url(contours.svg);--stat1:var(--pin);--stat2:#9a8cf2;--stat3:#3fd0a0;--stat4:#5aa9f2;}
-.stagecard,#cmptray{--hero:#0e2c2b;--hero-ink:#eaf6f3;--hero-mute:#a6c6c1;--hero-rgb:234 246 243;--hero-card:rgba(8,24,24,.58);--hero-line:#1d4a47;--hero-field:transparent;--hero-focus:#ff6b2c;--hero-shadow:0 18px 30px -12px rgba(0,0,0,.55);--trail:rgba(121,201,189,.6);--dot-edge:transparent;--contours:url(contours.svg);--stat1:var(--pin);--stat2:#9a8cf2;--stat3:#3fd0a0;--stat4:#5aa9f2;}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--hero:#0e2c2b;--hero-ink:#eaf6f3;--hero-mute:#a6c6c1;--hero-rgb:234 246 243;--hero-card:rgba(8,24,24,.58);--hero-line:#1d4a47;--hero-field:transparent;--hero-focus:#ff6b2c;--hero-shadow:0 18px 30px -12px rgba(0,0,0,.55);--trail:rgba(121,201,189,.6);--dot-edge:transparent;--contours:url(contours.svg);}}
+:root[data-theme="dark"]{--hero:#0e2c2b;--hero-ink:#eaf6f3;--hero-mute:#a6c6c1;--hero-rgb:234 246 243;--hero-card:rgba(8,24,24,.58);--hero-line:#1d4a47;--hero-field:transparent;--hero-focus:#ff6b2c;--hero-shadow:0 18px 30px -12px rgba(0,0,0,.55);--trail:rgba(121,201,189,.6);--dot-edge:transparent;--contours:url(contours.svg);}
+.stagecard,#cmptray{--hero:#0e2c2b;--hero-ink:#eaf6f3;--hero-mute:#a6c6c1;--hero-rgb:234 246 243;--hero-card:rgba(8,24,24,.58);--hero-line:#1d4a47;--hero-field:transparent;--hero-focus:#ff6b2c;--hero-shadow:0 18px 30px -12px rgba(0,0,0,.55);--trail:rgba(121,201,189,.6);--dot-edge:transparent;--contours:url(contours.svg);}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:14.5px;line-height:1.5}
 .wrap{max-width:1180px;margin:0 auto}
@@ -476,7 +475,6 @@ body.cmpon{padding-bottom:84px}
         <div class="wprev" id="wprev" aria-live="polite" hidden></div>
         <div class="wfex" id="wex"><button type="button" data-ex="Winter 2027 engineering or quality co-op in Montréal, bilingual, no security clearance">Co-op, Montréal, no clearance</button><button type="button" data-ex="part-time operations or warehouse job near Longueuil, about 20 hours a week">Part-time, about 20 h a week</button><button type="button" data-ex="stage en chaîne d'approvisionnement à Montréal">Stage en français</button><button type="button" data-ex="data analyst in Toronto, posted this week">Data analyst, this week</button><a class="wfmore" href="#p=wayfinder" data-p="wayfinder">More prompts</a></div>
       </form>
-      <div class="bigstats" id="bigstats" aria-live="polite"></div>
       <div class="hometrail">
         <div class="trail" id="htrail"></div>
         <p class="stagenote">Five stages, from student to executive. Tap one to see what is out there. Your CV shows which one you are at, and the postings that fit it come first.</p>
@@ -2418,12 +2416,12 @@ setTimeout(()=>$("pin").style.setProperty("--pd","0s"),2200);
 run();
 
 /* ---------- live postings from the server ---------- */
-/* the four numbers of the start page are counted once a day by the collector's workflow (scripts/cover-stats.mjs -> docs/stats.json), so the cover shows them before the postings arrive and no visitor's browser has to read 79,000 titles to count them. When that file is missing, or is not the one of the postings now loaded, the page counts for itself as before. */
+/* the numbers of the start page (the line under the search box, the count on the Browse button) are counted once a day by the collector's workflow (scripts/cover-stats.mjs -> docs/stats.json), so the cover shows them before the postings arrive and no visitor's browser has to read 79,000 titles to count them. When that file is missing, or is not the one of the postings now loaded, the page counts for itself as before. */
 async function loadCover(){
   try{
     const r=await fetch("stats.json",{cache:"no-cache"});if(!r.ok)return;
     const c=await r.json();
-    if(c&&c.total>0&&c.updatedAt){COVER=c;heroStat();if(PG==="home")XP.home();}
+    if(c&&c.total>0&&c.updatedAt){COVER=c;heroStat();}
   }catch(e){/* the page counts for itself */}
 }
 function heroStat(){

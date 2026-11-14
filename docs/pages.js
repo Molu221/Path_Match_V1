@@ -1075,35 +1075,8 @@
   function onTargetChange(e) { const k = TG_IDS[e.target.id]; if (!k) return; const l = TG_LIMITS[k]; TG[k] = Math.max(l[0], Math.min(l[1], +e.target.value)); store.set("pm_tgt", TG); renderTarget(); }
 
   /* =====================================================================
-     START PAGE: numbers that count up, the stage preview, the Explore tiles
+     START PAGE: the stage preview, the Explore tiles
      ===================================================================== */
-  let HKEY = "", counted = false;
-  function bigStats() {
-    const el = g("bigstats"); if (!el) return;
-    /* the numbers counted by the daily job (docs/stats.json), when they describe the postings now loaded; otherwise counted here */
-    const cv = typeof coverNow === "function" ? coverNow() : null;
-    if (!JOBS.length && !cv) { el.innerHTML = ""; return; }
-    const key = cv ? "cover|" + cv.updatedAt : JOBS_VER + "|" + JOBS.length; if (key === HKEY) return; HKEY = key;
-    let n0, fields, provs, stu;
-    if (cv) { n0 = cv.total; fields = cv.fields; provs = cv.provinces; stu = cv.students; }
-    else {
-      n0 = JOBS.length;
-      fields = new Set(JOBS.map((j) => fdOf(j).id)).size; provs = new Set(JOBS.map((j) => j.province).filter((p) => /^[A-Z]{2}$/.test(p || ""))).size;
-      stu = JOBS.filter((j) => lvOf(j).lvl === 0).length;
-    }
-    const vals = [[n0, "postings collected"], [fields, "fields, from trades to tech"], [provs, "provinces and territories"], [stu, "for students and new graduates"]];
-    el.innerHTML = vals.map(([n, l]) => `<div class="bs"><b data-n="${n}">${counted || reduceMotion() ? nf(n) : "0"}</b><span>${l}</span></div>`).join("");
-    if (!counted && !reduceMotion()) {
-      counted = true;
-      const t0 = performance.now(), dur = 1100;
-      const step = (t) => {
-        const p = Math.max(0, Math.min(1, (t - t0) / dur)), e = 1 - Math.pow(1 - p, 3);   /* the first frame can be stamped a hair before t0: without the max the numbers flashed negative */
-        el.querySelectorAll("b").forEach((b) => { b.textContent = nf(Math.round(+b.dataset.n * e)); });
-        if (p < 1) requestAnimationFrame(step);
-      };
-      requestAnimationFrame(step);
-    } else counted = true;
-  }
   function stagePreview(b) {
     const el = g("stageprev"); if (!el) return;
     document.querySelectorAll(".hometrail .stop").forEach((s) => s.setAttribute("aria-pressed", String(+s.dataset.b === b)));
@@ -1123,7 +1096,7 @@
     const extra = { market: lead, lab: CV ? "Your CV is loaded: open the lab" : "Needs your CV", ladder: "From intern to director, by field", swipe: "Up to 80 cards, ready to sort", board: SAVED.size ? `${SAVED.size} saved so far` : "Nothing saved yet", plan: CV ? "Pick this week's applications" : "Needs your CV", target: "Does a high score pay off?", wayfinder: "Say the job in one sentence", paste: "Works with any board" };
     el.innerHTML = `<section class="xsec" aria-labelledby="xsH"><h2 id="xsH">Go further than a list</h2><div class="xtiles">${ORDER.map((id) => `<a class="xtile" style="--c:${META[id].hue}" href="#p=${id}" data-p="${id}">${ICON[id]}<b>${META[id].name}</b><span>${META[id].blurb}</span><em>${esc(extra[id] || "")}</em></a>`).join("")}</div></section>`;
   }
-  function home() { bigStats(); homeTiles(); }
+  function home() { homeTiles(); }
 
   /* =====================================================================
      WAYFINDER: say the job you want in one sentence

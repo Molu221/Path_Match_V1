@@ -1,5 +1,5 @@
-// Writes docs/stats.json: the four numbers on the start page (postings collected, fields, provinces and territories, postings for students
-// and new graduates), counted here once a day instead of in every visitor's browser. The page reads this small file first, so the cover
+// Writes docs/stats.json: the numbers on the start page (postings collected, fields, provinces and territories, postings for students
+// and new graduates: the line under the search box and the count on the Browse button), counted here once a day instead of in every visitor's browser. The page reads this small file first, so the cover
 // shows its numbers before the 25 MB of postings have arrived, and the browser no longer reads every title to count them.
 //
 // It counts what the page counts: the postings of docs/jobs.json (one per employer, title and province) plus the Job Bank open data in
