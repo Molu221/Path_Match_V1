@@ -151,8 +151,10 @@ body[data-pg=details],body[data-pg=jobs],body[data-pg=market],body[data-pg=swipe
 .ramp{display:flex;align-items:center;gap:4px 5px;margin-top:12px;font-size:12px;color:var(--mute)}
 .ramp i{display:inline-block;width:26px;height:14px;border-radius:3px;border:1px solid color-mix(in srgb,var(--violet) 30%,var(--line))}
 /* the Tiles / Canada / World switch and the two maps */
-.seg{margin:0 0 12px}
-.xp>.seg{margin-top:10px}
+.mapseg{margin:0}
+.segs{display:flex;flex-wrap:wrap;gap:8px 18px;margin:10px 0 12px}
+.fitline{margin:8px 0 0;font-size:13.5px}
+.tog button[disabled]{opacity:.5;cursor:not-allowed}
 .geoload{display:grid;place-items:center;min-height:260px;border:1px dashed var(--line);border-radius:10px;color:var(--mute)}
 .warnline{color:var(--warn);font-weight:600}
 .geosvg{display:block;width:100%;height:auto;background:color-mix(in srgb,var(--accent-soft) 55%,var(--panel));border:1px solid var(--line);border-radius:10px;--u:1}
@@ -181,10 +183,10 @@ body[data-pg=details],body[data-pg=jobs],body[data-pg=market],body[data-pg=swipe
 .geosvg.world .p{stroke-width:.8}
 .geosvg.world .p.on,.geosvg.world .p:hover{stroke:var(--pin);stroke-width:2}
 .geo .readout{min-height:1.4em}
-.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
-.chips button{padding:5px 11px;border-radius:999px;background:var(--bg);font-size:12.5px;display:inline-flex;gap:6px;align-items:baseline}
-.chips button small{color:var(--mute);font-variant-numeric:tabular-nums}
-.chips button[aria-pressed=true]{outline:3px solid var(--pin);outline-offset:1px}
+.citychips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.citychips button{padding:5px 11px;border-radius:999px;background:var(--bg);font-size:12.5px;display:inline-flex;gap:6px;align-items:baseline}
+.citychips button small{color:var(--mute);font-variant-numeric:tabular-nums}
+.citychips button[aria-pressed=true]{outline:3px solid var(--pin);outline-offset:1px}
 .geo .tilerow{margin-top:10px}
 .geocredit{margin:8px 0 0;font-size:12px}
 .geo .row{margin-top:12px}
@@ -231,6 +233,14 @@ body[data-pg=details],body[data-pg=jobs],body[data-pg=market],body[data-pg=swipe
 .plan{display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding:12px 14px;border-radius:10px;background:color-mix(in srgb,var(--mint) 12%,var(--panel));border:1px solid color-mix(in srgb,var(--mint) 40%,var(--line))}
 .plan ol{margin:0;padding-left:20px;flex:1 1 240px}
 .plan li{margin:2px 0}
+.plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+.plan.col{flex-direction:column;align-items:stretch;gap:6px}
+.plan.col h3{font:750 15px/1.2 var(--f-disp);font-stretch:100%;margin:0}
+.plan.col .note{margin:0}
+.plan.col ol{flex:none;padding-left:20px}
+.plan.col li{margin:6px 0}
+.plan.col li small{display:block;color:var(--mute);font-size:12.5px;line-height:1.35}
+.plan.col .xbtn{align-self:flex-start;margin-top:4px}
 .kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:12px}
 .kpi{padding:10px 12px;border-radius:10px;background:var(--bg);border:1px solid var(--line)}
 .kpi b{display:block;font:800 26px/1 var(--f-disp);font-stretch:90%;font-variant-numeric:tabular-nums}
@@ -487,3 +497,6 @@ pre.pcvtext,pre.pptext{max-height:min(560px,68vh)}
 .ppnote{margin-top:22px;max-width:76ch}
 @media(max-width:900px){.psplit{grid-template-columns:minmax(0,1fr)}pre.pcvtext,pre.pptext{max-height:300px}}
 @media(max-width:560px){.ppf{grid-template-columns:minmax(0,1fr)}.sitsh{flex-direction:column;gap:6px}.sitsn{text-align:left;font-size:46px}.pmine li{flex-wrap:wrap}}
+
+/* the ladder: how the CV reads against each rung */
+.ladr{margin-top:16px}
