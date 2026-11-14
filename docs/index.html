@@ -666,6 +666,7 @@ body.cmpon{padding-bottom:84px}
 <main id="pg-ladder" class="view" data-page="ladder" hidden><div class="wrap pagein" id="x-ladder"></div></main>
 <main id="pg-swipe" class="view" data-page="swipe" hidden><div class="wrap pagein" id="x-swipe"></div></main>
 <main id="pg-board" class="view" data-page="board" hidden><div class="wrap pagein" id="x-board"></div></main>
+<main id="pg-extras" class="view" data-page="extras" hidden><div class="wrap pagein" id="x-extras"></div></main>
 <main id="pg-plan" class="view" data-page="plan" hidden><div class="wrap pagein" id="x-plan"></div></main>
 <main id="pg-target" class="view" data-page="target" hidden><div class="wrap pagein" id="x-target"></div></main>
 <main id="pg-wayfinder" class="view" data-page="wayfinder" hidden><div class="wrap pagein" id="x-wayfinder"></div></main>
@@ -936,7 +937,48 @@ function unent(s){
 }
 const bodyOf=j=>unent(j.desc||"").split("\n").filter(l=>!/^\s*(JOB|COMPANY|SOURCE):/.test(l)).join("\n").trim();
 function cvFound(){if(!DICT||!CV)return null;if(!CV.py)CV.py=DICT.findCv(CV.raw);return CV.py;}
-function cvIx(){if(!DICT||!CV)return null;if(!CV.ix)CV.ix=DICT.indexCv(CV.raw);return CV.ix;}
+/* the word index (for phrases that are not skills) is built from the CV alone: a short item such as "Dean's list" would otherwise match any posting that says "listings". Items are matched as skills only. */
+function cvIx(){if(!DICT||!CV)return null;if(!CV.ix)CV.ix=DICT.indexCv(CV.base);return CV.ix;}
+/* ---------- Profile extras: certifications, awards, languages and the like that the person adds by hand.
+   They stay in this browser (localStorage), are written under standard CV headings after the CV text so the same matcher reads them,
+   and every match that rests on one says "added by you". They never change the stage the CV is read as (that comes from the CV text alone). */
+const XKINDS=[["cert","Certification or licence","CERTIFICATIONS"],["award","Award, merit or scholarship","AWARDS"],["pub","Publication or patent","PUBLICATIONS"],["lead","Leadership or volunteering","VOLUNTEER EXPERIENCE"],["lang","Language","LANGUAGES"],["tool","Tool or software","SKILLS"],["course","Course or training","CERTIFICATES"]];
+const XMAX=40;
+/* one line of plain text: no line breaks, so an item can never write a heading or another line into the CV text */
+const xClean=(v,n)=>String(v==null?"":v).replace(/[\u0000-\u001f\u007f]+/g," ").replace(/\s+/g," ").trim().slice(0,n);
+let XTRA=[];
+try{const a=JSON.parse(localStorage.getItem("pm_extras")||"[]");if(Array.isArray(a))XTRA=a.filter(x=>x&&XKINDS.some(k=>k[0]===x.k)&&xClean(x.t,80)).slice(0,XMAX).map(x=>({k:x.k,t:xClean(x.t,80),w:xClean(x.w,60),y:/^\d{4}$/.test(x.y||"")?x.y:""}));}catch(e){XTRA=[];}
+function saveExtras(){try{localStorage.setItem("pm_extras",JSON.stringify(XTRA));}catch(e){}}
+const xLine=x=>[x.t,x.w,x.y].filter(Boolean).join(", ");
+/* the CV text with the items written after it, one standard heading per kind. at = where the items start; spans = where each item sits in the text.
+   Only the name of an item is read for matching (full=false): an issuer such as "PMI" is also the name of a skill and would read as one the person never claimed. full=true is the text to copy, with issuer and year. */
+function withExtras(base,list,full){
+  list=list||XTRA;
+  let out=String(base),at=-1;const spans=[];
+  if(list.length){
+    out+="\n\n";at=out.length;
+    for(const [k,,head] of XKINDS){
+      const mine=list.map((x,i)=>[x,i]).filter(([x])=>x.k===k);
+      if(!mine.length)continue;
+      out+=head+"\n";
+      for(const [x,i] of mine){const a=out.length;out+=full?xLine(x):x.t;spans.push({i,a,b:out.length});out+="\n";}
+    }
+    out=out.replace(/\n$/,"");
+  }
+  return {raw:out,at,spans};
+}
+const xSig=()=>JSON.stringify(XTRA.map(x=>[x.k,x.t,x.w,x.y]));
+/* the CV object: raw is the text the score reads (CV plus items), base is the CV as the person gave it */
+function mkCV(t){const e=withExtras(t);return {raw:e.raw,base:t,extrasAt:e.at,xspans:e.spans,xsig:xSig(),lv:JobMeta.cvLevel(t,new Date()),py:null,ix:null};}
+/* did this CV skill first appear in an item the person added? */
+const xBy=h=>!!CV&&CV.extrasAt>=0&&h&&h.first>=CV.extrasAt;
+/* the items changed: read the CV again with them (or without them) and score every posting again */
+function applyExtras(){
+  if(!CV)return;
+  CV=mkCV(CV.base);
+  T.shown=10;
+  paintStage();renderCvRead();renderDetails();paintNav();writeHash();run();
+}
 const TAGW={Title:0,Required:1,Task:2,Preferred:3,"":4,About:5};
 const TAGNAME={T:"Title",R:"Required",K:"Task",N:"",P:"Preferred"};
 /* The main keywords of a posting (up to 40) were found when the postings were collected (kw). A posting without them gets them here. */
@@ -1060,7 +1102,7 @@ let ODIDX=null,OPENJOBS=[],OPENNOTE="",OD_LOADING=null,OD_ST=null;
 /* the language the CV is written in: "fr" or "en" */
 function cvLang(){
   if(!CV)return "en";
-  if(!CV.lang){const w=norm(CV.raw).split(/\s+/),c=set=>w.filter(x=>set.has(x)).length;
+  if(!CV.lang){const w=norm(CV.base).split(/\s+/),c=set=>w.filter(x=>set.has(x)).length;
     CV.lang=c(new Set("le la les des du et pour avec dans sur une est au aux".split(" ")))>1.3*c(new Set("the and of to with for in on is are at by from".split(" ")))?"fr":"en";}
   return CV.lang;
 }
@@ -1115,7 +1157,7 @@ function loadNoc(){
   return NOC;
 }
 /* the occupations the CV fits, once per CV (the Guess labels need them) */
-function cvFits(){const L=NOCLIB;if(!L||!CV)return null;if(!CV.nocFits)CV.nocFits=L.m.findOccupations(L.lib,CV.raw);return CV.nocFits;}
+function cvFits(){const L=NOCLIB;if(!L||!CV)return null;if(!CV.nocFits)CV.nocFits=L.m.findOccupations(L.lib,CV.base);return CV.nocFits;}
 const OCC_PART={duties:"Main duties",skills:"Skills",education:"Education",certifications:"Certifications",languages:"Languages (asked in the posting)"};
 /* the NOC library says Matched / Guess / Missing; the site shows the same three tags as everywhere else: Match / Close / Gap */
 const OCC_LAB={Matched:["M","Match"],Guess:["Gs","Close"],Missing:["X","Gap"]};
@@ -1162,7 +1204,7 @@ function hlPair(m){
   m.rows.forEach(x=>x.e.spans.forEach(([a,b])=>pm.push({a,b,cls:!x.counted?"m-off":x.st==="M"?"m-ok":x.st==="R"?"m-near":"m-bad",title:x.n+(x.tag?" · "+x.tag:"")+(!x.counted?": company / benefits text, not counted":x.st==="M"?": Match, on your CV":x.st==="R"?": Close, counts half":": Gap, not on your CV")})));
   const sm=[];m.fl.forEach(f=>f.spans.forEach(([a,b])=>sm.push({a,b,cls:"m-chk",title:"Check yourself: "+f.name})));
   const closeCv=new Set(m.r.links.map(l=>l.cv)),cm=[];
-  Object.keys(cv).forEach(n=>cv[n].spans.forEach(([a,b])=>cm.push({a,b,cls:m.job[n]?"m-ok":closeCv.has(n)?"m-near":"m-off",title:n+(cv[n].section&&cv[n].section!=="HEADER"?" · "+cv[n].section:"")+(m.job[n]?": Match, the posting asks for it":closeCv.has(n)?": Close to a skill in the posting":": not asked by this posting")})));
+  Object.keys(cv).forEach(n=>cv[n].spans.forEach(([a,b])=>cm.push({a,b,cls:m.job[n]?"m-ok":closeCv.has(n)?"m-near":"m-off",title:n+(xBy(cv[n])?" · added by you":cv[n].section&&cv[n].section!=="HEADER"?" · "+cv[n].section:"")+(m.job[n]?": Match, the posting asks for it":closeCv.has(n)?": Close to a skill in the posting":": not asked by this posting")})));
   m.rows.filter(x=>x.kind==="term"&&x.counted&&x.hit.spans).forEach(x=>x.hit.spans.forEach(([a,b])=>cm.push({a,b,cls:x.st==="M"?"m-ok":"m-near",title:x.n+(x.st==="M"?": Match, the posting asks for it":": Close to a phrase in the posting")})));
   return {post:Matcher.highlight(m.text,pm,sm),cv:Matcher.highlight(CV.raw,cm)};
 }
@@ -1183,7 +1225,7 @@ function mapPanel(j){
     const inPost=snip(m.text,x.e.spans[0])+(x.e.count>1?` <i class="note">×${x.e.count}</i>`:"");
     let onCv,res;
     if(x.st==="M"){
-      if(x.kind==="skill"){const c=cv[x.n];onCv=snip(CV.raw,c.spans[0])+(c.section&&c.section!=="HEADER"?` <i class="note">· ${esc(c.section)}</i>`:"");}
+      if(x.kind==="skill"){const c=cv[x.n];onCv=snip(CV.raw,c.spans[0])+(xBy(c)?` <i class="note">· added by you</i>`:c.section&&c.section!=="HEADER"?` <i class="note">· ${esc(c.section)}</i>`:"");}
       else onCv=snip(CV.raw,x.hit.spans[0]);
       res='<span class="pill g" title="The same words are on your CV.">Match</span>';
     }else if(x.st==="R"){
@@ -1664,10 +1706,10 @@ function renderJobs(){
     let skills;
     if(!cf)skills='<div style="grid-column:1/-1"><p class="note">The dictionary is loading…</p></div>';
     else{
-      const groups={};Object.entries(cf).forEach(([n,h])=>{const s=(!h.section||h.section==="HEADER")?"Top of the CV":h.section.charAt(0)+h.section.slice(1).toLowerCase();(groups[s]=groups[s]||[]).push([n,h]);});
+      const groups={};Object.entries(cf).forEach(([n,h])=>{const s=xBy(h)?"Added by you":(!h.section||h.section==="HEADER")?"Top of the CV":h.section.charAt(0)+h.section.slice(1).toLowerCase();(groups[s]=groups[s]||[]).push([n,h]);});
       skills=Object.keys(groups).length?Object.keys(groups).map(s=>`<div><h3>${esc(s)}</h3>${groups[s].map(([n,h])=>`<div class="ev" style="border:0;padding:0"><b>${esc(n)}</b> ${esc(h.evidence)}</div>`).join("")}</div>`).join(""):'<div style="grid-column:1/-1" class="empty">No known skills found. Check that the file text was read correctly.</div>';
     }
-    v.innerHTML=`<p class="note">Every skill below is written in your CV text; nothing is inferred. The names come from the Python skill list and the OaSIS occupation data, in English and French (${DICT?DICT.size:"?"} skills). Your CV is the only source of truth.</p><div class="inv">${stage}${skills}</div>`;
+    v.innerHTML=`<p class="note">Every skill below is written in your CV text or in an item you added under Profile extras (marked “added by you”); nothing is inferred. The names come from the Python skill list and the OaSIS occupation data, in English and French (${DICT?DICT.size:"?"} skills). Your CV is the only source of truth.</p><div class="inv">${stage}${skills}</div>`;
   } else {
     const gaps={};
     RES.filter(r=>r.s&&age(r.j)<168&&fitsLevel(r.j)).sort(sortFns.match).slice(0,25).forEach(r=>r.s.rows.filter(x=>x.st==="G"&&(x.tag==="T"||x.tag==="R"||x.tag==="K")&&(x.kind==="s"||/\s/.test(x.n))).forEach(x=>gaps[x.n]=(gaps[x.n]||0)+1));
@@ -1734,7 +1776,7 @@ async function handleFile(f){
 function go(note){
   const t=$("paste").value;
   if(t.trim().length<80){$("status").textContent="Add your CV first: upload a file or paste at least a few lines.";return;}
-  CV={raw:t,lv:JobMeta.cvLevel(t,new Date()),py:null,ix:null};
+  CV=mkCV(t);
   setMe(null);                       // a new CV replaces a stage picked by hand
   T.shown=10;
   try{sessionStorage.setItem("pm_cv",t.slice(0,60000));}catch(e){}   // this tab only: gone when it is closed
@@ -2206,7 +2248,7 @@ function renderMatches(){
     return;
   }
   $("tlead").innerHTML=`From ${nf(JOBS.length)} postings, <b>${nf(t.fit)}</b> fit your details. ${t.out.length>10?`Showing ranks 1 to ${t.out.length}`:t.out.length===10?"These 10":t.out.length===1?"This 1":"These "+t.out.length} fit${t.out.length===1?"s":""} your CV best.${t.relaxed?" Fewer than 10 have a full text, so postings with only a title or snippet are included.":""}`;
-  if(Object.values(SAMPLES).includes(CV.raw))$("tlead").insertAdjacentHTML("beforeend",` <span class="exnote">This is an example CV, not a real person. <a href="#p=details" data-p="details">Add yours</a> to see your own Top 10.</span>`);
+  if(Object.values(SAMPLES).includes(CV.base))$("tlead").insertAdjacentHTML("beforeend",` <span class="exnote">This is an example CV, not a real person. <a href="#p=details" data-p="details">Add yours</a> to see your own Top 10.</span>`);
   /* a run of postings whose scores are all within 5 points of the first one is one tie: a heuristic cannot rank them apart */
   const grp=[];
   t.out.forEach((r,i)=>{const g=grp[grp.length-1],d=g?t.out[g.a].s.total-r.s.total:99;if(g&&d>=0&&d<=5)g.b=i;else grp.push({a:i,b:i});});
@@ -2365,7 +2407,7 @@ window.addEventListener("popstate",onNav);
 window.addEventListener("hashchange",onNav);
 window.addEventListener("resize",layoutTrail);
 /* a CV read earlier in this tab is still here after a reload (it is kept for this tab only) */
-try{const t=sessionStorage.getItem("pm_cv");if(t&&t.trim().length>=80){$("paste").value=t;CV={raw:t,lv:JobMeta.cvLevel(t,new Date()),py:null,ix:null};$("status").textContent="Your CV from earlier in this tab is loaded.";}}catch(e){}
+try{const t=sessionStorage.getItem("pm_cv");if(t&&t.trim().length>=80){$("paste").value=t;CV=mkCV(t);$("status").textContent="Your CV from earlier in this tab is loaded.";}}catch(e){}
 if(["unknown","ok","need"].includes(P.permit))$("permit").value=P.permit;
 if(P.term!==null&&[...$("term").options].some(o=>o.value===P.term))$("term").value=P.term;
 readHash();
