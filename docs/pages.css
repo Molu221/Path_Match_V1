@@ -23,9 +23,10 @@ body[data-pg=plan]{--pg:var(--sun)}
 body[data-pg=wayfinder]{--pg:var(--pin)}
 body[data-pg=target]{--pg:#19a7b8}
 body[data-pg=paste]{--pg:#96b21f}
+body[data-pg=extras]{--pg:#4a63d8}
 /* the text colour that reads on each page colour (light theme: white on the darker ones, near-black on the lighter ones; the dark theme's colours are all light) */
 body{--pg-ink:#14100a}
-body[data-pg=details],body[data-pg=jobs],body[data-pg=market],body[data-pg=swipe]{--pg-ink:#fff}
+body[data-pg=details],body[data-pg=jobs],body[data-pg=market],body[data-pg=swipe],body[data-pg=extras]{--pg-ink:#fff}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) body{--pg-ink:#0a1718}}
 :root[data-theme="dark"] body{--pg-ink:#0a1718}
 .topbar{border-bottom:3px solid var(--pg);transition:border-color .3s}
@@ -477,3 +478,32 @@ pre.pcvtext,pre.pptext{max-height:min(560px,68vh)}
 
 /* the ladder: how the CV reads against each rung */
 .ladr{margin-top:16px}
+
+/* ---------- Profile extras ---------- */
+.xtform{display:grid;grid-template-columns:minmax(180px,.9fr) minmax(220px,1.6fr) minmax(150px,1fr) 88px auto;gap:10px;align-items:end}
+.xtform label{margin:0 0 4px}
+.xtform select,.xtform input{width:100%}
+.xtform .xbtn{padding:9px 18px}
+@media(max-width:900px){.xtform{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.xtform>div:first-child,.xtform .xtgrow,.xtform .xbtn{grid-column:1/-1}}
+.xtmsg{margin:10px 0 0;color:var(--ink)}
+.xtsug{margin-top:14px;padding-top:12px;border-top:1px solid var(--line)}
+.xtsug .row{margin-top:8px;gap:6px}
+.xtchip{border-radius:999px;background:var(--bg);padding:4px 12px;font-size:13px}
+.xtchip small{color:var(--mute);font-size:12px;margin-left:4px}
+.xtchip:hover{border-color:var(--pg)}
+.xtgroup{margin-top:12px}
+.xtgroup h3{font:750 14px var(--f-disp);color:var(--mute);margin-bottom:4px}
+.xtgroup ul{list-style:none;margin:0;padding:0}
+.xtgroup li{display:flex;gap:12px;justify-content:space-between;align-items:flex-start;padding:8px 0;border-top:1px solid var(--line)}
+.xtgroup li:first-child{border-top:0}
+.xtitem{min-width:0;overflow-wrap:anywhere}
+.xtread{display:block;margin-top:2px;font-size:13px;color:var(--mute)}
+.xtread.ok{color:var(--ok)}
+.xtdel{flex:none;background:none;border:0;padding:2px 4px;color:var(--mute);font-size:13px;text-decoration:underline;text-underline-offset:3px}
+.xtdel:hover{color:var(--bad)}
+.xtbar{margin-top:14px}
+.xtconf{display:inline-flex;gap:8px;align-items:center;flex-wrap:wrap}
+.xtlift{margin:6px 0 0;padding-left:20px}
+.xtlift li{margin:6px 0}
+.xtlift li span{display:block;color:var(--mute);font-size:13px}
+@media(max-width:700px){.xtgroup li{flex-direction:column;gap:2px}}

@@ -22,6 +22,7 @@
     plan: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4M9 15l2 2 4-4"/></svg>',
     target: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2"/></svg>',
     wayfinder: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/></svg>',
+    extras: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="9" r="5"/><path d="M9 13.5 7.5 21 12 18.5 16.5 21 15 13.5M10 9l1.5 1.5L14.5 7.5"/></svg>',
     paste: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4h6v3H9zM12 11v6M9 14h6"/></svg>'
   };
   const META = {
@@ -33,9 +34,10 @@
     plan: { name: "Week plan", title: "Week plan", hue: "var(--sun)", blurb: "The few postings worth your applications this week, with a score range for each." },
     target: { name: "Target or spray?", title: "Target or spray?", hue: "#19a7b8", blurb: "How much a high score must help before a few tailored applications beat many quick ones." },
     wayfinder: { name: "Wayfinder", title: "Wayfinder", hue: "var(--pin)", blurb: "Say the job you want in one sentence, in English or French. Sample prompts for students and graduates." },
+    extras: { name: "Profile extras", title: "Profile extras", hue: "#4a63d8", blurb: "Add certifications, awards, languages and volunteering your CV does not show, and see which postings they lift." },
     paste: { name: "Paste a posting", title: "Paste a posting", hue: "#96b21f", blurb: "Found a job on LinkedIn, Indeed or anywhere else? Paste it and see how it matches your CV." }
   };
-  const ORDER = ["wayfinder", "market", "lab", "plan", "target", "ladder", "swipe", "board", "paste"];
+  const ORDER = ["wayfinder", "market", "lab", "plan", "target", "ladder", "swipe", "board", "extras", "paste"];
   const LANGSKILL = new Set(["english", "french", "anglais", "francais", "bilingual", "bilingue", "bilingual (en/fr)"]);
   /* general strengths: postings name them, but they are not something to "learn first". They are shown apart from role skills. */
   const SOFT = new Set(("leadership|attention to detail|initiative|autonomy|organizational skills|explaining complex ideas|patience|perseverance|curiosity|takes on challenges|problem solving|analytical skills|communication|teamwork|collaboration|interpersonal skills|time management|prioritization|multitasking|works under pressure|meets deadlines|adaptability|critical thinking|creativity|innovation|proactivity|resourcefulness|rigor|accountability|dependability|punctuality|professionalism|integrity|discretion and confidentiality|active listening|empathy|emotional intelligence|diplomacy and tact|conflict resolution|negotiation|persuasion and influence|decision making|presentation skills|written communication|verbal communication|strategic thinking|synthesis|learning agility|resilience|motivation|enthusiasm|entrepreneurial spirit|cultural awareness|results orientation|mentoring and coaching|stakeholder management|cross-functional work|team management|facilitation|diversity and inclusion").split("|"));
@@ -1079,11 +1081,11 @@
      ===================================================================== */
   function homeTiles() {
     const el = g("x-home"); if (!el) return;
-    const key = JOBS_VER + "|" + JOBS.length + "|" + SAVED.size + "|" + (CV ? 1 : 0);
+    const key = JOBS_VER + "|" + JOBS.length + "|" + SAVED.size + "|" + (CV ? 1 : 0) + "|" + XTRA.length;
     if (el.dataset.key === key) return; el.dataset.key = key;
     let lead = "";
     if (JOBS.length) { const st = stats("all"), top = Object.entries(st.prov).filter(([p]) => /^[A-Z]{2}$/.test(p)).sort((a, b) => b[1] - a[1])[0]; if (top) lead = `${PROV_NAME[top[0]]} leads with ${nf(top[1])} postings`; }
-    const extra = { market: lead, lab: CV ? "Your CV is loaded: open the lab" : "Needs your CV", ladder: "From intern to director, by field", swipe: "Up to 80 cards, ready to sort", board: SAVED.size ? `${SAVED.size} saved so far` : "Nothing saved yet", plan: CV ? "Pick this week's applications" : "Needs your CV", target: "Does a high score pay off?", wayfinder: "Say the job in one sentence", paste: "Works with any board" };
+    const extra = { market: lead, lab: CV ? "Your CV is loaded: open the lab" : "Needs your CV", ladder: "From intern to director, by field", swipe: "Up to 80 cards, ready to sort", board: SAVED.size ? `${SAVED.size} saved so far` : "Nothing saved yet", plan: CV ? "Pick this week's applications" : "Needs your CV", target: "Does a high score pay off?", wayfinder: "Say the job in one sentence", extras: XTRA.length ? `${XTRA.length} item${XTRA.length === 1 ? "" : "s"} added` : "Nothing added yet", paste: "Works with any board" };
     el.innerHTML = `<section class="xsec" aria-labelledby="xsH"><h2 id="xsH">Go further than a list</h2><div class="xtiles">${ORDER.map((id) => `<a class="xtile" style="--c:${META[id].hue}" href="#p=${id}" data-p="${id}">${ICON[id]}<b>${META[id].name}</b><span>${META[id].blurb}</span><em>${esc(extra[id] || "")}</em></a>`).join("")}</div></section>`;
   }
   function home() { homeTiles(); }
@@ -1242,7 +1244,7 @@ Requirements
     const j = ppJob(), m = j && ppReady() && ppResult(j) ? mapData(j) : null;
     const cf = cvFound(), n = cf ? Object.keys(cf).length : 0;
     const band = typeof meBand === "function" ? meBand() : null;
-    const example = Object.values(SAMPLES).includes(CV.raw);
+    const example = Object.values(SAMPLES).includes(CV.base);
     has.innerHTML = `<div class="pcvfacts">${band !== null && BAND[band] ? `<span class="pill lvl lv${band}">${esc(BAND[band].label)}</span>` : ""}${cf ? `<span class="pill">${n} skills found</span>` : ""}<a class="note" href="#p=details" data-p="details">Change my CV</a></div>
       ${example ? '<span class="exnote">This is an example CV, not a real person.</span>' : ""}
       ${m ? LEG_CV : '<p class="note">Paste a posting and the words of your CV it asks for will be marked here.</p>'}
@@ -1468,6 +1470,125 @@ Requirements
   }
 
   /* =====================================================================
+     PROFILE EXTRAS: certifications, awards, languages... added by hand, kept in this browser, read with the CV
+     ===================================================================== */
+  const XT = { kind: "cert", confirm: false, msg: "" };
+  /* credentials postings name, as the skill list calls them: the box is filled with the name and the person edits it to say what they hold */
+  const XCRED = ["PMP", "CAPM", "PRINCE2", "SAFe", "PMI-ACP", "ITIL certification", "Scrum certification", "Lean Six Sigma", "Six Sigma Green/Black Belt", "APICS / ASCM", "ASQ certifications", "Microsoft certifications", "Cloud certifications", "Red Seal and trade certificates", "Food handler certification", "Forklift operation", "Security licence"];
+  const xKindName = (k) => (XKINDS.find((x) => x[0] === k) || [k, k])[1];
+  const XEF = { key: null, val: null };
+  /* what the items changed, counted from the postings that carry their own keywords (the Job Bank occupation profiles are scored another way and are left out):
+     each posting is scored again with the CV alone and compared with the score it has now */
+  function extrasEffect() {
+    if (!CV || CV.extrasAt < 0 || !DICT || SCORING || SCORED_FOR !== CV || CV.xsig !== xSig()) return null;
+    if (XEF.key === RES && XEF.cv === CV) return XEF.val;
+    const bf = DICT.findCv(CV.base), bx = DICT.indexCv(CV.base);
+    let n = 0, strongNow = 0, strongBase = 0; const lifts = [];
+    for (const r of RES) {
+      if (!r.s || isOcc(r.j) || !r.s.rows || !r.s.rows.length) continue;
+      const kw = ensureKw(r.j); if (!kw) continue;
+      const rows0 = DICT.profileStatus(kw, bf, bx), t0 = Scoring.compute(rows0, r.s.fit, r.s.ti).total, t1 = r.s.total;
+      n++; if (t1 >= 60) strongNow++; if (t0 >= 60) strongBase++;
+      if (t1 - t0 >= 5) lifts.push({ r, t0, t1, rows0 });
+    }
+    lifts.sort((a, b) => b.t1 - a.t1 || (b.t1 - b.t0) - (a.t1 - a.t0));
+    const top = lifts.slice(0, 5).map((l) => ({ j: l.r.j, t0: l.t0, t1: l.t1, via: l.r.s.rows.filter((x, i) => x.st === "M" && l.rows0[i] && l.rows0[i].st !== "M").map((x) => x.n).slice(0, 3) }));
+    XEF.key = RES; XEF.cv = CV; XEF.val = { n, strongNow, strongBase, lifted: lifts.length, top };
+    return XEF.val;
+  }
+  /* for each item: the keywords the matcher found in it, with how many postings name each */
+  function itemReads() {
+    const found = cvFound(), sk = stats("all").skill, out = new Map();
+    if (!found || !CV) return out;
+    for (const sp of CV.xspans) {
+      const hits = [];
+      for (const nm of Object.keys(found)) if (found[nm].spans.some(([a, b]) => a >= sp.a && b <= sp.b)) hits.push({ n: nm, p: (sk.get(norm(nm)) || { n: 0 }).n, lang: LANGSKILL.has(norm(nm)) });
+      out.set(sp.i, hits);
+    }
+    return out;
+  }
+  function renderExtras() {
+    const root = g("x-extras");
+    const live = !!CV && !!DICT && !SCORING && SCORED_FOR === CV;
+    const reads = CV && DICT && CV.xsig === xSig() ? itemReads() : new Map();
+    const sk = JOBS.length ? stats("all").skill : new Map();
+    const have = new Set(XTRA.map((x) => norm(x.t)));
+    const chips = XCRED.map((nm) => ({ nm, n: (sk.get(norm(nm)) || { n: 0 }).n })).filter((c) => c.n > 0 && !have.has(norm(c.nm))).sort((a, b) => b.n - a.n).slice(0, 8);
+    const opt = XKINDS.map(([k, label]) => `<option value="${k}"${k === XT.kind ? " selected" : ""}>${esc(label)}</option>`).join("");
+    const form = `<section class="xp" aria-labelledby="xtAdd"><h2 id="xtAdd">Add an item</h2>
+      <p class="note">List only what you hold or did. The name of the item is read together with your CV, so postings can show it as a match. Matching is by skill name only, from the same list as your CV, never by loose words. Issuer and year are kept on your list and in the copied text, but are not matched.</p>
+      <form class="xtform" id="xtForm" autocomplete="off">
+        <div><label for="xtK">Kind</label><select id="xtK" data-f="xtK">${opt}</select></div>
+        <div class="xtgrow"><label for="xtT">What is it?</label><input type="text" id="xtT" data-f="xtT" maxlength="80" placeholder="e.g. PMP, Dean's list, French (fluent)" required></div>
+        <div><label for="xtW">Issuer or place <span class="note">(optional)</span></label><input type="text" id="xtW" data-f="xtW" maxlength="60" placeholder="e.g. PMI"></div>
+        <div class="xtyear"><label for="xtY">Year <span class="note">(optional)</span></label><input type="text" id="xtY" data-f="xtY" maxlength="4" inputmode="numeric" placeholder="2024"></div>
+        <button type="submit" class="xbtn solid">Add</button>
+      </form>
+      ${XT.msg ? `<p class="note xtmsg" role="status">${esc(XT.msg)}</p>` : ""}
+      ${chips.length ? `<div class="xtsug"><span class="note">Credentials the loaded postings name most (tap one to fill the box, then edit it to say what you hold):</span><div class="row">${chips.map((c) => `<button type="button" class="xtchip" data-xchip="${esc(c.nm)}">${esc(c.nm)} <small>${nf(c.n)} postings</small></button>`).join("")}</div></div>` : ""}
+    </section>`;
+    const groups = XKINDS.map(([k, label]) => {
+      const mine = XTRA.map((x, i) => [x, i]).filter(([x]) => x.k === k);
+      if (!mine.length) return "";
+      return `<div class="xtgroup"><h3>${esc(label)}</h3><ul>${mine.map(([x, i]) => {
+        const hits = reads.get(i);
+        const read = !CV ? "" : !hits ? "" : hits.length ? `<span class="xtread ok">Read as: ${hits.map((h) => esc(h.n) + (h.lang ? "" : h.p ? ` (${nf(h.p)} postings name it)` : " (no loaded posting names it)")).join("; ")}</span>` : `<span class="xtread">Kept on your list. No keyword the postings ask for was found in it.</span>`;
+        return `<li><div class="xtitem"><b>${esc(x.t)}</b>${x.w ? `, ${esc(x.w)}` : ""}${x.y ? `, ${esc(x.y)}` : ""}${read}</div><button type="button" class="xtdel" data-xdel="${i}" aria-label="Remove ${esc(x.t)}">Remove</button></li>`;
+      }).join("")}</ul></div>`;
+    }).join("");
+    const clear = XT.confirm ? `<span class="xtconf">Remove all ${XTRA.length} items? <button type="button" class="xbtn" data-act="xclear" data-f="xclear">Yes, remove</button> <button type="button" class="xbtn" data-act="xkeep" data-f="xkeep">Keep them</button></span>` : `<button type="button" class="xbtn" data-act="xask" data-f="xask">Remove all</button>`;
+    const list = `<section class="xp" aria-labelledby="xtList"><h2 id="xtList">Your items${XTRA.length ? ` (${XTRA.length})` : ""}</h2>
+      ${XTRA.length ? groups + `<div class="row xtbar"><button type="button" class="xbtn" data-act="xcopy" data-f="xcopy">Copy as CV text</button>${clear}</div><p class="note">Saved in this browser only. Nothing is uploaded.</p>` : `<div class="xempty"><b>Nothing added yet</b>Certifications, awards and merits, publications and patents, leadership and volunteering, languages, tools you use. Add the first one above.</div>`}
+    </section>`;
+    let effect;
+    if (!XTRA.length) effect = "";
+    else if (!CV) effect = `<section class="xp" aria-labelledby="xtEff"><h2 id="xtEff">What they change</h2><p class="note">Your items are kept. They are read with your CV, so add it to see which postings they lift.</p><div class="row"><a class="xbtn solid" href="#p=details" data-p="details">Add my CV</a></div></section>`;
+    else if (CV.xsig !== xSig()) effect = `<section class="xp" aria-labelledby="xtEff"><h2 id="xtEff">What they change</h2><p class="note">You changed your items since your postings were last scored.</p><div class="row"><button type="button" class="xbtn solid" data-act="xapply" data-f="xapply">Update my matches</button></div></section>`;
+    else if (!live) effect = `<section class="xp" aria-labelledby="xtEff"><h2 id="xtEff">What they change</h2><p class="note" role="status">${esc(SCORING || "Scoring postings with your items… one moment.")}</p></section>`;
+    else {
+      const e = extrasEffect();
+      const matched = [...reads.values()].filter((h) => h.length).length;
+      const lead = `<p><b>${matched}</b> of your ${XTRA.length} item${XTRA.length === 1 ? "" : "s"} matched a keyword postings ask for.</p>`;
+      const body = !e || !e.n ? `<p class="note">No collected posting with its own keywords was scored yet.</p>` : `<p>Across <b>${nf(e.n)}</b> collected postings with their own keywords, <b>${nf(e.lifted)}</b> score 5 points or more higher with your items. Postings scoring 60 or more: <b>${nf(e.strongNow)}</b> now, <b>${nf(e.strongBase)}</b> with your CV alone${e.strongNow > e.strongBase ? ` (${nf(e.strongNow - e.strongBase)} more)` : ""}.</p>
+        ${e.top.length ? `<h3>Postings that score highest because of them</h3><ol class="xtlift">${e.top.map((t) => `<li><b>${esc(t.j.title)}</b>, ${esc(t.j.company || "")}<span>${t.t0} → ${t.t1} (+${t.t1 - t.t0})${t.via.length ? ", through " + esc(t.via.join(", ")) : ""}</span></li>`).join("")}</ol>` : ""}`;
+      effect = `<section class="xp" aria-labelledby="xtEff"><h2 id="xtEff">What they change</h2>${lead}${body}<p class="note">Counted here, from the same score as everywhere else: each posting scored again with your CV alone. Job Bank occupation profiles are scored another way and are not part of this count. The score is a heuristic: a change under 5 points is a tie.</p></section>`;
+    }
+    paint(root, head("Profile extras", "Add what your CV does not show well: certifications, awards and merits, publications, volunteering, languages, tools. They are read together with your CV, and every match that rests on one says “added by you”. They never change the stage your CV is read as.") + form + list + effect);
+  }
+  function xtAdd(f) {
+    const t = xClean(f.t, 80), w = xClean(f.w, 60), y = /^\d{4}$/.test((f.y || "").trim()) ? f.y.trim() : "";
+    if (!t) { XT.msg = "Write what it is first."; return renderExtras(); }
+    if (f.y && f.y.trim() && !y) { XT.msg = "Write the year as four digits, or leave it empty."; return renderExtras(); }
+    if (XTRA.length >= XMAX) { XT.msg = `That is the most this page keeps (${XMAX} items). Remove one first.`; return renderExtras(); }
+    if (XTRA.some((x) => x.k === f.k && norm(x.t) === norm(t))) { XT.msg = "That one is already on your list."; return renderExtras(); }
+    XTRA.push({ k: f.k, t, w, y }); saveExtras(); XT.kind = f.k;
+    XT.msg = CV ? "Added. Press “Update my matches” to score postings with it." : "Added. It will be read with your CV once you add one.";
+    renderExtras(); const n = g("xtT"); if (n) n.focus({ preventScroll: true });
+  }
+  function onExtrasClick(e) {
+    const del = e.target.closest("[data-xdel]"), chip = e.target.closest("[data-xchip]"), act = e.target.closest("[data-act]");
+    if (del) { XTRA.splice(+del.dataset.xdel, 1); saveExtras(); XT.msg = CV ? "Removed. Press “Update my matches” to score without it." : "Removed."; XT.confirm = false; renderExtras(); return; }
+    if (chip) { XT.kind = "cert"; const k = g("xtK"), t = g("xtT"); if (k) k.value = "cert"; if (t) { t.value = chip.dataset.xchip; t.focus(); t.select(); } return; }
+    if (!act) return;
+    const a = act.dataset.act;
+    if (a === "xapply") { applyExtras(); XT.msg = ""; renderExtras(); }
+    else if (a === "xask") { XT.confirm = true; renderExtras(); }
+    else if (a === "xkeep") { XT.confirm = false; renderExtras(); }
+    else if (a === "xclear") { XTRA.length = 0; saveExtras(); XT.confirm = false; XT.msg = CV ? "Removed. Press “Update my matches” to score without them." : "Removed."; renderExtras(); }
+    else if (a === "xcopy") {
+      const text = withExtras("", XTRA, true).raw.trim();
+      const done = (ok) => { XT.msg = ok ? "Copied. Paste it into your CV file if you want it there for good." : "Could not copy here. Select the items and copy them by hand."; renderExtras(); };
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(() => done(true), () => done(false)); else done(false);
+    }
+  }
+  function onExtrasSubmit(e) {
+    if (e.target.id !== "xtForm") return;
+    e.preventDefault();
+    xtAdd({ k: g("xtK").value, t: g("xtT").value, w: g("xtW").value, y: g("xtY").value });
+  }
+  function onExtrasChange(e) { if (e.target.id === "xtK") XT.kind = e.target.value; }
+
+  /* =====================================================================
      the object index.html reads
      ===================================================================== */
   const XP = {
@@ -1479,10 +1600,12 @@ Requirements
       ladder: { title: META.ladder.title, render: renderLadder },
       swipe: { title: META.swipe.title, render: renderSwipe },
       board: { title: META.board.title, render: renderBoard },
+      extras: { title: META.extras.title, render: renderExtras },
       plan: { title: META.plan.title, render: renderPlan },
       target: { title: META.target.title, render: renderTarget }
     },
     home,
+    extrasEffect,
     close() { /* replaced when the menu is built */ },
     onStar(k, on) {
       if (on) boardAdd(k);
@@ -1507,6 +1630,7 @@ Requirements
       g("x-ladder").addEventListener("change", (e) => { if (e.target.id === "ladField") { LAD.fd = e.target.value; renderLadder(); } });
       g("x-swipe").addEventListener("click", onSwipeClick);
       bindBoard(g("x-board"));
+      const xe = g("x-extras"); xe.addEventListener("submit", onExtrasSubmit); xe.addEventListener("click", onExtrasClick); xe.addEventListener("change", onExtrasChange);
       g("x-plan").addEventListener("click", onPlanClick);
       g("x-plan").addEventListener("change", onPlanChange);
       g("x-plan").addEventListener("input", (e) => { if (e.target.id === "plN") g("plNo").textContent = e.target.value; });
