@@ -51,6 +51,8 @@
   /* a count becomes one of five shades (q1 lightest to q5 darkest); the text colour of each shade is set in pages.css */
   const shade = (t) => 1 + Math.min(4, Math.floor(t * 5));
   const pct = (a, b) => (b ? Math.round((100 * a) / b) : 0);
+  /* a share for people to read: a place with a few postings is "<1%", not "0%" */
+  const pctTxt = (a, b) => (a && pct(a, b) === 0 ? "<1" : pct(a, b));
   const head = (h, p) => `<div class="pghead xhead"><h1 tabindex="-1">${h}</h1><p class="note">${p}</p></div>`;
   const noJobs = (id) => head(META[id].name, "Loading the postings…");
   const bestTab = (c) => { const m = Math.max(c.full || 0, c.part || 0, c.intern || 0); return !m ? "full" : c.full === m ? "full" : c.intern === m ? "intern" : "part"; };
@@ -68,13 +70,14 @@
   function stats(kind) {
     const key = JOBS_VER + "|" + JOBS.length + "|" + kind;
     if (ST && ST_KEY === key) return ST;
-    const o = { n: 0, prov: {}, mtl: 0, field: {}, days: new Array(30).fill(0), new30: 0, emp: new Map(), skill: new Map(), cell: {} };
+    const o = { n: 0, prov: {}, mtl: 0, city: {}, field: {}, days: new Array(30).fill(0), new30: 0, emp: new Map(), skill: new Map(), cell: {} };
     for (const j of JOBS) {
       if (kind !== "all" && j.kind !== kind) continue;
       o.n++;
       const p = j.province || "";
       o.prov[p] = (o.prov[p] || 0) + 1;
       if (MTL.test(j.loc || "")) o.mtl++;
+      for (const k of cityKeys(j)) o.city[k] = (o.city[k] || 0) + 1;
       const f = fdOf(j).id, l = lvOf(j).lvl;
       (o.field[f] || (o.field[f] = [0, 0, 0, 0, 0, 0]))[l]++;
       o.field[f][5]++;
@@ -126,12 +129,14 @@
   /* =====================================================================
      MARKET MAP
      ===================================================================== */
-  const MK = { kind: "all", sel: null, skill: null, sk: "skill" };
+  const MK = { kind: "all", sel: null, skill: null, sk: "skill", view: ((v) => (v === "canada" || v === "world" ? v : "tiles"))(store.get("pm_mapview", "tiles")) };
   const TILES = [["YT", 0, 0], ["NT", 1, 0], ["NU", 2, 0], ["BC", 0, 1], ["AB", 1, 1], ["SK", 2, 1], ["MB", 3, 1], ["ON", 4, 1], ["QC", 5, 1], ["NL", 6, 1], ["NB", 5, 2], ["PE", 6, 2], ["NS", 6, 3]];
   const EXTRA = [["MTL", "Montréal area"], ["Remote – Canada", "Remote, Canada"], ["Canada", "Canada, no province"]];
   const scale = (n, max) => (n <= 0 ? 0.04 : 0.12 + 0.88 * (Math.log(1 + n) / Math.log(1 + max)));
-  function inPlace(j, code) { return code === "MTL" ? MTL.test(j.loc || "") : (j.province || "") === code; }
-  const placeName = (c) => (c === "MTL" ? "Montréal area" : PROV_NAME[c] || c);
+  /* a place is a province, the Montréal area or one of the city areas (CITIES, in index.html) */
+  const inPlace = (j, code) => inPlaceOf(j, code);
+  const placeName = (c) => placeLabel(c);
+  const isCity = (c) => c === "MTL" || !!CITY_RE[c];
 
   function placeDetail(code) {
     const list = JOBS.filter((j) => (MK.kind === "all" || j.kind === MK.kind) && inPlace(j, code));
@@ -142,17 +147,124 @@
     }
     return { n: list.length, lv, fd: Object.entries(fd).sort((a, b) => b[1] - a[1]).slice(0, 6), em: [...em.entries()].sort((a, b) => b[1] - a[1]).slice(0, 5), kinds };
   }
+  /* ---------- three ways to see the same numbers: tiles (the default), a map of Canada, a map of the world ----------
+     The outlines are in geo.js (made by scripts/build-maps.mjs from Natural Earth, public domain). The page asks for that file only when a map is opened. */
+  const VIEWS = [["tiles", "Tiles"], ["canada", "Canada"], ["world", "World"]];
+  const CITY_SHORT = { MTL: "Montréal", TOR: "Toronto", OTT: "Ottawa", QUE: "Québec", VAN: "Vancouver", CGY: "Calgary", EDM: "Edmonton", WPG: "Winnipeg", HAL: "Halifax", SAS: "Saskatoon", REG: "Regina" };
+  /* the province whose tile stands for a city when the tiles are shown again */
+  const CITY_PROV = { MTL: "QC", TOR: "ON", OTT: "ON", QUE: "QC", VAN: "BC", CGY: "AB", EDM: "AB", WPG: "MB", HAL: "NS", SAS: "SK", REG: "SK" };
+  /* which side of its circle a city's name is written: r right, l left, t above, b below (chosen so that the names of neighbours do not meet) */
+  const CITY_SIDE = { MTL: "r", TOR: "l", OTT: "l", QUE: "t", VAN: "b", CGY: "b", EDM: "t", WPG: "r", HAL: "b", SAS: "t", REG: "r" };
+  /* where a province's code and count are written when its centre is crowded by a circle or is too small for them: [x, y] in the map's own units */
+  const PLOC = { AB: [222, 520], SK: [318, 556] };
+  /* NS and PE are written in the sea with a line to the province: [text x, text y, line end x, line end y] */
+  const SMALL = new Set(["NB", "NL"]); /* on a phone their counts are left off the map (the chips and the details give them) */
+  const CALL = { NS: [972, 706, 932, 700], PE: [906, 628, 899, 658] };
+  let GEO_LOAD = "";
+  function geoReady() {
+    if (window.PMGEO) return true;
+    if (GEO_LOAD === "failed") GEO_LOAD = "";
+    if (!GEO_LOAD) {
+      GEO_LOAD = "loading";
+      const s = document.createElement("script"); s.src = "geo.js";
+      const done = (ok) => { GEO_LOAD = ok && window.PMGEO ? "ready" : "failed"; if (MK.view !== "tiles") renderMarket(); };
+      s.onload = () => done(true); s.onerror = () => done(false);
+      document.head.appendChild(s);
+    }
+    return false;
+  }
+  function setView(v) {
+    if (v === "tiles" && isCity(MK.sel) && MK.sel !== "MTL") MK.sel = CITY_PROV[MK.sel] || MK.sel;
+    MK.view = v; store.set("pm_mapview", v);
+    if (v !== "tiles") geoReady();
+    renderMarket();
+  }
+  function mapSection(counts, max, st) {
+    const tile = (c, label, x) => `<button class="tile q${shade(scale(counts[c], max))}${x ? " extra" : ""}" data-f="t-${esc(c)}" data-place="${esc(c)}" aria-pressed="${MK.sel === c}" style="${x ? "" : `grid-column:${TILES.find((t) => t[0] === c)[1] + 1};grid-row:${TILES.find((t) => t[0] === c)[2] + 1}`}" aria-label="${esc(placeName(c))}: ${nf(counts[c])} postings"><b>${esc(label)}</b><small>${nf(counts[c])}</small></button>`;
+    const seg = `<div class="tog seg" role="group" aria-label="Map view">${VIEWS.map(([v, l]) => `<button data-f="v-${v}" data-mapview="${v}" aria-pressed="${MK.view === v}">${l}</button>`).join("")}</div>`;
+    const ramp = `<div class="ramp"><span>fewer</span><i class="q1"></i><i class="q2"></i><i class="q3"></i><i class="q4"></i><i class="q5"></i><span>more</span></div>`;
+    const credit = `<p class="note geocredit">Outlines: Natural Earth, public domain.</p>`;
+    const rd = (c) => `${placeName(c)}: ${nf(counts[c] || 0)} postings, ${pctTxt(counts[c] || 0, st.n)}% of the ${nf(st.n)} shown.`;
+    let view = MK.view, aside = "";
+    if (view !== "tiles" && !window.PMGEO) {
+      if (GEO_LOAD === "failed") { view = "tiles"; aside = `<p class="note warnline">The map outlines did not load, so the tiles are shown. Choose the map again to retry.</p>`; }
+      else { geoReady(); return `<section class="xp" aria-labelledby="mkMap"><h2 id="mkMap">Postings by place</h2>${seg}<div class="geoload" role="status">Loading the map…</div></section>`; }
+    }
+    if (view === "tiles") {
+      return `<section class="xp" aria-labelledby="mkMap"><h2 id="mkMap">Postings by province</h2><p class="note">Each tile is a province or territory. The shade follows the number of postings.</p>${seg}${aside}
+          <div class="tiles">${TILES.map(([c]) => tile(c, c)).join("")}</div>
+          <div class="tilerow">${EXTRA.map(([c, l]) => tile(c, l, true)).join("")}</div>${ramp}</section>`;
+    }
+    const GEO = window.PMGEO;
+    if (view === "canada") {
+      const C = GEO.canada, PV = C.provinces;
+      const order = TILES.map(([c]) => c).filter((c) => PV[c]).sort((a, b) => (MK.sel === a) - (MK.sel === b));
+      const provs = order.map((c) => { const n = counts[c] || 0; return `<path class="p s${shade(scale(n, max))}${MK.sel === c ? " on" : ""}" data-f="p-${c}" data-place="${c}" data-rd="${esc(rd(c))}" tabindex="0" role="button" aria-pressed="${MK.sel === c}" aria-label="${esc(placeName(c))}: ${nf(n)} postings" d="${PV[c].d}"/>`; }).join("");
+      const labels = TILES.map(([c]) => {
+        const p = PV[c]; if (!p) return ""; const n = counts[c] || 0, k = shade(scale(n, max)), co = CALL[c];
+        if (co) return `<path class="lead" d="M${co[0]} ${co[1]}L${co[2]} ${co[3]}"/><text class="lb out sm" x="${co[0]}" y="${co[1]}"><tspan x="${co[0]}" dy="-.2em">${c}</tspan><tspan x="${co[0]}" dy="1.1em" class="lc">${nf(n)}</tspan></text>`;
+        const at = PLOC[c] || p.c;
+        return `<text class="lb s${k}${SMALL.has(c) ? " sm" : ""}" x="${at[0]}" y="${at[1]}"><tspan x="${at[0]}" dy="-.2em">${c}</tspan><tspan x="${at[0]}" dy="1.1em" class="lc">${nf(n)}</tspan></text>`;
+      }).join("");
+      const maxC = Math.max(...Object.keys(C.cities).map((k) => counts[k] || 0), 1);
+      const cities = Object.keys(C.cities).sort((a, b) => (counts[b] || 0) - (counts[a] || 0)).sort((a, b) => (MK.sel === a) - (MK.sel === b)).map((k) => {
+        const n = counts[k] || 0, xy = C.cities[k];
+        return `<g class="city${MK.sel === k ? " on" : ""}${n ? "" : " zero"}" data-f="c-${k}" data-place="${k}" data-rd="${esc(rd(k))}" tabindex="0" role="button" aria-pressed="${MK.sel === k}" aria-label="${esc(placeName(k))}: ${nf(n)} postings" transform="translate(${xy[0]} ${xy[1]})"><circle data-pr="${(4 + 17 * Math.sqrt(n / maxC)).toFixed(1)}" r="8"/><text data-side="${CITY_SIDE[k] || "r"}">${esc(CITY_SHORT[k] || k)}</text></g>`;
+      }).join("");
+      const chips = ["MTL", ...CITIES.map((c) => c[0])].sort((a, b) => (counts[b] || 0) - (counts[a] || 0)).map((k) => `<button data-f="h-${k}" data-place="${k}" aria-pressed="${MK.sel === k}" aria-label="${esc(placeName(k))}: ${nf(counts[k] || 0)} postings">${esc(CITY_SHORT[k] || k)} <small>${nf(counts[k] || 0)}</small></button>`).join("");
+      return `<section class="xp geo" aria-labelledby="mkMap"><h2 id="mkMap">Postings by province and city</h2><p class="note">Provinces are shaded by the number of postings. Each circle is a city area, and its size follows its postings. A city's postings are also in its province.</p>${seg}
+          <svg class="geosvg" viewBox="0 0 ${C.w} ${C.h}" role="group" aria-label="Map of Canada: ${TILES.length} provinces and territories shaded by postings, with circles for ${Object.keys(C.cities).length} city areas">
+            <g class="ctxg" aria-hidden="true">${C.context.map((c) => `<path d="${c.d}"/>`).join("")}</g>
+            <g>${provs}</g><path class="lakes" aria-hidden="true" d="${C.lakes}"/><g aria-hidden="true">${labels}</g><g>${cities}</g>
+          </svg>
+          <p class="readout" id="geoRead" aria-live="polite">Hover, or tab through, the map. A click opens the details beside it.</p>
+          <div class="chips" role="group" aria-label="City areas">${chips}</div>
+          <div class="tilerow">${EXTRA.filter((e) => e[0] !== "MTL").map(([c, l]) => tile(c, l, true)).join("")}</div>${ramp}${credit}</section>`;
+    }
+    /* the world: only Canada has postings */
+    const Wd = GEO.world, can = Wd.label.CAN, ca = st.n;
+    const others = Wd.countries.filter((c) => c.a !== "CAN").map((c) => `<path class="cn" data-cn="${esc(c.n)}" d="${c.d}"/>`).join("");
+    const canPath = (Wd.countries.find((c) => c.a === "CAN") || {}).d || "";
+    return `<section class="xp geo" aria-labelledby="mkMap"><h2 id="mkMap">Postings around the world</h2><p class="note">Path Match collects postings for Canada, so only Canada is shaded. The other countries are there for the picture. Click Canada to open its map.</p>${seg}
+          <svg class="geosvg world" viewBox="0 0 ${Wd.w} ${Wd.h}" role="group" aria-label="World map. Canada has ${nf(ca)} postings; no other country has postings">
+            <g aria-hidden="true">${others}</g>
+            <path class="p s5" data-f="w-CAN" data-mapview="canada" data-rd="Canada: ${nf(ca)} postings. Click to open the map of Canada." tabindex="0" role="button" aria-label="Canada: ${nf(ca)} postings. Open the map of Canada" d="${canPath}"/>
+            <g aria-hidden="true"><path class="lead" d="M${can[0] - 2} ${can[1]}L${can[2]} ${can[3]}"/><text class="lb out wl" x="${can[0]}" y="${can[1]}"><tspan x="${can[0]}" dy="-.2em">Canada</tspan><tspan x="${can[0]}" dy="1.1em" class="lc">${nf(ca)}</tspan></text></g>
+          </svg>
+          <p class="readout" id="geoRead" aria-live="polite">Hover over a country. Only Canada has postings.</p>
+          <div class="row"><button class="xbtn solid" data-mapview="canada" data-f="zoomca">Zoom to Canada</button></div>${ramp}${credit}</section>`;
+  }
+  /* the maps are drawn in a 1000-unit box that is shown at any width, so the size of a name and of a circle is set from the width on screen */
+  function fitGeo() {
+    const root = g("x-market"); if (!root) return;
+    root.querySelectorAll("svg.geosvg").forEach((svg) => {
+      const w = svg.getBoundingClientRect().width, vb = svg.viewBox.baseVal.width; if (!w || !vb) return;
+      const u = vb / w; svg.style.setProperty("--u", u.toFixed(3));
+      /* a circle is never smaller than a fingertip dot, and its name sits just outside it */
+      svg.querySelectorAll("circle[data-pr]").forEach((c) => c.setAttribute("r", Math.max(+c.dataset.pr, 4 * u).toFixed(1)));
+      svg.querySelectorAll(".city text[data-side]").forEach((t) => {
+        const r = +t.previousElementSibling.getAttribute("r"), gap = r + 4 * u, sd = t.dataset.side, h = 8 * u;
+        t.setAttribute("x", sd === "r" ? gap : sd === "l" ? -gap : 0); t.setAttribute("y", sd === "t" ? -gap - h + 4 * u : sd === "b" ? gap + h : 0);
+        t.setAttribute("text-anchor", sd === "r" ? "start" : sd === "l" ? "end" : "middle");
+      });
+    });
+  }
+  function onGeoRead(e) {
+    const r = g("geoRead"); if (!r) return;
+    const b = e.target.closest("[data-rd],[data-cn]"); if (!b) return;
+    r.textContent = b.dataset.rd || `${b.dataset.cn}: no postings collected. Path Match covers Canada.`;
+  }
   function marketHtml() {
     const st = stats(MK.kind);
     const counts = {};
     for (const [c] of TILES) counts[c] = st.prov[c] || 0;
     counts.MTL = st.mtl; counts["Remote – Canada"] = st.prov["Remote – Canada"] || 0; counts.Canada = st.prov.Canada || 0;
+    for (const c of CITIES) counts[c[0]] = st.city[c[0]] || 0;
     const max = Math.max(...TILES.map(([c]) => counts[c]), 1);
     if (!MK.sel) MK.sel = P.loc && counts[P.loc] != null ? P.loc : TILES.slice().sort((a, b) => counts[b[0]] - counts[a[0]])[0][0];
-    const tile = (c, label, x) => `<button class="tile q${shade(scale(counts[c], max))}${x ? " extra" : ""}" data-f="t-${esc(c)}" data-place="${esc(c)}" aria-pressed="${MK.sel === c}" style="${x ? "" : `grid-column:${TILES.find((t) => t[0] === c)[1] + 1};grid-row:${TILES.find((t) => t[0] === c)[2] + 1}`}" aria-label="${esc(placeName(c))}: ${nf(counts[c])} postings"><b>${esc(label)}</b><small>${nf(counts[c])}</small></button>`;
     const d = placeDetail(MK.sel);
     const lvTot = d.lv.reduce((a, b) => a + b, 0) || 1;
-    const detail = `<div class="pd"><h3>${esc(placeName(MK.sel))}</h3><div class="big">${nf(d.n)}</div><div class="note">${pct(d.n, st.n)}% of the ${nf(st.n)} postings shown${MK.sel === "MTL" ? " (the Montréal area is inside Quebec)" : ""}</div>
+    const detail = `<div class="pd"><h3>${esc(placeName(MK.sel))}</h3><div class="big">${nf(d.n)}</div><div class="note">${pctTxt(d.n, st.n)}% of the ${nf(st.n)} postings shown${MK.sel === "MTL" ? " (the Montréal area is inside Quebec)" : isCity(MK.sel) ? " (found by the city named in the posting, so they are also in the count of their province)" : ""}</div>
       <h4>By stage</h4><div class="lvbar" role="img" aria-label="${d.lv.map((v, i) => LV[i].short + " " + v).join(", ")}">${d.lv.map((v) => `<i style="flex:${Math.max(v, 0) / lvTot}"></i>`).join("")}</div>
       <div class="note" style="margin-top:4px">${d.lv.map((v, i) => `${LV[i].short} ${nf(v)}`).join(" · ")}</div>
       <h4>Most postings by field</h4><ul class="barlist">${d.fd.map(([f, n]) => `<li><span class="bl"><span>${esc(fieldLabel(f))}</span><span class="n">${nf(n)}</span><i style="--w:${pct(n, d.fd[0][1] || 1)}%;--bc:${hue(f)}"></i></span></li>`).join("") || '<li class="note">Nothing here for this kind of work.</li>'}</ul>
@@ -179,13 +291,10 @@
     const smax = sk.length ? sk[0][1].n : 1, smin = sk.length ? sk[sk.length - 1][1].n : 1, mine = cvSkills();
     const cloud = `<div class="cloud">${sk.map(([k, e]) => `<button data-f="s-${esc(k)}" data-skill="${esc(k)}" aria-pressed="${MK.skill === k}" class="${mine && mine.has(k) ? "mine" : ""}" style="--t:${(smin === smax ? 1 : (Math.log(e.n) - Math.log(smin)) / (Math.log(smax) - Math.log(smin))).toFixed(2)}" title="${nf(e.n)} postings">${esc(e.name)}</button>`).join("")}</div><div class="skillread" id="skillread" aria-live="polite">${skillRead(st)}</div>`;
 
-    return head("Market map", `Where the ${nf(JOBS.length)} collected postings are, in which fields and for which stage. Darker means more postings. Click a province, a cell or an employer to open those jobs.`) +
+    return head("Market map", `Where the ${nf(JOBS.length)} collected postings are, in which fields and for which stage. Darker means more postings. Show the places as tiles, on a map of Canada or on a map of the world. Click a place, a cell or an employer to open those jobs.`) +
       `<div class="tog" role="group" aria-label="Kind of work">${KINDS.map(([k, l]) => `<button data-f="k-${k}" data-kind="${k}" aria-pressed="${MK.kind === k}">${l}</button>`).join("")}</div>
       <div class="xgrid two">
-        <section class="xp" aria-labelledby="mkMap"><h2 id="mkMap">Postings by province</h2><p class="note">Each tile is a province or territory. The shade follows the number of postings.</p>
-          <div class="tiles">${TILES.map(([c]) => tile(c, c)).join("")}</div>
-          <div class="tilerow">${EXTRA.map(([c, l]) => tile(c, l, true)).join("")}</div>
-          <div class="ramp"><span>fewer</span><i class="q1"></i><i class="q2"></i><i class="q3"></i><i class="q4"></i><i class="q5"></i><span>more</span></div></section>
+        ${mapSection(counts, max, st)}
         <section class="xp" aria-label="Detail">${detail}</section>
       </div>
       <section class="xp" style="margin-top:16px" aria-labelledby="mkHeat"><h2 id="mkHeat">Field by stage</h2><p class="note">How many postings each field has at each stage${me !== null ? `. Your stage is marked` : ""}. A cell opens those postings.</p>${heat}</section>
@@ -211,10 +320,12 @@
     const root = g("x-market");
     if (!JOBS.length) { paint(root, noJobs("market")); return; }
     paint(root, marketHtml());
+    fitGeo();
   }
   function onMarketClick(e) {
-    const t = e.target.closest("button"); if (!t) return;
-    if (t.dataset.kind) { MK.kind = t.dataset.kind; renderMarket(); }
+    const t = e.target.closest("button,[data-place],[data-mapview]"); if (!t) return;
+    if (t.dataset.mapview) setView(t.dataset.mapview);
+    else if (t.dataset.kind) { MK.kind = t.dataset.kind; renderMarket(); }
     else if (t.dataset.place) { MK.sel = t.dataset.place; renderMarket(); }
     else if (t.dataset.act === "seeplace") { const d = placeDetail(MK.sel); goJobs({ f: { loc: MK.sel }, tab: MK.kind === "all" ? bestTab(d.kinds) : KIND_TAB[MK.kind] }); }
     else if (t.dataset.fd) { const c = stats(MK.kind).cell[t.dataset.fd + "|" + t.dataset.lv] || {}; goJobs({ f: { fd: t.dataset.fd, lvl: t.dataset.lv }, tab: MK.kind === "all" ? bestTab(c) : KIND_TAB[MK.kind] }); }
@@ -1311,6 +1422,10 @@ Requirements
     init() {
       buildExplore(); buildCmd();
       const m = g("x-market"); m.addEventListener("click", onMarketClick); m.addEventListener("pointerover", onPulse); m.addEventListener("focusin", onPulse);
+      m.addEventListener("pointerover", onGeoRead); m.addEventListener("focusin", onGeoRead);
+      m.addEventListener("pointerover", (e) => { if (e.target.closest("[data-mapview]")) geoReady(); }); m.addEventListener("focusin", (e) => { if (e.target.closest("[data-mapview]")) geoReady(); });
+      m.addEventListener("keydown", (e) => { if ((e.key === "Enter" || e.key === " ") && e.target.matches("svg [data-place],svg [data-mapview]")) { e.preventDefault(); e.target.dispatchEvent(new MouseEvent("click", { bubbles: true })); } });
+      if (typeof ResizeObserver === "function") new ResizeObserver(() => fitGeo()).observe(m);
       const wf = g("x-wayfinder");
       wf.addEventListener("submit", onWayfinderSubmit); wf.addEventListener("click", onWayfinderClick); wf.addEventListener("input", onWayfinderInput);
       const pp = g("x-paste");

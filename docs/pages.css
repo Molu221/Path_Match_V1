@@ -150,6 +150,45 @@ body[data-pg=details],body[data-pg=jobs],body[data-pg=market],body[data-pg=swipe
 .tilerow .tile{flex:1}
 .ramp{display:flex;align-items:center;gap:4px 5px;margin-top:12px;font-size:12px;color:var(--mute)}
 .ramp i{display:inline-block;width:26px;height:14px;border-radius:3px;border:1px solid color-mix(in srgb,var(--violet) 30%,var(--line))}
+/* the Tiles / Canada / World switch and the two maps */
+.seg{margin:0 0 12px}
+.xp>.seg{margin-top:10px}
+.geoload{display:grid;place-items:center;min-height:260px;border:1px dashed var(--line);border-radius:10px;color:var(--mute)}
+.warnline{color:var(--warn);font-weight:600}
+.geosvg{display:block;width:100%;height:auto;background:color-mix(in srgb,var(--accent-soft) 55%,var(--panel));border:1px solid var(--line);border-radius:10px;--u:1}
+.geosvg .ctxg path,.geosvg .cn{fill:color-mix(in srgb,var(--line) 70%,var(--panel));stroke:color-mix(in srgb,var(--mute) 45%,var(--panel));stroke-width:.8;vector-effect:non-scaling-stroke}
+.geosvg .cn:hover{fill:color-mix(in srgb,var(--mute) 40%,var(--panel))}
+.geosvg .lakes{fill:color-mix(in srgb,var(--accent-soft) 55%,var(--panel));stroke:color-mix(in srgb,var(--mute) 45%,var(--panel));stroke-width:.8;vector-effect:non-scaling-stroke;pointer-events:none}
+.geosvg .p{stroke:var(--panel);stroke-width:1.2;vector-effect:non-scaling-stroke;stroke-linejoin:round;cursor:pointer}
+.geosvg .p.s1{fill:var(--q1)}.geosvg .p.s2{fill:var(--q2)}.geosvg .p.s3{fill:var(--q3)}.geosvg .p.s4{fill:var(--q4)}.geosvg .p.s5{fill:var(--q5)}
+.geosvg .p:hover{stroke:var(--ink);stroke-width:2}
+.geosvg .p.on{stroke:var(--pin);stroke-width:3.5}
+.geosvg [tabindex]:focus{outline:none}
+.geosvg .p:focus-visible{stroke:var(--ink);stroke-width:3.5;stroke-dasharray:6 3}
+.geosvg .lb{font-family:var(--f-disp);font-weight:800;font-size:calc(12px*var(--u));text-anchor:middle;pointer-events:none}
+.geosvg .lb.s1{fill:var(--qt1)}.geosvg .lb.s2{fill:var(--qt2)}.geosvg .lb.s3{fill:var(--qt3)}.geosvg .lb.s4{fill:var(--qt4)}.geosvg .lb.s5{fill:var(--qt5)}
+.geosvg .lb .lc{font-weight:600;font-size:.82em}
+.geosvg .lb.out{fill:var(--ink);paint-order:stroke;stroke:var(--panel);stroke-width:calc(3px*var(--u));stroke-linejoin:round}
+.geosvg .lead{stroke:var(--mute);stroke-width:1;fill:none;vector-effect:non-scaling-stroke;pointer-events:none}
+.geosvg .city{cursor:pointer}
+.geosvg .city circle{fill:var(--pin);fill-opacity:.7;stroke:var(--panel);stroke-width:1.5;vector-effect:non-scaling-stroke}
+.geosvg .city:hover circle{fill-opacity:.95;stroke:var(--ink);stroke-width:2}
+.geosvg .city.on circle{fill-opacity:1;stroke:var(--ink);stroke-width:3}
+.geosvg .city.zero circle{fill:none;stroke:var(--mute);stroke-dasharray:3 2}
+.geosvg .city:focus-visible circle{stroke:var(--ink);stroke-width:3.5;stroke-dasharray:4 2}
+.geosvg .city text{font-family:var(--f-body);font-weight:700;font-size:calc(12px*var(--u));fill:var(--ink);paint-order:stroke;stroke:var(--panel);stroke-width:calc(3.5px*var(--u));stroke-linejoin:round;dominant-baseline:central;pointer-events:none}
+.geosvg.world .lb{font-size:calc(13px*var(--u));text-anchor:start}
+.geosvg.world .p{stroke-width:.8}
+.geosvg.world .p.on,.geosvg.world .p:hover{stroke:var(--pin);stroke-width:2}
+.geo .readout{min-height:1.4em}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.chips button{padding:5px 11px;border-radius:999px;background:var(--bg);font-size:12.5px;display:inline-flex;gap:6px;align-items:baseline}
+.chips button small{color:var(--mute);font-variant-numeric:tabular-nums}
+.chips button[aria-pressed=true]{outline:3px solid var(--pin);outline-offset:1px}
+.geo .tilerow{margin-top:10px}
+.geocredit{margin:8px 0 0;font-size:12px}
+.geo .row{margin-top:12px}
+@media(max-width:600px){.geosvg .lb{font-size:calc(11px*var(--u))}.geosvg .city text,.geosvg .lb.sm .lc{display:none}}
 .pd h3{font:800 24px/1.1 var(--f-disp);font-stretch:108%}
 .pd .big{font:800 34px/1 var(--f-disp);font-stretch:90%;margin:8px 0 2px;font-variant-numeric:tabular-nums}
 .pd h4{font:650 13px var(--f-body);margin:14px 0 4px;color:var(--mute)}
