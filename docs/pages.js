@@ -980,17 +980,24 @@
   let HKEY = "", counted = false;
   function bigStats() {
     const el = g("bigstats"); if (!el) return;
-    if (!JOBS.length) { el.innerHTML = ""; return; }
-    const key = JOBS_VER + "|" + JOBS.length; if (key === HKEY) return; HKEY = key;
-    const fields = new Set(JOBS.map((j) => fdOf(j).id)).size, provs = new Set(JOBS.map((j) => j.province).filter((p) => /^[A-Z]{2}$/.test(p || ""))).size;
-    const stu = JOBS.filter((j) => lvOf(j).lvl === 0).length;
-    const vals = [[JOBS.length, "postings collected"], [fields, "fields, from trades to tech"], [provs, "provinces and territories"], [stu, "for students and new graduates"]];
+    /* the numbers counted by the daily job (docs/stats.json), when they describe the postings now loaded; otherwise counted here */
+    const cv = typeof coverNow === "function" ? coverNow() : null;
+    if (!JOBS.length && !cv) { el.innerHTML = ""; return; }
+    const key = cv ? "cover|" + cv.updatedAt : JOBS_VER + "|" + JOBS.length; if (key === HKEY) return; HKEY = key;
+    let n0, fields, provs, stu;
+    if (cv) { n0 = cv.total; fields = cv.fields; provs = cv.provinces; stu = cv.students; }
+    else {
+      n0 = JOBS.length;
+      fields = new Set(JOBS.map((j) => fdOf(j).id)).size; provs = new Set(JOBS.map((j) => j.province).filter((p) => /^[A-Z]{2}$/.test(p || ""))).size;
+      stu = JOBS.filter((j) => lvOf(j).lvl === 0).length;
+    }
+    const vals = [[n0, "postings collected"], [fields, "fields, from trades to tech"], [provs, "provinces and territories"], [stu, "for students and new graduates"]];
     el.innerHTML = vals.map(([n, l]) => `<div class="bs"><b data-n="${n}">${counted || reduceMotion() ? nf(n) : "0"}</b><span>${l}</span></div>`).join("");
     if (!counted && !reduceMotion()) {
       counted = true;
       const t0 = performance.now(), dur = 1100;
       const step = (t) => {
-        const p = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - p, 3);
+        const p = Math.max(0, Math.min(1, (t - t0) / dur)), e = 1 - Math.pow(1 - p, 3);   /* the first frame can be stamped a hair before t0: without the max the numbers flashed negative */
         el.querySelectorAll("b").forEach((b) => { b.textContent = nf(Math.round(+b.dataset.n * e)); });
         if (p < 1) requestAnimationFrame(step);
       };
