@@ -82,8 +82,7 @@ assert.ok(pinned && /--hero:#0e2c2b/.test(pinned[1]) && /--hero-rgb:234 246 243/
 assert.equal((html.match(/:root\[data-theme="dark"\]\{--hero:#0e2c2b/g) || []).length, 1, "the dark theme sets the spruce palette back");
 assert.ok(/@media \(prefers-color-scheme:dark\)\{:root:not\(\[data-theme="light"\]\)\{--hero:#0e2c2b/.test(html), "...also when the device asks for dark");
 assert.ok(!/rgba\(234,246,243,/.test(html) && !/rgba\(234,246,243,/.test(css), "no fixed light-on-dark colour is left outside the tokens");
-assert.ok(/--contours:none;/.test(root), "the light cover has no contour lines behind it");
+assert.ok(/--contours:url\(contours-light\.svg\)/.test(root) && fs.existsSync(new URL("../docs/contours-light.svg", import.meta.url)), "the light cover has its own, soft contour lines behind it");
 assert.ok(/--contours:url\(contours\.svg\)/.test(pinned[1]), "the dark surfaces keep theirs");
-assert.ok(!fs.existsSync(new URL("../docs/contours-light.svg", import.meta.url)), "no unused light contour file is left");
 assert.ok(css.includes("--aurora:radial-gradient(38% 50% at 88% 14%,rgb(255 107 44"), "the light cover has one soft orange wash");
 console.log("cover-stats tests passed");
