@@ -87,6 +87,13 @@ assert.ok(at('<script src="pages.js"></script>') > 0 && at('<script src="pages.j
 // a missing pages.js must not break the site
 assert.ok(/window\.XP\|\|\{pages:\{\}/.test(html), "index.html has a fallback when pages.js is missing");
 
+// batch of CV-aware insights: the map can be shaded by the CV's fit, the Skill lab has a plan for each goal, the ladder reads the CV against each rung
+assert.ok(js.includes('const METRICS = [["count", "Postings"], ["fit", "Your strong matches"], ["rate", "Your fit rate"]]'), "the Market map can be shaded by postings, strong matches or fit rate");
+assert.ok(js.includes("const STRONG = 60, RATE_MIN = 30") && /disabled title="Add your CV to use this"/.test(js), "the 60 line is the site's strong line, and the fit shadings need a CV");
+assert.ok(js.includes("fitStats(MK.kind)") && js.includes("scoreOf(jkey(j))"), "the fit counts come from the same scores as the Top 10");
+assert.ok(js.includes('labPlan(pool, hardE, L, "avg")') && js.includes('labPlan(pool, hardE, L, "doors")') && js.includes("Open more doors") && js.includes("Raise my average"), "the Skill lab offers a plan for each goal");
+assert.ok(js.includes("function readiness(") && js.includes("How your CV reads against each rung") && js.includes("A quick read, not a score"), "the ladder reads the CV against each rung and says it is not a score");
+
 // the class names of the big shared layouts are not reused by the new pages (a clash once broke the top bar and the deck)
 const clash = ["top", "bar", "hero", "wrap", "page", "side"];
 for (const c of clash) assert.ok(!new RegExp(`class="[^"]*\\b${c}\\b[^"]*"`).test(js.replace(/class="wrap[^"]*"/g, "")), `pages.js does not use the layout class "${c}"`);

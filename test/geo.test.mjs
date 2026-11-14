@@ -64,6 +64,9 @@ assert.ok(!W.countries.some((c) => c.a === "ATA"), "Antarctica is left out so th
 assert.equal(W.label.CAN.length, 4);
 assert.ok(W.label.CAN.every((v, i) => v > 0 && v < (i % 2 ? W.h : W.w)), "the Canada label and its leader line are inside the picture");
 
+// --- class names of the map are its own: .chips and .seg already style other things in index.html
+assert.ok(!/\.chips[ {,.:\[>]/.test(read("docs/pages.css").replace(/\.citychips/g, "")), "pages.css does not restyle .chips, which All jobs uses for its window buttons");
+assert.ok(!/class="[^"]*\bchips\b/.test(js) && !/class="[^"]*\bseg\b/.test(js), "pages.js does not use the class names chips or seg");
 // --- the switch: the tiles stay the default, the choice is remembered, and the other two are alternatives to them
 assert.ok(/view: \(\(v\) => \(v === "canada" \|\| v === "world" \? v : "tiles"\)\)\(store\.get\("pm_mapview", "tiles"\)\)/.test(js), "the view defaults to tiles and only accepts canada or world");
 assert.ok(js.includes('store.set("pm_mapview", v)'), "the chosen view is remembered");
@@ -72,7 +75,7 @@ for (const v of ["tiles", "canada", "world"]) assert.ok(js.includes(`["${v}", `)
 assert.ok(js.includes('class="tiles"') && js.includes("TILES.map(([c]) => tile(c, c))"), "the tile map is still there");
 // a map is not a trap for the keyboard or a screen reader: every shape can be reached and pressed, and the cities have a list beside them
 assert.ok(/tabindex="0" role="button" aria-pressed/.test(js) && js.includes('e.key === "Enter" || e.key === " "'), "provinces and cities take Tab, Enter and Space");
-assert.ok(js.includes('class="chips" role="group" aria-label="City areas"'), "the city areas are also a list of buttons");
+assert.ok(js.includes('class="citychips" role="group" aria-label="City areas"'), "the city areas are also a list of buttons");
 assert.ok(js.includes("aria-live=\"polite\">Hover, or tab through"), "the reading under the map is a live region");
 
 console.log("geo tests passed (" + Object.keys(C.provinces).length + " provinces, " + names.length + " cities, " + W.countries.length + " countries)");

@@ -129,7 +129,7 @@
   /* =====================================================================
      MARKET MAP
      ===================================================================== */
-  const MK = { kind: "all", sel: null, skill: null, sk: "skill", view: ((v) => (v === "canada" || v === "world" ? v : "tiles"))(store.get("pm_mapview", "tiles")) };
+  const MK = { kind: "all", metric: "count", sel: null, skill: null, sk: "skill", view: ((v) => (v === "canada" || v === "world" ? v : "tiles"))(store.get("pm_mapview", "tiles")) };
   const TILES = [["YT", 0, 0], ["NT", 1, 0], ["NU", 2, 0], ["BC", 0, 1], ["AB", 1, 1], ["SK", 2, 1], ["MB", 3, 1], ["ON", 4, 1], ["QC", 5, 1], ["NL", 6, 1], ["NB", 5, 2], ["PE", 6, 2], ["NS", 6, 3]];
   const EXTRA = [["MTL", "Montréal area"], ["Remote – Canada", "Remote, Canada"], ["Canada", "Canada, no province"]];
   const scale = (n, max) => (n <= 0 ? 0.04 : 0.12 + 0.88 * (Math.log(1 + n) / Math.log(1 + max)));
@@ -138,14 +138,37 @@
   const placeName = (c) => placeLabel(c);
   const isCity = (c) => c === "MTL" || !!CITY_RE[c];
 
+  /* how the CV reads against the postings of a place: how many score 60 or more (the site's "strong" line, a heuristic: scores within 5 points are ties) */
+  const STRONG = 60, RATE_MIN = 30;
+  let FS = null, FS_KEY = "", FS_RES = null;
+  function fitStats(kind) {
+    if (!CV || SCORING || SCORED_FOR !== CV || typeof RES === "undefined" || !RES.length) return null;
+    const key = JOBS_VER + "|" + JOBS.length + "|" + RES.length + "|" + kind;
+    if (FS && FS_KEY === key && FS_RES === RES) return FS;
+    const o = { scored: {}, strong: {}, nScored: 0, nStrong: 0 };
+    const add = (k, hi) => { o.scored[k] = (o.scored[k] || 0) + 1; if (hi) o.strong[k] = (o.strong[k] || 0) + 1; };
+    for (const j of JOBS) {
+      if (kind !== "all" && j.kind !== kind) continue;
+      const t = scoreOf(jkey(j)); if (t === null) continue;
+      const hi = t >= STRONG;
+      o.nScored++; if (hi) o.nStrong++;
+      add(j.province || "", hi);
+      if (MTL.test(j.loc || "")) add("MTL", hi);
+      for (const k of cityKeys(j)) add(k, hi);
+    }
+    FS = o; FS_KEY = key; FS_RES = RES;
+    return o;
+  }
   function placeDetail(code) {
     const list = JOBS.filter((j) => (MK.kind === "all" || j.kind === MK.kind) && inPlace(j, code));
     const lv = [0, 0, 0, 0, 0], fd = {}, em = new Map(), kinds = { full: 0, part: 0, intern: 0 };
+    const fit = fitStats(MK.kind) ? { scored: 0, strong: 0 } : null;
     for (const j of list) {
+      if (fit) { const t = scoreOf(jkey(j)); if (t !== null) { fit.scored++; if (t >= STRONG) fit.strong++; } }
       lv[lvOf(j).lvl]++; const f = fdOf(j).id; fd[f] = (fd[f] || 0) + 1;
       em.set(j.company, (em.get(j.company) || 0) + 1); kinds[j.kind]++;
     }
-    return { n: list.length, lv, fd: Object.entries(fd).sort((a, b) => b[1] - a[1]).slice(0, 6), em: [...em.entries()].sort((a, b) => b[1] - a[1]).slice(0, 5), kinds };
+    return { n: list.length, lv, fd: Object.entries(fd).sort((a, b) => b[1] - a[1]).slice(0, 6), em: [...em.entries()].sort((a, b) => b[1] - a[1]).slice(0, 5), kinds, fit };
   }
   /* ---------- three ways to see the same numbers: tiles (the default), a map of Canada, a map of the world ----------
      The outlines are in geo.js (made by scripts/build-maps.mjs from Natural Earth, public domain). The page asks for that file only when a map is opened. */
@@ -179,19 +202,53 @@
     if (v !== "tiles") geoReady();
     renderMarket();
   }
-  function mapSection(counts, max, st) {
-    const tile = (c, label, x) => `<button class="tile q${shade(scale(counts[c], max))}${x ? " extra" : ""}" data-f="t-${esc(c)}" data-place="${esc(c)}" aria-pressed="${MK.sel === c}" style="${x ? "" : `grid-column:${TILES.find((t) => t[0] === c)[1] + 1};grid-row:${TILES.find((t) => t[0] === c)[2] + 1}`}" aria-label="${esc(placeName(c))}: ${nf(counts[c])} postings"><b>${esc(label)}</b><small>${nf(counts[c])}</small></button>`;
-    const seg = `<div class="tog seg" role="group" aria-label="Map view">${VIEWS.map(([v, l]) => `<button data-f="v-${v}" data-mapview="${v}" aria-pressed="${MK.view === v}">${l}</button>`).join("")}</div>`;
-    const ramp = `<div class="ramp"><span>fewer</span><i class="q1"></i><i class="q2"></i><i class="q3"></i><i class="q4"></i><i class="q5"></i><span>more</span></div>`;
+  /* what the map shows for each place: its postings, how many of them are strong matches for the CV, or the share that are */
+  const METRICS = [["count", "Postings"], ["fit", "Your strong matches"], ["rate", "Your fit rate"]];
+  function metricView(counts, st) {
+    const fs = MK.metric !== "count" ? fitStats(MK.kind) : null, metric = fs ? MK.metric : "count";
+    const keys = [...TILES.map((t) => t[0]), "MTL", "Remote – Canada", "Canada", ...CITIES.map((c) => c[0])];
+    const val = {}, txt = {}, aria = {}, read = {};
+    for (const c of keys) {
+      const n = counts[c] || 0, name = placeName(c);
+      if (metric === "count") {
+        val[c] = n; txt[c] = nf(n); aria[c] = `${nf(n)} postings`;
+        read[c] = `${name}: ${nf(n)} postings, ${pctTxt(n, st.n)}% of the ${nf(st.n)} shown.`;
+      } else if (metric === "fit") {
+        const k = fs.strong[c] || 0;
+        val[c] = k; txt[c] = nf(k); aria[c] = `${nf(k)} strong matches`;
+        read[c] = `${name}: ${nf(k)} postings score ${STRONG} or more for your CV, ${pctTxt(k, fs.nStrong)}% of your ${nf(fs.nStrong)}.`;
+      } else {
+        const sc = fs.scored[c] || 0, k = fs.strong[c] || 0, pr = sc >= RATE_MIN ? (100 * k) / sc : null;
+        val[c] = pr === null ? null : Math.round(pr * 10) / 10;
+        const shown = pr === null ? "–" : k > 0 && pr < 1 ? "<1%" : Math.round(pr) + "%";
+        txt[c] = shown;
+        aria[c] = pr === null ? `too few scored postings to compare` : `${shown} of its postings are strong matches`;
+        read[c] = pr === null ? `${name}: only ${nf(sc)} postings have a full text to score, too few to compare (under ${RATE_MIN}).` : `${name}: ${nf(k)} of ${nf(sc)} scored postings (${shown}) score ${STRONG} or more for your CV.`;
+      }
+    }
+    const max = Math.max(...TILES.map(([c]) => val[c] || 0), 1);
+    const shadeOf = (c) => shade(val[c] === null ? 0.04 : metric === "rate" ? 0.12 + 0.88 * (val[c] / max) : scale(val[c], max));
+    const total = metric === "count" ? { txt: nf(st.n), aria: `${nf(st.n)} postings` } : metric === "fit" ? { txt: nf(fs.nStrong), aria: `${nf(fs.nStrong)} strong matches` } : { txt: pctTxt(fs.nStrong, fs.nScored) + "%", aria: `${pctTxt(fs.nStrong, fs.nScored)}% of its postings are strong matches` };
+    const why = MK.metric === "count" ? "" : !CV ? "Add your CV to shade the map by your fit." : !fs ? "Reading your CV against the postings…" : "";
+    return { metric, val, txt, aria, read, max, shadeOf, total, why };
+  }
+  function mapSection(mv, st) {
+    const tile = (c, label, x) => `<button class="tile q${mv.shadeOf(c)}${x ? " extra" : ""}" data-f="t-${esc(c)}" data-place="${esc(c)}" aria-pressed="${MK.sel === c}" style="${x ? "" : `grid-column:${TILES.find((t) => t[0] === c)[1] + 1};grid-row:${TILES.find((t) => t[0] === c)[2] + 1}`}" aria-label="${esc(placeName(c))}: ${esc(mv.aria[c])}"><b>${esc(label)}</b><small>${esc(mv.txt[c])}</small></button>`;
+    const seg = `<div class="tog mapseg" role="group" aria-label="Map view">${VIEWS.map(([v, l]) => `<button data-f="v-${v}" data-mapview="${v}" aria-pressed="${MK.view === v}">${l}</button>`).join("")}</div>`;
+    const ready = !!fitStats(MK.kind);
+    const shadeBy = `<div class="tog mapseg" role="group" aria-label="Shade by">${METRICS.map(([m, l]) => `<button data-f="m-${m}" data-metric="${m}" aria-pressed="${mv.metric === m}"${m !== "count" && !ready ? ' disabled title="Add your CV to use this"' : ""}>${l}</button>`).join("")}</div>`;
+    const controls = `<div class="segs">${seg}${shadeBy}</div>${mv.why ? `<p class="note warnline" style="margin:-4px 0 10px">${esc(mv.why)}</p>` : ""}`;
+    const ramp = `<div class="ramp"><span>${mv.metric === "count" ? "fewer" : "lower"}</span><i class="q1"></i><i class="q2"></i><i class="q3"></i><i class="q4"></i><i class="q5"></i><span>${mv.metric === "count" ? "more" : "higher"}</span></div>`;
     const credit = `<p class="note geocredit">Outlines: Natural Earth, public domain.</p>`;
-    const rd = (c) => `${placeName(c)}: ${nf(counts[c] || 0)} postings, ${pctTxt(counts[c] || 0, st.n)}% of the ${nf(st.n)} shown.`;
+    const rd = (c) => mv.read[c];
+    const what = mv.metric === "count" ? "the number of postings" : mv.metric === "fit" ? `how many postings score ${STRONG} or more for your CV (a strong match; scores within 5 points are ties)` : `the share of scored postings that are strong matches for your CV (places with fewer than ${RATE_MIN} scored postings show a dash)`;
     let view = MK.view, aside = "";
     if (view !== "tiles" && !window.PMGEO) {
       if (GEO_LOAD === "failed") { view = "tiles"; aside = `<p class="note warnline">The map outlines did not load, so the tiles are shown. Choose the map again to retry.</p>`; }
-      else { geoReady(); return `<section class="xp" aria-labelledby="mkMap"><h2 id="mkMap">Postings by place</h2>${seg}<div class="geoload" role="status">Loading the map…</div></section>`; }
+      else { geoReady(); return `<section class="xp" aria-labelledby="mkMap"><h2 id="mkMap">Postings by place</h2>${controls}<div class="geoload" role="status">Loading the map…</div></section>`; }
     }
     if (view === "tiles") {
-      return `<section class="xp" aria-labelledby="mkMap"><h2 id="mkMap">Postings by province</h2><p class="note">Each tile is a province or territory. The shade follows the number of postings.</p>${seg}${aside}
+      return `<section class="xp" aria-labelledby="mkMap"><h2 id="mkMap">Postings by province</h2><p class="note">Each tile is a province or territory. The shade follows ${what}.</p>${controls}${aside}
           <div class="tiles">${TILES.map(([c]) => tile(c, c)).join("")}</div>
           <div class="tilerow">${EXTRA.map(([c, l]) => tile(c, l, true)).join("")}</div>${ramp}</section>`;
     }
@@ -199,37 +256,39 @@
     if (view === "canada") {
       const C = GEO.canada, PV = C.provinces;
       const order = TILES.map(([c]) => c).filter((c) => PV[c]).sort((a, b) => (MK.sel === a) - (MK.sel === b));
-      const provs = order.map((c) => { const n = counts[c] || 0; return `<path class="p s${shade(scale(n, max))}${MK.sel === c ? " on" : ""}" data-f="p-${c}" data-place="${c}" data-rd="${esc(rd(c))}" tabindex="0" role="button" aria-pressed="${MK.sel === c}" aria-label="${esc(placeName(c))}: ${nf(n)} postings" d="${PV[c].d}"/>`; }).join("");
+      const provs = order.map((c) => `<path class="p s${mv.shadeOf(c)}${MK.sel === c ? " on" : ""}" data-f="p-${c}" data-place="${c}" data-rd="${esc(rd(c))}" tabindex="0" role="button" aria-pressed="${MK.sel === c}" aria-label="${esc(placeName(c))}: ${esc(mv.aria[c])}" d="${PV[c].d}"/>`).join("");
       const labels = TILES.map(([c]) => {
-        const p = PV[c]; if (!p) return ""; const n = counts[c] || 0, k = shade(scale(n, max)), co = CALL[c];
-        if (co) return `<path class="lead" d="M${co[0]} ${co[1]}L${co[2]} ${co[3]}"/><text class="lb out sm" x="${co[0]}" y="${co[1]}"><tspan x="${co[0]}" dy="-.2em">${c}</tspan><tspan x="${co[0]}" dy="1.1em" class="lc">${nf(n)}</tspan></text>`;
+        const p = PV[c]; if (!p) return ""; const k = mv.shadeOf(c), co = CALL[c];
+        if (co) return `<path class="lead" d="M${co[0]} ${co[1]}L${co[2]} ${co[3]}"/><text class="lb out sm" x="${co[0]}" y="${co[1]}"><tspan x="${co[0]}" dy="-.2em">${c}</tspan><tspan x="${co[0]}" dy="1.1em" class="lc">${esc(mv.txt[c])}</tspan></text>`;
         const at = PLOC[c] || p.c;
-        return `<text class="lb s${k}${SMALL.has(c) ? " sm" : ""}" x="${at[0]}" y="${at[1]}"><tspan x="${at[0]}" dy="-.2em">${c}</tspan><tspan x="${at[0]}" dy="1.1em" class="lc">${nf(n)}</tspan></text>`;
+        return `<text class="lb s${k}${SMALL.has(c) ? " sm" : ""}" x="${at[0]}" y="${at[1]}"><tspan x="${at[0]}" dy="-.2em">${c}</tspan><tspan x="${at[0]}" dy="1.1em" class="lc">${esc(mv.txt[c])}</tspan></text>`;
       }).join("");
-      const maxC = Math.max(...Object.keys(C.cities).map((k) => counts[k] || 0), 1);
-      const cities = Object.keys(C.cities).sort((a, b) => (counts[b] || 0) - (counts[a] || 0)).sort((a, b) => (MK.sel === a) - (MK.sel === b)).map((k) => {
-        const n = counts[k] || 0, xy = C.cities[k];
-        return `<g class="city${MK.sel === k ? " on" : ""}${n ? "" : " zero"}" data-f="c-${k}" data-place="${k}" data-rd="${esc(rd(k))}" tabindex="0" role="button" aria-pressed="${MK.sel === k}" aria-label="${esc(placeName(k))}: ${nf(n)} postings" transform="translate(${xy[0]} ${xy[1]})"><circle data-pr="${(4 + 17 * Math.sqrt(n / maxC)).toFixed(1)}" r="8"/><text data-side="${CITY_SIDE[k] || "r"}">${esc(CITY_SHORT[k] || k)}</text></g>`;
+      const cv = (k) => mv.val[k] || 0;
+      const maxC = Math.max(...Object.keys(C.cities).map(cv), 1);
+      const cities = Object.keys(C.cities).sort((a, b) => cv(b) - cv(a)).sort((a, b) => (MK.sel === a) - (MK.sel === b)).map((k) => {
+        const n = cv(k), xy = C.cities[k];
+        return `<g class="city${MK.sel === k ? " on" : ""}${n ? "" : " zero"}" data-f="c-${k}" data-place="${k}" data-rd="${esc(rd(k))}" tabindex="0" role="button" aria-pressed="${MK.sel === k}" aria-label="${esc(placeName(k))}: ${esc(mv.aria[k])}" transform="translate(${xy[0]} ${xy[1]})"><circle data-pr="${(4 + 17 * Math.sqrt(n / maxC)).toFixed(1)}" r="8"/><text data-side="${CITY_SIDE[k] || "r"}">${esc(CITY_SHORT[k] || k)}</text></g>`;
       }).join("");
-      const chips = ["MTL", ...CITIES.map((c) => c[0])].sort((a, b) => (counts[b] || 0) - (counts[a] || 0)).map((k) => `<button data-f="h-${k}" data-place="${k}" aria-pressed="${MK.sel === k}" aria-label="${esc(placeName(k))}: ${nf(counts[k] || 0)} postings">${esc(CITY_SHORT[k] || k)} <small>${nf(counts[k] || 0)}</small></button>`).join("");
-      return `<section class="xp geo" aria-labelledby="mkMap"><h2 id="mkMap">Postings by province and city</h2><p class="note">Provinces are shaded by the number of postings. Each circle is a city area, and its size follows its postings. A city's postings are also in its province.</p>${seg}
-          <svg class="geosvg" viewBox="0 0 ${C.w} ${C.h}" role="group" aria-label="Map of Canada: ${TILES.length} provinces and territories shaded by postings, with circles for ${Object.keys(C.cities).length} city areas">
+      const chips = ["MTL", ...CITIES.map((c) => c[0])].sort((a, b) => cv(b) - cv(a)).map((k) => `<button data-f="h-${k}" data-place="${k}" aria-pressed="${MK.sel === k}" aria-label="${esc(placeName(k))}: ${esc(mv.aria[k])}">${esc(CITY_SHORT[k] || k)} <small>${esc(mv.txt[k])}</small></button>`).join("");
+      return `<section class="xp geo" aria-labelledby="mkMap"><h2 id="mkMap">Postings by province and city</h2><p class="note">Provinces are shaded by ${what}. Each circle is a city area and its size follows the same number. A city's postings are also in its province.</p>${controls}
+          <svg class="geosvg" viewBox="0 0 ${C.w} ${C.h}" role="group" aria-label="Map of Canada: ${TILES.length} provinces and territories shaded by ${esc(what)}, with circles for ${Object.keys(C.cities).length} city areas">
             <g class="ctxg" aria-hidden="true">${C.context.map((c) => `<path d="${c.d}"/>`).join("")}</g>
             <g>${provs}</g><path class="lakes" aria-hidden="true" d="${C.lakes}"/><g aria-hidden="true">${labels}</g><g>${cities}</g>
           </svg>
           <p class="readout" id="geoRead" aria-live="polite">Hover, or tab through, the map. A click opens the details beside it.</p>
-          <div class="chips" role="group" aria-label="City areas">${chips}</div>
+          <div class="citychips" role="group" aria-label="City areas">${chips}</div>
           <div class="tilerow">${EXTRA.filter((e) => e[0] !== "MTL").map(([c, l]) => tile(c, l, true)).join("")}</div>${ramp}${credit}</section>`;
     }
     /* the world: only Canada has postings */
-    const Wd = GEO.world, can = Wd.label.CAN, ca = st.n;
+    const Wd = GEO.world, can = Wd.label.CAN;
     const others = Wd.countries.filter((c) => c.a !== "CAN").map((c) => `<path class="cn" data-cn="${esc(c.n)}" d="${c.d}"/>`).join("");
     const canPath = (Wd.countries.find((c) => c.a === "CAN") || {}).d || "";
-    return `<section class="xp geo" aria-labelledby="mkMap"><h2 id="mkMap">Postings around the world</h2><p class="note">Path Match collects postings for Canada, so only Canada is shaded. The other countries are there for the picture. Click Canada to open its map.</p>${seg}
-          <svg class="geosvg world" viewBox="0 0 ${Wd.w} ${Wd.h}" role="group" aria-label="World map. Canada has ${nf(ca)} postings; no other country has postings">
+    const wRead = `Canada: ${mv.total.aria}.`;
+    return `<section class="xp geo" aria-labelledby="mkMap"><h2 id="mkMap">Postings around the world</h2><p class="note">Path Match collects postings for Canada, so only Canada is shaded. The other countries are there for the picture. Click Canada to open its map.</p>${controls}
+          <svg class="geosvg world" viewBox="0 0 ${Wd.w} ${Wd.h}" role="group" aria-label="World map. ${esc(wRead)} No other country has postings">
             <g aria-hidden="true">${others}</g>
-            <path class="p s5" data-f="w-CAN" data-mapview="canada" data-rd="Canada: ${nf(ca)} postings. Click to open the map of Canada." tabindex="0" role="button" aria-label="Canada: ${nf(ca)} postings. Open the map of Canada" d="${canPath}"/>
-            <g aria-hidden="true"><path class="lead" d="M${can[0] - 2} ${can[1]}L${can[2]} ${can[3]}"/><text class="lb out wl" x="${can[0]}" y="${can[1]}"><tspan x="${can[0]}" dy="-.2em">Canada</tspan><tspan x="${can[0]}" dy="1.1em" class="lc">${nf(ca)}</tspan></text></g>
+            <path class="p s5" data-f="w-CAN" data-mapview="canada" data-rd="${esc(wRead)} Click to open the map of Canada." tabindex="0" role="button" aria-label="${esc(wRead)} Open the map of Canada" d="${canPath}"/>
+            <g aria-hidden="true"><path class="lead" d="M${can[0] - 2} ${can[1]}L${can[2]} ${can[3]}"/><text class="lb out wl" x="${can[0]}" y="${can[1]}"><tspan x="${can[0]}" dy="-.2em">Canada</tspan><tspan x="${can[0]}" dy="1.1em" class="lc">${esc(mv.total.txt)}</tspan></text></g>
           </svg>
           <p class="readout" id="geoRead" aria-live="polite">Hover over a country. Only Canada has postings.</p>
           <div class="row"><button class="xbtn solid" data-mapview="canada" data-f="zoomca">Zoom to Canada</button></div>${ramp}${credit}</section>`;
@@ -261,10 +320,12 @@
     counts.MTL = st.mtl; counts["Remote – Canada"] = st.prov["Remote – Canada"] || 0; counts.Canada = st.prov.Canada || 0;
     for (const c of CITIES) counts[c[0]] = st.city[c[0]] || 0;
     const max = Math.max(...TILES.map(([c]) => counts[c]), 1);
+    const mv = metricView(counts, st);
     if (!MK.sel) MK.sel = P.loc && counts[P.loc] != null ? P.loc : TILES.slice().sort((a, b) => counts[b[0]] - counts[a[0]])[0][0];
     const d = placeDetail(MK.sel);
     const lvTot = d.lv.reduce((a, b) => a + b, 0) || 1;
     const detail = `<div class="pd"><h3>${esc(placeName(MK.sel))}</h3><div class="big">${nf(d.n)}</div><div class="note">${pctTxt(d.n, st.n)}% of the ${nf(st.n)} postings shown${MK.sel === "MTL" ? " (the Montréal area is inside Quebec)" : isCity(MK.sel) ? " (found by the city named in the posting, so they are also in the count of their province)" : ""}</div>
+      ${d.fit ? `<p class="fitline">${d.fit.scored ? `Your CV scores <b>60 or more</b> on <b>${nf(d.fit.strong)}</b> of the ${nf(d.fit.scored)} postings here that have a full text (${pctTxt(d.fit.strong, d.fit.scored)}%).` : "No posting here has a full text to score."}</p>` : ""}
       <h4>By stage</h4><div class="lvbar" role="img" aria-label="${d.lv.map((v, i) => LV[i].short + " " + v).join(", ")}">${d.lv.map((v) => `<i style="flex:${Math.max(v, 0) / lvTot}"></i>`).join("")}</div>
       <div class="note" style="margin-top:4px">${d.lv.map((v, i) => `${LV[i].short} ${nf(v)}`).join(" · ")}</div>
       <h4>Most postings by field</h4><ul class="barlist">${d.fd.map(([f, n]) => `<li><span class="bl"><span>${esc(fieldLabel(f))}</span><span class="n">${nf(n)}</span><i style="--w:${pct(n, d.fd[0][1] || 1)}%;--bc:${hue(f)}"></i></span></li>`).join("") || '<li class="note">Nothing here for this kind of work.</li>'}</ul>
@@ -294,7 +355,7 @@
     return head("Market map", `Where the ${nf(JOBS.length)} collected postings are, in which fields and for which stage. Darker means more postings. Show the places as tiles, on a map of Canada or on a map of the world. Click a place, a cell or an employer to open those jobs.`) +
       `<div class="tog" role="group" aria-label="Kind of work">${KINDS.map(([k, l]) => `<button data-f="k-${k}" data-kind="${k}" aria-pressed="${MK.kind === k}">${l}</button>`).join("")}</div>
       <div class="xgrid two">
-        ${mapSection(counts, max, st)}
+        ${mapSection(mv, st)}
         <section class="xp" aria-label="Detail">${detail}</section>
       </div>
       <section class="xp" style="margin-top:16px" aria-labelledby="mkHeat"><h2 id="mkHeat">Field by stage</h2><p class="note">How many postings each field has at each stage${me !== null ? `. Your stage is marked` : ""}. A cell opens those postings.</p>${heat}</section>
@@ -325,6 +386,7 @@
   function onMarketClick(e) {
     const t = e.target.closest("button,[data-place],[data-mapview]"); if (!t) return;
     if (t.dataset.mapview) setView(t.dataset.mapview);
+    else if (t.dataset.metric) { MK.metric = t.dataset.metric; renderMarket(); }
     else if (t.dataset.kind) { MK.kind = t.dataset.kind; renderMarket(); }
     else if (t.dataset.place) { MK.sel = t.dataset.place; renderMarket(); }
     else if (t.dataset.act === "seeplace") { const d = placeDetail(MK.sel); goJobs({ f: { loc: MK.sel }, tab: MK.kind === "all" ? bestTab(d.kinds) : KIND_TAB[MK.kind] }); }
@@ -379,6 +441,27 @@
     let s = 0; for (const i of e.idx) s += totalWith(pool[i], L2) - base[i];
     return s;
   }
+  const strongOf = (arr) => arr.filter((v) => v >= 60).length;
+  const avgTop10 = (arr) => { const o = arr.map((t, i) => i).sort((a, b) => arr[b] - arr[a] || a - b); return Math.round(o.slice(0, 10).reduce((s, i) => s + arr[i], 0) / Math.max(1, Math.min(10, o.length))); };
+  /* up to three skills, one after the other, each the best next step for a goal: "avg" lifts the points of the postings, "doors" brings the most postings up to 60 (points break a tie) */
+  function labPlan(pool, cands, L0, goal) {
+    const L = new Set(L0); let b = pool.map((r) => totalWith(r, L)); const steps = [];
+    for (let n = 0; n < 3; n++) {
+      let best = null;
+      for (const e of cands) {
+        if (L.has(e.k)) continue;
+        const L2 = new Set(L); L2.add(e.k);
+        let pts = 0, doors = 0;
+        for (const i of e.idx) { const t = totalWith(pool[i], L2); pts += t - b[i]; if (t >= 60 && b[i] < 60) doors++; }
+        const key = goal === "doors" ? doors * 100000 + pts : pts;
+        if ((goal === "doors" ? doors > 0 || pts > 0 : pts > 0) && (!best || key > best.key)) best = { e, key };
+      }
+      if (!best) break;
+      L.add(best.e.k); b = pool.map((r) => totalWith(r, L));
+      steps.push({ e: best.e, avg: avgTop10(b), strong: strongOf(b) });
+    }
+    return steps;
+  }
   function renderLab() {
     const root = g("x-lab");
     const intro = head("Skill lab", "Switch on a skill your best postings ask for and see how your ranking would change. This is a what-if only: nothing is added to your CV, and you should write a skill on your CV only when you have really used it.");
@@ -393,14 +476,9 @@
     const lift = (arr, n) => arr.filter((x) => L.has(x.e.k) || x.gain > 0).sort((a, b) => (L.has(b.e.k) - L.has(a.e.k)) || b.gain - a.gain).slice(0, n);
     const hard = all.filter((x) => !x.e.soft), shown = lift(hard, 24), shownSoft = lift(all.filter((x) => x.e.soft), 12);
     const chip = (x) => `<button class="gain${x.e.soft ? " soft" : ""}" data-f="g-${esc(x.e.k)}" data-skill="${esc(x.e.k)}" aria-pressed="${L.has(x.e.k)}">${esc(x.e.name)} <em>${L.has(x.e.k) ? "on" : "+" + x.gain}</em></button>`;
-    /* the three skills that lift the most, one after the other */
-    const picks = []; const L3 = new Set(L); let b3 = base.slice();
-    for (let s = 0; s < 3; s++) {
-      let best = null;
-      for (const x of hard) { if (L3.has(x.e.k)) continue; const gv = gainOf(pool, x.e, L3, b3); if (gv > 0 && (!best || gv > best.gain)) best = { e: x.e, gain: gv }; }
-      if (!best) break;
-      picks.push(best); L3.add(best.e.k); b3 = pool.map((r) => totalWith(r, L3));
-    }
+    /* two plans for two goals: the skills that lift the average of the top 10 most, and the skills that bring the most postings up to 60 */
+    const hardE = hard.map((x) => x.e);
+    const planAvg = labPlan(pool, hardE, L, "avg"), planDoors = labPlan(pool, hardE, L, "doors");
     const today = pool.map((r) => r.s.total);
     const order = (arr) => arr.map((t, i) => i).sort((a, b) => arr[b] - arr[a] || a - b);
     const o0 = order(today), o1 = order(base);
@@ -413,13 +491,18 @@
       return `<li class="${dl > 0 || up !== 0 ? "moved" : ""}"><span class="rk">${r + 1}</span><span class="tt"><b>${esc(jr.j.title)}</b><span>${esc(jr.j.company)} · ${esc(jr.j.loc || "")}</span></span><span class="sc">${dl > 0 ? `<s>${today[i]}</s>` : ""}<b>${base[i]}</b>${dl > 0 || up > 0 ? `<span class="up">${dl > 0 ? "+" + dl + " points" : ""}${up > 0 ? (dl > 0 ? ", " : "") + "up from #" + rank0.get(i) : ""}</span>` : ""}</span></li>`;
     }).join("");
     const names = (arr) => arr.map((x) => esc(x.e.name)).join(", then ");
-    const plan = picks.length ? `<div class="plan"><ol>${picks.map((x) => `<li><b>${esc(x.e.name)}</b>${x.e.idx.length ? ` · in ${x.e.idx.length} of your ${pool.length} best` : ""}</li>`).join("")}</ol><button class="xbtn solid" data-act="plan" data-f="plan">Try these ${picks.length}</button></div>` : `<p class="note">No single skill lifts your best postings any further.</p>`;
+    const same = planAvg.length === planDoors.length && planAvg.every((x, k) => x.e.k === planDoors[k].e.k);
+    const today0 = { avg: avg(base, o1), strong: strong(base) };
+    const planBox = (title, sub, steps, goal) => steps.length ? `<div class="plan col"><h3>${title}</h3><p class="note">${sub}</p><ol>${steps.map((x) => `<li><b>${esc(x.e.name)}</b><small>${nf(x.e.idx.length)} of your ${pool.length} best ask for it. After it: top 10 average ${x.avg}, ${x.strong} postings at 60+</small></li>`).join("")}</ol><button class="xbtn solid" data-act="plan" data-goal="${goal}" data-f="plan-${goal}">Try ${steps.length === 1 ? "this skill" : "these " + steps.length}</button></div>` : "";
+    const plan = planAvg.length || planDoors.length
+      ? `<p class="note" style="margin:0 0 8px">Today: top 10 average ${today0.avg}, ${today0.strong} postings at 60+.</p><div class="plans">${same ? planBox("Both goals pick the same skills", "These raise the average of your top 10 and open the most postings at 60 or more.", planAvg, "avg") : planBox("Raise my average", "The skills that lift your top 10 the most.", planAvg, "avg") + planBox("Open more doors", "The skills that bring the most postings up to 60 or more.", planDoors, "doors")}</div>`
+      : `<p class="note">No single skill lifts your best postings any further.</p>`;
     paint(root, intro + `<div class="xgrid two">
       <section class="xp" aria-labelledby="labPick"><h2 id="labPick">Skills your best postings ask for</h2><p class="note">From your ${pool.length} best-fitting postings. The number is the total points the skill would add across them. Click to switch one on.</p>
         <div class="gains">${shown.map(chip).join("") || '<span class="note">Your CV already covers the role skills these postings ask for.</span>'}</div>
         ${shownSoft.length ? `<h3 style="font-size:14px;margin:16px 0 4px">General strengths these postings name</h3><p class="note" style="margin:0 0 8px">You may already have these. The score counts only what is written on your CV, so if you do, show each one with an example.</p><div class="gains">${shownSoft.map(chip).join("")}</div>` : ""}
         <div class="row" style="margin-top:12px"><button class="xbtn" data-act="clear" data-f="clear"${L.size ? "" : " disabled"}>Switch all off</button></div></section>
-      <section class="xp" aria-labelledby="labPlan"><h2 id="labPlan">The fastest way up</h2><p class="note">The three role or tool skills that lift your best postings the most, one after the other.</p>${plan}
+      <section class="xp" aria-labelledby="labPlan"><h2 id="labPlan">The fastest way up</h2><p class="note">Up to three role or tool skills, one after the other. Which skills come first depends on what you want, so there is a plan for each goal.</p>${plan}
         <p class="note" style="margin-top:10px">A skill counts only where a posting names it. Learning it takes time, and an employer may still want experience. Use this to choose what to learn first, not as a promise.</p></section>
     </div>
     <section class="xp" style="margin-top:16px" aria-labelledby="labRes"><h2 id="labRes">${L.size ? `Your top 10 with ${L.size} skill${L.size === 1 ? "" : "s"} switched on` : "Your top 10 today"}</h2>
@@ -432,13 +515,8 @@
     if (b.dataset.skill) { if (LAB.on.has(b.dataset.skill)) LAB.on.delete(b.dataset.skill); else LAB.on.add(b.dataset.skill); renderLab(); }
     else if (b.dataset.act === "clear") { LAB.on.clear(); renderLab(); }
     else if (b.dataset.act === "plan") {
-      const pool = labPool(), L = new Set(LAB.on); let base = pool.map((r) => totalWith(r, L));
-      const cands = labCands(pool).filter((e) => !e.soft);
-      for (let s = 0; s < 3; s++) {
-        let best = null;
-        for (const e of cands) { if (L.has(e.k)) continue; const gv = gainOf(pool, e, L, base); if (gv > 0 && (!best || gv > best.gain)) best = { e, gain: gv }; }
-        if (!best) break; L.add(best.e.k); base = pool.map((r) => totalWith(r, L));
-      }
+      const pool = labPool(), L = new Set(LAB.on);
+      for (const x of labPlan(pool, labCands(pool).filter((e) => !e.soft), L, b.dataset.goal === "doors" ? "doors" : "avg")) L.add(x.e.k);
       LAB.on = L; renderLab();
     }
   }
@@ -484,6 +562,17 @@
     out.sort((a, b) => b.lift - a.lift);
     return out.filter((x) => !x.soft).slice(0, 9).concat(out.filter((x) => x.soft).slice(0, 5));
   }
+  /* the role and tool skills asked for most on a rung, and how many of them are on the CV (not a score: a quick read) */
+  const LADN = 12;
+  function readiness(rungs, mine) {
+    if (!mine) return null;
+    return rungs.map((r) => {
+      if (r.n < 15) return null;
+      const t = [...r.skills.entries()].filter(([k]) => !isSoft(k)).sort((a, b) => b[1].n - a[1].n).slice(0, LADN).map(([k, e]) => ({ k, name: e.name, n: e.n }));
+      if (t.length < 5) return null;
+      return { have: t.filter((x) => mine.has(x.k)), miss: t.filter((x) => !mine.has(x.k)), tot: t.length };
+    });
+  }
   function renderLadder() {
     const root = g("x-ladder");
     if (!JOBS.length) { paint(root, noJobs("ladder")); return; }
@@ -503,6 +592,7 @@
     const skills = allSk.filter(([k]) => !isSoft(k)).slice(0, 9).map(([, e]) => e), strengths = allSk.filter(([k]) => isSoft(k)).slice(0, 5).map(([, e]) => e);
     const nw = newOn(rungs, sel);
     const next = sel < 4 ? newOn(rungs, sel + 1) : [];
+    const rdy = readiness(rungs, mine);
     const chip = (x) => `<span class="${mine && mine.has(x.k) ? "mine" : ""}${x.soft ? " soft" : ""}">${esc(x.name)}</span>`;
     const detail = R.n
       ? `<div class="lad"><section class="xp" aria-labelledby="ladA"><h2 id="ladA">${esc(LV[sel].label)} in ${esc(fldLabel)}</h2><p class="note">${nf(R.n)} postings (${pct(R.n, total)}% of this field).</p>
@@ -515,10 +605,20 @@
         <section class="xp" aria-labelledby="ladB"><h2 id="ladB">${nw.length ? "New on this rung" : "What stands out"}</h2><p class="note">Skills far more common here than one rung down.</p>
           ${nw.length ? `<div class="newsk">${nw.map(chip).join("")}</div>` : '<p class="note">Nothing stands out against the rung below (too few postings, or the same skills carry up).</p>'}
           ${mine ? '<p class="note" style="margin-top:10px">A ✓ marks a skill that is on your CV.</p>' : ""}</section></div>
-        ${sel < 4 ? `<section class="climb" aria-labelledby="ladC"><h2 id="ladC">To climb from ${esc(LV[sel].label)} to ${esc(LV[sel + 1].label)}</h2>${next.length ? `<p class="note" style="margin:0 0 8px">These skills show up much more on the next rung in ${esc(fldLabel)}:</p><div class="newsk">${next.map(chip).join("")}</div>` : '<p class="note" style="margin:0">The next rung has too few postings in this field to say.</p>'}<div class="row" style="margin-top:12px"><button class="xbtn" data-act="seenext" data-f="seenext">See the ${nf(rungs[sel + 1].n)} postings one rung up</button></div></section>` : ""}`
+        ${sel < 4 ? `<section class="climb" aria-labelledby="ladC"><h2 id="ladC">To climb from ${esc(LV[sel].label)} to ${esc(LV[sel + 1].label)}</h2>${rdy && rdy[sel + 1] ? climbRead(rdy[sel + 1], LV[sel + 1].label) : ""}${next.length ? `<p class="note" style="margin:0 0 8px">These skills show up much more on the next rung in ${esc(fldLabel)}:</p><div class="newsk">${next.map(chip).join("")}</div>` : '<p class="note" style="margin:0">The next rung has too few postings in this field to say.</p>'}<div class="row" style="margin-top:12px"><button class="xbtn" data-act="seenext" data-f="seenext">See the ${nf(rungs[sel + 1].n)} postings one rung up</button></div></section>` : ""}`
       : `<div class="xempty" style="margin-top:16px"><b>No postings on this rung</b>There are no ${esc(LV[sel].label)} postings in ${esc(fldLabel)}. Try another rung or field.</div>`;
     paint(root, head("Career ladder", `Five rungs, from student to executive. Pick a field to see how many postings sit on each rung, what they ask for, and what is new on the next one.`) +
-      `<div class="row" style="margin-bottom:6px"><label for="ladField" style="margin:0">Field</label><select id="ladField" style="width:auto;max-width:100%" data-f="ladField">${[["", "All fields (" + nf(JOBS.length) + ")"], ...fields.map((f) => [f, fieldLabel(f) + " (" + nf(fc[f]) + ")"])].map(([v, l]) => `<option value="${esc(v)}"${LAD.fd === v ? " selected" : ""}>${esc(l)}</option>`).join("")}</select></div>` + stairs + detail);
+      `<div class="row" style="margin-bottom:6px"><label for="ladField" style="margin:0">Field</label><select id="ladField" style="width:auto;max-width:100%" data-f="ladField">${[["", "All fields (" + nf(JOBS.length) + ")"], ...fields.map((f) => [f, fieldLabel(f) + " (" + nf(fc[f]) + ")"])].map(([v, l]) => `<option value="${esc(v)}"${LAD.fd === v ? " selected" : ""}>${esc(l)}</option>`).join("")}</select></div>` + stairs + ladderReadiness(rdy, rungs, me, sel, fldLabel) + detail);
+  }
+  function ladderReadiness(rdy, rungs, me, sel, fldLabel) {
+    if (!rdy) return "";
+    const rows = rdy.map((r, i) => r ? `<li><button data-f="rd-${i}" data-rung="${i}" aria-pressed="${sel === i}"><span>${esc(LV[i].label)}${me === i ? " (your stage)" : ""}</span><span class="n">${r.have.length} of ${r.tot}</span><i style="--w:${pct(r.have.length, r.tot)}%;--bc:var(--l${i})"></i></button></li>` : `<li><span class="bl"><span>${esc(LV[i].label)}</span><span class="n note">too few postings</span></span></li>`).join("");
+    const best = rdy.map((r, i) => [r ? r.have.length / r.tot : -1, i]).sort((a, b) => b[0] - a[0] || a[1] - b[1])[0];
+    const line = best[0] > 0 && me !== null && best[1] !== me ? ` Your CV overlaps most with the ${esc(LV[best[1]].label)} rung, while your stage reads as ${esc(LV[me].label)}.` : "";
+    return `<section class="xp ladr" aria-labelledby="ladR"><h2 id="ladR">How your CV reads against each rung</h2><p class="note">Of the ${LADN} role and tool skills asked for most on each rung in ${esc(fldLabel)}, how many are on your CV.${line} A quick read, not a score. A click opens the rung.</p><ul class="barlist">${rows}</ul></section>`;
+  }
+  function climbRead(r, label) {
+    return `<p class="note" style="margin:0 0 8px"><b>${r.have.length} of the ${r.tot}</b> role and tool skills asked for most on the ${esc(label)} rung are on your CV${r.miss.length ? ". Not on it yet: " + r.miss.slice(0, 6).map((x) => esc(x.name)).join(", ") + (r.miss.length > 6 ? " and " + (r.miss.length - 6) + " more" : "") + ". Add one only if you have really used it." : "."}</p>`;
   }
   function onLadderClick(e) {
     const b = e.target.closest("button"); if (!b) return;
