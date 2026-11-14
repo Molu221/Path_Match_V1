@@ -31,11 +31,13 @@ jobs:
           CAREERJET_API_KEY: ${{ secrets.CAREERJET_API_KEY }}  # optional, free key from careerjet.com/partners/api
           MUSE_API_KEY: ${{ secrets.MUSE_API_KEY }}            # optional, raises The Muse limit
         run: node scripts/collect.mjs
+      - name: Count the numbers on the start page
+        run: node scripts/cover-stats.mjs        # writes docs/stats.json from the postings just collected
       - name: Publish jobs.json
         run: |
           git config user.name "path-match-bot"
           git config user.email "path-match-bot@users.noreply.github.com"
-          git add docs/jobs.json docs/d docs/jobs   # docs/jobs: Job Bank open data, changes once a month
+          git add docs/jobs.json docs/stats.json docs/d docs/jobs   # docs/jobs: Job Bank open data, changes once a month; docs/stats.json: the four numbers of the start page
           git diff --cached --quiet && echo "No changes" && exit 0
           git commit -m "Refresh postings"
           # another run or a code change may have been pushed meanwhile: the data of this run wins in docs/jobs.json, docs/d and docs/jobs

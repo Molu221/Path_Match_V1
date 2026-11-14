@@ -14,12 +14,13 @@
 html{color-scheme:light}
 /* Idea: a career is a climb, so the page opens on a trail with five stops (student to executive) and a pin that says where you are.
    The pin comes from your CV, or from the stop you tap. Everything below (the order, the filters, the level fit in the score) follows the pin.
-   Colour: deep spruce for the hero, lake teal for actions, one blaze orange reserved for the pin and the main button,
-   and a five-step ramp (light green to indigo) that marks the level of every posting. */
+   Colour: a near-white cover with navy ink and one blaze orange (the pin, the main button) in the light theme, deep spruce in the dark theme,
+   lake teal for actions, and a five-step ramp (light green to indigo) that marks the level of every posting. */
 :root{--bg:#f0f5f4;--panel:#fff;--ink:#0f2628;--mute:#53696a;--line:#d2e0de;--accent:#0d6a72;--accent-soft:#dcefed;
 --pin:#ff6b2c;--pin-ink:#1d0e05;
 --warn:#8a4f00;--warn-soft:#fbecd0;--bad:#a02a2a;--bad-soft:#f6dddd;--ok:#17673a;--ok-soft:#d8efdf;
---hero:#0e2c2b;--hero-ink:#eaf6f3;--hero-mute:#a6c6c1;
+--hero:#fbfcff;--hero-ink:#0c1b3d;--hero-mute:#4a5877;--hero-rgb:12 27 61;--hero-card:#fff;--hero-line:#dbe2ef;--hero-field:rgb(12 27 61 / .3);--hero-focus:#0c1b3d;--hero-shadow:0 18px 30px -12px rgba(12,27,61,.28);--trail:#8b9cc0;--dot-edge:rgb(12 27 61 / .25);--contours:url(contours-light.svg);
+--stat1:var(--pin);--stat2:var(--hero-ink);--stat3:var(--hero-ink);--stat4:var(--hero-ink);
 --l0:#6cc8a6;--l1:#35aa90;--l2:#1b8892;--l3:#1d5f89;--l4:#3a3f8f;
 --sun:#f5a800;--coral:#e8474c;--berry:#cf2f6e;--violet:#6250d6;--sky:#2a78d6;--mint:#0f9f72;--peach:#ee7d25;--on-vio:#fff;
 --h1:#2a78d6;--h2:#eb6834;--h3:#1baf7a;--h4:#eda100;--h5:#e87ba4;--h6:#2f9a2f;--h7:#6250d6;--h8:#e34948;--h9:#8a9a98;
@@ -27,6 +28,10 @@ html{color-scheme:light}
 --f-disp:"Archivo","Helvetica Neue",Arial,sans-serif;--f-body:"Public Sans","Helvetica Neue",Arial,sans-serif}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0a1718;--panel:#112527;--ink:#e4f1ef;--mute:#9db7b4;--line:#244245;--accent:#5ec9cf;--accent-soft:#12363a;--warn:#f0b659;--warn-soft:#3a2d12;--bad:#f08a8a;--bad-soft:#3d1c1c;--ok:#7fd49a;--ok-soft:#14321f;--l1:#4fc0a6;--l2:#45b0ba;--l3:#6aa9db;--l4:#a3a8ef;--sun:#ffc933;--coral:#ff7b80;--berry:#f06595;--violet:#9a8cf2;--sky:#5aa9f2;--mint:#3fd0a0;--peach:#ff9f55;--on-vio:#10122b;--h1:#3987e5;--h2:#d95926;--h3:#199e70;--h4:#c98500;--h5:#d55181;--h6:#3aa83a;--h7:#9085e9;--h8:#e66767;color-scheme:dark}}
 :root[data-theme="dark"]{--bg:#0a1718;--panel:#112527;--ink:#e4f1ef;--mute:#9db7b4;--line:#244245;--accent:#5ec9cf;--accent-soft:#12363a;--warn:#f0b659;--warn-soft:#3a2d12;--bad:#f08a8a;--bad-soft:#3d1c1c;--ok:#7fd49a;--ok-soft:#14321f;--l1:#4fc0a6;--l2:#45b0ba;--l3:#6aa9db;--l4:#a3a8ef;--sun:#ffc933;--coral:#ff7b80;--berry:#f06595;--violet:#9a8cf2;--sky:#5aa9f2;--mint:#3fd0a0;--peach:#ff9f55;--on-vio:#10122b;--h1:#3987e5;--h2:#d95926;--h3:#199e70;--h4:#c98500;--h5:#d55181;--h6:#3aa83a;--h7:#9085e9;--h8:#e66767;color-scheme:dark}
+/* the cover and the top bar: light and bright (near-white, navy, one orange accent); the dark theme and the two surfaces that are dark in both themes keep the spruce palette */
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--hero:#0e2c2b;--hero-ink:#eaf6f3;--hero-mute:#a6c6c1;--hero-rgb:234 246 243;--hero-card:rgba(8,24,24,.58);--hero-line:#1d4a47;--hero-field:transparent;--hero-focus:#ff6b2c;--hero-shadow:0 18px 30px -12px rgba(0,0,0,.55);--trail:rgba(121,201,189,.6);--dot-edge:transparent;--contours:url(contours.svg);--stat1:var(--pin);--stat2:#9a8cf2;--stat3:#3fd0a0;--stat4:#5aa9f2;}}
+:root[data-theme="dark"]{--hero:#0e2c2b;--hero-ink:#eaf6f3;--hero-mute:#a6c6c1;--hero-rgb:234 246 243;--hero-card:rgba(8,24,24,.58);--hero-line:#1d4a47;--hero-field:transparent;--hero-focus:#ff6b2c;--hero-shadow:0 18px 30px -12px rgba(0,0,0,.55);--trail:rgba(121,201,189,.6);--dot-edge:transparent;--contours:url(contours.svg);--stat1:var(--pin);--stat2:#9a8cf2;--stat3:#3fd0a0;--stat4:#5aa9f2;}
+.stagecard,#cmptray{--hero:#0e2c2b;--hero-ink:#eaf6f3;--hero-mute:#a6c6c1;--hero-rgb:234 246 243;--hero-card:rgba(8,24,24,.58);--hero-line:#1d4a47;--hero-field:transparent;--hero-focus:#ff6b2c;--hero-shadow:0 18px 30px -12px rgba(0,0,0,.55);--trail:rgba(121,201,189,.6);--dot-edge:transparent;--contours:url(contours.svg);--stat1:var(--pin);--stat2:#9a8cf2;--stat3:#3fd0a0;--stat4:#5aa9f2;}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:14.5px;line-height:1.5}
 .wrap{max-width:1180px;margin:0 auto}
@@ -36,12 +41,12 @@ a{color:var(--accent)}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 
 /* hero */
-.hero{position:relative;overflow:hidden;background:var(--hero) url(contours.svg) right center/cover no-repeat;color:var(--hero-ink);padding:18px 16px 26px;border-bottom:1px solid #1d4a47}
-.hero :focus-visible{outline-color:var(--pin)}
+.hero{position:relative;overflow:hidden;background:var(--hero) var(--contours) right center/cover no-repeat;color:var(--hero-ink);padding:18px 16px 26px;border-bottom:1px solid var(--hero-line)}
+.hero :focus-visible{outline-color:var(--hero-focus)}
 .top{display:flex;justify-content:space-between;align-items:center;gap:12px}
 .brand{display:flex;align-items:center;gap:9px;font:800 19px/1 var(--f-disp);font-stretch:115%;letter-spacing:-.01em}
 .brand svg{width:22px;height:22px;flex:none}
-.ghost{background:none;color:var(--hero-ink);border:1px solid rgba(234,246,243,.3);border-radius:999px;padding:5px 14px}
+.ghost{background:none;color:var(--hero-ink);border:1px solid rgb(var(--hero-rgb) / .3);border-radius:999px;padding:5px 14px}
 .ghost:hover{border-color:var(--hero-ink)}
 .hero h1{margin:clamp(30px,6vw,64px) 0 14px;font:800 clamp(34px,6.2vw,66px)/1 var(--f-disp);font-stretch:120%;letter-spacing:-.025em;max-width:15ch}
 .lead{max-width:58ch;margin:0;color:var(--hero-mute);font-size:17px;line-height:1.55}
@@ -49,10 +54,10 @@ a{color:var(--accent)}
 .stage h2{font:700 15px/1.3 var(--f-body);color:var(--hero-ink)}
 .trail{position:relative;height:172px;margin-top:10px}
 .trail .ln{position:absolute;left:0;top:0;width:100%;height:100%;overflow:visible;pointer-events:none}
-.trail .ln path{fill:none;stroke:#79c9bd;stroke-opacity:.6;stroke-width:2;stroke-linecap:round;stroke-dasharray:1;animation:draw 1.1s .15s ease-out backwards}
+.trail .ln path{fill:none;stroke:var(--trail);stroke-width:2;stroke-linecap:round;stroke-dasharray:1;animation:draw 1.1s .15s ease-out backwards}
 .st{position:absolute;left:var(--x);top:var(--y);width:20%;transform:translate(-50%,-10px);animation:rise .4s calc(.2s + var(--i)*.16s) ease-out backwards}
 .stop{display:block;width:100%;background:none;border:0;padding:0;font:inherit;text-align:center;cursor:pointer;color:var(--hero-mute)}
-.stop .dot{display:block;width:20px;height:20px;margin:0 auto 8px;border-radius:50%;background:var(--hero);border:3px solid var(--c);transition:background .2s,transform .2s}
+.stop .dot{display:block;width:20px;height:20px;margin:0 auto 8px;border-radius:50%;background:var(--hero);border:3px solid var(--c);box-shadow:0 0 0 1px var(--dot-edge);transition:background .2s,transform .2s}
 .stop b{display:block;font:700 14px/1.2 var(--f-body);color:var(--hero-ink)}
 .stop small{display:block;font-size:12px;line-height:1.3}
 .stop:hover .dot{background:var(--c);transform:scale(1.12)}
@@ -63,7 +68,7 @@ a{color:var(--accent)}
 .pin::after{content:"";width:2px;height:10px;background:var(--pin)}
 .stagenote{margin:10px 0 0;color:var(--hero-mute);font-size:14px;max-width:70ch}
 .stagenote b{color:var(--hero-ink)}
-.stagenote button{margin-left:6px;padding:2px 10px;border-radius:999px;background:none;color:var(--hero-ink);border-color:rgba(234,246,243,.35);font-size:13px}
+.stagenote button{margin-left:6px;padding:2px 10px;border-radius:999px;background:none;color:var(--hero-ink);border-color:rgb(var(--hero-rgb) / .35);font-size:13px}
 .herostat{margin:14px 0 0;color:var(--hero-mute);font-size:13.5px}
 @keyframes draw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
 @keyframes rise{from{opacity:0;transform:translate(-50%,2px)}to{opacity:1;transform:translate(-50%,-10px)}}
@@ -277,30 +282,30 @@ label.inl{display:inline-flex;gap:5px;align-items:center;margin:0;font-weight:40
 /* pages: a slim bar with the three steps, then one view at a time (start, your CV and details, top 10, all jobs) */
 [hidden]{display:none!important}
 .view{min-height:60vh}
-.topbar{position:sticky;top:0;z-index:30;background:var(--hero);color:var(--hero-ink);border-bottom:1px solid #1d4a47}
-.topbar :focus-visible{outline-color:var(--pin)}
+.topbar{position:sticky;top:0;z-index:30;background:var(--hero);color:var(--hero-ink);border-bottom:1px solid var(--hero-line)}
+.topbar :focus-visible{outline-color:var(--hero-focus)}
 .barin{display:flex;align-items:center;gap:10px 18px;padding:9px 16px}
 .topbar .brand{color:var(--hero-ink);text-decoration:none;margin-right:auto;font-size:18px}
 .steps{display:flex;align-items:center}
 .step{display:flex;align-items:center;gap:7px;color:var(--hero-mute);text-decoration:none;font-size:13.5px;padding:4px 2px;white-space:nowrap}
-.step+.step::before{content:"";width:22px;height:2px;margin:0 8px 0 6px;background:rgba(234,246,243,.28);border-radius:2px;order:-1}
-.step i{font-style:normal;display:grid;place-items:center;width:22px;height:22px;border-radius:50%;border:2px solid rgba(234,246,243,.4);font:700 11.5px/1 var(--f-body)}
+.step+.step::before{content:"";width:22px;height:2px;margin:0 8px 0 6px;background:rgb(var(--hero-rgb) / .28);border-radius:2px;order:-1}
+.step i{font-style:normal;display:grid;place-items:center;width:22px;height:22px;border-radius:50%;border:2px solid rgb(var(--hero-rgb) / .4);font:700 11.5px/1 var(--f-body)}
 .step:hover{color:var(--hero-ink)}
 .step.on{color:var(--hero-ink);font-weight:700}
 .step.on i{background:var(--pin);border-color:var(--pin);color:var(--pin-ink)}
 .step.done i{background:var(--accent);border-color:var(--accent);color:#fff}
 .step.off{opacity:.55}
-.alljobs{color:var(--hero-ink);text-decoration:none;font-size:13.5px;padding:5px 12px;border-radius:999px;border:1px solid rgba(234,246,243,.3);white-space:nowrap}
+.alljobs{color:var(--hero-ink);text-decoration:none;font-size:13.5px;padding:5px 12px;border-radius:999px;border:1px solid rgb(var(--hero-rgb) / .3);white-space:nowrap}
 .alljobs b{font-weight:600;color:var(--hero-mute);margin-left:3px}
 .alljobs:hover,.alljobs.on{border-color:var(--hero-ink)}
-.alljobs.on{background:rgba(234,246,243,.12)}
+.alljobs.on{background:rgb(var(--hero-rgb) / .12)}
 @media(max-width:700px){.barin{flex-wrap:wrap;gap:8px 12px}.topbar .brand{flex:1 1 auto;margin:0}#theme{order:2}.steps{order:3;flex:1 1 auto}.alljobs{order:4}.alljobs b{display:none}.step span{display:none}.step.on span{display:inline}.step+.step::before{width:14px;margin:0 6px 0 4px}}
 .view[data-page=home] .hero{padding-top:8px}
 .hero h1{margin-top:clamp(26px,5vw,56px)}
 .cta{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin:26px 0 0}
 .btnp{display:inline-block;background:var(--pin);color:var(--pin-ink);font:700 16px/1 var(--f-body);padding:14px 24px;border-radius:8px;text-decoration:none}
 .btnp:hover{filter:brightness(1.07)}
-.btng{display:inline-block;color:var(--hero-ink);font-weight:600;padding:13px 20px;border:1px solid rgba(234,246,243,.35);border-radius:8px;text-decoration:none}
+.btng{display:inline-block;color:var(--hero-ink);font-weight:600;padding:13px 20px;border:1px solid rgb(var(--hero-rgb) / .35);border-radius:8px;text-decoration:none}
 .btng:hover{border-color:var(--hero-ink)}
 button.btng{background:none;font:600 16px/1.2 var(--f-body);cursor:pointer}
 /* Wayfinder: say the job you want */
@@ -310,15 +315,15 @@ button.btng{background:none;font:600 16px/1.2 var(--f-body);cursor:pointer}
 .wf label{display:block;margin:0 0 8px;color:var(--hero-ink);font-size:15px;font-weight:400}
 .wf .wfname{font-size:18px;margin-right:6px}
 .wfrow{display:flex;gap:8px;flex-wrap:wrap}
-.wfrow input{flex:1 1 320px;min-width:0;width:auto;background:#fff;color:#0f2628;border-color:transparent;padding:12px 14px;font-size:15.5px;border-radius:8px}
+.wfrow input{flex:1 1 320px;min-width:0;width:auto;background:#fff;color:#0f2628;border-color:var(--hero-field);padding:12px 14px;font-size:15.5px;border-radius:8px}
 .wfrow input::placeholder{color:#5d7273}
 .wfrow button{background:var(--pin);color:var(--pin-ink);border-color:transparent;font-weight:700;padding:12px 20px;border-radius:8px}
 .wfrow button:hover{filter:brightness(1.07)}
 .wfex{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
 .wprev{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:10px;font-size:13px;color:var(--hero-mute)}
-.wprev .dchip{background:rgba(234,246,243,.12);border-color:rgba(234,246,243,.45);color:var(--hero-ink);padding:0 11px}
+.wprev .dchip{background:rgb(var(--hero-rgb) / .12);border-color:rgb(var(--hero-rgb) / .45);color:var(--hero-ink);padding:0 11px}
 .wprev .dchip.nt{background:none;border-style:dashed;color:var(--hero-mute)}
-.wfex button{background:rgba(234,246,243,.1);color:var(--hero-ink);border:1px solid rgba(234,246,243,.3);border-radius:999px;padding:3px 11px;font-size:13px}
+.wfex button{background:rgb(var(--hero-rgb) / .1);color:var(--hero-ink);border:1px solid rgb(var(--hero-rgb) / .3);border-radius:999px;padding:3px 11px;font-size:13px}
 .wfex button:hover{border-color:var(--hero-ink)}
 .wfmore{align-self:center;color:var(--hero-ink);font-size:13px;margin-left:4px;text-underline-offset:3px}
 .hometrail{margin-top:34px;max-width:900px;pointer-events:none}
@@ -344,7 +349,7 @@ button.btng{background:none;font:600 16px/1.2 var(--f-body);cursor:pointer}
 .dgrid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:20px;align-items:start}
 @media(max-width:900px){.dgrid{grid-template-columns:minmax(0,1fr)}}
 .dgrid h2{font-size:18px}
-.stagecard{margin-top:12px;background:var(--hero) url(contours.svg) right center/cover no-repeat;color:var(--hero-ink);border-radius:10px;padding:14px 16px 12px;overflow:hidden}
+.stagecard{margin-top:12px;background:var(--hero) var(--contours) right center/cover no-repeat;color:var(--hero-ink);border-radius:10px;padding:14px 16px 12px;overflow:hidden}
 .stagecard h3{font:700 15px/1.3 var(--f-body);color:var(--hero-ink)}
 .stagecard :focus-visible{outline-color:var(--pin)}
 .stagecard .trail{height:150px;margin-top:6px}
@@ -400,13 +405,13 @@ button:disabled{opacity:.5;cursor:default}
 body.cmpon{padding-bottom:84px}
 @media (max-width:600px){body.cmpon{padding-bottom:190px}}
 #cmptray .cl{display:flex;gap:6px;flex-wrap:wrap}
-.cmpchip{display:inline-flex;align-items:center;gap:2px;padding:2px 3px 2px 10px;border-radius:999px;background:rgba(234,246,243,.15);font-size:13px;max-width:210px}
+.cmpchip{display:inline-flex;align-items:center;gap:2px;padding:2px 3px 2px 10px;border-radius:999px;background:rgb(var(--hero-rgb) / .15);font-size:13px;max-width:210px}
 .cmpchip span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 #cmptray button{font-size:13px;padding:4px 10px}
 .cmpchip button{border:0;background:none;color:inherit;padding:0 7px;border-radius:50%}
 #cmptray #cmpgo{background:var(--pin);color:var(--pin-ink);border-color:var(--pin);font-weight:700}
 #cmptray #cmpgo:disabled{opacity:.6;cursor:default}
-#cmptray .clr{background:none;color:var(--hero-ink);border-color:rgba(234,246,243,.35)}
+#cmptray .clr{background:none;color:var(--hero-ink);border-color:rgb(var(--hero-rgb) / .35)}
 #cmpmsg{font-size:12.5px;color:var(--hero-mute)}
 #cmpdlg{width:min(1120px,96vw);max-height:92vh;padding:0;border:1px solid var(--line);border-radius:12px;background:var(--panel);color:var(--ink)}
 #cmpdlg::backdrop{background:rgba(8,20,22,.6)}
@@ -910,6 +915,9 @@ function sourceTable(){
 /* ---------- posting texts: d/00.json ... d/63.json, loaded when a card is opened ---------- */
 const shardOf=id=>String(parseInt(String(id).slice(0,2),16)>>2).padStart(2,"0");
 let SHARD=new Map(),BYID=new Map(),DATA_V="";
+/* the numbers of the start page as the daily job counted them (docs/stats.json); used only while they describe the postings now loaded */
+let COVER=null;
+const coverNow=()=>COVER&&(!JOBS.length||COVER.updatedAt===DATA_V)?COVER:null;
 function loadShard(n){
   if(!SHARD.has(n))SHARD.set(n,fetch("d/"+n+".json?v="+encodeURIComponent(DATA_V)).then(r=>{if(!r.ok)throw new Error("HTTP "+r.status);return r.json();}).catch(e=>{SHARD.delete(n);throw e;}));
   return SHARD.get(n);
@@ -2410,8 +2418,22 @@ setTimeout(()=>$("pin").style.setProperty("--pd","0s"),2200);
 run();
 
 /* ---------- live postings from the server ---------- */
+/* the four numbers of the start page are counted once a day by the collector's workflow (scripts/cover-stats.mjs -> docs/stats.json), so the cover shows them before the postings arrive and no visitor's browser has to read 79,000 titles to count them. When that file is missing, or is not the one of the postings now loaded, the page counts for itself as before. */
+async function loadCover(){
+  try{
+    const r=await fetch("stats.json",{cache:"no-cache"});if(!r.ok)return;
+    const c=await r.json();
+    if(c&&c.total>0&&c.updatedAt){COVER=c;heroStat();if(PG==="home")XP.home();}
+  }catch(e){/* the page counts for itself */}
+}
 function heroStat(){
-  const el=$("herostat");
+  const el=$("herostat"),c=coverNow();
+  if(c){
+    const n=JOBS.length||c.total;
+    $("navCount").textContent=nf(n);$("homeCount").textContent=nf(n);
+    el.textContent=`${nf(c.total)} postings in ${c.fields} fields across ${c.provinces} provinces and territories, ${nf(c.students)} of them for students and new graduates. Collected ${new Date(c.updatedAt).toLocaleString([], {month:"short",day:"numeric",hour:"2-digit",minute:"2-digit"})}.`;
+    return;
+  }
   if(!JOBS.length){el.textContent="No postings are loaded yet.";return;}
   $("navCount").textContent=nf(JOBS.length);$("homeCount").textContent=nf(JOBS.length);
   const fields=new Set(JOBS.map(j=>fdOf(j).id)),provs=new Set(JOBS.map(j=>j.province).filter(p=>/^[A-Z]{2}$/.test(p||"")));
@@ -2429,6 +2451,7 @@ async function loadServer(){
     if(d.updatedAt===SERVER_AT)return;
     const first=SERVER_AT===null;
     SERVER_AT=d.updatedAt;
+    if(!first&&(!COVER||COVER.updatedAt!==d.updatedAt))await loadCover();   /* a newer collection found while the page is open: its numbers were published with it (the first visit asked at startup) */
     SRC=d.sources||{};SRC_TIME=new Date(d.updatedAt).toLocaleString([], {month:"short",day:"numeric",hour:"2-digit",minute:"2-digit"});
     const at=Date.parse(d.updatedAt),m=new Map();
     for(const x of d.jobs){
@@ -2464,6 +2487,7 @@ async function loadDict(){
   }catch(e){console.warn("dictionary not loaded",e);$("status").textContent="The skills dictionary could not be loaded, so postings cannot be scored. Reload the page to try again.";}
 }
 loadDict();
+loadCover();
 loadServer();
 setInterval(()=>{if(!document.hidden)loadServer();},5*60*1000);
 </script>
