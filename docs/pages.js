@@ -796,7 +796,7 @@
     return `<div class="bc" draggable="true" data-k="${esc(e.k)}"><b>${esc(e.t)}${e.sc != null ? `<span class="chipsc ${scCls(e.sc)}" title="Match score when it was saved or applied to">${e.sc}</span>` : ""}</b>
       <div class="m">${esc(e.co)}${e.pv ? " · " + esc(PROV_NAME[e.pv] || e.pv) : ""}</div>
       <div class="m">${e.c === "saved" ? "" : (e.a ? "Applied " + ago(e.a) : "") + (e.c === "interview" || e.c === "offer" ? " · got an interview" : "")}${e.gone ? "No longer in the collection" : ""}</div>
-      <div class="bt">${prev ? `<button data-mv="${prev[0]}" aria-label="Move to ${prev[1]}" title="Move to ${prev[1]}">◀</button>` : ""}${next ? `<button data-mv="${next[0]}" aria-label="Move to ${next[1]}" title="Move to ${next[1]}">▶</button>` : ""}${e.u ? `<a href="${esc(e.u)}" target="_blank" rel="noopener">Open ↗</a>` : ""}<button class="sp1" data-rm="1" aria-label="Remove from the board" title="Remove from the board">✕</button></div></div>`;
+      <div class="bt">${prev ? `<button data-mv="${prev[0]}" aria-label="Move to ${prev[1]}" title="Move to ${prev[1]}">◀</button>` : ""}${next ? `<button data-mv="${next[0]}" aria-label="Move to ${next[1]}" title="Move to ${next[1]}">▶</button>` : ""}${e.u ? `<a href="${esc(e.u)}" target="_blank" rel="noopener">Open ↗</a>` : ""}<button data-reach="${esc(e.k)}" title="People to contact, and drafts to copy">Reach out</button><button class="sp1" data-rm="1" aria-label="Remove from the board" title="Remove from the board">✕</button></div></div>`;
   }
   const ago = (t) => { const d = Math.floor((Date.now() - t) / 864e5); return d <= 0 ? "today" : d === 1 ? "1 day ago" : d + " days ago"; };
   function renderBoard() {
@@ -1589,6 +1589,77 @@ Requirements
   function onExtrasChange(e) { if (e.target.id === "xtK") XT.kind = e.target.value; }
 
   /* =====================================================================
+     REACH OUT: people-search links and message drafts for one posting. docs/reach.js builds the text; nothing is sent from here
+     ===================================================================== */
+  const RS = store.get("pm_reach", {});                      /* school, program, name: typed by the person, kept in this browser only */
+  const RC = { k: null, lang: "en", base: null, copied: "" };
+  const rsGet = (f) => (typeof RS[f] === "string" ? RS[f] : "").slice(0, 80);
+  function reachCtx(k) {
+    const job = jobByKey(k), e = job ? null : entries().find((x) => x.k === k);
+    if (!job && !e) return null;
+    let skills = [];
+    const r = job && !isOcc(job) && typeof resOf === "function" ? resOf(k) : null;
+    if (r && r.s && r.s.rows) {
+      const ord = { R: 0, T: 1, K: 2, P: 3, N: 4 };
+      skills = r.s.rows.filter((x) => x.st === "M" && x.kind === "s").sort((a, b) => (ord[a.tag] ?? 5) - (ord[b.tag] ?? 5)).map((x) => x.n).slice(0, 2);
+    }
+    return { company: job ? job.company : e.co, title: job ? job.title : e.t, lang: job && job.lg === "fr" ? "fr" : "en", skills, scored: !!r };
+  }
+  function reachOut() {
+    const c = RC.base, ctx = { company: c.company, title: c.title, school: rsGet("school"), program: rsGet("program"), name: rsGet("name"), lang: RC.lang, skills: c.skills };
+    if (Reach.hidden(c.company)) return `<p class="note" role="status">This posting does not name the employer, so there is nobody to look for yet. Open the posting: the name is often on the application page.</p>`;
+    const links = Reach.links(ctx), ds = Reach.drafts(ctx);
+    const skillNote = c.scored ? (c.skills.length ? `The recruiter message names ${c.skills.map(esc).join(" and ")}: the posting asks for ${c.skills.length > 1 ? "them" : "it"} and your CV says ${c.skills.length > 1 ? "them" : "it"}. Delete the sentence if you would rather not.` : "No skill is named: no keyword of this posting is written on your CV yet.") : (CV ? "" : "Add your CV and the recruiter message can name the skills the posting asks for that your CV already says.");
+    return `<h3>Find people</h3><ul class="rlinks">${links.map((l) => `<li><a href="${esc(l.url)}" target="_blank" rel="noopener noreferrer">${esc(l.label)} ↗</a><span class="note">${esc(l.why)}</span></li>`).join("")}</ul>
+      ${school() ? "" : `<p class="note">Add your school above to get a link to its alumni.</p>`}
+      <h3>Drafts to copy</h3>${skillNote ? `<p class="note">${skillNote}</p>` : ""}
+      ${ds.map((d) => `<div class="rdraft"><h4>${esc(d.label)}</h4><p class="note">${esc(d.use)}</p><textarea id="rd-${d.id}" rows="${d.id === "note" ? 6 : d.id === "recruiter" ? 12 : 10}" spellcheck="true" aria-label="${esc(d.label)}">${esc(d.text)}</textarea>
+        <div class="row"><button type="button" class="xbtn" data-rcopy="${d.id}">Copy</button>${d.max ? `<span class="note rcount" data-rmax="${d.max}" aria-live="off">${d.text.length}/${d.max}${d.over ? " (too long: shorten it)" : ""}</span>` : ""}<span class="note" data-rdone="${d.id}" role="status"></span></div></div>`).join("")}`;
+  }
+  const school = () => rsGet("school").trim();
+  function renderReach() {
+    const c = RC.base; if (!c) return;
+    g("reachh").textContent = `Reach out: ${c.title}`;
+    g("reachbody").innerHTML = `<p class="rwho"><b>${esc(c.company)}</b></p>
+      <p class="note">Path Match never sends a message or contacts anyone. The links open searches on LinkedIn and Google in a new tab, and the drafts are for you to copy, change and send yourself. Only the employer, the role words and your school go into a link; your CV and your name do not.</p>
+      <div class="rset"><div><label for="rs-school">Your school</label><input type="text" id="rs-school" data-rs="school" maxlength="80" value="${esc(rsGet("school"))}" placeholder="e.g. Concordia University" autocomplete="off"></div>
+        <div><label for="rs-program">Your program</label><input type="text" id="rs-program" data-rs="program" maxlength="80" value="${esc(rsGet("program"))}" placeholder="e.g. Industrial Engineering" autocomplete="off"></div>
+        <div><label for="rs-name">Your name</label><input type="text" id="rs-name" data-rs="name" maxlength="60" value="${esc(rsGet("name"))}" placeholder="as you sign messages" autocomplete="off"></div>
+        <div><span class="lab" id="rs-lang">Language of the drafts</span><div class="rlangs" role="group" aria-labelledby="rs-lang"><button type="button" data-rlang="en" aria-pressed="${RC.lang === "en"}">English</button><button type="button" data-rlang="fr" aria-pressed="${RC.lang === "fr"}">Français</button></div></div></div>
+      <p class="note">Your school, program and name are kept in this browser only.</p>
+      <div id="reachout">${reachOut()}</div>`;
+  }
+  function openReach(k) {
+    const c = reachCtx(k); if (!c) return;
+    RC.k = k; RC.base = c; RC.lang = c.lang;
+    renderReach();
+    const d = g("reachdlg");
+    if (d.showModal) { if (!d.open) d.showModal(); } else d.setAttribute("open", "");
+    const b = g("reachbody"); if (b) b.scrollTop = 0;
+  }
+  function closeReach() { const d = g("reachdlg"); if (d.close) d.close(); else d.removeAttribute("open"); }
+  function onReachClick(e) {
+    const open = e.target.closest("[data-reach]");
+    if (open) { e.preventDefault(); openReach(open.dataset.reach); return; }
+    const d = g("reachdlg"); if (!d || !d.contains(e.target) && e.target !== d) return;
+    if (e.target === d || e.target.closest("#reachclose")) { closeReach(); return; }
+    const lang = e.target.closest("[data-rlang]");
+    if (lang) { RC.lang = lang.dataset.rlang === "fr" ? "fr" : "en"; renderReach(); return; }
+    const cp = e.target.closest("[data-rcopy]");
+    if (cp) {
+      const id = cp.dataset.rcopy, ta = g("rd-" + id), done = d.querySelector(`[data-rdone="${id}"]`);
+      const say = (m) => { d.querySelectorAll("[data-rdone]").forEach((x) => (x.textContent = "")); if (done) done.textContent = m; };
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(ta.value).then(() => say("Copied."), () => { ta.select(); say("Could not copy here: the text is selected, copy it by hand."); });
+      else { ta.select(); say("Could not copy here: the text is selected, copy it by hand."); }
+    }
+  }
+  function onReachInput(e) {
+    const f = e.target.dataset && e.target.dataset.rs;
+    if (f) { RS[f] = e.target.value.slice(0, 80); store.set("pm_reach", RS); const o = g("reachout"); if (o) o.innerHTML = reachOut(); return; }
+    if (e.target.id && e.target.id.startsWith("rd-")) { const n = e.target.closest(".rdraft").querySelector(".rcount"); if (n) { const m = +n.dataset.rmax, len = e.target.value.length; n.textContent = `${len}/${m}${len > m ? " (too long: shorten it)" : ""}`; } }
+  }
+
+  /* =====================================================================
      the object index.html reads
      ===================================================================== */
   const XP = {
@@ -1606,6 +1677,7 @@ Requirements
     },
     home,
     extrasEffect,
+    openReach,
     close() { /* replaced when the menu is built */ },
     onStar(k, on) {
       if (on) boardAdd(k);
@@ -1630,6 +1702,7 @@ Requirements
       g("x-ladder").addEventListener("change", (e) => { if (e.target.id === "ladField") { LAD.fd = e.target.value; renderLadder(); } });
       g("x-swipe").addEventListener("click", onSwipeClick);
       bindBoard(g("x-board"));
+      document.addEventListener("click", onReachClick); g("reachdlg").addEventListener("input", onReachInput);
       const xe = g("x-extras"); xe.addEventListener("submit", onExtrasSubmit); xe.addEventListener("click", onExtrasClick); xe.addEventListener("change", onExtrasChange);
       g("x-plan").addEventListener("click", onPlanClick);
       g("x-plan").addEventListener("change", onPlanChange);

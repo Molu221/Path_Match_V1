@@ -399,6 +399,29 @@ body.cmpon{padding-bottom:84px}
 #cmpdlg::backdrop{background:rgba(8,20,22,.6)}
 .cmphead{position:sticky;top:0;z-index:2;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 16px;background:var(--panel);border-bottom:1px solid var(--line)}
 .cmpwrap{padding:4px 16px 16px;overflow-x:auto}
+#reachdlg{width:min(720px,96vw);max-height:92vh;padding:0;border:1px solid var(--line);border-radius:12px;background:var(--panel);color:var(--ink)}
+#reachdlg::backdrop{background:rgba(8,20,22,.6)}
+.reachbody{padding:6px 18px 18px;overflow-y:auto;max-height:calc(92vh - 58px)}
+.reachbody h3{margin:18px 0 6px}
+.reachbody h4{margin:14px 0 2px;font-size:15px}
+.rwho{margin:8px 0 2px;font-size:16px}
+.rset{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0 4px}
+.rset input{width:100%}
+.rset .lab{display:block;font-size:13px;color:var(--mute);margin-bottom:4px}
+@media(max-width:560px){.rset{grid-template-columns:1fr}}
+.rlinks{list-style:none;margin:0;padding:0}
+.rlinks li{padding:7px 0;border-top:1px solid var(--line)}
+.rlinks li:first-child{border-top:0}
+.rlinks a{font-weight:650}
+.rlinks .note{display:block}
+.rdraft textarea{width:100%;font:inherit;font-size:14px;line-height:1.5;padding:9px 11px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);resize:vertical}
+.rdraft .row{margin-top:6px}
+.rcount{margin-left:auto}
+.rlangs{display:flex;gap:6px;flex-wrap:wrap}
+.rset .rlangs button{padding:6px 14px;border:1px solid var(--line);border-radius:999px;background:var(--bg);color:var(--ink);font-size:14px}
+.rset .rlangs button[aria-pressed=true]{background:var(--ink);color:var(--panel);border-color:var(--ink)}
+.rset .rlangs button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+
 .cmpt{border-collapse:collapse;width:100%;min-width:600px;table-layout:fixed}
 .cmpt th,.cmpt td{border-top:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top;font-size:13px;overflow-wrap:anywhere}
 .cmpt tbody th{width:150px;font-weight:600;color:var(--mute)}
@@ -674,6 +697,7 @@ body.cmpon{padding-bottom:84px}
 
 <div id="cmptray" hidden role="region" aria-label="Postings to compare"><b>Compare</b><span class="cl"></span><button id="cmpgo" disabled>Add one more to compare</button><button class="clr" id="cmpclr">Clear</button><span id="cmpmsg" role="status"></span></div>
 <dialog id="cmpdlg" aria-labelledby="cmph"><div class="cmphead"><h2 id="cmph">Compare postings</h2><button id="cmpclose" aria-label="Close the comparison">Close</button></div><div class="cmpwrap" id="cmpbody"></div></dialog>
+<dialog id="reachdlg" aria-labelledby="reachh"><div class="cmphead"><h2 id="reachh">Reach out</h2><button id="reachclose" aria-label="Close">Close</button></div><div class="reachbody" id="reachbody"></div></dialog>
 
 <script src="jobmeta.js"></script>
 <script src="scoring.js"></script>
@@ -681,6 +705,7 @@ body.cmpon{padding-bottom:84px}
 <script src="planner.js"></script>
 <script src="describe.js"></script>
 <script src="pasteparse.js"></script>
+<script src="reach.js"></script>
 <script src="pages.js"></script>
 <script>
 const $=id=>document.getElementById(id);
@@ -1398,9 +1423,11 @@ function jobHtml(r,rank,top){
       <details class="old"><summary>How the 0–100 score was counted</summary>${breakdown(j,s)}</details>
       <h3>Before you apply</h3>
       <p class="note">Open the posting and read the full text. Required skills, security rules, degree level and exact dates may not be visible from the title.</p>
-      <div class="row">${openBtns(j)} ${cmpBtn(jk)}</div>${mineBtn(j,jk)}
+      <div class="row">${openBtns(j)} ${cmpBtn(jk)} ${reachBtn(j,jk)}</div>${mineBtn(j,jk)}
     </div></details>`;
 }
+/* people to contact about this posting (docs/reach.js): not for an occupation profile, which has no employer */
+const reachBtn=(j,jk)=>isOcc(j)?"":`<button type="button" data-reach="${esc(jk)}" title="People to contact, and drafts to copy">Reach out</button>`;
 const openBtns=j=>j.sources.filter(x=>x.url).slice(0,3).map(x=>`<a class="btn" href="${esc(x.url)}" target="_blank" rel="noopener">${j.mine?"Open the link you saved":j.od?"Search for it on Job Bank":isOcc(j)&&x.src==="Job Bank"?"Read the employer's posting":"Open on "+esc(x.src)}</a>`).join(" ")
   +(j.noc?` <a class="btn" href="${esc(nocUrl(j))}" target="_blank" rel="noopener">Full description of NOC ${esc(nocCode(j))}</a>`:"");
 /* a posting that is more than 30 days old may already be filled */
@@ -1425,7 +1452,7 @@ function browseHtml(j,rank){
     <div class="det">
       <h3>The posting</h3><div class="descslot">${OPEN.has(jk)?descPanel(j):""}</div>
       <p class="note"><a href="#p=details" data-p="details"><b>Add your CV</b></a> to score this posting and see which of its keywords are on your CV.</p>
-      <div class="row">${open}</div>${mineBtn(j,jk)}
+      <div class="row">${open} ${reachBtn(j,jk)}</div>${mineBtn(j,jk)}
     </div></details>`;
 }
 const cardOf=(r,i)=>r.s?jobHtml(r,i+1):browseHtml(r.j,i+1);
