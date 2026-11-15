@@ -423,7 +423,7 @@
     if (!L.size) return r.s.total;
     let hit = false;
     const rows = r.s.rows.map((x, i) => { if (x.st !== "M" && L.has(r._keys[i])) { hit = true; return { n: x.n, kind: x.kind, tag: x.tag, st: "M" }; } return x; });
-    return hit ? Scoring.compute(rows, r.s.fit, r.s.ti).total : r.s.total;
+    return hit ? Scoring.compute(rows, r.s.parts).total : r.s.total;
   }
   function labCands(pool) {
     const m = new Map();
@@ -873,7 +873,7 @@
     const half = Planner.HALF[PLAN.half] || Planner.HALF.balanced, done = onBoardKeys(), pool = planPool(done);
     const top = pool.map((r) => ({ r, u: r.s.total * Planner.fresh(dayAge(r.j), half) })).sort((a, b) => b.u - a.u).slice(0, 300);
     const cands = top.map(({ r }) => {
-      if (!r._rg || r._rg.s !== r.s) { const x = Planner.range(Scoring, r.s.rows, r.s.fit, r.s.ti, jkey(r.j)); r._rg = { s: r.s, lo: x.lo, mid: x.mid, hi: x.hi }; }
+      if (!r._rg || r._rg.s !== r.s) { const x = Planner.range(Scoring, r.s.rows, r.s.parts, jkey(r.j)); r._rg = { s: r.s, lo: x.lo, mid: x.mid, hi: x.hi }; }
       return { key: jkey(r.j), company: r.j.company, lo: r._rg.lo, mid: r._rg.mid, hi: r._rg.hi, ageDays: dayAge(r.j), block: PLAN.noelig && eligOf(r.j).sec ? "security" : "", r };
     });
     const res = Planner.pick(cands, { n: nOverride || planN(), half, perEmployer: 2 });
@@ -1487,7 +1487,7 @@ Requirements
     for (const r of RES) {
       if (!r.s || isOcc(r.j) || !r.s.rows || !r.s.rows.length) continue;
       const kw = ensureKw(r.j); if (!kw) continue;
-      const rows0 = DICT.profileStatus(kw, bf, bx), t0 = Scoring.compute(rows0, r.s.fit, r.s.ti).total, t1 = r.s.total;
+      const rows0 = DICT.profileStatus(kw, bf, bx), t0 = Scoring.compute(rows0, r.s.parts).total, t1 = r.s.total;
       n++; if (t1 >= 60) strongNow++; if (t0 >= 60) strongBase++;
       if (t1 - t0 >= 5) lifts.push({ r, t0, t1, rows0 });
     }

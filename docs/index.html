@@ -475,9 +475,9 @@ body.cmpon{padding-bottom:84px}
         <h2 id="cvH">1. Your CV</h2>
         <div class="drop" id="drop" tabindex="0" role="button" aria-label="Upload CV">
           <strong>Drop your CV here</strong>
-          <span>PDF, Word (.docx) or text. Or click to choose a file.</span>
+          <span>PDF, Word (.docx), text, or a photo. Or click to choose a file.</span>
         </div>
-        <input type="file" id="file" accept=".pdf,.docx,.txt,.md" hidden>
+        <input type="file" id="file" accept=".pdf,.docx,.txt,.md,.png,.jpg,.jpeg" hidden>
         <label for="paste">Or paste the text</label>
         <textarea id="paste" placeholder="Paste your CV text here"></textarea>
         <div class="row" style="margin-top:10px">
@@ -678,6 +678,7 @@ body.cmpon{padding-bottom:84px}
 <script src="jobmeta.js"></script>
 <script src="scoring.js"></script>
 <script src="matcher.js"></script>
+<script src="cvread.js"></script>
 <script src="planner.js"></script>
 <script src="describe.js"></script>
 <script src="pasteparse.js"></script>
@@ -731,6 +732,64 @@ function paintStage(){
   }else if(cb===null)n.textContent="I could not tell your stage from this CV (no dates or years of experience found). Tap your stage on the trail.";
   else n.innerHTML=`Your CV reads as <b>${esc(BAND[cb].label)}</b>. Not right? Tap another stop.`;
 }
+/* What we read from the CV, in the open: the sections, every date we found and how it
+   was counted, and every skill with the line it came from. A person can see a bad read
+   here instead of wondering why their top 10 looks odd. */
+let CHECK_OPEN=false;
+const HOWCOUNTED={work:"counted as work",junior:"student work, counted at 40%",edu:"studies, not counted as work",other:"not counted as work"};
+function cvCheck(){
+  if(!CV)return "";
+  const cf=cvFound();
+  if(!cf)return `<p class="note">Reading your CV…</p>`;
+  const names=Object.keys(cf);
+  /* the sections are the CV's own; skills that came from a credential are listed in their own box */
+  const secs={};names.forEach(n=>{const h=cf[n];if(h.via)return;const k=(!h.section||h.section==="HEADER")?"Top of the CV":h.section;secs[k]=(secs[k]||0)+1;});
+  const ents=(CV.lv&&CV.lv.entries)||[];
+  const dated=ents.filter(e=>e.kind==="work"||e.kind==="junior");
+  const verdict=names.length<5?"Almost nothing was read from your CV. Paste the text instead."
+    :!ents.length?`${names.length} skills were read, but no dates. Your stage is a guess: check it on the trail.`
+    :`${names.length} skills, ${Object.keys(secs).length} section${Object.keys(secs).length===1?"":"s"} and ${ents.length} dated item${ents.length===1?"":"s"} were read. ${dated.length} counted towards your years of work.`;
+  const mon=m=>m>=12?(Math.round(m/12*10)/10)+" yr":m+" mo";
+  const rows=ents.length?ents.map(e=>`<tr><td>${esc(e.label||"(no title found)")}</td><td class="note" style="white-space:nowrap">${mon(e.months)}</td><td class="note">${HOWCOUNTED[e.kind]}</td></tr>`).join(""):"";
+  /* the words on the CV that switched each skill on, so a wrong one can be traced to its cause */
+  const CVTXT=(CV&&CV.raw)||"";
+  const from=n=>{const h=cf[n];if(!h)return "";
+    const w=[...new Set((h.spans||[]).map(([a,b])=>CVTXT.slice(a,b).replace(/\s+/g," ").trim()).filter(Boolean))].slice(0,2);
+    if(h.via)return (h.half?"Half credit, from your ":"From your ")+h.via;
+    const age=h.w===0.5?" · older work, counted half":"";
+    return w.length?"Read from your CV: “"+w.join("”, “")+"”"+age:"";};
+  const chips=names.map(n=>`<span class="off" style="padding-right:4px" title="${esc(from(n))}">${esc(n)} <small class="note" style="font-weight:400">${esc(from(n).replace(/^Read from your CV: /,"").slice(0,30))}</small> <button class="lnk" data-drop="${esc(n)}" title="This skill is not mine" style="border:0;background:none;cursor:pointer;color:#b3261e;font-weight:700">×</button></span>`).join("");
+  const back=DROPPED.size?`<p class="note" style="margin-top:8px">Removed by you: ${[...DROPPED].map(n=>`${esc(n)} <button class="lnk" data-back="${esc(n)}" style="border:0;background:none;cursor:pointer">put back</button>`).join(" · ")}</p>`:"";
+  return `<details class="old" id="cvcheck" style="margin-top:10px"${CHECK_OPEN?" open":""}><summary>Check what we read from your CV</summary>
+    <p style="margin:8px 0"><b>${esc(verdict)}</b></p>
+    <h4 style="margin:10px 0 4px">Sections found</h4>
+    <div class="kw sk">${Object.keys(secs).length?Object.keys(secs).map(k=>`<span class="off">${esc(k.charAt(0)+k.slice(1).toLowerCase())} · ${secs[k]}</span>`).join(""):'<span class="note">None. Your CV may have no headings we recognise.</span>'}</div>
+    <h4 style="margin:12px 0 4px">Dates we found, and how they were counted</h4>
+    ${rows?`<table style="width:100%;border-collapse:collapse"><tbody>${rows}</tbody></table>`:'<p class="note">No dates were found.</p>'}
+    ${credPanel()}
+    <h4 style="margin:12px 0 4px">Skills found (${names.length})</h4>
+    <p class="note" style="margin:0 0 6px">Each one is either written in your CV or covered by a degree or certificate you named; the line under each says which. Press × beside anything that is not yours.</p>
+    <div class="kw sk" style="max-height:220px;overflow:auto">${chips||'<span class="note">None.</span>'}</div>${back}
+    <p class="note" style="margin-top:10px">Something missing or wrong? Fix the text in the box above and press “Read my CV” again.</p>
+  </details>`;
+}
+/* I-15: what the degrees and certificates on the CV are taken to cover */
+function credPanel(){
+  const cs=cvCreds();
+  if(!cs.length)return "";
+  const cf=cvFound()||{};
+  const rows=cs.map(c=>{
+    const mine=Object.keys(cf).filter(k=>cf[k].via===c.name);
+    const core=mine.filter(k=>!cf[k].half).length;
+    return `<tr><td style="padding:3px 8px 3px 0;vertical-align:top"><b>${esc(c.name)}</b>
+      <div class="note" style="font-size:12px">read from “${esc(c.said)}” · <a href="${esc(c.source.url)}" target="_blank" rel="noopener">${esc(c.source.name)}</a></div></td>
+      <td class="note" style="padding:3px 0;vertical-align:top">adds <b>${mine.length}</b> skill${mine.length===1?"":"s"}${core?", "+core+" of them counted in full":""}${mine.length>core?", the rest at half credit":""}</td></tr>`;
+  }).join("");
+  const draft=CREDS&&CREDS.draft_mode?`<p class="note" style="margin:4px 0 0">These entries are drafts: each one was read from the official syllabus linked beside it, and still has to be checked and signed by a person before the live site uses it.</p>`:"";
+  return `<h4 style="margin:12px 0 4px">What your degrees and certificates cover</h4>
+    <p class="note" style="margin:0 0 6px">A certificate says you were examined on something; the skills behind it count even when your CV does not spell them out. A degree counts at half credit: you sat the courses, you were not certified.</p>
+    <table style="width:100%;border-collapse:collapse"><tbody>${rows}</tbody></table>${draft}`;
+}
 function renderCvRead(){
   const el=$("cvread");
   if(!CV){el.hidden=true;return;}
@@ -738,7 +797,7 @@ function renderCvRead(){
   const lv=CV.lv,b=lv.band,cap=s=>s.charAt(0).toUpperCase()+s.slice(1);
   const head=b===null?`<span class="pill">Stage not clear</span>`:`<span class="pill lvl lv${b}">${esc(BAND[b].label)}</span>`;
   const yrs=lv.years!=null&&b!==null?`<dd>About ${lv.years} year${lv.years===1?"":"s"} of work counted.</dd>`:"";
-  el.innerHTML=`<h2>How we read your CV</h2><dl><dt>${head}</dt>${yrs}</dl><ul>${(lv.why||[]).map(w=>`<li>${esc(cap(w))}</li>`).join("")}</ul><p class="note" style="margin:8px 0 0">The stage decides which postings come first. If it is wrong, tap the right stop on the trail.</p>`;
+  el.innerHTML=`<h2>How we read your CV</h2><dl><dt>${head}</dt>${yrs}</dl><ul>${(lv.why||[]).map(w=>`<li>${esc(cap(w))}</li>`).join("")}</ul>${cvCheck()}<p class="note" style="margin:8px 0 0">The stage decides which postings come first. If it is wrong, tap the right stop on the trail.</p>`;
 }
 function stageChanged(){paintStage();renderCvRead();renderDetails();run();writeHash();}
 
@@ -929,6 +988,8 @@ function loadAllText(){
 
 /* ---------- keywords: the Python skill list + OaSIS (matcher.js) ---------- */
 let DICT=null;
+/* I-09: skills nearly every posting asks for; they count about a third of a specific one */
+let GENERAL=new Set();
 /* a few postings were collected with entities such as &#xa; or &#96; still in the text: turn them back into characters */
 const ENT={nbsp:" ",amp:"&",lt:"<",gt:">",quot:'"',apos:"'",rsquo:"’",lsquo:"‘",rdquo:"”",ldquo:"“",ndash:"–",mdash:"—",hellip:"…",bull:"•"};
 function unent(s){
@@ -936,7 +997,131 @@ function unent(s){
   return String(s).replace(/&#x([0-9a-f]+);/gi,(m,h)=>ch(parseInt(h,16))).replace(/&#(\d+);/g,(m,d)=>ch(+d)).replace(/&([a-z]+);/gi,(m,n)=>ENT[n.toLowerCase()]!==undefined?ENT[n.toLowerCase()]:m);
 }
 const bodyOf=j=>unent(j.desc||"").split("\n").filter(l=>!/^\s*(JOB|COMPANY|SOURCE):/.test(l)).join("\n").trim();
-function cvFound(){if(!DICT||!CV)return null;if(!CV.py)CV.py=DICT.findCv(CV.raw);return CV.py;}
+let DROPPED=new Set();try{DROPPED=new Set(JSON.parse(localStorage.getItem("pm_notmine")||"[]"));}catch(e){}
+/* ---------- The licence question.
+   A posting can say a licence or certificate is mandatory. When the CV does not show it, the job is
+   not thrown away silently: it stays in the list with a red flag and the employer's own sentence,
+   and the person is asked. Yes keeps it and credits the licence everywhere; No takes it out, and
+   every other job asking for the same thing; "working on it" keeps it with an orange note. The
+   answer is kept as something the person said, with the day they said it, so it can be asked again
+   when a licence expires and so an account can carry it later. */
+let LICANS={};
+try{LICANS=JSON.parse(localStorage.getItem("pm_licences")||"{}")||{};}catch(e){LICANS={};}
+const licKey=w=>norm(w||"").slice(0,60);
+const licAns=w=>{const a=LICANS[licKey(w)];return a?a.said:null;};
+function setLic(w,said){
+  const k=licKey(w);
+  if(said)LICANS[k]={said:said,what:w,at:new Date().toISOString().slice(0,10)};else delete LICANS[k];
+  try{localStorage.setItem("pm_licences",JSON.stringify(LICANS));}catch(e){}
+  if(CV){CV._full=null;CV._pyf=null;}
+  renderCvRead();renderDetails();run();
+}
+function saveDropped(){try{localStorage.setItem("pm_notmine",JSON.stringify([...DROPPED]));}catch(e){}}
+function dropSkill(n,back){
+  if(back)DROPPED.delete(n);else DROPPED.add(n);
+  saveDropped();if(CV)CV._pyf=null;
+  paintStage();renderCvRead();renderDetails();run();
+}
+/* The skills written on the CV, minus the ones the person has told us are not theirs. */
+/* ---------- I-03: how much the line a skill was found on still counts.
+   Work from this year counts fully. Work older than about eight years, and student work older than
+   about five, counts half: it was real, but it says less about what the person can do today. The
+   Skills, Education and Interests sections are not dated and always count fully. */
+const OLD_WORK_Y=8, OLD_JUNIOR_Y=5;
+function lineWeights(){
+  if(!CV)return null;
+  if(CV._lw)return CV._lw;
+  const raw=CV.raw||"", lines=raw.split("\n");
+  const starts=[];let at=0;
+  for(const l of lines){starts.push(at);at+=l.length+1;}
+  const w=new Array(lines.length).fill(1);
+  const ents=(CV.lv&&CV.lv.entries)||[];
+  if(ents.length){
+    /* each dated entry colours the lines from its own line until the next entry starts */
+    const marks=ents.filter(e=>e.at!=null).sort((a,b)=>a.at-b.at);
+    for(let i=0;i<marks.length;i++){
+      const e=marks[i],from=Math.max(0,e.at-2),to=i+1<marks.length?Math.max(from,marks[i+1].at-2):lines.length;
+      const yrs=e.endAgeY;
+      if(yrs==null)continue;
+      const old=(e.kind==="junior"&&yrs>OLD_JUNIOR_Y)||(e.kind==="work"&&yrs>OLD_WORK_Y);
+      if(old)for(let k=from;k<to;k++)w[k]=Math.min(w[k],0.5);
+    }
+  }
+  CV._lw={w:w,starts:starts};
+  return CV._lw;
+}
+const weightAt=(off)=>{const lw=lineWeights();if(!lw)return 1;
+  let lo=0,hi=lw.starts.length-1,k=0;
+  while(lo<=hi){const m=(lo+hi)>>1;if(lw.starts[m]<=off){k=m;lo=m+1;}else hi=m-1;}
+  return lw.w[k];};
+
+function cvFound(){
+  if(!DICT||!CV)return null;
+  if(!CV.py)CV.py=DICT.findCv(CV.raw);
+  if(!CV._full){
+    const o={};
+    for(const k in CV.py){
+      const hit=CV.py[k];
+      /* the most recent place a skill appears is the one that counts */
+      let w=0;
+      for(const sp of (hit.spans||[]))w=Math.max(w,weightAt(sp[0]));
+      o[k]=Object.assign({},hit,{w:(hit.spans&&hit.spans.length)?w:1});
+    }
+    /* I-15: the skills behind the degrees and certificates named on the CV */
+    for(const c of cvCreds()){
+      for(const cov of c.covers){
+        if(o[cov.skill]&&!o[cov.skill].via)continue;      /* the CV says it in its own words: better evidence */
+        const half=cov.level!=="core";
+        const cur=o[cov.skill];
+        if(cur&&cur.half&&!half)continue;                 /* keep the stronger of two credentials */
+        o[cov.skill]={via:c.name,half:half,w:1,evidence:c.name+" covers this ("+cov.from+")",section:"CREDENTIALS",spans:[]};
+      }
+    }
+    if(CREDS)CV._full=o; else return o;   /* only keep it once the credentials map is in */
+  }
+  if(!DROPPED.size)return CV._full;
+  if(!CV._pyf){const o={};for(const k in CV._full)if(!DROPPED.has(k))o[k]=CV._full[k];CV._pyf=o;}
+  return CV._pyf;
+}
+/* ---------- I-15: the credentials map. Which degrees and certificates this CV names. */
+let CREDS=null;
+const DEG_WORD=/\b(bachelor|master|doctorate|phd|b\.? ?sc|b\.? ?eng|b\.? ?a|b\.? ?tech|btech|beng|bsc|bba|bcom|b\.? ?comm?|m\.? ?sc|m\.? ?eng|m\.? ?tech|meng|msc|mba|licence|baccalaureat|maitrise|diplome|diploma|degree|dec|dut|but|aec|dep|major)\b/;   /* "génie" is a subject, not a degree: "génie mécanique" alone is not one */
+function cvCreds(){
+  if(!CV)return [];
+  if(!CREDS)return [];          /* not cached: the map may still be on its way */
+  if(CV._creds)return CV._creds;
+  const t=" "+norm(CV.raw||"")+" ";
+  /* a degree only counts where the person says what they studied. "industrial engineering" written
+     inside a job description is not a degree. A certificate may be named anywhere: people list them
+     under skills, in a summary, or beside a job. */
+  const eduText=JobMeta.cvEduText(CV.raw||""),eduLines=eduText.split("\n");
+  const te=" "+norm(eduText)+" ";
+  const out=[];
+  for(const e of CREDS.entries){
+    if(!CREDS.draft_mode&&!e.checked)continue;            /* unsigned entries are not used */
+    let hit=null;
+    if(e.kind==="degree"&&e.field_words){
+      /* a degree word and its subject on the same line: "Bachelor of Engineering, Mechanical" says
+         the same thing as "B.Eng. Mechanical Engineering" */
+      for(const raw of eduLines){
+        const l=" "+norm(raw)+" ";
+        if(!DEG_WORD.test(l))continue;
+        const f=e.field_words.find(w=>l.indexOf(" "+norm(w))>=0);
+        if(f){hit=raw.trim().slice(0,70);break;}
+      }
+    }
+    if(!hit){
+      const where=e.kind==="degree"?te:t;
+      for(const n of [e.name].concat(e.also||[])){
+        const k=" "+norm(n)+" ";
+        if(k.length>4&&where.indexOf(k)>=0){hit=n;break;}
+      }
+    }
+    if(hit)out.push({id:e.id,name:e.name,kind:e.kind,said:hit,covers:e.covers||[],source:e.source});
+  }
+  CV._creds=out;
+  return out;
+}
 /* the word index (for phrases that are not skills) is built from the CV alone: a short item such as "Dean's list" would otherwise match any posting that says "listings". Items are matched as skills only. */
 function cvIx(){if(!DICT||!CV)return null;if(!CV.ix)CV.ix=DICT.indexCv(CV.base);return CV.ix;}
 /* ---------- Profile extras: certifications, awards, languages and the like that the person adds by hand.
@@ -969,7 +1154,15 @@ function withExtras(base,list,full){
 }
 const xSig=()=>JSON.stringify(XTRA.map(x=>[x.k,x.t,x.w,x.y]));
 /* the CV object: raw is the text the score reads (CV plus items), base is the CV as the person gave it */
-function mkCV(t){const e=withExtras(t);return {raw:e.raw,base:t,extrasAt:e.at,xspans:e.spans,xsig:xSig(),lv:JobMeta.cvLevel(t,new Date()),py:null,ix:null};}
+/* Skills are read from the whole file. Dates are read from the pages that say something new:
+   a file holding the same CV in two languages must not count the same job twice. */
+function mkCV(t0){
+  const dated0=datedText(t0);
+  const t=markSections(t0,CV_HEADINGS,BIG_LINES).text;
+  const dated=markSections(dated0,CV_HEADINGS,BIG_LINES).text;
+  const e=withExtras(t);
+  return {raw:e.raw,base:t,extrasAt:e.at,xspans:e.spans,xsig:xSig(),lv:JobMeta.cvLevel(dated,new Date()),py:null,ix:null};
+}
 /* did this CV skill first appear in an item the person added? */
 const xBy=h=>!!CV&&CV.extrasAt>=0&&h&&h.first>=CV.extrasAt;
 /* the items changed: read the CV again with them (or without them) and score every posting again */
@@ -979,6 +1172,14 @@ function applyExtras(){
   T.shown=10;
   paintStage();renderCvRead();renderDetails();paintNav();writeHash();run();
 }
+function datedText(t){
+  if(typeof PDF_PAGES==="undefined"||!PDF_PAGES)return t;   /* the pages are not always in scope */
+  const full=PDF_PAGES.join("\n\n");
+  if(t===full)return dropRepeatedPages(PDF_PAGES).text;
+  if(t===markSections(full,CV_HEADINGS,BIG_LINES).text)return dropRepeatedPages(PDF_PAGES).text;
+  return t;
+}
+
 const TAGW={Title:0,Required:1,Task:2,Preferred:3,"":4,About:5};
 const TAGNAME={T:"Title",R:"Required",K:"Task",N:"",P:"Preferred"};
 /* The main keywords of a posting (up to 40) were found when the postings were collected (kw). A posting without them gets them here. */
@@ -1046,16 +1247,17 @@ function skillsRow(j){
   const rows=rowsOf(j)||[],where=isOcc(j)?"occupation profile":hasText(j)?"posting":"title";
   const need=isOcc(j)||(hasText(j)&&!j.partial&&!j.pasted)?"":" Only "+(hasText(j)?"a short snippet":"the title")+" is available: open the card and paste the full description.";
   if(!rows.length)return `<div class="skills"><span class="note">No keywords were found in the ${where}.${need}</span></div>`;
-  const M=rows.filter(x=>x.st==="M").length,C=rows.filter(x=>x.st==="R").length,G=rows.length-M-C,MAX=16;
+  /* I-16: the same count as the score and as the detail view */
+  const nc=Scoring.counts(rows),M=nc.matched,C=nc.close,G=nc.gap,ASK=nc.asked,MAX=16;
   const chips=rows.slice(0,MAX).map(x=>{
     const t=x.st==="M"?"Match: on your CV.":x.st==="R"?"Close: not the same words. Counts half, never a match.":"Gap: not written on your CV.";
     return `<span class="${x.st}${x.kind==="t"?" t":""}" title="${esc((TAGNAME[x.tag]?TAGNAME[x.tag]+": ":"")+t)}">${esc(x.n)}</span>`;
   }).join("");
   const more=rows.length-MAX;
-  const cover=Math.round((M+0.5*C)/rows.length*100);
+  const rr=RES.find(x=>x.j===j),cover=Math.round(((rr&&rr.s)?rr.s.cov:(M+0.5*C)/Math.max(1,ASK))*100);
   const cbar=["M","R","G"].map(st=>rows.filter(x=>x.st===st).map(x=>`<i class="${st}"></i>`).join("")).join("");
-  const covHtml=`<div class="cov" role="img" aria-label="Keyword coverage ${cover} percent: ${M} Match, ${C} Close at half credit, ${G} Gap, out of ${rows.length}"><span class="cbar" aria-hidden="true">${cbar}</span><span><b>${cover}%</b> coverage</span></div>`;
-  return `<div class="skills"><div class="sk-h"><b>${M} Match · ${C} Close · ${G} Gap</b> of the ${rows.length} main keywords of this ${where}${j.pasted?" · from the text you pasted":isOcc(j)?" · from the official description of the occupation":j.partial?" · short snippet only: open the card to paste the full text":hasText(j)?"":" · title only: open the card to paste the full text"}</div>${covHtml}
+  const covHtml=`<div class="cov" role="img" aria-label="Keyword coverage ${cover} percent: ${M} Match, ${C} Close at half credit, ${G} Gap, out of ${ASK}"><span class="cbar" aria-hidden="true">${cbar}</span><span><b>${cover}%</b> coverage</span></div>`;
+  return `<div class="skills"><div class="sk-h"><b>${M} Match · ${C} Close · ${G} Gap</b> of the ${ASK} keywords this ${where} asks for${j.pasted?" · from the text you pasted":isOcc(j)?" · from the official description of the occupation":j.partial?" · short snippet only: open the card to paste the full text":hasText(j)?"":" · title only: open the card to paste the full text"}</div>${covHtml}
     <div class="kw sk">${chips}${more>0?`<span class="more">+${more} more, open the card</span>`:""}</div></div>`;
 }
 function pasteBox(j){
@@ -1190,7 +1392,11 @@ function occPanel(j){
     if(!it.length)return "";
     return `<div><h4>${OCC_PART[part]}</h4><ul>${it.map(x=>{const L=OCC_LAB[x.label];return `<li><span class="lab ${L[0]}">${L[1]}</span><span>${esc((lg==="fr"&&x.fr)||x.en)}</span>${x.label==="Missing"?"":`<span class="why">${esc(x.why)}</span>`}</li>`;}).join("")}</ul></div>`;
   }).join("");
-  return head+`<p class="note"><b>${n("Matched")} Match · ${n("Guess")} Close · ${n("Missing")} Gap.</b> Match: written on your CV. Close: not written, but likely from an occupation your CV fits (or your degree points to, or a degree in progress), so please confirm it. Gap: not on your CV. ${lang?"":"The language is not checked: the posting does not say which one it needs."}${j.od&&j.od.e?" This posting asks for: "+esc(EDU_ASKED[j.od.e])+".":""}</p>
+  /* I-16: one count everywhere. The count that made the score comes first; the occupation library's
+     own reading of the same job is kept under a link, because it counts different things. */
+  const rr=RES.find(x=>x.j===j),sc=rr&&rr.s;
+  const same=sc?`<p class="note"><b>${sc.matched} Match · ${sc.close} Close · ${Math.max(0,sc.asked-sc.matched-sc.close)} Gap</b> of the ${sc.asked} skills this posting asks for. This is the count the score is made of, the same one shown on the card.</p>`:"";
+  return head+same+`<details class="old"><summary>The occupation library's own reading</summary><p class="note"><b>${n("Matched")} Match · ${n("Guess")} Close · ${n("Missing")} Gap.</b> Match: written on your CV. Close: not written, but likely from an occupation your CV fits (or your degree points to, or a degree in progress), so please confirm it. Gap: not on your CV. ${lang?"":"The language is not checked: the posting does not say which one it needs."}${j.od&&j.od.e?" This posting asks for: "+esc(EDU_ASKED[j.od.e])+".":""}</p><p class="note">These are the duties and skills of the whole occupation, not the keywords of this posting, so the numbers differ from the ones above.</p></details>
     <div class="occparts">${parts}</div>${occDescription(j,false)}${paste}`;
 }
 /* the mapping panel inside the card (built when the card is opened) */
@@ -1211,7 +1417,12 @@ function hlPair(m){
 function mapPanel(j){
   if(isOcc(j))return occPanel(j);
   if(needsText(j)){ensureText(j).then(()=>refreshSlot(j));return '<p class="note">Loading the posting text…</p>';}
-  const head='<h3>Every keyword of the posting against your CV</h3>'+pasteBox(j);
+  /* I-16: the count that made the score comes first, so the card and this table agree. The totals
+     further down count every phrase of the posting, including the ones the score leaves out; the
+     line under them says so. */
+  const rr0=RES.find(x=>x.j===j),sc0=rr0&&rr0.s;
+  const lead=sc0?`<p class="note" style="margin:4px 0 10px"><b>${sc0.matched} Match \u00b7 ${sc0.close} Close \u00b7 ${Math.max(0,sc0.asked-sc0.matched-sc0.close)} Gap</b> of the ${sc0.asked} keywords this posting asks for \u2014 the count the score is made of, the same one on the card. Words from the job title are not among them: they earn nothing.</p>`:"";
+  const head='<h3>Every keyword of the posting against your CV</h3>'+lead+pasteBox(j);
   if(!DICT)return head+'<p class="note">The dictionary is loading…</p>';
   const m=mapData(j),r=m.r,cv=m.cvf,t=m.tot;
   if(!m.rows.length)return head+`<p class="note">No keywords were found in this posting's ${hasText(j)?"text":"title"}.</p>`;
@@ -1283,6 +1494,100 @@ function descFlags(j,flags){
   const f=(j.df&&!j.pasted)?j.df:JobMeta.descFlags(j.desc||"");
   for(const x of f)flags.push(x);
 }
+/* I-12: what the person says they are looking for, and the field they come from.
+   The job title gives no points any more, but it still says which field a posting belongs to, and
+   that is how the list keeps its direction. The goal is read from the CV's own words first
+   ("Seeking a Mechanical Engineering Internship"); when the CV says nothing, the fields of the
+   degrees and of the last job titles are used instead. */
+const GOAL_RE=/\b(?:seeking|looking for|searching for|in search of|aiming for|objective|career objective|a la recherche d'|recherche (?:un|une|d')|je recherche|souhaite (?:obtenir|integrer)|cherche (?:un|une))\b([^.\n]{0,120})/i;
+let GOAL_CACHE=null;
+function cvGoal(){
+  if(!CV)return null;
+  if(GOAL_CACHE&&GOAL_CACHE.cv===CV)return GOAL_CACHE.v;
+  const raw=CV.raw||"";
+  let v=null;
+  const m=GOAL_RE.exec(raw);
+  if(m&&m[1]&&m[1].trim().length>3){
+    const txt=m[1].trim();
+    const f=JobMeta.fieldOf(txt);
+    const kind=/\b(internship|stage|co-?op|alternance|summer student|student position)\b/i.test(txt)?"intern"
+      :/\b(part-?time|temps partiel)\b/i.test(txt)?"part":null;
+    v={text:txt.slice(0,90),field:f.id!=="other"?f.id:null,fieldLabel:f.label,kind:kind};
+  }
+  const ed=cvEduInfo();
+  /* The field the person says they want comes first. With no goal written down, the field they
+     studied and worked in most often is taken instead. Every other field they have touched is
+     kept as a second choice, so the list widens only after the first choice runs out. */
+  const count={};
+  const add=(id,n)=>{if(id&&id!=="other")count[id]=(count[id]||0)+n;};
+  for(const f of ed.fields)add(f,2);
+  for(const e of ((CV.lv&&CV.lv.entries)||[])){
+    if(e.kind!=="work"&&e.kind!=="junior")continue;
+    add(JobMeta.fieldOf(e.label||"").id,1);
+  }
+  const ranked=Object.keys(count).sort((a,b)=>count[b]-count[a]);
+  const main=(v&&v.field)||ranked[0]||null;
+  v=Object.assign({main:main,also:ranked.filter(f=>f!==main)},v||{});
+  GOAL_CACHE={cv:CV,v:v};
+  return v;
+}
+/* 0 = the person's own field, 1 = a field we could not read from the title, 2 = another field */
+function fieldRank(j){
+  const g=cvGoal();
+  if(!g||!g.main)return 0;
+  const f=fdOf(j).id;
+  if(f===g.main)return 0;
+  if(f==="other"||g.also.indexOf(f)>=0)return 1;
+  return 2;
+}
+
+/* I-08: the career stage is a filter, not points. The top 10 holds jobs the person can apply to and
+   get now: the same stage, or a neighbouring one that still fits. A job one stage up is kept aside
+   for "your next step", which becomes the career path feature.
+   Postings whose level was never stated are a third of the list, so they are not thrown away: they
+   are shown to everyone except a student, and to a student only when the posting says no experience
+   is needed. */
+/* which levels of posting a person at each stage can apply to and get now. The table the site used
+   before was generous: it called a manager posting a fit for someone with four years, which is how
+   27 of the 40 jobs in the first audit sat above the person's real stage. */
+const STAGE_OK=[[0,1],[0,1],[1,2],[2,3],[3,4]];
+function stageOk(j){
+  const b=meBand();
+  if(b===null)return true;
+  const lv=lvOf(j);
+  if(lv.src==="default")  /* the posting never said: show it to everyone but a student */
+    return b!==0||/no experience|aucune experience|no prior experience|will train|entry[- ]level|debutant/i.test(j.title+" "+(j.desc||""));
+  return STAGE_OK[b].indexOf(lv.lvl)>=0;
+}
+/* A job one step above what this person can get now: kept for the career path, never shown in the
+   top 10. It is read from the same table as the filter, not from the old fit scores, which called a
+   manager posting a fit for someone with four years. */
+function nextStep(j){
+  const b=meBand();
+  if(b===null)return false;
+  const lv=lvOf(j);
+  if(lv.src==="default")return false;          /* the posting never said its level: not a step up either */
+  const top=STAGE_OK[b][STAGE_OK[b].length-1];
+  return lv.lvl===top+1;
+}
+
+/* what the CV shows for the education part of the score, worked out once per CV */
+let EDU_CACHE=null;
+function cvEduInfo(){
+  if(!CV)return {level:0,fields:[]};
+  if(EDU_CACHE&&EDU_CACHE.cv===CV)return EDU_CACHE.v;
+  const v=JobMeta.cvEdu(CV.raw||"");
+  EDU_CACHE={cv:CV,v:v};
+  return v;
+}
+/* the degree a posting asks for, on the 0 to 6 scale (0 = it does not say) */
+function eduAskedOf(j){
+  /* 0 means the education part is left out and the rest is scaled up to 100. A posting that says
+     "no degree required" (1) is left out for the same reason: the employer does not care, so a
+     degree must not earn 20 free points there. 5,958 Job Bank postings say exactly that. */
+  const e=(j.od&&j.od.e)||j.ea||(j.desc?JobMeta.eduAsked(j.title+"\n"+j.desc):0);
+  return e>1?e:0;
+}
 function scoreJob(j){
   const T=norm(j.title+" "+j.type);
   const b=meBand(),lv=lvOf(j),fit=JobMeta.fit(b,lv.lvl),rel=JobMeta.relation(b,lv.lvl);
@@ -1291,7 +1596,12 @@ function scoreJob(j){
   const terms=termsIn(norm(j.title)),past=terms.length>0&&terms.every(x=>x.end<NOWIX);
   const val=$("term").value,tgt=!val||new RegExp(val).test(T);
   const anyTerm=/(winter|hiver|spring|printemps|summer|ete|fall|autumn|automne)\W+20\d\d|\b20\d\d\b/.test(T);
-  const sc=Scoring.compute(rows,fit,{past,intern,tgt,anyTerm});
+  /* phase 5: skills, education and credentials. The title and the level give no points: the level
+     decides whether the posting belongs in the list at all, which is done where the list is built. */
+  for(const x of rows){x.cred=JobMeta.isCredential(x.n);x.general=x.kind==="s"&&GENERAL.has(x.n);}
+  const ed=cvEduInfo(),askEdu=eduAskedOf(j);
+  const parts={eduAsked:askEdu,eduHave:ed.level,eduRelated:JobMeta.eduRelated(fdOf(j).id,ed.fields)};
+  const sc=Scoring.compute(rows,parts);
   if(past)flags.push(["b","Term is in the past ("+terms[0].label+")"]);
   else if(/management trainee|leadership program|programme de leadership|nouveaux|graduate program|diplome/.test(T)&&!intern)flags.push(["w","New-graduate programme: may exclude current students"]);
   if(!past&&intern){
@@ -1299,6 +1609,26 @@ function scoreJob(j){
     else if(!val){}
     else if(anyTerm)flags.push(["w","Term differs from your target: check dates"]);
     else flags.push(["w","Term not in title: verify dates"]);
+  }
+  /* I-11: a licence or certificate the posting says is mandatory. When we can name it and it is not
+     written on the CV, the job leaves the top 10 and says why. A driver's licence is a note only:
+     most people have one and few write it down. */
+  let blocked=null,ask=null;
+  {
+    const cvTxt=norm((CV&&CV.raw)||"");
+    /* worked out when the postings were read (j.mh); the text itself is not held in memory */
+    const list=j.mh||(j.desc?JobMeta.mustHaves(j.desc):[]);
+    for(const mh of list){
+      if(mh.driving){flags.push(["w","Driver's licence asked for: add it to your CV if you have one"]);continue;}
+      if(!mh.what){flags.push(["w","A certificate or licence is called mandatory: read the posting"]);continue;}
+      if(cvTxt.indexOf(norm(mh.what))>=0){flags.push(["g","Mandatory "+mh.what+": on your CV"]);continue;}
+      const said=licAns(mh.what);
+      if(said==="yes"){flags.push(["g","Mandatory "+mh.what+": you told us you have it"]);continue;}
+      if(said==="wip"){flags.push(["w","Mandatory "+mh.what+": you told us you are working on it"]);continue;}
+      if(said==="no"){flags.push(["b","Mandatory: "+mh.what+". You told us you do not have it."]);blocked=blocked||mh.what;continue;}
+      flags.push(["b","Mandatory: "+mh.what+". Not on your CV."]);
+      (ask=ask||[]).push(mh);
+    }
   }
   const lang=langOf(j);
   flags.push(lang==="bi"?["n","Bilingual posting"]:lang==="fr"?["w","French-language posting"]:["","English posting: French may still be required, verify"]);
@@ -1309,7 +1639,11 @@ function scoreJob(j){
   if(FED.test(co))flags.push(["b","Federal security clearance and citizenship rules likely: verify"]);
   else if(DEFENCE.test(co))flags.push(["w","Aerospace / defence employer: security screening or Controlled Goods may apply"]);
   if(hasText(j))descFlags(j,flags);
-  return{role:sc.role,level:sc.level,overlap:sc.overlap,total:sc.total,rows,cov:sc.cov,matched:sc.matched,close:sc.close,n:sc.n,flags,lv,rel,fit,past,ti:{past,intern,tgt,anyTerm},conf:isOcc(j)?"Occupation profile":hasText(j)?(j.partial?"Short snippet":"Full text"):"Title only"};
+  return{parts,blocked,ask,skills:sc.skills,education:sc.education,credentials:sc.credentials,total:sc.total,rows,cov:sc.cov,
+    matched:sc.matched,close:sc.close,asked:sc.asked,n:sc.n,available:sc.available,
+    eduAsked:sc.eduAsked,eduGap:sc.eduGap,eduWanted:askEdu,eduHave:ed.level,
+    credAsked:sc.credAsked,credGot:sc.credGot,credWant:sc.credWant,
+    flags,lv,rel,fit,past,ti:{past,intern,tgt,anyTerm},conf:isOcc(j)?"Occupation profile":hasText(j)?(j.partial?"Short snippet":"Full text"):"Title only"};
 }
 
 let tab="full",RES=[],RES_VER=-1,RUN=0,SCORING="",SCORED_FOR=null,SCORE_PC=0;
@@ -1364,20 +1698,52 @@ function tagsHtml(j,rel){
 }
 /* how the three parts of the score were counted */
 function breakdown(j,s){
-  const b=meBand(),lv=s.lv;
-  const lvTxt=`The posting reads as <b>${esc(LV[lv.lvl].label)}</b>${lv.why?` (${esc(lv.why)})`:""}. ${b===null?"Your stage is not known, so this part is a middle value.":`Your stage is <b>${esc(BAND[b].label)}</b>, a ${Math.round(s.fit*100)}% fit.`}${s.past?" The term has passed, so it is capped at 3.":""}`;
+  const pct=Math.round(s.cov*100),full=Math.round(Scoring.SKILL_FULL*100);
+  const eduTxt=s.eduAsked
+    ? `The posting asks for <b>${esc(EDU_ASKED[s.eduWanted]||"a degree")}</b>. Your CV shows <b>${esc(EDU_ASKED[s.eduHave]||"no degree we could read")}</b>.`
+      +(s.eduGap>=0?" Same level or higher.":s.eduGap===-1?" One level short.":" Two levels or more short.")
+      +" A degree in progress counts."
+    : "This posting names no degree, so this part is left out and the rest is scaled up to 100.";
+  const credTxt=s.credAsked
+    ? `The posting names ${s.credWant} certificate${s.credWant===1?"":"s"} or licence${s.credWant===1?"":"s"}; ${s.credGot} ${s.credGot===1?"is":"are"} on your CV.`
+    : "This posting names no certificate, so this part is left out and the rest is scaled up to 100.";
   return `<table class="how"><tbody>
-    <tr><th>Role fit ${s.role}/40</th><td>How much of the title and the required keywords of the posting your CV covers. A Close keyword counts half.</td></tr>
-    <tr><th>Level fit ${s.level}/25</th><td>${lvTxt}</td></tr>
-    <tr><th>Keywords ${s.overlap}/35</th><td>${s.matched} Match and ${s.close} Close, out of the ${s.n} main keywords counted (${Math.round(s.cov*100)}% weighted coverage; 40% earns the full 35). Few keywords means a cautious score. Confidence: ${s.conf}.</td></tr></tbody></table>`;
+    <tr><th>Skills ${s.skills}/70</th><td>${s.matched} Match and ${s.close} Close, out of the ${s.asked} keywords this posting asks for (${pct}% weighted coverage; ${full}% earns the full 70). A Close counts half. Words from the job title give no points. Few keywords means a cautious score. Confidence: ${s.conf}.</td></tr>
+    <tr><th>Education ${s.education}/20</th><td>${eduTxt}</td></tr>
+    <tr><th>Credentials ${s.credentials}/10</th><td>${credTxt}</td></tr>
+    <tr><th>Out of ${s.available}</th><td>The parts this posting actually asks for. The score shown is ${s.skills}+${s.education}+${s.credentials} = ${s.skills+s.education+s.credentials} of ${s.available}, written out of 100. Your career stage gives no points: it decides which postings are in the list at all.</td></tr></tbody></table>`;
 }
 /* The score drawn as it is counted: three parts on one 0 to 100 track. The pale band is the
    plus or minus 5 points inside which two scores are a tie, so the picture never claims more than the number does. */
 function scoreMeter(s,slim){
   const t=s.total,lo=Math.max(0,t-5),hi=Math.min(100,t+5);
-  const lab=`Score ${t} out of 100: role ${s.role} of 40, level ${s.level} of 25, keywords ${s.overlap} of 35. Scores within 5 points of each other are ties.`;
-  return `<div class="meter${slim?" slim":""}" role="img" aria-label="${lab}"><div class="mtrack" title="Marks at 45 and 60. The pale frame is plus or minus 5 points: scores inside it are ties."><span class="mtie" style="left:${lo}%;width:${hi-lo}%"></span><span class="mfill"><i class="mr" style="width:${s.role}%"></i><i class="ml" style="width:${s.level}%"></i><i class="mk" style="width:${s.overlap}%"></i></span><span class="mpin" style="left:${t}%"></span></div>${slim?"":`
-    <div class="mleg" aria-hidden="true"><span class="r"><b>${s.role}</b>/40 Role</span><span class="l"><b>${s.level}</b>/25 Level</span><span class="k"><b>${s.overlap}</b>/35 Keywords</span></div>`}</div>`;
+  const sh=v=>s.available?Math.round(100*v/s.available):0;
+  const a=sh(s.skills),b=sh(s.education),c=sh(s.credentials);
+  const lab=`Score ${t} out of 100: skills ${s.skills} of 70, education ${s.education} of 20, credentials ${s.credentials} of 10, out of the ${s.available} points this posting asks for. Scores within 5 points of each other are ties.`;
+  return `<div class="meter${slim?" slim":""}" role="img" aria-label="${lab}"><div class="mtrack" title="Marks at 45 and 60. The pale frame is plus or minus 5 points: scores inside it are ties."><span class="mtie" style="left:${lo}%;width:${hi-lo}%"></span><span class="mfill"><i class="mr" style="width:${a}%"></i><i class="ml" style="width:${b}%"></i><i class="mk" style="width:${c}%"></i></span><span class="mpin" style="left:${t}%"></span></div>${slim?"":`
+    <div class="mleg" aria-hidden="true"><span class="r"><b>${s.skills}</b>/70 Skills</span>${s.eduAsked?`<span class="l"><b>${s.education}</b>/20 Education</span>`:""}${s.credAsked?`<span class="k"><b>${s.credentials}</b>/10 Credentials</span>`:""}</div>`}</div>`;
+}
+/* The licence question, on the card that raised it. The employer's own sentence is quoted, because
+   our reading of a licence name is not good enough to decide for the person: a CV saying
+   "Professional Engineer (OIQ)" and a posting asking for "P.Eng" are the same thing to a human. */
+function askLine(r){
+  if(!r||!r.s||!r.s.ask||!r.s.ask.length)return "";
+  const m=r.s.ask[0],w=esc(m.what);
+  return `<div class="askbox" style="margin:6px 0;padding:8px 10px;border:1px solid #fca5a5;border-radius:8px;background:#fef2f2">
+    <b>This posting says you must have: ${w}.</b> It is not on your CV.
+    <div class="note" style="margin:3px 0 6px">The posting says: “${esc(m.text)}”</div>
+    <button class="lnk" data-lic="${w}" data-said="yes">I have it</button> ·
+    <button class="lnk" data-lic="${w}" data-said="wip">I am working on it</button> ·
+    <button class="lnk" data-lic="${w}" data-said="no">I do not have it</button>
+    <div class="note" style="margin-top:4px">Your answer is kept in this browser and used for every posting that asks for the same thing. Saying no takes those jobs out of your list.</div>
+  </div>`;
+}
+/* I-05: when several postings are the same job, the card says so and names where the others are */
+function dupLine(r){
+  if(!r||!r.dups||!r.dups.length)return "";
+  const where=[...new Set(r.dups.map(j=>(j.loc||"").split(",")[0].trim()).filter(Boolean))].slice(0,3);
+  const n=r.dups.length+1;
+  return `<div class="note" style="font-size:12.5px;margin-top:2px">${n} postings for this job${where.length?": also "+esc(where.join(", ")):""}. The one shown is the one we can read best.</div>`;
 }
 function jobHtml(r,rank,top){
   const {j,s}=r,a=age(j),jk=jkey(j);
@@ -1386,7 +1752,7 @@ function jobHtml(r,rank,top){
     <div>
       <div class="t">${esc(j.title)}</div>
       <div class="meta"><span>${esc(j.company)}</span><span>${esc(j.loc)}</span><span>${whenOf(j)}${a<24&&!j.mine?" · within 24h":""}</span>${srcLinks(j)?`<span>${srcLinks(j)}</span>`:""}</div>
-      ${occLine(j)}
+      ${occLine(j)}${dupLine(r)}${askLine(r)}
       ${top?`<div class="topscore"><b class="${scCls(s.total)}">${s.total}</b><span>out of 100 · ${s.conf==="Full text"?"scored from the full text":s.conf==="Occupation profile"?"scored from the occupation profile":s.conf==="Short snippet"?"scored from a short snippet":"scored from the title only"}</span></div>`:""}
       ${tagsHtml(j,s.rel)}
       ${skillsRow(j)}
@@ -1717,9 +2083,11 @@ function renderJobs(){
     v.innerHTML=`<div class="panel method"><h2>How the score works</h2><ul>
       <li><b>Your stage.</b> It is read from the CV. Dated jobs are added up (internships, co-ops, part-time and volunteer work count at 40%). A stated "N+ years of experience" or a director-level title can lift it. A degree and no dated full-time job reads as student or new graduate. If you tap a stop on the trail, your choice replaces the reading.</li>
       <li><b>The level of a posting</b> is read from its title first (intern, junior, senior, manager, director, vice-president and their French forms), then from the years of experience its text asks for.</li>
-      <li><b>Role fit (0–40):</b> how much of the title and the required keywords of the posting your CV covers.</li>
-      <li><b>Level fit (0–25):</b> how well the level of the posting suits your stage. The same level earns all 25; a neighbouring level earns most of them (a new graduate gets 23 for an entry-level job but only about 9 for a mid-level one); two or more levels away earns little or nothing. An internship whose term is not the one you want loses a few points, and a term that has passed scores almost nothing. The table is in <code>docs/jobmeta.js</code>.</li>
-      <li><b>Keyword overlap (0–35):</b> the main keywords of the posting (up to 40, title and requirements first) against your CV: a Match counts 1, a Close keyword ½. A posting that covers 40% of its weighted keywords earns all 35 points. A posting with only a few keywords is scored cautiously, so 2 of 3 does not read as 67%.</li>
+      <li><b>Skills (0–70):</b> the skills the posting asks for, against your CV. A Match counts 1, a Close keyword ½. A dictionary skill counts fully, a phrase of several words a little less, a single ordinary word little. Covering 75% of them, weighted, earns the full 70. <b>Words from the job title give no points.</b></li>
+      <li><b>Education (0–20):</b> the degree the posting asks for against the degrees on your CV, on one scale: no degree, high school, college or trade, bachelor, master, doctorate. The same level or higher in a related field earns all 20; the same level in another field keeps most of it; one level short keeps half; two levels short earns none. A degree in progress counts.</li>
+      <li><b>Credentials (0–10):</b> the certificates and licences the posting names, and how many are on your CV.</li>
+      <li><b>Out of what the posting asks.</b> A posting that names no degree is scored out of 80 and a posting that names neither degree nor certificate out of 70, then written out of 100. Nobody loses points for something the employer never asked for.</li>
+      <li><b>Your career stage gives no points.</b> It decides which postings are in the list at all: the top 10 only holds jobs you can apply to and get now. Jobs one stage up are kept for the career path.</li>
       <li><b>Flags, not points:</b> language, work permit, security, degree level and term are shown beside the score so a hidden rule never silently lowers or raises a rank.</li>
       <li>This is a heuristic, not a real applicant tracking system. Differences of 5 points or less are ties. A level reading from a CV or a title can be wrong: that is why the filter can be changed, and why every score shows its reason.</li></ul></div>
       <div class="panel method" style="margin-top:12px"><h2>Keywords and the mapping to your CV (any field)</h2><ul>
@@ -1753,25 +2121,163 @@ function copyList(list,btn,label){
 function fallback(t,b){const ta=document.createElement("textarea");ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand("copy");b.textContent="Copied"}catch(e){b.textContent="Select and copy manually"}ta.remove()}
 
 /* ---------- reading the CV ---------- */
+let READ_NOTE="",CVBAD="",CVFORCE=false,PDF_PAGES=null,CV_HEADINGS=[],READ_SCAN=false,BIG_LINES=new Set(),LAST_FILE=null;
+
+/* Reading a CV that is only a picture (a scan or a photo). The tool runs inside the
+   browser, so the CV still never leaves the computer. It is slow, so it is never
+   started on its own: the person asks for it. */
+function loadScript(src){
+  return new Promise((ok,no)=>{const el=document.createElement("script");el.src=src;el.onload=ok;el.onerror=()=>no(new Error("could not load "+src));document.head.appendChild(el);});
+}
+/* Even out the lighting before reading. A photo taken by hand almost always has a shadow falling
+   across the page, and the reader simply does not see text in the dark part: a test photo with a
+   shadow down the right-hand side lost EVERY date on the CV, because the dates were right-aligned.
+   No dates means no career stage, which decides the whole list.
+   The fix is flat-field correction, the standard one: a heavily blurred copy of the page IS the
+   lighting, so dividing the page by it leaves the ink and removes the shadow. On the test photo it
+   lifted the right-hand third from 182 to 245 in brightness and brought back all three dates. */
+function evenLighting(src){
+  const w=src.width||src.naturalWidth,h=src.height||src.naturalHeight;
+  if(!w||!h)return src;
+  const cv=document.createElement("canvas");cv.width=w;cv.height=h;
+  const cx=cv.getContext("2d",{willReadFrequently:true});
+  cx.drawImage(src,0,0,w,h);
+  const img=cx.getImageData(0,0,w,h),d=img.data;
+  /* the lighting, from a cheap box blur of a small copy - the detail does not matter, only the glow */
+  const S=Math.max(1,Math.round(Math.max(w,h)/48));
+  const sw=Math.ceil(w/S),sh=Math.ceil(h/S),sum=new Float32Array(sw*sh),cnt=new Float32Array(sw*sh);
+  for(let y=0;y<h;y++)for(let x=0;x<w;x++){
+    const i=(y*w+x)*4,g=(d[i]*0.299+d[i+1]*0.587+d[i+2]*0.114);
+    const k=((y/S)|0)*sw+((x/S)|0);sum[k]+=g;cnt[k]++;
+  }
+  const bg=new Float32Array(sw*sh);
+  for(let k=0;k<bg.length;k++)bg[k]=cnt[k]?sum[k]/cnt[k]:255;
+  const R=2,sm=new Float32Array(sw*sh);          /* smooth it so blocks do not show as edges */
+  for(let y=0;y<sh;y++)for(let x=0;x<sw;x++){
+    let s=0,n=0;
+    for(let dy=-R;dy<=R;dy++)for(let dx=-R;dx<=R;dx++){
+      const yy=y+dy,xx=x+dx;if(yy<0||xx<0||yy>=sh||xx>=sw)continue;s+=bg[yy*sw+xx];n++;
+    }
+    sm[y*sw+x]=s/n;
+  }
+  for(let y=0;y<h;y++)for(let x=0;x<w;x++){
+    const i=(y*w+x)*4,l=Math.max(1,sm[((y/S)|0)*sw+((x/S)|0)]);
+    const g=(d[i]*0.299+d[i+1]*0.587+d[i+2]*0.114);
+    const v=Math.max(0,Math.min(255,g/l*245));
+    d[i]=d[i+1]=d[i+2]=v;
+  }
+  cx.putImageData(img,0,0);
+  return cv;
+}
+/* Put the lines back where they are on the page. The reader returns text in ITS reading order, and
+   on a CV that means a right-aligned date is emitted after the bullets of the job above it - seven
+   lines from the title it belongs to. The dates then attach to the wrong job: on the test photo the
+   years came out 1.6 instead of 3.8, which is the difference between mid-level and student.
+   The reader does know where each line sits, so this rebuilds the page from those positions and
+   joins lines that share a row, whatever order they arrived in. It is the same thing cvread.js does
+   for a PDF, for the same reason. If the reader gives no positions, the plain text is used. */
+function linesByPosition(data){
+  const L=[];
+  const blocks=(data&&data.blocks)||[];
+  for(const b of blocks)for(const p of (b.paragraphs||[]))for(const ln of (p.lines||[])){
+    const t=(ln.text||"").replace(/\s+/g," ").trim();
+    const bb=ln.bbox;
+    if(!t||!bb)continue;
+    L.push({top:bb.y0,bot:bb.y1,left:bb.x0,text:t});
+  }
+  if(L.length<4)return null;                       /* not enough to trust - use the plain text */
+  L.sort((a,b)=>a.top-b.top||a.left-b.left);
+  const out=[];
+  for(const l of L){
+    const p=out[out.length-1];
+    if(p){
+      const ov=Math.min(p.bot,l.bot)-Math.max(p.top,l.top);
+      if(ov>0.55*Math.min(p.bot-p.top,l.bot-l.top)){      /* same row of the page */
+        p.text=p.left<=l.left?p.text+"   "+l.text:l.text+"   "+p.text;
+        p.top=Math.min(p.top,l.top);p.bot=Math.max(p.bot,l.bot);p.left=Math.min(p.left,l.left);
+        continue;
+      }
+    }
+    out.push({top:l.top,bot:l.bot,left:l.left,text:l.text});
+  }
+  return out.map(o=>o.text).join("\n");
+}
+async function readOne(worker,img){
+  const r=await worker.recognize(img,{},{text:true,blocks:true});
+  return linesByPosition(r.data)||r.data.text;
+}
+async function readPicture(f,onPct){
+  if(!window.Tesseract){
+    /* one CDN is a single point of failure, and school and office networks do block them */
+    try{await loadScript("https://cdnjs.cloudflare.com/ajax/libs/tesseract.js/5.1.1/tesseract.min.js");}
+    catch(e){await loadScript("https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js");}
+  }
+  const worker=await Tesseract.createWorker(["eng","fra"],1,{logger:m=>{if(m.status==="recognizing text"&&onPct)onPct(Math.round(m.progress*100));}});
+  try{
+    if(/\.(png|jpe?g)$/i.test(f.name)){
+      const bmp=await createImageBitmap(f);
+      return await readOne(worker,evenLighting(bmp));
+    }
+    const doc=await pdfjsLib.getDocument({data:await f.arrayBuffer()}).promise;
+    const out=[];
+    for(let i=1;i<=Math.min(doc.numPages,4);i++){
+      const page=await doc.getPage(i),vp=page.getViewport({scale:2});
+      const cv=document.createElement("canvas");cv.width=vp.width;cv.height=vp.height;
+      await page.render({canvasContext:cv.getContext("2d"),viewport:vp}).promise;
+      out.push(await readOne(worker,evenLighting(cv)));
+    }
+    return out.join("\n\n");
+  }finally{try{await worker.terminate();}catch(e){}}
+}
 async function readFile(f){
   const name=f.name.toLowerCase();
   if(name.endsWith(".pdf")){
     pdfjsLib.GlobalWorkerOptions.workerSrc="pdf.worker.min.js";
-    const doc=await pdfjsLib.getDocument({data:await f.arrayBuffer()}).promise;let out="";
-    for(let p=1;p<=doc.numPages;p++){const c=await(await doc.getPage(p)).getTextContent();out+=c.items.map(i=>i.str+(i.hasEOL?"\n":" ")).join("")+"\n";}
-    return out;
+    const doc=await pdfjsLib.getDocument({data:await f.arrayBuffer()}).promise;
+    const pages=[];
+    for(let p=1;p<=doc.numPages;p++){
+      const c=await(await doc.getPage(p)).getTextContent();
+      pages.push(pdfPageLines(c.items,BIG_LINES).join("\n"));
+    }
+    PDF_PAGES=dropPageFurniture(pages).map(function(x){return fixLetterSpacing(tidyText(x));});
+    READ_SCAN=PDF_PAGES.join("").replace(/\s/g,"").length<40;
+    const d=dropRepeatedPages(PDF_PAGES);
+    READ_NOTE=d.dropped?("Your file holds "+(d.dropped+1)+" versions of your CV. Your skills were read from all of them; your dates from the first one."):"";
+    return PDF_PAGES.join("\n\n");
   }
-  if(name.endsWith(".docx"))return (await mammoth.extractRawText({arrayBuffer:await f.arrayBuffer()})).value;
-  return await f.text();
+  if(/\.(png|jpe?g)$/.test(name)){READ_SCAN=true;return "";}
+  if(name.endsWith(".docx"))return tidyText((await mammoth.extractRawText({arrayBuffer:await f.arrayBuffer()})).value);
+  return tidyText(await f.text());
 }
 async function handleFile(f){
-  $("status").textContent="Reading "+f.name+"…";
+  LAST_FILE=f;
+  $("status").textContent="Reading "+f.name+"…";READ_NOTE="";CVFORCE=false;PDF_PAGES=null;READ_SCAN=false;BIG_LINES=new Set();
   try{
     const t=await readFile(f);
     if(t.trim().length<80)throw new Error("short");
     $("paste").value=t;$("status").textContent="Read "+f.name+" ("+t.length+" characters).";
-    go();
-  }catch(e){$("status").textContent="Could not read text from that file (a scanned PDF has no text). Paste the text instead.";}
+    go(READ_NOTE);
+  }catch(e){
+    $("status").innerHTML=READ_SCAN
+      ?'<b style="color:#b3261e">This file is a picture of your CV.</b> A scan or a photo holds no text in it. '+
+       'The surest way is to open your CV in Word or Pages, select all the text, copy it and paste it above. '+
+       'Or we can try to read the picture here on your computer: it takes about a minute a page and is not perfect. '+
+       '<button class="lnk" id="ocrgo" style="margin-top:6px">Read the picture</button>'
+      :'<b style="color:#b3261e">We could not read that file.</b> Paste the text in the box above instead. Word (.docx), PDF, plain text and photos work; the older .doc format does not.';
+    const ob=$("ocrgo");
+    if(ob)ob.onclick=async()=>{
+      $("status").innerHTML='Reading the picture of your CV… <span id="ocrpc">0%</span>. Keep this tab open.';
+      try{
+        const t=await readPicture(LAST_FILE,pc=>{const e=$("ocrpc");if(e)e.textContent=pc+"%";});
+        if(String(t).trim().length<80)throw new Error("short");
+        PDF_PAGES=null;BIG_LINES=new Set();
+        $("paste").value=fixLetterSpacing(tidyText(t));
+        go("Read from the picture. Reading a picture is never perfect: check the text above before you go on.");
+      }catch(err){
+        $("status").innerHTML='<b style="color:#b3261e">We could not read the picture.</b> Open your CV in Word or Pages, select all the text, copy it and paste it in the box above.';
+      }
+    };
+  }
 }
 function go(note){
   const t=$("paste").value;
@@ -1781,7 +2287,18 @@ function go(note){
   T.shown=10;
   try{sessionStorage.setItem("pm_cv",t.slice(0,60000));}catch(e){}   // this tab only: gone when it is closed
   const cf=cvFound();
-  $("status").textContent=(note?note+" ":"")+(cf?Object.keys(cf).length+" skills found on your CV.":"Reading your CV…");
+  const nSk=cf?Object.keys(cf).length:0,q=readQuality(t),noDates=!CV.lv||CV.lv.conf==="none";
+  CVBAD=!cf?"":q.singleRatio>0.35?"The text came out one letter at a time, so no word could be read.":
+        (nSk<5&&noDates)?"We found almost no skills and no dates in it.":
+        (nSk<5)?"We found almost no skills in it.":"";
+  if(CVBAD&&!CVFORCE){
+    $("status").innerHTML='<b style="color:#b3261e">We could not read your CV properly.</b> '+esc(CVBAD)+
+      '<br>Open your CV, select all the text, copy it and paste it in the box above. Or save your CV again as a PDF from Word.'+
+      ' <button id="cvforce" class="lnk" style="margin-top:6px">Continue anyway</button>';
+    const fb=$("cvforce");if(fb)fb.onclick=()=>{CVFORCE=true;go(note);};
+  }else{
+    $("status").textContent=(note?note+" ":"")+(cf?nSk+" skills found on your CV.":"Reading your CV…");
+  }
   paintStage();renderCvRead();renderDetails();paintNav();writeHash();run();
 }
 const SAMPLES={
@@ -1948,10 +2465,10 @@ function cmpHtml(){
   return `<p class="note" style="margin:8px 0">${lead}${weak?" A score read from a title or a short snippet is less reliable than one read from a full text.":""}</p>
   <table class="cmpt"><thead><tr><td></td>${rs.map(r=>`<th scope="col"><div>${esc(r.j.title)}</div><div class="note" style="font-weight:400">${esc(r.j.company)}</div></th>`).join("")}</tr></thead><tbody>
   ${row("Score out of 100",r=>`<span class="big ${scCls(r.s.total)}">${r.s.total}</span>${scoreMeter(r.s,true)}`,r=>r.s.total===best&&tops[0]-tops[1]>5)}
-  ${row("Role fit (of 40)",r=>r.s.role,r=>r.s.role===mx("role"))}
-  ${row("Level fit (of 25)",r=>r.s.level,r=>r.s.level===mx("level"))}
-  ${row("Keywords (of 35)",r=>r.s.overlap,r=>r.s.overlap===mx("overlap"))}
-  ${row("Keyword coverage",r=>Math.round(r.s.cov*100)+"%")}
+  ${row("Skills (of 70)",r=>r.s.skills,r=>r.s.skills===mx("skills"))}
+  ${row("Education (of 20)",r=>r.s.eduAsked?r.s.education:"not asked",r=>r.s.education===mx("education"))}
+  ${row("Credentials (of 10)",r=>r.s.credAsked?r.s.credentials:"not asked",r=>r.s.credentials===mx("credentials"))}
+  ${row("Skills covered",r=>Math.round(r.s.cov*100)+"%")}
   ${row("Match · Close · Gap",r=>`${r.s.matched} · ${r.s.close} · ${Math.max(0,r.s.n-r.s.matched-r.s.close)}`)}
   ${row("Level",r=>esc(LV[lvOf(r.j).lvl].label))}
   ${row("Field",r=>esc(fdOf(r.j).label))}
@@ -1980,10 +2497,10 @@ function csvCell(v){
   return /[",\n\r]/.test(t)?'"'+t.replace(/"/g,'""')+'"':t;
 }
 function csvOf(list){
-  const head=["Rank","Score","Role fit (of 40)","Level fit (of 25)","Keywords (of 35)","Match","Close","Gap","Company","Role","Level","Field","Location","Province","Posted","Type","Board","Link","Flags"];
+  const head=["Rank","Score","Skills (of 70)","Education (of 20)","Credentials (of 10)","Match","Close","Gap","Company","Role","Level","Field","Location","Province","Posted","Type","Board","Link","Flags"];
   const rows=list.map((r,i)=>{
     const s=r.s,j=r.j;
-    return [i+1,s?s.total:"",s?s.role:"",s?s.level:"",s?s.overlap:"",s?s.matched:"",s?s.close:"",s?Math.max(0,s.n-s.matched-s.close):"",j.company,j.title,LV[lvOf(j).lvl].label,fdOf(j).label,j.loc,j.province||"",j.date,j.type||"",j.sources[0].src,j.sources[0].url||"",s?s.flags.map(f=>f[1]).join("; "):""];
+    return [i+1,s?s.total:"",s?s.skills:"",s?s.education:"",s?s.credentials:"",s?s.matched:"",s?s.close:"",s?Math.max(0,s.n-s.matched-s.close):"",j.company,j.title,LV[lvOf(j).lvl].label,fdOf(j).label,j.loc,j.province||"",j.date,j.type||"",j.sources[0].src,j.sources[0].url||"",s?s.flags.map(f=>f[1]).join("; "):""];
   });
   return "\ufeff"+[head,...rows].map(r=>r.map(csvCell).join(",")).join("\r\n");
 }
@@ -2160,7 +2677,7 @@ function renderDetails(){
   if(JOBS.length&&$("dloc").options.length<2)fillDetails();
   syncDetails();
   const has=!!CV;
-  $("dgo").disabled=!has;$("dclear").hidden=!has;
+  $("dgo").disabled=!has||(!!CVBAD&&!CVFORCE);$("dclear").hidden=!has;
   $("dhint").textContent=has?"":"Add your CV to continue.";
   if(JOBS.length){
     const n=JOBS.filter(prefOk).length;
@@ -2179,6 +2696,14 @@ $("dkind").addEventListener("change",e=>{
 $("dlang").addEventListener("change",e=>{P.lang=e.target.value;prefsChanged();});
 $("dwhen").addEventListener("change",e=>{P.within=+e.target.value;prefsChanged();});
 $("dgo").onclick=()=>showPage("matches",true);
+document.addEventListener("toggle",e=>{if(e.target.id==="cvcheck")CHECK_OPEN=e.target.open;},true);
+document.addEventListener("click",e=>{
+  const L=e.target.closest("[data-lic]");
+  if(L){e.preventDefault();setLic(L.getAttribute("data-lic"),L.getAttribute("data-said"));return;}
+  const d=e.target.closest("[data-drop]"),b=e.target.closest("[data-back]");
+  if(d){e.preventDefault();dropSkill(d.dataset.drop,false);}
+  else if(b){e.preventDefault();dropSkill(b.dataset.back,true);}
+});
 $("dclear").onclick=()=>{
   CV=null;SCORED_FOR=null;T.shown=10;
   try{sessionStorage.removeItem("pm_cv");}catch(e){}
@@ -2188,11 +2713,61 @@ $("dclear").onclick=()=>{
 
 /* ---------- page 3: the top 10 ---------- */
 /* The best postings for this CV among those that fit the details: ranked by score, at most 2 per employer so one company cannot fill the list. */
+/* I-05: the same job reaches us more than once - the employer's own posting and Job Bank's open-data
+   record of it, or the same opening posted in two nearby towns. One job, one card. Two postings are
+   the same job when the cleaned title, the occupation and the province match and they were posted
+   within 45 days of each other. The card kept is the one we can read in full, then the newest; the
+   others are counted on it. */
+const dupKey=j=>norm(DICT&&DICT.cleanTitle?DICT.cleanTitle(j.title):j.title)+"|"+(j.noc&&j.noc.c?nocCode(j):"-")+"|"+(j.province||"-");
+function mergeDups(list){
+  const groups=new Map(),out=[];
+  for(const r of list){
+    const k=dupKey(r.j),g=groups.get(k);
+    const d=Date.parse((r.j.date||"")+"T12:00:00")||0;
+    if(g&&Math.abs(d-g.date)<=45*864e5){
+      g.also.push(r);
+      const better=(hasText(r.j)&&!r.j.partial&&!(hasText(g.keep.j)&&!g.keep.j.partial))||
+                   ((hasText(r.j)&&!r.j.partial)===(hasText(g.keep.j)&&!g.keep.j.partial)&&d>g.date);
+      if(better){g.also[g.also.length-1]=g.keep;g.keep=r;g.date=d;}
+      continue;
+    }
+    const ng={keep:r,date:d,also:[]};
+    groups.set(k,ng);out.push(ng);
+  }
+  return out.map(g=>{
+    const r=g.keep;
+    r.dups=g.also.length?g.also.map(x=>x.j):null;
+    return r;
+  });
+}
 function rankPool(cap,maxPer){
-  const fit=RES.filter(r=>r.s&&!r.j.ex&&prefOk(r.j)&&!r.s.past);
+  const fit0=RES.filter(r=>r.s&&!r.j.ex&&prefOk(r.j)&&!r.s.past);
+  const fit=mergeDups(fit0.slice().sort(sortFns.match));
   const full=fit.filter(r=>(hasText(r.j)&&!r.j.partial)||isOcc(r.j));   /* an occupation profile is the official description of the job */
   const relaxed=P.fullOnly&&full.length<10&&fit.length>full.length;
-  const pool=(P.fullOnly&&!relaxed?full:fit).slice().sort(sortFns.match);
+  const pool0=(P.fullOnly&&!relaxed?full:fit).slice().sort(sortFns.match);
+  /* I-12: jobs in the person's own field come first, in score order; the rest fill what is left.
+     The field changes the order, never the score. */
+  /* I-08 first: only jobs at the person's stage. I-12 second: their own field first, then the
+     postings whose field we could not read, then the rest. Both change the order and the list,
+     never the score. */
+  const atStage=pool0.filter(r=>stageOk(r.j)&&!r.s.blocked);
+  const use=atStage.length>=Math.min(10,cap)?atStage:pool0;
+  /* the order, never the score: the person's own field first, then the kind of work they asked for
+     (an internship if that is what the CV says), then their exact level. Equal keys keep the order
+     they came in, which is the score order. */
+  const g=cvGoal(),b=meBand();
+  /* What the person asked for only moves a posting up while the posting is still a real match: at
+     least half the best score in the list. Otherwise an internship with a score of 4 would sit above
+     a technician job with 47 just because the CV says "stage". */
+  const best=use.reduce((m,r)=>Math.max(m,(r.s&&r.s.total)||0),0);
+  const worth=r=>((r.s&&r.s.total)||0)>=best*0.5;
+  /* Which level to show first among the ones this person can get. If the CV asks for an internship,
+     internships. Otherwise the highest level they can get: a new graduate wants the entry-level job
+     before the internship, not the other way round. */
+  const want=(g&&g.kind==="intern")?0:(b===null?null:STAGE_OK[b][STAGE_OK[b].length-1]);
+  const key=r=>fieldRank(r.j)*10+((want!==null&&lvOf(r.j).lvl===want&&worth(r))?0:2);
+  const pool=use.map((r,i)=>[key(r),i,r]).sort((x,y)=>x[0]-y[0]||x[1]-y[1]).map(x=>x[2]);
   const per=new Map(),all=[];
   for(const r of pool){
     const c=r.j.od?"od|"+nocCode(r.j):norm(r.j.company),n=per.get(c)||0;   /* open-data postings name no employer: at most 2 per occupation */
@@ -2234,6 +2809,15 @@ function paintProgress(){
 }
 function renderMatches(){
   if(!CV){showPage("details");return;}
+  if(CVBAD&&!CVFORCE){
+    $("tprofile").innerHTML="";$("tlead").textContent="";
+    $("topview").innerHTML='<div class="panel"><h3 style="margin-top:0">We could not read your CV</h3>'+
+      '<p>'+esc(CVBAD)+' Without it, every posting would score the same, so this ranking would mean nothing.</p>'+
+      '<p>Open your CV, select all the text, copy it, and paste it on the previous page. Or save your CV again as a PDF from Word.</p>'+
+      '<p><a class="btn" href="#p=details" data-p="details">Back to my CV</a></p></div>';
+    for(const id of ["tactions","tgaps","tmarket","tfullL"])$(id).hidden=true;
+    return;
+  }
   $("tprofile").innerHTML=prefSummary();
   $("tall").textContent=nf(JOBS.length);
   const v=$("topview"),busy=!!(SCORING||SCORED_FOR!==CV||!DICT);
@@ -2248,6 +2832,16 @@ function renderMatches(){
     return;
   }
   $("tlead").innerHTML=`From ${nf(JOBS.length)} postings, <b>${nf(t.fit)}</b> fit your details. ${t.out.length>10?`Showing ranks 1 to ${t.out.length}`:t.out.length===10?"These 10":t.out.length===1?"This 1":"These "+t.out.length} fit${t.out.length===1?"s":""} your CV best.${t.relaxed?" Fewer than 10 have a full text, so postings with only a title or snippet are included.":""}`;
+  /* I-12 and I-08: say out loud what decided the order, so it is never a hidden rule */
+  (function(){
+    const g=cvGoal(),b=meBand(),out=[];
+    if(g&&g.main)out.push("Jobs in <b>"+esc(g.fieldLabel||g.main)+"</b> come first.");
+    if(g&&g.kind==="intern")out.push("Internships and co-ops come before other jobs, because your CV says you are looking for one.");
+    if(b!==null)out.push("Only jobs you can apply to and get at your stage (<b>"+esc(BAND[b].label)+"</b>) are listed.");
+    if(!out.length)return;
+    out.push("Your stage and your goal change the order and the list, never the score.");
+    $("tlead").innerHTML+=`<br><span class="note">`+out.join(" ")+`</span>`;
+  })();
   if(Object.values(SAMPLES).includes(CV.base))$("tlead").insertAdjacentHTML("beforeend",` <span class="exnote">This is an example CV, not a real person. <a href="#p=details" data-p="details">Add yours</a> to see your own Top 10.</span>`);
   /* a run of postings whose scores are all within 5 points of the first one is one tie: a heuristic cannot rank them apart */
   const grp=[];
@@ -2458,7 +3052,7 @@ async function loadServer(){
     for(const x of d.jobs){
       const k=norm(x.company)+"|"+norm(x.title)+(x.province?"|"+x.province:"");
       if(m.has(k))continue;
-      m.set(k,{company:x.company,title:x.title,loc:x.loc,date:x.date,type:x.type||"",sources:x.sources,desc:x.desc||"",id:x.id||"",dl:x.dl!=null?x.dl:(x.desc||"").length,lv:x.lv||null,lg:x.lg||null,df:x.df||null,province:x.province||"",kw:x.kw||null,kt:x.kt||0,
+      m.set(k,{company:x.company,title:x.title,loc:x.loc,date:x.date,type:x.type||"",sources:x.sources,desc:x.desc||"",id:x.id||"",dl:x.dl!=null?x.dl:(x.desc||"").length,ea:x.ea||0,mh:x.mh||null,lv:x.lv||null,lg:x.lg||null,df:x.df||null,province:x.province||"",kw:x.kw||null,kt:x.kt||0,
         ageH:x.postedAt?(Date.now()-Date.parse(x.postedAt))/36e5:x.ageH!=null?x.ageH+(Date.now()-at)/36e5:null,snap:!!d.mock,partial:!!x.partial,noc:x.noc||null,op:x.op||0});
     }
     const before=new Set(JOBS.map(jkey)),wasFresh=new Set(JOBS.filter(j=>j.fresh).map(jkey));
@@ -2482,7 +3076,12 @@ async function loadDict(){
   try{
     const r=await fetch("skills.json?t="+Date.now(),{cache:"no-store"});
     if(!r.ok)throw new Error("HTTP "+r.status);
-    DICT=Matcher.engine(await r.json());
+    const dj=await r.json();CV_HEADINGS=dj.cv_headings||[];GENERAL=new Set((dj.general||[]).concat(dj.soft||[]));DICT=Matcher.engine(dj);
+    /* I-15: the credentials map, if it is published beside the dictionary */
+    try{const rc=await fetch("credentials.json");if(rc.ok){CREDS=await rc.json();
+      /* the map can arrive after a CV has already been read: forget what was worked out without it */
+      if(CV){CV._creds=null;CV._full=null;CV._pyf=null;CV._lw=null;paintStage();renderCvRead();renderDetails();run();}
+    }}catch(e){CREDS=null;}
     if(CV){const cf=cvFound();if(cf&&/^Reading/.test($("status").textContent))$("status").textContent=Object.keys(cf).length+" skills found on your CV.";}
     run();
   }catch(e){console.warn("dictionary not loaded",e);$("status").textContent="The skills dictionary could not be loaded, so postings cannot be scored. Reload the page to try again.";}

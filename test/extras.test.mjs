@@ -27,8 +27,13 @@ function load(storedValue) {
   const ctx = vm.createContext({
     localStorage: { getItem: (k) => store[k] ?? null, setItem: (k, v) => { store[k] = v; } },
     JobMeta: { cvLevel: (t) => { cvLevelCalls.push(t); return { lvl: 1 }; } },
-    CV: null, T: { shown: 10 }, paintStage() {}, renderCvRead() {}, renderDetails() {}, paintNav() {}, writeHash() {}, run() {}
+    CV: null, T: { shown: 10 }, paintStage() {}, renderCvRead() {}, renderDetails() {}, paintNav() {}, writeHash() {}, run() {},
+    /* page state the reader keeps about the CV just read */
+    CV_HEADINGS: [], BIG_LINES: new Set(), PDF_PAGES: null
   });
+  /* the page loads cvread.js before its own script, and the extras layer calls into it
+     (markSections, dropRepeatedPages), so the sandbox needs it too */
+  vm.runInContext(read("cvread.js"), ctx);
   vm.runInContext(src + "\nthis.api={XKINDS,XMAX,xClean,get XTRA(){return XTRA},saveExtras,withExtras,xSig,mkCV,xBy,setCV(c){CV=c}};", ctx);
   return { api: ctx.api, store };
 }

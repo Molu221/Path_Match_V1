@@ -13,3 +13,6 @@ export function loadUmd(file, name) {
 export const loadJobMeta = () => loadUmd("jobmeta.js", "JobMeta");
 export const loadMatcher = () => loadUmd("matcher.js", "Matcher");
 export const loadSkills = () => JSON.parse(fs.readFileSync(path.join(DOCS, "skills.json"), "utf8"));
+export const loadCvRead = () => loadUmd("cvread.js", "CvRead");
+export const loadCredentials = () => JSON.parse(fs.readFileSync(path.join(DOCS, "credentials.json"), "utf8"));
+export const docsFile = (f) => fs.readFileSync(path.join(DOCS, f), "utf8");
