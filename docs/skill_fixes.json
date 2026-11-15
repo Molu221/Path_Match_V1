@@ -1,0 +1,361 @@
+{
+ "_": "Phase 3 (I-18, I-04): words that switched on the wrong skill. Found by listing every skill found on the 4 test CVs with the exact words that triggered it. 'drop' removes a spelling from a skill; 'add' gives the skill the longer spellings that are not ambiguous; 'move' hands the spellings to a skill that is really theirs. Nothing here guesses: every line was seen on a real CV.",
+ "version": "2026-11-15",
+ "fix": [
+  {
+   "skill": "Financial analysis",
+   "drop": [
+    "portfolio management",
+    "gestion de portefeuille"
+   ],
+   "add": [
+    "investment portfolio management",
+    "financial portfolio management",
+    "gestion de portefeuille de placements"
+   ],
+   "seen": "CV3 · 'Patent Portfolio Management' was read as Financial analysis"
+  },
+  {
+   "skill": "Healthcare and clinical",
+   "drop": [
+    "dispensing"
+   ],
+   "add": [
+    "dispensing medication",
+    "medication dispensing",
+    "dispensing prescriptions"
+   ],
+   "seen": "CV3 · 'liquid detergent dispensing' was read as Healthcare"
+  },
+  {
+   "skill": "Contracts and legal",
+   "drop": [
+    "patent",
+    "patents",
+    "intellectual property",
+    "propriete intellectuelle",
+    "brevet",
+    "brevets",
+    "patent search",
+    "patent filing",
+    "agent de brevets",
+    "depot de brevet",
+    "depot de brevets",
+    "patent investigation",
+    "freedom to operate",
+    "patentability",
+    "brevetabilite",
+    "strategie de propriete intellectuelle",
+    "strategies de propriete intellectuelle",
+    "droits de propriete intellectuelle",
+    "protection de la propriete intellectuelle"
+   ],
+   "seen": "CV3 · patent work was filed under Contracts and legal, so the person's main expertise had no skill of its own"
+  },
+  {
+   "skill": "Banking",
+   "drop": [
+    "branch manager",
+    "directeur de succursale",
+    "directrice de succursale"
+   ],
+   "add": [
+    "bank branch manager",
+    "directeur de succursale bancaire"
+   ],
+   "seen": "CV4 · 'worked with branch managers' was read as Banking"
+  },
+  {
+   "skill": "Construction and estimating",
+   "drop": [
+    "subcontractors",
+    "sous-traitants",
+    "chantier"
+   ],
+   "add": [
+    "construction subcontractors",
+    "sous-traitants en construction",
+    "subcontractor management",
+    "chantier de construction"
+   ],
+   "seen": "CV4 · 'coordinating with vendors/subcontractors' was read as Construction"
+  },
+  {
+   "skill": "Technical drawings",
+   "drop": [
+    "bill of materials",
+    "bom",
+    "boms",
+    "nomenclature",
+    "nomenclatures",
+    "material list",
+    "liste de materiel"
+   ],
+   "seen": "CV4 · a bill of materials is a parts list, not a drawing. The spellings move to their own skill below."
+  },
+  {
+   "skill": "Systems programming",
+   "drop": [
+    "operating systems",
+    "systemes d'exploitation"
+   ],
+   "add": [
+    "operating system development"
+   ],
+   "seen": "CV4 · 'Operating Systems: Windows 10' in the tools list was read as Systems programming"
+  },
+  {
+   "skill": "Windows client administration",
+   "drop": [
+    "windows 10",
+    "windows 11"
+   ],
+   "seen": "CV4 · naming the Windows version you use is not administering it"
+  },
+  {
+   "skill": "Consignment and VMI",
+   "drop": [
+    "gpa"
+   ],
+   "seen": "CV2 · a grade point average was read as Consignment and VMI"
+  },
+  {
+   "skill": "Data scraping APIs",
+   "drop": [
+    "data collection",
+    "collecte de donnees"
+   ],
+   "add": [
+    "web scraping",
+    "data scraping",
+    "api data collection"
+   ],
+   "seen": "CV2 · helping faculty with 'data collection' was read as Data scraping APIs"
+  },
+  {
+   "skill": "Sales proposals",
+   "drop": [
+    "quotes",
+    "quotations"
+   ],
+   "add": [
+    "sales quotes",
+    "customer quotes",
+    "quotes to customers"
+   ],
+   "seen": "CV4 · asking suppliers for quotes is purchasing, not selling"
+  },
+  {
+   "skill": "Media production management",
+   "drop": [
+    "production coordinator",
+    "coordonnateur de production",
+    "coordonnatrice de production"
+   ],
+   "add": [
+    "media production coordinator",
+    "film production coordinator",
+    "tv production coordinator"
+   ],
+   "seen": "CV4 · a factory Production Coordinator was read as media production"
+  },
+  {
+   "skill": "Organizational skills",
+   "drop": [
+    "organized",
+    "organise",
+    "organisee"
+   ],
+   "seen": "CV1 and CV3 · the single word 'organized' was enough to claim the skill"
+  },
+  {
+   "skill": "Time management",
+   "drop": [
+    "deadlines"
+   ],
+   "seen": "CV4 · the word 'deadlines' alone was enough"
+  },
+  {
+   "skill": "Real estate brokerage",
+   "drop": [
+    "immobilier"
+   ],
+   "seen": "CV1 · a school visit to see how 'un projet immobilier' is designed was read as real estate brokerage: the bare word 'immobilier' was a spelling of the skill"
+  },
+  {
+   "skill": "Courier and parcel",
+   "drop": [
+    "purolator",
+    "fedex",
+    "canada post",
+    "postes canada"
+   ],
+   "add": [
+    "courier company",
+    "parcel delivery",
+    "livraison de colis"
+   ],
+   "seen": "CV4 · the employer's name (Purolator) was read as a skill. Company names are not skills (I-04)."
+  }
+ ],
+ "new": [
+  {
+   "n": "Patents and intellectual property",
+   "s": "curated",
+   "a": [
+    "patent",
+    "patents",
+    "patent portfolio",
+    "patent portfolio management",
+    "prior art",
+    "prior art search",
+    "prior art searches",
+    "novelty search",
+    "patentability",
+    "patentability assessment",
+    "freedom to operate",
+    "fto analysis",
+    "patent infringement",
+    "ip infringement",
+    "patent drafting",
+    "patent claims",
+    "patent filing",
+    "patent prosecution",
+    "intellectual property",
+    "ip strategy",
+    "ip portfolio",
+    "trademark",
+    "trademarks",
+    "brevet",
+    "brevets",
+    "brevetabilite",
+    "recherche d'anteriorite",
+    "recherches d'anteriorite",
+    "propriete intellectuelle",
+    "portefeuille de brevets",
+    "contrefacon de brevet",
+    "redaction de brevets",
+    "marque de commerce",
+    "marques de commerce"
+   ],
+   "why": "CV3 · the person's main work (patents, prior art, novelty search, freedom to operate) had no skill of its own, so none of it was found (I-19)"
+  },
+  {
+   "n": "Bill of materials (BOM)",
+   "s": "curated",
+   "a": [
+    "bill of materials",
+    "bills of materials",
+    "bom",
+    "boms",
+    "bom management",
+    "bom accuracy",
+    "multi-level bom",
+    "engineering bom",
+    "manufacturing bom",
+    "parts list",
+    "component list",
+    "nomenclature",
+    "nomenclatures",
+    "liste de materiel",
+    "liste de pieces",
+    "gestion des nomenclatures"
+   ],
+   "why": "CV4 · BOM purchasing is a real skill of its own; it used to be filed under Technical drawings"
+  }
+ ],
+ "note_budgeting": "The skill named 'Budgeting' also holds every cost-management spelling (cost reduction, cost estimation, cost analysis). It is not a wrong match, but the name shown to the person is wrong: it should read 'Budgeting and cost management'. Renaming touches the related and inferred tables, so it is left for phase 5, where the score and the cards change anyway.",
+ "falseFriends": {
+  "_": "I-20: these words are written the same in French and in English but mean something else, so on their own they prove nothing. They are never a match by themselves; inside a phrase they still count, because the other words settle the meaning. Seen on CV4: the posting's 'ventes au detail' (retail sales) matched 'attention to details'.",
+  "words": [
+   "detail",
+   "details",
+   "location",
+   "locations",
+   "formation",
+   "formations",
+   "actuel",
+   "actuelle",
+   "actual",
+   "librairie",
+   "library",
+   "libraries",
+   "sensible",
+   "eventuel",
+   "eventuelle",
+   "eventual",
+   "assister",
+   "deception",
+   "college",
+   "collegial",
+   "agenda",
+   "cave",
+   "coin",
+   "pile",
+   "piles",
+   "monnaie",
+   "caution",
+   "avertissement",
+   "rente",
+   "store",
+   "stores",
+   "bureau",
+   "bureaux",
+   "chiffre",
+   "police",
+   "plus",
+   "car",
+   "cars"
+  ]
+ },
+ "general": {
+  "_": "Phase 5 (I-09): skills that nearly every posting asks for and nearly every CV has. They are real skills, but matching on them says little about whether this person fits this job, so they count about a third of a specific skill (MRP, SolidWorks, PLC). They are still shown as a Match.",
+  "names": [
+   "Communication",
+   "Written communication",
+   "Verbal communication",
+   "Teamwork",
+   "Collaboration",
+   "Problem solving",
+   "Analytical skills",
+   "Critical thinking",
+   "Attention to detail",
+   "Adaptability",
+   "Creativity",
+   "Innovation",
+   "Time management",
+   "Organizational skills",
+   "Interpersonal skills",
+   "Leadership",
+   "Mentoring and coaching",
+   "Multitasking",
+   "Independent judgment",
+   "Initiative",
+   "Work ethic",
+   "Perseverance",
+   "Rigor",
+   "Customer service",
+   "Presentation skills",
+   "Documentation",
+   "Reporting",
+   "Planning",
+   "Coordinating",
+   "Optimization",
+   "Continuous improvement mindset",
+   "Flexibility",
+   "Autonomy",
+   "Dependability",
+   "Professionalism",
+   "Positive attitude",
+   "Motivation",
+   "Decision making",
+   "Stakeholder management",
+   "Administrative support",
+   "Teaching and training",
+   "Attention to safety",
+   "Self-management",
+   "Prioritization",
+   "Meeting deadlines"
+  ]
+ }
+}

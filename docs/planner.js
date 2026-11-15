@@ -44,13 +44,13 @@
   }
 
   /* rows: the posting's keywords against the CV (see scoring.js). Returns {mid, lo, hi}: mid is the score the page shows. */
-  function range(Scoring, rows, fit, termInfo, seed) {
-    const mid = Scoring.compute(rows, fit, termInfo).total, n = rows.length;
+  function range(Scoring, rows, parts, seed) {
+    const mid = Scoring.compute(rows, parts).total, n = rows.length;
     if (n < 2) return { mid, lo: mid, hi: mid };
     const r = rng(hash(seed)), out = [], pick = new Array(n);
     for (let b = 0; b < DRAWS; b++) {
       for (let i = 0; i < n; i++) pick[i] = rows[Math.floor(r() * n)];
-      out.push(Scoring.compute(pick, fit, termInfo).total);
+      out.push(Scoring.compute(pick, parts).total);
     }
     out.sort((a, b) => a - b);
     const q = (p) => out[Math.min(out.length - 1, Math.max(0, Math.round(p * (out.length - 1))))];

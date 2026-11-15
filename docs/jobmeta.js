@@ -156,9 +156,11 @@
   /* ------------------------------------------------------------------ level of a person ------------------------------------------------------------------ */
 
   const MON = "(?:jan\\w*|feb\\w*|fev\\w*|mar\\w*|apr\\w*|avr\\w*|may|mai|jun\\w*|juin|jul\\w*|juil\\w*|aug\\w*|aou\\w*|sep\\w*|oct\\w*|nov\\w*|dec\\w*)\\.?";
-  const D = "(?:" + MON + "[\\s,.'-]*(?:19|20)\\d{2}|\\d{1,2}\\/(?:19|20)\\d{2}|(?:19|20)\\d{2})";
+  const D = "(?:" + MON + "[\\s,.'-]*(?:19|20)\\d{2}|(?:19|20)\\d{2}[-\\/](?:0?[1-9]|1[0-2])(?![\\d])|\\d{1,2}\\/(?:19|20)\\d{2}|(?:19|20)\\d{2})";
   const PRESENT = "present|current|currently|now|today|ongoing|en cours|aujourd'hui|presentement|maintenant|a ce jour|to date";
   const RANGE_SRC = "(" + D + ")\\s*(?:-|to|until|through|au|a)\\s*(" + D + "|" + PRESENT + ")";
+  /* an open-ended job: "since March 2023", "depuis mars 2023" */
+  const SINCE_SRC = "(?:since|depuis|from)\\s+(" + D + ")\\s*$";
   const MONTHS = { jan: 1, feb: 2, fev: 2, mar: 3, apr: 4, avr: 4, may: 5, mai: 5, jun: 6, juin: 6, jul: 7, juil: 7, aug: 8, aou: 8, sep: 9, oct: 10, nov: 11, dec: 12 };
 
   function parseDate(s, isEnd, now) {
@@ -167,6 +169,8 @@
     const y = /((?:19|20)\d{2})/.exec(s);
     if (!y) return null;
     const year = +y[1];
+    const iso = /^((?:19|20)\d{2})[-\/](\d{1,2})$/.exec(s);
+    if (iso) return +iso[1] * 12 + (+iso[2] - 1);
     const num = /^(\d{1,2})\//.exec(s);
     if (num) return year * 12 + (+num[1] - 1);
     const mm = new RegExp("^" + MON.replace("\\.?", "")).exec(s) ? s.match(/[a-z]+/)[0] : null;
@@ -191,12 +195,21 @@
   const SEC = {
     edu: /^(education|formation|etudes?|scolarite|academic|academics|parcours (scolaire|academique)|studies)\b/,
     exp: /^(work |professional |relevant |employment )?(experience|experiences|history|employment|emploi|emplois|parcours professionnel|experience professionnelle|experiences professionnelles)\b|^work history/,
-    other: /^(projects?|projets?|volunteer\w*|benevolat|certifications?|licen[sc]es?|awards?|honou?rs|activities|extracurricular\w*|leadership|publications?|skills?|competences|languages?|langues|interests|references|courses|coursework|training)\b/
+    other: /^(projects?|projets?|volunteer\w*|benevolat|certifications?|licen[sc]es?|awards?|achievements?|accomplishments?|scholarships?|bourses?|distinctions?|honou?rs|activities|extracurricular\w*|leadership|publications?|patents?|hobb(y|ies)|loisirs?|skills?|competences|languages?|langues|interests|references|courses|coursework|training)\b/
   };
   const DEGREE = /\b(bachelor|b\.? ?sc|b\.? ?eng|b\.? ?a\b|b\.? ?comm?|beng|bsc|master|m\.? ?sc|m\.? ?eng|m\.? ?a\b|meng|msc|mba|ph\.? ?d|doctorat|diploma|diplome|degree|licence|baccalaureat|maitrise|gpa|coursework|dec (en|in)|deec|aec\b|major in|minor in|honours)\b/;
   const SCHOOL = /\b(university|universite|college|cegep|ecole|school|institute|polytechni\w*|academy)\b/;
-  const JOBWORD = /\b(assistant|engineer|ingenieur|developer|analyst|analyste|manager|gestionnaire|coordinat\w*|specialist|technician|technicien|officer|consultant|teacher|enseignant|nurse|infirmi\w*|clerk|representative|agent|advisor|conseiller|designer|researcher|director|directeur|lead|supervisor|superviseur|associate|accountant|comptable|programmer|architect|administrator|operator|worker|lecturer|professor|instructor)\b/;
-  const JUNIORISH = /\b(interns?|internships?|stagiaires?|stages?|co-?op|coop|students?|etudiants?|volunteer\w*|benevole\w*|apprentic\w*|summer|part[- ]time|temps partiel|externship|placement|research assistant|teaching assistant|assistant de recherche|assistant d'enseignement|tutor|work-study)\b/;
+  /* headings that list prizes, where a job title beside the dates still means a job (see below) */
+  const PRIZE_SEC = /^(awards?|achievements?|accomplishments?|distinctions?|honou?rs)\b/;
+  /* the name of a prize is not a job title, even when it holds a word like "student" or "engineer"
+     ("Inspirational Boy Student Award", "Dean's Merit Scholarship") */
+  const PRIZE_NAME = /\b(award|awards|prize|prizes|scholarship|bursary|medal|trophy|honou?r roll|dean'?s list|principal'?s list|certificate of (appreciation|achievement|recognition|excellence)|winner|finalist|laureat|boursier|bourse|prix|mention honorable)\b/;
+  const JOBWORD = /\b(assistant|engineer|ingenieur|developer|analyst|analyste|manager|gestionnaire|coordinat\w*|specialist|technician|technicien|officer|consultant|teacher|enseignant|nurse|infirmi\w*|clerk|representative|agent|advisor|conseiller|designer|researcher|director|directeur|lead|supervisor|superviseur|associate|accountant|comptable|programmer|architect|administrator|operator|operateur|worker|planner|planificateur|buyer|acheteur|controller|controleur|scheduler|tutor|tuteur|cashier|caissier|driver|chauffeur|server|serveur|cook|cuisinier|apprentice|apprenti|trainee|stagiaire|intern|lecturer|professor|instructor)\b/;
+  const JUNIORISH = /\b(interns?|internships?|stagiaires?|stages?|co-?op|coop|students?|etudiants?|volunteer\w*|benevole\w*|apprentic\w*|apprenti\w*|alternan\w*|contrat de professionnalisation|professionnalisation|seasonal|saisonnier|work[- ]study|summer|part[- ]time|temps partiel|externship|placement|research assistant|teaching assistant|assistant de recherche|assistant d'enseignement|tutor|work-study)\b/;
+  /* Wording that says the person is studying RIGHT NOW. Weaker wording, such as
+     "student association" or "recent graduate", is deliberately left out: it also
+     appears on the CV of someone with years of work behind them. */
+  const STUDY_NOW = /\b(currently (pursuing|enrolled|studying|completing)|presently (pursuing|enrolled)|expected (graduation|completion|date)|anticipated (graduation|completion)|graduating (in )?(spring|summer|fall|winter|20\d\d)|candidate for|co-?op student|student at|etudiant(e)? (a|au|en)|en cours d'etudes|diplome prevu|graduation prevue)\b/;
   const STUDENT_CUE = /\b(currently (pursuing|enrolled|studying|completing)|presently (pursuing|enrolled)|expected (graduation|completion|date)|anticipated (graduation|completion)|graduating (in )?(spring|summer|fall|winter|20\d\d)|candidate for|etudiant(e)? (a|au|en)|student at|in progress|en cours d'etudes|diplome prevu|graduation prevue|co-?op student|student association|recent graduate|new graduate|nouveau diplome|jeune diplome)\b/;
 
   function cvLevel(text, now) {
@@ -204,9 +217,37 @@
     const raw = String(text || "");
     const lines = raw.split(/\r?\n/);
     const nowIx = now.getFullYear() * 12 + now.getMonth();
-    const ft = [], junior = [], edu = [];
+    const ft = [], junior = [], edu = [], entries = [];
     const titles = [];
-    let section = "";
+    let section = "", section_head = "";
+    /* What a date belongs to is named on a nearby line: a job title, a degree, a school.
+       It can sit on the same line, above it, or below it, depending on how the CV is laid
+       out, so look around instead of at one fixed place. This is what makes the same CV
+       give the same years however it was copied or exported. */
+    let nearAt = -1, nearKind = "";        /* the line near() chose, and what made it the one: used as the entry's name, and to tell a job from a prize */
+    function near(i) {
+      const strip = (k) => {
+        if (k < 0 || k >= lines.length) return "";
+        return fold(lines[k]).replace(new RegExp(RANGE_SRC, "g"), " ").replace(/\s{2,}/g, " ").trim();
+      };
+      const order = [i, i - 1, i - 2, i + 1, i + 2];
+      nearAt = -1; nearKind = "";
+      /* A job title wins over the name of the place: "Research Assistant" at a
+         "University lab" is student work, not studies. */
+      for (const k of order) {
+        const t = strip(k);
+        if (t.length >= 3 && (JOBWORD.test(t) || JUNIORISH.test(t))) { nearAt = k; nearKind = "job"; return t; }
+      }
+      for (const k of order) {
+        const t = strip(k);
+        if (t.length >= 3 && (DEGREE.test(t) || SCHOOL.test(t))) { nearAt = k; nearKind = "edu"; return t; }
+      }
+      for (const k of order) {
+        const t = strip(k);
+        if (t.length >= 3) { nearAt = k; nearKind = "plain"; return t; }
+      }
+      return "";
+    }
     let anyDate = false;
     const why = [];
     for (let i = 0; i < lines.length; i++) {
@@ -216,22 +257,70 @@
         const head = line.replace(/[:\s]+$/, "");
         if (SEC.edu.test(head)) { section = "edu"; continue; }
         if (SEC.exp.test(head)) { section = "exp"; continue; }
-        if (SEC.other.test(head)) { section = "other"; continue; }
+        if (SEC.other.test(head)) { section = "other"; section_head = head; continue; }
       }
       const re = new RegExp(RANGE_SRC, "g");
+      const pairs = [];
       let m;
-      while ((m = re.exec(line))) {
-        const a = parseDate(m[1], false, now), b = parseDate(m[2], true, now);
+      while ((m = re.exec(line))) pairs.push([m[1], m[2]]);
+      if (!pairs.length) {
+        const sm = new RegExp(SINCE_SRC).exec(line);
+        if (sm) pairs.push([sm[1], "present"]);
+      }
+      for (const pair of pairs) {
+        let a = parseDate(pair[0], false, now), b = parseDate(pair[1], true, now);
         if (a == null || b == null || b < a || a < 1970 * 12 || b - a > 50 * 12) continue;
         anyDate = true;
-        const prev = i > 0 ? fold(lines[i - 1]) : "";
-        const ctx = line.length < 50 ? prev + " " + line : line;
+        /* "August 2022 - 2023 (1 month each)" is two months of work, not a year. */
+        const eachM = /\((\d{1,2})\s*(month|months|mois|week|weeks|semaine|semaines)\s*(?:each|chacun|chaque|per year|par an|\/\s*year)\)/
+          .exec(line + " " + (i + 1 < lines.length ? fold(lines[i + 1]) : ""));
+        if (eachM) {
+          const per = /week|semaine/.test(eachM[2]) ? Math.max(1, Math.round(+eachM[1] / 4)) : +eachM[1];
+          const spanYears = Math.max(1, Math.floor(b / 12) - Math.floor(a / 12) + 1);
+          b = a + per * spanYears - 1;
+        }
+        const titleLine = near(i);
+        const ctx = titleLine + " " + line;
         const isEdu = section === "edu" || DEGREE.test(ctx) || (SCHOOL.test(ctx) && !JOBWORD.test(ctx));
-        if (isEdu) { edu.push([a, b]); continue; }
-        if (section === "other") continue;
+        const label = (function () {
+          const clean = (x) => String(x || "").replace(/[\u2013\u2014]/g, "-")
+            .replace(new RegExp(RANGE_SRC, "gi"), " ").replace(/\(\s*\)/g, " ").replace(/^[\s,;:|.\-\u2022\u00b7\u25cf\u25aa*]+/, "")
+            .replace(/[-|,;:]+\s*$/, "").replace(/\s{2,}/g, " ").trim();
+          /* a name must say what the thing is: not a heading, not a note in brackets, not a place or a number */
+          const usable = (t) => t.length >= 4 && /\p{L}{3}/u.test(t) && !/^\(/.test(t) &&
+            !SEC.edu.test(fold(t)) && !SEC.exp.test(fold(t)) && !SEC.other.test(fold(t)) &&
+            !/^(cgpa|gpa|moyenne)\b/i.test(t);
+          /* the line the job title was read from comes first, but only when it sits on the dates'
+             line or above: a line below belongs to the next entry, so a prize does not take its name */
+          const tries = [];
+          if (nearAt >= 0 && nearAt <= i) tries.push(nearAt);
+          tries.push(i, i - 1, i - 2, i - 3);
+          if (nearAt > i) tries.push(nearAt);
+          tries.push(i + 1, i + 2);
+          for (const k of tries) {
+            if (k < 0 || k >= lines.length) continue;
+            const t = clean(lines[k]);
+            if (usable(t)) return t.length > 64 ? t.slice(0, 64) + "\u2026" : t;
+          }
+          const t = clean(lines[i]);
+          return t.length > 64 ? t.slice(0, 64) + "\u2026" : t;
+        })();
+        const months = (lo, hi) => Math.max(0, hi - lo + 1);
+        if (isEdu) { entries.push({ kind: "edu", months: months(a, b), label: label, at: i, endAgeY: Math.max(0, (nowIx - Math.min(b, nowIx)) / 12) }); edu.push([a, b]); continue; }
+        /* Awards, prizes, hobbies, projects and volunteering do not count as work. The one exception
+           is a prizes heading with a job title sitting right beside the dates ("Graduate Engineer
+           Trainee"): in a two-column CV the reading order can carry the next job in under an
+           ACHIEVEMENTS heading, and that job is real work. The title must sit on the dates' line or
+           above it: a title below belongs to the next entry, so a prize does not borrow it.
+           Volunteering keeps its own rule and never counts, job title or not. */
+        const titleIsPrize = nearAt >= 0 && nearAt < lines.length && PRIZE_NAME.test(fold(lines[nearAt]));
+        if (section === "other" && !(PRIZE_SEC.test(section_head) && nearKind === "job" && nearAt <= i && !titleIsPrize)) {
+          entries.push({ kind: "other", months: months(a, b), label: label, at: i, endAgeY: Math.max(0, (nowIx - Math.min(b, nowIx)) / 12) }); continue;
+        }
         if (a >= nowIx) continue;
-        if (JUNIORISH.test(ctx)) { junior.push([a, Math.min(b, nowIx)]); continue; }
+        if (JUNIORISH.test(ctx)) { entries.push({ kind: "junior", months: months(a, Math.min(b, nowIx)), label: label, at: i, endAgeY: Math.max(0, (nowIx - Math.min(b, nowIx)) / 12) }); junior.push([a, Math.min(b, nowIx)]); continue; }
         if (a >= nowIx) continue;
+        entries.push({ kind: "work", months: months(a, Math.min(b, nowIx)), label: label, at: i, endAgeY: Math.max(0, (nowIx - Math.min(b, nowIx)) / 12) });
         ft.push([a, Math.min(b, nowIx)]);
         const lv = jobLevel(ctx.replace(new RegExp(RANGE_SRC, "g"), " "), "", "");
         if (lv.src === "title") titles.push(lv.lvl);
@@ -239,8 +328,9 @@
     }
     const studentCue = STUDENT_CUE.test(fold(raw)) || edu.some(([, b]) => b >= nowIx - 1);
     const fullM = union(ft), junM = union(junior);
+    const junExtra = Math.max(0, union(ft.concat(junior)) - fullM);   // student months not already inside a full-time job
     let years = fullM / 12;
-    const eff = years + 0.4 * (junM / 12);
+    const eff = years + 0.4 * (junExtra / 12);
     let conf = anyDate ? "dates" : "none";
     const stated = [];
     const sre = /(\d{1,2})\s*\+?\s*(?:years?|yrs?|ans)'?\s*(?:of\s*|d'\s*)?(?:[a-z-]+\s+){0,3}(?:experience|expertise)/g;
@@ -256,17 +346,27 @@
       const eduSeen = DEGREE.test(f) || SCHOOL.test(f);
       if (studentCue || JUNIORISH.test(f)) { band = 0; conf = "cues"; why.push("student or internship wording, and no dated full-time job"); }
       else if (eduSeen && f.length < 6000) { band = 0; conf = "cues"; why.push("a degree and no dated full-time job"); }
-      else return { band: null, years: null, conf: "none", why: ["no dates or years of experience found on the CV"], titleMax: null };
+      else return { band: null, years: null, conf: "none", why: ["no dates or years of experience found on the CV"], titleMax: null, entries: entries };
     } else {
       band = useYears < 1 ? 0 : useYears < 3 ? 1 : useYears < 7 ? 2 : 3;   // years alone never make someone a director: that needs a director-level title
       if (fullM) why.push(Math.round(fullM / 12 * 10) / 10 + " years of dated full-time work");
-      if (junM) why.push(Math.round(junM / 12 * 10) / 10 + " years of internships, co-ops or part-time work (counted at 40%)");
+      if (junExtra) why.push(Math.round(junExtra / 12 * 10) / 10 + " years of internships, co-ops, apprenticeships or part-time work (counted at 40%)");
       if (titleMax >= 4 && useYears >= 6 && band < 4) { band = 4; why.push("a director-level title"); }
       else if (titleMax >= 3 && useYears >= 5 && band < 3) { band = 3; why.push("a senior or manager title"); }
       if (band === 0 && !fullM && !claim) why.push("no dated full-time job");
     }
-    if (band >= 2 && studentCue && useYears < 2) band = 0;
-    return { band, years: Math.round(useYears * 10) / 10, conf, why, titleMax: titleMax || null, student: studentCue };
+    const workingNow = ft.some(([, b]) => b >= nowIx - 2);
+    const eduRunning = edu.some(([, b]) => b >= nowIx - 1);     // a degree that has not finished
+    const studyCue = STUDY_NOW.test(f);
+    const studyingNow = eduRunning || studyCue;
+    /* Someone studying now, with no job running now, is looking for student work.
+       A degree that has not finished is proof on its own; wording alone only counts
+       for someone who has not already built a long career. */
+    if (band !== null && band > 0 && !workingNow && (eduRunning || (studyCue && useYears < 5))) {
+      band = 0;
+      why.push("studying now, with no job running now: internships and entry-level jobs come first");
+    } else if (band >= 2 && studentCue && useYears < 2) band = 0;
+    return { band, years: Math.round(useYears * 10) / 10, conf, why, titleMax: titleMax || null, student: studentCue, studyingNow: studyingNow, workingNow: workingNow, entries: entries };
   }
 
   /* how well a posting of level L suits a person of band B: rows are the person, columns the posting (0 intern .. 4 director) */
@@ -344,6 +444,52 @@
     return FR_T.test(t) || (t.match(FR_W) || []).length >= 2 ? "fr" : "en";
   }
   /* things to check yourself, found in the text: [colour code, message]. Never part of the score. */
+  /* I-11: a licence or certificate the posting says you must have. A posting is read sentence by
+     sentence; a sentence that says "required", "mandatory", "must hold" near a licence word names a
+     must-have. A driver's licence is reported apart, because most people have one and few write it
+     on a CV, so it is a note and never a reason to drop a job. */
+  const MUST = /\b(required|require[sd]?|mandatory|must (have|hold|possess|be)|is a must|necessary|obligatoire|exige|requis|obligatoirement|doit (detenir|posseder|etre))\b/;
+  const LICENCE = /\b(licen[cs]e|licence|permis|certificat\w*|certification|accreditation|designation|ticket|card|carte|red seal|sceau rouge|p\.? ?eng|member of the order|membre de l'ordre|oiq|peo|cpa|rn\b|registered nurse|journeyman|compagnon)\b/;
+  const DRIVING = /\b(driver'?s? licen[cs]e|permis de conduire|class [1-5]\b|classe [1-5]\b|\bdz\b|\baz\b|clean driving record|dossier de conduite)\b/;
+  function mustHaves(desc) {
+    const out = [];
+    const txt = String(desc || "");
+    if (!txt) return out;
+    for (const raw of txt.split(/(?<=[.;!?\n])\s+/)) {
+      const t = plain(raw);
+      if (t.length < 12 || t.length > 320) continue;
+      if (!MUST.test(t) || !LICENCE.test(t)) continue;
+      const driving = DRIVING.test(t);
+      const name = raw.replace(/\s+/g, " ").trim();
+      /* the thing itself: a named certificate reads as capitalised words ending on the licence word
+         ("Water Treatment Operator Certificate"), or as a known short form (P.Eng, CPA, PMP). */
+      let what = null;
+      const m = /((?:[A-Z][\w&().'-]*\s+){0,4}(?:Certificate|Certification|Licen[cs]e|Permit|Designation|Card|Ticket|Red Seal))\b/.exec(name)
+        || /\b(P\.? ?Eng|OIQ|PEO|CPA|CFA|PMP|CAPM|CSCP|CPIM|RSE|Red Seal|WHMIS|SIMDUT|ASP Construction|CSTS|H2S Alive|TDG)\b/i.exec(name);
+      if (m) what = m[1].replace(/[)\](,;]+/g, " ").replace(/\s+/g, " ").trim();
+      /* "License" on its own names nothing we could look for on a CV: keep it as a note, not a block */
+      if (what && !/\s/.test(what) && !/^(p\.? ?eng|oiq|peo|cpa|cfa|pmp|capm|cscp|cpim|whmis|simdut|csts|tdg)$/i.test(what)) what = null;
+      out.push({ driving: driving, what: what, text: name.length > 150 ? name.slice(0, 150) + "\u2026" : name });
+      if (out.length >= 6) break;
+    }
+    /* The same requirement is often written twice in one posting ("current TDG and IATA
+       certification", then "TDG Certification required"). Keep the fullest name of each thing, so
+       the card does not flag one licence three times. */
+    const keep = [];
+    for (const m of out) {
+      const k = plain(m.what || m.text);
+      let skip = false;
+      for (let i = 0; i < keep.length; i++) {
+        const o = plain(keep[i].what || keep[i].text);
+        if (!m.what || !keep[i].what) continue;
+        if (o.indexOf(k) >= 0) { skip = true; break; }
+        if (k.indexOf(o) >= 0) { keep[i] = m; skip = true; break; }
+      }
+      if (!skip) keep.push(m);
+    }
+    return keep.slice(0, 3);
+  }
+
   function descFlags(desc) {
     const t = plain(desc), flags = [];
     if (!t) return flags;
@@ -362,5 +508,102 @@
     return flags;
   }
 
-  return { fold, LEVELS, BANDS, FIT, FIT_MIN, FIELD_LIST, jobLevel, factsLevel, cvLevel, fit, relation, fieldOf, isStudentTitle, yearsAsked, langOf, descFlags };
+
+  /* ---------- education, for the score (phase 5) ----------
+     One scale, 0 to 6, the same one Job Bank's open data uses:
+     0 not said · 1 no degree · 2 high school · 3 college, CEGEP or trade · 4 bachelor · 5 master · 6 doctorate. */
+  const EDU_RE = [
+    [6, /\b(ph\.? ?d|doctorate|doctorat|post-?doc)\b/],
+    /* "maîtrise" in French usually means being good at something ("maîtrise du français"), not a
+       master's degree. Only "maîtrise en/ès <subject>" and "diplôme de maîtrise" are the degree:
+       of 575 postings using the word, 539 meant proficiency. */
+    [5, /\b(master'?s?|m\.? ?sc|m\.? ?eng|meng|msc|mba|m\.? ?a\b|graduate degree|deuxieme cycle|doctor of medicine|\bmd\b|pharm\.? ?d|jd\b|llm)\b|\bmaitrise\s+(en|es)\b|\bdiplome de maitrise\b/],
+    [4, /\b(bachelor'?s?|baccalaureat|undergraduate degree|b\.? ?sc|b\.? ?eng|beng|bsc|b\.? ?a\b|b\.? ?comm?|bba|bcom|four-?year degree|university degree|diplome universitaire|premier cycle|licence universitaire)\b/],
+    [3, /\b(college|cegep|dec\b|dep\b|aec\b|diploma|diplome d'etudes collegiales|technical diploma|trade (school|certificate|qualification)|apprenticeship certificate|red seal|associate degree|two-?year (program|diploma)|polytechnic)\b/],
+    [2, /\b(high school|secondary school|diplome d'etudes secondaires|\bdes\b|\bged\b|secondary (v|5))\b/],
+    [1, /\b(no (formal )?(degree|diploma|education) (is )?(required|needed)|aucun diplome|no minimum education|education: none)\b/]
+  ];
+  /* a line that names a degree itself, not a grade average or a list of courses beside it */
+  const DEGREE_LINE = /\b(bachelor|b\.? ?sc|b\.? ?eng|b\.? ?a\b|b\.? ?comm?|beng|bsc|bba|bcom|master|m\.? ?sc|m\.? ?eng|m\.? ?a\b|meng|msc|mba|ph\.? ?d|doctorat|diploma|diplome|degree|baccalaureat|maitrise|licence|dec (en|in)|deec|aec\b|dep\b|major in|minor in)\b/;
+
+  /* the degree a posting asks for: the highest level it names */
+  function eduAsked(text) {
+    const t = fold(text || "");
+    if (!t) return 0;
+    /* A posting often names more than one ("Bachelor's required, a Master's or PhD an asset").
+       What it asks for is the lowest bar it names, not the highest: the higher ones are wishes.
+       Reading the highest turned 427 postings into doctorate jobs. */
+    let low = 0;
+    for (const [lvl, re] of EDU_RE) if (re.test(t)) low = low ? Math.min(low, lvl) : lvl;
+    return low;
+  }
+  /* the degrees on a CV: the highest one, and the fields they are in. A degree in progress counts:
+     the person will have it. Only the education part of the CV is read, so a posting's words quoted
+     in a job description do not become the person's degree. */
+  /* the lines of a CV that are about what the person studied: the education section, and any line
+     that names a degree. Used so that "industrial engineering" written in a job description does not
+     turn into an industrial engineering degree. */
+  function cvEduText(text) {
+    const out = [];
+    let section = "";
+    for (const raw of String(text || "").split(/\r?\n/)) {
+      const line = fold(raw);
+      if (!line) continue;
+      if (line.length <= 40 && !/\d{4}/.test(line)) {
+        const head = line.replace(/[:\s]+$/, "");
+        if (SEC.edu.test(head)) { section = "edu"; continue; }
+        if (SEC.exp.test(head) || SEC.other.test(head)) { section = ""; continue; }
+      }
+      if (section === "edu" || DEGREE_LINE.test(line)) out.push(raw);
+    }
+    return out.join("\n");
+  }
+
+  function cvEdu(text) {
+    const lines = String(text || "").split(/\r?\n/);
+    let section = "", best = 0;
+    const fields = new Set();
+    for (const raw of lines) {
+      const line = fold(raw);
+      if (!line) continue;
+      if (line.length <= 40 && !/\d{4}/.test(line)) {
+        const head = line.replace(/[:\s]+$/, "");
+        if (SEC.edu.test(head)) { section = "edu"; continue; }
+        if (SEC.exp.test(head) || SEC.other.test(head)) { section = ""; continue; }
+      }
+      const inEdu = section === "edu" || DEGREE.test(line);
+      if (!inEdu) continue;
+      if (/\b(high school|secondary school|ecole secondaire)\b/.test(line) && !DEGREE.test(line.replace(/\bdiplome d'etudes secondaires\b/, ""))) {
+        best = Math.max(best, 2); continue;
+      }
+      for (const [lvl, re] of EDU_RE) if (re.test(line)) { best = Math.max(best, lvl); break; }
+      /* only the degree's own line names the subject. A list of courses or a grade average beside it
+         would otherwise add a field the person did not study. */
+      if (!DEGREE_LINE.test(line)) continue;
+      const f = fieldOf(line);
+      if (f.id !== "other") fields.add(f.id);
+    }
+    return { level: best, fields: [...fields] };
+  }
+  /* is the degree in the same area as the job? "other" on either side means we cannot tell, and we
+     do not punish what we cannot tell. */
+  function eduRelated(jobFieldId, cvFields) {
+    if (!jobFieldId || jobFieldId === "other") return null;
+    if (!cvFields || !cvFields.length) return null;
+    if (cvFields.indexOf(jobFieldId) >= 0) return true;
+    /* neighbours: studying one of these is a fair preparation for the other */
+    const NEAR = { engineering: ["science", "trades", "ops", "construction"], science: ["engineering", "health"],
+      ops: ["engineering", "finance", "admin", "trades"], trades: ["engineering", "construction", "ops"],
+      construction: ["engineering", "trades"], finance: ["ops", "admin", "legal"], data: ["science", "software", "finance"],
+      software: ["data", "engineering"], admin: ["ops", "finance", "hr"], hr: ["admin", "legal"],
+      marketing: ["creative", "admin"], creative: ["marketing"], health: ["science"], legal: ["finance", "hr"],
+      education: ["admin"], product: ["software", "data", "ops"] };
+    const near = NEAR[jobFieldId] || [];
+    return cvFields.some((f) => near.indexOf(f) >= 0);
+  }
+  /* the certificates and licences a keyword names */
+  const CRED_RE = /\b(certifi|certificat|licence|license|permis|accredit|designation|red seal|sceau rouge|p\.? ?eng|ing\b|cpa\b|cfa\b|pmp\b|capm\b|cscp\b|cpim\b|cltd\b|six sigma|green belt|black belt|lean belt|itil|cissp|comptia|ccna|aws certified|azure certified|whmis|simdut|first aid|secourisme|cpr\b|rcr\b|forklift|chariot elevateur|class [1-5] (licence|license|driver)|driver'?s? licence|driver'?s? license|permis de conduire|asp construction|carte de competence|trade qualification|journeyman|compagnon|nccer|aspe|cpht|rcic|csts|h2s alive|tdg\b|transportation of dangerous goods)\b/i;
+  function isCredential(name) { return CRED_RE.test(fold(name || "")); }
+
+  return { fold, LEVELS, BANDS, FIT, FIT_MIN, FIELD_LIST, jobLevel, factsLevel, cvLevel, fit, relation, fieldOf, isStudentTitle, yearsAsked, langOf, descFlags, mustHaves, eduAsked, cvEduText, cvEdu, eduRelated, isCredential };
 });

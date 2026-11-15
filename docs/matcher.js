@@ -152,8 +152,24 @@
     const inferred = dict.inferred || {};
     const why = dict.why || {};
     const headings = new Set((dict.cv_headings || []).map(h => fold(h).trim()));
+    /* I-03: parts of a CV that must not feed the matching. What you do on a Sunday and the prizes you
+       won are not skills an employer is buying ("Cooking: beginner" was read as Culinary arts), and a
+       high-school line is too old and too general to count. */
+    const OFF_SECTION = new Set(["interests", "interest", "hobbies", "hobby", "interets", "interet",
+      "centres d'interet", "centre d'interet", "loisirs", "loisir", "activites", "personal interests",
+      "awards", "award", "achievements", "achievement", "honours", "honors", "distinctions", "prix",
+      "scholarships", "bourses", "references", "reference", "references professionnelles",
+      "extracurricular activities", "activites parascolaires", "parascolaire"]);
+    /* A hobbies or prizes list is short. In a two-column CV the reading order can carry real work
+     * lines in under such a heading (CV3: the ACHIEVEMENTS heading sits in one column and the next
+     * job follows it), so the part left out stops after this many lines; after that we are plainly
+     * reading something else and it counts again. */
+    const OFF_MAX = 12;
+    const SCHOOL_LINE = /\b(high school|secondary school|middle school|junior high|lycee|college d'enseignement secondaire|ecole secondaire|ecole primaire|elementary school|diplome d'etudes secondaires|high school diploma|secondaire \d|3eme|troisieme|stage d'observation|stage de decouverte)\b/;
     const stop = new Set((dict.terms && dict.terms.stop) || []);
     const weak = new Set((dict.terms && dict.terms.weak) || []);
+    /* I-20: words spelled the same in French and English with a different meaning; never a match on their own */
+    const friends = new Set((dict.terms && dict.terms.falseFriends) || []);
     const termsOn = stop.size > 0;
     const flagRes = [];
     for (const f of (dict.flags || [])) {
@@ -165,15 +181,20 @@
     function find(text, cv) {
       const out = {};
       let offset = 0;
-      let section = "HEADER";
+      let section = "HEADER", offLeft = 0;
       for (const raw of String(text).split("\n")) {
         const lineStart = offset;
         offset += raw.length + 1;
         if (cv) {
           const h = fold(raw).trim();
-          if (headings.has(h)) { section = raw.trim().toUpperCase(); continue; }
+          if (headings.has(h)) { section = raw.trim().toUpperCase(); offLeft = OFF_SECTION.has(fold(section).trim()) ? OFF_MAX : 0; continue; }
+          if (SCHOOL_LINE.test(fold(raw))) { offset = lineStart + raw.length + 1; continue; }
+          if (offLeft > 0) { if (h) offLeft--; offset = lineStart + raw.length + 1; continue; }
         }
-        const fm = foldMap(raw), line = fm.s;
+        const fm = foldMap(raw);
+        let line = fm.s;
+        /* I-04: on a CV, hide the parts that name an employer or a school before looking for skills */
+        if (cv) for (const [a, b] of orgSpans(raw, line)) line = line.slice(0, a) + " ".repeat(b - a) + line.slice(b);
         const spans = {};
         const here = candidates(line);
         for (const s of here) {
@@ -310,11 +331,37 @@
        ("Alex Example" in "Alex Example, RN") and dates ("Sep 2025", "- Present"). Same rule as python/terms.py. */
     const CV_DATE = /\b(?:jan(?:uary)?|janv(?:ier)?|feb(?:ruary)?|fev(?:rier)?|mar(?:ch|s)?|apr(?:il)?|avr(?:il)?|may|mai|june?|juin|july?|juil(?:let)?|aug(?:ust)?|aout|sept?(?:ember|embre)?|oct(?:ober|obre)?|nov(?:ember|embre)?|dec(?:ember|embre)?)\.?\s*(?:19|20)\d\d\b|(?:-|\bto\b|\bau\b|\buntil\b)\s*(?:present|current|now|today|aujourd'hui|ce jour|presentement|maintenant|en cours)\b/g;
     const NAME_SEP = /,|\||•|·|\s[-–—]\s/;
+
+    /* I-04: the name of an employer or a school is not a skill.
+     * A CV line is cut into parts at commas, bars and dashes. A part is left out of the skill search
+     * when it names an organisation: it holds a word that only organisations use (University, Collège,
+     * Inc., Ltd, Group…), it is short, and it holds a capitalised word, so it is a name and not a
+     * sentence. "B.Eng. Industrial Engineering, Concordia University" keeps the degree and drops the
+     * university; "Maintenance (GIM), IUT of Lorient" keeps the trade and drops the school.
+     * A part with 8 words or more is kept: at that length it is a sentence, not a name. */
+    const ORG_WORD = /\b(?:university|universite|college|cegep|polytechnique|institute|institut|school|schools|ecole|academy|academie|faculty|faculte|inc|ltd|ltee|limited|corp|corporation|incorporated|llc|llp|plc|sarl|gmbh|s\.a|pty|holdings|iut|lycee|high school|elementary school|secondary school)\b|\b(?:group|groupe|enterprises|entreprises|industries)\b(?=[\s.,)]*$)/;
+    function orgSpans(raw, s) {
+      const out = [];
+      let at = 0;
+      for (const piece of raw.split(/(,|\||•|·|\t|\s{3,}|\s[-–—]\s)/)) {
+        const start = at; at += piece.length;
+        const seg = piece.trim();
+        if (!seg || seg.length < 3) continue;
+        const words = seg.split(/\s+/).filter(Boolean);
+        if (words.length > 7) continue;                               /* a sentence, not a name */
+        if (!/^\p{Lu}/u.test(seg) && !words.some((w) => /^\p{Lu}\p{L}/u.test(w))) continue;
+        if (!ORG_WORD.test(fold(seg))) continue;
+        const a = start + piece.indexOf(seg);
+        out.push([Math.min(a, s.length), Math.min(a + seg.length, s.length)]);
+      }
+      return out;
+    }
     function cvSkips(raw, s, first) {
       const skip = [];
       CV_DATE.lastIndex = 0;
       let m;
       while ((m = CV_DATE.exec(s))) skip.push([m.index, m.index + m[0].length]);
+      skip.push(...orgSpans(raw, s));
       if (first) {
         /* the first line of a CV starts with the person's name: 2 to 4 capitalized words before a comma or a dash */
         const seg = raw.split(NAME_SEP)[0].trim(), words = seg.split(/\s+/).filter(Boolean);
@@ -329,9 +376,13 @@
     /* the CV as lines of words, built once per CV */
     function indexCv(text) {
       const lines = [];
-      let offset = 0, first = true;
+      let offset = 0, first = true, section = "HEADER", offLeft = 0;
       for (const raw of String(text).split("\n")) {
         const fm = foldMap(raw), s = fm.s, toks = [];
+        const h = fold(raw).trim();
+        if (headings.has(h)) { section = raw.trim().toUpperCase(); offLeft = OFF_SECTION.has(fold(section).trim()) ? OFF_MAX : 0; offset += raw.length + 1; continue; }
+        if (SCHOOL_LINE.test(h)) { offset += raw.length + 1; continue; }
+        if (offLeft > 0) { if (h) offLeft--; offset += raw.length + 1; continue; }
         const skip = headings.has(fold(raw).trim()) ? [[0, s.length]] : cvSkips(raw, s, first && s.trim() !== "");
         if (s.trim()) first = false;
         TOKEN.lastIndex = 0;
@@ -360,6 +411,10 @@
       }
       const stems = words.map(stem);
       if (n === 1) {
+        /* I-20: a word that is written the same in French and in English but means something else
+           ("ventes au détail" against "attention to details") never matches on its own. It can still
+           match inside a phrase, where the other words settle the meaning. */
+        if (friends.has(words[0]) || friends.has(stems[0])) return { st: "G" };
         for (const L of ix) for (const k of L.toks) {
           if (k.st === stems[0] && stems[0].length >= 3) return { st: "R", line: L.raw, shared: [words[0]], cvWord: k.n, spans: [[L.start + toStart(L.fm, k.a), L.start + toEnd(L.fm, k.b)]] };
         }
@@ -514,9 +569,96 @@
       return out.replace(/\u0000(\d+)\u0001/g, (_, i) => kept[+i]);
     }
 
+    /* I-13: a posting carries text that is not about the work. The lines that are only an
+     * administrative label and its value (Job ID, Application Deadline, Contact, Salary, Posting
+     * Status...) and the paragraphs at the end about equal opportunity and how to apply are cut
+     * before the keywords are read, so a contact's name, a postal code or "Post Internally" can no
+     * longer be listed as a skill the CV is missing. Lines that do say something about the work
+     * (Education, Experience, Languages, Skills, Duties...) are kept. The person still sees the
+     * whole posting: only the keyword reading uses the shortened text. */
+    const ADMIN_LABEL = /^\s*(?:job\s*(?:id|number|code|req|requisition)|requisition(?:\s*(?:id|number))?|competition(?:\s*number)?|reference(?:\s*number)?|posting\s*(?:id|status|date|type|period)|post(?:ed|ing)?\s*(?:internally|externally|date|on)|application\s*deadline|apply\s*by|closing\s*date|date\s*(?:posted|limite)|deadline|position\s*title|job\s*title|titre\s*du\s*poste|location|lieu(?:\s*de\s*travail)?|city|province|state|address|adresse|postal\s*code|code\s*postal|salary|pay(?:\s*range|\s*rate)?|wage|remuneration|salaire|hourly|contact(?:\s*(?:person|name|information|us))?|personne[- ]ressource|courriel|e?-?mail|telephone|phone|tel|fax|website|site\s*web|url|number\s*of\s*(?:positions|vacancies)|vacancies|poste[s]?\s*vacant[s]?|hours?(?:\s*per\s*week)?|heures|shift|quart\s*de\s*travail|start\s*date|date\s*de\s*debut|employment\s*(?:type|status)|union|syndicat|classification|pay\s*grade|grade|division|bargaining\s*unit|ops\s*ops|category|categorie|sector|noc|job\s*bank|source)\s*[:\-\u2013]\s*\S/i;
+    const TAIL_LINE = /\b(?:equal opportunit|equal employment|accommodation|accessibilit|we thank all applicant|only those selected|only candidates selected|will be contacted|how to apply|apply (?:online|now|today|via|through|by)|submit your (?:resume|application)|please (?:apply|submit|send)|background check|criminal record check|employeur souscrit|equite en matiere d'emploi|nous remercions|seules les personnes|mesures d'adaptation|comment postuler|faire parvenir votre|veuillez (?:postuler|soumettre|faire))\b/i;
+    function trimPosting(body) {
+      const lines = String(body).split("\n");
+      const out = [];
+      let cut = lines.length;
+      for (let i = Math.max(0, Math.floor(lines.length / 2)); i < lines.length; i++) {
+        if (TAIL_LINE.test(lines[i])) { cut = i; break; }           /* the end of the posting, not the work */
+      }
+      for (let i = 0; i < cut; i++) {
+        const l = lines[i];
+        if (ADMIN_LABEL.test(l) && l.trim().split(/\s+/).length <= 14) continue;
+        out.push(l);
+      }
+      return out.join("\n");
+    }
+    /* a phrase that is plainly not a skill: a postal code, an amount of money, a code, a bare number */
+    const JUNK_TERM = /\b[a-z]\d[a-z]\s?\d[a-z]\d\b|\$|\b\d+[.,]\d{2}\b|\b(?:\d+\s*)?(?:per|par)\s*(?:hour|heure|annum|an|year|annee)\b|^\W*\d[\d\s.,-]*\W*$|\b[a-z]{1,3}\d{3,}\b|\b(\w+)\s+\1\b/i;
+
+    /* I-13, part two. The Job Bank occupations come with their keywords worked out in advance, so they
+     * never pass through profile() above. Half a sentence is listed as a skill the CV is missing
+     * ("efficient manner", "oversee operational", "coordinate activities", "accessible manner"). A
+     * phrase that begins or ends on one of these words says nothing on its own, so it is dropped.
+     * A skill from the dictionary is never dropped: only loose phrases. */
+    /* A phrase that ENDS on one of these says nothing on its own: "efficient manner", "oversee
+     * operational", "coordinate activities". */
+    const LAST_BAD = new Set(("manner manners basis way ways activities activity tasks duties matters items " +
+      "aspects areas issues needs levels operational appropriate various relevant necessary required " +
+      "daily timely efficient effective overall general other others related applicable additional " +
+      "suitable obtained assigned provided needed requested ongoing accessible internal external " +
+      "proper correct available possible usage use uses clean " +
+      /* French. 1,010 postings were asking for "personne retenue" (the person selected), "conduire
+         valide" (from "permis de conduire valide", which belongs to the licence check) and
+         "diplome reconnu" as if they were skills. Accents are already stripped by fold(). */
+      "retenue retenu retenus suivantes suivants suivante suivant reconnu reconnue connexes connexe " +
+      "pouvant necessaires necessaire requises requise pertinentes pertinente appropriees appropriee " +
+      "diverses variees similaires associees demandees exigees preuve valide valides dessous " +
+      "souhaitable souhaitables").split(/\s+/).filter(Boolean));
+    /* A phrase that BEGINS with one of these says nothing either. The two lists are kept apart on
+     * purpose: "general labourer" and "heavy duty technician" are real jobs, and an earlier version
+     * that used one list for both ends threw 771 real keywords away. */
+    const FIRST_BAD = new Set(("efficient effective various relevant necessary appropriate ongoing proper " +
+      "correct overall timely daily additional other others related applicable suitable accessible " +
+      "available possible operational " +
+      /* French openers that qualify rather than name: "bonne connaissance de", "interet marque",
+         "souhaitez parfaire". "marque" is deliberately NOT in LAST_BAD, because a phrase can end on
+         it and be real (image de marque, gestion de marque). */
+      "interet remarque remarques avancement souhaitez souhaite soutient taches bonne bonnes " +
+      "excellente excellentes solide solides forte fortes grande grandes").split(/\s+/).filter(Boolean));
+
+    /* A posting's own form labels, read as one-word skills: "Description", "Schedule", "Standard",
+     * "Office", "Fri". On their own they say nothing about the work. A dictionary skill of the same
+     * name (Microsoft Office, Scheduling) is untouched: this only drops loose single words. */
+    const LABEL_WORD = new Set(("description schedule standard conditions requirements qualifications responsibilities " +
+      "overview summary benefits salary wage department location title posting position status type category shift " +
+      "hours ops opsops apply application deadline reference competition division classification union grade " +
+      "mon tue tues wed thu thur thurs fri sat sun monday tuesday wednesday thursday friday saturday sunday " +
+      "january february march april june july august september october november december lundi mardi mercredi " +
+      "jeudi vendredi samedi dimanche poste lieu salaire horaire statut categorie " +
+      "usually typically often generally normally sometimes less more extensive several completion " +
+      "preferred asset minimum maximum equivalent plus various including etc may might " +
+      /* French form labels, read as one-word skills on their own */
+      "detenir posseder consentement exigence exigences atout atouts profil candidat candidats " +
+      "candidate candidature entreprise employeur offre mandat aptitudes remuneration avantages " +
+      "description sommaire responsabilite responsabilites qualification qualifications").split(/\s+/).filter(Boolean));
+    function usefulKw(code) {
+      const n = String(code).slice(3);
+      if (String(code)[1] === "s") return true;                 /* a skill from the dictionary */
+      const w = fold(n).split(/[^a-z0-9+#]+/).filter(Boolean);
+      if (!w.length) return false;
+      if (FIRST_BAD.has(w[0]) || LAST_BAD.has(w[w.length - 1])) return false;
+      if (w.length === 1 && LABEL_WORD.has(w[0])) return false;
+      /* the degree a posting asks for is scored in the education part; as a "skill" it is a phrase
+         nobody can have ("post-secondary education program", "completion of a college program") */
+      if (/\b(post-?secondary|education program|degree program|diploma program|completion of|undergraduate degree|graduate degree)\b/.test(fold(n))) return false;
+      if (JUNK_TERM.test(n)) return false;
+      return true;
+    }
+
     function profile(title, body, max) {
       max = max || 40;
       title = cleanTitle(title);
+      body = trimPosting(body || "");
       const text = body ? title + "\n" + body : title;
       const tl = String(title).length;
       const job = find(text), secs = sections(text), rows = [];
@@ -532,6 +674,7 @@
         const e = tf[key];
         const t = TAGCODE[e.first < tl ? "Title" : tagOf(e, secs)];
         if (t === "A") continue;
+        if (JUNK_TERM.test(e.name)) continue;                        /* I-13 */
         kt++;
         if (e.words.every(w => LEVEL_WORDS.has(w))) continue;
         rows.push({ code: t + "t|" + e.name, t, k: 1, w: e.words.length, c: e.count, f: e.first });
@@ -560,7 +703,7 @@
         }
       }
       rows.sort((a, b) => TAGRANK[a.t] - TAGRANK[b.t] || a.k - b.k || b.w - a.w || b.c - a.c || a.f - b.f);
-      const keep = rows.filter(r => r.t !== "A");
+      const keep = rows.filter(r => r.t !== "A" && usefulKw(r.code));
       return { kw: keep.slice(0, max).map(r => r.code), kt };
     }
     /* the words of a stored keyword, the same way terms() cut them (cached: the same phrase turns up in many postings) */
@@ -579,7 +722,7 @@
     }
     /* A stored profile against a CV: [{n, kind: "s"|"t", tag, st: "M"|"R"|"G"}]. Close ("R") is never a match. */
     function profileStatus(kw, cvFound, ix) {
-      const dec = kw.map(c => ({ n: c.slice(3), kind: c[1], tag: c[0] }));
+      const dec = kw.filter(usefulKw).map(c => ({ n: c.slice(3), kind: c[1], tag: c[0] }));
       const skills = dec.filter(x => x.kind === "s");
       const linked = new Set();
       if (skills.length) {
@@ -588,14 +731,22 @@
         report("", cvFound, fake).links.forEach(l => linked.add(l.job));
       }
       return dec.map(x => {
-        if (x.kind === "s") { x.st = cvFound[x.n] ? "M" : linked.has(x.n) ? "R" : "G"; return x; }
+        if (x.kind === "s") {
+          const f = cvFound[x.n];
+          /* a skill that comes from a credential instead of from the CV's own words carries "via";
+             a side skill of a credential, and a degree's subjects, count half (half: true).
+             "w" is how much the line it was found on still counts: older work counts less (I-03). */
+          x.st = f ? (f.half ? "R" : "M") : linked.has(x.n) ? "R" : "G";
+          if (f) { if (f.via) x.via = f.via; if (f.w != null) x.cvW = f.w; }
+          return x;
+        }
         const w = termWords(x.n);
         x.st = w.length ? matchTerm(w, ix).st : "G";
         return x;
       });
     }
 
-    return { profile, cleanTitle, profileStatus, termWords, find, findCv, report, flags, sections, tagOf, terms, indexCv, matchTerms, termsOn, stopWords: [...stop].sort(), weakWords: [...weak].sort(), meta: dict.meta || {}, size: skills.length, soft: dict.soft || [] };
+    return { profile, cleanTitle, profileStatus, usefulKw, termWords, find, findCv, report, flags, sections, tagOf, terms, indexCv, matchTerms, termsOn, stopWords: [...stop].sort(), weakWords: [...weak].sort(), meta: dict.meta || {}, size: skills.length, soft: dict.soft || [] };
   }
 
   /* The text as safe HTML, with <mark class="..."> around each mark {a, b, cls, title}. Where marks overlap, the one
