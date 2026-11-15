@@ -20,9 +20,10 @@ const ctx = vm.createContext({
 vm.runInContext(js, ctx, { filename: "pages.js" });
 const XP = win.XP;
 assert.ok(XP, "pages.js sets window.XP");
-for (const fn of ["home", "init", "onStar", "close"]) assert.equal(typeof XP[fn], "function", "XP." + fn);
+for (const fn of ["home", "init", "close"]) assert.equal(typeof XP[fn], "function", "XP." + fn);
 const ids = Object.keys(XP.pages);
-assert.equal(ids.slice().sort().join(), ["board", "extras", "ladder", "lab", "market", "paste", "plan", "swipe", "target", "wayfinder"].sort().join(), "the ten extra pages");
+assert.equal(ids.slice().sort().join(), ["extras", "ladder", "lab", "market", "paste", "plan", "swipe", "target", "wayfinder"].sort().join(), "the nine extra pages (the Application board was removed)")
+assert.ok(!ids.includes("board") && !/id="pg-board"/.test(html), "there is no Application board page");
 for (const id of ids) {
   assert.equal(typeof XP.pages[id].render, "function", id + " has render()");
   assert.ok(XP.pages[id].title, id + " has a title");
@@ -63,7 +64,7 @@ assert.ok(/const ORDER = \[[^\]]*"wayfinder"/.test(js) && js.includes('href="#p=
 }
 // the Paste a posting page (the tenth feature): the CV on the left, the posting on the right, the match below, through the same pipeline as every posting
 assert.ok(/id="pg-paste"[^>]*data-page="paste"/.test(html) && /id="x-paste"/.test(html), "the Paste page has its section");
-assert.ok(/const ORDER = \[[^\]]*"board", "extras", "paste"\]/.test(js), "Paste a posting is the last page in the feature list, after the Application board and Profile extras");
+assert.ok(/const ORDER = \[[^\]]*"swipe", "extras", "paste"\]/.test(js), "Paste a posting is the last page in the feature list, after Profile extras");
 assert.ok(at('<script src="pasteparse.js"></script>') > 0 && at('<script src="pasteparse.js"></script>') < at('<script src="pages.js"></script>'), "pasteparse.js loads before pages.js");
 for (const id of ["ppText", "ppTitle", "ppCo", "ppLoc", "ppKind", "ppUrl", "ppGo", "pcvText", "ppResult", "ppSplit"]) assert.ok(js.includes(`id="${id}"`), `the Paste page has #${id}`);
 assert.ok(js.indexOf('id="pcvH"') < js.indexOf('id="pjH"'), "the CV panel comes first (left) and the posting second (right)");

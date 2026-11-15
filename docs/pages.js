@@ -1,8 +1,8 @@
-/* pages.js - the extra pages of Path Match: market map, skill lab, career ladder, quick sort and the application board,
+/* pages.js - the extra pages of Path Match: market map, skill lab, career ladder and quick sort,
    plus the Explore menu, the jump bar (Ctrl K) and the start-page extras.
 
    Everything here is worked out in the browser from the postings already loaded by index.html (JOBS) and, when there is one, from the CV.
-   Nothing is invented: a count is a count of collected postings, a score is the page's own score, and the board only holds what the person put on it.
+   Nothing is invented: a count is a count of collected postings, a score is the page's own score, and what is kept in the browser only holds what the person put there.
    index.html calls XP.pages[id].render() when a page is shown, XP.home() on the start page and XP.init() once at startup.
    It reads globals of index.html only when a function runs (JOBS, RES, P, F, CV, norm, esc, nf, goJobs ...), so the load order does not matter. */
 (function () {
@@ -18,7 +18,6 @@
     lab: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-5-9V3M8 14h8"/></svg>',
     ladder: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21h5v-5h5v-5h5V6h3"/></svg>',
     swipe: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="4" width="14" height="16" rx="2"/><path d="M9 12.5l2 2 4-4.5"/></svg>',
-    board: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="5" height="16" rx="1"/><rect x="10" y="4" width="5" height="10" rx="1"/><rect x="17" y="4" width="4" height="13" rx="1"/></svg>',
     plan: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4M9 15l2 2 4-4"/></svg>',
     target: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2"/></svg>',
     wayfinder: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/></svg>',
@@ -30,14 +29,13 @@
     lab: { name: "Skill lab", title: "Skill lab", hue: "var(--mint)", blurb: "Try a skill before you learn it and watch your top 10 move." },
     ladder: { name: "Career ladder", title: "Career ladder", hue: "var(--coral)", blurb: "What each rung asks for in your field, and what is new on the next one." },
     swipe: { name: "Quick sort", title: "Quick sort", hue: "var(--berry)", blurb: "Go through postings one card at a time: save or skip." },
-    board: { name: "Application board", title: "Application board", hue: "var(--peach)", blurb: "Track what you saved, applied to, and heard back about." },
     plan: { name: "Week plan", title: "Week plan", hue: "var(--sun)", blurb: "The few postings worth your applications this week, with a score range for each." },
     target: { name: "Target or spray?", title: "Target or spray?", hue: "#19a7b8", blurb: "How much a high score must help before a few tailored applications beat many quick ones." },
     wayfinder: { name: "Wayfinder", title: "Wayfinder", hue: "var(--pin)", blurb: "Say the job you want in one sentence, in English or French. Sample prompts for students and graduates." },
     extras: { name: "Profile extras", title: "Profile extras", hue: "#4a63d8", blurb: "Add certifications, awards, languages and volunteering your CV does not show, and see which postings they lift." },
     paste: { name: "Paste a posting", title: "Paste a posting", hue: "#96b21f", blurb: "Found a job on LinkedIn, Indeed or anywhere else? Paste it and see how it matches your CV." }
   };
-  const ORDER = ["wayfinder", "market", "lab", "plan", "target", "ladder", "swipe", "board", "extras", "paste"];
+  const ORDER = ["wayfinder", "market", "lab", "plan", "target", "ladder", "swipe", "extras", "paste"];
   const LANGSKILL = new Set(["english", "french", "anglais", "francais", "bilingual", "bilingue", "bilingual (en/fr)"]);
   /* general strengths: postings name them, but they are not something to "learn first". They are shown apart from role skills. */
   const SOFT = new Set(("leadership|attention to detail|initiative|autonomy|organizational skills|explaining complex ideas|patience|perseverance|curiosity|takes on challenges|problem solving|analytical skills|communication|teamwork|collaboration|interpersonal skills|time management|prioritization|multitasking|works under pressure|meets deadlines|adaptability|critical thinking|creativity|innovation|proactivity|resourcefulness|rigor|accountability|dependability|punctuality|professionalism|integrity|discretion and confidentiality|active listening|empathy|emotional intelligence|diplomacy and tact|conflict resolution|negotiation|persuasion and influence|decision making|presentation skills|written communication|verbal communication|strategic thinking|synthesis|learning agility|resilience|motivation|enthusiasm|entrepreneurial spirit|cultural awareness|results orientation|mentoring and coaching|stakeholder management|cross-functional work|team management|facilitation|diversity and inclusion").split("|"));
@@ -669,7 +667,7 @@
     if (!d.pool.length) { paint(root, intro + `<div class="xempty"><b>Nothing fits your choices</b>Widen the place, the kind of work or the language on the details page.<div class="row"><a class="xbtn solid" href="#p=details" data-p="details">Edit my details</a></div></div>`); return; }
     if (!d.todo.length) {
       const skipped = Object.values(SW.dec).filter((v) => v === 0).length;
-      paint(root, intro + `<div class="xempty"><b>You have been through all ${d.pool.length} cards</b>You saved ${saved}. ${saved ? "They are on your board, ready to apply to." : "Nothing is saved yet."}<div class="row"><a class="xbtn solid" href="#p=board" data-p="board">Open my board</a>${skipped ? '<button class="xbtn" data-act="reset" data-f="reset">Bring the skipped ones back</button>' : ""}<a class="xbtn" href="#p=details" data-p="details">Change my details for a new deck</a></div></div>`);
+      paint(root, intro + `<div class="xempty"><b>You have been through all ${d.pool.length} cards</b>You saved ${saved}. ${saved ? "They are in your saved list, ready to apply to." : "Nothing is saved yet."}<div class="row"><a class="xbtn solid" href="#p=jobs&saved=1">Open my saved jobs</a>${skipped ? '<button class="xbtn" data-act="reset" data-f="reset">Bring the skipped ones back</button>' : ""}<a class="xbtn" href="#p=details" data-p="details">Change my details for a new deck</a></div></div>`);
       return;
     }
     const cards = d.todo.slice(0, 3).map((r, i) => cardHtml(r, i === 0 ? "cur" : "b" + i)).reverse().join("");
@@ -691,7 +689,7 @@
     const finish = () => {
       const k = jkey(r.j);
       SW.dec[k] = v; SW.undo.push(k);
-      if (v === 1) { SAVED.add(k); saveSaved(); XP.onStar(k, true); }
+      if (v === 1) { SAVED.add(k); saveSaved(); }
       saveSw(); SW.lock = false; renderSwipe();
       const say = g("swsay"); if (say) say.textContent = (v ? "Saved: " : "Skipped: ") + r.j.title;
     };
@@ -702,7 +700,7 @@
   }
   function undo() {
     const k = SW.undo.pop(); if (!k) return;
-    if (SW.dec[k] === 1) { SAVED.delete(k); saveSaved(); XP.onStar(k, false); }
+    if (SW.dec[k] === 1) { SAVED.delete(k); saveSaved(); }
     delete SW.dec[k]; saveSw(); renderSwipe();
   }
   function bindDeck() {
@@ -742,20 +740,14 @@
   });
 
   /* =====================================================================
-     APPLICATION BOARD
+     APPLICATION LOG: what the Week plan and Target or spray? read. The board page was removed; the log stays.
      ===================================================================== */
-  const COLS = [["saved", "Saved"], ["applied", "Applied"], ["interview", "Interview"], ["offer", "Offer"], ["closed", "Closed"]];
   const BOARD = store.get("pm_board", {});
   let GOAL = store.get("pm_goal", 5);
   const saveBoard = () => store.set("pm_board", BOARD);
   function snapshot(j, k) {
     const s = scoreOf(k);
     return { t: j.title, co: j.company, pv: j.province || "", u: j.sources && j.sources[0] ? j.sources[0].url : "", sc: s, at: Date.now() };
-  }
-  function boardAdd(k) {
-    if (BOARD[k]) return;
-    const j = jobByKey(k); if (!j) return;
-    BOARD[k] = Object.assign({ c: "saved" }, snapshot(j, k)); saveBoard();
   }
   function entries() {
     const keys = new Set([...SAVED, ...Object.keys(BOARD)]);
@@ -786,70 +778,6 @@
     while (inWeek(w) >= GOAL && streak < 520) { streak++; w -= WK; }
     return { now, streak };
   }
-  function yieldTable(list) {
-    const apps = list.filter((e) => e.a);
-    const bands = [["60 or more", (s) => s != null && s >= 60], ["45 to 59", (s) => s != null && s >= 45 && s < 60], ["under 45", (s) => s != null && s < 45], ["not scored", (s) => s == null]];
-    return { n: apps.length, rows: bands.map(([l, f]) => { const a = apps.filter((e) => f(e.sc)); return { l, n: a.length, iv: a.filter((e) => e.iv).length }; }) };
-  }
-  function cardB(e) {
-    const idx = COLS.findIndex((c) => c[0] === e.c), prev = COLS[idx - 1], next = COLS[idx + 1];
-    return `<div class="bc" draggable="true" data-k="${esc(e.k)}"><b>${esc(e.t)}${e.sc != null ? `<span class="chipsc ${scCls(e.sc)}" title="Match score when it was saved or applied to">${e.sc}</span>` : ""}</b>
-      <div class="m">${esc(e.co)}${e.pv ? " · " + esc(PROV_NAME[e.pv] || e.pv) : ""}</div>
-      <div class="m">${e.c === "saved" ? "" : (e.a ? "Applied " + ago(e.a) : "") + (e.c === "interview" || e.c === "offer" ? " · got an interview" : "")}${e.gone ? "No longer in the collection" : ""}</div>
-      <div class="bt">${prev ? `<button data-mv="${prev[0]}" aria-label="Move to ${prev[1]}" title="Move to ${prev[1]}">◀</button>` : ""}${next ? `<button data-mv="${next[0]}" aria-label="Move to ${next[1]}" title="Move to ${next[1]}">▶</button>` : ""}${e.u ? `<a href="${esc(e.u)}" target="_blank" rel="noopener">Open ↗</a>` : ""}<button class="sp1" data-rm="1" aria-label="Remove from the board" title="Remove from the board">✕</button></div></div>`;
-  }
-  const ago = (t) => { const d = Math.floor((Date.now() - t) / 864e5); return d <= 0 ? "today" : d === 1 ? "1 day ago" : d + " days ago"; };
-  function renderBoard() {
-    const root = g("x-board");
-    const list = entries(), sp = sprint(list), y = yieldTable(list);
-    const by = {}; COLS.forEach((c) => (by[c[0]] = []));
-    list.forEach((e) => (by[e.c] || by.saved).push(e));
-    const pc = Math.min(100, Math.round((100 * sp.now) / GOAL));
-    const msg = sp.now >= GOAL ? "Goal reached this week. Well done." : `${GOAL - sp.now} more to reach this week's goal.`;
-    const empty = !list.length;
-    const yieldHtml = y.n < 5
-      ? `<p class="note">You have ${y.n} application${y.n === 1 ? "" : "s"} on the board. With fewer than 5 there is nothing to compare yet. Mark applications as they happen and this table fills in.</p>`
-      : `<table class="yield"><thead><tr><th>Match score when you applied</th><th>Applications</th><th>Got an interview</th><th>Rate</th></tr></thead><tbody>${y.rows.map((r) => `<tr><td>${r.l}</td><td class="r">${r.n}</td><td class="r">${r.iv}</td><td class="r">${r.n ? pct(r.iv, r.n) + "%" : "–"}</td></tr>`).join("")}</tbody></table><p class="note" style="margin-top:8px">This is your own small sample, not a measure of the score. Few applications make these rates very uncertain.</p>`;
-    paint(root, head("Application board", "Everything you saved, in one place. Move a card along as things happen. It lives in this browser only. Path Match never applies for you or contacts an employer.") +
-      `<div class="boardtop"><section class="xp" aria-labelledby="bdSp"><h2 id="bdSp">This week</h2><div class="sprint"><div class="ring" style="--p:${pc}" role="img" aria-label="${sp.now} of ${GOAL} applications this week"><span>${sp.now}/${GOAL}</span></div>
-          <div><p><b>${esc(msg)}</b></p><p class="note">${sp.streak ? `${sp.streak} week${sp.streak === 1 ? "" : "s"} in a row on target.` : "No streak yet."}</p>
-          <label for="goal" style="margin:6px 0 2px">Applications a week I aim for</label><select id="goal" data-f="goal" style="width:auto">${[3, 5, 8, 10, 15, 20].map((n) => `<option${n === GOAL ? " selected" : ""}>${n}</option>`).join("")}</select></div></div></section>
-        <section class="xp" aria-labelledby="bdY"><h2 id="bdY">Does a higher score lead to more interviews?</h2><p class="note">Your own applications, grouped by the match score they had.</p>${yieldHtml}</section></div>
-      <section class="xp" style="margin-top:16px" aria-labelledby="bdAdd"><h2 id="bdAdd">Add an application by hand</h2><p class="note">For a job you found somewhere else.</p>
-        <form class="addform" id="addform"><input type="text" id="addT" placeholder="Job title" aria-label="Job title" required><input type="text" id="addC" placeholder="Company" aria-label="Company" required><button class="xbtn solid" type="submit">Add as applied</button><button class="xbtn" type="button" data-act="csv" data-f="csv"${empty ? " disabled" : ""}>Download as CSV</button></form></section>
-      ${empty ? `<div class="xempty" style="margin-top:16px"><b>Your board is empty</b>Star a posting in All jobs or your top 10, or save cards in Quick sort, and they land here.<div class="row"><a class="xbtn solid" href="#p=swipe" data-p="swipe">Start Quick sort</a><a class="xbtn" href="#p=jobs" data-p="jobs">Browse all jobs</a></div></div>` : ""}
-      <div class="cols" id="cols">${COLS.map(([c, l]) => `<section class="col" data-c="${c}" aria-label="${l}"><h2>${l}<span>${by[c].length}</span></h2>${by[c].map(cardB).join("") || '<p class="note" style="margin:0">Nothing here.</p>'}</section>`).join("")}</div>
-      <p class="note" style="margin-top:10px">Drag a card to another column, or use the arrows. Moving a card to Applied only records that you applied.</p>`);
-  }
-  function csv() {
-    const q = (v) => '"' + String(v == null ? "" : v).replace(/"/g, '""') + '"';
-    const rows = [["Title", "Company", "Province", "Stage", "Match score", "Applied", "Link"], ...entries().map((e) => [e.t, e.co, e.pv, (COLS.find((c) => c[0] === e.c) || [])[1], e.sc, e.a ? new Date(e.a).toISOString().slice(0, 10) : "", e.u])];
-    const blob = new Blob(["﻿" + rows.map((r) => r.map(q).join(",")).join("\n")], { type: "text/csv" });
-    const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "path-match-board.csv"; document.body.appendChild(a); a.click(); a.remove();
-    setTimeout(() => URL.revokeObjectURL(a.href), 2000);
-  }
-  function onBoardClick(e) {
-    const b = e.target.closest("button"); if (!b) return;
-    const card = b.closest(".bc"), k = card && card.dataset.k;
-    if (b.dataset.mv && k) { move(k, b.dataset.mv); renderBoard(); }
-    else if (b.dataset.rm && k) { delete BOARD[k]; if (SAVED.delete(k)) saveSaved(); saveBoard(); renderBoard(); }
-    else if (b.dataset.act === "csv") csv();
-  }
-  function bindBoard(root) {
-    root.addEventListener("click", onBoardClick);
-    root.addEventListener("change", (e) => { if (e.target.id === "goal") { GOAL = +e.target.value || 5; store.set("pm_goal", GOAL); renderBoard(); } });
-    root.addEventListener("submit", (e) => {
-      if (e.target.id !== "addform") return; e.preventDefault();
-      const t = g("addT").value.trim(), c = g("addC").value.trim(); if (!t || !c) return;
-      const k = "manual|" + Date.now();
-      BOARD[k] = { c: "applied", t, co: c, pv: "", u: "", sc: null, at: Date.now(), a: Date.now(), m: Date.now(), manual: true }; saveBoard(); renderBoard();
-    });
-    let drag = null;
-    root.addEventListener("dragstart", (e) => { const c = e.target.closest(".bc"); if (!c) return; drag = c.dataset.k; c.classList.add("dragging"); e.dataTransfer.effectAllowed = "move"; try { e.dataTransfer.setData("text/plain", drag); } catch (x) { /* some browsers */ } });
-    root.addEventListener("dragend", () => { drag = null; root.querySelectorAll(".dragging,.over").forEach((n) => n.classList.remove("dragging", "over")); });
-    root.addEventListener("dragover", (e) => { const col = e.target.closest(".col"); if (col && drag) { e.preventDefault(); root.querySelectorAll(".over").forEach((n) => n !== col && n.classList.remove("over")); col.classList.add("over"); } });
-    root.addEventListener("drop", (e) => { const col = e.target.closest(".col"); if (!col || !drag) return; e.preventDefault(); move(drag, col.dataset.c); drag = null; renderBoard(); });
-  }
 
   /* =====================================================================
      WEEK PLAN: the few postings worth this week's applications (the maths is in planner.js)
@@ -859,7 +787,7 @@
   const dayAge = (j) => Math.max(0, age(j) / 24);
   const whenTxt = (d) => { d = Math.round(d); return d < 1 ? "Posted today" : d === 1 ? "Posted 1 day ago" : "Posted " + d + " days ago"; };
   const onBoardKeys = () => new Set(Object.keys(BOARD).filter((k) => BOARD[k].c && BOARD[k].c !== "saved"));
-  /* postings of named employers with a full text that fit the person's details, minus what is already on the board as applied */
+  /* postings of named employers with a full text that fit the person's details, minus what is already logged as applied */
   function planPool(done) {
     const out = [];
     for (const r of RES) {
@@ -951,7 +879,7 @@
     <div class="xgrid two">
       <section class="xp" aria-labelledby="wkList"><h2 id="wkList">Your ${ch.length} for this week</h2><p class="note">In order of priority: cautious score times freshness, at most two from one employer. The bar shows the range, the tick the score.</p>
         <ol class="wklist">${ch.map(planRow).join("") || '<li class="note">Nothing to plan with these choices.</li>'}</ol>
-        <div class="row" style="margin-top:12px"><button class="xbtn solid" data-act="saveplan" data-f="saveplan">Save this plan</button><button class="xbtn" data-act="copyplan" data-f="copyplan">Copy the plan</button><a class="xbtn" href="#p=board" data-p="board">Open the board</a></div></section>
+        <div class="row" style="margin-top:12px"><button class="xbtn solid" data-act="saveplan" data-f="saveplan">Save this plan</button><button class="xbtn" data-act="copyplan" data-f="copyplan">Copy the plan</button></div></section>
       <div>
         <section class="xp" aria-labelledby="wkChart"><h2 id="wkChart">Where your picks sit</h2><p class="note">Each dot is a posting. The line joins the ones no other posting beats on both newness and score.</p>${planChart(d)}</section>
         <section class="xp" style="margin-top:16px" aria-labelledby="wkWhy"><h2 id="wkWhy">Next in line, and why they missed out</h2>${skip.length ? `<ul class="wkchk">${skip.map((x) => `<li><span>${esc(x.r.j.title)} <small>${esc(x.company)} · score ${x.mid}</small><em>${(WHY[x.why] || WHY.full)(x)}</em></span></li>`).join("")}</ul>` : '<p class="note">Nothing close was left out.</p>'}</section>
@@ -963,8 +891,8 @@
       <li><b>Cautious score.</b> The low end of the range. A posting has to look good even if the reading was a little unlucky.</li>
       <li><b>Freshness.</b> An older posting is more likely filled, so its weight halves every ${Planner.HALF[PLAN.half]} days (your choice above).</li>
       <li><b>Priority</b> is cautious score times freshness. The plan takes the highest priorities, at most two per employer.</li>
-      <li><b>Left out</b> are postings that already sit on your board as applied, occupation profiles and the Job Bank monthly file (no employer to apply to), and postings with only a title or snippet.</li></ol>
-      <p class="note">A heuristic, not an applicant tracking system and not a forecast of interviews: scores within 5 points are ties. Log what you apply for and the board will show, in your own data, whether higher scores led to more replies.</p></details>`);
+      <li><b>Left out</b> are postings you already logged as applied, occupation profiles and the Job Bank monthly file (no employer to apply to), and postings with only a title or snippet.</li></ol>
+      <p class="note">A heuristic, not an applicant tracking system and not a forecast of interviews: scores within 5 points are ties. Log what you apply for and the Target or spray? page will show, in your own data, whether higher scores led to more replies.</p></details>`);
   }
   function planText(d) {
     return ["Week plan (" + new Date().toLocaleDateString("en-CA") + ")", ...d.chosen.map((c, i) => { const j = c.r.j, u = j.sources.find((x) => x.url); return `${i + 1}. ${j.title}, ${j.company} (${j.loc || "location not stated"}) · score ${c.mid}, range ${c.lo}-${c.hi} · ${whenTxt(c.ageDays).toLowerCase()}${u ? " · " + u.url : ""}`; })].join("\n");
@@ -973,7 +901,7 @@
     const b = e.target.closest("button[data-act]"); if (!b) return;
     if (b.dataset.act === "applied") {
       const k = b.dataset.k, j = jobByKey(k); if (!j) return;
-      move(k, "applied"); PLAN.msg = `Logged on your board as applied: ${j.title}, ${j.company}. Its score at the time (${BOARD[k] && BOARD[k].sc != null ? BOARD[k].sc : "not scored"}) is kept for the board's chart.`;
+      move(k, "applied"); PLAN.msg = `Logged as applied: ${j.title}, ${j.company}. Its score at the time (${BOARD[k] && BOARD[k].sc != null ? BOARD[k].sc : "not scored"}) is kept for the Target or spray? page.`;
       renderPlan(); return;
     }
     if (b.dataset.act === "saveplan") {
@@ -1005,7 +933,7 @@
   const TG_LIMITS = { base: [1, 10, 0.5], m: [1, 3, 0.05], hours: [2, 20, 1], quick: [5, 45, 5], tailor: [1, 6, 0.5] };
   const pc1 = (x) => (x * 100 < 10 ? (x * 100).toFixed(1) : Math.round(x * 100)) + "%";
   const f1 = (x) => (Math.round(x * 10) / 10).toFixed(1);
-  /* applications on the board that are old enough to have had an answer (14 days), with the score they had when sent */
+  /* applications in the log that are old enough to have had an answer (14 days), with the score they had when sent */
   function boardOutcomes() {
     const cut = Date.now() - 14 * 864e5;
     return entries().filter((e) => e.c !== "saved" && e.sc != null && e.a && e.a <= cut).map((e) => ({ score: e.sc, iv: !!e.iv }));
@@ -1045,7 +973,7 @@
     const sentence = win === "target" ? `With the same ${TG.hours} hours, targeting expects about <b>${f1(eT)}</b> interviews against <b>${f1(eS)}</b> for spraying.` : win === "spray" ? `With the same ${TG.hours} hours, spraying expects about <b>${f1(eS)}</b> interviews against <b>${f1(eT)}</b> for targeting. Volume wins at these settings.` : `At these settings the two are too close to call: about <b>${f1(eT)}</b> interviews for targeting and <b>${f1(eS)}</b> for spraying.`;
     const beText = be.kind === "found" ? `Targeting catches up once every +10 score points multiplies your odds by about <b>×${be.m.toFixed(2)}</b>. You guessed ×${TG.m.toFixed(2)}, which is ${TG.m >= be.m ? "above" : "below"} that line.` : be.kind === "always" ? "Targeting wins whatever the multiplier: it costs no more time than sending quickly." : "No multiplier up to ×6 lets targeting catch up: your picks are not far enough above a typical posting, or tailoring takes too long.";
     const out = boardOutcomes(), imp = Planner.impliedMultiplier(out), k = out.filter((x) => x.iv).length;
-    const own = !out.length ? "Nothing here yet. Press “I applied” on the <a href=\"#p=plan\" data-p=\"plan\">Week plan</a> (or move cards on the <a href=\"#p=board\" data-p=\"board\">board</a>) and mark who answered. Only applications sent at least 14 days ago count, so late replies are not missed."
+    const own = !out.length ? "Nothing here yet. Press “I applied” on the <a href=\"#p=plan\" data-p=\"plan\">Week plan</a>. Only applications sent at least 14 days ago count, so late replies are not missed."
       : `You logged <b>${out.length}</b> applications with a score that are at least 14 days old. <b>${k}</b> led to an interview (${pc1(k / out.length)}). ${imp ? `Splitting them at the middle score, the higher half did ${imp.m >= 1 ? "better" : "worse"} by about <b>×${imp.m.toFixed(2)}</b> per +10 points. A rough number from a small sample: do not lean on it.` : out.length < 20 || k < 3 ? "After about 20 applications with at least 3 interviews, this page compares your real results with your guess above." : "The scores are too close together to tell."}`;
     const slider = (id, key, label, unit, note) => { const l = TG_LIMITS[key]; return `<div><label for="${id}"><b>${label}</b></label><div class="wkn"><input type="range" id="${id}" min="${l[0]}" max="${l[1]}" step="${l[2]}" value="${TG[key]}" data-f="${id}" aria-describedby="${id}o"><output id="${id}o" for="${id}" data-fmt="${key}">${tgFmt(key, TG[key])}</output></div><p class="note">${note}</p></div>`; };
     const row = (l, a, b) => `<tr><th scope="row">${l}</th><td${win === "spray" ? ' class="win"' : ""}>${a}</td><td${win === "target" ? ' class="win"' : ""}>${b}</td></tr>`;
@@ -1068,7 +996,7 @@
           <li><b>Hours.</b> The hours you give buy ${nSpray} quick or ${picks.length} tailored applications.</li>
           <li><b>Chance.</b> A typical posting (average score ${Math.round(mean)}) has the chance you set; the odds change by your multiplier for every 10 points above or below it.</li>
           <li><b>Runs.</b> 2,000 simulated weeks give the range. The break-even line is the smallest multiplier at which targeting expects as many interviews as spraying.</li></ol>
-          <p class="note">The shape is an assumption. The page does not show that targeting works; it shows how strong the effect would have to be, and your board is where the real number comes from. A heuristic: scores within 5 points are ties.</p></details></section>
+          <p class="note">The shape is an assumption. The page does not show that targeting works; it shows how strong the effect would have to be, and your own logged applications are where the real number would come from. A heuristic: scores within 5 points are ties.</p></details></section>
     </div>`);
   }
   const tgFmt = (key, v) => key === "base" ? v + "%" : key === "m" ? "×" + (+v).toFixed(2) : key === "hours" ? v + " h" : key === "quick" ? v + " min" : "×" + v;
@@ -1085,7 +1013,7 @@
     if (el.dataset.key === key) return; el.dataset.key = key;
     let lead = "";
     if (JOBS.length) { const st = stats("all"), top = Object.entries(st.prov).filter(([p]) => /^[A-Z]{2}$/.test(p)).sort((a, b) => b[1] - a[1])[0]; if (top) lead = `${PROV_NAME[top[0]]} leads with ${nf(top[1])} postings`; }
-    const extra = { market: lead, lab: CV ? "Your CV is loaded: open the lab" : "Needs your CV", ladder: "From intern to director, by field", swipe: "Up to 80 cards, ready to sort", board: SAVED.size ? `${SAVED.size} saved so far` : "Nothing saved yet", plan: CV ? "Pick this week's applications" : "Needs your CV", target: "Does a high score pay off?", wayfinder: "Say the job in one sentence", extras: XTRA.length ? `${XTRA.length} item${XTRA.length === 1 ? "" : "s"} added` : "Nothing added yet", paste: "Works with any board" };
+    const extra = { market: lead, lab: CV ? "Your CV is loaded: open the lab" : "Needs your CV", ladder: "From intern to director, by field", swipe: "Up to 80 cards, ready to sort", plan: CV ? "Pick this week's applications" : "Needs your CV", target: "Does a high score pay off?", wayfinder: "Say the job in one sentence", extras: XTRA.length ? `${XTRA.length} item${XTRA.length === 1 ? "" : "s"} added` : "Nothing added yet", paste: "Works with any board" };
     el.innerHTML = `<section class="xsec" aria-labelledby="xsH"><h2 id="xsH">Go further than a list</h2><div class="xtiles">${ORDER.map((id) => `<a class="xtile" style="--c:${META[id].hue}" href="#p=${id}" data-p="${id}">${ICON[id]}<b>${META[id].name}</b><span>${META[id].blurb}</span><em>${esc(extra[id] || "")}</em></a>`).join("")}</div></section>`;
   }
   function home() { homeTiles(); }
@@ -1599,7 +1527,6 @@ Requirements
       lab: { title: META.lab.title, render: renderLab },
       ladder: { title: META.ladder.title, render: renderLadder },
       swipe: { title: META.swipe.title, render: renderSwipe },
-      board: { title: META.board.title, render: renderBoard },
       extras: { title: META.extras.title, render: renderExtras },
       plan: { title: META.plan.title, render: renderPlan },
       target: { title: META.target.title, render: renderTarget }
@@ -1607,11 +1534,6 @@ Requirements
     home,
     extrasEffect,
     close() { /* replaced when the menu is built */ },
-    onStar(k, on) {
-      if (on) boardAdd(k);
-      else if (BOARD[k] && BOARD[k].c === "saved") { delete BOARD[k]; saveBoard(); }
-      if (PG === "board") renderBoard();
-    },
     init() {
       buildExplore(); buildCmd();
       const m = g("x-market"); m.addEventListener("click", onMarketClick); m.addEventListener("pointerover", onPulse); m.addEventListener("focusin", onPulse);
@@ -1629,7 +1551,6 @@ Requirements
       g("x-ladder").addEventListener("click", onLadderClick);
       g("x-ladder").addEventListener("change", (e) => { if (e.target.id === "ladField") { LAD.fd = e.target.value; renderLadder(); } });
       g("x-swipe").addEventListener("click", onSwipeClick);
-      bindBoard(g("x-board"));
       const xe = g("x-extras"); xe.addEventListener("submit", onExtrasSubmit); xe.addEventListener("click", onExtrasClick); xe.addEventListener("change", onExtrasChange);
       g("x-plan").addEventListener("click", onPlanClick);
       g("x-plan").addEventListener("change", onPlanChange);

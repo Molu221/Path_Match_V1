@@ -1,4 +1,4 @@
-/* pages.css - colour, and the styles of the extra pages (market map, skill lab, ladder, quick sort, board).
+/* pages.css - colour, and the styles of the extra pages (market map, skill lab, ladder, quick sort).
    Loaded after the styles in index.html, so what is here wins.
    Colour: every page has its own accent (--pg). The base stays spruce, lake teal and blaze orange; the extra hues
    (sun, coral, berry, violet, sky, mint, peach) are used for pages, columns and chart ramps, never as the only carrier of meaning. */
@@ -18,7 +18,6 @@ body[data-pg=market]{--pg:var(--violet)}
 body[data-pg=lab]{--pg:var(--mint)}
 body[data-pg=ladder]{--pg:var(--coral)}
 body[data-pg=swipe]{--pg:var(--berry)}
-body[data-pg=board]{--pg:var(--peach)}
 body[data-pg=plan]{--pg:var(--sun)}
 body[data-pg=wayfinder]{--pg:var(--pin)}
 body[data-pg=target]{--pg:#19a7b8}
@@ -293,35 +292,8 @@ body[data-pg=details],body[data-pg=jobs],body[data-pg=market],body[data-pg=swipe
 .swprog i{display:block;height:100%;width:var(--w,0%);background:var(--berry);transition:width .25s}
 @media(prefers-reduced-motion:reduce){.sc2.fly{transition:none}.swb,.tile,.rung,.etile{transition:none}}
 
-/* ---------- the board ---------- */
-.cols{display:grid;grid-template-columns:repeat(5,minmax(190px,1fr));gap:10px;overflow-x:auto;padding-bottom:6px;margin-top:16px}
+/* ---------- plan columns (Skill lab) ---------- */
 .col{--c:var(--sky);background:color-mix(in srgb,var(--c) 7%,var(--panel));border:1px solid color-mix(in srgb,var(--c) 28%,var(--line));border-top:5px solid var(--c);border-radius:10px;padding:10px;min-height:200px;min-width:0}
-.col.over{background:color-mix(in srgb,var(--c) 18%,var(--panel));outline:2px dashed var(--c)}
-.col h2{font:750 14px var(--f-disp);font-stretch:108%;display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
-.col h2 span{font:700 12px var(--f-body);padding:1px 8px;border-radius:999px;background:var(--panel);border:1px solid var(--line)}
-.col[data-c=saved]{--c:var(--sky)}.col[data-c=applied]{--c:var(--violet)}.col[data-c=interview]{--c:var(--sun)}.col[data-c=offer]{--c:var(--mint)}.col[data-c=closed]{--c:var(--mute)}
-.bc{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:9px 10px;margin-bottom:8px;font-size:13px;cursor:grab}
-.bc.dragging{opacity:.4}
-.bc b{display:block;font-weight:650;line-height:1.3;overflow-wrap:anywhere}
-.bc .m{color:var(--mute);font-size:12.5px;margin-top:2px}
-.bc .bt{display:flex;gap:4px;margin-top:8px;align-items:center;flex-wrap:wrap}
-.bc .bt button,.bc .bt a{padding:1px 8px;font-size:12.5px;border-radius:6px;line-height:1.5;text-decoration:none;border:1px solid var(--line);background:var(--bg);color:var(--ink)}
-.bc .bt button:hover,.bc .bt a:hover{border-color:var(--ink)}
-.bc .bt .sp1{margin-left:auto}
-.bc .chipsc{font-size:11.5px;font-weight:700;padding:0 7px;border-radius:999px;background:var(--bg);border:1px solid var(--line);margin-left:6px}
-.bc .chipsc.sc-hi{color:var(--ok)}.bc .chipsc.sc-mid{color:var(--warn)}
-.ring{--p:0;width:92px;height:92px;border-radius:50%;background:conic-gradient(var(--peach) calc(var(--p)*1%),color-mix(in srgb,var(--line) 70%,var(--panel)) 0);display:grid;place-items:center;flex:none}
-.ring span{width:68px;height:68px;border-radius:50%;background:var(--panel);display:grid;place-items:center;font:800 22px var(--f-disp);font-stretch:85%}
-.sprint{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
-.sprint p{margin:0 0 4px}
-.yield{width:100%;border-collapse:collapse;font-size:13.5px}
-.yield th,.yield td{text-align:left;padding:6px 8px;border-top:1px solid var(--line)}
-.yield th{font-size:12px;color:var(--mute);border-top:0;font-weight:600}
-.yield td.r{font-variant-numeric:tabular-nums}
-.addform{display:flex;gap:8px;flex-wrap:wrap}
-.addform input{flex:1 1 160px;width:auto}
-.boardtop{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:16px;margin-top:16px}
-@media(max-width:900px){.boardtop{grid-template-columns:minmax(0,1fr)}}
 
 /* ---------- start page: explore tiles ---------- */
 .xtiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin-top:14px}
