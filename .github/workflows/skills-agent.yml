@@ -1,0 +1,73 @@
+name: Draft skills for approval
+
+# I-19's agent. Reads the phrases many postings ask for that our dictionary does not know, asks
+# Gemini which of them are real skills, and opens a pull request with the drafts for a person to
+# approve. It never changes skills.json: approval is a human step, as with the credentials map.
+#
+# Only public posting vocabulary is sent. No CV text, ever.
+
+on:
+  schedule:
+    - cron: "0 7 * * 1"          # Monday morning, after the weekend's collection
+  workflow_dispatch:
+    inputs:
+      limit:
+        description: "How many phrases to judge this run"
+        required: false
+        default: "40"
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  draft:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Refresh the queue of unknown phrases
+        run: node --max-old-space-size=4000 tools/unknown_report.cjs docs 20
+
+      - name: Draft entries
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: node tools/draft_skills.mjs ${{ github.event.inputs.limit || '40' }}
+
+      - name: Open a pull request if anything was drafted
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          BRANCH="skills-draft-$(date +%Y-%m-%d-%H%M)"
+          git config user.name "skills-agent"
+          git config user.email "noreply@anthropic.com"
+          git checkout -b "$BRANCH"
+          # stage first: on the first run these files are NEW, and `git diff` does not see untracked
+          # files, so checking before staging reported "nothing to propose" and quietly did nothing.
+          git add tools/skill_proposals.json tools/skill_proposals.md tools/unknown_skills.json
+          if git diff --cached --quiet; then
+            echo "nothing new to propose"
+            exit 0
+          fi
+          git commit -m "Skills drafted for approval, $(date +%Y-%m-%d)"
+          git push -u origin "$BRANCH"
+          # Opening the PR needs "Allow GitHub Actions to create and approve pull requests" in
+          # Settings -> Actions -> General. If it is off, the drafts are still safely on the branch,
+          # so say where they are rather than failing a run that did its work.
+          if gh pr create \
+               --title "Skills drafted for approval, $(date +%Y-%m-%d)" \
+               --body-file .github/skills-pr-body.md \
+               --base main --head "$BRANCH"; then
+            echo "pull request opened"
+          else
+            echo "::warning::Could not open the pull request - this is usually the repository setting"
+            echo "::warning::Settings -> Actions -> General -> Workflow permissions ->"
+            echo "::warning::'Allow GitHub Actions to create and approve pull requests'."
+            echo "The drafts are pushed and safe on branch $BRANCH. Open the PR from:"
+            echo "  https://github.com/${{ github.repository }}/compare/main...$BRANCH"
+          fi
