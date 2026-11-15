@@ -665,7 +665,6 @@ body.cmpon{padding-bottom:84px}
 <main id="pg-lab" class="view" data-page="lab" hidden><div class="wrap pagein" id="x-lab"></div></main>
 <main id="pg-ladder" class="view" data-page="ladder" hidden><div class="wrap pagein" id="x-ladder"></div></main>
 <main id="pg-swipe" class="view" data-page="swipe" hidden><div class="wrap pagein" id="x-swipe"></div></main>
-<main id="pg-board" class="view" data-page="board" hidden><div class="wrap pagein" id="x-board"></div></main>
 <main id="pg-extras" class="view" data-page="extras" hidden><div class="wrap pagein" id="x-extras"></div></main>
 <main id="pg-plan" class="view" data-page="plan" hidden><div class="wrap pagein" id="x-plan"></div></main>
 <main id="pg-target" class="view" data-page="target" hidden><div class="wrap pagein" id="x-target"></div></main>
@@ -2580,7 +2579,7 @@ $("topview").addEventListener("click",onAct);
 $("tabs").onclick=e=>{const b=e.target.closest(".tab");if(b&&b.dataset.t!==tab){tab=b.dataset.t;SHOW=PAGE;render();writeHash(true);window.scrollTo({top:Math.max(0,$("tabs").getBoundingClientRect().top+scrollY-64)});}};
 
 /* ---------- the pages: start, your CV and details, top 10, all jobs ---------- */
-/* the extra pages (market map, skill lab, ladder, quick sort, board) live in pages.js; the site still works if that file does not load */
+/* the extra pages (market map, skill lab, ladder, quick sort) live in pages.js; the site still works if that file does not load */
 const XP=window.XP||{pages:{},init(){},home(){}};
 const PAGES=["home","details","matches","jobs",...Object.keys(XP.pages)];
 const PG_TITLE={home:"Path Match",details:"Your CV and details · Path Match",matches:"Your top 10 · Path Match",jobs:"All jobs · Path Match"};
@@ -2986,7 +2985,6 @@ function starClick(e){
     const k=st.dataset.star;
     if(SAVED.has(k))SAVED.delete(k);else SAVED.add(k);
     saveSaved();
-    if(XP.onStar)XP.onStar(k,SAVED.has(k));
     if(F.saved){render();}
     else{document.querySelectorAll(".star").forEach(b=>{if(b.dataset.star===k){const on=SAVED.has(k);b.classList.toggle("on",on);b.textContent=on?"★":"☆";b.setAttribute("aria-pressed",on);b.title=on?"Remove from saved":"Save this posting";}});syncControls();}
   }
