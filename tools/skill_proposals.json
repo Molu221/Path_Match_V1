@@ -279,9 +279,9 @@
    "design menus"
   ],
   "category": "process",
-  "reason": "This is concrete work that a cook performs and can be tested on.",
+  "reason": "This is concrete work that a cook performs and can be tested on. Refused on review: the dictionary already answers to \"menu planning\" and \"menu development\" under \"Menu planning and food costing\".",
   "model": "gemini-flash-lite-latest",
   "drafted_on": "2026-11-16",
-  "approved": null
+  "approved": false
  }
 ]

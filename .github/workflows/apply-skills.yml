@@ -1,0 +1,66 @@
+name: Apply approved skills
+
+# The other half of I-19. The agent proposes; this puts the ones a person ticked
+# into the dictionary, and opens a pull request so the change is still reviewed
+# before it reaches an applicant.
+#
+# It adds nothing on its own. A proposal only moves if someone has written
+# "approved": true beside it in tools/skill_proposals.json, and the name typed
+# into "Who is signing this" is written into the entry.
+
+on:
+  workflow_dispatch:
+    inputs:
+      signer:
+        description: "Who is signing this (your full name)"
+        required: true
+      dry:
+        description: "Only say what would be added, change nothing"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Apply the ticked proposals
+        run: |
+          node tools/apply_proposals.mjs \
+            --signer "${{ inputs.signer }}" \
+            ${{ inputs.dry && '--dry' || '' }}
+
+      - name: Check nothing else broke
+        if: ${{ !inputs.dry }}
+        run: npm test
+
+      - name: Open a pull request with the change
+        if: ${{ !inputs.dry }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git config user.name "skills-agent"
+          git config user.email "noreply@github.com"
+          git add docs/skills.json tools/skill_proposals.json
+          if git diff --cached --quiet; then
+            echo "::warning::Nothing was added, so there is nothing to open."
+            exit 0
+          fi
+          BRANCH="skills-applied-$(date +%Y-%m-%d-%H%M)"
+          git checkout -b "$BRANCH"
+          git commit -m "Skills approved by ${{ inputs.signer }}, $(date +%Y-%m-%d)"
+          git push origin "$BRANCH"
+          gh pr create \
+            --title "Skills approved by ${{ inputs.signer }}, $(date +%Y-%m-%d)" \
+            --body "Entries the agent proposed and ${{ inputs.signer }} ticked, now in the dictionary. The full test suite passed before this was opened." \
+            --base main --head "$BRANCH" \
+          || echo "::warning::Could not open the PR. Open it here instead: ${{ github.server_url }}/${{ github.repository }}/compare/main...$BRANCH"
