@@ -35,7 +35,10 @@ jobs:
 
       - name: Draft entries
         env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          # The repository secret is named GEMINI_API_KEY_2, not GEMINI_API_KEY: the first
+          # name was taken by an earlier key and GitHub cannot rename a secret. The script
+          # still reads GEMINI_API_KEY from the environment; only the source differs.
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY_2 }}
         run: node tools/draft_skills.mjs ${{ github.event.inputs.limit || '40' }}
 
       - name: Open a pull request if anything was drafted

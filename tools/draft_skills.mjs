@@ -28,7 +28,7 @@ const OUT = path.join(ROOT, "tools", "skill_proposals.json");
 const SHEET = path.join(ROOT, "tools", "skill_proposals.md");
 
 if (!KEY && !DRY) {
-  console.error("No GEMINI_API_KEY. In Actions it comes from the repository secret of that name;\n" +
+  console.error("No GEMINI_API_KEY. In Actions it comes from the GEMINI_API_KEY_2 repository secret;\n" +
                 "locally, prefix the command with it. Use --dry to see the prompt without calling.");
   process.exit(1);
 }
