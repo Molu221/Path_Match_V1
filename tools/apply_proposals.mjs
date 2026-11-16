@@ -47,6 +47,36 @@ const fold = (s) =>
 const proposals = JSON.parse(fs.readFileSync(PROPOSALS, "utf8"));
 const dict = JSON.parse(fs.readFileSync(DICT, "utf8"));
 
+/* --auto: tick the proposals that clear a measurable bar, so the weekly run can
+   arrive with the change already made and a person only has to read it.
+   The bar is evidence, not the model's confidence, which it has no way to
+   calibrate. A phrase has to be asked for by enough postings to matter, across
+   enough different kinds of job that it is not one employer's house word, and
+   carry more than one way of writing it. Everything a hand tick has to pass -
+   the collision check above all - it still has to pass. Anything short of the
+   bar is left for a person, not thrown away. */
+const BAR = { postings: 25, trades: 8, aliases: 2 };
+if (args.includes("--auto")) {
+  let ticked = 0, held = 0;
+  for (const p of proposals) {
+    if (p.approved !== null && p.approved !== undefined) continue; /* already judged */
+    if (p.is_skill !== true) continue;
+    const why = [];
+    if (!(p.postings >= BAR.postings)) why.push(`only ${p.postings} postings ask for it`);
+    if (!(p.trades >= BAR.trades)) why.push(`only ${p.trades} kinds of job`);
+    if (!((p.aliases || []).length + 1 >= BAR.aliases)) why.push("only one way of writing it");
+    if (why.length) {
+      p.held_for_a_person = why.join("; ");
+      held++;
+    } else {
+      p.approved = true;
+      p.approved_by = `the bar: ${BAR.postings}+ postings, ${BAR.trades}+ kinds of job`;
+      ticked++;
+    }
+  }
+  console.log(`--auto: ${ticked} cleared the bar, ${held} held for a person to read.`);
+}
+
 /* Every word the dictionary already answers to, and which skill owns it. */
 const owner = new Map();
 for (const s of dict.skills) {
@@ -62,8 +92,16 @@ console.log(
     `${notTicked.length} left alone.`
 );
 
+/* --auto writes down why it held each proposal back, and that record is worth
+   keeping even when nothing clears the bar - it is what a person reads next
+   week to decide whether the bar is set right. */
+const saveProposals = () => {
+  if (!dry) fs.writeFileSync(PROPOSALS, JSON.stringify(proposals, null, 1) + "\n");
+};
+
 if (!ticked.length) {
   console.log("Nothing to add. Write \"approved\": true beside a proposal first.");
+  saveProposals();
   process.exit(0);
 }
 
@@ -125,9 +163,20 @@ for (const r of refused) {
   console.log(`  refused "${r.name}": ${r.why.join("; ")}`);
 }
 
+/* A refusal means different things depending on who ticked. If a person ticked
+   it, their intention failed and the exit code should say so. If the bar ticked
+   it, a refusal is the guard doing its job - a duplicate, usually - and the
+   weekly run should carry on and still deliver its report. */
+const refusedByHand = refused.some((r) =>
+  proposals.some((p) => String(p.name || "").trim() === r.name && !p.approved_by)
+);
+
 if (!added.length) {
   console.log("\nNothing could be added. The dictionary is unchanged.");
-  process.exit(refused.length ? 1 : 0);
+  saveProposals();
+  if (refused.length && !refusedByHand)
+    console.log("::warning::Everything proposed this week was refused by the guards.");
+  process.exit(refusedByHand ? 1 : 0);
 }
 
 /* The file is kept in alphabetical order, so put each new entry where it goes

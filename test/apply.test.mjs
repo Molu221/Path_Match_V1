@@ -118,5 +118,41 @@ ok("the good one is added", !!r.dict.skills.find((s) => s.n === "Menu planning")
 ok("...and the bad one is still refused, with the reason printed",
    !r.dict.skills.find((s) => s.n === "Fork lift driving") && /already belongs/.test(r.out));
 
+console.log("\nthe bar --auto applies, so the weekly run needs no one");
+r = run([prop({ approved: null, postings: 87, trades: 20 })], ["--auto"]);
+ok("a phrase many postings and many trades ask for is ticked on its own",
+   !!r.dict.skills.find((s) => s.n === "Menu planning"));
+ok("...and the entry says what ticked it, not that a person did",
+   r.props[0].approved_by && /postings/.test(r.props[0].approved_by), r.props[0].approved_by);
+r = run([prop({ approved: null, postings: 9, trades: 20 })], ["--auto"]);
+ok("too few postings is held for a person, not added",
+   r.dict.skills.length === 2 && /only 9 postings/.test(r.props[0].held_for_a_person || ""),
+   r.props[0].held_for_a_person);
+r = run([prop({ approved: null, postings: 87, trades: 2 })], ["--auto"]);
+ok("one employer's house word is held for a person, however many postings",
+   r.dict.skills.length === 2 && /only 2 kinds of job/.test(r.props[0].held_for_a_person || ""));
+r = run([prop({ approved: null, postings: 87, trades: 20, aliases: [] })], ["--auto"]);
+ok("a phrase with only one way of writing it is held for a person",
+   r.dict.skills.length === 2 && /one way of writing/.test(r.props[0].held_for_a_person || ""));
+r = run([prop({ approved: null, postings: 87, trades: 20, is_skill: false })], ["--auto"]);
+ok("--auto never ticks something the agent called not-a-skill",
+   r.dict.skills.length === 2 && r.props[0].approved !== true);
+r = run([prop({ approved: false, postings: 87, trades: 20 })], ["--auto"]);
+ok("--auto does not overturn a person who already said no",
+   r.dict.skills.length === 2 && r.props[0].approved === false);
+/* The guard that caught the real duplicate on the first live run. */
+r = run([prop({ approved: null, postings: 87, trades: 20,
+                name: "Fork lift driving", aliases: ["cariste", "lift truck"] })], ["--auto"]);
+ok("the collision check still applies to anything --auto ticks",
+   r.dict.skills.length === 2 && /already belongs to "Forklift operation"/.test(r.out));
+
+console.log("\nwhat an exit code says");
+r = run([prop({ approved: true, name: "Fork lift driving", aliases: ["cariste"] })]);
+ok("a person's tick that was refused fails loudly", r.code === 1, r.code);
+r = run([prop({ approved: null, postings: 87, trades: 20,
+                name: "Fork lift driving", aliases: ["cariste", "lift truck"] })], ["--auto"]);
+ok("the bar's tick that was refused does not fail the weekly run", r.code === 0, r.code);
+ok("...but it does say so, so the run is not silently empty", /::warning::/.test(r.out));
+
 console.log("\n" + pass + " passed, " + fail + " failed");
 process.exit(fail ? 1 : 0);
