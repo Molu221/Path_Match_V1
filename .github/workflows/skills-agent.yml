@@ -41,6 +41,20 @@ jobs:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY_2 }}
         run: node tools/draft_skills.mjs ${{ github.event.inputs.limit || '40' }}
 
+      # The drafting and the applying are one run, so the week's work arrives as a single
+      # pull request with the dictionary change already in it. --auto ticks only what clears
+      # the evidence bar (25+ postings, 8+ kinds of job, more than one way of writing it);
+      # everything else is held, with the reason written beside it, for a person to read.
+      # Every guard a hand tick faces still applies, the collision check most of all - it is
+      # what caught "menu planning" already being in the dictionary on the first live run.
+      - name: Apply what clears the bar
+        run: node tools/apply_proposals.mjs --auto --signer "the weekly agent"
+
+      # If the agent's additions broke anything, the run fails here and no pull request is
+      # opened, so a bad entry never reaches a branch anyone might merge.
+      - name: Check nothing broke
+        run: npm test
+
       - name: Open a pull request if anything was drafted
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -52,7 +66,7 @@ jobs:
           git checkout -b "$BRANCH"
           # stage first: on the first run these files are NEW, and `git diff` does not see untracked
           # files, so checking before staging reported "nothing to propose" and quietly did nothing.
-          git add tools/skill_proposals.json tools/skill_proposals.md tools/unknown_skills.json
+          git add tools/skill_proposals.json tools/skill_proposals.md tools/unknown_skills.json docs/skills.json
           if git diff --cached --quiet; then
             echo "nothing new to propose"
             exit 0
