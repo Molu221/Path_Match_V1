@@ -46,11 +46,18 @@ async function pickModel() {
   const names = (await r.json()).models
     .filter((m) => (m.supportedGenerationMethods || []).includes("generateContent"))
     .map((m) => m.name.replace(/^models\//, ""));
-  /* cheapest first: this is a bulk job on short phrases, not a reasoning task */
+  /* cheapest first: this is a bulk job on short phrases, not a reasoning task. A ranked list
+     rather than one name, because a model can be busy - Google answers 503 "high demand" - and
+     the next one down will usually take the work. */
   const want = [/flash-lite/, /flash/, /pro/];
-  for (const re of want) { const hit = names.find((n) => re.test(n) && !/preview|exp/.test(n)); if (hit) return hit; }
-  return names[0];
+  const ranked = [];
+  for (const re of want) {
+    for (const n of names) if (re.test(n) && !/preview|exp/.test(n) && !ranked.includes(n)) ranked.push(n);
+  }
+  return ranked.length ? ranked.slice(0, 3) : [names[0]];
 }
+
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 const PROMPT = `You are helping maintain the skills dictionary of a job-matching tool for Canadian job seekers.
 
@@ -83,18 +90,30 @@ async function ask(model, items) {
       items.map((q, i) => `${i + 1}. "${q.phrase}"  (asked by ${q.postings} postings across ${q.trades} kinds of job; e.g. ${q.seen_in[0]})`).join("\n") }] }],
     generationConfig: { temperature: 0, responseMimeType: "application/json" }
   };
-  const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${KEY}`,
-    { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) });
-  if (!r.ok) throw new Error(`${r.status} ${(await r.text()).slice(0, 400)}`);
-  const txt = (await r.json()).candidates?.[0]?.content?.parts?.[0]?.text || "[]";
-  return JSON.parse(txt);
+  /* 503 and 429 mean "busy, come back" rather than "wrong". Wait and try again before moving on:
+     the first live run lost a whole batch to a passing spike in demand. */
+  for (let attempt = 0; ; attempt++) {
+    const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${KEY}`,
+      { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) });
+    if (r.ok) {
+      const txt = (await r.json()).candidates?.[0]?.content?.parts?.[0]?.text || "[]";
+      return JSON.parse(txt);
+    }
+    const detail = (await r.text()).slice(0, 400);
+    const busy = r.status === 503 || r.status === 429 || r.status === 500;
+    if (!busy || attempt >= 2) throw new Error(`${r.status} ${detail}`);
+    const wait = [8000, 25000][attempt];
+    console.log(`    ${model} is busy (${r.status}); waiting ${wait / 1000}s and trying again`);
+    await sleep(wait);
+  }
 }
 
 if (DRY) { console.log("\n--- the prompt, unsent ---\n" + PROMPT + "\n\nfirst batch:\n" +
   todo.slice(0, 5).map((q) => `  "${q.phrase}"  (${q.postings} postings)`).join("\n")); process.exit(0); }
 
-const model = await pickModel();
-console.log(`using ${model}\n`);
+const models = await pickModel();
+let model = models[0];
+console.log(`using ${model}${models.length > 1 ? ` (fallbacks: ${models.slice(1).join(", ")})` : ""}\n`);
 const out = fs.existsSync(OUT) ? JSON.parse(fs.readFileSync(OUT, "utf8")) : [];
 let added = 0, skills = 0;
 for (let i = 0; i < todo.length; i += BATCH) {
@@ -113,6 +132,13 @@ for (let i = 0; i < todo.length; i += BATCH) {
     console.log(`  ${Math.min(i + BATCH, todo.length)}/${todo.length}`);
   } catch (e) {
     console.error(`  batch at ${i} failed: ${e.message}`);
+    const next = models[models.indexOf(model) + 1];
+    if (/503|UNAVAILABLE|high demand/i.test(e.message) && next) {
+      console.log(`  switching to ${next} for the rest of this run`);
+      model = next;
+      i -= BATCH;                       /* retry this same batch on the new model */
+      continue;
+    }
     if (/429|quota|RESOURCE_EXHAUSTED/i.test(e.message)) { console.error("  rate limit - stopping here, the rest keeps for next run"); break; }
   }
   await new Promise((s) => setTimeout(s, 6000));     /* gentle on the free tier */
@@ -140,4 +166,8 @@ If any of these is wrong, say so - it means the prompt needs work.
 ${fresh.filter((p) => !p.is_skill).map((p) => `- **${p.phrase}** (${p.postings} postings) - ${p.reason}`).join("\n")}
 `);
 console.log(`\n${added} judged, ${skills} proposed as skills.`);
+if (!added) {
+  console.log("::warning::The agent judged 0 phrases - every request to the model failed. " +
+              "Look for 'batch at 0 failed' above for the reason. Nothing was proposed.");
+}
 console.log(`proposals: ${path.relative(ROOT, OUT)}\nreview sheet: ${path.relative(ROOT, SHEET)}`);
