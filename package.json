@@ -6,10 +6,11 @@
   "scripts": {
     "collect": "node scripts/collect.mjs",
     "find": "node scripts/find-boards.mjs",
-    "test": "node test/collect.test.mjs && node test/jobmeta.test.mjs && node test/scoring.test.mjs && node test/planner.test.mjs && node test/describe.test.mjs && node test/pasteparse.test.mjs && node test/pages.test.mjs && node test/geo.test.mjs && node test/cover-stats.test.mjs && node test/extras.test.mjs && node test/noc_library.test.mjs && node test/jobbank_open.test.mjs && node test/discover.test.mjs && node test/cvread.test.mjs && node test/stage.test.mjs && node test/words.test.mjs && node test/credentials.test.mjs && node test/unknown.test.mjs",
+    "test": "node test/collect.test.mjs && node test/jobmeta.test.mjs && node test/scoring.test.mjs && node test/planner.test.mjs && node test/describe.test.mjs && node test/pasteparse.test.mjs && node test/pages.test.mjs && node test/geo.test.mjs && node test/cover-stats.test.mjs && node test/extras.test.mjs && node test/noc_library.test.mjs && node test/jobbank_open.test.mjs && node test/discover.test.mjs && node test/cvread.test.mjs && node test/stage.test.mjs && node test/words.test.mjs && node test/credentials.test.mjs && node test/unknown.test.mjs && node test/apply.test.mjs",
     "reprofile": "node scripts/reprofile.mjs",
     "serve": "node scripts/serve.mjs",
-    "skills-report": "node --max-old-space-size=3500 tools/unknown_report.cjs docs 40"
+    "skills-report": "node --max-old-space-size=3500 tools/unknown_report.cjs docs 40",
+    "apply-skills": "node tools/apply_proposals.mjs"
   },
   "engines": {
     "node": ">=20"

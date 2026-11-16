@@ -21,6 +21,20 @@ ok("it holds something", queue.length > 20, String(queue.length));
 ok("nothing in it is already in the dictionary",
    queue.every((r) => !known.has(r.phrase.toLowerCase())),
    queue.filter((r) => known.has(r.phrase.toLowerCase())).map((r) => r.phrase).join(", "));
+/* A skill is known by every word it answers to, not just its name. Without this
+   the queue held "Software Engineer" and "Line Cook", which the dictionary
+   already answers to, and the agent spent its budget judging them. */
+const fold = (s) => String(s || "").normalize("NFD").replace(/[̀-ͯ]/g, "")
+  .toLowerCase().replace(/\s+/g, " ").trim();
+const answered = new Map();
+for (const s of dict.skills) {
+  answered.set(fold(s.n), s.n);
+  for (const a of s.a || []) answered.set(fold(a), s.n);
+}
+ok("nor is anything the dictionary already answers to under another name",
+   queue.every((r) => !answered.has(fold(r.phrase))),
+   queue.filter((r) => answered.has(fold(r.phrase)))
+        .map((r) => `${r.phrase} -> ${answered.get(fold(r.phrase))}`).slice(0, 6).join(", "));
 ok("every phrase says how many postings asked for it", queue.every((r) => r.postings >= 5));
 ok("...and how many kinds of job asked", queue.every((r) => r.trades >= 1));
 ok("...and shows one of the postings, so a person can judge",

@@ -11,17 +11,6 @@
   ]
  },
  {
-  "phrase": "Software Engineer",
-  "postings": 250,
-  "trades": 36,
-  "seen_in": [
-   "Embedded Software Engineer",
-   "Cyber Software Engineer II",
-   "AI Software Engineer, Growth",
-   "Android & Linux Software Engineer"
-  ]
- },
- {
   "phrase": "Senior Manager",
   "postings": 235,
   "trades": 36,
@@ -66,17 +55,6 @@
   ]
  },
  {
-  "phrase": "Project Manager",
-  "postings": 149,
-  "trades": 43,
-  "seen_in": [
-   "Project Manager",
-   "Project Manager - PL#72904",
-   "Sr. Software Project Manager (Scaled Agile /Device Development)",
-   "SAP S/4HANA Project Manager"
-  ]
- },
- {
   "phrase": "changing environment",
   "postings": 140,
   "trades": 48,
@@ -85,39 +63,6 @@
    "International Admissions Officer",
    "Bartender - LOCAL Public Eatery, Penticton",
    "Line Cook / Prep Cook - LOCAL Public Eatery, River District"
-  ]
- },
- {
-  "phrase": "Account Executive",
-  "postings": 138,
-  "trades": 35,
-  "seen_in": [
-   "Growth Account Executive - East",
-   "Account Executive ",
-   "Large Group Account Executive, Group Benefits",
-   "Enterprise Account Executive"
-  ]
- },
- {
-  "phrase": "Software Developer",
-  "postings": 127,
-  "trades": 25,
-  "seen_in": [
-   "Senior/Staff/Principal Software Developer",
-   "Senior Software Developer, Tooling Team",
-   "Senior Software Developer 2",
-   "Senior Software Developer"
-  ]
- },
- {
-  "phrase": "Senior Software Engineer",
-  "postings": 103,
-  "trades": 4,
-  "seen_in": [
-   "Senior Software Engineer - Canada",
-   "Senior Software Engineer, Performance ( Toronto) ",
-   "Senior Software Engineer, AI",
-   "Senior Software Engineer, Backend (Capacity Modeling)"
   ]
  },
  {
@@ -151,17 +96,6 @@
    "Sales Team Leader",
    "Baker",
    "Sales Assistant - COBS Bread - FT or PT"
-  ]
- },
- {
-  "phrase": "Account Manager",
-  "postings": 90,
-  "trades": 27,
-  "seen_in": [
-   "Channel Account Manager",
-   "SENIOR COMMERCIAL ACCOUNT MANAGER -  Montreal",
-   "Account Manager - Surgical",
-   "Senior Account Manager, Toronto"
   ]
  },
  {
@@ -217,17 +151,6 @@
    "first cook",
    "ethnic food cook",
    "line cook"
-  ]
- },
- {
-  "phrase": "Store Associate",
-  "postings": 87,
-  "trades": 8,
-  "seen_in": [
-   "Store Associate (Part-Time/Temporary)",
-   "Retail Store Associate Full Time Winners/HomeSense – Westshore Mall",
-   "Retail Store Associate Part Time Winners/HomeSense School House",
-   "Retail Store Associate Part Time Winners Upper James Square"
   ]
  },
  {
@@ -374,17 +297,6 @@
   ]
  },
  {
-  "phrase": "Retail Associate",
-  "postings": 76,
-  "trades": 4,
-  "seen_in": [
-   "Retail Associate - Wilfred Sherway Gardens",
-   "Retail Associate - TNA Chinook",
-   "Retail Associate - Park Royal",
-   "Retail Associate - Orchard Park"
-  ]
- },
- {
   "phrase": "Senior Analyst",
   "postings": 75,
   "trades": 14,
@@ -404,17 +316,6 @@
    "Server Liaison - JOEY King Street",
    "General Application Form - JOEY Coquitlam",
    "Server Liaison - JOEY Kelowna"
-  ]
- },
- {
-  "phrase": "Line Cook",
-  "postings": 72,
-  "trades": 3,
-  "seen_in": [
-   "Line Cook / Prep Cook - LOCAL Public Eatery, River District",
-   "Line Cook / Prep Cook - JOEY Rideau",
-   "Closing Line Cook - LOCAL Public Eatery, Gastown",
-   "Line Cook / Kitchen Leader - JOEY Bentall"
   ]
  },
  {
@@ -459,17 +360,6 @@
    "Senior Director, Program Delivery",
    "Senior Director, AI Business Enablement",
    "Senior Director, Enterprise Execution"
-  ]
- },
- {
-  "phrase": "Data Scientist",
-  "postings": 60,
-  "trades": 10,
-  "seen_in": [
-   "Risk Data Scientist",
-   "Sr. Data Scientist",
-   "Data Scientist, Growth (12 month contract)",
-   "Data Scientist II"
   ]
  },
  {
@@ -528,28 +418,6 @@
   ]
  },
  {
-  "phrase": "Financial Planner",
-  "postings": 55,
-  "trades": 4,
-  "seen_in": [
-   "Financial Planner - Westmount",
-   "Financial Planner-North Shore",
-   "Financial Planner- Memorial, Southeast Calgary",
-   "Financial Planner, Investment Retirement Planning"
-  ]
- },
- {
-  "phrase": "Administrative Assistant",
-  "postings": 55,
-  "trades": 11,
-  "seen_in": [
-   "Project Administrative Assistant",
-   "Administrative Assistant",
-   "Administrative Assistant, BORN Ontario - Permanent Full Time (1.0)",
-   "Administrative assistant, medical"
-  ]
- },
- {
   "phrase": "connect individuals",
   "postings": 55,
   "trades": 6,
@@ -558,28 +426,6 @@
    "Remote Work From Home Market Research. Ideal For Customer Service Representative",
    "Work At Home Focus Group Panel. Call Centre Agent Experience Not Required",
    "Part-Time/Full-Time Research Panel. Entry Level. Receptionist or Typist Welcome"
-  ]
- },
- {
-  "phrase": "Financial Advisor",
-  "postings": 54,
-  "trades": 6,
-  "seen_in": [
-   "Financial Advisor",
-   "Sr.Financial Advisor - CIRO-MFD/AMF",
-   "Financial Advisor - CIRO-ID",
-   "SUN LIFE FINANCIAL ADVISOR - Ontario"
-  ]
- },
- {
-  "phrase": "Restaurant Manager",
-  "postings": 54,
-  "trades": 4,
-  "seen_in": [
-   "Restaurant Manager - JOEY Kenaston",
-   "restaurant manager",
-   "Restaurant Manager",
-   "Restaurant Manager - JOEY Bentall"
   ]
  },
  {
@@ -913,17 +759,6 @@
   ]
  },
  {
-  "phrase": "Business Analyst",
-  "postings": 48,
-  "trades": 14,
-  "seen_in": [
-   "Business Analyst, RBC Amplify 2027, Calgary",
-   "Supply Chain Business Analyst",
-   "Lead Business Analyst - Insurance (Fully Remote)",
-   "Business Analyst"
-  ]
- },
- {
   "phrase": "Technology Fast 50",
   "postings": 48,
   "trades": 15,
@@ -976,17 +811,6 @@
    "Sales Associate Marshalls/Homesense South Keys 762/114 - Seasonal",
    "Retail Store Associate Part Time Winners Upper James Square",
    "Part Time Sales Associate Eastgate Square"
-  ]
- },
- {
-  "phrase": "Data Engineer",
-  "postings": 48,
-  "trades": 11,
-  "seen_in": [
-   "Data Engineer",
-   "Data Engineer, RBC Amplify 2027, Vancouver",
-   "Data Engineer (DevOps)",
-   "data engineer"
   ]
  },
  {
@@ -1067,6 +891,17 @@
   ]
  },
  {
+  "phrase": "Vice President",
+  "postings": 46,
+  "trades": 16,
+  "seen_in": [
+   "Vice President, Client Integration (Program/Project Manager)",
+   "Vice President of Product",
+   "Vice President, Sales & Marketing",
+   "Vice President, Business Control Assurance"
+  ]
+ },
+ {
   "phrase": "leaders started right",
   "postings": 45,
   "trades": 13,
@@ -1078,28 +913,6 @@
   ]
  },
  {
-  "phrase": "Vice President",
-  "postings": 45,
-  "trades": 15,
-  "seen_in": [
-   "Vice President, Client Integration (Program/Project Manager)",
-   "Vice President of Product",
-   "Vice President, Sales & Marketing",
-   "Vice President, Business Control Assurance"
-  ]
- },
- {
-  "phrase": "Sous Chef",
-  "postings": 45,
-  "trades": 8,
-  "seen_in": [
-   "Chef de Partie / Jr. Sous Chef - JOEY Yorkdale",
-   "Sous Chef",
-   "Chef / Sous Chef - LOCAL Public Eatery",
-   "Chef / Sous Chef - JOEY Barlow"
-  ]
- },
- {
   "phrase": "natural born leader",
   "postings": 45,
   "trades": 9,
@@ -1108,17 +921,6 @@
    "Host / Hostess - LOCAL Public Eatery, Penticton",
    "Shift Leader - LOCAL Public Eatery, Sherwood Park",
    "Chef / Sous Chef - LOCAL Public Eatery, Adelaide"
-  ]
- },
- {
-  "phrase": "Delivery Driver",
-  "postings": 44,
-  "trades": 11,
-  "seen_in": [
-   "Class 3 Delivery Driver",
-   "delivery driver",
-   "Delivery Driver/Material Handler",
-   "Delivery Driver / Material Handler"
   ]
  },
  {
@@ -1265,17 +1067,6 @@
   ]
  },
  {
-  "phrase": "Développeur logiciel",
-  "postings": 39,
-  "trades": 2,
-  "seen_in": [
-   "Développeur(euse) logiciel / Software Developer - Appliances Platform (Edge OS)",
-   "Développeur(euse) logiciel / Software Developer - Platform Engineering",
-   "Développeur(euse) logiciel / Software Developer - Cloud (SC SaaS)",
-   "Développeur(se) logiciel(le)"
-  ]
- },
- {
   "phrase": "information organisationnelle",
   "postings": 39,
   "trades": 9,
@@ -1306,28 +1097,6 @@
    "Supervisor, Fund Accounting, Private Equity",
    "Lead, Computerized Systems Validation - Canada",
    "Associate Director, Marketing and Business Development, Ancillary Services"
-  ]
- },
- {
-  "phrase": "Customer Success Manager",
-  "postings": 38,
-  "trades": 13,
-  "seen_in": [
-   "Customer Success Manager",
-   "Junior Customer Success Manager",
-   "Sr. Customer Success Manager - Fraud/AML Strategy",
-   "Senior Customer Success Manager (Enterprise)"
-  ]
- },
- {
-  "phrase": "Product Owner",
-  "postings": 38,
-  "trades": 9,
-  "seen_in": [
-   "Product Owner, Product  management",
-   "Technical Product Owner, Digital Solutions",
-   "Observability Product Owner-EN 503",
-   "Product Owner - Asset Management, Temporary"
   ]
  },
  {
@@ -1364,28 +1133,6 @@
   ]
  },
  {
-  "phrase": "Truck Driver",
-  "postings": 37,
-  "trades": 11,
-  "seen_in": [
-   "Local CDL A Truck Driver",
-   "long haul truck driver",
-   "Tow Truck Driver ",
-   "Truck Driver - Class A"
-  ]
- },
- {
-  "phrase": "Travailleur social",
-  "postings": 37,
-  "trades": 4,
-  "seen_in": [
-   "Travailleur(euse) social(e) - SAD à Chute-aux-Outardes | Côte-Nord",
-   "Travailleur(se) social - Programme dépendance - Cote Nord",
-   "Travailleur(se) Social(e)- DPJ Application des Mesures-Kuujjuaraapik | Baie-Jame",
-   "Travailleur(euse) social(e) - CLSC de Ste-Anne des Monts | CISSS de la Gaspésie"
-  ]
- },
- {
   "phrase": "alternating weekends",
   "postings": 36,
   "trades": 7,
@@ -1394,17 +1141,6 @@
    "Softgoods Associate (Part-Time)",
    "Hardgoods Associate (Full-Time)",
    "Cashier (Part-Time)"
-  ]
- },
- {
-  "phrase": "Prep Cook",
-  "postings": 36,
-  "trades": 3,
-  "seen_in": [
-   "Line Cook / Prep Cook - LOCAL Public Eatery, River District",
-   "Line Cook / Prep Cook - JOEY Rideau",
-   "Experienced Prep Cook - LOCAL Public Eatery, Kamloops",
-   "Prep Cook - LOCAL Public Eatery, Gastown"
   ]
  },
  {
@@ -1452,17 +1188,6 @@
   ]
  },
  {
-  "phrase": "Product Designer",
-  "postings": 36,
-  "trades": 5,
-  "seen_in": [
-   "Lead Product Designer",
-   "Staff Product Designer",
-   "Senior Product Designer II - Growth Systems & AI Workflows",
-   "Product Designer, Treasury"
-  ]
- },
- {
   "phrase": "Development Representative",
   "postings": 35,
   "trades": 6,
@@ -1471,17 +1196,6 @@
    "Sales Development Representative - North America",
    "Sales Development Representative - B2B",
    "Sales Development Representative (Inbound)"
-  ]
- },
- {
-  "phrase": "Registered Nurse",
-  "postings": 35,
-  "trades": 3,
-  "seen_in": [
-   "Registered Nurse, Perioperative Services – Permanent Part-Time (0.5)",
-   "Registered Nurse (RN)",
-   "Registered Nurse (RN) Perioperative",
-   "Registered Nurse (RN) Neonatal Intensive Care Unit (NICU)"
   ]
  },
  {
@@ -1570,17 +1284,6 @@
    "Agent de relations humaines - Baie Comeau",
    "Agent(e) de relations humaines - AAOR et SSG à Sept-Îles | Côte-Nord",
    "Agent(e) de relations humaines (ARH) ou Travailleur(se) social (TS) - Baie-James"
-  ]
- },
- {
-  "phrase": "Data Analyst",
-  "postings": 34,
-  "trades": 8,
-  "seen_in": [
-   "Staff Data Analyst, Marketing",
-   "Data Analyst",
-   "Analyste de données BI / BI Data Analyst",
-   "Marketing Data Analyst"
   ]
  },
  {
@@ -1947,17 +1650,6 @@
   ]
  },
  {
-  "phrase": "Legal Counsel",
-  "postings": 31,
-  "trades": 7,
-  "seen_in": [
-   "Legal Counsel",
-   "Conseiller(ère) juridique / Legal Counsel - Corporate and Operations",
-   "Senior Legal Counsel, Compliance (Temporary position – 18 to 24 months)",
-   "Conseiller(ère) juridique/Legal Counsel"
-  ]
- },
- {
   "phrase": "Guest Service Leader",
   "postings": 31,
   "trades": 2,
@@ -1977,17 +1669,6 @@
    "Investment Advisor, BMO Nesbitt Burns",
    "Developing Investment Advisor (Kelowna)",
    "Investment Advisor (Phone)"
-  ]
- },
- {
-  "phrase": "Electrical Engineer",
-  "postings": 31,
-  "trades": 6,
-  "seen_in": [
-   "Electrical Engineer – Team Lead, MEP",
-   "Principal Electrical Engineer - Battery Energy Storage Systems (BESS)",
-   "Electrical Engineer - Traffic Signal",
-   "Electrical Engineer "
   ]
  },
  {
@@ -2068,28 +1749,6 @@
   ]
  },
  {
-  "phrase": "Project Coordinator",
-  "postings": 30,
-  "trades": 10,
-  "seen_in": [
-   "Project Coordinator",
-   "Mechanical Project Coordinator",
-   "Student Project Coordinator",
-   "MEP Project Coordinator"
-  ]
- },
- {
-  "phrase": "Chef de Partie",
-  "postings": 30,
-  "trades": 2,
-  "seen_in": [
-   "Chef de Partie / Jr. Sous Chef - JOEY Yorkdale",
-   "Chef de Partie - JOEY Eau Claire",
-   "Chef de Partie - JOEY Chinook",
-   "Chef de Partie - JOEY Bentall"
-  ]
- },
- {
   "phrase": "established routes",
   "postings": 30,
   "trades": 9,
@@ -2164,17 +1823,6 @@
    "live-in caregiver - seniors",
    "disability support worker",
    "home health care worker"
-  ]
- },
- {
-  "phrase": "Executive Assistant",
-  "postings": 29,
-  "trades": 4,
-  "seen_in": [
-   "Executive Assistant",
-   "Executive Assistant, Ottawa, ON",
-   "Lead Executive Assistant",
-   "Executive Assistant, GAM"
   ]
  },
  {
@@ -2398,28 +2046,6 @@
   ]
  },
  {
-  "phrase": "Senior Project Manager",
-  "postings": 27,
-  "trades": 4,
-  "seen_in": [
-   "Senior Project Manager - ERP Implementations | Gestionnaire de projets senior - Implantations ERP",
-   "APS Senior Project Manager",
-   "Senior Project Manager (ICI Construction)",
-   "Gestionnaire de projet sénior / Senior Project Manager"
-  ]
- },
- {
-  "phrase": "Personal Banker",
-  "postings": 27,
-  "trades": 3,
-  "seen_in": [
-   "Personal Banker - Beaconsfield (Full time)",
-   "Senior Personal Banker - Home Borrowing (QC) - Longueuil",
-   "Senior Personal Banker - Home Borrowing (Sydney)",
-   "Personal Banker, Full time (Futures opportunities)- Montérégie"
-  ]
- },
- {
   "phrase": "Plan delivery travel schedules",
   "postings": 27,
   "trades": 7,
@@ -2494,17 +2120,6 @@
    "route driver",
    "food delivery driver",
    "delivery truck driver"
-  ]
- },
- {
-  "phrase": "Warehouse Associate",
-  "postings": 27,
-  "trades": 3,
-  "seen_in": [
-   "Warehouse Associate/Technician Apprentice",
-   "Warehouse Associate",
-   "warehouse associate",
-   "Warehouse Associate - Alternate Shift"
   ]
  },
  {
@@ -2860,17 +2475,6 @@
   ]
  },
  {
-  "phrase": "Senior Financial Analyst",
-  "postings": 23,
-  "trades": 2,
-  "seen_in": [
-   "lululemon Senior Financial Analyst - NA Ecommerce | Contract until July 2027",
-   "Senior Financial Analyst, Investor Relations & Performance Measurement",
-   "Senior Financial Analyst, FP&A (12-Month Maternity Leave Coverage)",
-   "Senior Financial Analyst, GWAM Operations Expenses"
-  ]
- },
- {
   "phrase": "Board certification",
   "postings": 23,
   "trades": 5,
@@ -3000,17 +2604,6 @@
    "Senior Relationship Manager (Mid-Market)",
    "Senior Relationship Manager",
    "Senior Manager, Commercial Partnerships, Automotive Finance - 15 Month Contract"
-  ]
- },
- {
-  "phrase": "Chargé de projet",
-  "postings": 22,
-  "trades": 2,
-  "seen_in": [
-   "Chargé·e de projet senior – Infrastructures urbaines – Tramway de Québec ",
-   "Chargé(e) de projet - Documentation et analyse du patrimoine",
-   "Chargé(e) de projet (surveillance/conception) – Ponts et Ouvrages d’art (POA)",
-   "Chargé(e) de projet - Contenu culturel et interprétation"
   ]
  },
  {
@@ -3297,6 +2890,413 @@
    "restaurant supervisor",
    "unit supervisor - food services",
    "kitchen supervisor"
+  ]
+ },
+ {
+  "phrase": "special diet trays",
+  "postings": 21,
+  "trades": 5,
+  "seen_in": [
+   "food service supervisor",
+   "restaurant supervisor",
+   "unit supervisor - food services",
+   "kitchen supervisor"
+  ]
+ },
+ {
+  "phrase": "plan cafeteria menus",
+  "postings": 21,
+  "trades": 5,
+  "seen_in": [
+   "food service supervisor",
+   "restaurant supervisor",
+   "unit supervisor - food services",
+   "kitchen supervisor"
+  ]
+ },
+ {
+  "phrase": "order ingredients",
+  "postings": 21,
+  "trades": 5,
+  "seen_in": [
+   "food service supervisor",
+   "restaurant supervisor",
+   "unit supervisor - food services",
+   "kitchen supervisor"
+  ]
+ },
+ {
+  "phrase": "chef according",
+  "postings": 21,
+  "trades": 5,
+  "seen_in": [
+   "food service supervisor",
+   "restaurant supervisor",
+   "unit supervisor - food services",
+   "kitchen supervisor"
+  ]
+ },
+ {
+  "phrase": "food trolleys",
+  "postings": 21,
+  "trades": 5,
+  "seen_in": [
+   "food service supervisor",
+   "restaurant supervisor",
+   "unit supervisor - food services",
+   "kitchen supervisor"
+  ]
+ },
+ {
+  "phrase": "hospital patients",
+  "postings": 21,
+  "trades": 5,
+  "seen_in": [
+   "food service supervisor",
+   "restaurant supervisor",
+   "unit supervisor - food services",
+   "kitchen supervisor"
+  ]
+ },
+ {
+  "phrase": "Senior Specialist",
+  "postings": 21,
+  "trades": 5,
+  "seen_in": [
+   "Senior Specialist, Supplier Strategy & Integration",
+   "Senior Specialist Sales Engineer, ZT Branch",
+   "Spécialiste principal(e), Projets nationaux d’infrastructure/Senior Specialist, National Infrastructure Projects",
+   "Senior Specialist, Platform Operations & Observability/Spécialiste principal des opérations de plateforme et de l’observabilité"
+  ]
+ },
+ {
+  "phrase": "Forward Deployed Engineer",
+  "postings": 21,
+  "trades": 4,
+  "seen_in": [
+   "Forward Deployed Engineer, Agentic Platform",
+   "Forward Deployed Engineer, Infrastructure Specialist (Public Sector)",
+   "Forward Deployed Engineer, AI Products",
+   "Forward Deployed Engineer (FDE) - GenAI / Agentic AI"
+  ]
+ },
+ {
+  "phrase": "perfect fit",
+  "postings": 21,
+  "trades": 5,
+  "seen_in": [
+   "Seasonal Sales Associate (Toronto Premium Outlets)",
+   "Learning & Development Business Partner | Remote",
+   "Seasonal Sales Associate (Westboro)",
+   "Seasonal Sales Associate (Polo Park)"
+  ]
+ },
+ {
+  "phrase": "Service Leader",
+  "postings": 21,
+  "trades": 4,
+  "seen_in": [
+   "Shift Leader - LOCAL Public Eatery, Sherwood Park",
+   "Shift Leader - LOCAL Public Eatery, Penticton",
+   "Restaurant Manager - LOCAL Public Eatery, Sherwood Park",
+   "Restaurant Manager - LOCAL Public Eatery, Kitsilano"
+  ]
+ },
+ {
+  "phrase": "Early Childhood",
+  "postings": 20,
+  "trades": 2,
+  "seen_in": [
+   "Early Childhood Sports Coach",
+   "early childhood educator (ECE) assistant",
+   "Early Childhood Educator",
+   "early childhood educator (ECE)"
+  ]
+ },
+ {
+  "phrase": "residency training",
+  "postings": 20,
+  "trades": 3,
+  "seen_in": [
+   "Licensed Physician (MD/DO) - Freelance AI Trainer",
+   "Physician (MD/DO) - Medical AI Evaluation",
+   "Physician (MD/DO) - Put Medical AI to the Test, Remote",
+   "Physician Reviewer (MD/DO) - Medical AI Evaluation"
+  ]
+ },
+ {
+  "phrase": "Account Director",
+  "postings": 20,
+  "trades": 3,
+  "seen_in": [
+   "Directeur·trice de comptes / Account Director",
+   "Account Director for SaaS Solution | REMOTE (Vancouver)",
+   "Account Director, Social Media",
+   "Implementation Consultant | REMOTE (Ontario)"
+  ]
+ },
+ {
+  "phrase": "share wins",
+  "postings": 20,
+  "trades": 5,
+  "seen_in": [
+   "Entry-Level Sales Representative | Sault St. Marie, ON",
+   "Entry-Level Sales Representative | Winnipeg, MB",
+   "Direct Sales Representative | Kingston, ON",
+   "Customer Sales Representative | North York, ON"
+  ]
+ },
+ {
+  "phrase": "Solutions Architect",
+  "postings": 20,
+  "trades": 4,
+  "seen_in": [
+   "Solutions Architect",
+   "Senior Specialist Sales Engineer, ZT Branch",
+   "Solutions Architect (Insurance) - Fully Remote",
+   "Solutions Architect, AI/ML"
+  ]
+ },
+ {
+  "phrase": "safety focused",
+  "postings": 20,
+  "trades": 6,
+  "seen_in": [
+   "School Bus Driver St. Thomas",
+   "School Bus Driver (Part-Time) - West Ottawa Region",
+   "School Bus Driver - York Region",
+   "Civil Equipment Operator (NORPAC Construction)"
+  ]
+ },
+ {
+  "phrase": "solutions personnalisées",
+  "postings": 20,
+  "trades": 5,
+  "seen_in": [
+   "Agent·e de ventes",
+   "Agent·e de ventes, Saint-Bruno",
+   "Agent·e de ventes, Place Laurier",
+   "Analyste en planification financière"
+  ]
+ },
+ {
+  "phrase": "changing situations",
+  "postings": 20,
+  "trades": 6,
+  "seen_in": [
+   "Sales Coordinator (Montreal) / Coordonnateur(trice) des ventes (Montréal)",
+   "Seasonal Ambassador - Coquitlam Centre",
+   "Kitchen Assistant Lead",
+   "Seasonal Ambassador - Cross Iron Mills"
+  ]
+ },
+ {
+  "phrase": "Automotive Service Technician",
+  "postings": 20,
+  "trades": 6,
+  "seen_in": [
+   "Fork Lift Technician",
+   "Journeyman Automotive Service Technician",
+   "automotive service technician",
+   "Journeyman (Red-Seal) Automotive Service Technician - Destination Honda Burnaby"
+  ]
+ },
+ {
+  "phrase": "incidents techniques",
+  "postings": 20,
+  "trades": 4,
+  "seen_in": [
+   "Technicien informatique infonuagique - intermédiaire",
+   "Analyste en entretien et évolution : Infrastructure Géomatique intermédiaire",
+   "Analyste en entretien et évolution : Stockage et copie de sécurité intermédiaire",
+   "Analyste en entretien et évolution : Serveurs Web senior"
+  ]
+ },
+ {
+  "phrase": "articulating technical constraints",
+  "postings": 19,
+  "trades": 2,
+  "seen_in": [
+   "Senior Software Engineer, Backend (Capacity Modeling)",
+   "Senior Software Engineer, Fullstack (App Experience)",
+   "Senior Software Engineer",
+   "Senior Software Engineer, Backend (Consumer)"
+  ]
+ },
+ {
+  "phrase": "intrigues guests",
+  "postings": 19,
+  "trades": 3,
+  "seen_in": [
+   "Line Cook / Prep Cook - LOCAL Public Eatery, River District",
+   "Closing Line Cook - LOCAL Public Eatery, Gastown",
+   "Chef de Partie - LOCAL Public Eatery, Kitsilano",
+   "Line Cook / Prep Cook - LOCAL Public Eatery, Sherwood Park"
+  ]
+ },
+ {
+  "phrase": "location listed",
+  "postings": 19,
+  "trades": 6,
+  "seen_in": [
+   "Senior Research Scientist, Model Evaluation",
+   "Member of Technical Staff, Data Analysis and Evaluation",
+   "Senior Member of Technical Staff, Safety and Security for Agents",
+   "Member of Technical Staff - Post-Training (Reinforcement Learning & Generalization)"
+  ]
+ },
+ {
+  "phrase": "alignment expected",
+  "postings": 19,
+  "trades": 6,
+  "seen_in": [
+   "Senior Research Scientist, Model Evaluation",
+   "Member of Technical Staff, Data Analysis and Evaluation",
+   "Senior Member of Technical Staff, Safety and Security for Agents",
+   "Member of Technical Staff - Post-Training (Reinforcement Learning & Generalization)"
+  ]
+ },
+ {
+  "phrase": "re gaining confidence",
+  "postings": 19,
+  "trades": 4,
+  "seen_in": [
+   "Entry-Level Sales Representative | Sault St. Marie, ON",
+   "Entry-Level Sales Representative | Winnipeg, MB",
+   "Direct Sales Representative | Kingston, ON",
+   "Customer Sales Representative | North York, ON"
+  ]
+ },
+ {
+  "phrase": "Introduce Bell Internet",
+  "postings": 19,
+  "trades": 4,
+  "seen_in": [
+   "Entry-Level Sales Representative | Sault St. Marie, ON",
+   "Entry-Level Sales Representative | Winnipeg, MB",
+   "Direct Sales Representative | Kingston, ON",
+   "Customer Sales Representative | North York, ON"
+  ]
+ },
+ {
+  "phrase": "Puulse partners",
+  "postings": 19,
+  "trades": 4,
+  "seen_in": [
+   "Entry-Level Sales Representative | Sault St. Marie, ON",
+   "Entry-Level Sales Representative | Winnipeg, MB",
+   "Direct Sales Representative | Kingston, ON",
+   "Customer Sales Representative | North York, ON"
+  ]
+ },
+ {
+  "phrase": "latest promotions",
+  "postings": 19,
+  "trades": 4,
+  "seen_in": [
+   "Entry-Level Sales Representative | Sault St. Marie, ON",
+   "Entry-Level Sales Representative | Winnipeg, MB",
+   "Direct Sales Representative | Kingston, ON",
+   "Customer Sales Representative | North York, ON"
+  ]
+ },
+ {
+  "phrase": "people find",
+  "postings": 19,
+  "trades": 4,
+  "seen_in": [
+   "Entry-Level Sales Representative | Sault St. Marie, ON",
+   "Entry-Level Sales Representative | Winnipeg, MB",
+   "Direct Sales Representative | Kingston, ON",
+   "Customer Sales Representative | North York, ON"
+  ]
+ },
+ {
+  "phrase": "best internet",
+  "postings": 19,
+  "trades": 4,
+  "seen_in": [
+   "Entry-Level Sales Representative | Sault St. Marie, ON",
+   "Entry-Level Sales Representative | Winnipeg, MB",
+   "Direct Sales Representative | Kingston, ON",
+   "Customer Sales Representative | North York, ON"
+  ]
+ },
+ {
+  "phrase": "mobile plan",
+  "postings": 19,
+  "trades": 4,
+  "seen_in": [
+   "Entry-Level Sales Representative | Sault St. Marie, ON",
+   "Entry-Level Sales Representative | Winnipeg, MB",
+   "Direct Sales Representative | Kingston, ON",
+   "Customer Sales Representative | North York, ON"
+  ]
+ },
+ {
+  "phrase": "customers face",
+  "postings": 19,
+  "trades": 4,
+  "seen_in": [
+   "Entry-Level Sales Representative | Sault St. Marie, ON",
+   "Entry-Level Sales Representative | Winnipeg, MB",
+   "Direct Sales Representative | Kingston, ON",
+   "Customer Sales Representative | North York, ON"
+  ]
+ },
+ {
+  "phrase": "right services",
+  "postings": 19,
+  "trades": 4,
+  "seen_in": [
+   "Entry-Level Sales Representative | Sault St. Marie, ON",
+   "Entry-Level Sales Representative | Winnipeg, MB",
+   "Direct Sales Representative | Kingston, ON",
+   "Customer Sales Representative | North York, ON"
+  ]
+ },
+ {
+  "phrase": "Enjoy talking",
+  "postings": 19,
+  "trades": 4,
+  "seen_in": [
+   "Entry-Level Sales Representative | Sault St. Marie, ON",
+   "Entry-Level Sales Representative | Winnipeg, MB",
+   "Direct Sales Representative | Kingston, ON",
+   "Customer Sales Representative | North York, ON"
+  ]
+ },
+ {
+  "phrase": "handle hearing",
+  "postings": 19,
+  "trades": 4,
+  "seen_in": [
+   "Entry-Level Sales Representative | Sault St. Marie, ON",
+   "Entry-Level Sales Representative | Winnipeg, MB",
+   "Direct Sales Representative | Kingston, ON",
+   "Customer Sales Representative | North York, ON"
+  ]
+ },
+ {
+  "phrase": "larger projects",
+  "postings": 19,
+  "trades": 4,
+  "seen_in": [
+   "Future Leaders Program – Management Trainee",
+   "Senior Software Engineer, Fullstack (App Experience)",
+   "Electrical Engineer - Traffic Signal",
+   "Software Engineer II, Fullstack (Contact Channels)"
+  ]
+ },
+ {
+  "phrase": "participant activement",
+  "postings": 19,
+  "trades": 5,
+  "seen_in": [
+   "Agent·e de ventes",
+   "Agent·e de ventes, Saint-Bruno",
+   "Agent·e de ventes, Place Laurier",
+   "Programmeur(euse)-analyste, Base de données et BI"
   ]
  }
 ]

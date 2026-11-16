@@ -16,11 +16,23 @@ const { loadMatcher, docsJson } = require("./umd.cjs");
 const M = loadMatcher();
 const dict = docsJson("skills.json");
 const eng = M.engine(dict);
-const known = new Set(dict.skills.map((s) => s.n.toLowerCase()));
+/* A skill is known by its name AND by every word it answers to. Matching on the
+   name alone put 37 phrases we already knew into the queue - "Software Engineer"
+   is an alias of "Software development", "Line Cook" of "Food safety and
+   hospitality" - which spent the agent's budget on duplicates and produced a
+   proposal the dictionary already held. Fold accents the same way the page does,
+   so a French alias counts as known too. */
+const fold = (s) => String(s || "").normalize("NFD").replace(/[̀-ͯ]/g, "")
+  .toLowerCase().replace(/\s+/g, " ").trim();
+const known = new Set();
+for (const s of dict.skills) {
+  known.add(fold(s.n));
+  for (const a of s.a || []) known.add(fold(a));
+}
 
 const seen = {};
 const note = (name, kind, where) => {
-  const k = name.toLowerCase();
+  const k = fold(name);
   if (known.has(k)) return;
   const r = (seen[k] = seen[k] || { name: name, n: 0, kind: kind, where: new Set(), fam: new Set() });
   r.n++;
