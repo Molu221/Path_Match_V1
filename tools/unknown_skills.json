@@ -1,8 +1,8 @@
 [
  {
   "phrase": "Core Values",
-  "postings": 305,
-  "trades": 91,
+  "postings": 264,
+  "trades": 67,
   "seen_in": [
    "Sushi Chef - JOEY Bentall",
    "Strategic Development Program (SDP) - HVAC",
@@ -11,31 +11,31 @@
   ]
  },
  {
+  "phrase": "Software Engineer",
+  "postings": 250,
+  "trades": 36,
+  "seen_in": [
+   "Embedded Software Engineer",
+   "Cyber Software Engineer II",
+   "AI Software Engineer, Growth",
+   "Android & Linux Software Engineer"
+  ]
+ },
+ {
   "phrase": "Senior Manager",
-  "postings": 256,
+  "postings": 235,
   "trades": 36,
   "seen_in": [
    "Senior Manager AML Risk Insights",
    "Senior Manager, Business Intelligence & Reporting",
    "Senior Manager, Model Validation",
-   "Accenture Construct - Senior Manager - Systems Engineering Management (Requirements), COM"
-  ]
- },
- {
-  "phrase": "Software Engineer",
-  "postings": 232,
-  "trades": 32,
-  "seen_in": [
-   "Embedded Software Engineer",
-   "Cyber Software Engineer II",
-   "AI Software Engineer, Growth",
-   "Principal Software Engineer, Data and AI Platforms"
+   "Compensation Analyst II (Programs & Partnerships)"
   ]
  },
  {
   "phrase": "cutting edge",
-  "postings": 211,
-  "trades": 34,
+  "postings": 213,
+  "trades": 36,
   "seen_in": [
    "Sushi Chef - JOEY Bentall",
    "Server Liaison - JOEY King Street",
@@ -55,20 +55,9 @@
   ]
  },
  {
-  "phrase": "Project Manager",
-  "postings": 161,
-  "trades": 43,
-  "seen_in": [
-   "Project Manager",
-   "Project Manager – Aerospace Tooling",
-   "Project Manager - PL#72904",
-   "Sr. Software Project Manager (Scaled Agile /Device Development)"
-  ]
- },
- {
   "phrase": "see things",
-  "postings": 154,
-  "trades": 25,
+  "postings": 155,
+  "trades": 26,
   "seen_in": [
    "Sushi Chef - JOEY Bentall",
    "Server Liaison - JOEY King Street",
@@ -77,9 +66,20 @@
   ]
  },
  {
+  "phrase": "Project Manager",
+  "postings": 149,
+  "trades": 43,
+  "seen_in": [
+   "Project Manager",
+   "Project Manager - PL#72904",
+   "Sr. Software Project Manager (Scaled Agile /Device Development)",
+   "SAP S/4HANA Project Manager"
+  ]
+ },
+ {
   "phrase": "changing environment",
-  "postings": 146,
-  "trades": 49,
+  "postings": 140,
+  "trades": 48,
   "seen_in": [
    "Responsable Growth Marketing | Founding Growth Marketing Lead",
    "International Admissions Officer",
@@ -89,8 +89,8 @@
  },
  {
   "phrase": "Account Executive",
-  "postings": 116,
-  "trades": 30,
+  "postings": 138,
+  "trades": 35,
   "seen_in": [
    "Growth Account Executive - East",
    "Account Executive ",
@@ -99,64 +99,20 @@
   ]
  },
  {
-  "phrase": "Store Associate",
-  "postings": 109,
-  "trades": 10,
-  "seen_in": [
-   "Store Associate (Part-Time/Temporary)",
-   "Retail Store Associate Full Time Winners/HomeSense – Westshore Mall",
-   "Retail Store Associate Part Time Winners/HomeSense School House",
-   "Retail Store Associate Part Time Winners Upper James Square"
-  ]
- },
- {
   "phrase": "Software Developer",
-  "postings": 109,
-  "trades": 21,
-  "seen_in": [
-   "Senior/Staff/Principal Software Developer",
-   "Senior Software Developer 2",
-   "Senior Software Developer",
-   "Développeur(euse) logiciel / Software Developer - Appliances Platform (Edge OS)"
-  ]
- },
- {
-  "phrase": "flexible schedules",
-  "postings": 102,
-  "trades": 30,
-  "seen_in": [
-   "Bartender - LOCAL Public Eatery, Penticton",
-   "Line Cook / Prep Cook - LOCAL Public Eatery, River District",
-   "Server - LOCAL Public Eatery, Jasper Ave",
-   "Dishwasher - LOCAL Public Eatery, River District"
-  ]
- },
- {
-  "phrase": "long distances",
-  "postings": 100,
+  "postings": 127,
   "trades": 25,
   "seen_in": [
-   "driver, truck",
-   "long haul truck driver",
-   "truck driver",
-   "driver, truck-trailer"
-  ]
- },
- {
-  "phrase": "vehicle systems",
-  "postings": 99,
-  "trades": 22,
-  "seen_in": [
-   "driver, truck",
-   "long haul truck driver",
-   "truck driver",
-   "driver, truck-trailer"
+   "Senior/Staff/Principal Software Developer",
+   "Senior Software Developer, Tooling Team",
+   "Senior Software Developer 2",
+   "Senior Software Developer"
   ]
  },
  {
   "phrase": "Senior Software Engineer",
-  "postings": 97,
-  "trades": 5,
+  "postings": 103,
+  "trades": 4,
   "seen_in": [
    "Senior Software Engineer - Canada",
    "Senior Software Engineer, Performance ( Toronto) ",
@@ -165,8 +121,19 @@
   ]
  },
  {
+  "phrase": "flexible schedules",
+  "postings": 101,
+  "trades": 28,
+  "seen_in": [
+   "Bartender - LOCAL Public Eatery, Penticton",
+   "Line Cook / Prep Cook - LOCAL Public Eatery, River District",
+   "Server - LOCAL Public Eatery, Jasper Ave",
+   "Sales Rep - Weekly Pay - Flexible Work"
+  ]
+ },
+ {
   "phrase": "Right now",
-  "postings": 95,
+  "postings": 99,
   "trades": 27,
   "seen_in": [
    "Baker-Full Time",
@@ -177,7 +144,7 @@
  },
  {
   "phrase": "loyal customers",
-  "postings": 93,
+  "postings": 98,
   "trades": 27,
   "seen_in": [
    "Baker-Full Time",
@@ -187,201 +154,14 @@
   ]
  },
  {
-  "phrase": "fuel consumption",
-  "postings": 92,
-  "trades": 18,
-  "seen_in": [
-   "Sales Development Representative",
-   "driver, truck",
-   "long haul truck driver",
-   "truck driver"
-  ]
- },
- {
   "phrase": "Account Manager",
-  "postings": 92,
-  "trades": 26,
+  "postings": 90,
+  "trades": 27,
   "seen_in": [
    "Channel Account Manager",
    "SENIOR COMMERCIAL ACCOUNT MANAGER -  Montreal",
    "Account Manager - Surgical",
    "Senior Account Manager, Toronto"
-  ]
- },
- {
-  "phrase": "cold storage",
-  "postings": 92,
-  "trades": 18,
-  "seen_in": [
-   "driver, truck",
-   "long haul truck driver",
-   "truck driver",
-   "driver, truck-trailer"
-  ]
- },
- {
-  "phrase": "straight-body trucks weighing",
-  "postings": 91,
-  "trades": 17,
-  "seen_in": [
-   "driver, truck",
-   "long haul truck driver",
-   "truck driver",
-   "driver, truck-trailer"
-  ]
- },
- {
-  "phrase": "Obtain special permits",
-  "postings": 91,
-  "trades": 17,
-  "seen_in": [
-   "driver, truck",
-   "long haul truck driver",
-   "truck driver",
-   "driver, truck-trailer"
-  ]
- },
- {
-  "phrase": "Record cargo information",
-  "postings": 91,
-  "trades": 17,
-  "seen_in": [
-   "driver, truck",
-   "long haul truck driver",
-   "truck driver",
-   "driver, truck-trailer"
-  ]
- },
- {
-  "phrase": "emergency roadside repairs",
-  "postings": 91,
-  "trades": 17,
-  "seen_in": [
-   "driver, truck",
-   "long haul truck driver",
-   "truck driver",
-   "driver, truck-trailer"
-  ]
- },
- {
-  "phrase": "transport hazardous products",
-  "postings": 91,
-  "trades": 17,
-  "seen_in": [
-   "driver, truck",
-   "long haul truck driver",
-   "truck driver",
-   "driver, truck-trailer"
-  ]
- },
- {
-  "phrase": "Plan trip",
-  "postings": 91,
-  "trades": 17,
-  "seen_in": [
-   "driver, truck",
-   "long haul truck driver",
-   "truck driver",
-   "driver, truck-trailer"
-  ]
- },
- {
-  "phrase": "turning signals",
-  "postings": 91,
-  "trades": 17,
-  "seen_in": [
-   "driver, truck",
-   "long haul truck driver",
-   "truck driver",
-   "driver, truck-trailer"
-  ]
- },
- {
-  "phrase": "secured properly",
-  "postings": 91,
-  "trades": 17,
-  "seen_in": [
-   "driver, truck",
-   "long haul truck driver",
-   "truck driver",
-   "driver, truck-trailer"
-  ]
- },
- {
-  "phrase": "transport cargo",
-  "postings": 91,
-  "trades": 17,
-  "seen_in": [
-   "driver, truck",
-   "long haul truck driver",
-   "truck driver",
-   "driver, truck-trailer"
-  ]
- },
- {
-  "phrase": "distance travelled",
-  "postings": 91,
-  "trades": 17,
-  "seen_in": [
-   "driver, truck",
-   "long haul truck driver",
-   "truck driver",
-   "driver, truck-trailer"
-  ]
- },
- {
-  "phrase": "Administer bills",
-  "postings": 91,
-  "trades": 17,
-  "seen_in": [
-   "driver, truck",
-   "long haul truck driver",
-   "truck driver",
-   "driver, truck-trailer"
-  ]
- },
- {
-  "phrase": "log books",
-  "postings": 91,
-  "trades": 17,
-  "seen_in": [
-   "driver, truck",
-   "long haul truck driver",
-   "truck driver",
-   "driver, truck-trailer"
-  ]
- },
- {
-  "phrase": "board computers",
-  "postings": 91,
-  "trades": 17,
-  "seen_in": [
-   "driver, truck",
-   "long haul truck driver",
-   "truck driver",
-   "driver, truck-trailer"
-  ]
- },
- {
-  "phrase": "long-combination vehicle",
-  "postings": 90,
-  "trades": 16,
-  "seen_in": [
-   "driver, truck",
-   "long haul truck driver",
-   "truck driver",
-   "driver, truck-trailer"
-  ]
- },
- {
-  "phrase": "plan menus",
-  "postings": 90,
-  "trades": 18,
-  "seen_in": [
-   "cook",
-   "line cook",
-   "cook, ethnic foods",
-   "licensed cook"
   ]
  },
  {
@@ -407,36 +187,14 @@
   ]
  },
  {
-  "phrase": "determine size",
-  "postings": 89,
-  "trades": 18,
+  "phrase": "right attitude",
+  "postings": 88,
+  "trades": 22,
   "seen_in": [
-   "cook",
-   "line cook",
-   "cook, ethnic foods",
-   "log cut-off operator - sawmill"
-  ]
- },
- {
-  "phrase": "estimate food",
-  "postings": 89,
-  "trades": 17,
-  "seen_in": [
-   "cook",
-   "line cook",
-   "cook, ethnic foods",
-   "licensed cook"
-  ]
- },
- {
-  "phrase": "unit group",
-  "postings": 89,
-  "trades": 18,
-  "seen_in": [
-   "cook",
-   "line cook",
-   "cook, ethnic foods",
-   "licensed cook"
+   "Baker-Full Time",
+   "Full-time Baker - The Annex",
+   "Baker",
+   "Sales Assistant - COBS Bread - FT or PT"
   ]
  },
  {
@@ -448,6 +206,39 @@
    "Line Cook / Prep Cook - LOCAL Public Eatery, River District",
    "Server - LOCAL Public Eatery, Jasper Ave",
    "Dishwasher - LOCAL Public Eatery, River District"
+  ]
+ },
+ {
+  "phrase": "plan menus",
+  "postings": 87,
+  "trades": 20,
+  "seen_in": [
+   "cook",
+   "first cook",
+   "ethnic food cook",
+   "line cook"
+  ]
+ },
+ {
+  "phrase": "Store Associate",
+  "postings": 87,
+  "trades": 8,
+  "seen_in": [
+   "Store Associate (Part-Time/Temporary)",
+   "Retail Store Associate Full Time Winners/HomeSense – Westshore Mall",
+   "Retail Store Associate Part Time Winners/HomeSense School House",
+   "Retail Store Associate Part Time Winners Upper James Square"
+  ]
+ },
+ {
+  "phrase": "estimate food",
+  "postings": 86,
+  "trades": 19,
+  "seen_in": [
+   "cook",
+   "first cook",
+   "ethnic food cook",
+   "line cook"
   ]
  },
  {
@@ -484,69 +275,14 @@
   ]
  },
  {
-  "phrase": "Greet customers",
-  "postings": 86,
-  "trades": 25,
-  "seen_in": [
-   "inside sales representative",
-   "sales advisor - retail",
-   "cashier",
-   "sales associate"
-  ]
- },
- {
-  "phrase": "truck driver",
-  "postings": 85,
-  "trades": 17,
-  "seen_in": [
-   "long haul truck driver",
-   "truck driver",
-   "Local CDL A Truck Driver",
-   "Class 3 Truck Driver"
-  ]
- },
- {
-  "phrase": "direct visitors",
-  "postings": 85,
-  "trades": 17,
-  "seen_in": [
-   "reception clerk",
-   "receptionist",
-   "administrative assistant",
-   "dental receptionist"
-  ]
- },
- {
-  "phrase": "individual dishes",
-  "postings": 85,
-  "trades": 14,
-  "seen_in": [
-   "cook",
-   "line cook",
-   "cook, ethnic foods",
-   "licensed cook"
-  ]
- },
- {
-  "phrase": "food portions",
-  "postings": 85,
-  "trades": 14,
-  "seen_in": [
-   "cook",
-   "line cook",
-   "cook, ethnic foods",
-   "licensed cook"
-  ]
- },
- {
-  "phrase": "right attitude",
+  "phrase": "unit group",
   "postings": 84,
-  "trades": 22,
+  "trades": 19,
   "seen_in": [
-   "Baker-Full Time",
-   "Full-time Baker - The Annex",
-   "Baker",
-   "Sales Assistant - COBS Bread - FT or PT"
+   "cook",
+   "first cook",
+   "ethnic food cook",
+   "line cook"
   ]
  },
  {
@@ -561,25 +297,14 @@
   ]
  },
  {
-  "phrase": "special meals",
-  "postings": 84,
-  "trades": 13,
+  "phrase": "determine size",
+  "postings": 82,
+  "trades": 17,
   "seen_in": [
    "cook",
-   "line cook",
-   "cook, ethnic foods",
-   "licensed cook"
-  ]
- },
- {
-  "phrase": "oversee buffets",
-  "postings": 84,
-  "trades": 13,
-  "seen_in": [
-   "cook",
-   "line cook",
-   "cook, ethnic foods",
-   "licensed cook"
+   "first cook",
+   "ethnic food cook",
+   "line cook"
   ]
  },
  {
@@ -594,6 +319,28 @@
   ]
  },
  {
+  "phrase": "individual dishes",
+  "postings": 79,
+  "trades": 14,
+  "seen_in": [
+   "cook",
+   "first cook",
+   "ethnic food cook",
+   "line cook"
+  ]
+ },
+ {
+  "phrase": "food portions",
+  "postings": 79,
+  "trades": 14,
+  "seen_in": [
+   "cook",
+   "first cook",
+   "ethnic food cook",
+   "line cook"
+  ]
+ },
+ {
   "phrase": "tip portion",
   "postings": 78,
   "trades": 16,
@@ -605,19 +352,30 @@
   ]
  },
  {
-  "phrase": "keep records",
+  "phrase": "special meals",
   "postings": 78,
-  "trades": 20,
+  "trades": 13,
   "seen_in": [
-   "home child care provider",
-   "accounting bookkeeper",
-   "child caregiver - private home",
-   "nanny"
+   "cook",
+   "first cook",
+   "ethnic food cook",
+   "line cook"
+  ]
+ },
+ {
+  "phrase": "oversee buffets",
+  "postings": 78,
+  "trades": 13,
+  "seen_in": [
+   "cook",
+   "first cook",
+   "ethnic food cook",
+   "line cook"
   ]
  },
  {
   "phrase": "Retail Associate",
-  "postings": 77,
+  "postings": 76,
   "trades": 4,
   "seen_in": [
    "Retail Associate - Wilfred Sherway Gardens",
@@ -627,14 +385,14 @@
   ]
  },
  {
-  "phrase": "Administrative Assistant",
-  "postings": 73,
-  "trades": 10,
+  "phrase": "Senior Analyst",
+  "postings": 75,
+  "trades": 14,
   "seen_in": [
-   "Project Administrative Assistant",
-   "Administrative Assistant",
-   "Administrative Assistant, BORN Ontario - Permanent Full Time (1.0)",
-   "Administrative Assistant (NU)"
+   "Senior Engineer/ Senior Analyst Instrumentation and Control",
+   "Analyste principal(e) en intelligence d’affaires/ Senior Analyst, Business Intelligence (contrat 12 mois)",
+   "Real Estate Development - Senior Analyst/Analyst, Lease Management",
+   "Senior Analyst, Risk Management Solutions and Integrations"
   ]
  },
  {
@@ -649,14 +407,14 @@
   ]
  },
  {
-  "phrase": "Senior Analyst",
+  "phrase": "Line Cook",
   "postings": 72,
-  "trades": 14,
+  "trades": 3,
   "seen_in": [
-   "Senior Engineer/ Senior Analyst Instrumentation and Control",
-   "Analyste principal(e) en intelligence d’affaires/ Senior Analyst, Business Intelligence (contrat 12 mois)",
-   "Real Estate Development - Senior Analyst/Analyst, Lease Management",
-   "Senior Analyst, Risk Management Solutions and Integrations"
+   "Line Cook / Prep Cook - LOCAL Public Eatery, River District",
+   "Line Cook / Prep Cook - JOEY Rideau",
+   "Closing Line Cook - LOCAL Public Eatery, Gastown",
+   "Line Cook / Kitchen Leader - JOEY Bentall"
   ]
  },
  {
@@ -682,295 +440,53 @@
   ]
  },
  {
-  "phrase": "special diets",
-  "postings": 68,
-  "trades": 10,
-  "seen_in": [
-   "personal support worker - home support",
-   "home health care worker",
-   "home support worker",
-   "live-in caregiver"
-  ]
- },
- {
-  "phrase": "general direction",
-  "postings": 68,
-  "trades": 10,
-  "seen_in": [
-   "personal support worker - home support",
-   "home health care worker",
-   "home support worker",
-   "live-in caregiver"
-  ]
- },
- {
-  "phrase": "Administer bedside",
-  "postings": 67,
-  "trades": 8,
-  "seen_in": [
-   "Personal Care Provider - Homecare",
-   "personal support worker - home support",
-   "home health care worker",
-   "home support worker"
-  ]
- },
- {
-  "phrase": "Line Cook",
-  "postings": 67,
-  "trades": 4,
-  "seen_in": [
-   "Line Cook / Prep Cook - LOCAL Public Eatery, River District",
-   "line cook",
-   "Line Cook / Prep Cook - JOEY Rideau",
-   "Closing Line Cook - LOCAL Public Eatery, Gastown"
-  ]
- },
- {
-  "phrase": "washing dishes",
-  "postings": 67,
-  "trades": 9,
-  "seen_in": [
-   "personal support worker - home support",
-   "home health care worker",
-   "home support worker",
-   "live-in caregiver"
-  ]
- },
- {
-  "phrase": "family disruption",
-  "postings": 66,
-  "trades": 8,
-  "seen_in": [
-   "personal support worker - home support",
-   "home health care worker",
-   "home support worker",
-   "live-in caregiver"
-  ]
- },
- {
-  "phrase": "feeding clients",
-  "postings": 66,
-  "trades": 8,
-  "seen_in": [
-   "personal support worker - home support",
-   "home health care worker",
-   "home support worker",
-   "live-in caregiver"
-  ]
- },
- {
-  "phrase": "routine health",
-  "postings": 66,
-  "trades": 8,
-  "seen_in": [
-   "personal support worker - home support",
-   "home health care worker",
-   "home support worker",
-   "live-in caregiver"
-  ]
- },
- {
-  "phrase": "changing non",
-  "postings": 66,
-  "trades": 8,
-  "seen_in": [
-   "personal support worker - home support",
-   "home health care worker",
-   "home support worker",
-   "live-in caregiver"
-  ]
- },
- {
-  "phrase": "collecting specimens",
-  "postings": 66,
-  "trades": 8,
-  "seen_in": [
-   "personal support worker - home support",
-   "home health care worker",
-   "home support worker",
-   "live-in caregiver"
-  ]
- },
- {
-  "phrase": "agency supervisor",
-  "postings": 66,
-  "trades": 8,
-  "seen_in": [
-   "personal support worker - home support",
-   "home health care worker",
-   "home support worker",
-   "live-in caregiver"
-  ]
- },
- {
-  "phrase": "general farm",
-  "postings": 65,
-  "trades": 16,
-  "seen_in": [
-   "general labourer - farm",
-   "general farm worker - harvesting",
-   "crop farm labourer - harvesting",
-   "orchard worker"
-  ]
- },
- {
-  "phrase": "irrigate soil",
-  "postings": 64,
-  "trades": 15,
-  "seen_in": [
-   "general labourer - farm",
-   "general farm worker - harvesting",
-   "crop farm labourer - harvesting",
-   "orchard worker"
-  ]
- },
- {
-  "phrase": "Pick row",
-  "postings": 64,
-  "trades": 15,
-  "seen_in": [
-   "general labourer - farm",
-   "general farm worker - harvesting",
-   "crop farm labourer - harvesting",
-   "orchard worker"
-  ]
- },
- {
-  "phrase": "orchard crops",
-  "postings": 64,
-  "trades": 15,
-  "seen_in": [
-   "general labourer - farm",
-   "general farm worker - harvesting",
-   "crop farm labourer - harvesting",
-   "orchard worker"
-  ]
- },
- {
-  "phrase": "pack fruit",
-  "postings": 64,
-  "trades": 15,
-  "seen_in": [
-   "general labourer - farm",
-   "general farm worker - harvesting",
-   "crop farm labourer - harvesting",
-   "orchard worker"
-  ]
- },
- {
-  "phrase": "transfer crates",
-  "postings": 64,
-  "trades": 15,
-  "seen_in": [
-   "general labourer - farm",
-   "general farm worker - harvesting",
-   "crop farm labourer - harvesting",
-   "orchard worker"
-  ]
- },
- {
-  "phrase": "farm produce",
-  "postings": 64,
-  "trades": 15,
-  "seen_in": [
-   "general labourer - farm",
-   "general farm worker - harvesting",
-   "crop farm labourer - harvesting",
-   "orchard worker"
-  ]
- },
- {
-  "phrase": "garden beds",
-  "postings": 64,
-  "trades": 15,
-  "seen_in": [
-   "general labourer - farm",
-   "general farm worker - harvesting",
-   "crop farm labourer - harvesting",
-   "orchard worker"
-  ]
- },
- {
-  "phrase": "Data Scientist",
-  "postings": 61,
-  "trades": 8,
-  "seen_in": [
-   "Senior Data Scientist",
-   "Risk Data Scientist",
-   "Data Scientist II",
-   "Sr. Data Scientist"
-  ]
- },
- {
   "phrase": "Product Manager",
-  "postings": 59,
+  "postings": 68,
   "trades": 16,
   "seen_in": [
+   "Product Manager - Accounting",
+   "Product Manager, Workload Connectivity",
    "Product Manager (12-18 Month Contract)",
-   "Product Manager, Ecosystem Risk",
-   "Principal Product Manager - Evisort AI",
-   "Product Manager (KYB)"
-  ]
- },
- {
-  "phrase": "quote prices",
-  "postings": 59,
-  "trades": 20,
-  "seen_in": [
-   "inside sales representative",
-   "sales advisor - retail",
-   "sales associate",
-   "retail sales associate"
-  ]
- },
- {
-  "phrase": "Operate computerized",
-  "postings": 59,
-  "trades": 20,
-  "seen_in": [
-   "inside sales representative",
-   "sales advisor - retail",
-   "sales associate",
-   "retail sales associate"
-  ]
- },
- {
-  "phrase": "electronic commerce",
-  "postings": 59,
-  "trades": 20,
-  "seen_in": [
-   "inside sales representative",
-   "sales advisor - retail",
-   "sales associate",
-   "retail sales associate"
-  ]
- },
- {
-  "phrase": "social development",
-  "postings": 58,
-  "trades": 10,
-  "seen_in": [
-   "early childhood educator (ECE) assistant",
-   "aide, daycare",
-   "daycare teacher",
-   "registered early childhood educator  (RECE)"
+   "Product Manager, Ecosystem Risk"
   ]
  },
  {
   "phrase": "Senior Director",
-  "postings": 58,
-  "trades": 9,
+  "postings": 64,
+  "trades": 13,
   "seen_in": [
+   "Senior Director, Manufacturing & Supply Chain",
    "Senior Director, Program Delivery",
    "Senior Director, AI Business Enablement",
-   "Senior Director, Enterprise Execution",
-   "Senior Director, Financial Crime"
+   "Senior Director, Enterprise Execution"
+  ]
+ },
+ {
+  "phrase": "Data Scientist",
+  "postings": 60,
+  "trades": 10,
+  "seen_in": [
+   "Risk Data Scientist",
+   "Sr. Data Scientist",
+   "Data Scientist, Growth (12 month contract)",
+   "Data Scientist II"
+  ]
+ },
+ {
+  "phrase": "pay rate",
+  "postings": 59,
+  "trades": 20,
+  "seen_in": [
+   "Retail Store Associate Part Time Winners/HomeSense School House",
+   "Sales Associate Marshalls/Homesense South Keys 762/114 - Seasonal",
+   "Retail Store Associate Part Time Winners Upper James Square",
+   "Part Time Sales Associate Eastgate Square"
   ]
  },
  {
   "phrase": "Occasional lifting",
   "postings": 58,
-  "trades": 15,
+  "trades": 14,
   "seen_in": [
    "Sales Team Leader",
    "Sales Assistant - COBS Bread - FT or PT",
@@ -979,64 +495,20 @@
   ]
  },
  {
-  "phrase": "advice concerning specialized products",
+  "phrase": "express interest",
   "postings": 58,
-  "trades": 19,
+  "trades": 8,
   "seen_in": [
-   "inside sales representative",
-   "sales advisor - retail",
-   "sales associate",
-   "retail sales associate"
-  ]
- },
- {
-  "phrase": "automatic debit payment",
-  "postings": 58,
-  "trades": 19,
-  "seen_in": [
-   "inside sales representative",
-   "sales advisor - retail",
-   "sales associate",
-   "retail sales associate"
-  ]
- },
- {
-  "phrase": "re-ordering systems",
-  "postings": 58,
-  "trades": 19,
-  "seen_in": [
-   "inside sales representative",
-   "sales advisor - retail",
-   "sales associate",
-   "retail sales associate"
-  ]
- },
- {
-  "phrase": "services sought",
-  "postings": 58,
-  "trades": 19,
-  "seen_in": [
-   "inside sales representative",
-   "sales advisor - retail",
-   "sales associate",
-   "retail sales associate"
-  ]
- },
- {
-  "phrase": "accept cash",
-  "postings": 58,
-  "trades": 19,
-  "seen_in": [
-   "inside sales representative",
-   "sales advisor - retail",
-   "sales associate",
-   "retail sales associate"
+   "Part-Time Work At Home Research Panelist. Ideal For Office Assistant.",
+   "Remote Work From Home Market Research. Ideal For Customer Service Representative",
+   "Work At Home Focus Group Panel. Call Centre Agent Experience Not Required",
+   "Part-Time/Full-Time Research Panel. Entry Level. Receptionist or Typist Welcome"
   ]
  },
  {
   "phrase": "technical staff",
   "postings": 57,
-  "trades": 18,
+  "trades": 19,
   "seen_in": [
    "Senior Engineering Professional",
    "Member of Technical Staff, Data Analysis and Evaluation",
@@ -1056,80 +528,25 @@
   ]
  },
  {
-  "phrase": "Assistant Manager",
-  "postings": 57,
-  "trades": 7,
-  "seen_in": [
-   "Assistant Manager, Market Development",
-   "Procurement Assistant Manager, Facilities",
-   "assistant manager - retail",
-   "Assistant Manager, Dundas St East"
-  ]
- },
- {
   "phrase": "Financial Planner",
-  "postings": 56,
+  "postings": 55,
   "trades": 4,
   "seen_in": [
-   "Financial Planner",
    "Financial Planner - Westmount",
    "Financial Planner-North Shore",
-   "Financial Planner- Memorial, Southeast Calgary"
+   "Financial Planner- Memorial, Southeast Calgary",
+   "Financial Planner, Investment Retirement Planning"
   ]
  },
  {
-  "phrase": "feedback sessions",
+  "phrase": "Administrative Assistant",
   "postings": 55,
-  "trades": 6,
+  "trades": 11,
   "seen_in": [
-   "HR Generalist",
-   "Part-Time Work At Home Research Panelist. Ideal For Office Assistant.",
-   "Remote Work From Home Market Research. Ideal For Customer Service Representative",
-   "Work At Home Focus Group Panel. Call Centre Agent Experience Not Required"
-  ]
- },
- {
-  "phrase": "explains things clearly",
-  "postings": 55,
-  "trades": 16,
-  "seen_in": [
-   "Retail Store Associate Part Time Winners/HomeSense School House",
-   "Sales Associate Marshalls/Homesense South Keys 762/114 - Seasonal",
-   "Retail Store Associate Part Time Winners Upper James Square",
-   "Part Time Sales Associate Eastgate Square"
-  ]
- },
- {
-  "phrase": "everyone feel",
-  "postings": 55,
-  "trades": 16,
-  "seen_in": [
-   "Retail Store Associate Part Time Winners/HomeSense School House",
-   "Sales Associate Marshalls/Homesense South Keys 762/114 - Seasonal",
-   "Retail Store Associate Part Time Winners Upper James Square",
-   "Part Time Sales Associate Eastgate Square"
-  ]
- },
- {
-  "phrase": "committed teammate",
-  "postings": 55,
-  "trades": 16,
-  "seen_in": [
-   "Retail Store Associate Part Time Winners/HomeSense School House",
-   "Sales Associate Marshalls/Homesense South Keys 762/114 - Seasonal",
-   "Retail Store Associate Part Time Winners Upper James Square",
-   "Part Time Sales Associate Eastgate Square"
-  ]
- },
- {
-  "phrase": "addresses concerns",
-  "postings": 55,
-  "trades": 16,
-  "seen_in": [
-   "Retail Store Associate Part Time Winners/HomeSense School House",
-   "Sales Associate Marshalls/Homesense South Keys 762/114 - Seasonal",
-   "Retail Store Associate Part Time Winners Upper James Square",
-   "Part Time Sales Associate Eastgate Square"
+   "Project Administrative Assistant",
+   "Administrative Assistant",
+   "Administrative Assistant, BORN Ontario - Permanent Full Time (1.0)",
+   "Administrative assistant, medical"
   ]
  },
  {
@@ -1144,25 +561,25 @@
   ]
  },
  {
-  "phrase": "shape products",
-  "postings": 55,
+  "phrase": "Financial Advisor",
+  "postings": 54,
   "trades": 6,
   "seen_in": [
-   "Part-Time Work At Home Research Panelist. Ideal For Office Assistant.",
-   "Remote Work From Home Market Research. Ideal For Customer Service Representative",
-   "Work At Home Focus Group Panel. Call Centre Agent Experience Not Required",
-   "Part-Time/Full-Time Research Panel. Entry Level. Receptionist or Typist Welcome"
+   "Financial Advisor",
+   "Sr.Financial Advisor - CIRO-MFD/AMF",
+   "Financial Advisor - CIRO-ID",
+   "SUN LIFE FINANCIAL ADVISOR - Ontario"
   ]
  },
  {
-  "phrase": "staff members",
+  "phrase": "Restaurant Manager",
   "postings": 54,
-  "trades": 12,
+  "trades": 4,
   "seen_in": [
-   "early childhood educator (ECE) assistant",
-   "daycare teacher",
-   "registered early childhood educator  (RECE)",
-   "early childhood educator (ECE)"
+   "Restaurant Manager - JOEY Kenaston",
+   "restaurant manager",
+   "Restaurant Manager",
+   "Restaurant Manager - JOEY Bentall"
   ]
  },
  {
@@ -1298,7 +715,7 @@
   ]
  },
  {
-  "phrase": "express interest",
+  "phrase": "shape products",
   "postings": 54,
   "trades": 5,
   "seen_in": [
@@ -1310,6 +727,17 @@
  },
  {
   "phrase": "online interviews",
+  "postings": 54,
+  "trades": 5,
+  "seen_in": [
+   "Part-Time Work At Home Research Panelist. Ideal For Office Assistant.",
+   "Remote Work From Home Market Research. Ideal For Customer Service Representative",
+   "Work At Home Focus Group Panel. Call Centre Agent Experience Not Required",
+   "Part-Time/Full-Time Research Panel. Entry Level. Receptionist or Typist Welcome"
+  ]
+ },
+ {
+  "phrase": "feedback sessions",
   "postings": 54,
   "trades": 5,
   "seen_in": [
@@ -1386,28 +814,6 @@
   ]
  },
  {
-  "phrase": "discuss progress",
-  "postings": 53,
-  "trades": 7,
-  "seen_in": [
-   "early childhood educator (ECE) assistant",
-   "aide, daycare",
-   "daycare teacher",
-   "registered early childhood educator  (RECE)"
-  ]
- },
- {
-  "phrase": "Financial Advisor",
-  "postings": 53,
-  "trades": 6,
-  "seen_in": [
-   "Financial Advisor",
-   "Sr.Financial Advisor - CIRO-MFD/AMF",
-   "Financial Advisor - CIRO-ID",
-   "SUN LIFE FINANCIAL ADVISOR - Ontario"
-  ]
- },
- {
   "phrase": "Liquor Service certification",
   "postings": 53,
   "trades": 11,
@@ -1419,146 +825,102 @@
   ]
  },
  {
-  "phrase": "school-age children",
+  "phrase": "Assistant Manager",
   "postings": 52,
-  "trades": 7,
+  "trades": 8,
   "seen_in": [
-   "early childhood educator (ECE) assistant",
-   "aide, daycare",
-   "daycare teacher",
-   "registered early childhood educator  (RECE)"
+   "Assistant Manager",
+   "Assistant Manager, Market Development",
+   "Procurement Assistant Manager, Facilities",
+   "Assistant Manager, Dundas St East"
   ]
  },
  {
-  "phrase": "toilet habits",
-  "postings": 52,
-  "trades": 7,
+  "phrase": "physical demands described",
+  "postings": 50,
+  "trades": 17,
   "seen_in": [
-   "early childhood educator (ECE) assistant",
-   "aide, daycare",
-   "daycare teacher",
-   "registered early childhood educator  (RECE)"
+   "Store Associate (Part-Time/Temporary)",
+   "Account Manager - Surgical",
+   "Softgoods Associate (Part-Time)",
+   "Store Supervisor (Full-Time)"
+  ]
+ },
+ {
+  "phrase": "Senior Product Manager",
+  "postings": 50,
+  "trades": 1,
+  "seen_in": [
+   "Senior Product Manager - UI Platform",
+   "Senior Product Manager",
+   "Senior Product Manager, Echo MS",
+   "Senior Product Manager Vaccines"
+  ]
+ },
+ {
+  "phrase": "Engineering Manager",
+  "postings": 50,
+  "trades": 12,
+  "seen_in": [
+   "Engineering Manager, New User Experience",
+   "Engineering Manager, Merchant Financials",
+   "Engineering Manager - Canada",
+   "Engineering Manager, Terminal Enterprise Features"
+  ]
+ },
+ {
+  "phrase": "reading production schedules",
+  "postings": 49,
+  "trades": 17,
+  "seen_in": [
+   "Baker-Full Time",
+   "Full-time Baker - The Annex",
+   "Baker",
+   "Baker ( FT/PT)"
+  ]
+ },
+ {
+  "phrase": "shaping dough",
+  "postings": 49,
+  "trades": 17,
+  "seen_in": [
+   "Baker-Full Time",
+   "Full-time Baker - The Annex",
+   "Baker",
+   "Baker ( FT/PT)"
+  ]
+ },
+ {
+  "phrase": "early riser",
+  "postings": 49,
+  "trades": 17,
+  "seen_in": [
+   "Baker-Full Time",
+   "Baker",
+   "Bakery Production Team Lead - FT + Benefits - West Bedford / Larry Uteck",
+   "Baker ( FT/PT)"
   ]
  },
  {
   "phrase": "subsidized medical coverage",
-  "postings": 52,
-  "trades": 17,
+  "postings": 49,
+  "trades": 15,
   "seen_in": [
    "Senior Software Engineer, Backend (Capacity Modeling)",
-   "Quantitative Analyst II (Capital Structuring & Analytics)",
    "Compensation Analyst II (Programs & Partnerships)",
-   "Senior Software Engineer, Fullstack (App Experience)"
+   "Senior Software Engineer, Fullstack (App Experience)",
+   "Senior Software Engineer"
   ]
  },
  {
-  "phrase": "Restaurant Manager",
-  "postings": 52,
-  "trades": 3,
-  "seen_in": [
-   "Restaurant Manager - JOEY Kenaston",
-   "Restaurant Manager",
-   "Restaurant Manager - JOEY Bentall",
-   "Restaurant Manager - JOEY Polo Park"
-  ]
- },
- {
-  "phrase": "measuring tools",
-  "postings": 50,
+  "phrase": "Business Analyst",
+  "postings": 48,
   "trades": 14,
   "seen_in": [
-   "finish carpenter",
-   "carpenter",
-   "apprentice carpenter",
-   "framer-carpenter"
-  ]
- },
- {
-  "phrase": "industrial plants",
-  "postings": 50,
-  "trades": 14,
-  "seen_in": [
-   "finish carpenter",
-   "carpenter",
-   "apprentice carpenter",
-   "fourth-class power engineer"
-  ]
- },
- {
-  "phrase": "child-care programs",
-  "postings": 49,
-  "trades": 6,
-  "seen_in": [
-   "early childhood educator (ECE) assistant",
-   "daycare teacher",
-   "registered early childhood educator  (RECE)",
-   "early childhood educator (ECE)"
-  ]
- },
- {
-  "phrase": "Delivery Driver",
-  "postings": 49,
-  "trades": 12,
-  "seen_in": [
-   "Class 3 Delivery Driver",
-   "Delivery Driver/Material Handler",
-   "delivery driver",
-   "Delivery Driver / Material Handler"
-  ]
- },
- {
-  "phrase": "reading stories",
-  "postings": 48,
-  "trades": 6,
-  "seen_in": [
-   "early childhood educator (ECE) assistant",
-   "daycare teacher",
-   "registered early childhood educator  (RECE)",
-   "early childhood educator (ECE)"
-  ]
- },
- {
-  "phrase": "local points",
-  "postings": 48,
-  "trades": 6,
-  "seen_in": [
-   "early childhood educator (ECE) assistant",
-   "daycare teacher",
-   "registered early childhood educator  (RECE)",
-   "early childhood educator (ECE)"
-  ]
- },
- {
-  "phrase": "dramatic play",
-  "postings": 48,
-  "trades": 6,
-  "seen_in": [
-   "early childhood educator (ECE) assistant",
-   "daycare teacher",
-   "registered early childhood educator  (RECE)",
-   "early childhood educator (ECE)"
-  ]
- },
- {
-  "phrase": "Observe children",
-  "postings": 48,
-  "trades": 6,
-  "seen_in": [
-   "early childhood educator (ECE) assistant",
-   "daycare teacher",
-   "registered early childhood educator  (RECE)",
-   "early childhood educator (ECE)"
-  ]
- },
- {
-  "phrase": "behavioural problems",
-  "postings": 48,
-  "trades": 6,
-  "seen_in": [
-   "early childhood educator (ECE) assistant",
-   "daycare teacher",
-   "registered early childhood educator  (RECE)",
-   "early childhood educator (ECE)"
+   "Business Analyst, RBC Amplify 2027, Calgary",
+   "Supply Chain Business Analyst",
+   "Lead Business Analyst - Insurance (Fully Remote)",
+   "Business Analyst"
   ]
  },
  {
@@ -1573,174 +935,141 @@
   ]
  },
  {
-  "phrase": "install floor beams",
-  "postings": 47,
-  "trades": 11,
-  "seen_in": [
-   "finish carpenter",
-   "carpenter",
-   "apprentice carpenter",
-   "framer-carpenter"
-  ]
- },
- {
-  "phrase": "materials made",
-  "postings": 47,
-  "trades": 11,
-  "seen_in": [
-   "finish carpenter",
-   "carpenter",
-   "apprentice carpenter",
-   "framer-carpenter"
-  ]
- },
- {
-  "phrase": "Build foundations",
-  "postings": 47,
-  "trades": 11,
-  "seen_in": [
-   "finish carpenter",
-   "carpenter",
-   "apprentice carpenter",
-   "framer-carpenter"
-  ]
- },
- {
-  "phrase": "lay subflooring",
-  "postings": 47,
-  "trades": 11,
-  "seen_in": [
-   "finish carpenter",
-   "carpenter",
-   "apprentice carpenter",
-   "framer-carpenter"
-  ]
- },
- {
-  "phrase": "erect walls",
-  "postings": 47,
-  "trades": 11,
-  "seen_in": [
-   "finish carpenter",
-   "carpenter",
-   "apprentice carpenter",
-   "framer-carpenter"
-  ]
- },
- {
-  "phrase": "roof systems",
-  "postings": 47,
-  "trades": 11,
-  "seen_in": [
-   "finish carpenter",
-   "carpenter",
-   "apprentice carpenter",
-   "framer-carpenter"
-  ]
- },
- {
-  "phrase": "renovate residences",
-  "postings": 47,
-  "trades": 11,
-  "seen_in": [
-   "finish carpenter",
-   "carpenter",
-   "apprentice carpenter",
-   "framer-carpenter"
-  ]
- },
- {
-  "phrase": "wooden structures",
-  "postings": 47,
-  "trades": 11,
-  "seen_in": [
-   "finish carpenter",
-   "carpenter",
-   "apprentice carpenter",
-   "framer-carpenter"
-  ]
- },
- {
-  "phrase": "Business Analyst",
-  "postings": 47,
-  "trades": 15,
-  "seen_in": [
-   "Business Analyst, RBC Amplify 2027, Calgary",
-   "Supply Chain Business Analyst",
-   "Lead Business Analyst - Insurance (Fully Remote)",
-   "Business Analyst"
-  ]
- },
- {
-  "phrase": "rest periods",
-  "postings": 47,
-  "trades": 6,
-  "seen_in": [
-   "aide, daycare",
-   "home child care provider",
-   "child caregiver - private home",
-   "nanny"
-  ]
- },
- {
-  "phrase": "Wash windows",
-  "postings": 47,
+  "phrase": "explains things clearly",
+  "postings": 48,
   "trades": 14,
   "seen_in": [
-   "housekeeping room attendant",
-   "janitor",
-   "housekeeping attendant",
-   "cleaner"
+   "Retail Store Associate Part Time Winners/HomeSense School House",
+   "Sales Associate Marshalls/Homesense South Keys 762/114 - Seasonal",
+   "Retail Store Associate Part Time Winners Upper James Square",
+   "Part Time Sales Associate Eastgate Square"
   ]
  },
  {
-  "phrase": "process payments",
-  "postings": 47,
-  "trades": 15,
+  "phrase": "everyone feel",
+  "postings": 48,
+  "trades": 14,
   "seen_in": [
-   "cashier",
-   "registered dental assistant",
-   "certified dental assistant",
-   "dental assistant"
+   "Retail Store Associate Part Time Winners/HomeSense School House",
+   "Sales Associate Marshalls/Homesense South Keys 762/114 - Seasonal",
+   "Retail Store Associate Part Time Winners Upper James Square",
+   "Part Time Sales Associate Eastgate Square"
   ]
  },
  {
-  "phrase": "Target Earnings",
+  "phrase": "committed teammate",
+  "postings": 48,
+  "trades": 14,
+  "seen_in": [
+   "Retail Store Associate Part Time Winners/HomeSense School House",
+   "Sales Associate Marshalls/Homesense South Keys 762/114 - Seasonal",
+   "Retail Store Associate Part Time Winners Upper James Square",
+   "Part Time Sales Associate Eastgate Square"
+  ]
+ },
+ {
+  "phrase": "addresses concerns",
+  "postings": 48,
+  "trades": 14,
+  "seen_in": [
+   "Retail Store Associate Part Time Winners/HomeSense School House",
+   "Sales Associate Marshalls/Homesense South Keys 762/114 - Seasonal",
+   "Retail Store Associate Part Time Winners Upper James Square",
+   "Part Time Sales Associate Eastgate Square"
+  ]
+ },
+ {
+  "phrase": "Data Engineer",
+  "postings": 48,
+  "trades": 11,
+  "seen_in": [
+   "Data Engineer",
+   "Data Engineer, RBC Amplify 2027, Vancouver",
+   "Data Engineer (DevOps)",
+   "data engineer"
+  ]
+ },
+ {
+  "phrase": "freshness commitment",
   "postings": 47,
   "trades": 16,
   "seen_in": [
+   "Baker-Full Time",
+   "Baker",
+   "Baker ( FT/PT)",
+   "Baker - 4am start"
+  ]
+ },
+ {
+  "phrase": "empty bakery",
+  "postings": 47,
+  "trades": 16,
+  "seen_in": [
+   "Baker-Full Time",
+   "Baker",
+   "Baker ( FT/PT)",
+   "Baker - 4am start"
+  ]
+ },
+ {
+  "phrase": "artisan bread",
+  "postings": 47,
+  "trades": 16,
+  "seen_in": [
+   "Baker-Full Time",
+   "Baker",
+   "Baker ( FT/PT)",
+   "Baker - 4am start"
+  ]
+ },
+ {
+  "phrase": "delicious treats",
+  "postings": 47,
+  "trades": 16,
+  "seen_in": [
+   "Baker-Full Time",
+   "Baker",
+   "Baker ( FT/PT)",
+   "Baker - 4am start"
+  ]
+ },
+ {
+  "phrase": "mixing ingredients",
+  "postings": 47,
+  "trades": 16,
+  "seen_in": [
+   "Baker-Full Time",
+   "Full-time Baker - The Annex",
+   "Baker",
+   "Baker ( FT/PT)"
+  ]
+ },
+ {
+  "phrase": "processing everything",
+  "postings": 47,
+  "trades": 16,
+  "seen_in": [
+   "Baker-Full Time",
+   "Full-time Baker - The Annex",
+   "Baker",
+   "Baker ( FT/PT)"
+  ]
+ },
+ {
+  "phrase": "credit cards",
+  "postings": 47,
+  "trades": 9,
+  "seen_in": [
+   "Sales Representative - Mill Woods/Southgate Mall",
    "Sales Representative - Oshawa",
-   "Sales Representative - Toronto Premium Outlets",
-   "Sales Representative - Calgary ",
-   "Sales Representative - Dufferin Mall"
-  ]
- },
- {
-  "phrase": "determine specifications",
-  "postings": 46,
-  "trades": 11,
-  "seen_in": [
-   "finish carpenter",
-   "carpenter",
-   "apprentice carpenter",
-   "framer-carpenter"
-  ]
- },
- {
-  "phrase": "construction workers",
-  "postings": 46,
-  "trades": 11,
-  "seen_in": [
-   "finish carpenter",
-   "carpenter",
-   "apprentice carpenter",
-   "framer-carpenter"
+   "Credit Card Representative- Travel Team",
+   "Sales Representative - Toronto Premium Outlets"
   ]
  },
  {
   "phrase": "leaders started right",
-  "postings": 46,
-  "trades": 14,
+  "postings": 45,
+  "trades": 13,
   "seen_in": [
    "Store Associate (Part-Time/Temporary)",
    "Softgoods Associate (Part-Time)",
@@ -1749,25 +1078,14 @@
   ]
  },
  {
-  "phrase": "Engineering Manager",
-  "postings": 46,
-  "trades": 12,
+  "phrase": "Vice President",
+  "postings": 45,
+  "trades": 15,
   "seen_in": [
-   "Engineering Manager, New User Experience",
-   "Engineering Manager - Canada",
-   "Engineering Manager, Terminal Enterprise Features",
-   "Engineering Manager"
-  ]
- },
- {
-  "phrase": "credit cards",
-  "postings": 46,
-  "trades": 9,
-  "seen_in": [
-   "Sales Representative - Mill Woods/Southgate Mall",
-   "Sales Representative - Oshawa",
-   "Credit Card Representative- Travel Team",
-   "Sales Representative - Toronto Premium Outlets"
+   "Vice President, Client Integration (Program/Project Manager)",
+   "Vice President of Product",
+   "Vice President, Sales & Marketing",
+   "Vice President, Business Control Assurance"
   ]
  },
  {
@@ -1782,17 +1100,6 @@
   ]
  },
  {
-  "phrase": "unload cargo",
-  "postings": 45,
-  "trades": 11,
-  "seen_in": [
-   "heavy equipment operator",
-   "delivery driver",
-   "delivery truck driver",
-   "snow-grooming machine operator"
-  ]
- },
- {
   "phrase": "natural born leader",
   "postings": 45,
   "trades": 9,
@@ -1804,227 +1111,40 @@
   ]
  },
  {
-  "phrase": "Senior Product Manager",
+  "phrase": "Delivery Driver",
   "postings": 44,
-  "trades": 2,
-  "seen_in": [
-   "Senior Product Manager - UI Platform",
-   "Senior Product Manager",
-   "Senior Product Manager, Echo MS",
-   "Senior Product Manager Vaccines"
-  ]
- },
- {
-  "phrase": "computerized systems",
-  "postings": 44,
-  "trades": 14,
-  "seen_in": [
-   "reception clerk",
-   "receptionist",
-   "production scheduler",
-   "payroll administrator"
-  ]
- },
- {
-  "phrase": "feed infants",
-  "postings": 44,
-  "trades": 6,
-  "seen_in": [
-   "home child care provider",
-   "child caregiver - private home",
-   "nanny",
-   "child care provider - private home"
-  ]
- },
- {
-  "phrase": "healthy environment",
-  "postings": 44,
-  "trades": 6,
-  "seen_in": [
-   "home child care provider",
-   "child caregiver - private home",
-   "nanny",
-   "child care provider - private home"
-  ]
- },
- {
-  "phrase": "Data Engineer",
-  "postings": 44,
-  "trades": 9,
-  "seen_in": [
-   "Data Engineer",
-   "Data Engineer, RBC Amplify 2027, Vancouver",
-   "Data Engineer (DevOps)",
-   "Staff Data Engineer "
-  ]
- },
- {
-  "phrase": "machine dictation",
-  "postings": 44,
-  "trades": 9,
-  "seen_in": [
-   "administrative assistant",
-   "legal administrative assistant",
-   "legal secretary",
-   "legal assistant - immigration"
-  ]
- },
- {
-  "phrase": "handwritten copy",
-  "postings": 44,
-  "trades": 9,
-  "seen_in": [
-   "administrative assistant",
-   "legal administrative assistant",
-   "legal secretary",
-   "legal assistant - immigration"
-  ]
- },
- {
-  "phrase": "information internally",
-  "postings": 44,
-  "trades": 9,
-  "seen_in": [
-   "administrative assistant",
-   "legal administrative assistant",
-   "legal secretary",
-   "legal assistant - immigration"
-  ]
- },
- {
-  "phrase": "age-appropriate educational training",
-  "postings": 43,
-  "trades": 5,
-  "seen_in": [
-   "home child care provider",
-   "child caregiver - private home",
-   "nanny",
-   "child care provider - private home"
-  ]
- },
- {
-  "phrase": "Discipline children according",
-  "postings": 43,
-  "trades": 5,
-  "seen_in": [
-   "home child care provider",
-   "child caregiver - private home",
-   "nanny",
-   "child care provider - private home"
-  ]
- },
- {
-  "phrase": "health information regarding",
-  "postings": 43,
-  "trades": 5,
-  "seen_in": [
-   "home child care provider",
-   "child caregiver - private home",
-   "nanny",
-   "child care provider - private home"
-  ]
- },
- {
-  "phrase": "change diapers",
-  "postings": 43,
-  "trades": 5,
-  "seen_in": [
-   "home child care provider",
-   "child caregiver - private home",
-   "nanny",
-   "child care provider - private home"
-  ]
- },
- {
-  "phrase": "serve meals",
-  "postings": 43,
-  "trades": 5,
-  "seen_in": [
-   "home child care provider",
-   "child caregiver - private home",
-   "nanny",
-   "child care provider - private home"
-  ]
- },
- {
-  "phrase": "Oversee children",
-  "postings": 43,
-  "trades": 5,
-  "seen_in": [
-   "home child care provider",
-   "child caregiver - private home",
-   "nanny",
-   "child care provider - private home"
-  ]
- },
- {
-  "phrase": "Instruct children",
-  "postings": 43,
-  "trades": 5,
-  "seen_in": [
-   "home child care provider",
-   "child caregiver - private home",
-   "nanny",
-   "child care provider - private home"
-  ]
- },
- {
-  "phrase": "involving firm grasping",
-  "postings": 42,
-  "trades": 10,
-  "seen_in": [
-   "Store Associate (Part-Time/Temporary)",
-   "Softgoods Associate (Part-Time)",
-   "Store Supervisor (Full-Time)",
-   "Hardgoods Associate (Full-Time)"
-  ]
- },
- {
-  "phrase": "Giant Tiger store",
-  "postings": 42,
-  "trades": 10,
-  "seen_in": [
-   "Store Associate (Part-Time/Temporary)",
-   "Softgoods Associate (Part-Time)",
-   "Store Supervisor (Full-Time)",
-   "Hardgoods Associate (Full-Time)"
-  ]
- },
- {
-  "phrase": "schedule appointments",
-  "postings": 42,
   "trades": 11,
   "seen_in": [
-   "reception clerk",
-   "receptionist",
-   "legal administrative assistant",
-   "dental receptionist"
-  ]
- },
- {
-  "phrase": "electronic enquiries",
-  "postings": 42,
-  "trades": 11,
-  "seen_in": [
-   "unit clerk",
-   "administrative assistant",
-   "administrative assistant - office",
-   "secretary-clerk"
-  ]
- },
- {
-  "phrase": "electronic mail",
-  "postings": 42,
-  "trades": 11,
-  "seen_in": [
-   "unit clerk",
-   "administrative assistant",
-   "administrative assistant - office",
-   "secretary-clerk"
+   "Class 3 Delivery Driver",
+   "delivery driver",
+   "Delivery Driver/Material Handler",
+   "Delivery Driver / Material Handler"
   ]
  },
  {
   "phrase": "celebrate fresh",
+  "postings": 44,
+  "trades": 8,
+  "seen_in": [
+   "Sales Team Leader",
+   "Sales Assistant - COBS Bread - FT or PT",
+   "Sales Assistant - PART TIME",
+   "NEW Part Time - Sales Assistant - COBS Bread Larry Uteck"
+  ]
+ },
+ {
+  "phrase": "Replenish merchandise",
+  "postings": 42,
+  "trades": 9,
+  "seen_in": [
+   "Store Associate (Part-Time/Temporary)",
+   "Softgoods Associate (Part-Time)",
+   "Hardgoods Associate (Full-Time)",
+   "Cashier (Part-Time)"
+  ]
+ },
+ {
+  "phrase": "friendly demeanour",
   "postings": 42,
   "trades": 8,
   "seen_in": [
@@ -2035,58 +1155,36 @@
   ]
  },
  {
-  "phrase": "Greet visitors",
+  "phrase": "re going",
   "postings": 42,
-  "trades": 11,
+  "trades": 9,
   "seen_in": [
-   "administrative assistant",
-   "Receptionist, PT (Evening/Weekends)",
-   "administrative assistant - office",
-   "secretary-clerk"
+   "Sales Team Leader",
+   "Sales Assistant - COBS Bread - FT or PT",
+   "Sales Assistant - PART TIME",
+   "NEW Part Time - Sales Assistant - COBS Bread Larry Uteck"
   ]
  },
  {
-  "phrase": "Product Owner",
+  "phrase": "involving firm grasping",
   "postings": 41,
-  "trades": 10,
+  "trades": 9,
   "seen_in": [
-   "Product Owner, Product  management",
-   "Technical Product Owner, Digital Solutions",
-   "Observability Product Owner-EN 503",
-   "Product Owner - Asset Management, Temporary"
+   "Store Associate (Part-Time/Temporary)",
+   "Softgoods Associate (Part-Time)",
+   "Store Supervisor (Full-Time)",
+   "Hardgoods Associate (Full-Time)"
   ]
  },
  {
-  "phrase": "handle complaints",
+  "phrase": "Giant Tiger store",
   "postings": 41,
-  "trades": 11,
+  "trades": 9,
   "seen_in": [
-   "housekeeping room attendant",
-   "housekeeping attendant",
-   "cleaner",
-   "housekeeping aide"
-  ]
- },
- {
-  "phrase": "Associate Director",
-  "postings": 41,
-  "trades": 12,
-  "seen_in": [
-   "Associate Director, Treasury and Payments",
-   "We are hiring an Associate Analyst, Commercial Funding!",
-   "Supervisor, Fund Accounting, Private Equity",
-   "Associate Director – Commodity Local Market Risk"
-  ]
- },
- {
-  "phrase": "compile data",
-  "postings": 41,
-  "trades": 10,
-  "seen_in": [
-   "administrative assistant",
-   "administrative assistant - office",
-   "secretary-clerk",
-   "Image Service Coordinator"
+   "Store Associate (Part-Time/Temporary)",
+   "Softgoods Associate (Part-Time)",
+   "Store Supervisor (Full-Time)",
+   "Hardgoods Associate (Full-Time)"
   ]
  },
  {
@@ -2101,17 +1199,6 @@
   ]
  },
  {
-  "phrase": "checkout area",
-  "postings": 40,
-  "trades": 10,
-  "seen_in": [
-   "Store Associate (Part-Time/Temporary)",
-   "Softgoods Associate (Part-Time)",
-   "Caissier(ère) à temps plein / Full-Time Cashier",
-   "Hardgoods Associate (Full-Time)"
-  ]
- },
- {
   "phrase": "earn money",
   "postings": 40,
   "trades": 7,
@@ -2123,36 +1210,14 @@
   ]
  },
  {
-  "phrase": "friendly demeanour",
+  "phrase": "vehicle systems",
   "postings": 40,
-  "trades": 8,
+  "trades": 12,
   "seen_in": [
-   "Sales Team Leader",
-   "Sales Assistant - COBS Bread - FT or PT",
-   "Sales Assistant - PART TIME",
-   "NEW Part Time - Sales Assistant - COBS Bread Larry Uteck"
-  ]
- },
- {
-  "phrase": "re going",
-  "postings": 40,
-  "trades": 9,
-  "seen_in": [
-   "Sales Team Leader",
-   "Sales Assistant - COBS Bread - FT or PT",
-   "Sales Assistant - PART TIME",
-   "NEW Part Time - Sales Assistant - COBS Bread Larry Uteck"
-  ]
- },
- {
-  "phrase": "changing rooms",
-  "postings": 40,
-  "trades": 10,
-  "seen_in": [
-   "housekeeping room attendant",
-   "housekeeping attendant",
-   "cleaner",
-   "housekeeping aide"
+   "long haul truck driver",
+   "Automotive Test Driver",
+   "Vehicle Quality Control Associate",
+   "long haul driver"
   ]
  },
  {
@@ -2174,51 +1239,29 @@
    "Manager, Private Brand Engagement",
    "Store Supervisor (Full-Time)",
    "Hardgoods Associate (Full-Time)",
-   "Backup Head Cashier (Full-Time)"
+   "Softgoods Supervisor (Full-Time)"
   ]
  },
  {
-  "phrase": "natural leader",
-  "postings": 39,
-  "trades": 10,
+  "phrase": "Senior Advisor",
+  "postings": 40,
+  "trades": 6,
   "seen_in": [
-   "Directeur Pharmacométricien (Director Pharmacometrician)",
-   "Host / Hostess / Guest Service Leader - JOEY Yorkdale",
-   "Host / Hostess / Guest Service Leader - JOEY Barlow",
-   "Host / Hostess / Server Liaison - JOEY Lansdowne"
+   "Senior Advisor, Project management",
+   "(Bilingual) Senior Advisor / Lead Advisor, Wealth Management Service (Quebec Clients)",
+   "Senior Advisor, IT assistance",
+   "Senior Advisor, Full-Scope Cross-Sector Intrusion Testing"
   ]
  },
  {
-  "phrase": "issue receipts",
+  "phrase": "checkout area",
   "postings": 39,
-  "trades": 12,
+  "trades": 9,
   "seen_in": [
-   "reception clerk",
-   "receptionist",
+   "Store Associate (Part-Time/Temporary)",
+   "Softgoods Associate (Part-Time)",
    "Caissier(ère) à temps plein / Full-Time Cashier",
-   "dental receptionist"
-  ]
- },
- {
-  "phrase": "clean lobbies",
-  "postings": 39,
-  "trades": 9,
-  "seen_in": [
-   "housekeeping room attendant",
-   "housekeeping attendant",
-   "cleaner",
-   "housekeeping aide"
-  ]
- },
- {
-  "phrase": "private residences",
-  "postings": 39,
-  "trades": 9,
-  "seen_in": [
-   "housekeeping room attendant",
-   "housekeeping attendant",
-   "cleaner",
-   "housekeeping aide"
+   "Hardgoods Associate (Full-Time)"
   ]
  },
  {
@@ -2244,52 +1287,8 @@
   ]
  },
  {
-  "phrase": "Prince Edward Island",
-  "postings": 38,
-  "trades": 8,
-  "seen_in": [
-   "Senior Software Engineer, Backend (Capacity Modeling)",
-   "Senior Software Engineer, Fullstack (App Experience)",
-   "Senior Software Engineer",
-   "Software Engineer I, Backend (Continuous Delivery)"
-  ]
- },
- {
-  "phrase": "Vice President",
-  "postings": 38,
-  "trades": 13,
-  "seen_in": [
-   "Vice President, Client Integration (Program/Project Manager)",
-   "Vice President of Product",
-   "Vice President, Business Control Assurance",
-   "Vice President, Group Functions Technology - Finance & Treasury Systems"
-  ]
- },
- {
-  "phrase": "Senior Consultant",
-  "postings": 38,
-  "trades": 11,
-  "seen_in": [
-   "Senior Consultant - Digital, Data & AI Strategy & Transformation",
-   "Acumatica Senior Consultant (Construction)",
-   "Senior Consultant – Manufacturing Solutions",
-   "Senior Consultant, Finance Effectiveness & Transformation"
-  ]
- },
- {
-  "phrase": "Light duty cleaners",
-  "postings": 38,
-  "trades": 11,
-  "seen_in": [
-   "housekeeping room attendant",
-   "housekeeping attendant",
-   "cleaner",
-   "housekeeping aide"
-  ]
- },
- {
   "phrase": "things fluffy",
-  "postings": 38,
+  "postings": 39,
   "trades": 7,
   "seen_in": [
    "Sales Assistant - COBS Bread - FT or PT",
@@ -2299,25 +1298,47 @@
   ]
  },
  {
-  "phrase": "Senior Advisor",
-  "postings": 38,
-  "trades": 5,
+  "phrase": "Associate Director",
+  "postings": 39,
+  "trades": 10,
   "seen_in": [
-   "Senior Advisor - Safety Risk Management",
-   "Senior Advisor, Project management",
-   "(Bilingual) Senior Advisor / Lead Advisor, Wealth Management Service (Quebec Clients)",
-   "Senior Advisor, Full-Scope Cross-Sector Intrusion Testing"
+   "Associate Director, Treasury and Payments",
+   "Supervisor, Fund Accounting, Private Equity",
+   "Lead, Computerized Systems Validation - Canada",
+   "Associate Director, Marketing and Business Development, Ancillary Services"
   ]
  },
  {
-  "phrase": "distribute incoming",
+  "phrase": "Customer Success Manager",
   "postings": 38,
-  "trades": 7,
+  "trades": 13,
   "seen_in": [
-   "administrative assistant",
-   "administrative assistant - office",
-   "secretary-clerk",
-   "Administrative assistant"
+   "Customer Success Manager",
+   "Junior Customer Success Manager",
+   "Sr. Customer Success Manager - Fraud/AML Strategy",
+   "Senior Customer Success Manager (Enterprise)"
+  ]
+ },
+ {
+  "phrase": "Product Owner",
+  "postings": 38,
+  "trades": 9,
+  "seen_in": [
+   "Product Owner, Product  management",
+   "Technical Product Owner, Digital Solutions",
+   "Observability Product Owner-EN 503",
+   "Product Owner - Asset Management, Temporary"
+  ]
+ },
+ {
+  "phrase": "natural leader",
+  "postings": 37,
+  "trades": 8,
+  "seen_in": [
+   "Directeur Pharmacométricien (Director Pharmacometrician)",
+   "Host / Hostess / Guest Service Leader - JOEY Yorkdale",
+   "Host / Hostess / Guest Service Leader - JOEY Barlow",
+   "Host / Hostess / Server Liaison - JOEY Lansdowne"
   ]
  },
  {
@@ -2332,8 +1353,41 @@
   ]
  },
  {
-  "phrase": "Replenish merchandise",
+  "phrase": "Prince Edward Island",
   "postings": 37,
+  "trades": 8,
+  "seen_in": [
+   "Senior Software Engineer, Backend (Capacity Modeling)",
+   "Senior Software Engineer, Fullstack (App Experience)",
+   "Senior Software Engineer",
+   "Software Engineer I, Backend (Continuous Delivery)"
+  ]
+ },
+ {
+  "phrase": "Truck Driver",
+  "postings": 37,
+  "trades": 11,
+  "seen_in": [
+   "Local CDL A Truck Driver",
+   "long haul truck driver",
+   "Tow Truck Driver ",
+   "Truck Driver - Class A"
+  ]
+ },
+ {
+  "phrase": "Travailleur social",
+  "postings": 37,
+  "trades": 4,
+  "seen_in": [
+   "Travailleur(euse) social(e) - SAD à Chute-aux-Outardes | Côte-Nord",
+   "Travailleur(se) social - Programme dépendance - Cote Nord",
+   "Travailleur(se) Social(e)- DPJ Application des Mesures-Kuujjuaraapik | Baie-Jame",
+   "Travailleur(euse) social(e) - CLSC de Ste-Anne des Monts | CISSS de la Gaspésie"
+  ]
+ },
+ {
+  "phrase": "alternating weekends",
+  "postings": 36,
   "trades": 7,
   "seen_in": [
    "Store Associate (Part-Time/Temporary)",
@@ -2343,19 +1397,8 @@
   ]
  },
  {
-  "phrase": "alternating weekends",
-  "postings": 37,
-  "trades": 8,
-  "seen_in": [
-   "Store Associate (Part-Time/Temporary)",
-   "Softgoods Associate (Part-Time)",
-   "Hardgoods Associate (Full-Time)",
-   "Backup Head Cashier (Full-Time)"
-  ]
- },
- {
   "phrase": "Prep Cook",
-  "postings": 37,
+  "postings": 36,
   "trades": 3,
   "seen_in": [
    "Line Cook / Prep Cook - LOCAL Public Eatery, River District",
@@ -2365,146 +1408,14 @@
   ]
  },
  {
-  "phrase": "Undergraduate course calendar",
-  "postings": 37,
-  "trades": 11,
-  "seen_in": [
-   "Teaching Assistant MPHA 5P11 Winter D5",
-   "Lab Demonstrator ERSC 4P05 Winter D3-2",
-   "Education Instructor ECEC 3P51 Winter D3 S1",
-   "Instructor ADST 5P75 Winter D11 Burlington"
-  ]
- },
- {
-  "phrase": "computerized information filing systems",
-  "postings": 37,
-  "trades": 6,
-  "seen_in": [
-   "administrative assistant",
-   "administrative assistant - office",
-   "secretary-clerk",
-   "Administrative assistant"
-  ]
- },
- {
-  "phrase": "relay telephone calls",
-  "postings": 37,
-  "trades": 6,
-  "seen_in": [
-   "administrative assistant",
-   "administrative assistant - office",
-   "secretary-clerk",
-   "Administrative assistant"
-  ]
- },
- {
-  "phrase": "Arrange travel schedules",
-  "postings": 37,
-  "trades": 6,
-  "seen_in": [
-   "administrative assistant",
-   "administrative assistant - office",
-   "secretary-clerk",
-   "Administrative assistant"
-  ]
- },
- {
-  "phrase": "train office staff",
-  "postings": 37,
-  "trades": 6,
-  "seen_in": [
-   "administrative assistant",
-   "administrative assistant - office",
-   "secretary-clerk",
-   "Administrative assistant"
-  ]
- },
- {
-  "phrase": "confirm appointments",
-  "postings": 37,
-  "trades": 6,
-  "seen_in": [
-   "administrative assistant",
-   "administrative assistant - office",
-   "secretary-clerk",
-   "Administrative assistant"
-  ]
- },
- {
-  "phrase": "Answer telephone",
-  "postings": 37,
-  "trades": 6,
-  "seen_in": [
-   "administrative assistant",
-   "administrative assistant - office",
-   "secretary-clerk",
-   "Administrative assistant"
-  ]
- },
- {
-  "phrase": "ascertain nature",
-  "postings": 37,
-  "trades": 6,
-  "seen_in": [
-   "administrative assistant",
-   "administrative assistant - office",
-   "secretary-clerk",
-   "Administrative assistant"
-  ]
- },
- {
-  "phrase": "Travailleur social",
-  "postings": 37,
-  "trades": 5,
-  "seen_in": [
-   "Travailleur(euse) social(e) - SAD à Chute-aux-Outardes | Côte-Nord",
-   "Travailleur(se) social - Programme dépendance - Cote Nord",
-   "Travailleur(se) Social(e)- DPJ Application des Mesures-Kuujjuaraapik | Baie-Jame",
-   "Travailleur(euse) social(e) - CLSC de Ste-Anne des Monts | CISSS de la Gaspésie"
-  ]
- },
- {
-  "phrase": "early childhood",
-  "postings": 36,
-  "trades": 4,
-  "seen_in": [
-   "early childhood educator (ECE) assistant",
-   "Early Childhood Sports Coach",
-   "aide, daycare",
-   "Early Childhood Educator"
-  ]
- },
- {
-  "phrase": "Academic terms generally run",
-  "postings": 36,
-  "trades": 10,
-  "seen_in": [
-   "Teaching Assistant MPHA 5P11 Winter D5",
-   "Education Instructor ECEC 3P51 Winter D3 S1",
-   "Instructor ADST 5P75 Winter D11 Burlington",
-   "Teaching Assistant MPHA 5P01 Winter D5"
-  ]
- },
- {
-  "phrase": "seniority date",
-  "postings": 36,
-  "trades": 10,
-  "seen_in": [
-   "Teaching Assistant MPHA 5P11 Winter D5",
-   "Lab Demonstrator ERSC 4P05 Winter D3-2",
-   "Instructor ADST 5P75 Winter D11 Burlington",
-   "Teaching Assistant MPHA 5P01 Winter D5"
-  ]
- },
- {
-  "phrase": "Arrangement Policy",
+  "phrase": "store locations",
   "postings": 36,
   "trades": 11,
   "seen_in": [
-   "Teaching Assistant MPHA 5P11 Winter D5",
-   "Lab Demonstrator ERSC 4P05 Winter D3-2",
-   "Student Accessiblity Case Manager",
-   "Teaching Assistant MPHA 5P01 Winter D5"
+   "Retail Sales Representative-Timmins",
+   "Credit Card Representative- Travel Team",
+   "Credit Card Sales Representative- Mississauga",
+   "Credit Card Sales Representative - Regina (SK)"
   ]
  },
  {
@@ -2541,102 +1452,36 @@
   ]
  },
  {
-  "phrase": "warehouse associate",
-  "postings": 35,
-  "trades": 2,
+  "phrase": "Product Designer",
+  "postings": 36,
+  "trades": 5,
   "seen_in": [
-   "warehouse associate",
-   "General Warehouse Associate",
-   "Warehouse Associate",
-   "Warehouse Associate - Alternate Shift"
+   "Lead Product Designer",
+   "Staff Product Designer",
+   "Senior Product Designer II - Growth Systems & AI Workflows",
+   "Product Designer, Treasury"
   ]
  },
  {
-  "phrase": "journey starts",
+  "phrase": "Development Representative",
   "postings": 35,
-  "trades": 8,
+  "trades": 6,
   "seen_in": [
-   "General Application Form - JOEY Kenaston",
-   "General Application Form - JOEY Coquitlam",
-   "General Application Form - JOEY South Common",
-   "General Application Form - JOEY Crowfoot"
+   "Sales Development Representative",
+   "Sales Development Representative - North America",
+   "Sales Development Representative - B2B",
+   "Sales Development Representative (Inbound)"
   ]
  },
  {
-  "phrase": "general information",
+  "phrase": "Registered Nurse",
   "postings": 35,
-  "trades": 8,
+  "trades": 3,
   "seen_in": [
-   "reception clerk",
-   "receptionist",
-   "dental receptionist",
-   "medical office assistant"
-  ]
- },
- {
-  "phrase": "Record bookings",
-  "postings": 35,
-  "trades": 8,
-  "seen_in": [
-   "reception clerk",
-   "receptionist",
-   "dental receptionist",
-   "medical office assistant"
-  ]
- },
- {
-  "phrase": "greet people arriving",
-  "postings": 35,
-  "trades": 8,
-  "seen_in": [
-   "reception clerk",
-   "receptionist",
-   "dental receptionist",
-   "medical office assistant"
-  ]
- },
- {
-  "phrase": "Customer Success Manager",
-  "postings": 35,
-  "trades": 12,
-  "seen_in": [
-   "Customer Success Manager",
-   "Junior Customer Success Manager",
-   "Sr. Customer Success Manager - Fraud/AML Strategy",
-   "Senior Customer Success Manager (Enterprise)"
-  ]
- },
- {
-  "phrase": "ressources informationnelles",
-  "postings": 35,
-  "trades": 7,
-  "seen_in": [
-   "Analyste d'affaires junior",
-   "Programmeur(euse) FullStack Angular / C# .NET Core - Azure",
-   "Programmeur(euse) FrontEnd Angular / TypeScript - Azure",
-   "Programmeur(euse) senior BackEnd C# / .NET Core"
-  ]
- },
- {
-  "phrase": "course enrolments",
-  "postings": 35,
-  "trades": 10,
-  "seen_in": [
-   "Teaching Assistant MPHA 5P11 Winter D5",
-   "Lab Demonstrator ERSC 4P05 Winter D3-2",
-   "Instructor ADST 5P75 Winter D11 Burlington",
-   "Teaching Assistant MPHA 5P01 Winter D5"
-  ]
- },
- {
-  "phrase": "budgetary approval",
-  "postings": 35,
-  "trades": 9,
-  "seen_in": [
-   "Teaching Assistant MPHA 5P11 Winter D5",
-   "Lab Demonstrator ERSC 4P05 Winter D3-2",
-   "Teaching Assistant MPHA 5P01 Winter D5",
-   "Instructor MPHA 5P09 Winter D5"
+   "Registered Nurse, Perioperative Services – Permanent Part-Time (0.5)",
+   "Registered Nurse (RN)",
+   "Registered Nurse (RN) Perioperative",
+   "Registered Nurse (RN) Neonatal Intensive Care Unit (NICU)"
   ]
  },
  {
@@ -2706,39 +1551,6 @@
   ]
  },
  {
-  "phrase": "store locations",
-  "postings": 35,
-  "trades": 10,
-  "seen_in": [
-   "Retail Sales Representative-Timmins",
-   "Credit Card Representative- Travel Team",
-   "Credit Card Sales Representative- Mississauga",
-   "Credit Card Sales Representative - Regina (SK)"
-  ]
- },
- {
-  "phrase": "Verify dimensions",
-  "postings": 35,
-  "trades": 11,
-  "seen_in": [
-   "CNC (computer numerical control) machinist",
-   "machine tool operator - metal machining",
-   "Machinist",
-   "machinist"
-  ]
- },
- {
-  "phrase": "labour costs",
-  "postings": 35,
-  "trades": 9,
-  "seen_in": [
-   "food service supervisor",
-   "kitchen manager",
-   "chef",
-   "chef de cuisine"
-  ]
- },
- {
   "phrase": "personal exploration",
   "postings": 35,
   "trades": 8,
@@ -2750,91 +1562,36 @@
   ]
  },
  {
-  "phrase": "dry cleaning",
-  "postings": 35,
-  "trades": 9,
-  "seen_in": [
-   "delivery driver",
-   "delivery truck driver",
-   "310T Licensed Mechanic - Kingston, ON",
-   "route driver"
-  ]
- },
- {
-  "phrase": "visual standards",
-  "postings": 35,
-  "trades": 12,
-  "seen_in": [
-   "retail store supervisor",
-   "Department Manager, Softgoods",
-   "display designers supervisor",
-   "head cashier"
-  ]
- },
- {
-  "phrase": "Development Representative",
+  "phrase": "relations humaines",
   "postings": 34,
   "trades": 6,
   "seen_in": [
-   "Sales Development Representative",
-   "Sales Development Representative - North America",
-   "Sales Development Representative - B2B",
-   "Enterprise Sales Development Representative"
+   "Agent(e) de relations humaines (ARH) - AAOR et SSG à Havre-St-Pierre | Côte-Nord",
+   "Agent de relations humaines - Baie Comeau",
+   "Agent(e) de relations humaines - AAOR et SSG à Sept-Îles | Côte-Nord",
+   "Agent(e) de relations humaines (ARH) ou Travailleur(se) social (TS) - Baie-James"
   ]
  },
  {
-  "phrase": "handle credit card checks",
+  "phrase": "Data Analyst",
   "postings": 34,
-  "trades": 7,
+  "trades": 8,
   "seen_in": [
-   "reception clerk",
-   "receptionist",
-   "dental receptionist",
-   "medical office assistant"
+   "Staff Data Analyst, Marketing",
+   "Data Analyst",
+   "Analyste de données BI / BI Data Analyst",
+   "Marketing Data Analyst"
   ]
  },
  {
-  "phrase": "Greet people coming",
+  "phrase": "ressources informationnelles",
   "postings": 34,
-  "trades": 7,
+  "trades": 6,
   "seen_in": [
-   "reception clerk",
-   "receptionist",
-   "dental receptionist",
-   "medical office assistant"
-  ]
- },
- {
-  "phrase": "security access lists",
-  "postings": 34,
-  "trades": 7,
-  "seen_in": [
-   "reception clerk",
-   "receptionist",
-   "dental receptionist",
-   "medical office assistant"
-  ]
- },
- {
-  "phrase": "forward telephone calls",
-  "postings": 34,
-  "trades": 7,
-  "seen_in": [
-   "reception clerk",
-   "receptionist",
-   "dental receptionist",
-   "medical office assistant"
-  ]
- },
- {
-  "phrase": "Course descriptions",
-  "postings": 34,
-  "trades": 9,
-  "seen_in": [
-   "Teaching Assistant MPHA 5P11 Winter D5",
-   "Lab Demonstrator ERSC 4P05 Winter D3-2",
-   "Teaching Assistant MPHA 5P01 Winter D5",
-   "Instructor MPHA 5P09 Winter D5"
+   "Analyste d'affaires junior",
+   "Programmeur(euse) FullStack Angular / C# .NET Core - Azure",
+   "Programmeur(euse) FrontEnd Angular / TypeScript - Azure",
+   "Programmeur(euse) senior BackEnd C# / .NET Core"
   ]
  },
  {
@@ -2926,36 +1683,58 @@
   ]
  },
  {
-  "phrase": "established routes",
+  "phrase": "unload cargo",
   "postings": 34,
-  "trades": 8,
+  "trades": 10,
   "seen_in": [
    "delivery driver",
-   "school bus driver",
-   "delivery truck driver",
-   "route driver"
+   "route driver",
+   "food delivery driver",
+   "delivery truck driver"
   ]
  },
  {
-  "phrase": "Branch Manager",
+  "phrase": "fuel consumption",
+  "postings": 33,
+  "trades": 8,
+  "seen_in": [
+   "Sales Development Representative",
+   "long haul truck driver",
+   "long haul driver",
+   "truck driver"
+  ]
+ },
+ {
+  "phrase": "journey starts",
   "postings": 33,
   "trades": 7,
   "seen_in": [
-   "Branch Manager",
-   "Branch Manager, College & Bathurst Branch",
-   "Branch Manager I",
-   "Branch Manager II - Gander"
+   "General Application Form - JOEY Kenaston",
+   "General Application Form - JOEY Coquitlam",
+   "General Application Form - JOEY South Common",
+   "General Application Form - JOEY Crowfoot"
   ]
  },
  {
-  "phrase": "Executive Assistant",
+  "phrase": "cold storage",
   "postings": 33,
-  "trades": 4,
+  "trades": 8,
   "seen_in": [
-   "Executive Assistant",
-   "Executive Assistant, Ottawa, ON",
-   "Lead Executive Assistant",
-   "Executive Assistant, GAM"
+   "long haul truck driver",
+   "long haul driver",
+   "Warehouse Associate",
+   "truck driver"
+  ]
+ },
+ {
+  "phrase": "Shift Leader",
+  "postings": 33,
+  "trades": 5,
+  "seen_in": [
+   "Shift Leader - JOEY Yorkdale",
+   "Shift Leader",
+   "Shift Leader - JOEY Burnaby",
+   "Shift Leader - LOCAL Public Eatery, Sherwood Park"
   ]
  },
  {
@@ -2970,146 +1749,168 @@
   ]
  },
  {
-  "phrase": "Product Designer",
-  "postings": 33,
-  "trades": 5,
-  "seen_in": [
-   "Lead Product Designer",
-   "Staff Product Designer",
-   "Senior Product Designer II - Growth Systems & AI Workflows",
-   "Product Designer, Treasury"
-  ]
- },
- {
-  "phrase": "Record information",
-  "postings": 33,
-  "trades": 7,
-  "seen_in": [
-   "delivery driver",
-   "delivery truck driver",
-   "route driver",
-   "parcel delivery driver"
-  ]
- },
- {
-  "phrase": "metal products",
+  "phrase": "Undergraduate course calendar",
   "postings": 32,
-  "trades": 11,
+  "trades": 10,
   "seen_in": [
-   "press brake operator - metal products manufacturing",
-   "helper, machine shop - metal products manufacturing",
-   "welder",
-   "Welder Supervisor"
+   "Teaching Assistant MPHA 5P11 Winter D5",
+   "Lab Demonstrator ERSC 4P05 Winter D3-2",
+   "Education Instructor ECEC 3P51 Winter D3 S1",
+   "Instructor MPHA 5P09 Winter D5"
   ]
  },
  {
-  "phrase": "relations humaines",
-  "postings": 32,
-  "trades": 6,
-  "seen_in": [
-   "Agent(e) de relations humaines (ARH) - AAOR et SSG à Havre-St-Pierre | Côte-Nord",
-   "Agent de relations humaines - Baie Comeau",
-   "Agent(e) de relations humaines (ARH) ou Travailleur(se) social (TS) - Baie-James",
-   "Agent de relations humaines (ARH) - DPJ Application des mesures à Sept-Îles | Cô"
-  ]
- },
- {
-  "phrase": "Actual dates",
+  "phrase": "straight-body trucks weighing",
   "postings": 32,
   "trades": 7,
   "seen_in": [
-   "Teaching Assistant MPHA 5P11 Winter D5",
-   "Teaching Assistant MPHA 5P01 Winter D5",
-   "Instructor MPHA 5P09 Winter D5",
-   "Instructor MPHA 5P27 Winter D5"
+   "long haul truck driver",
+   "long haul driver",
+   "truck driver",
+   "driver, truck"
   ]
  },
  {
-  "phrase": "web page",
+  "phrase": "long-combination vehicle",
   "postings": 32,
-  "trades": 8,
+  "trades": 7,
   "seen_in": [
-   "Teaching Assistant MPHA 5P11 Winter D5",
-   "Teaching Assistant MPHA 5P01 Winter D5",
-   "Instructor MPHA 5P09 Winter D5",
-   "Teaching Assistant MPHA 5P04 Winter D5"
+   "long haul truck driver",
+   "long haul driver",
+   "truck driver",
+   "driver, truck"
   ]
  },
  {
-  "phrase": "Plan delivery travel schedules",
+  "phrase": "Obtain special permits",
   "postings": 32,
-  "trades": 6,
+  "trades": 7,
   "seen_in": [
-   "delivery driver",
-   "delivery truck driver",
-   "route driver",
-   "parcel delivery driver"
+   "long haul truck driver",
+   "long haul driver",
+   "truck driver",
+   "driver, truck"
   ]
  },
  {
-  "phrase": "telephone directories",
+  "phrase": "Record cargo information",
   "postings": 32,
-  "trades": 6,
+  "trades": 7,
   "seen_in": [
-   "delivery driver",
-   "delivery truck driver",
-   "route driver",
-   "parcel delivery driver"
+   "long haul truck driver",
+   "long haul driver",
+   "truck driver",
+   "driver, truck"
   ]
  },
  {
-  "phrase": "service routes",
+  "phrase": "emergency roadside repairs",
   "postings": 32,
-  "trades": 6,
+  "trades": 7,
   "seen_in": [
-   "delivery driver",
-   "delivery truck driver",
-   "route driver",
-   "parcel delivery driver"
+   "long haul truck driver",
+   "long haul driver",
+   "truck driver",
+   "driver, truck"
   ]
  },
  {
-  "phrase": "vehicle mileage",
+  "phrase": "transport hazardous products",
   "postings": 32,
-  "trades": 6,
+  "trades": 7,
   "seen_in": [
-   "delivery driver",
-   "delivery truck driver",
-   "route driver",
-   "parcel delivery driver"
+   "long haul truck driver",
+   "long haul driver",
+   "truck driver",
+   "driver, truck"
   ]
  },
  {
-  "phrase": "fuel costs",
+  "phrase": "Plan trip",
   "postings": 32,
-  "trades": 6,
+  "trades": 7,
   "seen_in": [
-   "delivery driver",
-   "delivery truck driver",
-   "route driver",
-   "parcel delivery driver"
+   "long haul truck driver",
+   "long haul driver",
+   "truck driver",
+   "driver, truck"
   ]
  },
  {
-  "phrase": "problems encountered",
+  "phrase": "turning signals",
   "postings": 32,
-  "trades": 6,
+  "trades": 7,
   "seen_in": [
-   "delivery driver",
-   "delivery truck driver",
-   "route driver",
-   "parcel delivery driver"
+   "long haul truck driver",
+   "long haul driver",
+   "truck driver",
+   "driver, truck"
   ]
  },
  {
-  "phrase": "delivered goods",
+  "phrase": "secured properly",
   "postings": 32,
-  "trades": 6,
+  "trades": 7,
   "seen_in": [
-   "delivery driver",
-   "delivery truck driver",
-   "route driver",
-   "parcel delivery driver"
+   "long haul truck driver",
+   "long haul driver",
+   "truck driver",
+   "driver, truck"
+  ]
+ },
+ {
+  "phrase": "transport cargo",
+  "postings": 32,
+  "trades": 7,
+  "seen_in": [
+   "long haul truck driver",
+   "long haul driver",
+   "truck driver",
+   "driver, truck"
+  ]
+ },
+ {
+  "phrase": "distance travelled",
+  "postings": 32,
+  "trades": 7,
+  "seen_in": [
+   "long haul truck driver",
+   "long haul driver",
+   "truck driver",
+   "driver, truck"
+  ]
+ },
+ {
+  "phrase": "Administer bills",
+  "postings": 32,
+  "trades": 7,
+  "seen_in": [
+   "long haul truck driver",
+   "long haul driver",
+   "truck driver",
+   "driver, truck"
+  ]
+ },
+ {
+  "phrase": "log books",
+  "postings": 32,
+  "trades": 7,
+  "seen_in": [
+   "long haul truck driver",
+   "long haul driver",
+   "truck driver",
+   "driver, truck"
+  ]
+ },
+ {
+  "phrase": "board computers",
+  "postings": 32,
+  "trades": 7,
+  "seen_in": [
+   "long haul truck driver",
+   "long haul driver",
+   "truck driver",
+   "driver, truck"
   ]
  },
  {
@@ -3124,58 +1925,36 @@
   ]
  },
  {
-  "phrase": "Authorize payments",
+  "phrase": "special diets",
   "postings": 32,
-  "trades": 10,
+  "trades": 11,
   "seen_in": [
-   "retail store supervisor",
-   "display designers supervisor",
-   "head cashier",
-   "supervisor - retail"
+   "home support worker",
+   "live-in caregiver - seniors",
+   "disability support worker",
+   "home health care worker"
   ]
  },
  {
-  "phrase": "supply shortages",
+  "phrase": "general direction",
   "postings": 32,
-  "trades": 10,
+  "trades": 11,
   "seen_in": [
-   "retail store supervisor",
-   "display designers supervisor",
-   "head cashier",
-   "supervisor - retail"
+   "home support worker",
+   "live-in caregiver - seniors",
+   "disability support worker",
+   "home health care worker"
   ]
  },
  {
-  "phrase": "order merchandise",
-  "postings": 32,
-  "trades": 10,
-  "seen_in": [
-   "retail store supervisor",
-   "display designers supervisor",
-   "head cashier",
-   "supervisor - retail"
-  ]
- },
- {
-  "phrase": "escalated complaints",
-  "postings": 32,
-  "trades": 10,
-  "seen_in": [
-   "retail store supervisor",
-   "display designers supervisor",
-   "head cashier",
-   "supervisor - retail"
-  ]
- },
- {
-  "phrase": "Project Coordinator",
+  "phrase": "Legal Counsel",
   "postings": 31,
-  "trades": 10,
+  "trades": 7,
   "seen_in": [
-   "Project Coordinator",
-   "Mechanical Project Coordinator",
-   "Student Project Coordinator",
-   "MEP Project Coordinator"
+   "Legal Counsel",
+   "Conseiller(ère) juridique / Legal Counsel - Corporate and Operations",
+   "Senior Legal Counsel, Compliance (Temporary position – 18 to 24 months)",
+   "Conseiller(ère) juridique/Legal Counsel"
   ]
  },
  {
@@ -3190,6 +1969,17 @@
   ]
  },
  {
+  "phrase": "Investment Advisor",
+  "postings": 31,
+  "trades": 5,
+  "seen_in": [
+   "Investment Advisor",
+   "Investment Advisor, BMO Nesbitt Burns",
+   "Developing Investment Advisor (Kelowna)",
+   "Investment Advisor (Phone)"
+  ]
+ },
+ {
   "phrase": "Electrical Engineer",
   "postings": 31,
   "trades": 6,
@@ -3201,102 +1991,1312 @@
   ]
  },
  {
-  "phrase": "Niagara region",
+  "phrase": "Administer bedside",
+  "postings": 31,
+  "trades": 9,
+  "seen_in": [
+   "home support worker",
+   "live-in caregiver - seniors",
+   "disability support worker",
+   "home health care worker"
+  ]
+ },
+ {
+  "phrase": "washing dishes",
+  "postings": 31,
+  "trades": 10,
+  "seen_in": [
+   "home support worker",
+   "Catering Associate",
+   "live-in caregiver - seniors",
+   "disability support worker"
+  ]
+ },
+ {
+  "phrase": "Academic terms generally run",
   "postings": 30,
+  "trades": 8,
+  "seen_in": [
+   "Teaching Assistant MPHA 5P11 Winter D5",
+   "Education Instructor ECEC 3P51 Winter D3 S1",
+   "Instructor MPHA 5P09 Winter D5",
+   "Instructor MPHA 5P27 Winter D5"
+  ]
+ },
+ {
+  "phrase": "seniority date",
+  "postings": 30,
+  "trades": 9,
+  "seen_in": [
+   "Teaching Assistant MPHA 5P11 Winter D5",
+   "Lab Demonstrator ERSC 4P05 Winter D3-2",
+   "Instructor MPHA 5P09 Winter D5",
+   "Instructor MPHA 5P27 Winter D5"
+  ]
+ },
+ {
+  "phrase": "course enrolments",
+  "postings": 30,
+  "trades": 9,
+  "seen_in": [
+   "Teaching Assistant MPHA 5P11 Winter D5",
+   "Lab Demonstrator ERSC 4P05 Winter D3-2",
+   "Instructor MPHA 5P09 Winter D5",
+   "Instructor MPHA 5P27 Winter D5"
+  ]
+ },
+ {
+  "phrase": "budgetary approval",
+  "postings": 30,
+  "trades": 9,
+  "seen_in": [
+   "Teaching Assistant MPHA 5P11 Winter D5",
+   "Lab Demonstrator ERSC 4P05 Winter D3-2",
+   "Instructor MPHA 5P09 Winter D5",
+   "Instructor MPHA 5P27 Winter D5"
+  ]
+ },
+ {
+  "phrase": "Course descriptions",
+  "postings": 30,
+  "trades": 9,
+  "seen_in": [
+   "Teaching Assistant MPHA 5P11 Winter D5",
+   "Lab Demonstrator ERSC 4P05 Winter D3-2",
+   "Instructor MPHA 5P09 Winter D5",
+   "Instructor MPHA 5P27 Winter D5"
+  ]
+ },
+ {
+  "phrase": "Project Coordinator",
+  "postings": 30,
+  "trades": 10,
+  "seen_in": [
+   "Project Coordinator",
+   "Mechanical Project Coordinator",
+   "Student Project Coordinator",
+   "MEP Project Coordinator"
+  ]
+ },
+ {
+  "phrase": "Chef de Partie",
+  "postings": 30,
+  "trades": 2,
+  "seen_in": [
+   "Chef de Partie / Jr. Sous Chef - JOEY Yorkdale",
+   "Chef de Partie - JOEY Eau Claire",
+   "Chef de Partie - JOEY Chinook",
+   "Chef de Partie - JOEY Bentall"
+  ]
+ },
+ {
+  "phrase": "established routes",
+  "postings": 30,
+  "trades": 9,
+  "seen_in": [
+   "delivery driver",
+   "driver, school bus",
+   "route driver",
+   "food delivery driver"
+  ]
+ },
+ {
+  "phrase": "family disruption",
+  "postings": 30,
+  "trades": 9,
+  "seen_in": [
+   "home support worker",
+   "live-in caregiver - seniors",
+   "disability support worker",
+   "home health care worker"
+  ]
+ },
+ {
+  "phrase": "feeding clients",
+  "postings": 30,
+  "trades": 9,
+  "seen_in": [
+   "home support worker",
+   "live-in caregiver - seniors",
+   "disability support worker",
+   "home health care worker"
+  ]
+ },
+ {
+  "phrase": "routine health",
+  "postings": 30,
+  "trades": 9,
+  "seen_in": [
+   "home support worker",
+   "live-in caregiver - seniors",
+   "disability support worker",
+   "home health care worker"
+  ]
+ },
+ {
+  "phrase": "changing non",
+  "postings": 30,
+  "trades": 9,
+  "seen_in": [
+   "home support worker",
+   "live-in caregiver - seniors",
+   "disability support worker",
+   "home health care worker"
+  ]
+ },
+ {
+  "phrase": "collecting specimens",
+  "postings": 30,
+  "trades": 9,
+  "seen_in": [
+   "home support worker",
+   "live-in caregiver - seniors",
+   "disability support worker",
+   "home health care worker"
+  ]
+ },
+ {
+  "phrase": "agency supervisor",
+  "postings": 30,
+  "trades": 9,
+  "seen_in": [
+   "home support worker",
+   "live-in caregiver - seniors",
+   "disability support worker",
+   "home health care worker"
+  ]
+ },
+ {
+  "phrase": "Executive Assistant",
+  "postings": 29,
+  "trades": 4,
+  "seen_in": [
+   "Executive Assistant",
+   "Executive Assistant, Ottawa, ON",
+   "Lead Executive Assistant",
+   "Executive Assistant, GAM"
+  ]
+ },
+ {
+  "phrase": "Engage customers",
+  "postings": 29,
+  "trades": 10,
+  "seen_in": [
+   "Personal Banking Associate Trainee",
+   "Credit Card Representative- Travel Team",
+   "Sales Representative (Full-Time/ Part-Time) - Cornwall, ON",
+   "Personal Banking Associate"
+  ]
+ },
+ {
+  "phrase": "Record information",
+  "postings": 29,
+  "trades": 9,
+  "seen_in": [
+   "delivery driver",
+   "route driver",
+   "food delivery driver",
+   "delivery truck driver"
+  ]
+ },
+ {
+  "phrase": "empowering people everywhere",
+  "postings": 29,
+  "trades": 10,
+  "seen_in": [
+   "Seasonal Sales Associate (Toronto Premium Outlets)",
+   "Seasonal Sales Associate (Westboro)",
+   "Seasonal Sales Associate (Polo Park)",
+   "Seasonal Sales Associate (Upper Canada Mall)"
+  ]
+ },
+ {
+  "phrase": "fastest-growing intimate",
+  "postings": 29,
+  "trades": 10,
+  "seen_in": [
+   "Seasonal Sales Associate (Toronto Premium Outlets)",
+   "Seasonal Sales Associate (Westboro)",
+   "Seasonal Sales Associate (Polo Park)",
+   "Seasonal Sales Associate (Upper Canada Mall)"
+  ]
+ },
+ {
+  "phrase": "Sushi Chef",
+  "postings": 28,
+  "trades": 2,
+  "seen_in": [
+   "Sushi Chef - JOEY Bentall",
+   "General Application Form - JOEY Kenaston",
+   "General Application Form - JOEY South Common",
+   "Sushi Chef - JOEY Burnaby"
+  ]
+ },
+ {
+  "phrase": "Client Engagement Associate",
+  "postings": 28,
+  "trades": 1,
+  "seen_in": [
+   "Client Engagement Associate - Part-time (25hours/week)",
+   "Client Engagement Associate",
+   "Client Engagement Associate - Part-time (15 hours/week)",
+   "Client Engagement Associate [Hourly]"
+  ]
+ },
+ {
+  "phrase": "Branch Manager",
+  "postings": 28,
+  "trades": 6,
+  "seen_in": [
+   "Branch Manager",
+   "Branch Manager, College & Bathurst Branch",
+   "Branch Manager I",
+   "Branch Manager II - Gander"
+  ]
+ },
+ {
+  "phrase": "retain talent",
+  "postings": 28,
+  "trades": 8,
+  "seen_in": [
+   "Restaurant Manager - JOEY Kenaston",
+   "Shift Leader - JOEY Yorkdale",
+   "Shift Leader - JOEY Burnaby",
+   "Restaurant Manager"
+  ]
+ },
+ {
+  "phrase": "Senior Consultant",
+  "postings": 28,
+  "trades": 8,
+  "seen_in": [
+   "Acumatica Senior Consultant (Construction)",
+   "Senior Consultant – Manufacturing Solutions",
+   "Senior Consultant, Analytics and Data Solutions",
+   "Senior Consultant, Strategy, Sunlife Health"
+  ]
+ },
+ {
+  "phrase": "LOCAL Public Eatery Accelerated",
+  "postings": 28,
+  "trades": 8,
+  "seen_in": [
+   "Chef / Sous Chef - LOCAL Public Eatery",
+   "Chef / Sous Chef - LOCAL Public Eatery, Adelaide",
+   "Sous Chef / Kitchen Leadership - LOCAL Public Eatery, Jasper Ave",
+   "Sous Chef - LOCAL Public Eatery, Lansdowne"
+  ]
+ },
+ {
+  "phrase": "LOCAL Public Eatery leads",
+  "postings": 28,
+  "trades": 8,
+  "seen_in": [
+   "Chef / Sous Chef - LOCAL Public Eatery",
+   "Chef / Sous Chef - LOCAL Public Eatery, Adelaide",
+   "Sous Chef / Kitchen Leadership - LOCAL Public Eatery, Jasper Ave",
+   "Sous Chef - LOCAL Public Eatery, Lansdowne"
+  ]
+ },
+ {
+  "phrase": "exploration program",
+  "postings": 28,
+  "trades": 8,
+  "seen_in": [
+   "Chef / Sous Chef - LOCAL Public Eatery",
+   "Chef / Sous Chef - LOCAL Public Eatery, Adelaide",
+   "Sous Chef / Kitchen Leadership - LOCAL Public Eatery, Jasper Ave",
+   "Sous Chef - LOCAL Public Eatery, Lansdowne"
+  ]
+ },
+ {
+  "phrase": "service social",
+  "postings": 28,
+  "trades": 6,
+  "seen_in": [
+   "ARH - Agent de relations humaines pour la Cote Nord",
+   "Travailleur(se) social - Programme dépendance - Cote Nord",
+   "ARH - Agent de relations humaines / Santé mentale - Forestville",
+   "Travailleur(se) social pour Baie-Comeau en Cote Nord"
+  ]
+ },
+ {
+  "phrase": "Guest Service",
+  "postings": 27,
+  "trades": 9,
+  "seen_in": [
+   "General Application Form - JOEY Kenaston",
+   "Travel Center General Manager",
+   "Barber / Stylist",
+   "General Application Form - JOEY South Common"
+  ]
+ },
+ {
+  "phrase": "turn guests",
+  "postings": 27,
+  "trades": 4,
+  "seen_in": [
+   "Bartender - LOCAL Public Eatery, Penticton",
+   "Server - LOCAL Public Eatery, Jasper Ave",
+   "Host / Hostess - LOCAL Public Eatery, Penticton",
+   "Host / Hostess & Support - LOCAL Public Eatery, Adelaide"
+  ]
+ },
+ {
+  "phrase": "coming back",
+  "postings": 27,
+  "trades": 4,
+  "seen_in": [
+   "Bartender - LOCAL Public Eatery, Penticton",
+   "Server - LOCAL Public Eatery, Jasper Ave",
+   "Host / Hostess - LOCAL Public Eatery, Penticton",
+   "Host / Hostess & Support - LOCAL Public Eatery, Adelaide"
+  ]
+ },
+ {
+  "phrase": "Base Pay Grade",
+  "postings": 27,
+  "trades": 9,
+  "seen_in": [
+   "Senior Software Engineer, Backend (Capacity Modeling)",
+   "Senior Software Engineer, Fullstack (App Experience)",
+   "Leadership Development Manager",
+   "Software Engineer I, Backend (Continuous Delivery)"
+  ]
+ },
+ {
+  "phrase": "Actual dates",
+  "postings": 27,
+  "trades": 6,
+  "seen_in": [
+   "Teaching Assistant MPHA 5P11 Winter D5",
+   "Instructor MPHA 5P09 Winter D5",
+   "Instructor MPHA 5P27 Winter D5",
+   "Teaching Assistant MPHA 5P04 Winter D5"
+  ]
+ },
+ {
+  "phrase": "web page",
+  "postings": 27,
+  "trades": 7,
+  "seen_in": [
+   "Teaching Assistant MPHA 5P11 Winter D5",
+   "Instructor MPHA 5P09 Winter D5",
+   "Teaching Assistant MPHA 5P04 Winter D5",
+   "Teaching Assistant MPHA 5P02 Winter D5"
+  ]
+ },
+ {
+  "phrase": "Niagara region",
+  "postings": 27,
   "trades": 8,
   "seen_in": [
    "Teaching Assistant MPHA 5P11 Winter D5",
    "Lab Demonstrator ERSC 4P05 Winter D3-2",
    "Student Accessiblity Case Manager",
-   "Teaching Assistant MPHA 5P01 Winter D5"
+   "Instructor MPHA 5P09 Winter D5"
   ]
  },
  {
-  "phrase": "Compute dimensions",
-  "postings": 30,
-  "trades": 8,
+  "phrase": "Senior Project Manager",
+  "postings": 27,
+  "trades": 4,
   "seen_in": [
-   "CNC (computer numerical control) machinist",
-   "Machinist",
-   "machinist",
-   "machinist, precision"
+   "Senior Project Manager - ERP Implementations | Gestionnaire de projets senior - Implantations ERP",
+   "APS Senior Project Manager",
+   "Senior Project Manager (ICI Construction)",
+   "Gestionnaire de projet sénior / Senior Project Manager"
   ]
  },
  {
-  "phrase": "Legal Counsel",
-  "postings": 30,
+  "phrase": "Personal Banker",
+  "postings": 27,
+  "trades": 3,
+  "seen_in": [
+   "Personal Banker - Beaconsfield (Full time)",
+   "Senior Personal Banker - Home Borrowing (QC) - Longueuil",
+   "Senior Personal Banker - Home Borrowing (Sydney)",
+   "Personal Banker, Full time (Futures opportunities)- Montérégie"
+  ]
+ },
+ {
+  "phrase": "Plan delivery travel schedules",
+  "postings": 27,
+  "trades": 7,
+  "seen_in": [
+   "delivery driver",
+   "route driver",
+   "food delivery driver",
+   "delivery truck driver"
+  ]
+ },
+ {
+  "phrase": "telephone directories",
+  "postings": 27,
+  "trades": 7,
+  "seen_in": [
+   "delivery driver",
+   "route driver",
+   "food delivery driver",
+   "delivery truck driver"
+  ]
+ },
+ {
+  "phrase": "service routes",
+  "postings": 27,
+  "trades": 7,
+  "seen_in": [
+   "delivery driver",
+   "route driver",
+   "food delivery driver",
+   "delivery truck driver"
+  ]
+ },
+ {
+  "phrase": "vehicle mileage",
+  "postings": 27,
+  "trades": 7,
+  "seen_in": [
+   "delivery driver",
+   "route driver",
+   "food delivery driver",
+   "delivery truck driver"
+  ]
+ },
+ {
+  "phrase": "fuel costs",
+  "postings": 27,
+  "trades": 7,
+  "seen_in": [
+   "delivery driver",
+   "route driver",
+   "food delivery driver",
+   "delivery truck driver"
+  ]
+ },
+ {
+  "phrase": "problems encountered",
+  "postings": 27,
+  "trades": 7,
+  "seen_in": [
+   "delivery driver",
+   "route driver",
+   "food delivery driver",
+   "delivery truck driver"
+  ]
+ },
+ {
+  "phrase": "delivered goods",
+  "postings": 27,
+  "trades": 7,
+  "seen_in": [
+   "delivery driver",
+   "route driver",
+   "food delivery driver",
+   "delivery truck driver"
+  ]
+ },
+ {
+  "phrase": "Warehouse Associate",
+  "postings": 27,
+  "trades": 3,
+  "seen_in": [
+   "Warehouse Associate/Technician Apprentice",
+   "Warehouse Associate",
+   "warehouse associate",
+   "Warehouse Associate - Alternate Shift"
+  ]
+ },
+ {
+  "phrase": "large code base",
+  "postings": 26,
+  "trades": 4,
+  "seen_in": [
+   "Senior Software Engineer, Backend (Capacity Modeling)",
+   "Senior Software Engineer, Fullstack (App Experience)",
+   "Senior Software Engineer",
+   "Software Engineer I, Backend (Continuous Delivery)"
+  ]
+ },
+ {
+  "phrase": "first hello",
+  "postings": 26,
   "trades": 6,
   "seen_in": [
-   "Legal Counsel",
-   "Conseiller(ère) juridique / Legal Counsel - Corporate and Operations",
-   "legal counsel",
-   "Senior Legal Counsel, Compliance (Temporary position – 18 to 24 months)"
+   "Credit Card Representative- Travel Team",
+   "Seasonal Sales Associate (Toronto Premium Outlets)",
+   "Seasonal Sales Associate (Westboro)",
+   "Seasonal Sales Associate (Polo Park)"
   ]
  },
  {
-  "phrase": "food order summaries",
-  "postings": 30,
+  "phrase": "healthy environment",
+  "postings": 26,
   "trades": 5,
   "seen_in": [
-   "food service supervisor",
-   "kitchen manager",
-   "unit supervisor - food services",
-   "shift manager - fast food restaurant"
+   "home child care provider",
+   "child caregiver - private home",
+   "child care provider - private home",
+   "child care live-in caregiver"
   ]
  },
  {
-  "phrase": "special diet trays",
-  "postings": 30,
+  "phrase": "Accurately record customer transactions",
+  "postings": 25,
   "trades": 5,
   "seen_in": [
-   "food service supervisor",
-   "kitchen manager",
-   "unit supervisor - food services",
-   "shift manager - fast food restaurant"
+   "Store Associate (Part-Time/Temporary)",
+   "Softgoods Associate (Part-Time)",
+   "Hardgoods Associate (Full-Time)",
+   "Store Associate (Part-Time)"
   ]
  },
  {
-  "phrase": "plan cafeteria menus",
-  "postings": 30,
+  "phrase": "SKU changes",
+  "postings": 25,
   "trades": 5,
   "seen_in": [
-   "food service supervisor",
-   "kitchen manager",
-   "unit supervisor - food services",
-   "shift manager - fast food restaurant"
+   "Store Associate (Part-Time/Temporary)",
+   "Softgoods Associate (Part-Time)",
+   "Hardgoods Associate (Full-Time)",
+   "Store Associate (Part-Time)"
   ]
  },
  {
-  "phrase": "order ingredients",
-  "postings": 30,
+  "phrase": "signing standards",
+  "postings": 25,
   "trades": 5,
   "seen_in": [
-   "food service supervisor",
-   "kitchen manager",
-   "unit supervisor - food services",
-   "shift manager - fast food restaurant"
+   "Store Associate (Part-Time/Temporary)",
+   "Softgoods Associate (Part-Time)",
+   "Hardgoods Associate (Full-Time)",
+   "Store Associate (Part-Time)"
+  ]
+ },
+ {
+  "phrase": "social development",
+  "postings": 25,
+  "trades": 7,
+  "seen_in": [
+   "early childhood educator (ECE) assistant",
+   "registered early childhood educator  (RECE)",
+   "early childhood assistant",
+   "early childhood educator (ECE)"
+  ]
+ },
+ {
+  "phrase": "driven environment",
+  "postings": 25,
+  "trades": 8,
+  "seen_in": [
+   "Sales Manager",
+   "Seasonal Sales Associate (Toronto Premium Outlets)",
+   "Seasonal Sales Associate (Westboro)",
+   "Seasonal Sales Associate (Polo Park)"
+  ]
+ },
+ {
+  "phrase": "feed infants",
+  "postings": 25,
+  "trades": 5,
+  "seen_in": [
+   "home child care provider",
+   "child caregiver - private home",
+   "child care provider - private home",
+   "Daycare teacher"
+  ]
+ },
+ {
+  "phrase": "child-care programs",
+  "postings": 24,
+  "trades": 6,
+  "seen_in": [
+   "early childhood educator (ECE) assistant",
+   "registered early childhood educator  (RECE)",
+   "early childhood assistant",
+   "early childhood educator (ECE)"
+  ]
+ },
+ {
+  "phrase": "school-age children",
+  "postings": 24,
+  "trades": 6,
+  "seen_in": [
+   "early childhood educator (ECE) assistant",
+   "registered early childhood educator  (RECE)",
+   "early childhood assistant",
+   "early childhood educator (ECE)"
+  ]
+ },
+ {
+  "phrase": "reading stories",
+  "postings": 24,
+  "trades": 6,
+  "seen_in": [
+   "early childhood educator (ECE) assistant",
+   "registered early childhood educator  (RECE)",
+   "early childhood assistant",
+   "early childhood educator (ECE)"
+  ]
+ },
+ {
+  "phrase": "local points",
+  "postings": 24,
+  "trades": 6,
+  "seen_in": [
+   "early childhood educator (ECE) assistant",
+   "registered early childhood educator  (RECE)",
+   "early childhood assistant",
+   "early childhood educator (ECE)"
+  ]
+ },
+ {
+  "phrase": "dramatic play",
+  "postings": 24,
+  "trades": 6,
+  "seen_in": [
+   "early childhood educator (ECE) assistant",
+   "registered early childhood educator  (RECE)",
+   "early childhood assistant",
+   "early childhood educator (ECE)"
+  ]
+ },
+ {
+  "phrase": "discuss progress",
+  "postings": 24,
+  "trades": 6,
+  "seen_in": [
+   "early childhood educator (ECE) assistant",
+   "registered early childhood educator  (RECE)",
+   "early childhood assistant",
+   "early childhood educator (ECE)"
+  ]
+ },
+ {
+  "phrase": "Observe children",
+  "postings": 24,
+  "trades": 6,
+  "seen_in": [
+   "early childhood educator (ECE) assistant",
+   "registered early childhood educator  (RECE)",
+   "early childhood assistant",
+   "early childhood educator (ECE)"
+  ]
+ },
+ {
+  "phrase": "behavioural problems",
+  "postings": 24,
+  "trades": 6,
+  "seen_in": [
+   "early childhood educator (ECE) assistant",
+   "registered early childhood educator  (RECE)",
+   "early childhood assistant",
+   "early childhood educator (ECE)"
+  ]
+ },
+ {
+  "phrase": "toilet habits",
+  "postings": 24,
+  "trades": 6,
+  "seen_in": [
+   "early childhood educator (ECE) assistant",
+   "registered early childhood educator  (RECE)",
+   "early childhood assistant",
+   "early childhood educator (ECE)"
+  ]
+ },
+ {
+  "phrase": "recognizes intersectionality",
+  "postings": 24,
+  "trades": 7,
+  "seen_in": [
+   "Teaching Assistant MPHA 5P11 Winter D5",
+   "Lab Demonstrator ERSC 4P05 Winter D3-2",
+   "Student Accessiblity Case Manager",
+   "Teaching Assistant MPHA 5P04 Winter D5"
+  ]
+ },
+ {
+  "phrase": "innovative products",
+  "postings": 24,
+  "trades": 8,
+  "seen_in": [
+   "Seasonal Sales Associate (Toronto Premium Outlets)",
+   "Seasonal Sales Associate (Westboro)",
+   "Seasonal Sales Associate (Polo Park)",
+   "Seasonal Sales Associate (Upper Canada Mall)"
+  ]
+ },
+ {
+  "phrase": "Staff Product Manager",
+  "postings": 24,
+  "trades": 1,
+  "seen_in": [
+   "Staff Product Manager, Mistplay Audience Network",
+   "Staff Product Manager, In Store Offerings",
+   "Staff Product Manager, AI Builder Experience",
+   "Staff Product Manager, Canada Expansion"
+  ]
+ },
+ {
+  "phrase": "age-appropriate educational training",
+  "postings": 24,
+  "trades": 4,
+  "seen_in": [
+   "home child care provider",
+   "child caregiver - private home",
+   "child care provider - private home",
+   "child care live-in caregiver"
+  ]
+ },
+ {
+  "phrase": "Discipline children according",
+  "postings": 24,
+  "trades": 4,
+  "seen_in": [
+   "home child care provider",
+   "child caregiver - private home",
+   "child care provider - private home",
+   "child care live-in caregiver"
+  ]
+ },
+ {
+  "phrase": "health information regarding",
+  "postings": 24,
+  "trades": 4,
+  "seen_in": [
+   "home child care provider",
+   "child caregiver - private home",
+   "child care provider - private home",
+   "child care live-in caregiver"
+  ]
+ },
+ {
+  "phrase": "change diapers",
+  "postings": 24,
+  "trades": 4,
+  "seen_in": [
+   "home child care provider",
+   "child caregiver - private home",
+   "child care provider - private home",
+   "child care live-in caregiver"
+  ]
+ },
+ {
+  "phrase": "serve meals",
+  "postings": 24,
+  "trades": 4,
+  "seen_in": [
+   "home child care provider",
+   "child caregiver - private home",
+   "child care provider - private home",
+   "child care live-in caregiver"
+  ]
+ },
+ {
+  "phrase": "Oversee children",
+  "postings": 24,
+  "trades": 4,
+  "seen_in": [
+   "home child care provider",
+   "child caregiver - private home",
+   "child care provider - private home",
+   "child care live-in caregiver"
+  ]
+ },
+ {
+  "phrase": "rest periods",
+  "postings": 24,
+  "trades": 4,
+  "seen_in": [
+   "home child care provider",
+   "child caregiver - private home",
+   "child care provider - private home",
+   "child care live-in caregiver"
+  ]
+ },
+ {
+  "phrase": "Instruct children",
+  "postings": 24,
+  "trades": 4,
+  "seen_in": [
+   "home child care provider",
+   "child caregiver - private home",
+   "child care provider - private home",
+   "child care live-in caregiver"
+  ]
+ },
+ {
+  "phrase": "natural beauty",
+  "postings": 24,
+  "trades": 8,
+  "seen_in": [
+   "Seasonal Ambassador - Coquitlam Centre",
+   "Advancement Coordinator",
+   "Temporary Assistant Manager - Polo Park",
+   "Temporary Full Time Floor Leader - Cataraqui"
+  ]
+ },
+ {
+  "phrase": "total estimated tips",
+  "postings": 23,
+  "trades": 7,
+  "seen_in": [
+   "Line Cook / Prep Cook - LOCAL Public Eatery, River District",
+   "Dishwasher - LOCAL Public Eatery, River District",
+   "Host / Hostess - LOCAL Public Eatery, Penticton",
+   "Experienced Prep Cook - LOCAL Public Eatery, Kamloops"
+  ]
+ },
+ {
+  "phrase": "interconnected identities",
+  "postings": 23,
+  "trades": 6,
+  "seen_in": [
+   "Teaching Assistant MPHA 5P11 Winter D5",
+   "Lab Demonstrator ERSC 4P05 Winter D3-2",
+   "Student Accessiblity Case Manager",
+   "Teaching Assistant MPHA 5P04 Winter D5"
+  ]
+ },
+ {
+  "phrase": "Senior Financial Analyst",
+  "postings": 23,
+  "trades": 2,
+  "seen_in": [
+   "lululemon Senior Financial Analyst - NA Ecommerce | Contract until July 2027",
+   "Senior Financial Analyst, Investor Relations & Performance Measurement",
+   "Senior Financial Analyst, FP&A (12-Month Maternity Leave Coverage)",
+   "Senior Financial Analyst, GWAM Operations Expenses"
+  ]
+ },
+ {
+  "phrase": "Board certification",
+  "postings": 23,
+  "trades": 5,
+  "seen_in": [
+   "Licensed Physician (MD/DO) - Freelance AI Trainer",
+   "Physician (MD/DO) - Medical AI Evaluation",
+   "Physician (MD/DO) - Put Medical AI to the Test, Remote",
+   "Medical Director, Oncology Clinical Development - Hematology"
   ]
  },
  {
   "phrase": "meal preparation",
-  "postings": 30,
-  "trades": 5,
+  "postings": 23,
+  "trades": 7,
   "seen_in": [
    "food service supervisor",
-   "kitchen manager",
-   "unit supervisor - food services",
-   "shift manager - fast food restaurant"
+   "restaurant supervisor",
+   "Cook",
+   "unit supervisor - food services"
   ]
  },
  {
-  "phrase": "chef according",
-  "postings": 30,
+  "phrase": "Relationship Manager",
+  "postings": 23,
+  "trades": 4,
+  "seen_in": [
+   "Relationship Manager",
+   "Relationship Manager, Business Banking",
+   "Agriculture Credit Analyst I",
+   "Relationship Manager, Business Banking - Sherbrooke"
+  ]
+ },
+ {
+  "phrase": "purpose-driven career",
+  "postings": 23,
+  "trades": 5,
+  "seen_in": [
+   "SUN LIFE FINANCIAL ADVISOR - Ontario",
+   "SUN LIFE FINANCIAL ADVISOR - New Brunswick",
+   "Advisor Trainee- Advisor Development Program -Future Opportunities",
+   "SUN LIFE FINANCIAL ADVISOR - Saskatchewan"
+  ]
+ },
+ {
+  "phrase": "retaining top talent",
+  "postings": 23,
+  "trades": 5,
+  "seen_in": [
+   "Chef / Sous Chef - JOEY Barlow",
+   "Chef / Sous Chef - JOEY Lansdowne",
+   "Chef / Sous Chef - JOEY Burrard",
+   "Chef / Sous Chef"
+  ]
+ },
+ {
+  "phrase": "échelle salariale affichée",
+  "postings": 23,
+  "trades": 7,
+  "seen_in": [
+   "Associé de magasin de détails à temps plein Winners-Smartcenter Blainville",
+   "Associe/Associée de Magasin de Détail Temporaire à Temps partiel  Winners - Centennial Plaza",
+   "Associé(e) Temps Partiel Temporaire Winners-Homesense - Carrefour de L'Estrie",
+   "Associé / Associée de Magasin de Détail Temps Partiel  Winners/HomeSense - Quartier Dix30 Brossard"
+  ]
+ },
+ {
+  "phrase": "salariales horaires",
+  "postings": 23,
+  "trades": 7,
+  "seen_in": [
+   "Associé de magasin de détails à temps plein Winners-Smartcenter Blainville",
+   "Associe/Associée de Magasin de Détail Temporaire à Temps partiel  Winners - Centennial Plaza",
+   "Associé(e) Temps Partiel Temporaire Winners-Homesense - Carrefour de L'Estrie",
+   "Associé / Associée de Magasin de Détail Temps Partiel  Winners/HomeSense - Quartier Dix30 Brossard"
+  ]
+ },
+ {
+  "phrase": "agit ici",
+  "postings": 23,
+  "trades": 7,
+  "seen_in": [
+   "Associé de magasin de détails à temps plein Winners-Smartcenter Blainville",
+   "Associe/Associée de Magasin de Détail Temporaire à Temps partiel  Winners - Centennial Plaza",
+   "Associé(e) Temps Partiel Temporaire Winners-Homesense - Carrefour de L'Estrie",
+   "Associé / Associée de Magasin de Détail Temps Partiel  Winners/HomeSense - Quartier Dix30 Brossard"
+  ]
+ },
+ {
+  "phrase": "embauche prévue",
+  "postings": 23,
+  "trades": 7,
+  "seen_in": [
+   "Associé de magasin de détails à temps plein Winners-Smartcenter Blainville",
+   "Associe/Associée de Magasin de Détail Temporaire à Temps partiel  Winners - Centennial Plaza",
+   "Associé(e) Temps Partiel Temporaire Winners-Homesense - Carrefour de L'Estrie",
+   "Associé / Associée de Magasin de Détail Temps Partiel  Winners/HomeSense - Quartier Dix30 Brossard"
+  ]
+ },
+ {
+  "phrase": "offert pourrait",
+  "postings": 23,
+  "trades": 7,
+  "seen_in": [
+   "Associé de magasin de détails à temps plein Winners-Smartcenter Blainville",
+   "Associe/Associée de Magasin de Détail Temporaire à Temps partiel  Winners - Centennial Plaza",
+   "Associé(e) Temps Partiel Temporaire Winners-Homesense - Carrefour de L'Estrie",
+   "Associé / Associée de Magasin de Détail Temps Partiel  Winners/HomeSense - Quartier Dix30 Brossard"
+  ]
+ },
+ {
+  "phrase": "RBC Amplify",
+  "postings": 22,
+  "trades": 5,
+  "seen_in": [
+   "Business Analyst, RBC Amplify 2027, Calgary",
+   "Data Engineer, RBC Amplify 2027, Vancouver",
+   "Developer, RBC Amplify 2027, Toronto",
+   "Business Analyst, RBC Amplify 2027, Toronto"
+  ]
+ },
+ {
+  "phrase": "Senior Relationship Manager",
+  "postings": 22,
+  "trades": 2,
+  "seen_in": [
+   "Senior Relationship Manager, Commercial Financial Services - Diversified Asian Markets",
+   "Senior Relationship Manager (Mid-Market)",
+   "Senior Relationship Manager",
+   "Senior Manager, Commercial Partnerships, Automotive Finance - 15 Month Contract"
+  ]
+ },
+ {
+  "phrase": "Chargé de projet",
+  "postings": 22,
+  "trades": 2,
+  "seen_in": [
+   "Chargé·e de projet senior – Infrastructures urbaines – Tramway de Québec ",
+   "Chargé(e) de projet - Documentation et analyse du patrimoine",
+   "Chargé(e) de projet (surveillance/conception) – Ponts et Ouvrages d’art (POA)",
+   "Chargé(e) de projet - Contenu culturel et interprétation"
+  ]
+ },
+ {
+  "phrase": "answering questions",
+  "postings": 22,
+  "trades": 7,
+  "seen_in": [
+   "Entry-Level Sales Representative | Sault St. Marie, ON",
+   "Entry-Level Sales Representative | Winnipeg, MB",
+   "Direct Sales Representative | Kingston, ON",
+   "Customer Sales Representative | North York, ON"
+  ]
+ },
+ {
+  "phrase": "oversee staff training",
+  "postings": 22,
+  "trades": 6,
+  "seen_in": [
+   "manager, restaurant",
+   "restaurant manager",
+   "assistant manager, restaurant",
+   "restaurant assistant manager"
+  ]
+ },
+ {
+  "phrase": "monitor staff performance",
+  "postings": 22,
+  "trades": 6,
+  "seen_in": [
+   "manager, restaurant",
+   "restaurant manager",
+   "assistant manager, restaurant",
+   "restaurant assistant manager"
+  ]
+ },
+ {
+  "phrase": "Set staff",
+  "postings": 22,
+  "trades": 6,
+  "seen_in": [
+   "manager, restaurant",
+   "restaurant manager",
+   "assistant manager, restaurant",
+   "restaurant assistant manager"
+  ]
+ },
+ {
+  "phrase": "modify procedures",
+  "postings": 22,
+  "trades": 6,
+  "seen_in": [
+   "manager, restaurant",
+   "restaurant manager",
+   "assistant manager, restaurant",
+   "restaurant assistant manager"
+  ]
+ },
+ {
+  "phrase": "exceeding targets",
+  "postings": 22,
+  "trades": 6,
+  "seen_in": [
+   "Sales Development Representative - B2B",
+   "Marketing Manager",
+   "Sales Team Lead - Dixie Outlet Mall",
+   "Sales Representative, Financial Services"
+  ]
+ },
+ {
+  "phrase": "Enjoys engaging",
+  "postings": 22,
+  "trades": 4,
+  "seen_in": [
+   "SUN LIFE FINANCIAL ADVISOR - Ontario",
+   "SUN LIFE FINANCIAL ADVISOR - New Brunswick",
+   "Conseiller/Conseillère stagiaire, Programme de perfectionnement du conseiller -Possibilités d'emploi -futures/Advisor Trainee- Advisor Development Program -Future Opportunities",
+   "Advisor Trainee- Advisor Development Program -Future Opportunities"
+  ]
+ },
+ {
+  "phrase": "build long-term relationships",
+  "postings": 22,
+  "trades": 5,
+  "seen_in": [
+   "SUN LIFE FINANCIAL ADVISOR - Ontario",
+   "SUN LIFE FINANCIAL ADVISOR - New Brunswick",
+   "Advisor Trainee- Advisor Development Program -Future Opportunities",
+   "SUN LIFE FINANCIAL ADVISOR - Saskatchewan"
+  ]
+ },
+ {
+  "phrase": "PNL management",
+  "postings": 22,
+  "trades": 4,
+  "seen_in": [
+   "Chef / Sous Chef - JOEY Barlow",
+   "Chef / Sous Chef - JOEY Lansdowne",
+   "Chef / Sous Chef - JOEY Burrard",
+   "Chef / Sous Chef"
+  ]
+ },
+ {
+  "phrase": "favourite Knix products",
+  "postings": 22,
+  "trades": 3,
+  "seen_in": [
+   "Seasonal Sales Associate (Toronto Premium Outlets)",
+   "Seasonal Sales Associate (Westboro)",
+   "Seasonal Sales Associate (Polo Park)",
+   "Seasonal Sales Associate (Upper Canada Mall)"
+  ]
+ },
+ {
+  "phrase": "call efforts",
+  "postings": 21,
+  "trades": 3,
+  "seen_in": [
+   "Senior Software Engineer, Backend (Capacity Modeling)",
+   "Senior Software Engineer, Fullstack (App Experience)",
+   "Senior Software Engineer",
+   "Senior Software Engineer, Backend (Consumer)"
+  ]
+ },
+ {
+  "phrase": "keep track",
+  "postings": 21,
+  "trades": 5,
+  "seen_in": [
+   "Line Cook / Prep Cook - LOCAL Public Eatery, River District",
+   "Closing Line Cook - LOCAL Public Eatery, Gastown",
+   "Chef de Partie - LOCAL Public Eatery, Kitsilano",
+   "Bilingual Strategic Cuisines Account Executive (Mandarin) - Vancouver, BC"
+  ]
+ },
+ {
+  "phrase": "aforementioned groups",
+  "postings": 21,
+  "trades": 4,
+  "seen_in": [
+   "Teaching Assistant MPHA 5P11 Winter D5",
+   "Lab Demonstrator ERSC 4P05 Winter D3-2",
+   "Teaching Assistant MPHA 5P04 Winter D5",
+   "Teaching Assistant MPHA 5P02 Winter D5"
+  ]
+ },
+ {
+  "phrase": "credit card products",
+  "postings": 21,
+  "trades": 7,
+  "seen_in": [
+   "Retail Sales Representative-Timmins",
+   "Credit Card Sales Representative- Mississauga",
+   "Credit Card Sales Representative - Regina (SK)",
+   "Field Sales Representative- (Full-Time/Part-Time) - Peterborough,"
+  ]
+ },
+ {
+  "phrase": "product authority inside",
+  "postings": 21,
+  "trades": 7,
+  "seen_in": [
+   "Retail Sales Representative-Timmins",
+   "Credit Card Sales Representative- Mississauga",
+   "Credit Card Sales Representative - Regina (SK)",
+   "Field Sales Representative- (Full-Time/Part-Time) - Peterborough,"
+  ]
+ },
+ {
+  "phrase": "leave customers feeling",
+  "postings": 21,
+  "trades": 7,
+  "seen_in": [
+   "Retail Sales Representative-Timmins",
+   "Credit Card Sales Representative- Mississauga",
+   "Credit Card Sales Representative - Regina (SK)",
+   "Field Sales Representative- (Full-Time/Part-Time) - Peterborough,"
+  ]
+ },
+ {
+  "phrase": "Safeguard customer data",
+  "postings": 21,
+  "trades": 7,
+  "seen_in": [
+   "Retail Sales Representative-Timmins",
+   "Credit Card Sales Representative- Mississauga",
+   "Credit Card Sales Representative - Regina (SK)",
+   "Field Sales Representative- (Full-Time/Part-Time) - Peterborough,"
+  ]
+ },
+ {
+  "phrase": "surpass personal",
+  "postings": 21,
+  "trades": 7,
+  "seen_in": [
+   "Retail Sales Representative-Timmins",
+   "Credit Card Sales Representative- Mississauga",
+   "Credit Card Sales Representative - Regina (SK)",
+   "Field Sales Representative- (Full-Time/Part-Time) - Peterborough,"
+  ]
+ },
+ {
+  "phrase": "client brand",
+  "postings": 21,
+  "trades": 7,
+  "seen_in": [
+   "Retail Sales Representative-Timmins",
+   "Credit Card Sales Representative- Mississauga",
+   "Credit Card Sales Representative - Regina (SK)",
+   "Field Sales Representative- (Full-Time/Part-Time) - Peterborough,"
+  ]
+ },
+ {
+  "phrase": "memorable interactions",
+  "postings": 21,
+  "trades": 7,
+  "seen_in": [
+   "Retail Sales Representative-Timmins",
+   "Credit Card Sales Representative- Mississauga",
+   "Credit Card Sales Representative - Regina (SK)",
+   "Field Sales Representative- (Full-Time/Part-Time) - Peterborough,"
+  ]
+ },
+ {
+  "phrase": "engagement style",
+  "postings": 21,
+  "trades": 7,
+  "seen_in": [
+   "Retail Sales Representative-Timmins",
+   "Credit Card Sales Representative- Mississauga",
+   "Credit Card Sales Representative - Regina (SK)",
+   "Field Sales Representative- (Full-Time/Part-Time) - Peterborough,"
+  ]
+ },
+ {
+  "phrase": "productive partnerships",
+  "postings": 21,
+  "trades": 7,
+  "seen_in": [
+   "Retail Sales Representative-Timmins",
+   "Credit Card Sales Representative- Mississauga",
+   "Credit Card Sales Representative - Regina (SK)",
+   "Field Sales Representative- (Full-Time/Part-Time) - Peterborough,"
+  ]
+ },
+ {
+  "phrase": "store staff",
+  "postings": 21,
+  "trades": 7,
+  "seen_in": [
+   "Retail Sales Representative-Timmins",
+   "Credit Card Sales Representative- Mississauga",
+   "Credit Card Sales Representative - Regina (SK)",
+   "Field Sales Representative- (Full-Time/Part-Time) - Peterborough,"
+  ]
+ },
+ {
+  "phrase": "leading brands",
+  "postings": 21,
+  "trades": 5,
+  "seen_in": [
+   "Entry-Level Sales Representative | Sault St. Marie, ON",
+   "Entry-Level Sales Representative | Winnipeg, MB",
+   "Direct Sales Representative | Kingston, ON",
+   "Customer Sales Representative | North York, ON"
+  ]
+ },
+ {
+  "phrase": "handle objections",
+  "postings": 21,
+  "trades": 6,
+  "seen_in": [
+   "Entry-Level Sales Representative | Sault St. Marie, ON",
+   "Dealership Success Manager",
+   "Entry-Level Sales Representative | Winnipeg, MB",
+   "Direct Sales Representative | Kingston, ON"
+  ]
+ },
+ {
+  "phrase": "food order summaries",
+  "postings": 21,
   "trades": 5,
   "seen_in": [
    "food service supervisor",
-   "kitchen manager",
+   "restaurant supervisor",
    "unit supervisor - food services",
-   "shift manager - fast food restaurant"
+   "kitchen supervisor"
   ]
  }
 ]
