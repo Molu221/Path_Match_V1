@@ -477,7 +477,7 @@ body.cmpon{padding-bottom:84px}
           <strong>Drop your CV here</strong>
           <span>PDF, Word (.docx), text, or a photo. Or click to choose a file.</span>
         </div>
-        <input type="file" id="file" accept=".pdf,.docx,.txt,.md,.png,.jpg,.jpeg" hidden>
+        <input type="file" id="file" accept="image/*,.pdf,.docx,.txt,.md,.png,.jpg,.jpeg,.heic,.heif,.webp" hidden>
         <label for="paste">Or paste the text</label>
         <textarea id="paste" placeholder="Paste your CV text here"></textarea>
         <div class="row" style="margin-top:10px">
@@ -2205,7 +2205,25 @@ async function readOne(worker,img){
   const r=await worker.recognize(img,{},{text:true,blocks:true});
   return linesByPosition(r.data)||r.data.text;
 }
+/* A photo is a photo whatever it is called. An iPhone saves HEIC, an Android phone often WebP,
+   and a picture shared from another app can arrive with no extension at all - so go by the type
+   the browser reports as well as by the name. Looking for .png and .jpg alone sent an iPhone
+   photo down the plain-text path, where it failed with no offer to read it. */
+function isPicture(f){
+  return /\.(png|jpe?g|heic|heif|webp|bmp|gif|tiff?)$/i.test(f.name||"")||/^image\//i.test(f.type||"");
+}
+function pictureKind(f){
+  const m=/\.([a-z0-9]+)$/i.exec(f.name||"");
+  return (m?m[1]:String(f.type||"").replace(/^image\//,"")||"this kind of").toUpperCase();
+}
 async function readPicture(f,onPct){
+  /* Open the picture before fetching the reader. Not every browser can open every format, and
+     finding that out first means the answer comes at once and names the format. */
+  let bmp=null;
+  if(isPicture(f)){
+    try{bmp=await createImageBitmap(f);}
+    catch(e){const er=new Error("format");er.kind=pictureKind(f);throw er;}
+  }
   if(!window.Tesseract){
     /* one CDN is a single point of failure, and school and office networks do block them */
     try{await loadScript("https://cdnjs.cloudflare.com/ajax/libs/tesseract.js/5.1.1/tesseract.min.js");}
@@ -2213,10 +2231,7 @@ async function readPicture(f,onPct){
   }
   const worker=await Tesseract.createWorker(["eng","fra"],1,{logger:m=>{if(m.status==="recognizing text"&&onPct)onPct(Math.round(m.progress*100));}});
   try{
-    if(/\.(png|jpe?g)$/i.test(f.name)){
-      const bmp=await createImageBitmap(f);
-      return await readOne(worker,evenLighting(bmp));
-    }
+    if(bmp)return await readOne(worker,evenLighting(bmp));
     const doc=await pdfjsLib.getDocument({data:await f.arrayBuffer()}).promise;
     const out=[];
     for(let i=1;i<=Math.min(doc.numPages,4);i++){
@@ -2244,7 +2259,7 @@ async function readFile(f){
     READ_NOTE=d.dropped?("Your file holds "+(d.dropped+1)+" versions of your CV. Your skills were read from all of them; your dates from the first one."):"";
     return PDF_PAGES.join("\n\n");
   }
-  if(/\.(png|jpe?g)$/.test(name)){READ_SCAN=true;return "";}
+  if(isPicture(f)){READ_SCAN=true;return "";}
   if(name.endsWith(".docx"))return tidyText((await mammoth.extractRawText({arrayBuffer:await f.arrayBuffer()})).value);
   return tidyText(await f.text());
 }
@@ -2257,15 +2272,9 @@ async function handleFile(f){
     $("paste").value=t;$("status").textContent="Read "+f.name+" ("+t.length+" characters).";
     go(READ_NOTE);
   }catch(e){
-    $("status").innerHTML=READ_SCAN
-      ?'<b style="color:#b3261e">This file is a picture of your CV.</b> A scan or a photo holds no text in it. '+
-       'The surest way is to open your CV in Word or Pages, select all the text, copy it and paste it above. '+
-       'Or we can try to read the picture here on your computer: it takes about a minute a page and is not perfect. '+
-       '<button class="lnk" id="ocrgo" style="margin-top:6px">Read the picture</button>'
-      :'<b style="color:#b3261e">We could not read that file.</b> Paste the text in the box above instead. Word (.docx), PDF, plain text and photos work; the older .doc format does not.';
-    const ob=$("ocrgo");
-    if(ob)ob.onclick=async()=>{
-      $("status").innerHTML='Reading the picture of your CV… <span id="ocrpc">0%</span>. Keep this tab open.';
+    /* Reading a picture: used by the button for a scanned PDF, and at once for a photo. */
+    const readNow=async()=>{
+      $("status").innerHTML='Reading the picture of your CV here on your device… <span id="ocrpc">0%</span>. It takes about a minute a page. Keep this tab open.';
       try{
         const t=await readPicture(LAST_FILE,pc=>{const e=$("ocrpc");if(e)e.textContent=pc+"%";});
         if(String(t).trim().length<80)throw new Error("short");
@@ -2273,9 +2282,23 @@ async function handleFile(f){
         $("paste").value=fixLetterSpacing(tidyText(t));
         go("Read from the picture. Reading a picture is never perfect: check the text above before you go on.");
       }catch(err){
-        $("status").innerHTML='<b style="color:#b3261e">We could not read the picture.</b> Open your CV in Word or Pages, select all the text, copy it and paste it in the box above.';
+        $("status").innerHTML=err&&err.message==="format"
+          ?'<b style="color:#b3261e">This browser cannot open '+esc(err.kind)+' pictures.</b> Take a screenshot of the photo and upload the screenshot, or save the photo as a JPG. On an iPhone you can also set Settings, Camera, Formats to Most Compatible. Or paste the text of your CV in the box above.'
+          :'<b style="color:#b3261e">We could not read the picture.</b> A sharper, straighter photo in good light often works. Or open your CV in Word or Pages, select all the text, copy it and paste it in the box above.';
       }
     };
+    /* Someone who uploads a photo has already said what they want, so it is read at once - no red
+       message that looks like a refusal, and no button to find. A PDF that turns out to be a scan
+       is different: its owner may have the original, so that one is still asked first. */
+    if(READ_SCAN&&isPicture(f)){await readNow();return;}
+    $("status").innerHTML=READ_SCAN
+      ?'<b>This PDF is a scan: it holds a picture of your CV, not its text.</b> '+
+       'If you have the original, open it in Word or Pages, select all the text, copy it and paste it above. '+
+       'Or we can read the picture here on your device: about a minute a page, and not perfect. '+
+       '<button class="lnk" id="ocrgo" style="margin-top:6px">Read the picture</button>'
+      :'<b style="color:#b3261e">We could not read that file.</b> Paste the text in the box above instead. Word (.docx), PDF, plain text and photos work; the older .doc format does not.';
+    const ob=$("ocrgo");
+    if(ob)ob.onclick=readNow;
   }
 }
 function go(note){
