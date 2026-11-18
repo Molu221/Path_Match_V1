@@ -1,8 +1,9 @@
 # Source health
-Refresh of 2026-11-18 06:28 UTC: **21,554 postings** in the daily feed (20,511 the run before).
-Sources: 15 working, 0 partly, 1 broken, 1 off.
-Postings older than 90 days: 19% (822 older than a year; the Jobs page hides them unless "Everything collected" is chosen).
-Repeated company and legal text removed: 81,986 lines from 10,565 postings (24.1% of the words).
+- Refresh of 2026-11-18 06:28 UTC: **21,554 postings** in the daily feed (20,511 the run before).
+- Sources: **15 working**, 0 partly, 1 broken, 1 off.
+- Postings older than 90 days: 19% (822 older than a year; the Jobs page hides them unless "Everything collected" is chosen).
+- Repeated company and legal text removed: 81,986 lines from 10,565 postings (24.1% of the words).
+
 No alerts.
 
 

@@ -75,12 +75,12 @@ export function toMarkdown(h) {
   const icon = { working: "working", partly: "**partly**", broken: "**BROKEN**", off: "off", unknown: "?" };
   const L = [
     `# Source health`, ``,
-    `Refresh of ${String(s.updatedAt || "").slice(0, 16).replace("T", " ")} UTC: **${n(s.total)} postings** in the daily feed${s.totalBefore != null ? ` (${n(s.totalBefore)} the run before)` : ""}.`,
-    `Sources: ${s.working} working, ${s.partly} partly, ${s.broken} broken, ${s.off} off.`,
-    `Postings older than 90 days: ${s.old90 ?? "?"}% (${n(s.old365)} older than a year; the Jobs page hides them unless "Everything collected" is chosen).`,
-    s.boilerplate ? `Repeated company and legal text removed: ${n(s.boilerplate.lines)} lines from ${n(s.boilerplate.postings)} postings (${s.boilerplate.wordsShare}% of the words).` : "",
+    `- Refresh of ${String(s.updatedAt || "").slice(0, 16).replace("T", " ")} UTC: **${n(s.total)} postings** in the daily feed${s.totalBefore != null ? ` (${n(s.totalBefore)} the run before)` : ""}.`,
+    `- Sources: **${s.working} working**, ${s.partly} partly, ${s.broken} broken, ${s.off} off.`,
+    `- Postings older than 90 days: ${s.old90 ?? "?"}% (${n(s.old365)} older than a year; the Jobs page hides them unless "Everything collected" is chosen).`,
+    s.boilerplate ? `- Repeated company and legal text removed: ${n(s.boilerplate.lines)} lines from ${n(s.boilerplate.postings)} postings (${s.boilerplate.wordsShare}% of the words).` : "",
     ``,
-    h.alerts.length ? `## Needs a person\n\n${h.alerts.map((a) => "- " + a).join("\n")}\n` : `No alerts.\n`,
+    h.alerts.length ? `\n## Needs a person\n\n${h.alerts.map((a) => "- " + a).join("\n")}\n` : `\nNo alerts.\n`,
     `| Source | Status | Postings | Before | Failed requests | On the site | Over 90 days | Median text | Note |`,
     `|---|---|---:|---:|---:|---:|---:|---:|---|`,
     ...h.rows.map((r) => `| ${r.source} | ${icon[r.status]} | ${n(r.jobs)} | ${n(r.before)} | ${r.failed || ""} | ${n(r.onSite)} | ${r.old90 == null ? "" : r.old90 + "%"} | ${r.medianText == null ? "" : n(r.medianText)} | ${String(r.error).replace(/\|/g, "/").slice(0, 80)} |`),
