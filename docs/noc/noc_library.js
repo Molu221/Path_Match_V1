@@ -282,7 +282,7 @@ function titleTokens(lib) {
   }
   return TOKEN_INDEX.get(lib);
 }
-export function nocForTitle(lib, title, { minOverlap = 0.6, minLead = 0.1 } = {}) {
+function matchTitle(lib, title, { minOverlap = 0.6, minLead = 0.1 } = {}) {
   const v = titleVariants(title);
   const found = (code, how, via) => ({ noc: code.slice(0, 5), code, name: lib.profiles[code].name, how, via });
   // 1) the title itself (or the same words in the usual order) is a title of exactly one occupation
@@ -315,6 +315,109 @@ export function nocForTitle(lib, title, { minOverlap = 0.6, minLead = 0.1 } = {}
     return found(code, "closest title", k);
   }
   return { noc: null, code: null, name: null, how: "none", via: null };
+}
+
+// Titles on employer sites are rarely standard titles: "Senior Technical Analyst, BORN Ontario – Permanent Full-Time (1.0)",
+// "Développeur·euse Guidewire", "Retail Store Associate Part Time Seasonal Winners_Bathurst and College". Before looking a title
+// up, nocForTitle cleans it into a few candidates, most specific first: the usual separators cut the employer, place, team and
+// contract out; level and contract words go; French inclusive forms are brought back to one form; common short forms are spelled
+// out; words no occupation title uses (brand and product names) are dropped. Measured on 100 titles checked by hand
+// (test/fixtures/noc_titles_100.json, tools/noc_accuracy.mjs).
+const ABBREV = [
+  [/\bUX\s*\/\s*UI\b|\bUI\s*\/\s*UX\b|\bUX\b|\bUI\b/g, "user experience"], [/\bHR\b/g, "human resources"], [/\bIT\b/g, "information technology"],
+  [/\bQA\b/g, "quality assurance"], [/\b(ECG|EKG)\b/g, "electrocardiography"], [/\b(EHS|HSE)\b/g, "health and safety"], [/\bVP\b/g, "vice president"],
+  [/\bAI\b|\bIA\b/g, "artificial intelligence"], [/\bML\b/g, "machine learning"], [/\bBI\b/g, "business intelligence"], [/\bhelp\s?desk\b/gi, "help desk"],
+];
+// level, contract and schedule words: they say how the job is offered, not which job it is
+const TITLE_NOISE = new RegExp("\\b(" + [
+  "senior", "sr", "junior", "jr", "lead", "principal", "staff", "chief", "intermediate", "entry level", "entry-level", "experienced", "developing",
+  "i{1,3}", "iv", "v", "[1-4]", "part[- ]?time", "full[- ]?time", "temps partiel", "temps plein", "permanent", "temporary", "temporaire", "temp",
+  "seasonal", "saisonnier", "saisonniere", "casual", "contract", "contractuel", "contractuelle", "fixed[- ]term", "on[- ]site", "onsite", "remote",
+  "hybrid", "hybride", "bilingual", "bilingue", "mobile", "co-?op", "online", "en ligne", "jour", "nuit", "soir", "day shift", "night shift",
+  "training program", "multiple locations", "100% commission", "commission", "\\d+(\\.\\d+)? fte", "fte", "ppt", "position", "poste", "role", "opportunity",
+].join("|") + ")\\b", "gi");
+// a title found here is looked up as the official title beside it (the official list has no entry for these modern titles)
+const TITLE_ALIAS = {
+  "artificial intelligence engineer": "machine learning engineer", "machine learning engineer": "machine learning engineer",
+  "forward deployed engineer": "software engineer", "investment advisor": "personal investment advisor", "investment adviser": "personal investment advisor",
+  "mortgage advisor": "mortgage broker", "mortgage specialist": "mortgage broker", "technical analyst": "information systems technical analyst",
+  "facilities supervisor": "facility operations manager", "facility supervisor": "facility operations manager", "facilities manager": "facilities manager",
+  "user experience designer": "user experience designer", "user experience user experience designer": "user experience designer",
+  "help desk support specialist": "help desk specialist", "help desk support": "help desk specialist",
+  "architecte technologique": "architecte d entreprise - technologies de l information ti",
+  "electrocardiogram technician": "electrocardiography technician", "ecg technician": "electrocardiography technician",
+  "associe de magasin de details": "retail store associate", "associe de magasin": "retail store associate",
+  "conseiller en salle de montre": "showroom sales assistant",
+};
+// a single one of these words names no occupation on its own
+const VAGUE = new Set("engineer architect manager director assistant associate specialist analyst consultant coordinator advisor adviser officer representative technician agent partner professional professionnel conseiller developpeur ingenieur".split(" "));
+// main words too general to name one occupation when the rest of the title is gone ("crate builder" is not a home builder)
+const GENERIC_HEAD = new Set("builder mechanic porter operator worker helper labourer laborer clerk attendant supervisor technologist installer repairer inspector maker assembler handler driver cleaner teacher instructor designer writer artist consultant".split(" "));
+function frenchOneForm(t) {
+  return t
+    .replace(/([A-Za-zÀ-ÿ])[·•.](e|ne|fe|euse|rice|trice|ice|ère|ere|ive|se)\b/g, "$1")              // Technicien.ne, Chef.fe, Développeur·euse
+    .replace(/([A-Za-zÀ-ÿ]{3,})\s*\/\s*(?:e|ne|ère|ere|euse|rice|trice)\b/gi, "$1")              // conseiller/ère
+    .replace(/\b([A-Za-zÀ-ÿ]{4,})(\s*\/\s*)([A-Za-zÀ-ÿ]+)\b/g, (m, a, sep, b) => (b.toLowerCase().startsWith(a.toLowerCase().slice(0, 4)) && b.length <= a.length + 3 ? a : m)); // Associé / Associée
+}
+let VOCAB = new WeakMap();
+function titleVocab(lib) {
+  if (!VOCAB.has(lib)) { const v = new Set(); for (const k of Object.keys(lib.title_index)) for (const w of norm(k).split(" ")) v.add(w); VOCAB.set(lib, v); }
+  return VOCAB.get(lib);
+}
+export function titleCandidates(lib, title) {
+  let t = String(title ?? "");
+  for (const [re, to] of ABBREV) t = t.replace(re, to);
+  t = frenchOneForm(t).replace(/\([^)]*\)|\[[^\]]*\]/g, " ").replace(/[_|:–—]/g, " - ").replace(/\s+-\s*-\s+/g, " - ");
+  const vocab = titleVocab(lib);
+  const out = [];
+  const push = (x) => { const c = TITLE_ALIAS[x] || x; if (c && !out.includes(c) && !(c.split(" ").length === 1 && VAGUE.has(c))) out.push(c); };
+  /* one piece of a title: level and contract words out, then (as a second try) the words no occupation title uses */
+  const clean = (x, main = true) => {
+    const w = norm(String(x).replace(TITLE_NOISE, " ")).replace(/\b(for|in|at|with) .*$/, "").split(" ").map((y) => y.replace(/^[-.]+|[-.]+$/g, "")).filter(Boolean);
+    const known = w.filter((y) => vocab.has(y));
+    const all = w.join(" ");
+    if (TITLE_ALIAS[all]) return [TITLE_ALIAS[all]];
+    const res = [all];
+    if (known.length && known.length < w.length) res.push(known.join(" "));                  // brand, product and place names
+    const k = known.length ? known : w;
+    if (main && k.length >= 2 && !VAGUE.has(k[k.length - 1]) && !GENERIC_HEAD.has(k[k.length - 1])) res.push(k[k.length - 1]);     // last try: the main word alone ("retail cashier" -> "cashier"), never for a qualifier such as "fast food"
+    return res;
+  };
+  push(norm(title));
+  const parts = t.split(/\s+-\s+|\s*\/\/+\s*|\s+\/\s+|\s*,\s*|\s+and\s+|\s+et\s+/i);
+  clean(t, parts.length === 1).forEach(push);
+  const segs = parts.map((x, i) => clean(x, i === 0)).filter((x) => x[0]);
+  segs.forEach((cs, i) => {
+    cs.forEach(push);
+    const s = cs[cs.length > 1 ? 1 : 0];
+    if (s.split(" ").length === 1 && VAGUE.has(s)) {                                          // "Engineer - Agentic AI", "Chief Architect - Data Engineering"
+      for (const o of [segs[i + 1], segs[i - 1]]) if (o) { push(o[0] + " " + s); push(s + " " + o[0]); }
+    }
+  });
+  return out;
+}
+// Returns { noc, code, name, how: "exact title" | "cleaned title" | "closest title", via } or { noc: null, how: "none" }.
+// The title as written comes first and its answer is kept whenever it has one, so every title found before keeps its occupation.
+// Only a title found nowhere is cleaned, and a cleaned title counts only when it is exactly an official title: a loose match on a
+// cleaned title was wrong too often ("general farm worker" -> an army "general").
+export function nocForTitle(lib, title, opts = {}) {
+  const first = matchTitle(lib, title, opts);
+  if (first.code) return first;
+  for (const c of titleCandidates(lib, title)) {
+    const code = lib.title_index[c];
+    if (code && nocsOf(code).length === 1) return { noc: code[0].slice(0, 5), code: code[0], name: lib.profiles[code[0]].name, how: "cleaned title", via: c };
+  }
+  return first;
+}
+
+// Wages and 3-year outlooks (docs/noc/market.json, built each month by noc_library/market.py from Job Bank open data), for Grow.
+// marketOf(market, "21232", "QC") -> { wage: {low, median, high, per}, outlook: "Good", where: "QC" }; falls back to Canada.
+export function marketOf(market, noc, prov = "CA") {
+  const m = market && market.nocs && market.nocs[String(noc).slice(0, 5)];
+  if (!m) return null;
+  const wage = (m.wage && (m.wage[prov] || m.wage.CA)) || null;
+  const outlook = (m.outlook && (m.outlook[prov] || m.outlook.CA)) || null;
+  return { wage, outlook, where: m.wage && m.wage[prov] ? prov : wage ? "CA" : prov };
 }
 
 // ------------------------------------------------------------------ small lookups

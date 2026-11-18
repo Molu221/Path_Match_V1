@@ -39,7 +39,36 @@ link to the real posting and the box to paste it. Pasting the employer's text sc
 - **exact title**: the title is a title of exactly one occupation ("supermarket butcher" → 63201);
 - **closest title**: the same words in the usual order ("driver, truck" → truck driver, 73300) or the closest known title
   with the same main word and most of the other words ("transportation coordinator" → transportation planning coordinator, 13201);
+- **cleaned title** (JavaScript only, November 2026): the title as written found nothing, so it was cleaned and the cleaned
+  title is exactly an official title. Cleaning cuts the employer, place, team and contract after a dash, bar or "//"; removes
+  level and contract words (Senior, Lead, II, Part Time, Permanent, Bilingual...); brings French inclusive forms back to one
+  form (Développeur·euse, Technicien.ne, Conseiller/Conseillère); spells out short forms (HR, QA, UX/UI, ECG); drops words no
+  official title uses (brand and product names); and, for the main part of the title only, tries its main word alone when that
+  word is specific ("Retail part time Cashier" → cashier; never "builder", "mechanic", "operator"...). A title found before is
+  never changed;
 - **none**: nothing close enough (the job stays title only).
+
+**Measured** on 100 titles checked by hand (`test/fixtures/noc_titles_100.json`, `node tools/noc_accuracy.mjs --show`):
+
+| | Before (Nov 17) | After | |
+| --- | --- | --- | --- |
+| Job Bank titles (50) | 46 right | 48 right, 0 wrong | with the October titles |
+| Titles of the other sites (50) | 19 right | 33 right | |
+| All 100 | 65 right, 4 wrong | 81 right, 6 wrong | |
+| 40 fresh titles of the other sites, not used to build the rules | 27 right, 2 wrong | 33 right, 2 wrong | the fairest number |
+
+On the 962 Job Bank titles of Nov 17, no title found before changes occupation; 21 more are found. Reading the posting text to
+settle vague titles was tried and made it worse (113 right → 102, wrong 8 → 25 on 140 titles): `findOccupations` was built for
+CVs and is misled by the company text of a posting, so it is not used for titles.
+
+## Monthly update: titles, languages, wages and outlooks
+
+`.github/workflows/noc-monthly.yml` runs on the 6th of each month (or from the Actions tab) and opens a pull request:
+- `noc_library/update_titles.py` adds the official titles of the newest Job Bank month (`docs/jobs/noc/postings.json`) and
+  replaces the languages-in-postings counts. October 2026 added 3,234 titles (65,831 → 69,065). Vague one-word titles stay out.
+- `noc_library/market.py` downloads the newest **wages** and **3-year employment outlooks** from the Open Government Portal (its
+  API finds the newest file) into `docs/noc/market.json`, by occupation and province, for Grow. In JavaScript,
+  `marketOf(market, "21232", "QC")` gives `{ wage: { low, median, high, per }, outlook: "Good" }`, falling back to Canada.
 
 ## What is inside, for each occupation
 

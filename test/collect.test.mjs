@@ -386,7 +386,7 @@ console.log("all tests passed:", out.jobs.length, "merged postings;", JSON.strin
 {
   const lib = c.loadNocLibrary();
   const jbJob = (title, desc, partial) => ({ company: "Shop", title, loc: "Laval, QC", sources: [{ src: "Job Bank", url: "https://www.jobbank.gc.ca/jobsearch/jobposting/1" }], desc, ...(partial ? { partial: true } : {}) });
-  const jobs = [jbJob("supermarket butcher", "", true), jbJob("driver, truck", "", true), jbJob("intern", "", true),
+  const jobs = [jbJob("supermarket butcher", "", true), jbJob("coordinator, transportation", "", true), jbJob("intern", "", true),   // "driver, truck" became an exact official title with the October 2026 Job Bank file
     jbJob("supermarket butcher", "Cut meat. Requirements: food safety.", false),
     { company: "Other", title: "supermarket butcher", loc: "Laval, QC", sources: [{ src: "Workday", url: "https://x" }], desc: "", partial: true }];
   const n = c.addOccupations(jobs, lib, () => {});

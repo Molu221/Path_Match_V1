@@ -34,7 +34,8 @@ assert.deepEqual(either.items.filter((i) => i.part === "languages").map((i) => [
 
 // one Job Bank title -> one occupation (the same in Python: noc_for_title)
 assert.deepEqual([nl.nocForTitle(lib, "supermarket butcher").noc, nl.nocForTitle(lib, "supermarket butcher").how], ["63201", "exact title"]);
-assert.deepEqual([nl.nocForTitle(lib, "driver, truck").noc, nl.nocForTitle(lib, "driver, truck").how], ["73300", "closest title"]);
+assert.deepEqual([nl.nocForTitle(lib, "driver, truck").noc, nl.nocForTitle(lib, "driver, truck").how], ["73300", "exact title"]);   // an official title since the October 2026 Job Bank file
+assert.deepEqual([nl.nocForTitle(lib, "coordinator, transportation").noc, nl.nocForTitle(lib, "coordinator, transportation").how], ["13201", "closest title"]);
 assert.equal(nl.nocForTitle(lib, "cook's helper").how, "exact title", "titles with an apostrophe or a slash are found");
 assert.equal(nl.nocForTitle(lib, "transportation coordinator").noc, "13201");
 assert.equal(nl.nocForTitle(lib, "intern").how, "none", "a vague title gives no occupation");
