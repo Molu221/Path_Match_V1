@@ -63,7 +63,7 @@ CVs and is misled by the company text of a posting, so it is not used for titles
 
 ## Monthly update: titles, languages, wages and outlooks
 
-`.github/workflows/noc-monthly.yml` runs on the 6th of each month (or from the Actions tab) and opens a pull request:
+`.github/workflows/noc-monthly.yml` runs on the 6th of each month (or from the Actions tab) and, if the tests pass, saves the update to the site:
 - `noc_library/update_titles.py` adds the official titles of the newest Job Bank month (`docs/jobs/noc/postings.json`) and
   replaces the languages-in-postings counts. October 2026 added 3,234 titles (65,831 → 69,065). Vague one-word titles stay out.
 - `noc_library/market.py` downloads the newest **wages** and **3-year employment outlooks** from the Open Government Portal (its

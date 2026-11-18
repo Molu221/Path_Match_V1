@@ -231,8 +231,9 @@ def outlooks(rows):
         e = dict(exact.get(n, {}))
         reg = {p: dict(cnt) for p, cnt in regions.get(n, {}).items()}
         for p, cnt in regions.get(n, {}).items():
-            if p not in e:                     # the most common outlook among its regions, the better one on a tie
-                e[p] = sorted(cnt.items(), key=lambda kv: (-kv[1], OUTLOOKS.index(kv[0])))[0][0]
+            if p not in e:                     # the most common outlook among its rated regions, the better one on a tie
+                rated = {k: v for k, v in cnt.items() if k != "Undetermined"} or dict(cnt)
+                e[p] = sorted(rated.items(), key=lambda kv: (-kv[1], OUTLOOKS.index(kv[0])))[0][0]
         out[n] = {"outlook": e, "outlookRegions": reg}
     return out, c
 
