@@ -1,0 +1,36 @@
+name: Data watchdog
+
+# Once a day, a few hours after the refresh: if the postings on the site are more than 30 hours old, the refresh did not
+# land (it failed, was cancelled, or did not start). Opens or comments on a "data-alert" issue, so everyone watching the
+# repository gets an email. From Nov 7 to Nov 10, 2026 the refresh failed four days running and nobody noticed.
+on:
+  schedule:
+    - cron: "37 23 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: docs/stats.json
+          sparse-checkout-cone-mode: false
+      - name: How old are the postings?
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          at=$(git log -1 --format=%ct -- docs/stats.json)
+          hours=$(( ( $(date +%s) - at ) / 3600 ))
+          echo "The last refresh landed $hours hours ago."
+          if [ "$hours" -le 30 ]; then exit 0; fi
+          gh label create data-alert --color B60205 --description "The daily refresh needs a person" 2>/dev/null || true
+          body="The postings on the site were last refreshed $hours hours ago. Check the Refresh postings runs: ${{ github.server_url }}/${{ github.repository }}/actions/workflows/refresh.yml"
+          n=$(gh issue list --label data-alert --state open --json number -q '.[0].number')
+          if [ -n "$n" ]; then gh issue comment "$n" --body "$body"
+          else gh issue create --title "Data alert: no refresh for $hours hours" --label data-alert --body "$body"; fi

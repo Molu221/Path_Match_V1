@@ -588,7 +588,8 @@ body.cmpon{padding-bottom:84px}
             <option value="1">Last 24 hours</option>
             <option value="7">Last 7 days</option>
             <option value="30">Last 30 days</option>
-            <option value="99" selected>Everything collected</option>
+            <option value="90" selected>Last 90 days</option>
+            <option value="99">Everything collected</option>
           </select>
         </div>
         <details class="panel" id="addpost">
@@ -1421,7 +1422,8 @@ function mapPanel(j){
      line under them says so. */
   const rr0=RES.find(x=>x.j===j),sc0=rr0&&rr0.s;
   const lead=sc0?`<p class="note" style="margin:4px 0 10px"><b>${sc0.matched} Match \u00b7 ${sc0.close} Close \u00b7 ${Math.max(0,sc0.asked-sc0.matched-sc0.close)} Gap</b> of the ${sc0.asked} keywords this posting asks for \u2014 the count the score is made of, the same one on the card. Words from the job title are not among them: they earn nothing.</p>`:"";
-  const head='<h3>Every keyword of the posting against your CV</h3>'+lead+pasteBox(j);
+  const bpNote=j.bp?`<p class="note" style="margin:0 0 10px">${j.bp} line${j.bp>1?"s":""} of company or legal text that the employer repeats across its postings ${j.bp>1?"were":"was"} left out, so it does not count as a skill. The original posting has the full text.</p>`:"";
+  const head='<h3>Every keyword of the posting against your CV</h3>'+lead+bpNote+pasteBox(j);
   if(!DICT)return head+'<p class="note">The dictionary is loading…</p>';
   const m=mapData(j),r=m.r,cv=m.cvf,t=m.tot;
   if(!m.rows.length)return head+`<p class="note">No keywords were found in this posting's ${hasText(j)?"text":"title"}.</p>`;
@@ -2894,7 +2896,7 @@ function paintProfile(){
 }
 
 /* ---------- dashboard controls ---------- */
-const DEFAULT_W="99";
+const DEFAULT_W="90";   // postings older than 90 days are often filled: hidden until "Everything collected" is chosen
 const FIELD_IDS=new Set(JobMeta.FIELD_LIST.map(f=>f.id));
 function readHash(){
   const p=new URLSearchParams(location.hash.slice(1));
@@ -2911,7 +2913,7 @@ function readHash(){
   F.rt=dl(p.get("r"));F.nt=dl(p.get("x"));F.sk=dl(p.get("sk"));F.lg=["noFr","fr"].includes(p.get("lg"))?p.get("lg"):"";
   F.ds=(p.get("ds")||"").slice(0,400);DS=F.ds?Describe.parse(F.ds,describeCtx()):null;dCompile();
   const me=p.get("me");if(/^[0-4]$/.test(me||""))ME=+me;
-  const w=p.get("w");$("window").value=["1","7","30","99"].includes(w)?w:DEFAULT_W;
+  const w=p.get("w");$("window").value=["1","7","30","90","99"].includes(w)?w:DEFAULT_W;
 }
 function writeHash(push){
   const p=new URLSearchParams();
