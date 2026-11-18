@@ -2,7 +2,7 @@
 path pays, and whether the occupation is hiring.
 
 Two datasets of the Open Government Portal (Employment and Social Development Canada, Open Government Licence - Canada):
-  - Wages:                     https://open.canada.ca/data/dataset/1dc7cdcd-5a1c-450a-9544-2a98a3011d61
+  - Wages:                     https://open.canada.ca/data/en/dataset/adad580f-76b0-4502-bd05-20c125de9116
   - 3-Year Employment Outlooks: https://open.canada.ca/data/dataset/b0e112e9-cf53-4e79-8838-23cd98debe5b
 The portal's own API (package_show) gives the newest file of each, so a new year's file is picked up without changing the code.
 Their column names change from year to year, so columns are found by what they hold (a NOC code, a median, an outlook...),
@@ -24,12 +24,14 @@ import os
 import re
 import statistics
 import sys
+import urllib.parse
 import urllib.request
 from collections import Counter, defaultdict
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 API = "https://open.canada.ca/data/api/action/package_show?id="
-WAGES_ID = "1dc7cdcd-5a1c-450a-9544-2a98a3011d61"
+WAGES_ID = "adad580f-76b0-4502-bd05-20c125de9116"      # (1dc7cdcd-... is Ontario's 2017 wage file, not Job Bank's)
+SEARCH = "https://open.canada.ca/data/api/action/package_search?rows=20&q="
 OUTLOOK_ID = "b0e112e9-cf53-4e79-8838-23cd98debe5b"
 UA = {"User-Agent": "path-match/1.0 (+https://github.com/Molu221/Path_Match_V1)"}
 
@@ -47,9 +49,29 @@ def fetch(url):
         return r.read()
 
 
-def newest_csv(dataset_id):
+def find_dataset(dataset_id, must, query):
+    """the dataset with that id if its title has `must` in it; otherwise the portal is searched for it by name"""
+    def title(p):
+        t = p.get("title_translated") or p.get("title") or ""
+        return t.get("en", "") if isinstance(t, dict) else str(t)
+    try:
+        pkg = json.loads(fetch(API + dataset_id))["result"]
+        if re.search(must, title(pkg), re.I):
+            return pkg
+        print(f"Dataset {dataset_id} is \"{title(pkg)}\", not what we need: searching the portal.")
+    except Exception as e:
+        print(f"Dataset {dataset_id}: {e}; searching the portal.")
+    for p in json.loads(fetch(SEARCH + urllib.parse.quote(query)))["result"]["results"]:
+        if re.search(must, title(p), re.I) and any((r.get("format") or "").upper() == "CSV" for r in p.get("resources", [])):
+            print(f"Found: {title(p)} ({p['id']})")
+            return p
+    raise SystemExit(f"No dataset found for {query!r}")
+
+
+def newest_csv(dataset_id, must=".", query=""):
     """The newest CSV of a dataset, English or bilingual first, by the date the portal gives (or a year in its name)."""
-    pkg = json.loads(fetch(API + dataset_id))["result"]
+    pkg = find_dataset(dataset_id, must, query)
+    dataset_id = pkg["id"]
     res = pkg["resources"]
     title = pkg.get("title") if isinstance(pkg.get("title"), str) else json.dumps(pkg.get("title_translated") or pkg.get("title"))
     print(f"Dataset {dataset_id}: {title} ({len(res)} files)")
@@ -220,8 +242,8 @@ def main():
         wr, orr = (read_table(open(opt(k), "rb").read()) for k in ("--wages", "--outlook"))
         meta = {"wagesFile": os.path.basename(opt("--wages")), "outlookFile": os.path.basename(opt("--outlook"))}
     else:
-        wu, wn = newest_csv(WAGES_ID)
-        ou, on = newest_csv(OUTLOOK_ID)
+        wu, wn = newest_csv(WAGES_ID, r"^wages$|job bank.*wage|wages.*(occupation|noc)|^wages\b", "Job Bank wages")
+        ou, on = newest_csv(OUTLOOK_ID, r"outlook", "3-year employment outlooks")
         print(f"Wages: {wn}\n  {wu}\nOutlooks: {on}\n  {ou}")
         wr, orr = read_table(fetch(wu)), read_table(fetch(ou))
         meta = {"wagesDataset": WAGES_ID, "wagesFile": wu, "outlookDataset": OUTLOOK_ID, "outlookFile": ou}
