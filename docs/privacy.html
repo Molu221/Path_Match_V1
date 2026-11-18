@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Path Match privacy</title>
+<meta name="description" content="What Path Match keeps about you, where, for how long, and how to delete it.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..900&family=Public+Sans:wght@400;500;600;700&display=swap">
+<style>
+:root{--bg:#f0f5f4;--panel:#fff;--ink:#0f2628;--mute:#53696a;--line:#d2e0de;--accent:#0d6a72;--accent-soft:#dcefed;--ok:#1d7a45;--f-body:"Public Sans",system-ui,sans-serif;--f-disp:"Archivo",system-ui,sans-serif;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0a1718;--panel:#112527;--ink:#e4f1ef;--mute:#9db7b4;--line:#244245;--accent:#5ec9cf;--accent-soft:#12363a;--ok:#7fd49a;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0a1718;--panel:#112527;--ink:#e4f1ef;--mute:#9db7b4;--line:#244245;--accent:#5ec9cf;--accent-soft:#12363a;--ok:#7fd49a;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.6}
+main{max-width:820px;margin:0 auto;padding:28px 16px 60px}
+h1,h2{font-family:var(--f-disp);line-height:1.15;margin:0}
+h1{font-size:30px;margin:6px 0 6px}
+h2{font-size:19px;margin:34px 0 10px}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.note{color:var(--mute);font-size:13.5px}
+.lead{font-size:17px;margin:12px 0 0}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:14px 0}
+.short{background:var(--accent-soft);border-color:transparent}
+.short ul{margin:6px 0 0;padding-left:20px}
+.tbl{width:100%;overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:520px}
+th,td{text-align:left;vertical-align:top;padding:8px 10px;border-top:1px solid var(--line)}
+th{font-weight:650;white-space:nowrap}
+ol li,ul li{margin:4px 0}
+button{font:inherit;font-weight:600;background:var(--accent);color:var(--panel);border:0;border-radius:8px;padding:10px 16px;cursor:pointer}
+button:hover{filter:brightness(1.08)}
+#done{margin:10px 0 0;color:var(--ok);font-weight:600;min-height:1.6em}
+.back{display:inline-block;margin-bottom:6px}
+</style>
+</head>
+<body>
+<main>
+<a class="back note" href="./">← Back to Path Match</a>
+<h1>Your data on Path Match</h1>
+<p class="note">Last updated November 17, 2026 · <a href="#fr" lang="fr">Version française</a></p>
+
+<div class="card short">
+  <b>In short</b>
+  <ul>
+    <li>Your CV is read <b>in your browser</b>. It is never sent to us or to anyone, and it is forgotten when you close the tab.</li>
+    <li>Your preferences, saved jobs and pasted postings stay <b>in this browser on your device</b>, until you delete them below.</li>
+    <li>We have no server, no account, no ads and no tracking.</li>
+    <li>Reading your email is <b>not built yet</b>. When it is, it will only start after a separate, clear "yes" from you (rules below).</li>
+  </ul>
+</div>
+
+<h2>What the site keeps, and where</h2>
+<div class="tbl"><table>
+  <tr><th>What</th><th>Where</th><th>How long</th></tr>
+  <tr><td>Your CV text</td><td>This browser tab only (session storage)</td><td>Until you close the tab, or press "Remove my CV"</td></tr>
+  <tr><td>Your choices: stage, places, kinds of work, languages</td><td>This browser (local storage)</td><td>Until you delete them</td></tr>
+  <tr><td>Saved postings, hidden postings, postings you added or pasted</td><td>This browser (local storage)</td><td>Until you delete them</td></tr>
+  <tr><td>Profile extras: certifications, licences, languages</td><td>This browser (local storage)</td><td>Until you delete them</td></tr>
+  <tr><td>Job postings</td><td>Our public files on GitHub</td><td>Public job ads, refreshed every day</td></tr>
+</table></div>
+<p class="note">Nothing in this list leaves your device. Another person using the same browser could see it, so delete it on a shared computer.</p>
+
+<h2>Delete everything this site keeps in this browser</h2>
+<div class="card">
+  <p style="margin:0 0 10px">This removes your CV, choices, saved and pasted postings and profile extras from this browser. It cannot be undone.</p>
+  <button type="button" id="wipe">Delete my Path Match data</button>
+  <p id="done" role="status" aria-live="polite"></p>
+</div>
+
+<h2>What other companies can see</h2>
+<p>Like any website, the services that deliver the page see your IP address and browser type when you open it. They do not see your CV.</p>
+<ul>
+  <li><b>GitHub Pages</b> (Microsoft) hosts the site.</li>
+  <li><b>Google Fonts</b> delivers the fonts.</li>
+  <li><b>cdnjs</b> (Cloudflare) delivers the code that reads PDF and Word files, and <b>jsDelivr</b> the code that reads a photo of a CV, only when you use it. That code runs in your browser.</li>
+</ul>
+<p>When you open a posting, you go to the employer's or job board's own site, and its privacy rules apply there.</p>
+
+<h2>Email features (coming in 2027)</h2>
+<p>Path Match may offer to find your application emails (confirmations, tests, interviews, offers, rejections) in Gmail or Outlook. If it does, these rules apply:</p>
+<ol>
+  <li><b>Consent first, and only for this.</b> A separate screen, an unticked box, and "Not now" keeps the site working.</li>
+  <li><b>Only job emails.</b> Every other email is skipped and never kept.</li>
+  <li><b>Read-only.</b> We never send, delete, move or mark your emails.</li>
+  <li><b>The minimum.</b> Sender, subject, date, employer, job title and status of each job email. Not the full email, not attachments.</li>
+  <li><b>Short.</b> Deleted 90 days after your last visit, and everything at the end of the project (April 2027).</li>
+  <li><b>Easy to stop.</b> "Disconnect" removes our access and deletes what we kept within 24 hours; you can export it first.</li>
+  <li><b>No sharing, no selling, no ads, no AI training.</b></li>
+  <li><b>Off by default.</b></li>
+  <li><b>Secure.</b> Access keys are encrypted and never put in our code, logs or screenshots.</li>
+  <li><b>One person answers for it</b> (below), and any incident is recorded the same day.</li>
+</ol>
+
+<h2>Your rights and who to ask</h2>
+<p>Path Match is a student project of Concordia University's Gina Cody School of Engineering (INDU 6993, Montréal), and follows Quebec's privacy law (Law 25). You can ask what we hold about you, have it corrected or deleted, get a copy, or withdraw your consent at any time.</p>
+<p>The person in charge of personal information for the project is <b>Loïg Glo</b>. Contact: <a href="https://github.com/Molu221/Path_Match_V1/issues/new?title=Privacy%20question&labels=privacy">open a privacy question on GitHub</a><!-- PROJECT_EMAIL: add the project's contact email here -->. You can also complain to the <a href="https://www.cai.gouv.qc.ca/">Commission d'accès à l'information du Québec</a>.</p>
+
+<h2 id="fr" lang="fr">En bref (français)</h2>
+<div class="card" lang="fr">
+  <ul style="margin:0;padding-left:20px">
+    <li>Votre CV est lu <b>dans votre navigateur</b>. Il n'est jamais envoyé, et il est oublié quand vous fermez l'onglet.</li>
+    <li>Vos préférences, offres enregistrées et offres collées restent <b>dans ce navigateur, sur votre appareil</b>, jusqu'à ce que vous les supprimiez avec le bouton ci-dessus.</li>
+    <li>Aucun serveur, aucun compte, aucune publicité, aucun suivi.</li>
+    <li>La lecture de vos courriels n'existe pas encore. Si elle arrive, elle ne commencera qu'après un « oui » clair et séparé : seulement les courriels de candidature, en lecture seule, le minimum conservé, effacé après 90 jours.</li>
+    <li>Responsable de la protection des renseignements personnels : <b>Loïg Glo</b> (Loi 25). Vous pouvez demander l'accès, la correction, la suppression ou une copie de vos données, et retirer votre consentement en tout temps.</li>
+  </ul>
+</div>
+</main>
+<script>
+/* Only Path Match's own keys: other sites on molu221.github.io share this browser storage. */
+function wipePathMatch(local, session) {
+  var n = 0, keys = [];
+  for (var i = 0; i < local.length; i++) { var k = local.key(i); if (k && k.indexOf("pm_") === 0) keys.push(k); }
+  keys.forEach(function (k) { local.removeItem(k); n++; });
+  if (session && session.getItem("pm_cv") != null) { session.removeItem("pm_cv"); n++; }
+  return n;
+}
+document.getElementById("wipe").addEventListener("click", function () {
+  var out = document.getElementById("done");
+  try {
+    var n = wipePathMatch(window.localStorage, window.sessionStorage);
+    out.textContent = n ? "Done: " + n + " item" + (n > 1 ? "s" : "") + " deleted from this browser." : "There was nothing to delete in this browser.";
+  } catch (e) { out.textContent = "This browser blocked access to its storage, so there is nothing we could have kept here."; }
+});
+</script>
+</body>
+</html>
