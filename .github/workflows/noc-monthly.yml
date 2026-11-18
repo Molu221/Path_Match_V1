@@ -27,9 +27,9 @@ jobs:
         with:
           python-version: "3.12"
       - name: Add the month's official titles
-        run: python3 noc_library/update_titles.py | tee -a "$GITHUB_STEP_SUMMARY"
+        run: set -o pipefail; python3 noc_library/update_titles.py | tee -a "$GITHUB_STEP_SUMMARY"
       - name: Download wages and outlooks
-        run: python3 noc_library/market.py | tee -a "$GITHUB_STEP_SUMMARY"
+        run: set -o pipefail; python3 noc_library/market.py | tee -a "$GITHUB_STEP_SUMMARY"
       - name: Check nothing broke
         run: npm test
       - name: Open a pull request

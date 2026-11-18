@@ -49,12 +49,15 @@ def fetch(url):
 
 def newest_csv(dataset_id):
     """The newest CSV of a dataset, English or bilingual first, by the date the portal gives (or a year in its name)."""
-    res = json.loads(fetch(API + dataset_id))["result"]["resources"]
+    pkg = json.loads(fetch(API + dataset_id))["result"]
+    res = pkg["resources"]
+    title = pkg.get("title") if isinstance(pkg.get("title"), str) else json.dumps(pkg.get("title_translated") or pkg.get("title"))
+    print(f"Dataset {dataset_id}: {title} ({len(res)} files)")
     rows = []
     for r in res:
         fmt = (r.get("format") or "").upper()
         url = r.get("url") or ""
-        if fmt != "CSV" and not url.lower().endswith(".csv"):
+        if fmt != "CSV" and ".csv" not in url.lower():
             continue
         lang = r.get("language") or []
         lang = lang if isinstance(lang, list) else [lang]
@@ -62,6 +65,8 @@ def newest_csv(dataset_id):
         years = [int(y) for y in re.findall(r"20\d\d", name + url)]
         rows.append((("en" in lang) or not lang, max(years) if years else 0, r.get("last_modified") or r.get("created") or "", url, name))
     if not rows:
+        for r in res[:40]:
+            print("  file:", r.get("format"), r.get("language"), (r.get("url") or "")[:140], json.dumps(r.get("name"))[:80])
         raise SystemExit(f"No CSV in dataset {dataset_id}")
     rows.sort(reverse=True)
     return rows[0][3], rows[0][4]
