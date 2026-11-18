@@ -29,7 +29,7 @@ ok("a second press finds nothing left", ctx.wipePathMatch(local, session) === 0)
 ok("the page says the CV stays in the browser tab", /never sent to us/.test(html) && /session storage/.test(html));
 ok("it lists every place the site keeps something", ["CV text", "choices", "Saved postings", "Profile extras"].every((w) => html.includes(w)));
 ok("it names the outside services that see a visit", ["GitHub Pages", "Google Fonts", "cdnjs", "jsDelivr"].every((w) => html.includes(w)));
-ok("it gives the ten email rules", (html.match(/<li><b>/g) || []).length >= 10 && /Read-only/.test(html) && /90 days/.test(html));
+ok("about email it only says the features are coming", /Email features are coming\./.test(html) && !/Read-only/.test(html) && /arrivent bientôt/.test(html));
 ok("it names the person in charge and the Quebec regulator (Law 25)", /Loïg Glo/.test(html) && /cai\.gouv\.qc\.ca/.test(html) && /Law 25/.test(html));
 ok("it has a French summary", /lang="fr"/.test(html) && /Loi 25/.test(html));
 ok("the start page and the CV page link to it", (index.match(/href="privacy\.html"/g) || []).length >= 2);
