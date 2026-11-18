@@ -1,0 +1,28 @@
+name: Tests
+
+# Every pull request, and every change that lands on main, runs the whole test suite.
+# Before this, the tests only ran when someone remembered to run them, or inside the weekly
+# skills agent - so a change could be merged that broke the matching and nothing would say so.
+# A red X on a pull request now means: do not merge yet, something the tests guard has broken.
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run every test
+        run: npm test
