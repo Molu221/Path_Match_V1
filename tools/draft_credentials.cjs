@@ -22,7 +22,7 @@ const dict = docsJson("skills.json");
 const eng = M.engine(dict);
 const cp = path.join(dir, "credentials.json");
 const C = JSON.parse(fs.readFileSync(cp, "utf8"));
-const GENERAL = new Set((dict.general || []).concat(dict.soft || []));
+const GENERAL = new Set((dict.general || []).concat(dict.soft || [], ((dict.general_learned || {}).skills || []).map((x) => x.n)));
 const STOPW = new Set(["and", "the", "for", "with", "des", "les", "and/or"]);
 
 let total = 0;

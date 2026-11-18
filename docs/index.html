@@ -3076,7 +3076,7 @@ async function loadDict(){
   try{
     const r=await fetch("skills.json?t="+Date.now(),{cache:"no-store"});
     if(!r.ok)throw new Error("HTTP "+r.status);
-    const dj=await r.json();CV_HEADINGS=dj.cv_headings||[];GENERAL=new Set((dj.general||[]).concat(dj.soft||[]));DICT=Matcher.engine(dj);
+    const dj=await r.json();CV_HEADINGS=dj.cv_headings||[];GENERAL=new Set((dj.general||[]).concat(dj.soft||[],((dj.general_learned||{}).skills||[]).map(x=>x.n)));   /* general_learned: tools/learn_general.mjs, from the postings */DICT=Matcher.engine(dj);
     /* I-15: the credentials map, if it is published beside the dictionary */
     try{const rc=await fetch("credentials.json");if(rc.ok){CREDS=await rc.json();
       /* the map can arrive after a CV has already been read: forget what was worked out without it */
