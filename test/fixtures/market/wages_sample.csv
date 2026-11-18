@@ -1,0 +1,6 @@
+NOC_CNP,NOC_Title_eng,prov,ER_Code_Code_RE,ER_Name,Low_Wage_Salaire_Minium,Median_Wage_Salaire_Median,High_Wage_Salaire_Maximal,Annual_Wage_Flag_Salaire_annuel,Reference_Period
+NOC_21232,Software developers and programmers,NAT,ER00,Canada,28.00,45.00,70.00,0,2023-2024
+NOC_21232,Software developers and programmers,QC,ER24,Quebec,26.00,42.00,62.00,0,2023-2024
+NOC_21232,Software developers and programmers,ON,ER3510,Toronto,30.00,48.00,75.00,0,2023-2024
+NOC_21232,Software developers and programmers,ON,ER3530,Ottawa,29.00,46.00,72.00,0,2023-2024
+NOC_00010,Legislators,NAT,ER00,Canada,90000,120000,180000,1,2023-2024

@@ -12,7 +12,8 @@ LIB = nl.load(os.path.join(ROOT, "docs", "noc", "noc_library.lite.json"))
 
 class NocForTitle(unittest.TestCase):
     def test_titles(self):
-        cases = {"supermarket butcher": ("63201", "exact title"), "driver, truck": ("73300", "closest title"),
+        cases = {"supermarket butcher": ("63201", "exact title"), "driver, truck": ("73300", "exact title"),   # an official title since the October 2026 Job Bank file
+                 "coordinator, transportation": ("13201", "closest title"),
                  "cook's helper": (None, "exact title"), "transportation coordinator": ("13201", None),
                  "intern": (None, "none"), "": (None, "none")}
         for title, (noc, how) in cases.items():

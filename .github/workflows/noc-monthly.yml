@@ -1,0 +1,49 @@
+name: Update the NOC library
+
+# Once a month, after Job Bank publishes its new open data file (the daily refresh saves it in docs/jobs/noc):
+#   1. noc_library/update_titles.py adds that month's official job titles and posting languages to the library;
+#   2. noc_library/market.py downloads the newest wages and 3-year employment outlooks (Open Government Portal) into
+#      docs/noc/market.json, for Grow.
+# The tests run, then a pull request is opened, so a person approves the change before it reaches the site.
+on:
+  schedule:
+    - cron: "23 9 6 * *"          # the 6th of each month
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Add the month's official titles
+        run: python3 noc_library/update_titles.py | tee -a "$GITHUB_STEP_SUMMARY"
+      - name: Download wages and outlooks
+        run: python3 noc_library/market.py | tee -a "$GITHUB_STEP_SUMMARY"
+      - name: Check nothing broke
+        run: npm test
+      - name: Open a pull request
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          BRANCH="noc-update-$(date +%Y-%m-%d-%H%M)"
+          git config user.name "path-match-bot"
+          git config user.email "path-match-bot@users.noreply.github.com"
+          git checkout -b "$BRANCH"
+          git add docs/noc/noc_library.lite.json docs/noc/market.json
+          if git diff --cached --quiet; then echo "Nothing new this month."; exit 0; fi
+          git commit -m "NOC library: titles, languages, wages and outlooks, $(date +%Y-%m)"
+          git push -u origin "$BRANCH"
+          gh pr create --title "NOC library update, $(date +%Y-%m)" --body "Monthly update: the newest Job Bank titles and posting languages, and the newest wages and 3-year outlooks. Made by .github/workflows/noc-monthly.yml; npm test passed." \
+            || echo "The update is on branch $BRANCH (turn on 'Allow GitHub Actions to create and approve pull requests' to get a pull request)."

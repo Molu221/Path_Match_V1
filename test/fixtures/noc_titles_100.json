@@ -1,0 +1,772 @@
+{
+ "_note": "100 job titles drawn at random (seed 20261117) from the postings of Nov 17, 2026: 50 Job Bank daily titles (the ones the library labels today) and 50 titles from the other sites. 'accept' is every NOC 2021 code (5 digits) that is a right answer, checked by hand against the official OaSIS title index; 'none' means giving no occupation is also right (a vague or non-job title). Prepared by Claude for Loïg Glo to review: change an 'accept' list here and the accuracy is measured again by tools/noc_accuracy.mjs.",
+ "titles": [
+  {
+   "title": "sourcing specialist",
+   "source": "Job Bank",
+   "accept": [
+    "12102"
+   ]
+  },
+  {
+   "title": "booking clerk - medical office",
+   "source": "Job Bank",
+   "accept": [
+    "14101",
+    "13112"
+   ]
+  },
+  {
+   "title": "Heavy Equipment Operator",
+   "source": "Job Bank",
+   "accept": [
+    "73400"
+   ]
+  },
+  {
+   "title": "community worker",
+   "source": "Job Bank",
+   "accept": [
+    "42201"
+   ]
+  },
+  {
+   "title": "class dz (air brake endorsement) truck driver",
+   "source": "Job Bank",
+   "accept": [
+    "73300"
+   ]
+  },
+  {
+   "title": "cloud administrator",
+   "source": "Job Bank",
+   "accept": [
+    "21231",
+    "22220"
+   ]
+  },
+  {
+   "title": "dump truck driver",
+   "source": "Job Bank",
+   "accept": [
+    "73300"
+   ]
+  },
+  {
+   "title": "dental technician assistant",
+   "source": "Job Bank",
+   "accept": [
+    "33100"
+   ]
+  },
+  {
+   "title": "cloud developer",
+   "source": "Job Bank",
+   "accept": [
+    "21232"
+   ]
+  },
+  {
+   "title": "early childhood assistant",
+   "source": "Job Bank",
+   "accept": [
+    "42202"
+   ]
+  },
+  {
+   "title": "halfway house worker",
+   "source": "Job Bank",
+   "accept": [
+    "42201"
+   ]
+  },
+  {
+   "title": "administrative manager",
+   "source": "Job Bank",
+   "accept": [
+    "10019"
+   ]
+  },
+  {
+   "title": "Cannabis processing labourer",
+   "source": "Job Bank",
+   "accept": [
+    "95106"
+   ]
+  },
+  {
+   "title": "telecommunications equipment technician",
+   "source": "Job Bank",
+   "accept": [
+    "72205"
+   ]
+  },
+  {
+   "title": "production labourer - food processing",
+   "source": "Job Bank",
+   "accept": [
+    "95106"
+   ]
+  },
+  {
+   "title": "educational assistant",
+   "source": "Job Bank",
+   "accept": [
+    "43100"
+   ]
+  },
+  {
+   "title": "demolition worker",
+   "source": "Job Bank",
+   "accept": [
+    "75110"
+   ]
+  },
+  {
+   "title": "dairy farm labourer",
+   "source": "Job Bank",
+   "accept": [
+    "85100"
+   ]
+  },
+  {
+   "title": "heavy-duty equipment mechanic apprentice",
+   "source": "Job Bank",
+   "accept": [
+    "72401"
+   ]
+  },
+  {
+   "title": "personal support aide - home aide",
+   "source": "Job Bank",
+   "accept": [
+    "44101"
+   ]
+  },
+  {
+   "title": "automation engineer - software",
+   "source": "Job Bank",
+   "accept": [
+    "21231"
+   ]
+  },
+  {
+   "title": "warehouse receiver",
+   "source": "Job Bank",
+   "accept": [
+    "14400"
+   ]
+  },
+  {
+   "title": "human resources generalist",
+   "source": "Job Bank",
+   "accept": [
+    "11200"
+   ]
+  },
+  {
+   "title": "press brake operator - metal products manufacturing",
+   "source": "Job Bank",
+   "accept": [
+    "94105"
+   ]
+  },
+  {
+   "title": "field-grown crop farm labourer - harvesting",
+   "source": "Job Bank",
+   "accept": [
+    "85101",
+    "84120"
+   ]
+  },
+  {
+   "title": "head janitor",
+   "source": "Job Bank",
+   "accept": [
+    "62024"
+   ]
+  },
+  {
+   "title": "camp cook's helper",
+   "source": "Job Bank",
+   "accept": [
+    "65201"
+   ]
+  },
+  {
+   "title": "automotive service manager",
+   "source": "Job Bank",
+   "accept": [
+    "60020"
+   ]
+  },
+  {
+   "title": "dental treatment coordinator",
+   "source": "Job Bank",
+   "accept": [
+    "14101"
+   ]
+  },
+  {
+   "title": "mould designer",
+   "source": "Job Bank",
+   "accept": [
+    "22212",
+    "21301",
+    "22301"
+   ]
+  },
+  {
+   "title": "network support engineer",
+   "source": "Job Bank",
+   "accept": [
+    "21311"
+   ]
+  },
+  {
+   "title": "key holder - retail store",
+   "source": "Job Bank",
+   "accept": [
+    "62010"
+   ]
+  },
+  {
+   "title": "logistics team leader",
+   "source": "Job Bank",
+   "accept": [
+    "12013"
+   ]
+  },
+  {
+   "title": "telemarketer",
+   "source": "Job Bank",
+   "accept": [
+    "65109"
+   ]
+  },
+  {
+   "title": "kitchen helper",
+   "source": "Job Bank",
+   "accept": [
+    "65201"
+   ]
+  },
+  {
+   "title": "truck trailer mechanic",
+   "source": "Job Bank",
+   "accept": [
+    "72410"
+   ]
+  },
+  {
+   "title": "bag clerk",
+   "source": "Job Bank",
+   "accept": [
+    "65102"
+   ]
+  },
+  {
+   "title": "manager, labour relations",
+   "source": "Job Bank",
+   "accept": [
+    "10011"
+   ]
+  },
+  {
+   "title": "comptroller",
+   "source": "Job Bank",
+   "accept": [
+    "10010"
+   ]
+  },
+  {
+   "title": "vegetable packer - farm",
+   "source": "Job Bank",
+   "accept": [
+    "85101"
+   ]
+  },
+  {
+   "title": "senior software developer",
+   "source": "Job Bank",
+   "accept": [
+    "21232"
+   ]
+  },
+  {
+   "title": "laser technician",
+   "source": "Job Bank",
+   "accept": [
+    "22310"
+   ]
+  },
+  {
+   "title": "butcher helper",
+   "source": "Job Bank",
+   "accept": [
+    "95106",
+    "65202"
+   ]
+  },
+  {
+   "title": "log truck driver",
+   "source": "Job Bank",
+   "accept": [
+    "73300"
+   ]
+  },
+  {
+   "title": "marketing assistant",
+   "source": "Job Bank",
+   "accept": [
+    "11202"
+   ]
+  },
+  {
+   "title": "order picker",
+   "source": "Job Bank",
+   "accept": [
+    "65102",
+    "75101"
+   ]
+  },
+  {
+   "title": "passenger service attendant - railway",
+   "source": "Job Bank",
+   "accept": [
+    "65210"
+   ],
+   "note": "official Job Bank title from the October 2026 file"
+  },
+  {
+   "title": "museum educator",
+   "source": "Job Bank",
+   "accept": [
+    "11202"
+   ]
+  },
+  {
+   "title": "child and youth worker",
+   "source": "Job Bank",
+   "accept": [
+    "42201"
+   ]
+  },
+  {
+   "title": "journeyman/woman automotive mechanic",
+   "source": "Job Bank",
+   "accept": [
+    "72410"
+   ]
+  },
+  {
+   "title": "Associé / Associée de Magasin de Détails Temps Partiel Winners/HomeSense - Méga Centre Lebourgneuf -",
+   "source": "other sites",
+   "accept": [
+    "64100",
+    "65100"
+   ]
+  },
+  {
+   "title": "Body Shop Estimator / Office Manager",
+   "source": "other sites",
+   "accept": [
+    "72411",
+    "13100"
+   ]
+  },
+  {
+   "title": "Applications Open: CircleCat Spring 2027 - 循环猫导师计划学员 (Mentorship Program Mentee)",
+   "source": "other sites",
+   "accept": [
+    "none"
+   ]
+  },
+  {
+   "title": "Principal Enterprise Compliance Architect",
+   "source": "other sites",
+   "accept": [
+    "21222",
+    "21231"
+   ]
+  },
+  {
+   "title": "Artiste technique IU (March of Giants)",
+   "source": "other sites",
+   "accept": [
+    "52120",
+    "21233",
+    "21234"
+   ]
+  },
+  {
+   "title": "Associate Director, Fund Onboarding & Accounting, Private Equity",
+   "source": "other sites",
+   "accept": [
+    "10010",
+    "11100"
+   ]
+  },
+  {
+   "title": "Bilingual Administrative Coordinator",
+   "source": "other sites",
+   "accept": [
+    "13100",
+    "13110"
+   ]
+  },
+  {
+   "title": "Business Banking Specialist",
+   "source": "other sites",
+   "accept": [
+    "63102",
+    "11102",
+    "64400"
+   ]
+  },
+  {
+   "title": "MANAGER, SOFTWARE DEVELOPMENT: AI STUDIO",
+   "source": "other sites",
+   "accept": [
+    "20012"
+   ]
+  },
+  {
+   "title": "Client and Family Advisory Committee Role",
+   "source": "other sites",
+   "accept": [
+    "none"
+   ]
+  },
+  {
+   "title": "Électromécanicien - Maintenance sur la route - Jour",
+   "source": "other sites",
+   "accept": [
+    "72422",
+    "72400"
+   ]
+  },
+  {
+   "title": "Bilingual Customer Support Representative (French and English) - Part-time",
+   "source": "other sites",
+   "accept": [
+    "64409",
+    "62100"
+   ]
+  },
+  {
+   "title": "Nurse Practitioner - HART Hub 0.5 FTE -PPT",
+   "source": "other sites",
+   "accept": [
+    "31302"
+   ]
+  },
+  {
+   "title": "Développeur·euse Guidewire",
+   "source": "other sites",
+   "accept": [
+    "21232"
+   ]
+  },
+  {
+   "title": "Sales Specialist– POLY Video/Voice Solutions",
+   "source": "other sites",
+   "accept": [
+    "62100"
+   ]
+  },
+  {
+   "title": "Senior Executive Assistant, Marketing",
+   "source": "other sites",
+   "accept": [
+    "12100"
+   ]
+  },
+  {
+   "title": "Mobile Mortgage Advisor (Toronto West/Vaughan, ON) - 100% Commission",
+   "source": "other sites",
+   "accept": [
+    "63102",
+    "63101",
+    "11102",
+    "11109"
+   ]
+  },
+  {
+   "title": "Retail Store Associate Part Time Seasonal Winners_Bathurst and College",
+   "source": "other sites",
+   "accept": [
+    "64100",
+    "65100"
+   ]
+  },
+  {
+   "title": "Chef.fe d'équipe Informatique (Online)",
+   "source": "other sites",
+   "accept": [
+    "20012",
+    "22221",
+    "22222"
+   ]
+  },
+  {
+   "title": "Electrocardiogram (ECG / EKG) Technician - Entry Level Training Program",
+   "source": "other sites",
+   "accept": [
+    "32123"
+   ]
+  },
+  {
+   "title": "Facilities Supervisor",
+   "source": "other sites",
+   "accept": [
+    "70012",
+    "72024",
+    "62024"
+   ]
+  },
+  {
+   "title": "Architecte technologique senior",
+   "source": "other sites",
+   "accept": [
+    "21222",
+    "21231"
+   ]
+  },
+  {
+   "title": "Architecte Logiciel Embarqué / Embedded Software Architect",
+   "source": "other sites",
+   "accept": [
+    "21231"
+   ]
+  },
+  {
+   "title": "On-Site Office Manager - Part time",
+   "source": "other sites",
+   "accept": [
+    "13100"
+   ]
+  },
+  {
+   "title": "Senior Technical Analyst, BORN Ontario – Permanent Full-Time (1.0)",
+   "source": "other sites",
+   "accept": [
+    "21222",
+    "21223",
+    "21221"
+   ]
+  },
+  {
+   "title": "Specialist, Vision Rehabilitation",
+   "source": "other sites",
+   "accept": [
+    "42203",
+    "31209"
+   ]
+  },
+  {
+   "title": "Chief Architect - Data Engineering (Databricks Practice)",
+   "source": "other sites",
+   "accept": [
+    "21222",
+    "21223",
+    "21231",
+    "21211"
+   ]
+  },
+  {
+   "title": "Forward Deployed Engineer (Generative AI)",
+   "source": "other sites",
+   "accept": [
+    "21231",
+    "21232"
+   ]
+  },
+  {
+   "title": "Professionnel, ingénierie - Integrateur d'installation de systèmes",
+   "source": "other sites",
+   "accept": [
+    "21311",
+    "21310",
+    "21301",
+    "21399"
+   ]
+  },
+  {
+   "title": "Flu Clinic Nurse",
+   "source": "other sites",
+   "accept": [
+    "31301"
+   ]
+  },
+  {
+   "title": "COBS Bread Sagehill - Sales Assistant - Part-time (flexible schedule only)",
+   "source": "other sites",
+   "accept": [
+    "64100",
+    "65201",
+    "65102"
+   ]
+  },
+  {
+   "title": "Developing Investment Advisor",
+   "source": "other sites",
+   "accept": [
+    "11102",
+    "11101"
+   ]
+  },
+  {
+   "title": "Layout Design Co-op (Winter 2027)",
+   "source": "other sites",
+   "accept": [
+    "22310",
+    "22212",
+    "none"
+   ]
+  },
+  {
+   "title": "Gérant(e) de service",
+   "source": "other sites",
+   "accept": [
+    "60020",
+    "60030",
+    "none"
+   ]
+  },
+  {
+   "title": "Banking Advisor - Richmond Hill (Bilingual - Mandarin, Cantonese, or Russian)",
+   "source": "other sites",
+   "accept": [
+    "11102",
+    "63102",
+    "64400"
+   ]
+  },
+  {
+   "title": "Senior AI Engineer for Observability",
+   "source": "other sites",
+   "accept": [
+    "21231",
+    "21211",
+    "21232"
+   ]
+  },
+  {
+   "title": "Chief Software Architect - Marine & Power Control Systems",
+   "source": "other sites",
+   "accept": [
+    "21231"
+   ]
+  },
+  {
+   "title": "Helpdesk Support Specialist (fixed term – 12 months)",
+   "source": "other sites",
+   "accept": [
+    "22221"
+   ]
+  },
+  {
+   "title": "UX/UI Designer / Concepteur UI/UX",
+   "source": "other sites",
+   "accept": [
+    "52120",
+    "21233"
+   ]
+  },
+  {
+   "title": "Physical Therapist",
+   "source": "other sites",
+   "accept": [
+    "31202"
+   ]
+  },
+  {
+   "title": "Management Consultant – CFO & Enterprise Value | Utilities Industry",
+   "source": "other sites",
+   "accept": [
+    "11201"
+   ]
+  },
+  {
+   "title": "Retail Sales Consultant",
+   "source": "other sites",
+   "accept": [
+    "64100"
+   ]
+  },
+  {
+   "title": "Engineer - Agentic AI",
+   "source": "other sites",
+   "accept": [
+    "21231",
+    "21211",
+    "21232"
+   ]
+  },
+  {
+   "title": "Lead Client Partner, Retail (12 month fixed-term)",
+   "source": "other sites",
+   "accept": [
+    "10022",
+    "62100",
+    "11201",
+    "none"
+   ]
+  },
+  {
+   "title": "Conseiller/Conseillère en salle de montre - plomberie",
+   "source": "other sites",
+   "accept": [
+    "64100",
+    "62100"
+   ]
+  },
+  {
+   "title": "Financial Services Representative (Multiple Locations)",
+   "source": "other sites",
+   "accept": [
+    "63102",
+    "11102",
+    "64400"
+   ]
+  },
+  {
+   "title": "Supply Chain Project Manager – Manufacturing",
+   "source": "other sites",
+   "accept": [
+    "11201",
+    "10012",
+    "13201"
+   ]
+  },
+  {
+   "title": "Mobile Mortgage Advisor (Cobourg/Peterborough/Belleville, ON) - 100% Commission",
+   "source": "other sites",
+   "accept": [
+    "63102",
+    "63101",
+    "11102",
+    "11109"
+   ]
+  },
+  {
+   "title": "Office Operations Assistant II",
+   "source": "other sites",
+   "accept": [
+    "14100",
+    "13110",
+    "14101"
+   ]
+  },
+  {
+   "title": "Warehouse Floater and Backup Driver - Permanent Full-Time - Montreal QC",
+   "source": "other sites",
+   "accept": [
+    "75101",
+    "14400",
+    "73300"
+   ]
+  }
+ ]
+}
