@@ -79,7 +79,7 @@ def newest_csv(dataset_id, must=".", query=""):
     for r in res:
         fmt = (r.get("format") or "").upper()
         url = r.get("url") or ""
-        if fmt != "CSV" and ".csv" not in url.lower():
+        if not url.lower().split("?")[0].endswith(".csv"):         # a real CSV file (some resources say CSV but are Excel)
             continue
         lang = r.get("language") or []
         lang = lang if isinstance(lang, list) else [lang]
@@ -91,6 +91,8 @@ def newest_csv(dataset_id, must=".", query=""):
             print("  file:", r.get("format"), r.get("language"), (r.get("url") or "")[:140], json.dumps(r.get("name"))[:80])
         raise SystemExit(f"No CSV in dataset {dataset_id}")
     rows.sort(reverse=True)
+    for r in rows[:6]:
+        print(f"  candidate: english={r[0]} year={r[1]} {r[4][:70]}")
     return rows[0][3], rows[0][4]
 
 
@@ -105,7 +107,7 @@ def read_table(raw):
             continue
     sample = text[:5000]
     delim = max([",", "\t", ";", "|"], key=lambda d: sample.splitlines()[0].count(d) if sample else 0)
-    return list(csv.DictReader(io.StringIO(text), delimiter=delim))
+    return list(csv.DictReader(io.StringIO(text, newline=""), delimiter=delim))
 
 
 def col(rows, *patterns, values=None):
