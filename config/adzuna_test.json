@@ -1,0 +1,12 @@
+{
+  "_note": "Adzuna test mode, all of Canada. One manual run of the 'Adzuna test' workflow. It does NOT change docs/jobs.json: it only writes reports/adzuna_test.json and reports/adzuna_test.md. About 45 requests (free plan: 250 a day, 1,000 a week, 2,500 a month).",
+  "country": "ca",
+  "maxDaysOld": 1,
+  "resultsPerPage": 50,
+  "delayMs": 1500,
+  "maxRequests": 45,
+  "categories": "all",
+  "provinces": ["Manitoba", "Saskatchewan", "Nova Scotia", "New Brunswick", "Newfoundland and Labrador", "Prince Edward Island", "Alberta", "British Columbia", "Ontario", "Quebec"],
+  "keywords": ["student", "stagiaire", "intern", "entry level", "part-time"],
+  "dailyBudget": 75
+}

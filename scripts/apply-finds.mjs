@@ -40,7 +40,7 @@ export function mergeBoards(companies, boards) {
 
 export function mergeWorkday(companies, report, names = {}) {
   const added = [], skipped = [];
-  const have = new Set((companies.workday || []).map((w) => w.tenant));
+  const have = new Set([...(companies.workday || []), ...(companies.workday_off || [])].map((w) => w.tenant));   // a site switched off for refusing us is not added back
   for (const [tenant, sites] of Object.entries(report.hits || {})) {
     if (have.has(tenant)) continue;
     const ok = sites.filter((s) => (s.canada != null ? s.canada > 0 : s.total > 0 && s.total <= 3000));

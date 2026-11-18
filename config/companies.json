@@ -700,36 +700,6 @@
    "site": "external"
   },
   {
-   "name": "Loblaw",
-   "host": "myview.wd3.myworkdayjobs.com",
-   "tenant": "myview",
-   "site": "loblaw_careers"
-  },
-  {
-   "name": "Loblaw distribution",
-   "host": "myview.wd3.myworkdayjobs.com",
-   "tenant": "myview",
-   "site": "loblaw_DC_jobs"
-  },
-  {
-   "name": "Loblaw stores",
-   "host": "myview.wd3.myworkdayjobs.com",
-   "tenant": "myview",
-   "site": "lcl_private"
-  },
-  {
-   "name": "Shoppers Drug Mart",
-   "host": "myview.wd3.myworkdayjobs.com",
-   "tenant": "myview",
-   "site": "sdm_careers"
-  },
-  {
-   "name": "Loblaw Digital",
-   "host": "myview.wd3.myworkdayjobs.com",
-   "tenant": "myview",
-   "site": "Loblaw-Digital_Careers_Carrieres"
-  },
-  {
    "name": "Canadian Tire",
    "host": "canadiantirecorporation.wd3.myworkdayjobs.com",
    "tenant": "canadiantirecorporation",
@@ -829,12 +799,6 @@
    "name": "TELUS Health",
    "host": "lifeworks.wd3.myworkdayjobs.com",
    "tenant": "lifeworks",
-   "site": "External"
-  },
-  {
-   "name": "TELUS Digital",
-   "host": "telusinternational.wd3.myworkdayjobs.com",
-   "tenant": "telusinternational",
    "site": "External"
   },
   {
@@ -1262,5 +1226,50 @@
  ],
  "pages": [],
  "sitemaps": [],
- "_note_sitemaps": "Career sites that list their postings in a sitemap and publish schema.org JobPosting data on each posting page: { name, sitemap, include (regex on the posting address), max, company }. robots.txt is read first and a disallowed path is never fetched. Empty until a site is checked with the Probe job sites workflow."
+ "_note_sitemaps": "Career sites that list their postings in a sitemap and publish schema.org JobPosting data on each posting page: { name, sitemap, include (regex on the posting address), max, company }. robots.txt is read first and a disallowed path is never fetched. Empty until a site is checked with the Probe job sites workflow.",
+ "_note_workday_off": "Workday career sites that refused every request. collect.mjs does not read this list, and apply-finds.mjs will not add these tenants back.",
+ "workday_off": [
+  {
+   "name": "Loblaw",
+   "host": "myview.wd3.myworkdayjobs.com",
+   "tenant": "myview",
+   "site": "loblaw_careers",
+   "off": "HTTP 403 (the site refuses us) in 20 of 21 refreshes from Oct 27 to Nov 14 and again on Nov 17; 0 postings on the site. Moved here on 2026-11-17. Move an entry back to \"workday\" to try it again."
+  },
+  {
+   "name": "Loblaw distribution",
+   "host": "myview.wd3.myworkdayjobs.com",
+   "tenant": "myview",
+   "site": "loblaw_DC_jobs",
+   "off": "HTTP 403 (the site refuses us) in 20 of 21 refreshes from Oct 27 to Nov 14 and again on Nov 17; 0 postings on the site. Moved here on 2026-11-17. Move an entry back to \"workday\" to try it again."
+  },
+  {
+   "name": "Loblaw stores",
+   "host": "myview.wd3.myworkdayjobs.com",
+   "tenant": "myview",
+   "site": "lcl_private",
+   "off": "HTTP 403 (the site refuses us) in 20 of 21 refreshes from Oct 27 to Nov 14 and again on Nov 17; 0 postings on the site. Moved here on 2026-11-17. Move an entry back to \"workday\" to try it again."
+  },
+  {
+   "name": "Shoppers Drug Mart",
+   "host": "myview.wd3.myworkdayjobs.com",
+   "tenant": "myview",
+   "site": "sdm_careers",
+   "off": "HTTP 403 (the site refuses us) in 20 of 21 refreshes from Oct 27 to Nov 14 and again on Nov 17; 0 postings on the site. Moved here on 2026-11-17. Move an entry back to \"workday\" to try it again."
+  },
+  {
+   "name": "Loblaw Digital",
+   "host": "myview.wd3.myworkdayjobs.com",
+   "tenant": "myview",
+   "site": "Loblaw-Digital_Careers_Carrieres",
+   "off": "HTTP 403 (the site refuses us) in 20 of 21 refreshes from Oct 27 to Nov 14 and again on Nov 17; 0 postings on the site. Moved here on 2026-11-17. Move an entry back to \"workday\" to try it again."
+  },
+  {
+   "name": "TELUS Digital",
+   "host": "telusinternational.wd3.myworkdayjobs.com",
+   "tenant": "telusinternational",
+   "site": "External",
+   "off": "HTTP 403 (the site refuses us) in 20 of 21 refreshes from Oct 27 to Nov 14 and again on Nov 17; 0 postings on the site. Moved here on 2026-11-17. Move an entry back to \"workday\" to try it again."
+  }
+ ]
 }

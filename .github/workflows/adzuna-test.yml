@@ -1,0 +1,38 @@
+name: Adzuna test
+
+# Adzuna "test mode, all of Canada": one manual run, about 45 requests. Does not change docs/jobs.json.
+# Writes reports/adzuna_test.json and reports/adzuna_test.md (open the .md on GitHub to read the result).
+on:
+  workflow_dispatch:
+    inputs:
+      config:
+        description: Test settings (a file in config/)
+        default: config/adzuna_test.json
+
+permissions:
+  contents: write
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Run the Adzuna test
+        env:
+          ADZUNA_APP_ID: ${{ secrets.ADZUNA_APP_ID }}
+          ADZUNA_APP_KEY: ${{ secrets.ADZUNA_APP_KEY }}
+          TEST_CONFIG: ${{ inputs.config || 'config/adzuna_test.json' }}
+        run: node scripts/adzuna-test.mjs "$TEST_CONFIG" | tee -a "$GITHUB_STEP_SUMMARY"
+      - name: Publish the report
+        run: |
+          git config user.name "path-match-bot"
+          git config user.email "path-match-bot@users.noreply.github.com"
+          git add reports/adzuna_test.json reports/adzuna_test.md
+          git diff --cached --quiet && echo "No changes" && exit 0
+          git commit -m "Adzuna test report"
+          git pull --rebase origin main
+          git push

@@ -13,6 +13,7 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 import { loadJobMeta, loadMatcher, loadSkills } from "./umd.mjs";
 import * as nocLib from "../docs/noc/noc_library.js";
 import * as openData from "./jobbank_open.mjs";
+import { stripBoilerplate } from "./boilerplate.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = path.join(ROOT, "docs", "jobs.json");
@@ -110,6 +111,13 @@ export async function fetchText(url, opts = {}) {
   if (!r.ok) { const e = new Error("HTTP " + r.status); e.status = r.status; throw e; }
   return r.text();
 }
+/* one more try after a short wait, for the failures that are usually the network or a busy server and not a missing board:
+   a timeout, a dropped connection, or an HTTP 5xx answer. Lever timed out or answered 500 on some boards in 6 of 21 runs (Oct 27 to Nov 14). */
+export const transient = (e) => !!e && (e.name === "TimeoutError" || e.name === "AbortError" || /aborted|timeout|fetch failed|ECONNRESET|socket/i.test(String(e.message)) || (e.status >= 500 && e.status < 600));
+export async function retryOnce(fn, waitMs = 4000) {
+  try { return await fn(); }
+  catch (e) { if (!transient(e)) throw e; await sleep(waitMs); return fn(); }
+}
 export async function fetchJson(url, opts = {}) {
   const t = await fetchText(url, opts);
   try { return JSON.parse(t); }
@@ -189,10 +197,44 @@ export async function smartrecruiters(slug, nowMs) {
 /* a query is a text (one page) or { q, pages } to read more than one page of a busy search */
 export const queryOf = (q, dflt = 1) => (typeof q === "string" ? { q, pages: dflt } : { q: q.q, pages: q.pages || dflt });
 export const placesOf = (cfg) => [{ where: cfg.where, queries: cfg.queries }, ...(cfg.extraPlaces || []).map((p) => ({ where: p.where, queries: p.queries || cfg.queries }))];
+/* "All of Canada": searches with no city, by Adzuna category (or keyword, or province), for postings of the last day only, so each
+   request brings new postings instead of the same ones again. Switched on in config/searches.json (adzuna.canada.enabled); with
+   replaceCities the city searches above are skipped and the whole budget goes here. The plan comes from the Adzuna test
+   (scripts/adzuna-test.mjs), which measures how many new postings each category has per day. */
+export function adzunaCanadaRequests(cfg) {
+  const c = cfg && cfg.canada;
+  if (!c || !c.enabled) return [];
+  const out = [];
+  for (const s of c.searches || []) {
+    const params = {};
+    if (s.category) params.category = s.category;
+    if (s.what) params.what = s.what;
+    if (s.where) params.where = s.where;
+    for (let page = 1; page <= (s.pages || 1); page++) out.push({ label: s.category || s.what || s.where || "all", page, params });
+  }
+  return out;
+}
 export async function adzuna(cfg, id, key, nowMs, log) {
   const out = [];
   let ok = 0, failed = 0;
-  for (const place of placesOf(cfg)) for (const qi of place.queries) {
+  const toJob = (x) => ({
+    company: (x.company && x.company.display_name) || "Unknown", title: x.title, loc: (x.location && x.location.display_name) || "",
+    date: String(x.created || "").slice(0, 10), ageH: hoursSince(x.created, nowMs),
+    type: x.contract_time === "part_time" ? "Part-time" : typeFrom(x.title + " " + (x.description || "")),
+    sources: [{ src: "Adzuna", url: x.redirect_url }], desc: stripHtml(x.description).slice(0, MAX_DESC), partial: true,
+  });
+  const canada = adzunaCanadaRequests(cfg);
+  const cities = canada.length && cfg.canada.replaceCities ? [] : placesOf(cfg);
+  let queries = canada.length;
+  for (const place of cities) for (const qi of place.queries) queries += queryOf(qi, cfg.pages || 1).pages;
+  for (const r of canada) {
+    const u = new URL(`https://api.adzuna.com/v1/api/jobs/${cfg.country}/search/${r.page}`);
+    u.search = new URLSearchParams({ app_id: id, app_key: key, results_per_page: String(cfg.resultsPerPage), max_days_old: String(cfg.canada.maxDaysOld ?? 1), sort_by: "date", "content-type": "application/json", ...r.params }).toString();
+    try { const d = await fetchJson(u.toString()); ok++; for (const x of d.results || []) out.push(toJob(x)); }
+    catch (e) { failed++; log(`Adzuna Canada ${r.label} page ${r.page}: ${e.message}`); if (e.status === 401 || e.status === 403) return { jobs: out.filter((j) => j.title), ok, failed, queries, stop: e.message }; }
+    await sleep(cfg.delayMs);
+  }
+  for (const place of cities) for (const qi of place.queries) {
     const { q, pages } = queryOf(qi, cfg.pages || 1);
     for (let page = 1; page <= pages; page++) {
       const u = new URL(`https://api.adzuna.com/v1/api/jobs/${cfg.country}/search/${page}`);
@@ -203,20 +245,13 @@ export async function adzuna(cfg, id, key, nowMs, log) {
       try {
         const d = await fetchJson(u.toString());
         ok++;
-        for (const x of d.results || []) {
-          out.push({
-            company: (x.company && x.company.display_name) || "Unknown", title: x.title, loc: (x.location && x.location.display_name) || "",
-            date: String(x.created || "").slice(0, 10), ageH: hoursSince(x.created, nowMs),
-            type: x.contract_time === "part_time" ? "Part-time" : typeFrom(x.title + " " + (x.description || "")),
-            sources: [{ src: "Adzuna", url: x.redirect_url }], desc: stripHtml(x.description).slice(0, MAX_DESC), partial: true,
-          });
-        }
+        for (const x of d.results || []) out.push(toJob(x));
         if ((d.results || []).length < cfg.resultsPerPage) break;
-      } catch (e) { failed++; log(`Adzuna "${q}" in ${place.where} page ${page}: ${e.message}`); if (e.status === 401 || e.status === 403) return { jobs: out, ok, failed, stop: e.message }; }
+      } catch (e) { failed++; log(`Adzuna "${q}" in ${place.where} page ${page}: ${e.message}`); if (e.status === 401 || e.status === 403) return { jobs: out, ok, failed, queries, stop: e.message }; }
       await sleep(cfg.delayMs);
     }
   }
-  return { jobs: out.filter((j) => j.title), ok, failed };
+  return { jobs: out.filter((j) => j.title), ok, failed, queries };
 }
 
 /* ---------- helpers for the sources below ---------- */
@@ -945,7 +980,7 @@ export async function main({ nowMs = Date.now(), log = console.log, write = true
   }
   await pool(tasks, 8, async ({ k, slug }) => {
     const s = sources[label[k]]; s.boards++;
-    try { const jobs = await ats[k](slug, nowMs); s.answered++; s.jobs += jobs.length; all.push(...jobs); }
+    try { const jobs = await retryOnce(() => ats[k](slug, nowMs)); s.answered++; s.jobs += jobs.length; all.push(...jobs); }
     catch (e) { if (e.status === 404) notFound.push(`${label[k]}:${slug}`); else { note(s, e); log(`${label[k]} ${slug}: ${e.message}`); } }
   });
 
@@ -954,7 +989,7 @@ export async function main({ nowMs = Date.now(), log = console.log, write = true
     const s = sources.Workday = { boards: 0, answered: 0, jobs: 0 };
     await pool(companies.workday.map((b) => (typeof b === "string" ? workdayFromUrl(b) : b)), 3, async (b) => {
       s.boards++;
-      try { const jobs = await workday(b, nowMs, log); s.answered++; s.jobs += jobs.length; all.push(...jobs); }
+      try { const jobs = await retryOnce(() => workday(b, nowMs, log)); s.answered++; s.jobs += jobs.length; all.push(...jobs); }
       catch (e) { if (e.status === 404 || e.status === 422) notFound.push(`Workday:${b.tenant}/${b.site}`); else { note(s, e); log(`Workday ${b.tenant}: ${e.message}`); } }
     });
   }
@@ -986,7 +1021,7 @@ export async function main({ nowMs = Date.now(), log = console.log, write = true
   const id = env.ADZUNA_APP_ID, key = env.ADZUNA_APP_KEY;
   if (id && key) {
     const r = await adzuna(searches.adzuna, id, key, nowMs, log);
-    sources.Adzuna = { queries: placesOf(searches.adzuna).reduce((n, p) => n + p.queries.reduce((m, q) => m + queryOf(q, searches.adzuna.pages || 1).pages, 0), 0), requestsOk: r.ok, requestsFailed: r.failed, jobs: r.jobs.length, ...(r.stop ? { error: r.stop } : {}) };
+    sources.Adzuna = { queries: r.queries, ...(searches.adzuna.canada && searches.adzuna.canada.enabled ? { allCanada: adzunaCanadaRequests(searches.adzuna).length } : {}), requestsOk: r.ok, requestsFailed: r.failed, jobs: r.jobs.length, ...(r.stop ? { error: r.stop } : {}) };
     all.push(...r.jobs);
   } else {
     sources.Adzuna = { skipped: "ADZUNA_APP_ID and ADZUNA_APP_KEY are not set" };
@@ -1001,6 +1036,14 @@ export async function main({ nowMs = Date.now(), log = console.log, write = true
   /* every kept job is in Canada: save its province (QC, ON, BC... or "Remote – Canada" / "Canada" when the text names no province) */
   const found = merge(all).map((j) => ({ ...j, province: provinceOf(j.loc) })).filter((j) => j.province);
   const kept = selectJobs(found, selection);
+  /* the same company paragraph, benefits list or legal notice repeated across postings is not about the job: take it out before
+     the keywords are read. Lines the page reads for a flag (security check, work eligibility, language) or for the pay are kept. */
+  let boilerplate = null;
+  try {
+    const meta0 = loadJobMeta();
+    boilerplate = stripBoilerplate(kept, { keep: (line) => meta0.descFlags(line).length > 0 });
+    log(`Boilerplate: removed ${boilerplate.lines} repeated lines from ${boilerplate.postings} postings (${boilerplate.wordsShare}% of the words).`);
+  } catch (e) { log("Boilerplate not removed: " + e.message); }
   let lib = null;
   try { lib = loadNocLibrary(); addOccupations(kept, lib, log); } catch (e) { log("NOC library not used: " + e.message); }
   const jobs = addProfiles(kept, log, write ? readPrevious() : new Map(), lib);
@@ -1012,7 +1055,7 @@ export async function main({ nowMs = Date.now(), log = console.log, write = true
   const provinces = {}, fields = {};
   const meta = loadJobMeta();
   for (const j of jobs) { provinces[j.province] = (provinces[j.province] || 0) + 1; const f = meta.fieldOf(j.title).id; fields[f] = (fields[f] || 0) + 1; }
-  const out = { updatedAt: new Date(nowMs).toISOString(), mock: false, profileV: profileVersion(), sources, notFoundCount: notFound.length, collected: found.length, provinces, fields, jobs };
+  const out = { updatedAt: new Date(nowMs).toISOString(), mock: false, profileV: profileVersion(), sources, notFoundCount: notFound.length, collected: found.length, boilerplate, provinces, fields, jobs };
   log(`Collected ${found.length} postings in Canada, kept ${jobs.length}. ` + Object.entries(sources).map(([k, v]) => `${k}: ${JSON.stringify(v)}`).join(" | "));
   if (write) {
     if (jobs.length < 10) { log("Fewer than 10 postings. Keeping the previous jobs.json."); process.exitCode = 1; return out; }

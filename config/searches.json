@@ -1,5 +1,6 @@
 {
   "adzuna": {
+    "canada": {"_note": "All of Canada: searches with no city, jobs posted in the last day. Off until the Adzuna test (Actions > Adzuna test) gives the number of new postings per category; then list the categories and pages here, set enabled to true, and replaceCities to true to give the whole budget to it. Free plan: 250 requests a day, 1,000 a week, 2,500 a month; keep the daily total at or under 75.", "enabled": false, "replaceCities": false, "maxDaysOld": 1, "searches": []},
     "_note": "Free key from https://developer.adzuna.com (repository secrets ADZUNA_APP_ID and ADZUNA_APP_KEY). 70 requests a run: 20 searches in Montreal (the 10 busiest read 2 pages) + 5 cities x 6 + Gatineau and Sherbrooke x 5. Free plan limits: about 250 a day, 1,000 a week and 2,500 a month, so one run a day (2,100 a month) leaves room for a few manual runs. A search is a text, or {\"q\": text, \"pages\": 2} to read the second page of a busy one (most searches fill the 50 results of page 1).",
     "country": "ca",
     "where": "Montreal",
