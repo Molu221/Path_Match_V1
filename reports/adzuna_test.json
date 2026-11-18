@@ -1,0 +1,1012 @@
+{
+ "ranAt": "2026-11-18T05:35:26.004Z",
+ "requests": 45,
+ "stop": "request cap reached",
+ "maxDaysOld": 1,
+ "summary": {
+  "searches": 44,
+  "failed": 0,
+  "returned": 1881,
+  "alreadyOnSite": 213,
+  "newToSite": 1668,
+  "duplicateShare": 11,
+  "provinces": {
+   "ON": 420,
+   "QC": 290,
+   "?": 332,
+   "AB": 223,
+   "BC": 219,
+   "Canada": 150,
+   "NB": 32,
+   "MB": 58,
+   "SK": 54,
+   "NS": 65,
+   "NT": 1,
+   "NL": 32,
+   "NU": 2,
+   "PE": 3
+  },
+  "medianText": 500
+ },
+ "plan": {
+  "daily": 75,
+  "pagesNeeded": 162,
+  "pagesPlanned": 75,
+  "newJobsPerDay": 7307,
+  "readPerDay": 3617,
+  "share": 50,
+  "perMonth31": 2325,
+  "perWeek": 525,
+  "categories": [
+   {
+    "label": "Trade & Construction Jobs",
+    "tag": "trade-construction-jobs",
+    "count": 1360,
+    "pages": 28,
+    "plan": 12
+   },
+   {
+    "label": "Accounting & Finance Jobs",
+    "tag": "accounting-finance-jobs",
+    "count": 1312,
+    "pages": 27,
+    "plan": 12
+   },
+   {
+    "label": "Hospitality & Catering Jobs",
+    "tag": "hospitality-catering-jobs",
+    "count": 816,
+    "pages": 17,
+    "plan": 7
+   },
+   {
+    "label": "IT Jobs",
+    "tag": "it-jobs",
+    "count": 716,
+    "pages": 15,
+    "plan": 6
+   },
+   {
+    "label": "Engineering Jobs",
+    "tag": "engineering-jobs",
+    "count": 620,
+    "pages": 13,
+    "plan": 6
+   },
+   {
+    "label": "Sales Jobs",
+    "tag": "sales-jobs",
+    "count": 272,
+    "pages": 6,
+    "plan": 3
+   },
+   {
+    "label": "Healthcare & Nursing Jobs",
+    "tag": "healthcare-nursing-jobs",
+    "count": 258,
+    "pages": 6,
+    "plan": 3
+   },
+   {
+    "label": "Retail Jobs",
+    "tag": "retail-jobs",
+    "count": 246,
+    "pages": 5,
+    "plan": 2
+   },
+   {
+    "label": "Logistics & Warehouse Jobs",
+    "tag": "logistics-warehouse-jobs",
+    "count": 224,
+    "pages": 5,
+    "plan": 2
+   },
+   {
+    "label": "Admin Jobs",
+    "tag": "admin-jobs",
+    "count": 191,
+    "pages": 4,
+    "plan": 2
+   },
+   {
+    "label": "Part time Jobs",
+    "tag": "part-time-jobs",
+    "count": 188,
+    "pages": 4,
+    "plan": 2
+   },
+   {
+    "label": "Teaching Jobs",
+    "tag": "teaching-jobs",
+    "count": 177,
+    "pages": 4,
+    "plan": 2
+   },
+   {
+    "label": "PR, Advertising & Marketing Jobs",
+    "tag": "pr-advertising-marketing-jobs",
+    "count": 106,
+    "pages": 3,
+    "plan": 1
+   },
+   {
+    "label": "Creative & Design Jobs",
+    "tag": "creative-design-jobs",
+    "count": 100,
+    "pages": 2,
+    "plan": 1
+   },
+   {
+    "label": "HR & Recruitment Jobs",
+    "tag": "hr-jobs",
+    "count": 92,
+    "pages": 2,
+    "plan": 1
+   },
+   {
+    "label": "Manufacturing Jobs",
+    "tag": "manufacturing-jobs",
+    "count": 88,
+    "pages": 2,
+    "plan": 1
+   },
+   {
+    "label": "Customer Services Jobs",
+    "tag": "customer-services-jobs",
+    "count": 74,
+    "pages": 2,
+    "plan": 1
+   },
+   {
+    "label": "Domestic help & Cleaning Jobs",
+    "tag": "domestic-help-cleaning-jobs",
+    "count": 68,
+    "pages": 2,
+    "plan": 1
+   },
+   {
+    "label": "Scientific & QA Jobs",
+    "tag": "scientific-qa-jobs",
+    "count": 61,
+    "pages": 2,
+    "plan": 1
+   },
+   {
+    "label": "Maintenance Jobs",
+    "tag": "maintenance-jobs",
+    "count": 58,
+    "pages": 2,
+    "plan": 1
+   },
+   {
+    "label": "Social work Jobs",
+    "tag": "social-work-jobs",
+    "count": 56,
+    "pages": 2,
+    "plan": 1
+   },
+   {
+    "label": "Consultancy Jobs",
+    "tag": "consultancy-jobs",
+    "count": 54,
+    "pages": 2,
+    "plan": 1
+   },
+   {
+    "label": "Legal Jobs",
+    "tag": "legal-jobs",
+    "count": 53,
+    "pages": 2,
+    "plan": 1
+   },
+   {
+    "label": "Energy, Oil & Gas Jobs",
+    "tag": "energy-oil-gas-jobs",
+    "count": 42,
+    "pages": 1,
+    "plan": 1
+   },
+   {
+    "label": "Other/General Jobs",
+    "tag": "other-general-jobs",
+    "count": 31,
+    "pages": 1,
+    "plan": 1
+   },
+   {
+    "label": "Travel Jobs",
+    "tag": "travel-jobs",
+    "count": 28,
+    "pages": 1,
+    "plan": 1
+   },
+   {
+    "label": "Graduate Jobs",
+    "tag": "graduate-jobs",
+    "count": 9,
+    "pages": 1,
+    "plan": 1
+   },
+   {
+    "label": "Property Jobs",
+    "tag": "property-jobs",
+    "count": 7,
+    "pages": 1,
+    "plan": 1
+   }
+  ]
+ },
+ "rows": [
+  {
+   "kind": "category",
+   "label": "Accounting & Finance Jobs",
+   "tag": "accounting-finance-jobs",
+   "count": 1312,
+   "returned": 50,
+   "alreadyOnSite": 4,
+   "newToSite": 46,
+   "medianText": 500,
+   "provinces": {
+    "ON": 12,
+    "QC": 14,
+    "?": 4,
+    "AB": 6,
+    "BC": 13,
+    "Canada": 1
+   }
+  },
+  {
+   "kind": "category",
+   "label": "IT Jobs",
+   "tag": "it-jobs",
+   "count": 716,
+   "returned": 50,
+   "alreadyOnSite": 2,
+   "newToSite": 48,
+   "medianText": 500,
+   "provinces": {
+    "?": 12,
+    "ON": 13,
+    "Canada": 4,
+    "BC": 3,
+    "NB": 2,
+    "QC": 10,
+    "AB": 2,
+    "MB": 2,
+    "SK": 2
+   }
+  },
+  {
+   "kind": "category",
+   "label": "Sales Jobs",
+   "tag": "sales-jobs",
+   "count": 272,
+   "returned": 50,
+   "alreadyOnSite": 4,
+   "newToSite": 46,
+   "medianText": 500,
+   "provinces": {
+    "?": 9,
+    "BC": 12,
+    "QC": 10,
+    "Canada": 1,
+    "ON": 13,
+    "AB": 4,
+    "SK": 1
+   }
+  },
+  {
+   "kind": "category",
+   "label": "Customer Services Jobs",
+   "tag": "customer-services-jobs",
+   "count": 74,
+   "returned": 50,
+   "alreadyOnSite": 7,
+   "newToSite": 43,
+   "medianText": 500,
+   "provinces": {
+    "ON": 9,
+    "QC": 15,
+    "BC": 9,
+    "NS": 1,
+    "AB": 2,
+    "?": 5,
+    "SK": 1,
+    "Canada": 7,
+    "MB": 1
+   }
+  },
+  {
+   "kind": "category",
+   "label": "Engineering Jobs",
+   "tag": "engineering-jobs",
+   "count": 620,
+   "returned": 50,
+   "alreadyOnSite": 1,
+   "newToSite": 49,
+   "medianText": 500,
+   "provinces": {
+    "QC": 8,
+    "MB": 2,
+    "?": 8,
+    "ON": 21,
+    "NS": 2,
+    "BC": 5,
+    "AB": 1,
+    "Canada": 3
+   }
+  },
+  {
+   "kind": "category",
+   "label": "HR & Recruitment Jobs",
+   "tag": "hr-jobs",
+   "count": 92,
+   "returned": 50,
+   "alreadyOnSite": 15,
+   "newToSite": 35,
+   "medianText": 500,
+   "provinces": {
+    "ON": 24,
+    "QC": 9,
+    "AB": 2,
+    "BC": 7,
+    "Canada": 5,
+    "NB": 1,
+    "?": 2
+   }
+  },
+  {
+   "kind": "category",
+   "label": "Healthcare & Nursing Jobs",
+   "tag": "healthcare-nursing-jobs",
+   "count": 258,
+   "returned": 50,
+   "alreadyOnSite": 3,
+   "newToSite": 47,
+   "medianText": 500,
+   "provinces": {
+    "?": 18,
+    "BC": 11,
+    "ON": 16,
+    "Canada": 4,
+    "AB": 1
+   }
+  },
+  {
+   "kind": "category",
+   "label": "Hospitality & Catering Jobs",
+   "tag": "hospitality-catering-jobs",
+   "count": 816,
+   "returned": 50,
+   "alreadyOnSite": 8,
+   "newToSite": 42,
+   "medianText": 500,
+   "provinces": {
+    "AB": 16,
+    "?": 5,
+    "ON": 14,
+    "BC": 11,
+    "NT": 1,
+    "QC": 2,
+    "Canada": 1
+   }
+  },
+  {
+   "kind": "category",
+   "label": "PR, Advertising & Marketing Jobs",
+   "tag": "pr-advertising-marketing-jobs",
+   "count": 106,
+   "returned": 50,
+   "alreadyOnSite": 14,
+   "newToSite": 36,
+   "medianText": 500,
+   "provinces": {
+    "?": 1,
+    "ON": 22,
+    "MB": 2,
+    "AB": 7,
+    "Canada": 7,
+    "BC": 5,
+    "QC": 6
+   }
+  },
+  {
+   "kind": "category",
+   "label": "Logistics & Warehouse Jobs",
+   "tag": "logistics-warehouse-jobs",
+   "count": 224,
+   "returned": 50,
+   "alreadyOnSite": 4,
+   "newToSite": 46,
+   "medianText": 500,
+   "provinces": {
+    "AB": 14,
+    "ON": 14,
+    "BC": 5,
+    "?": 11,
+    "QC": 4,
+    "NS": 1,
+    "MB": 1
+   }
+  },
+  {
+   "kind": "category",
+   "label": "Teaching Jobs",
+   "tag": "teaching-jobs",
+   "count": 177,
+   "returned": 50,
+   "alreadyOnSite": 3,
+   "newToSite": 47,
+   "medianText": 500,
+   "provinces": {
+    "Canada": 14,
+    "ON": 11,
+    "QC": 3,
+    "AB": 5,
+    "MB": 1,
+    "?": 8,
+    "BC": 7,
+    "NB": 1
+   }
+  },
+  {
+   "kind": "category",
+   "label": "Trade & Construction Jobs",
+   "tag": "trade-construction-jobs",
+   "count": 1360,
+   "returned": 50,
+   "alreadyOnSite": 1,
+   "newToSite": 49,
+   "medianText": 500,
+   "provinces": {
+    "Canada": 3,
+    "QC": 22,
+    "?": 7,
+    "ON": 9,
+    "NS": 1,
+    "AB": 1,
+    "MB": 1,
+    "BC": 6
+   }
+  },
+  {
+   "kind": "category",
+   "label": "Admin Jobs",
+   "tag": "admin-jobs",
+   "count": 191,
+   "returned": 50,
+   "alreadyOnSite": 9,
+   "newToSite": 41,
+   "medianText": 500,
+   "provinces": {
+    "NB": 1,
+    "AB": 12,
+    "NL": 1,
+    "ON": 12,
+    "BC": 7,
+    "NS": 1,
+    "?": 6,
+    "QC": 8,
+    "NU": 1,
+    "MB": 1
+   }
+  },
+  {
+   "kind": "category",
+   "label": "Legal Jobs",
+   "tag": "legal-jobs",
+   "count": 53,
+   "returned": 50,
+   "alreadyOnSite": 11,
+   "newToSite": 39,
+   "medianText": 500,
+   "provinces": {
+    "QC": 13,
+    "NS": 3,
+    "AB": 5,
+    "BC": 3,
+    "ON": 16,
+    "Canada": 8,
+    "?": 2
+   }
+  },
+  {
+   "kind": "category",
+   "label": "Creative & Design Jobs",
+   "tag": "creative-design-jobs",
+   "count": 100,
+   "returned": 50,
+   "alreadyOnSite": 5,
+   "newToSite": 45,
+   "medianText": 500,
+   "provinces": {
+    "ON": 7,
+    "Canada": 28,
+    "QC": 5,
+    "BC": 5,
+    "AB": 3,
+    "NS": 1,
+    "?": 1
+   }
+  },
+  {
+   "kind": "category",
+   "label": "Graduate Jobs",
+   "tag": "graduate-jobs",
+   "count": 9,
+   "returned": 9,
+   "alreadyOnSite": 2,
+   "newToSite": 7,
+   "medianText": 500,
+   "provinces": {
+    "QC": 5,
+    "ON": 3,
+    "Canada": 1
+   }
+  },
+  {
+   "kind": "category",
+   "label": "Retail Jobs",
+   "tag": "retail-jobs",
+   "count": 246,
+   "returned": 50,
+   "alreadyOnSite": 4,
+   "newToSite": 46,
+   "medianText": 500,
+   "provinces": {
+    "BC": 12,
+    "ON": 10,
+    "NS": 2,
+    "?": 8,
+    "MB": 2,
+    "NB": 1,
+    "QC": 6,
+    "NL": 2,
+    "AB": 6,
+    "SK": 1
+   }
+  },
+  {
+   "kind": "category",
+   "label": "Consultancy Jobs",
+   "tag": "consultancy-jobs",
+   "count": 54,
+   "returned": 50,
+   "alreadyOnSite": 10,
+   "newToSite": 40,
+   "medianText": 500,
+   "provinces": {
+    "QC": 18,
+    "ON": 14,
+    "AB": 4,
+    "SK": 3,
+    "BC": 4,
+    "NS": 1,
+    "Canada": 6
+   }
+  },
+  {
+   "kind": "category",
+   "label": "Manufacturing Jobs",
+   "tag": "manufacturing-jobs",
+   "count": 88,
+   "returned": 50,
+   "alreadyOnSite": 4,
+   "newToSite": 46,
+   "medianText": 500,
+   "provinces": {
+    "QC": 7,
+    "ON": 14,
+    "AB": 6,
+    "BC": 2,
+    "?": 15,
+    "SK": 2,
+    "MB": 1,
+    "Canada": 3
+   }
+  },
+  {
+   "kind": "category",
+   "label": "Scientific & QA Jobs",
+   "tag": "scientific-qa-jobs",
+   "count": 61,
+   "returned": 50,
+   "alreadyOnSite": 6,
+   "newToSite": 44,
+   "medianText": 500,
+   "provinces": {
+    "AB": 4,
+    "?": 9,
+    "ON": 16,
+    "Canada": 8,
+    "BC": 8,
+    "QC": 3,
+    "NS": 1,
+    "SK": 1
+   }
+  },
+  {
+   "kind": "category",
+   "label": "Social work Jobs",
+   "tag": "social-work-jobs",
+   "count": 56,
+   "returned": 50,
+   "alreadyOnSite": 4,
+   "newToSite": 46,
+   "medianText": 500,
+   "provinces": {
+    "QC": 2,
+    "AB": 5,
+    "ON": 12,
+    "BC": 4,
+    "?": 15,
+    "NS": 1,
+    "NL": 1,
+    "Canada": 7,
+    "MB": 2,
+    "SK": 1
+   }
+  },
+  {
+   "kind": "category",
+   "label": "Travel Jobs",
+   "tag": "travel-jobs",
+   "count": 28,
+   "returned": 28,
+   "alreadyOnSite": 7,
+   "newToSite": 21,
+   "medianText": 500,
+   "provinces": {
+    "AB": 5,
+    "ON": 8,
+    "?": 5,
+    "NS": 2,
+    "QC": 1,
+    "BC": 2,
+    "Canada": 3,
+    "SK": 1,
+    "NB": 1
+   }
+  },
+  {
+   "kind": "category",
+   "label": "Energy, Oil & Gas Jobs",
+   "tag": "energy-oil-gas-jobs",
+   "count": 42,
+   "returned": 42,
+   "alreadyOnSite": 6,
+   "newToSite": 36,
+   "medianText": 500,
+   "provinces": {
+    "?": 6,
+    "BC": 2,
+    "AB": 20,
+    "Canada": 4,
+    "QC": 1,
+    "ON": 6,
+    "NS": 3
+   }
+  },
+  {
+   "kind": "category",
+   "label": "Property Jobs",
+   "tag": "property-jobs",
+   "count": 7,
+   "returned": 7,
+   "alreadyOnSite": 0,
+   "newToSite": 7,
+   "medianText": 500,
+   "provinces": {
+    "AB": 2,
+    "BC": 1,
+    "QC": 2,
+    "?": 1,
+    "Canada": 1
+   }
+  },
+  {
+   "kind": "category",
+   "label": "Charity & Voluntary Jobs",
+   "tag": "charity-voluntary-jobs",
+   "count": 0,
+   "returned": 0,
+   "alreadyOnSite": 0,
+   "newToSite": 0,
+   "medianText": 0,
+   "provinces": {}
+  },
+  {
+   "kind": "category",
+   "label": "Domestic help & Cleaning Jobs",
+   "tag": "domestic-help-cleaning-jobs",
+   "count": 68,
+   "returned": 50,
+   "alreadyOnSite": 6,
+   "newToSite": 44,
+   "medianText": 500,
+   "provinces": {
+    "NS": 1,
+    "ON": 17,
+    "Canada": 2,
+    "QC": 3,
+    "?": 15,
+    "AB": 6,
+    "BC": 5,
+    "NB": 1
+   }
+  },
+  {
+   "kind": "category",
+   "label": "Maintenance Jobs",
+   "tag": "maintenance-jobs",
+   "count": 58,
+   "returned": 50,
+   "alreadyOnSite": 5,
+   "newToSite": 45,
+   "medianText": 500,
+   "provinces": {
+    "Canada": 5,
+    "ON": 11,
+    "AB": 13,
+    "BC": 4,
+    "MB": 2,
+    "SK": 2,
+    "?": 10,
+    "NL": 1,
+    "QC": 1,
+    "NU": 1
+   }
+  },
+  {
+   "kind": "category",
+   "label": "Part time Jobs",
+   "tag": "part-time-jobs",
+   "count": 188,
+   "returned": 50,
+   "alreadyOnSite": 13,
+   "newToSite": 37,
+   "medianText": 500,
+   "provinces": {
+    "ON": 17,
+    "BC": 5,
+    "Canada": 3,
+    "?": 14,
+    "AB": 7,
+    "QC": 2,
+    "MB": 1,
+    "SK": 1
+   }
+  },
+  {
+   "kind": "category",
+   "label": "Other/General Jobs",
+   "tag": "other-general-jobs",
+   "count": 31,
+   "returned": 31,
+   "alreadyOnSite": 3,
+   "newToSite": 28,
+   "medianText": 500,
+   "provinces": {
+    "?": 10,
+    "AB": 1,
+    "MB": 1,
+    "QC": 12,
+    "ON": 3,
+    "Canada": 3,
+    "NB": 1
+   }
+  },
+  {
+   "kind": "category",
+   "label": "Unknown",
+   "tag": "unknown",
+   "count": 0,
+   "returned": 0,
+   "alreadyOnSite": 0,
+   "newToSite": 0,
+   "medianText": 0,
+   "provinces": {}
+  },
+  {
+   "kind": "province",
+   "label": "Manitoba",
+   "count": 146,
+   "returned": 50,
+   "alreadyOnSite": 3,
+   "newToSite": 47,
+   "medianText": 500,
+   "provinces": {
+    "MB": 36,
+    "?": 14
+   }
+  },
+  {
+   "kind": "province",
+   "label": "Saskatchewan",
+   "count": 139,
+   "returned": 50,
+   "alreadyOnSite": 1,
+   "newToSite": 49,
+   "medianText": 500,
+   "provinces": {
+    "SK": 38,
+    "?": 12
+   }
+  },
+  {
+   "kind": "province",
+   "label": "Nova Scotia",
+   "count": 155,
+   "returned": 50,
+   "alreadyOnSite": 3,
+   "newToSite": 47,
+   "medianText": 500,
+   "provinces": {
+    "NS": 42,
+    "QC": 2,
+    "?": 6
+   }
+  },
+  {
+   "kind": "province",
+   "label": "New Brunswick",
+   "count": 97,
+   "returned": 50,
+   "alreadyOnSite": 2,
+   "newToSite": 48,
+   "medianText": 500,
+   "provinces": {
+    "?": 28,
+    "NB": 22
+   }
+  },
+  {
+   "kind": "province",
+   "label": "Newfoundland and Labrador",
+   "count": 35,
+   "returned": 35,
+   "alreadyOnSite": 0,
+   "newToSite": 35,
+   "medianText": 150,
+   "provinces": {
+    "NL": 27,
+    "?": 8
+   }
+  },
+  {
+   "kind": "province",
+   "label": "Prince Edward Island",
+   "count": 4,
+   "returned": 4,
+   "alreadyOnSite": 0,
+   "newToSite": 4,
+   "medianText": 500,
+   "provinces": {
+    "?": 1,
+    "PE": 3
+   }
+  },
+  {
+   "kind": "province",
+   "label": "Alberta",
+   "count": 649,
+   "returned": 50,
+   "alreadyOnSite": 3,
+   "newToSite": 47,
+   "medianText": 500,
+   "provinces": {
+    "AB": 50
+   }
+  },
+  {
+   "kind": "province",
+   "label": "British Columbia",
+   "count": 768,
+   "returned": 50,
+   "alreadyOnSite": 2,
+   "newToSite": 48,
+   "medianText": 500,
+   "provinces": {
+    "BC": 44,
+    "?": 6
+   }
+  },
+  {
+   "kind": "province",
+   "label": "Ontario",
+   "count": 2281,
+   "returned": 50,
+   "alreadyOnSite": 2,
+   "newToSite": 48,
+   "medianText": 500,
+   "provinces": {
+    "ON": 36,
+    "?": 12,
+    "NB": 1,
+    "QC": 1
+   }
+  },
+  {
+   "kind": "province",
+   "label": "Quebec",
+   "count": 1459,
+   "returned": 50,
+   "alreadyOnSite": 1,
+   "newToSite": 49,
+   "medianText": 500,
+   "provinces": {
+    "QC": 44,
+    "?": 6
+   }
+  },
+  {
+   "kind": "keyword",
+   "label": "student",
+   "count": 286,
+   "returned": 50,
+   "alreadyOnSite": 8,
+   "newToSite": 42,
+   "medianText": 500,
+   "provinces": {
+    "Canada": 5,
+    "ON": 17,
+    "QC": 7,
+    "MB": 1,
+    "BC": 11,
+    "?": 6,
+    "AB": 3
+   }
+  },
+  {
+   "kind": "keyword",
+   "label": "stagiaire",
+   "count": 25,
+   "returned": 25,
+   "alreadyOnSite": 10,
+   "newToSite": 15,
+   "medianText": 500,
+   "provinces": {
+    "QC": 22,
+    "?": 2,
+    "Canada": 1
+   }
+  },
+  {
+   "kind": "keyword",
+   "label": "intern",
+   "count": 515,
+   "returned": 50,
+   "alreadyOnSite": 5,
+   "newToSite": 45,
+   "medianText": 500,
+   "provinces": {
+    "QC": 21,
+    "?": 7,
+    "BC": 2,
+    "ON": 10,
+    "AB": 4,
+    "Canada": 5,
+    "NS": 1
+   }
+  },
+  {
+   "kind": "keyword",
+   "label": "entry level",
+   "count": 67,
+   "returned": 50,
+   "alreadyOnSite": 12,
+   "newToSite": 38,
+   "medianText": 500,
+   "provinces": {
+    "?": 17,
+    "BC": 4,
+    "ON": 13,
+    "AB": 6,
+    "QC": 1,
+    "Canada": 7,
+    "NS": 1,
+    "MB": 1
+   }
+  }
+ ]
+}
