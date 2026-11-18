@@ -79,12 +79,15 @@ def newest_csv(dataset_id, must=".", query=""):
     for r in res:
         fmt = (r.get("format") or "").upper()
         url = r.get("url") or ""
-        if not url.lower().split("?")[0].endswith(".csv"):         # a real CSV file (some resources say CSV but are Excel)
+        ext = url.lower().split("?")[0].rsplit(".", 1)[-1]
+        if ext not in ("csv", "xlsx"):                             # the recent outlook files are published in Excel only
             continue
         lang = r.get("language") or []
         lang = lang if isinstance(lang, list) else [lang]
         name = r.get("name") if isinstance(r.get("name"), str) else json.dumps(r.get("name"))
-        years = [int(y) for y in re.findall(r"20\d\d", name + url)]
+        years = [int(y) for y in re.findall(r"(?<!\d)20\d\d(?!\d)", name)]          # the years in the file's name, not in its address
+        if "NOC 2016" in name or "NOC2016" in name:
+            continue
         rows.append((("en" in lang) or not lang, max(years) if years else 0, r.get("last_modified") or r.get("created") or "", url, name))
     if not rows:
         for r in res[:40]:
@@ -97,6 +100,19 @@ def newest_csv(dataset_id, must=".", query=""):
 
 
 def read_table(raw):
+    if raw[:2] == b"PK":                                           # an Excel file: the first sheet with a NOC column
+        try:
+            import openpyxl
+        except ImportError:
+            raise SystemExit("This file is in Excel: pip install openpyxl")
+        wb = openpyxl.load_workbook(io.BytesIO(raw), read_only=True, data_only=True)
+        for ws in wb.worksheets:
+            it = ws.iter_rows(values_only=True)
+            for head in it:                                         # skip title rows above the header
+                cells = [str(c).strip() if c is not None else "" for c in head]
+                if any(re.search(r"noc", c, re.I) for c in cells):
+                    return [dict(zip(cells, ["" if v is None else str(v) for v in row])) for row in it]
+        raise SystemExit("No sheet with a NOC column in the Excel file")
     for enc in ("utf-8-sig", "utf-16", "cp1252", "latin-1"):
         try:
             text = raw.decode(enc)

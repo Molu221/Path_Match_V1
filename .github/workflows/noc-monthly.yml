@@ -28,6 +28,8 @@ jobs:
           python-version: "3.12"
       - name: Add the month's official titles
         run: set -o pipefail; python3 noc_library/update_titles.py | tee -a "$GITHUB_STEP_SUMMARY"
+      - name: Read Excel files
+        run: pip install openpyxl==3.1.5
       - name: Download wages and outlooks
         run: set -o pipefail; python3 noc_library/market.py | tee -a "$GITHUB_STEP_SUMMARY"
       - name: Check nothing broke
