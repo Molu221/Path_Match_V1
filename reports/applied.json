@@ -1,46 +1,36 @@
 {
- "at": "2026-11-15T16:40:22.731Z",
+ "at": "2026-11-22T17:27:24.705Z",
  "boards": {
+  "lever": [
+   "jobgether",
+   "kepler"
+  ],
   "greenhouse": [
-   "epicgamesfrench",
-   "lasenza",
-   "mercury",
-   "block",
-   "clubmonaco",
-   "ivalua",
-   "nakisa",
-   "slice",
-   "tailscale",
-   "tobogganlabs"
+   "bestversionmedia",
+   "alliance",
+   "jetsonhome",
+   "capco",
+   "coalition"
   ],
   "smartrecruiters": [
-   "prepacademytutors",
-   "intersand",
-   "mapleleaffoodsinc",
-   "cfmontreal"
+   "eurofins",
+   "blend360",
+   "cityofcampbellriver",
+   "cima2",
+   "isaacinstruments"
   ],
   "breezy": [
-   "prep-academy-tutors",
-   "portofino-bakery"
-  ],
-  "ashby": [
-   "cerebras",
-   "maintainx",
-   "northvectordynamics",
-   "junipersquare"
+   "alliance-maintenance-ltd",
+   "technica-mining",
+   "andrews-senior-care",
+   "brandmomentum"
   ],
   "bamboohr": [
-   "college",
-   "gemtec",
-   "paramount",
-   "rhodeswellnesscollege",
-   "tobogganlabs"
+   "armstrongfluidtechnology",
+   "amazing"
   ],
-  "lever": [
-   "insomniacookies"
-  ],
-  "teamtailor": [
-   "sanivac"
+  "ashby": [
+   "joinpogo"
   ]
  },
  "workday": [],

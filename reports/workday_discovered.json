@@ -1,7 +1,26 @@
 {
- "at": "2026-11-15T16:40:19.878Z",
+ "at": "2026-11-22T17:27:24.603Z",
  "known": [],
  "checked": 55,
- "found": 0,
- "hits": {}
+ "found": 1,
+ "hits": {
+  "myview": [
+   {
+    "host": "myview.wd3.myworkdayjobs.com",
+    "tenant": "myview",
+    "site": "careers",
+    "total": 9,
+    "canada": 9,
+    "facet": "locationCountry"
+   },
+   {
+    "host": "myview.wd3.myworkdayjobs.com",
+    "tenant": "myview",
+    "site": "Careers",
+    "total": 9,
+    "canada": 9,
+    "facet": "locationCountry"
+   }
+  ]
+ }
 }

@@ -1,189 +1,242 @@
 {
- "at": "2026-11-15T16:37:57.153Z",
+ "at": "2026-11-22T17:25:28.638Z",
  "checked": 300,
- "found": 26,
+ "found": 20,
  "hits": {
-  "Epic Games (French)": {
-   "greenhouse": [
+  "Jobgether": {
+   "lever": [
     {
-     "slug": "epicgamesfrench",
-     "montrealJobs": 16,
-     "company": "Epic Games (French)",
+     "slug": "jobgether",
+     "montrealJobs": 315,
+     "company": "Jobgether",
      "sample": [
-      "Analyste du renseignement sur les menaces (jeux vidéo) (Montreal,Quebec,Canada)",
-      "Analyste sénior en opérations de cyberdéfense (Montreal,Quebec,Canada)",
-      "Assistant Executif (Montreal,Quebec,Canada)"
+      "Account Executive (Canada / Canada)",
+      "Account Executive, Mobility, SMB (Canada / Canada)",
+      "Account Manager - Cranial, Spine and Enabling Technologies (Canada / Canada)"
      ]
     }
    ]
   },
-  "Prep Academy Tutors": {
+  "Best Version Media": {
+   "greenhouse": [
+    {
+     "slug": "bestversionmedia",
+     "montrealJobs": 78,
+     "company": "Best Version Media",
+     "sample": [
+      "Advertising Sales Representative (Edmonton, Alberta, Canada)",
+      "Advertising Sales Representative (Barrie, Ontario, Canada)",
+      "Advertising Sales Representative (Kitchener, Ontario, Canada)"
+     ]
+    }
+   ]
+  },
+  "Eurofins Canada BioPharma": {
    "smartrecruiters": [
     {
-     "slug": "prepacademytutors",
-     "montrealJobs": 3,
-     "company": "Prep Academy Tutors",
+     "slug": "eurofins",
+     "montrealJobs": 61,
+     "company": "Eurofins",
      "sample": [
-      "Intermediate/Senior Science Tutor (Toronto, ca)",
-      "Primary/Junior Tutor (Toronto, ca)",
-      "General Application (Toronto, ca)"
+      "Manager, Drug Product Operations & Engineering - Eurofins CDMO Alphora, Inc. (Mississauga, ON, ca)",
+      "Senior Formulation Scientist (Drug Product) - Eurofins CDMO Alphora, Inc. (Mississauga, ON, ca)",
+      "Formulation Chemist (Drug Product) - Eurofins CDMO Alphora, Inc. (Mississauga, ON, ca)"
+     ]
+    }
+   ]
+  },
+  "Alliance Maintenance Ltd.": {
+   "greenhouse": [
+    {
+     "slug": "alliance",
+     "montrealJobs": 2,
+     "company": "Alliance",
+     "sample": [
+      "Director of Operations (Ontario, Canada)",
+      "Warehouse Associate (Ontario, Canada)"
      ]
     }
    ],
    "breezy": [
     {
-     "slug": "prep-academy-tutors",
-     "montrealJobs": 122,
-     "company": "Prep Academy Tutors",
+     "slug": "alliance-maintenance-ltd",
+     "montrealJobs": 6,
+     "company": "Alliance Maintenance Ltd.",
      "sample": [
-      "Academic Coach (Richmond Hill, ON)",
-      "Academic Tutor (York Region, ON)",
-      "Academic Tutor (London, ON)"
+      "Building Cleaner (Vancouver, BC)",
+      "Building Cleaner (Vancouver, BC)",
+      "Building Manager (Vancouver, BC)"
      ]
     }
    ]
   },
-  "La Senza": {
+  "Technica Mining": {
+   "breezy": [
+    {
+     "slug": "technica-mining",
+     "montrealJobs": 27,
+     "company": "Technica Mining",
+     "sample": [
+      "Accounting Clerk (Sudbury, ON)",
+      "Construction Miner (Timmins, ON)",
+      "Coordonnateur(trice) de Projet (Abitibi-Témiscamingue, QC)"
+     ]
+    }
+   ]
+  },
+  "EQ Bank": {
+   "lever": [
+    {
+     "slug": "eqbank",
+     "montrealJobs": 81,
+     "company": "Eqbank",
+     "sample": [
+      "Account Manager, Special Accounts Management Unit (Toronto / Toronto)",
+      "AI Solutions Engineer, Technology Workplace Services (Toronto / Toronto)",
+      "Associate Director, Direct-to-Consumer (Toronto / Toronto)"
+     ]
+    }
+   ]
+  },
+  "Armstrong Fluid Technology": {
+   "bamboohr": [
+    {
+     "slug": "armstrongfluidtechnology",
+     "montrealJobs": 65,
+     "company": "Armstrongfluidtechnology",
+     "sample": [
+      "Offering Manager, Modular Performance Systems (Toronto, Ontario)",
+      "Program Manager - Strategic Marketing (Toronto, Ontario)",
+      "Armstrong Graduate Development Program – Operations & Supply Chain Stream (Toronto, Ontario)"
+     ]
+    }
+   ]
+  },
+  "Jetson Home": {
    "greenhouse": [
     {
-     "slug": "lasenza",
-     "montrealJobs": 36,
-     "company": "La Senza",
+     "slug": "jetsonhome",
+     "montrealJobs": 19,
+     "company": "Jetson Home",
      "sample": [
-      "Area Manager (Alberta, AB, Canada)",
-      "Assistant gérante Laurier Quebec (Québec)",
-      "Associée aux ventes (Quebec,qc)"
+      "AI Engineer (Kitchener, ON)",
+      "Community and Social Media Manager (North Vancouver, BC)",
+      "Customer Success Representative (North Vancouver, BC)"
      ]
     }
    ]
   },
-  "Cerebras": {
-   "ashby": [
+  "Kepler Academy": {
+   "lever": [
     {
-     "slug": "cerebras",
-     "montrealJobs": 40,
-     "company": "Cerebras",
+     "slug": "kepler",
+     "montrealJobs": 12,
+     "company": "Kepler",
      "sample": [
-      "FPGA Engineer (Sunnyvale, CA / Toronto, CAN)",
-      "Staff Software Engineer, Inference Platform  (Sunnyvale, CA / Toronto, CAN)",
-      "Full Stack LLM Engineer (Toronto, CAN)"
+      "Assembly Technician (Toronto, Ontario / Toronto, Ontario)",
+      "Director of Product - Platform, Payload & Services (United States / United States / United Kingdom / Germany / Canada)",
+      "Electrical Design Automation Engineer (Toronto, Ontario / Toronto, Ontario)"
      ]
     }
    ]
   },
-  "Mercury": {
+  "Amazing Danzel Renovations and Cleaning Services Limited": {
+   "bamboohr": [
+    {
+     "slug": "amazing",
+     "montrealJobs": 1,
+     "company": "Amazing",
+     "sample": [
+      "Video Editor / Camera Operator (150 Mile House, British Columbia)"
+     ]
+    }
+   ]
+  },
+  "Andrews Senior Care": {
+   "breezy": [
+    {
+     "slug": "andrews-senior-care",
+     "montrealJobs": 19,
+     "company": "Andrews Senior Care",
+     "sample": [
+      "Activities Coordinator (Andrews of Parkhill 216 Schurman Ave, Summerside, PE)",
+      "Care Supervisor (Part Time) (Andrews of Parkhill 216 Schurman Ave, Summerside, PE)",
+      "Care Supervisor, Certified (Full Time) (Andrews of Charlottetown 73 Malpeque Rd, Charlottetown, PE)"
+     ]
+    }
+   ]
+  },
+  "Blend360": {
+   "smartrecruiters": [
+    {
+     "slug": "blend360",
+     "montrealJobs": 3,
+     "company": "Blend360",
+     "sample": [
+      "Manager of Media Performance, Paid Search (Toronto, ON, ca)",
+      "Manager, Paid Media Strategy (Toronto, ON, ca)",
+      "AI and Data Engineer (Edmonton, AB, ca)"
+     ]
+    }
+   ]
+  },
+  "Capco": {
    "greenhouse": [
     {
-     "slug": "mercury",
-     "montrealJobs": 59,
-     "company": "Mercury",
-     "sample": [
-      "Business Continuity Management Lead (San Francisco, CA, New York, NY, Portland, OR, or Remote within Canada or United States)",
-      "Business Risk Officer (San Francisco, CA, New York, NY, Portland, OR, or Remote within Canada or United States)",
-      "Corporate Development Lead (San Francisco, CA, New York, NY, Portland, OR, or Remote within Canada or United States)"
-     ]
-    }
-   ]
-  },
-  "Intersand": {
-   "smartrecruiters": [
-    {
-     "slug": "intersand",
-     "montrealJobs": 5,
-     "company": "Intersand",
-     "sample": [
-      "Assistant Controller (Boucherville, Quebec, ca)",
-      "Contrôleur adjoint (Boucherville, Quebec, ca)",
-      "Ingénieur de projet (Boucherville, Quebec, ca)"
-     ]
-    }
-   ]
-  },
-  "Maple Leaf Foods Inc.": {
-   "smartrecruiters": [
-    {
-     "slug": "mapleleaffoodsinc",
+     "slug": "capco",
      "montrealJobs": 39,
-     "company": "Maple Leaf Foods Inc.",
+     "company": "Capco",
      "sample": [
-      "Production Supervisor (Afternoons) (Winnipeg, Manitoba, ca)",
-      "Maintenance Supervisor (Nights) (Winnipeg, Manitoba, ca)",
-      "Superviseur Contrôle Qualité (Montreal, Quebec, ca)"
+      "AI Engineer – Corporate Actions & Asset Servicing (Canada - Toronto)",
+      "AI Engineer – Generative AI & Agentic Systems (Canada - Toronto)",
+      "AI Engineer – Market Surveillance (Canada - Toronto)"
      ]
     }
    ]
   },
-  "Block": {
+  "Brand Momentum": {
+   "breezy": [
+    {
+     "slug": "brandmomentum",
+     "montrealJobs": 128,
+     "company": "Brand Momentum",
+     "sample": [
+      "Ambassadeur des ventes (Laval, QC)",
+      "Ambassadeur des ventes (Montréal, QC)",
+      "Ambassadeur des ventes (Québec, QC)"
+     ]
+    }
+   ]
+  },
+  "Coalition, Inc.": {
    "greenhouse": [
     {
-     "slug": "block",
+     "slug": "coalition",
      "montrealJobs": 11,
-     "company": "Block",
+     "company": "Coalition, Inc.",
      "sample": [
-      "Applied Research Intern, Proactive Intelligence & Customer World Models (PhD / Graduate Co-op) (Toronto, Ontario , Canada)",
-      "Business Intelligence Analyst (Toronto, Ontario, Canada)",
-      "Chargé de Compte PME (Toronto, Ontario, Canada)"
+      "Claims Operations Associate (Any location, Canada)",
+      "Complex Cyber Claim Specialist (Any location, Canada)",
+      "Senior Data Scientist (Any location, Canada)"
      ]
     }
    ]
   },
-  "Club Monaco": {
-   "greenhouse": [
-    {
-     "slug": "clubmonaco",
-     "montrealJobs": 16,
-     "company": "Club Monaco",
-     "sample": [
-      "Assistant Manager (Toronto, Ontario)",
-      "Assistant Manager/Gestionnaire adjoint à temps plein (Laval, QC)",
-      "Assistant Manager - Greater Toronto Area (Toronto, ON)"
-     ]
-    }
-   ]
-  },
-  "MaintainX": {
-   "ashby": [
-    {
-     "slug": "maintainx",
-     "montrealJobs": 104,
-     "company": "Maintainx",
-     "sample": [
-      "Senior AI Platform Developer (Toronto / Montreal)",
-      "Senior Platform Engineer, Quality Platform  (Toronto / Montreal)",
-      "Développeur en infrastructure – ingénierie de plateforme (Montreal)"
-     ]
-    }
-   ]
-  },
-  "North Vector Dynamics": {
-   "ashby": [
-    {
-     "slug": "northvectordynamics",
-     "montrealJobs": 13,
-     "company": "Northvectordynamics",
-     "sample": [
-      "Information Technology Manager (Calgary)",
-      "Director, Business Development (Ottawa)",
-      "Postdoc Hypersonics (Calgary)"
-     ]
-    }
-   ]
-  },
-  "CF Montréal": {
+  "City of Campbell River": {
    "smartrecruiters": [
     {
-     "slug": "cfmontreal",
-     "montrealJobs": 10,
-     "company": "CF Montréal",
+     "slug": "cityofcampbellriver",
+     "montrealJobs": 7,
+     "company": "City of Campbell River",
      "sample": [
-      "Technicien(e), maintenance bâtiments et opérations - Stade Saputo/ Maintenance Technician - Stade Saputo (Montreal, QC, ca)",
-      "Coordonnateur technique, Camps et cliniques & Entraîneur Pré-Académie / Technical Coordinator, Camps and Clinics, and Pre-Academy Coach (Montreal, QC, ca)",
-      "Directeur(trice), médecine sportive / Director of Sports Medecine (Montreal, QC, ca)"
+      "Capital Projects Manager - (26-080) External Closes Dec 13/26 (Campbell River, British Columbia, ca)",
+      "Victim Services Case Worker - Term Contract (26-076-2) - External Closes Dec 8/26 (Campbell River, British Columbia, ca)",
+      "Human Resources Coordinator - (26-060-3) - External Closes Dec 8/26 (Campbell River, British Columbia, ca)"
      ]
     }
    ]
   },
-  "Collège LaSalle": {
+  "College of the Rockies": {
    "bamboohr": [
     {
      "slug": "college",
@@ -195,236 +248,82 @@
     }
    ]
   },
-  "GEMTEC Consulting Engineers and Scientists Limited": {
-   "bamboohr": [
+  "Cima2": {
+   "smartrecruiters": [
     {
-     "slug": "gemtec",
-     "montrealJobs": 28,
-     "company": "Gemtec",
+     "slug": "cima2",
+     "montrealJobs": 245,
+     "company": "CIMA+",
      "sample": [
-      "General Applications (Any, New Brunswick)",
-      "Intermediate / Senior Bridge Engineer (25071) (Moncton, New Brunswick)",
-      "Intermediate Geotechnical Engineer (25077) (Mississauga, Ontario)"
+      "Intermediate Industrial Electrical Engineer (Edmonton, Alberta, ca)",
+      "Intermediate Industrial Electrical Engineer (Calgary, Alberta, ca)",
+      "Intermediate Industrial Electrical Engineer (Kelowna, British Columbia, ca)"
      ]
     }
    ]
   },
-  "insomniacookies": {
-   "lever": [
-    {
-     "slug": "insomniacookies",
-     "montrealJobs": 17,
-     "company": "Insomniacookies",
-     "sample": [
-      "Car Delivery Driver (New Brunswick NJ (Rutgers Univ) / New Brunswick NJ (Rutgers Univ))",
-      "Cookie Crew (Toronto ON (North York) / Toronto ON (North York))",
-      "Cookie Crew (Norfolk, VA (Granby St) / Norfolk, VA (Granby St))"
-     ]
-    }
-   ]
-  },
-  "Ivalua": {
-   "greenhouse": [
-    {
-     "slug": "ivalua",
-     "montrealJobs": 4,
-     "company": "Ivalua",
-     "sample": [
-      "Alliances & Partners Manager (Montreal, Quebec - Canada)",
-      "Helpdesk Support Representative (Montreal, QC)",
-      "Représentant Support Helpdesk (Montreal, QC)"
-     ]
-    }
-   ]
-  },
-  "junipersquare": {
+  "joinpogo": {
    "ashby": [
     {
-     "slug": "junipersquare",
-     "montrealJobs": 25,
-     "company": "Junipersquare",
+     "slug": "joinpogo",
+     "montrealJobs": 11,
+     "company": "Joinpogo",
      "sample": [
-      "Manager, Fund Administration (Accounting) (Americas (USA or Canada) / USA)",
-      "Senior Manager, Fund Administration (Accounting) (Americas (USA or Canada))",
-      "Account Executive, Private Equity Real Estate (San Francisco / Americas (USA or Canada))"
+      "Engagement Manager (United States/Canada)",
+      "Demand Gen Marketer (Future Openings) (United States/Canada)",
+      "GTM Engineer (United States/Canada)"
      ]
     }
    ]
   },
-  "Nakisa": {
-   "greenhouse": [
+  "ISAAC Instruments": {
+   "smartrecruiters": [
     {
-     "slug": "nakisa",
-     "montrealJobs": 9,
-     "company": "Nakisa",
-     "sample": [
-      "Pre-Sales Consultant - Commercial Real Estate Software (Montréal, Quebec, Canada)",
-      "Product Manager (Montréal, Quebec, Canada)",
-      "Product Manager - Accounting (Montréal, Quebec, Canada)"
-     ]
-    }
-   ]
-  },
-  "National Bank": {
-   "greenhouse": [
-    {
-     "slug": "national",
-     "montrealJobs": 2,
-     "company": "NATIONAL",
-     "sample": [
-      "Director, Public Affairs and Regional Lead (Newfoundland and Labrador, Canada)",
-      "Senior Consultant, Public Affairs and Government Relations (Toronto, Ontario, Canada)"
-     ]
-    }
-   ]
-  },
-  "Paramount Services Ltd.": {
-   "bamboohr": [
-    {
-     "slug": "paramount",
-     "montrealJobs": 1,
-     "company": "Paramount",
-     "sample": [
-      "Marketing Manager (Vancouver, British Columbia)"
-     ]
-    }
-   ]
-  },
-  "Portofino Bakery": {
-   "breezy": [
-    {
-     "slug": "portofino-bakery",
-     "montrealJobs": 6,
-     "company": "Portofino Bakery",
-     "sample": [
-      "Delivery & Merchandising Team Member - Calgary (Calgary, AB)",
-      "Production & Packaging Team Member - Morning Shift (Saanichton, BC)",
-      "Production & Packaging Team Member- Afternoon Shift (Saanichton, BC)"
-     ]
-    }
-   ]
-  },
-  "Rhodes Wellness College": {
-   "bamboohr": [
-    {
-     "slug": "rhodeswellnesscollege",
-     "montrealJobs": 4,
-     "company": "Rhodeswellnesscollege",
-     "sample": [
-      "Faculty Position: Registered Massage Therapy Program (Vancouver, British Columbia)",
-      "Teaching Assistant: Registered Massage Therapy Program (Vancouver, British Columbia)",
-      "RMT Clinical Instructor — Help Shape the Next Generation of RMTs (Vancouver, British Columbia)"
-     ]
-    }
-   ]
-  },
-  "Sanivac": {
-   "teamtailor": [
-    {
-     "slug": "sanivac",
-     "montrealJobs": 25,
-     "company": "Sanivac",
-     "sample": [
-      "Chauffeur(euse) Roll-off (Cowansville)",
-      "Contremaître des opérations (Saint-Jérôme)",
-      "Contremaître des opérations (Laval)"
-     ]
-    }
-   ]
-  },
-  "Slice Merchant Services": {
-   "greenhouse": [
-    {
-     "slug": "slice",
-     "montrealJobs": 1,
-     "company": "Slice",
-     "sample": [
-      "Engineering Manager, Services (Remote- Canada, United Kingdom or North Macedonia)"
-     ]
-    }
-   ]
-  },
-  "Tailscale": {
-   "greenhouse": [
-    {
-     "slug": "tailscale",
-     "montrealJobs": 38,
-     "company": "Tailscale",
-     "sample": [
-      "ABM Campaign Manager (Remote (Canada))",
-      "Billing Engineer (Remote (Canada))",
-      "Commercial Legal Counsel (Remote (Canada))"
-     ]
-    }
-   ]
-  },
-  "TobogganLabs": {
-   "greenhouse": [
-    {
-     "slug": "tobogganlabs",
+     "slug": "isaacinstruments",
      "montrealJobs": 10,
-     "company": "TobogganLabs",
+     "company": "ISAAC Instruments",
      "sample": [
-      "Analyste de données en santé - Healthcare Data Analyst (Montréal, Quebec, Canada)",
-      "Chercheur en innovation, méthodes mixtes - Mixed Methods Innovation Researcher (Montréal, Quebec, Canada)",
-      "Consultant principal / Responsable de l'IA - Principal Consultant / Head of AI (Montréal, Quebec, Canada)"
-     ]
-    }
-   ],
-   "bamboohr": [
-    {
-     "slug": "tobogganlabs",
-     "montrealJobs": 1,
-     "company": "Tobogganlabs",
-     "sample": [
-      "Enginnering Manager (Montreal, Quebec)"
+      "Chef de la direction financière - Hybride (Saint-Bruno-de-Montarville, QC, ca)",
+      "Chief Financial Officer (CFO) - Hybrid (Saint-Bruno-de-Montarville, QC, ca)",
+      "Développeur DevOps - Hybride (Saint-Bruno-de-Montarville, QC, ca)"
      ]
     }
    ]
   }
  },
  "slugsByKind": {
+  "lever": [
+   "eqbank",
+   "jobgether",
+   "kepler"
+  ],
   "greenhouse": [
-   "block",
-   "clubmonaco",
-   "epicgamesfrench",
-   "ivalua",
-   "lasenza",
-   "mercury",
-   "nakisa",
-   "national",
-   "slice",
-   "tailscale",
-   "tobogganlabs"
+   "alliance",
+   "bestversionmedia",
+   "capco",
+   "coalition",
+   "jetsonhome"
   ],
   "smartrecruiters": [
-   "cfmontreal",
-   "intersand",
-   "mapleleaffoodsinc",
-   "prepacademytutors"
+   "blend360",
+   "cima2",
+   "cityofcampbellriver",
+   "eurofins",
+   "isaacinstruments"
   ],
   "breezy": [
-   "portofino-bakery",
-   "prep-academy-tutors"
-  ],
-  "ashby": [
-   "cerebras",
-   "junipersquare",
-   "maintainx",
-   "northvectordynamics"
+   "alliance-maintenance-ltd",
+   "andrews-senior-care",
+   "brandmomentum",
+   "technica-mining"
   ],
   "bamboohr": [
-   "college",
-   "gemtec",
-   "paramount",
-   "rhodeswellnesscollege",
-   "tobogganlabs"
+   "amazing",
+   "armstrongfluidtechnology",
+   "college"
   ],
-  "lever": [
-   "insomniacookies"
-  ],
-  "teamtailor": [
-   "sanivac"
+  "ashby": [
+   "joinpogo"
   ]
  }
 }
