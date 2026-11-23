@@ -1,13 +1,13 @@
 # Skills proposed for the dictionary
 
 Drafted by the agent from the phrases many postings ask for and the dictionary does not know.
-**Nothing here is in use.** Mark the ones to add, and they go in. Model: gemini-flash-lite-latest. Drafted 2026-11-16.
+**Nothing here is in use.** Mark the ones to add, and they go in. Model: gemini-2.5-flash-lite. Drafted 2026-11-23.
 
-20 phrases judged this run, 1 of them called skills.
+0 phrases judged this run, 0 of them called skills.
 
 | add? | postings | trades | proposed name | aliases | category | why | seen in |
 |---|---|---|---|---|---|---|---|
-| [ ] | 87 | 20 | **menu planning** | planning menus, create menus, menu development, design menus | process | This is concrete work that a cook performs and can be tested on. | cook |
+| [ ] | 87 | 20 | **menu planning** | planning menus, create menus, menu development, design menus | process | This is concrete work that a cook performs and can be tested on. Refused on review: the dictionary already answers to "menu planning" and "menu development" under "Menu planning and food costing". | cook |
 
 ## Called not a skill, for checking
 
