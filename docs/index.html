@@ -123,7 +123,7 @@ button.primary:hover{filter:brightness(1.06)}
 .t{font-weight:650;font-size:15.5px;overflow-wrap:anywhere;line-height:1.3}
 .meta{color:var(--mute);font-size:13px;display:flex;flex-wrap:wrap;gap:2px 14px;margin-top:3px}
 .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
-/* score meter: Role, Level and Keywords drawn at the length of their points on one 0 to 100 track */
+/* score meter: Skills, Education and Credentials drawn at the length of their share of the points the posting asks for, on one 0 to 100 track */
 .meter{margin-top:12px;max-width:440px;--tick:color-mix(in srgb,var(--ink) 28%,transparent)}
 .mtrack{position:relative;height:10px;border-radius:5px;margin:5px 0 0;
   background:linear-gradient(90deg,transparent calc(45% - .5px),var(--tick) calc(45% - .5px) calc(45% + .5px),transparent calc(45% + .5px) calc(60% - .5px),var(--tick) calc(60% - .5px) calc(60% + .5px),transparent calc(60% + .5px)),color-mix(in srgb,var(--line) 70%,var(--panel))}
@@ -1466,7 +1466,7 @@ function mapPanel(j){
       <div><h4>Your CV</h4>${LEGEND_CV}<pre class="hl">${hl.cv}</pre></div></div>`}</div>`;
 }
 
-/* ---------- the score: role fit + level fit + keyword overlap (scoring.js) ---------- */
+/* ---------- the score: skills (70) + education (20) + credentials (10), out of what the posting asks (scoring.js) ---------- */
 const SEASON_END={winter:3,hiver:3,spring:5,printemps:5,summer:7,ete:7,fall:11,autumn:11,automne:11};
 /* the terms named in a title, as the month index when each one ends: "Summer 2026" ends Aug 2026 */
 function termsIn(t){
@@ -2084,7 +2084,7 @@ function renderJobs(){
     v.innerHTML=`<div class="panel method"><h2>How the score works</h2><ul>
       <li><b>Your stage.</b> It is read from the CV. Dated jobs are added up (internships, co-ops, part-time and volunteer work count at 40%). A stated "N+ years of experience" or a director-level title can lift it. A degree and no dated full-time job reads as student or new graduate. If you tap a stop on the trail, your choice replaces the reading.</li>
       <li><b>The level of a posting</b> is read from its title first (intern, junior, senior, manager, director, vice-president and their French forms), then from the years of experience its text asks for.</li>
-      <li><b>Skills (0–70):</b> the skills the posting asks for, against your CV. A Match counts 1, a Close keyword ½. A dictionary skill counts fully, a phrase of several words a little less, a single ordinary word little. Covering 75% of them, weighted, earns the full 70. <b>Words from the job title give no points.</b></li>
+      <li><b>Skills (0–70):</b> the skills the posting asks for, against your CV. A Match counts 1, a Close keyword ½. A dictionary skill counts fully, a phrase of several words a little less, a single ordinary word little. Covering 60% of them, weighted, earns the full 70. <b>Words from the job title give no points.</b></li>
       <li><b>Education (0–20):</b> the degree the posting asks for against the degrees on your CV, on one scale: no degree, high school, college or trade, bachelor, master, doctorate. The same level or higher in a related field earns all 20; the same level in another field keeps most of it; one level short keeps half; two levels short earns none. A degree in progress counts.</li>
       <li><b>Credentials (0–10):</b> the certificates and licences the posting names, and how many are on your CV.</li>
       <li><b>Out of what the posting asks.</b> A posting that names no degree is scored out of 80 and a posting that names neither degree nor certificate out of 70, then written out of 100. Nobody loses points for something the employer never asked for.</li>
